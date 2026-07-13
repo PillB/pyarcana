@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useSession } from 'next-auth/react'
+import { MuchaHalo, DividerVine } from '@/components/ornaments/Ornaments'
 import {
   Sparkles,
   Target,
@@ -58,15 +59,22 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
         transition={{ duration: 0.5 }}
         className="relative overflow-hidden rounded-3xl gradient-mesh border border-border/60 p-6 sm:p-10"
       >
+        {/* Mucha Halo background */}
+        <div className="pointer-events-none absolute right-0 top-0 hidden h-[500px] w-[500px] opacity-60 lg:block">
+          <MuchaHalo className="h-full w-full" opacity={0.4} />
+        </div>
+        {/* Circuit-Vine — AI × Art Nouveau */}
+        <div className="circuit-vine-bg pointer-events-none absolute inset-0" />
+
         <div className="relative z-10">
-          <Badge variant="outline" className="mb-4 gap-1.5 border-primary/30 bg-background/70 backdrop-blur">
-            <Sparkles className="h-3 w-3 text-primary" />
+          <Badge variant="outline" className="mb-4 gap-1.5 border-gold bg-background/70 backdrop-blur">
+            <Sparkles className="h-3 w-3 text-gold" />
             Curso online · Español peruano
           </Badge>
-          <h1 className="max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+          <h1 className="font-display max-w-3xl text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl" style={{ fontFamily: 'var(--font-display)' }}>
             <span className="gradient-text">{meta.title}</span>
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-foreground/80 sm:text-xl">
+          <p className="font-subdisplay mt-4 max-w-2xl text-xl text-foreground/80 sm:text-2xl" style={{ fontFamily: 'var(--font-subdisplay)' }}>
             {meta.subtitle}
           </p>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base">
@@ -91,9 +99,9 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
                 size="lg"
                 variant="outline"
                 onClick={() => onOpenAuth('register')}
-                className="gap-2"
+                className="gap-2 border-gold"
               >
-                <Sparkles className="h-4 w-4" />
+                <Sparkles className="h-4 w-4 text-gold" />
                 Crear cuenta gratis
               </Button>
             )}
@@ -104,16 +112,12 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
           </div>
 
           {!session?.user && (
-            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs text-foreground/80">
-              <Sparkles className="h-3 w-3 text-primary" />
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-gold bg-accent/5 px-3 py-1.5 text-xs text-foreground/80">
+              <Sparkles className="h-3 w-3 text-gold" />
               Crea cuenta para guardar progreso, rendir exámenes con anti-plagio y ver tu dashboard
             </div>
           )}
         </div>
-
-        {/* Floating decorative cards */}
-        <div className="pointer-events-none absolute -right-12 -top-12 hidden h-64 w-64 rounded-full bg-primary/10 blur-3xl lg:block" />
-        <div className="pointer-events-none absolute -bottom-16 right-32 hidden h-48 w-48 rounded-full bg-accent/20 blur-3xl lg:block" />
       </motion.section>
 
       {/* Stats row */}

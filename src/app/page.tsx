@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, Moon, Sun, Github, ArrowLeft, ShieldCheck, BookOpen, FileText } from 'lucide-react'
+import { Menu, Moon, Sun, Github, ArrowLeft, ShieldCheck, BookOpen, FileText, Network } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useTheme } from 'next-themes'
 import { useSession } from 'next-auth/react'
@@ -15,10 +15,11 @@ import { AuthModal, UserMenu } from '@/components/course/AuthModal'
 import { Glossary } from '@/components/course/Glossary'
 import { PdfReport } from '@/components/course/PdfReport'
 import { LanguageToggle } from '@/components/course/LanguageToggle'
+import { FamiliarityDashboard } from '@/components/course/FamiliarityDashboard'
 import { useServerProgressSync } from '@/lib/progress-store'
 import { COURSE_META, COURSE_SECTIONS } from '@/lib/course'
 
-type View = 'home' | 'section' | 'resources' | 'admin'
+type View = 'home' | 'section' | 'resources' | 'admin' | 'familiarity'
 
 export default function Home() {
   const [view, setView] = useState<View>('home')
@@ -41,20 +42,23 @@ export default function Home() {
     // Sync with URL hash for shareable links
     const hash = window.location.hash.slice(1)
     if (hash === 'resources') {
-       
+
       setView('resources')
     } else if (hash === 'admin') {
-       
+
       setView('admin')
+    } else if (hash === 'familiarity') {
+
+      setView('familiarity')
     } else if (hash === 'home' || hash === '') {
-       
+
       setView('home')
     } else {
       const section = COURSE_SECTIONS.find((s) => s.id === hash)
       if (section) {
-         
+
         setActiveSectionId(hash)
-         
+
         setView('section')
       }
     }
@@ -62,7 +66,7 @@ export default function Home() {
 
   const updateUrl = (id: string | null, newView: View) => {
     if (typeof window === 'undefined') return
-    const hash = newView === 'home' ? '' : newView === 'resources' ? 'resources' : newView === 'admin' ? 'admin' : id || ''
+    const hash = newView === 'home' ? '' : newView === 'resources' ? 'resources' : newView === 'admin' ? 'admin' : newView === 'familiarity' ? 'familiarity' : id || ''
     const newUrl = hash ? `${window.location.pathname}#${hash}` : window.location.pathname
     window.history.replaceState(null, '', newUrl)
   }
@@ -170,7 +174,7 @@ export default function Home() {
             <div className="flex h-7 w-7 items-center justify-center rounded-lg gradient-primary text-xs font-bold text-white">
               Py
             </div>
-            <span className="text-sm font-bold">Python DS Perú</span>
+            <span className="text-sm font-bold" style={{ fontFamily: 'var(--font-display)' }}>El Arte de Python</span>
           </button>
           <div className="flex items-center gap-1">
             <Button
@@ -225,6 +229,17 @@ export default function Home() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            {/* Familiarity Dashboard — VP feature */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => { setView('familiarity'); updateUrl(null, 'familiarity') }}
+              className="gap-1.5"
+              title="Familiarity Score Dashboard"
+            >
+              <Network className="h-3.5 w-3.5 text-gold" />
+              <span className="hidden sm:inline">Familiarity</span>
+            </Button>
             {/* Admin link — only for admins */}
             {session?.user?.role === 'ADMIN' && view !== 'admin' && (
               <Button
@@ -305,6 +320,7 @@ export default function Home() {
                 />
               )}
               {view === 'admin' && <AdminDashboard />}
+              {view === 'familiarity' && <FamiliarityDashboard />}
               {view === 'section' && activeSection && (
                 <SectionView
                   section={activeSection}
@@ -326,10 +342,10 @@ export default function Home() {
         <footer className="mt-auto border-t border-border bg-muted/30 py-6">
           <div className="mx-auto max-w-6xl px-4 text-center text-xs text-muted-foreground sm:px-6 lg:px-8">
             <p>
-              Python DS Perú · Curso online autónomo de Python para Data Analyst / Data Scientist
+              El Arte de Python · Curso online autónomo de Python para Data Analyst / Data Scientist
             </p>
             <p className="mt-1">
-              Método I Do / We Do / You Do · 10 secciones · Exámenes con anti-plagio · Español peruano
+              Método I Do / We Do / You Do · 11 secciones · Exámenes con anti-plagio · Español peruano
             </p>
           </div>
         </footer>

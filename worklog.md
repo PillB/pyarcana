@@ -101,3 +101,370 @@ Stage Summary:
 - Pedagogical decisions: (a) chose to put all 10 gaps in ONE advanced section (per task spec) rather than scattering across existing sections (which would have broken section-level progress tracking and required rewriting s03/s07/s10); (b) used ID 'advanced-topics' (kebab-case matching existing IDs 'setup', 'testing', etc.); (c) used 'Rocket' lucide icon (matches "advanced/launch" semantic, available in lucide-react); (d) orange→red gradient distinct from s10 (cyan→blue) for visual hierarchy; (e) 16 estimatedHours reflects 90min per topic × 10 + capstone (~1 hour), reasonable for autonomous learners.
 - Quality notes: 2 typos (`],` vs `},`) caught and fixed before completion via bun parser. No remaining issues. Code examples include realistic outputs (e.g., "Secuencial: 8.5s / Paralelo (8 workers): 1.4s", "Cargadas 10000 filas, 8 columnas en 0.85s") so learners can verify expected behavior. Callouts span all 5 types (info, warning, tip, danger, success) for visual variety.
 - Next agent recommendations: (a) UI agent should verify the new section renders correctly in the SPA — icon 'Rocket' must be in the lucide-react import map; accentColor class must be safelisted by Tailwind 4 (check tailwind.config or @source inline if dynamic classes are purged); (b) if any UI hardcoded "10 secciones" or "70 horas" outside COURSE_META, those need updating too; (c) smart-exam engine should be configured to include 'advanced-topics' in the section picker for the final exam; (d) consider adding a 12th section icon to the sidebar/navigation if it uses a fixed list.
+
+---
+Task ID: F0-A
+Agent: Research/STORM
+Task: Research common issues, pitfalls, complaints, and success patterns in AI-built apps (Claude, GPT, Perplexity, Cursor, v0, Lovable, Bolt) 2024-2026 — for audit checklist on the Python DS Perú app.
+
+Work Log:
+- Read prior worklog (Phase 0 + P0-A + P0-B + T2) for app context: Next.js 16 SPA on `/`, Tailwind 4 + shadcn/ui + Prisma/SQLite + zustand+persist + z-ai-web-dev-sdk, 11 sections, Peruvian Spanish voice, smart-exam engine with 3 variants/concept, daily-streak planned.
+- Inspected src/ tree (app/, components/, hooks/, lib/) to ground the 20-item audit checklist in actual file paths (`src/app/api/**`, `src/lib/progress-store.ts`, `src/lib/auth.ts`, `src/lib/i18n.ts`).
+- Ran 10 web_search queries via z-ai CLI covering: Claude/Cursor user complaints; v0/Lovable/Bolt comparison reviews; AI slop aesthetic tells; hallucinated npm/PyPI packages (USENIX 2025 paper); MOOC drop-off (IRRODL, Ruzuku, Reddit r/instructionaldesign); WCAG accessibility failures; Next.js security (Arcjet/Authgear/vibeappscanner); Brilliant/Khan/Coursera success mechanics; online exam UX (Honorlock, NN/g, UVA LTS).
+- Synthesized findings into 5 ranked lists: 15 common issues, 10 AI-slop aesthetic tells, 5 success patterns to copy, 5 security pitfalls, 20-item audit checklist specific to our app.
+
+Stage Summary:
+- Delivered ~1,300-word research brief covering 5 dimensions: (1) 15 most common AI-app issues ranked by frequency — hallucinated packages #1 (USENIX: ~20% of AI-recommended packages don't exist, 58% of hallucinated names get attacker-registered for "slopsquatting"); (2) 10 "AI slop" aesthetic tells to avoid (purple/indigo gradient #1, sparkle-emoji hero #2, glassmorphism #3, etc.); (3) 5 success patterns to copy (v0 token discipline, Brilliant interactive-first, Khan streak+mastery, Lovable transparency, freeCodeCamp executable feedback); (4) 5 security pitfalls (dangerouslySetInnerHTML XSS #1, missing auth() in API routes #2, hardcoded secrets in client bundles #3, CSRF on cookie sessions #4, slopsquatting #5); (5) 20-item audit checklist grouped Functional/UX (9), Accessibility WCAG AA (5), Security (5), Polish/anti-slop (1 mega-check) — each item maps to a concrete file path or grep command in our repo.
+- Key actionable findings for downstream agents: (a) UI agent should run `grep -r "dangerouslySetInnerHTML" src/` and audit any hits for sanitization; (b) Auth/Backend agent should grep `src/app/api/**` for missing `auth()` wrappers; (c) Design agent must avoid the 10 AI-slop tells — specifically replace any purple/indigo hero gradient with our orange→red Section 11 accent or Peru-inspired palette; (d) Content agent must replace ALL "Lorem"/"John Doe"/"Acme" placeholders with real Peruvian-context content (SUNAT/Interbank/Mercado Libre — already in T2 Section 11); (e) Build agent should pin all deps and audit `package.json` diffs to catch slopsquatting; (f) Quiz/Exam agent must implement forward-only navigation + auto-save every 30s + variant rotation per attempt (Honorlock best practices align with our P0-B variant design).
+- Source-quality honesty: hallucinated-package stats, MOOC dropout rates, and dangerouslySetInnerHTML-as-top-XSS-vector are strongly corroborated across 3+ independent sources each; "AI slop" aesthetic tells are qualitative (synthesized from r/vibecoding + Addy Osmani + dev.to); exact % of Next.js apps missing auth checks is anecdotal (no published survey). Recommend follow-up task F0-A2: scrape 50 deployed v0/Lovable apps and run automated Lighthouse + custom-grep audit for empirical baselines.
+
+Findings (full research brief below):
+
+## Research Brief: Issues, Pitfalls & Success Patterns in AI-Built Apps (2024–2026)
+
+### Methodology
+- 10 web_search queries via z-ai CLI covering: Claude/Cursor complaints, AI slop aesthetics, hallucinated packages, MOOC drop-off, accessibility, Next.js security, learning app success patterns, quiz UX, v0/Lovable/Bolt comparison.
+- Cross-referenced training data with 2025-2026 cutoff.
+- Read prior worklog (Phase 0, P0-A, P0-B, T2) for Python DS Perú app context.
+
+### 1. Top 15 most common issues in AI-generated web apps (ranked by frequency)
+
+1. **Hallucinated npm/PyPI packages** — USENIX 2025 paper tested 16 models on 576k samples; ~20% of AI-recommended packages don't exist, 58% of hallucinated names get registered by attackers for supply-chain malware ("slopsquatting").
+2. **Missing auth checks on API routes** — AI generates `/api/*` handlers but forgets `auth()` / session check; client-side gating only.
+3. **Broken loading / empty / error states** — happy path wired, skeletons/404/retry UIs absent. Most-cited Cursor/Lovable complaint.
+4. **Inconsistent state management** — context + zustand + useState drift; AI mixes patterns mid-project (LinkedIn: "context loss in larger projects… repetitive and fragmented code").
+5. **`dangerouslySetInnerHTML` XSS sinks** — markdown / AI-generated HTML / scraped content rendered without sanitization.
+6. **Hardcoded secrets in client bundles** — keys imported into `'use client'` files ship to the browser.
+7. **No server-side form validation** — client zod exists, server route skips `safeParse`.
+8. **Accessibility failures** — missing `alt`, decorative icons without `aria-hidden`, `aria-label` overuse masking visible text, color-only state cues.
+9. **Mobile responsiveness broken at 375px** — overflow-x, sticky headers covering content, tap targets <44px.
+10. **Dark mode inconsistencies** — hardcoded `bg-white`/`text-black` instead of `bg-background`/`text-foreground`; FOUC on SSR.
+11. **SEO failures** — no metadata export, no OG images, no sitemap; SPA shells ship empty `<body>`.
+12. **Performance regressions** — no `next/dynamic` for heavy components (Monaco, Recharts, KaTeX), no lazy-loading of section content.
+13. **Cookie-cutter dashboards with buttons that do nothing** — unwired "Settings/Billing/Notifications" nav items leading to `<ComingSoon/>`.
+14. **Generic placeholder content** — "Welcome to your dashboard", "Lorem ipsum", `John Doe` never replaced.
+15. **Auth flow drift** — magic-link UI without email provider; OAuth buttons without provider in `providers:[]`; redirect loops on protected routes.
+
+### 2. Top 10 "AI slop" aesthetic tells to avoid
+
+1. **Purple/indigo gradient on everything** (`from-purple-500 to-indigo-500`) — single most-mocked tell across r/vibecoding, r/lovable, Addy Osmani posts.
+2. **Hero: centered sparkle ✨ + tagline + 2 CTAs** — copied verbatim from v0 default template.
+3. **Glassmorphism cards over blurry blob backgrounds** — looks 2022, not 2026.
+4. **Lucide icons in rounded-2xl boxes with identical gradient bg** — "feature grid of 3" pattern.
+5. **"Trusted by" grayscale logo strip with fake company names** (Acme, Globex, Initech).
+6. **Stock testimonial cards with initials avatars + 5 stars** (Sarah J., Mike T., Emily R.).
+7. **Emoji-as-iconography** (🚀 ⚡ 🎯 📊) instead of SVG icons.
+8. **`bg-gradient-to-r` on text headings** — kills readability, looks marketing-slop.
+9. **Animations everywhere** — `whileHover={{ scale: 1.05 }}` on every clickable; layout-shift jank.
+10. **Cookie-cutter dashboard layout** (sidebar + topbar + 4 stat cards + 1 chart) with no domain-specific IA.
+
+### 3. Top 5 success patterns to copy
+
+1. **v0 by Vercel: component-first, shadcn token discipline** — uses `bg-background`, `text-foreground`, `border` from CSS vars; dark mode correct by construction. Apply to our Tailwind 4 setup.
+2. **Brilliant.org: interactive problem > passive video** — every concept is a step-by-step widget; "play with concepts until they click". Our I Do / We Do / You Do Together / You Do must make "You Do Together" genuinely interactive, not "read this code".
+3. **Khan Academy: streak + mastery + energy points** — daily streak visible in header, per-skill mastery (Not Started → Familiar → Proficient → Mastered). Our progress-store should expose a public skill-mastery view.
+4. **Lovable: guided full-stack scaffolding with transparency** — generates backend + schema + auth + *tells user what was created*. Copy: a "what just happened" toast/log for every state mutation in our app.
+5. **freeCodeCamp / Kaggle Learn: in-browser executable feedback** — runnable code + immediate test runner + green/red signal per exercise. Non-negotiable for a Python course even if execution is sandboxed (Pyodide or backend runner).
+
+### 4. Top 5 security pitfalls
+
+1. **`dangerouslySetInnerHTML` rendering markdown / scraped HTML / AI content** without `rehype-sanitize`/`DOMPurify`. Most common Next.js XSS vector (Arcjet, Authgear, vibeappscanner).
+2. **Missing `auth()` in API route handlers** — AI generates `/api/exam/start` and skips session check; client hides button but endpoint is public.
+3. **Hardcoded secrets in client components** — `import { OPENAI_API_KEY } from '@/config'` into a `'use client'` file ships to browser bundle (vercel/next.js#32874).
+4. **CSRF on cookie-session mutations** — NextAuth DB sessions + no CSRF token on `POST /api/progress`. Mitigation: `sameSite=strict` + Origin header check.
+5. **Slopsquatting** — installing hallucinated packages AI suggests, which attackers then register with malware. Pin all deps, audit `package.json` diffs, never `--force` install.
+
+### 5. 20-item audit checklist for the Python DS Perú app
+
+**Functional / UX**
+1. Every route under `src/app/api/**` wraps handler body in `auth()` and returns 401 on missing session (verify by grep).
+2. Every list/table/quiz view wires 4 states: `loading` (skeleton), `empty` (illustration+CTA), `error` (retry), `success`.
+3. Smart-exam engine enforces 3-attempt cap server-side via `attemptNumber @@unique` (P0-B design) — verify no client bypass.
+4. Exam timer auto-saves every 30s to `/api/progress` and survives reload; `timeSpentSec` written on submit.
+5. Quiz/exam: forward-only navigation, no copy-paste/right-click, variants rotated per attempt (Honorlock best practices + our variant system).
+6. Every form revalidates server-side with zod `safeParse` — client validation is decorative only.
+7. Progress bar in header (Khan-style) updates optimistically AND reconciles with server GET on mount (zustand dual-write from P0-B).
+8. Daily streak indicator visible (Brilliant pattern) — increments on first exercise completion per UTC day, persists in localStorage + server.
+9. No `<ComingSoon/>` placeholders ship to production; remove all unwired nav items.
+
+**Accessibility (WCAG 2.1 AA)**
+10. Every `<img>` has `alt` (descriptive for content, `alt=""` for decorative); icons use `aria-hidden="true"`.
+11. No `aria-label` masking visible text — labels come from visible text, ARIA only when text absent (LinkedIn @nataliemac).
+12. Color contrast ≥ 4.5:1 for body text; verify dark mode tokens, not just light.
+13. Keyboard navigation through quiz, code editor, exam (focus trap on modals, focus-visible rings).
+14. Visible "skip to content" link + heading hierarchy (h1→h2→h3) per section.
+
+**Security**
+15. `grep -r "dangerouslySetInnerHTML" src/` returns 0 hits OR every hit paired with `rehype-sanitize`/`DOMPurify`.
+16. `grep -rE "NEXT_PUBLIC_(.*KEY|.*SECRET|.*TOKEN)" .env*` — only safe-to-expose vars prefixed; server secrets imported only in server components/routes.
+17. `package.json` diff review: every dep verified against npm registry existence + maintainer reputation; no hallucinated packages.
+18. CSRF: `sameSite=strict` on session cookie + Origin header check on all `POST /api/**`.
+19. Rate-limit `/api/exam/start`, `/api/auth/*`, `/api/progress` (in-memory token bucket OK for dev per P0-B; document cold-start caveat).
+
+**Polish / anti-slop**
+20. Audit design against the 10 "AI slop tells" — specifically: no purple/indigo gradient on hero (use our orange→red Section 11 accent OR Peru-inspired palette); no fake "Trusted by" logos; no emoji-as-icon in nav; no `whileHover scale` on every button; replace any "Lorem"/"John Doe"/"Acme" with real Peruvian-context content (SUNAT/Interbank/Mercado Libre examples — already in T2 Section 11).
+
+### Source quality notes
+- **Strongly corroborated**: hallucinated-package stats (USENIX 2025, 3 independent sources), MOOC dropout ~90% / median 12.6% (IRRODL meta-analysis), `dangerouslySetInnerHTML` as top XSS vector (4 sources), Brilliant/Khan gamification mechanics.
+- **Medium**: "AI slop" aesthetic tells (synthesized from r/vibecoding + Addy Osmani + dev.to — qualitative, not quantitative).
+- **Weak/anecdotal**: exact % of Next.js apps missing auth checks (no published survey; inferred from forum complaint density). Recommend follow-up task F0-A2: scrape 50 deployed v0/Lovable apps and run automated audit (Lighthouse + custom grep) for empirical baselines.
+
+---
+Task ID: F0-B
+Agent: Research/STORM
+Task: Research what learners actually get from Python/DS MOOCs and — critically — what they MISS or fail to develop
+
+Work Log:
+- Read prior worklog (Phase 0 + P0-A + P0-B + T2 + F0-A) for full app context: 11-section Python DS Perú course, Gradual Release pedagogy, smart-exam engine, Pyodide playground, 65-term glossary, Peruvian Spanish voice, i18n toggle, certs unlocked at 8/11 sections.
+- Ran 14 web_search queries via z-ai CLI covering: MOOC completion rates 2024-2026, r/learnpython "can't build anything" threads, employer perception of MOOC certs, Bloom 2-sigma + spaced repetition, DataCamp/Codecademy/Kaggle Learn reviews, LATAM/Peru DS market, self-taught programmer skill gaps, project-based learning evidence, CS50P reviews, junior DA communication gap, Peru Lima DS job requirements (Spanish), tutorial hell phenomenon, Gradual Release Fisher/Frey evidence, junior DS first-job surprises.
+- Cross-referenced completion-rate stats across 4 sources (Teachfloor, OpenPraxis, Higher Ed Dive/UPenn, Skillademia): converged on 4-15% median free MOOC, 60% paid.
+- Validated Bloom 2-sigma via Nintil systematic review + Wikipedia; Gradual Release via Fisher & Frey 2013 ASCD + Edutopia; PBL via Zhang 2023 meta-analysis (1060 citations) + Edutopia.
+- Mapped learner-MISS findings to our 11-section course structure to identify which gaps WE still have (top-5) vs which we already cover (top-10 RIGHT).
+
+Stage Summary:
+- Delivered ~1,180-word research brief with 4 ranked lists: (1) Top 15 skills MOOC learners MISS — ranked by complaint frequency across r/learnpython, r/datascience, Quora, LinkedIn, Medium posts; (2) Top 10 things OUR Python DS Perú course does RIGHT (mapped to README features + T2 Section 11); (3) Top 5 gaps in OUR course that should be addressed; (4) 10 concrete recommendations to surpass MOOC expectations.
+- Key actionable findings for downstream agents: (a) communication/storytelling is the #1 missed skill globally and WE don't have it explicitly — add a "Stakeholder Translation" lab; (b) terminal/IDE comfort is the #1 missed tooling skill — our Section 1 covers setup but should add a "terminal muscle memory" drill; (c) reading other people's code is universally missed — add a "Code Reading" exercise per section; (d) tutorial hell is THE complaint — our I Do/We Do/You Do must enforce that "You Do" cannot be solved by copy-paste (anti-cheat for exercises); (e) deployment is missing from our course — add a 30-min Streamlit/Gradio deploy lab to capstone.
+- Source quality honesty: completion rates + Bloom 2-sigma + Fisher/Frey GRR + PBL meta-analysis are strongly corroborated (3+ independent peer-reviewed sources each); employer-cert-perception is medium (IRRODL + ScienceDirect + Quora/Reddit anecdotal agree on direction); "top missed skills" rankings synthesized from qualitative forum density (no published quantitative survey); Peru-specific DS market requirements inferred from LinkedIn job postings + Instagram posts (medium confidence — no scraping done). Recommend follow-up task F0-B2: scrape 50 LinkedIn Peru DS postings for empirical skill-frequency ranking.
+
+Findings (full research brief below):
+
+## Research Brief: What MOOC Learners Actually Learn vs What They MISS (2024-2026)
+
+### Methodology
+- 14 web_search queries via z-ai CLI (queries listed in Work Log above).
+- Synthesized qualitative forum data (Reddit r/learnpython, r/datascience, Quora, LinkedIn posts, Medium, freeCodeCamp forum) with quantitative MOOC research (UPenn 4% study, IRRODL meta-analysis, Zhang 2023 PBL meta-analysis with 1,060 citations, Fisher & Frey 2013 GRR framework, Nintil Bloom 2-sigma systematic review).
+- Cross-referenced against our README + T2 Section 11 to ground recommendations in actual course features.
+
+### 1. Top 15 skills learners typically MISS (ranked by complaint frequency)
+
+1. **Building from scratch / escaping tutorial hell** — #1 complaint universally: "I finished the course but can't build anything" (r/learnpython top threads; Medium "Tutorial Hell to Real Projects"). Passive consumption ≠ synthesis.
+2. **Reading other people's code & error messages** — Reddit: "self-taught miss reading code"; learners freeze on tracebacks instead of reading them.
+3. **Communication & data storytelling to non-technical stakeholders** — most-cited junior-DA gap on LinkedIn ("real value is simplifying data and communicating insights stakeholders can act on"); Coursera 2026 DA guide lists it as top skill; coursecareers confirms it moves hiring decisions.
+4. **Terminal / CLI comfort** — learners who only use IDE "Run" buttons can't navigate servers, can't pip install, can't git from CLI. Universal bootcamp complaint.
+5. **Version control (git workflow, branching, PRs)** — Medium "15 Pitfalls of Self-Taught Devs" #1: "Not using version control properly"; missing from most Python MOOCs.
+6. **Debugging methodology** — learners give up at the first traceback; no mental model of "read error → form hypothesis → isolate → fix". Reddit repeatedly flags this.
+7. **Testing (pytest, fixtures, mocking)** — almost no Python MOOC covers it; CS50P touches "test and debug" but not pytest. Universal first-job surprise.
+8. **Environment & dependency management** (venv, requirements.txt, pyproject.toml, Docker basics) — MOOCs use hosted notebooks; learner never touches env setup. First-day-on-job shock.
+9. **Asking good data questions** — learners can run `df.describe()` but can't decide what to analyze; "data intuition" is learned through failure on the job.
+10. **Portfolio with real (not toy) projects** — MOOC certificate ≠ portfolio; employers "want to see how you apply the skills" (r/datascience).
+11. **Reading documentation & self-directed learning** — learners wait for the instructor; can't navigate pandas docs, sklearn API reference.
+12. **SQL fluency** — almost every DS job requires it; most Python MOOCs touch pandas-to-SQL only briefly. LinkedIn Peru postings explicitly list SQL.
+13. **Deployment / putting models in production** (Streamlit, FastAPI, Docker) — completely absent from CS50P, Kaggle Learn, Codecademy; universally missed.
+14. **Code review & giving/receiving feedback** — solo learners never experience it; first PR at a job is humbling (Medium "7 things learned in 2 years as junior DS": "most important is to be organized, do version control and document").
+15. **Business/domain context** — learners can build a churn model on Kaggle Telco data but can't translate a real business question into an analysis plan.
+
+### 2. Top 10 things our Python DS Perú course does RIGHT (based on prior research)
+
+1. **Gradual Release (I Do / We Do / You Do Together / You Do)** — Fisher & Frey 2013 ASCD-documented effective framework; we use the 4-phase evolution validated in Phase 0 research.
+2. **In-browser executable feedback (Pyodide)** — matches freeCodeCamp/Kaggle Learn success pattern; "non-negotiable for a Python course" (F0-A finding).
+3. **11 portfolio-grade mini-projects** — each section ships a real-world artifact (Churn Pipeline, Netflix EDA, Lead Scraper CLI); directly addresses "no portfolio" gap.
+4. **Smart-exam engine with 3 variants × anti-plagio audit trail** — forces active recall (not passive video); Bloom 2-sigma mastery principle operationalized.
+5. **Section 10 Testing + GitHub Actions CI** — covers pytest + CI, the #7 missed skill; almost no MOOC does this.
+6. **Section 11 covers the 10 EPUB gaps** (scraping, APIs, SQL, multiprocessing, regex, collections, profiling, logging, argparse, generators) — fills the production-engineering gap.
+7. **Peruvian Spanish voice with real-context examples** (SUNAT, Interbank, Mercado Libre, Falabella) — solves LATAM cultural-context gap; differentiator vs English-only MOOCs.
+8. **Admin dashboard with student drill-down + CSV export** — institutional LMS feature missing from Coursera/edX consumer tier; opens B2B market.
+9. **PDF certificates unlocked at 8/11 sections** — gates certificate behind real progress (vs Coursera "click-through" certs); addresses employer-cert-skepticism.
+10. **Auth + rate limiting + zod validation + bcrypt** — production-grade security that MOOC platforms don't teach but employers expect learners to understand.
+
+### 3. Top 5 gaps in OUR course that we should address
+
+1. **No explicit communication / data-storytelling module** — the #1 missed skill globally; our "You Do" projects produce code, not stakeholder-ready narratives. Add a "Translate this analysis for the CFO" deliverable per capstone.
+2. **No deployment lab** — learners build the Churn Pipeline and Lead Scraper CLI but never deploy. Add a 30-min Streamlit/Gradio deploy step to capstones; without it, the #13 missed skill stays missed.
+3. **No "code reading" exercise** — every section teaches writing; none teaches reading other people's code. Add one "read this real OSS snippet, explain it, find the bug" exercise per section.
+4. **Terminal muscle-memory drill absent from Section 1** — setup covers installation but not daily CLI fluency (cd, ls, grep, git, pip). Add a 10-drill terminal workout.
+5. **No code-review / peer-feedback loop** — solo learners never experience PR review. Even a simulated "review this pull request" exercise per section would close the #14 missed skill.
+
+### 4. 10 concrete recommendations to surpass MOOC expectations
+
+1. **Add a "Stakeholder Translation" lab** to every capstone: learner writes a 200-word email to a non-technical executive summarizing findings. Graded by rubric (clarity, actionability, no jargon).
+2. **Enforce anti-copy-paste on "You Do" exercises**: starter code differs from solution by ≥30% structure; Pyodide runner checks output signature, not exact string match, so copy-pasting the solution produces wrong intermediate prints.
+3. **Add a "Terminal Workout" mini-game** in Section 1: 20 timed drills (cd, mkdir, ls -la, grep, git status, git add, git commit, pip install) with streak tracking.
+4. **Add one "Code Reading" exercise per section**: real OSS snippet (e.g., a pandas internal function, an sklearn estimator) with 3 questions: "what does this do?", "find the bug", "what would you rename?".
+5. **Add a 30-min deployment lab** to Sections 9 and 11 capstones: deploy Churn Pipeline as Streamlit app on Streamlit Community Cloud; deploy Lead Scraper as a GitHub Action cron job. Both free, both portfolio-grade.
+6. **Add a "Code Review Simulator"**: present a fake PR with 5 issues (style, bug, security, perf, missing test); learner identifies and comments. Scored automatically.
+7. **Add spaced repetition to the glossary**: surface terms the learner hasn't seen in N days; require recall (type the definition) before re-exposure. Operationalizes Bloom 2-sigma.
+8. **Add a "Real Stakeholder Brief" requirement** to unlock the certificate (in addition to 8/11 sections): learner submits one 1-page exec summary of any capstone; admin reviews before cert issuance.
+9. **Add a "Daily Standup" prompt**: each login, learner answers "what did I build yesterday, what will I build today, what's blocking me?" in 3 lines. Builds the habit senior engineers cite as #1 differentiator (Medium "7 things learned in 2 years").
+10. **Add a bilingual toggle for stakeholder deliverables**: enable English output for the exec summary (LinkedIn Peru: "experiencia intermedia en Python, SQL… REQUIRED English for multinational roles"). Solves LATAM English-barrier gap by giving learners dual-language portfolio artifacts.
+
+### Source quality notes
+- **Strongly corroborated** (3+ independent peer-reviewed or multi-source): MOOC completion 4-15% (UPenn 4%, IRRODL meta-analysis, Teachfloor, Skillademia); Bloom 2-sigma (Nintil systematic review, Wikipedia, Lecturio); Fisher & Frey GRR (ASCD 2013, Edutopia, ResearchGate); PBL effectiveness (Zhang 2023 meta-analysis 1,060 citations, Edutopia, Kingsley 2025).
+- **Medium** (qualitative + anecdotal convergence): employer cert perception (IRRODL + ScienceDirect + Reddit r/datascience + Quora all agree certs signal motivation, not competence); tutorial hell as dominant complaint (Reddit + Medium + freeCodeCamp forum all flag it).
+- **Weak/anecdotal** (no quantitative survey): exact ranking of "top 15 missed skills" — synthesized from forum complaint density, not a published skills-gap survey. Peru-specific DS market requirements inferred from LinkedIn postings + Instagram posts (no scraping done). Recommend follow-up task F0-B2: scrape 50 LinkedIn Peru DS postings + 100 r/learnpython "can't build" threads for empirical frequency ranking.
+
+---
+Task ID: F0-C
+Agent: Research/STORM
+Task: Research familiarity scoring / entity resolution / fuzzy matching of people based on demographic data (Excel upload feature for VP)
+
+Work Log:
+- Read prior worklog (Phase 0, P0-A, P0-B, T2, F0-B2 context); confirmed Solarize stack = Next.js 16 + Tailwind 4 + shadcn/ui + Prisma/SQLite + zustand + z-ai-web-dev-sdk, single-page SPA on `/` (no separate routes), Peruvian Spanish audience.
+- Ran 9 web_search queries via z-ai CLI covering: Fellegi-Sunter record linkage model; Python ER libraries (splink/dedupe/recordlinkage/Zingg); rapidfuzz Jaro-Winkler/Levenshtein; geopy Nominatim Peru geocoding; folium/plotly scatter_mapbox; Peru Ley 29733 data protection; Faker synthetic Peruvian data; networkx connected components; pandas read_excel openpyxl data quality.
+- Cross-referenced splink vs dedupe vs recordlinkage: splink (MoJ UK) is the production-grade choice for >50k rows (DuckDB backend, EM-trained m/u probabilities); recordlinkage toolkit is fine for smaller course demo; rapidfuzz is the universal string-similarity primitive (10× faster than fuzzywuzzy, drop-in).
+- Validated Fellegi-Sunter 1969 framework as the canonical probabilistic ER model (corroborated by ScienceDirect 2022, Science Advances 2021, Wikipedia, AAPOR primer). Confirmed layered approach: deterministic exact-match anchors (phone/email) → probabilistic fuzzy (Jaro-Winkler name, token-sort address) → graph clustering (networkx connected components) for household/family rollup.
+- Mapped scoring rubric to VP's spec: 100=same person (deterministic), 95=family (fuzzy ≥85 + shared apellido + address), 80=household (shared address + phone suffix), 60=neighbor (geocoded <200m), 40=district-level acquaintance.
+- Audited Peru Ley 29733 + DS 003-2013-JUS obligations: PII registry with ANPDP, 5-day breach notification, 2-year retention cap, cross-border transfer restrictions (relevant if hosted on Vercel US-East). Recommended Python sidecar on AWS sa-east-1 (São Paulo) or all-ephemeral `/tmp` processing to avoid transfer rules.
+- Designed architecture: Next.js API routes orchestrate, Python FastAPI sidecar runs the 4-layer pipeline (can't bundle pandas/rapidfuzz/scipy in Next.js serverless). SSE progress stream, Prisma models FamiliarityJob + FamiliarityPair, 24-hour auto-delete per Ley 29733 Art. 62.
+- Specified synthetic data generation using Faker `es_PE` locale with controlled anomaly injection (typos, alt-phones, family members, neighbors) at 15% anomaly rate — covers every scoring tier for demo without touching real PII.
+
+Stage Summary:
+- Delivered ~1,500-word research brief with 6 sections: (1) algorithm pseudocode — 4-layer pipeline (block → deterministic → fuzzy → graph cluster); (2) 12 Python libraries with versions (rapidfuzz, recordlinkage/splink, networkx, geopy, folium, plotly, h3, Faker es_PE, phonenumbers, openpyxl); (3) scoring rubric table 40→100 with triggers and actions; (4) Next.js architecture (upload → Python sidecar → SSE results → 4 dashboard tabs); (5) Peru-specific privacy (Ley 29733 + ANPDP registry + cross-border + hash vs encrypt rules); (6) Faker es_PE synthetic data generator with 4 anomaly types.
+- Key downstream decisions for build agent: (a) use rapidfuzz for ALL string similarity (not fuzzywuzzy — slower, GPL-licensed); (b) splink if >50k rows, recordlinkage toolkit if smaller — start with recordlinkage for course demo, swap to splink if VP uploads grow; (c) geocode with Nominatim 1 req/sec + SQLite cache (free, no API key) — do NOT use Google Maps API for the course (cost + key management); (d) host Python sidecar on AWS sa-east-1 or run all PII ephemerally in `/tmp` and delete within 24h; (e) hash phone/email with SHA-256 + per-job salt for match keys, AES-256-GCM for displayable fields, never store DNI plaintext; (f) use Faker es_PE exclusively for demos — real client data must never enter the demo deployment.
+- Anti-patterns flagged: don't use pure-python `fuzzywuzzy` (slow + GPL); don't geocode synchronously per row (rate limit + slow); don't store raw uploaded xlsx in DB (Prisma isn't a file store); don't display DNI unmasked (Ley 29733 Art. 5 minimization); don't skip blocking step (N² pairwise on 10k rows = 100M comparisons, splink docs warn this is the #1 perf killer).
+- Source quality: Fellegi-Sunter model + splink/rapidfuzz recommendations are strongly corroborated (3+ independent sources each, including MoJ UK official docs, ScienceDirect peer-reviewed, Tilores 2024 benchmark). Peru Ley 29733 specifics corroborated across 4 legal sources (Resguard, Hunton, BitRaser, pacmap.dev) but ANPDP enforcement intensity is anecdotal — recommend legal review before any production use beyond course demo. Faker es_PE locale coverage is well-documented but specific Peruvian district realism is moderate (Faker doesn't have full district lists — augment with custom list of Lima's 43 districts).
+
+---
+Task ID: F0-D
+Agent: Research/Design
+Task: Research how to apply Art Nouveau (Alphonse Mucha) aesthetic to a modern web app, blending it with modernity and AI/tech language (Python DS course platform, Next.js 16 + Tailwind 4 + shadcn/ui, current palette = violet-cyan EdTech premium).
+
+Work Log:
+- Read /home/z/my-project/src/app/globals.css (260 lines) to map current palette: `--primary: oklch(0.55 0.22 285)` (violet), `--accent: oklch(0.85 0.12 195)` (cyan), `--background: oklch(0.99 0.005 280)` (near-white), `--foreground: oklch(0.18 0.02 280)` (cool dark), plus utility classes `.gradient-text`, `.gradient-mesh`, `.glass`, `.shadow-glow`. Confirmed oklch color space + CSS-variable system.
+- Read /home/z/my-project/src/app/layout.tsx: only `Inter` (sans) + `JetBrains_Mono` (mono) loaded via next/font/google; CSS vars `--font-geist-sans` and `--font-geist-mono`. No display serif loaded.
+- Read worklog tail (F0-A, F0-B, F0-C) to confirm format: Work Log → Stage Summary → Findings.
+- Ran 5 web_search queries via z-ai CLI: (1) "Alphonse Mucha color palette hex codes warm earth tones gold olive terracotta", (2) "modern Art Nouveau web design 2024 2025 awwwards minimal serif Mucha inspiration", (3) "Mucha poster floral border SVG botanical ornament Art Nouveau vector pattern", (4) "Cormorant Playfair Display Marcellus serif Google Fonts Mucha Art Nouveau headings", (5) "Art Nouveau meets AI tech design circuit board vines organic futurism".
+- Cross-referenced Mucha palette sources: Reddit fiber-reactive palette (old rose, dusty orange, straw, golden yellow, lodon, olive drab), Pinterest hex collection, Copperant 48-color Mucha 4-seasons palette, Facebook Mucha "Spring 1900" pastel greens/blues/pinks. Synthesized a convergent warm-earth palette.
+- Confirmed typography mapping: P22 Mucha (Adobe, paid) is the canonical Mucha typeface; Cormorant Garamond (Google, free) is the closest free analog for display headings; Marcellus (Google) for sub-display Roman caps; Playfair Display alternative if Cormorant reads too thin.
+- Confirmed ornament sourcing: Internet Archive hosts "Mucha's Floral Borders: 30 full-color Art Nouveau designs" (poppies, irises, orchids); Vecteezy/Magnific have free vectors. For implementation, recommended hand-crafted inline SVG with `currentColor` + `var(--gold)` theming over raster assets (resolution-independent, themeable, no extra HTTP).
+- Mapped "traitorous to modernity" brief to a concrete pattern: circuit-trace paths morphing into leaf shapes (the §3(e) Circuit-Vine), and organic radial meshes replacing violet-cyan linear gradients. Anchored on the "AI Architecture: Case for Art Nouveau Revival" discourse.
+
+Stage Summary:
+- Delivered ~990-word design brief with 6 sections matching the deliverable spec: (1) complete oklch palette light + dark, (2) typography stack (Cormorant + Marcellus + Inter + JetBrains Mono), (3) five inline-SVG decorative patterns with code, (4) Tailwind 4 globals.css implementation plan, (5) component-level changes (hero/cards/buttons/sidebar/code/dividers), (6) 11 anti-patterns to avoid kitsch.
+- Key downstream decisions for build agent: (a) replace `--primary` violet (oklch(0.55 0.22 285)) with Mucha deep-olive (oklch(0.50 0.08 135)); replace `--accent` cyan (oklch(0.85 0.12 195)) with terracotta (oklch(0.72 0.11 40)); replace pure-white background with cream (oklch(0.97 0.012 85)); replace cool dark foreground with warm brown (oklch(0.27 0.025 50)). (b) Add 5 new tokens: `--gold`, `--rose`, `--teal-dusty`, `--halo`, `--ink`. (c) Load Cormorant Garamond + Marcellus via next/font/google; expose as `--font-display` and `--font-subdisplay`. (d) Implement ornaments as inline SVG, NOT raster — themeable, scalable, zero HTTP. (e) Circuit-Vine pattern is the literal "traitorous to AI" element: PCB traces morphing into leaves at 8% opacity behind code sections.
+- Anti-patterns flagged: no full-bleed Mucha illustrations (kitsch + slow), max 2 ornaments per viewport, never pure-white bg, never >2 accent hues per component, never paid fonts (P22 Mucha → Cormorant), never serif body text below 14px, never animated vines (perf + whimsy), never ornaments on buttons (kills affordance), never mix old violet-cyan gradients with new palette (commit fully).
+- Source quality: Mucha palette is strongly corroborated across 4+ independent sources (Reddit, Pinterest, Copperant, Facebook, YouTube); modern Art Nouveau web examples are medium (Awwwards general references but no single canonical "Mucha revival" site survey); "AI + Art Nouveau" fusion is qualitative/emerging (Medium + Instagram discourse, not yet peer-reviewed design research). Recommend follow-up task F0-D2: snapshot 20 Awwwards sites tagged "Art Nouveau" or "ornamental" 2024-2025 and tag which patterns survive modern UX constraints.
+
+Findings (full design brief below):
+
+## Design Brief: Art Nouveau (Mucha) × Modern AI Aesthetic for Python DS Perú
+
+### 1. Color Palette (oklch, replaces current violet/cyan system in `globals.css` lines 46–115)
+
+**Light mode (`:root`):**
+```css
+--background: oklch(0.97 0.012 85);     /* cream ivory, NOT pure white */
+--foreground: oklch(0.27 0.025 50);     /* warm dark brown */
+--card: oklch(0.99 0.008 85);
+--popover: oklch(0.99 0.008 85);
+--primary: oklch(0.50 0.08 135);        /* Mucha deep olive/forest */
+--primary-foreground: oklch(0.97 0.012 85);
+--secondary: oklch(0.94 0.018 85);
+--secondary-foreground: oklch(0.32 0.04 50);
+--muted: oklch(0.95 0.012 85);
+--muted-foreground: oklch(0.50 0.025 60);
+--accent: oklch(0.72 0.11 40);          /* terracotta */
+--accent-foreground: oklch(0.25 0.04 40);
+--destructive: oklch(0.58 0.20 25);
+--border: oklch(0.90 0.015 85);
+--input: oklch(0.92 0.015 85);
+--ring: oklch(0.50 0.08 135);
+/* NEW Mucha tokens */
+--gold: oklch(0.78 0.13 88);            /* antique gold for ornaments */
+--rose: oklch(0.74 0.10 20);            /* dusty rose */
+--teal-dusty: oklch(0.62 0.06 200);     /* muted teal */
+--halo: oklch(0.88 0.05 65);            /* sandy halo background */
+--ink: oklch(0.22 0.03 50);             /* deep warm brown for line work */
+```
+
+**Dark mode (`.dark`):** warm-dark transposition — `--background: oklch(0.18 0.012 60)`, `--foreground: oklch(0.94 0.012 85)`, `--primary: oklch(0.68 0.10 135)` (raised lightness for contrast), `--accent: oklch(0.72 0.11 40)` (terracotta holds), `--gold: oklch(0.82 0.13 88)`. Charts: olive, gold, terracotta, dusty-teal, rose.
+
+### 2. Typography (Google Fonts, added to `layout.tsx`)
+
+```ts
+import { Cormorant_Garamond, Marcellus } from "next/font/google";
+const cormorant = Cormorant_Garamond({ weight:["500","600","700"], variable:"--font-display", subsets:["latin"], display:"swap" });
+const marcellus  = Marcellus({ weight:["400"], variable:"--font-subdisplay", subsets:["latin"], display:"swap" });
+```
+Register `--font-display` and `--font-subdisplay` in `@theme inline`. Usage: Cormorant Garamond for h1/h2 (closest free Mucha analog to P22 Mucha); Marcellus for sub-headings / small-caps labels; **Inter stays for body**; **JetBrains Mono stays for code**. Drop-caps via `::first-letter { font-family: var(--font-display); font-size: 4em; float: left; color: var(--gold); }` on section openers only.
+
+### 3. Five Decorative SVG Patterns (inline, themeable via `currentColor` + `var(--gold)`)
+
+**(a) Mucha Halo** — concentric ring + 12 floral ticks every 30°, behind hero portrait:
+```svg
+<svg viewBox="0 0 400 400"><circle cx="200" cy="200" r="190" fill="none" stroke="var(--halo)" stroke-width="2"/>
+<circle cx="200" cy="200" r="170" fill="none" stroke="var(--gold)" stroke-width="1" stroke-dasharray="2 6"/>
+<g stroke="var(--gold)" stroke-width="1.5" fill="none">
+  <path d="M200 20 Q205 40 200 60 Q195 40 200 20 Z"/>
+  <!-- repeat with transform="rotate(30 200 200)" ... rotate(330) -->
+</g></svg>
+```
+
+**(b) Botanical Corner Ornament** — quarter-arc stem + 3 leaves, ~80×80:
+```svg
+<svg viewBox="0 0 80 80" fill="none" stroke="var(--gold)" stroke-width="1.2">
+  <path d="M5 75 Q 30 50 55 35 Q 65 25 75 5"/>
+  <path d="M25 55 Q 15 50 18 40 Q 28 45 25 55 Z" fill="var(--gold)" fill-opacity="0.15"/>
+  <path d="M45 40 Q 35 35 38 25 Q 50 32 45 40 Z" fill="var(--gold)" fill-opacity="0.15"/>
+  <path d="M62 22 Q 52 18 55 8 Q 67 14 62 22 Z" fill="var(--gold)" fill-opacity="0.15"/>
+</svg>
+```
+
+**(c) Section Divider Vine** — full-width flowing stem + single blossom:
+```svg
+<svg viewBox="0 0 1200 40" preserveAspectRatio="none" fill="none">
+  <path d="M0 20 Q 200 5 400 20 T 800 20 T 1200 20" stroke="var(--gold)" stroke-width="1"/>
+  <path d="M590 20 Q 600 8 610 20 Q 600 32 590 20 Z" fill="var(--rose)"/>
+  <circle cx="600" cy="20" r="3" fill="var(--accent)"/>
+</svg>
+```
+
+**(d) Card Frame Quarter-Arc** — applied to 4 corners via `::before/::after` + `mask-image`, rotate 0/90/180/270:
+```svg
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8">
+  <path d="M2 10 Q 2 2 10 2"/>
+  <path d="M4 8 Q 4 4 8 4" stroke-opacity="0.5"/>
+  <circle cx="6" cy="6" r="1" fill="currentColor"/>
+</svg>
+```
+
+**(e) Circuit-Vine** (the "traitorous to AI" element — PCB traces morphing into leaves, tiled at 8% opacity behind code sections):
+```svg
+<svg viewBox="0 0 200 200" fill="none" stroke="var(--teal-dusty)" stroke-width="0.6">
+  <path d="M10 100 H 60 V 60 H 100"/>
+  <circle cx="60" cy="60" r="2" fill="var(--gold)" stroke="none"/>
+  <path d="M100 60 Q 110 40 120 50 Q 115 70 100 60 Z" fill="var(--primary)" fill-opacity="0.2"/>
+  <path d="M120 50 H 180" stroke-dasharray="3 2"/>
+</svg>
+```
+Embed via `background-image: url("data:image/svg+xml,...")`.
+
+### 4. Tailwind 4 globals.css Implementation Plan
+
+1. Replace `:root` block (lines 46–81) with §1 light palette; replace `.dark` block (lines 83–115) with warm-dark transposition.
+2. Add `--gold/--rose/--teal-dusty/--halo/--ink` inside `:root` AND register `--color-gold: var(--gold)` (etc.) inside `@theme inline` so utilities `text-gold`, `border-halo`, `bg-halo` work.
+3. Update utilities (lines 130–171):
+   - `.gradient-text` → `linear-gradient(135deg, var(--primary), var(--accent))` (olive→terracotta)
+   - `.gradient-mesh` → radial olives/terracotta/teal at low alpha
+   - Add `.font-display { font-family: var(--font-display); }`
+   - Add `.drop-cap::first-letter { font-family: var(--font-display); font-size: 4em; float: left; line-height: 0.9; padding-right: 0.1em; color: var(--gold); }`
+   - Add `.mucha-halo { background: radial-gradient(circle, var(--halo) 0%, transparent 70%); }`
+   - Add `.ornament-corner` with `::before/::after { mask-image: url(...); }` for §3(d)
+4. Keep all keyframe animations; lower `pulse-glow` chroma from violet to gold.
+
+### 5. Component Changes
+
+- **Hero**: replace violet-cyan gradient with cream bg + `.mucha-halo` radial behind Cormorant title; Circuit-Vine at 5% opacity behind subhead; CTA button keeps primary (olive) with 1px gold ring on hover.
+- **Cards**: switch `.gradient-card` to flat cream + 1px `--border`; add 4 `.ornament-corner` quarter-arcs in `--gold` at 30% opacity, revealed on hover only.
+- **Buttons**: primary = olive; secondary = `--gold` outline; remove `scale-105` hover, replace with `box-shadow: 0 0 0 1px var(--gold)` (engraved feel).
+- **Sidebar**: cream bg with vertical botanical divider between logo and nav; section labels in Marcellus small-caps.
+- **Code blocks**: keep JetBrains Mono on `oklch(0.18 0.012 60)` warm dark; add 8px gold corner ornament top-left.
+- **Section dividers**: every section ends with §3(c) vine in `--gold` at 0.4 opacity.
+
+### 6. Anti-Patterns (avoid kitsch)
+
+- ❌ Full-bleed Mucha illustrations as hero bg → use only halo + low-opacity vine.
+- ❌ More than 2 ornaments per viewport → visual fatigue.
+- ❌ Pure white (`#fff` / `oklch(1 0 0)`) background → kills warmth; always cream.
+- ❌ Heavy drop-shadows on ornamented cards → muddies line work; 1px border + 0.04-alpha shadow only.
+- ❌ More than 2 accent hues per component (olive+terracotta OR gold+teal — never all four).
+- ❌ P22 Mucha font (paid, Adobe) → use Cormorant Garamond.
+- ❌ Serif body text below 14px → Inter only for body.
+- ❌ Animated SVG vines (whimsy + perf hit) → static; animate only opacity on hover.
+- ❌ Ornaments on buttons/inputs → interfere with affordance.
+- ❌ Mixing new palette with old violet-cyan gradients → commit fully; no half-measures.
+- ❌ Drop-caps on every paragraph → reserve for section openers only.
+
+### Source quality notes
+- **Strongly corroborated** (3+ independent sources): Mucha palette warm-earth tones (Reddit fiber-reactile palette, Pinterest hex collection, Copperant 48-color seasonal palette, Facebook "Spring 1900" pastel analysis); Cormorant Garamond as free Mucha analog (Google Fonts, Adobe pairing guide, designer forum consensus); Mucha's floral border motifs (Internet Archive 30-design book, Vecteezy, Magnific).
+- **Medium**: modern Art Nouveau web examples — Awwwards referenced generally but no single canonical "Mucha revival" survey; recommendations synthesized from design-blog consensus (Addy Osmani, Smashing Magazine) rather than peer-reviewed research.
+- **Weak/emerging**: "Art Nouveau meets AI" fusion — Medium + Instagram discourse (Pininfarina Blue Loop, "AI Architecture: Case for Art Nouveau Revival") is qualitative and emerging, not yet codified. The Circuit-Vine pattern (§3e) is an original synthesis grounded in PCB-art discourse (Medium "How I Combine Art and PCB Design") + Art Nouveau organic-line principle. Recommend follow-up task F0-D2: snapshot 20 Awwwards sites tagged "ornamental" 2024-2025 to empirically validate which patterns survive modern UX constraints.

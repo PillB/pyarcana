@@ -56,11 +56,11 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
         className="flex items-center gap-3 border-b border-sidebar-border px-5 py-4 text-left transition-colors hover:bg-sidebar-accent/50"
       >
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl gradient-primary shadow-glow">
-          <span className="text-lg font-bold text-white">Py</span>
+          <span className="text-lg font-bold text-white" style={{ fontFamily: 'var(--font-display)' }}>Py</span>
         </div>
         <div className="min-w-0">
-          <div className="truncate text-sm font-bold tracking-tight text-foreground">
-            Python DS Perú
+          <div className="truncate text-sm font-bold tracking-tight text-foreground" style={{ fontFamily: 'var(--font-display)' }}>
+            El Arte de Python
           </div>
           <div className="truncate text-xs text-muted-foreground">De cero a Data Scientist</div>
         </div>

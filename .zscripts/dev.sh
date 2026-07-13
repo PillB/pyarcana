@@ -111,7 +111,7 @@ cleanup() {
 	fi
 }
 
-trap cleanup EXIT INT TERM
+# trap cleanup EXIT INT TERM
 
 cd "$PROJECT_DIR"
 
@@ -150,5 +150,5 @@ start_mini_services
 
 echo "Next.js dev server is running in background (PID: $DEV_PID)."
 echo "Use 'kill $DEV_PID' to stop it."
-disown "$DEV_PID" 2>/dev/null || true
+disown "$DEV_PID" 2>/dev/null || true; echo "DEV_PID=$DEV_PID" > .zscripts/dev.pid
 unset DEV_PID

@@ -45,73 +45,85 @@
 
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.99 0.005 280);
-  --foreground: oklch(0.18 0.02 280);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.02 280);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.02 280);
-  /* Violeta principal */
-  --primary: oklch(0.55 0.22 285);
-  --primary-foreground: oklch(0.99 0.005 280);
-  --secondary: oklch(0.96 0.015 280);
-  --secondary-foreground: oklch(0.25 0.04 285);
-  --muted: oklch(0.97 0.008 280);
-  --muted-foreground: oklch(0.5 0.02 280);
-  /* Cian acento */
-  --accent: oklch(0.85 0.12 195);
-  --accent-foreground: oklch(0.25 0.08 200);
-  --destructive: oklch(0.6 0.24 25);
-  --border: oklch(0.92 0.01 280);
-  --input: oklch(0.94 0.01 280);
-  --ring: oklch(0.55 0.22 285);
-  --chart-1: oklch(0.55 0.22 285);
-  --chart-2: oklch(0.7 0.15 195);
-  --chart-3: oklch(0.65 0.2 145);
-  --chart-4: oklch(0.75 0.18 60);
-  --chart-5: oklch(0.6 0.24 25);
-  --sidebar: oklch(0.99 0.005 280);
-  --sidebar-foreground: oklch(0.2 0.02 280);
-  --sidebar-primary: oklch(0.55 0.22 285);
-  --sidebar-primary-foreground: oklch(0.99 0.005 280);
-  --sidebar-accent: oklch(0.95 0.02 285);
-  --sidebar-accent-foreground: oklch(0.25 0.04 285);
-  --sidebar-border: oklch(0.92 0.01 280);
-  --sidebar-ring: oklch(0.55 0.22 285);
+  /* Art Nouveau — Mucha-inspired warm palette */
+  --background: oklch(0.97 0.012 85);
+  --foreground: oklch(0.27 0.025 50);
+  --card: oklch(0.99 0.008 85);
+  --card-foreground: oklch(0.27 0.025 50);
+  --popover: oklch(0.99 0.008 85);
+  --popover-foreground: oklch(0.27 0.025 50);
+  /* Deep olive/forest green — Mucha primary */
+  --primary: oklch(0.50 0.08 135);
+  --primary-foreground: oklch(0.97 0.012 85);
+  --secondary: oklch(0.94 0.018 85);
+  --secondary-foreground: oklch(0.32 0.04 50);
+  --muted: oklch(0.95 0.012 85);
+  --muted-foreground: oklch(0.50 0.025 60);
+  /* Terracotta accent */
+  --accent: oklch(0.72 0.11 40);
+  --accent-foreground: oklch(0.25 0.04 40);
+  --destructive: oklch(0.58 0.20 25);
+  --border: oklch(0.90 0.015 85);
+  --input: oklch(0.92 0.015 85);
+  --ring: oklch(0.50 0.08 135);
+  /* Mucha decorative tokens */
+  --gold: oklch(0.78 0.13 88);
+  --rose: oklch(0.74 0.10 20);
+  --teal-dusty: oklch(0.62 0.06 200);
+  --halo: oklch(0.88 0.05 65);
+  --ink: oklch(0.22 0.03 50);
+  --chart-1: oklch(0.50 0.08 135);
+  --chart-2: oklch(0.78 0.13 88);
+  --chart-3: oklch(0.72 0.11 40);
+  --chart-4: oklch(0.62 0.06 200);
+  --chart-5: oklch(0.74 0.10 20);
+  --sidebar: oklch(0.96 0.015 85);
+  --sidebar-foreground: oklch(0.27 0.025 50);
+  --sidebar-primary: oklch(0.50 0.08 135);
+  --sidebar-primary-foreground: oklch(0.97 0.012 85);
+  --sidebar-accent: oklch(0.92 0.025 85);
+  --sidebar-accent-foreground: oklch(0.32 0.04 50);
+  --sidebar-border: oklch(0.90 0.015 85);
+  --sidebar-ring: oklch(0.50 0.08 135);
 }
 
 .dark {
-  --background: oklch(0.13 0.02 280);
-  --foreground: oklch(0.97 0.005 280);
-  --card: oklch(0.18 0.025 280);
-  --card-foreground: oklch(0.97 0.005 280);
-  --popover: oklch(0.18 0.025 280);
-  --popover-foreground: oklch(0.97 0.005 280);
-  --primary: oklch(0.7 0.2 285);
-  --primary-foreground: oklch(0.13 0.02 280);
-  --secondary: oklch(0.24 0.03 280);
-  --secondary-foreground: oklch(0.97 0.005 280);
-  --muted: oklch(0.22 0.02 280);
-  --muted-foreground: oklch(0.7 0.02 280);
-  --accent: oklch(0.4 0.12 195);
-  --accent-foreground: oklch(0.85 0.12 195);
+  --background: oklch(0.18 0.012 60);
+  --foreground: oklch(0.94 0.012 85);
+  --card: oklch(0.22 0.018 60);
+  --card-foreground: oklch(0.94 0.012 85);
+  --popover: oklch(0.22 0.018 60);
+  --popover-foreground: oklch(0.94 0.012 85);
+  --primary: oklch(0.68 0.10 135);
+  --primary-foreground: oklch(0.18 0.012 60);
+  --secondary: oklch(0.28 0.025 60);
+  --secondary-foreground: oklch(0.94 0.012 85);
+  --muted: oklch(0.25 0.02 60);
+  --muted-foreground: oklch(0.72 0.02 85);
+  --accent: oklch(0.72 0.11 40);
+  --accent-foreground: oklch(0.94 0.012 85);
   --destructive: oklch(0.65 0.22 25);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 12%);
-  --ring: oklch(0.7 0.2 285);
-  --chart-1: oklch(0.7 0.2 285);
-  --chart-2: oklch(0.7 0.15 195);
-  --chart-3: oklch(0.7 0.2 145);
-  --chart-4: oklch(0.75 0.18 60);
-  --chart-5: oklch(0.65 0.24 25);
-  --sidebar: oklch(0.16 0.022 280);
-  --sidebar-foreground: oklch(0.97 0.005 280);
-  --sidebar-primary: oklch(0.7 0.2 285);
-  --sidebar-primary-foreground: oklch(0.13 0.02 280);
-  --sidebar-accent: oklch(0.24 0.03 280);
-  --sidebar-accent-foreground: oklch(0.97 0.005 280);
+  --ring: oklch(0.68 0.10 135);
+  --gold: oklch(0.82 0.13 88);
+  --rose: oklch(0.74 0.10 20);
+  --teal-dusty: oklch(0.62 0.06 200);
+  --halo: oklch(0.30 0.03 65);
+  --ink: oklch(0.88 0.02 50);
+  --chart-1: oklch(0.68 0.10 135);
+  --chart-2: oklch(0.82 0.13 88);
+  --chart-3: oklch(0.72 0.11 40);
+  --chart-4: oklch(0.62 0.06 200);
+  --chart-5: oklch(0.74 0.10 20);
+  --sidebar: oklch(0.20 0.015 60);
+  --sidebar-foreground: oklch(0.94 0.012 85);
+  --sidebar-primary: oklch(0.68 0.10 135);
+  --sidebar-primary-foreground: oklch(0.18 0.012 60);
+  --sidebar-accent: oklch(0.28 0.025 60);
+  --sidebar-accent-foreground: oklch(0.94 0.012 85);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.7 0.2 285);
+  --sidebar-ring: oklch(0.68 0.10 135);
 }
 
 @layer base {
@@ -127,47 +139,76 @@
   }
 }
 
-/* === Gradientes y utilidades premium EdTech === */
+/* === Art Nouveau — Mucha utilities === */
 @layer utilities {
   .gradient-text {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, oklch(0.55 0.22 285), oklch(0.65 0.18 195));
+    background-image: linear-gradient(135deg, var(--primary), var(--accent));
   }
   .gradient-text-warm {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, oklch(0.6 0.22 285), oklch(0.7 0.2 330));
+    background-image: linear-gradient(135deg, var(--gold), var(--rose));
   }
   .gradient-primary {
-    background-image: linear-gradient(135deg, oklch(0.55 0.22 285), oklch(0.6 0.18 250));
+    background-image: linear-gradient(135deg, var(--primary), var(--teal-dusty));
   }
   .gradient-mesh {
     background-image:
-      radial-gradient(at 20% 15%, oklch(0.55 0.22 285 / 0.12) 0px, transparent 50%),
-      radial-gradient(at 80% 10%, oklch(0.65 0.18 195 / 0.12) 0px, transparent 50%),
-      radial-gradient(at 50% 90%, oklch(0.7 0.2 330 / 0.08) 0px, transparent 50%);
+      radial-gradient(at 20% 15%, oklch(0.50 0.08 135 / 0.10) 0px, transparent 50%),
+      radial-gradient(at 80% 10%, oklch(0.72 0.11 40 / 0.10) 0px, transparent 50%),
+      radial-gradient(at 50% 90%, oklch(0.78 0.13 88 / 0.08) 0px, transparent 50%);
   }
   .gradient-card {
-    background-image: linear-gradient(135deg, oklch(1 0 0), oklch(0.98 0.01 280));
-  }
-  .dark .gradient-card {
-    background-image: linear-gradient(135deg, oklch(0.2 0.03 280), oklch(0.16 0.025 280));
+    background-image: linear-gradient(135deg, var(--card), var(--secondary));
   }
   .glass {
-    backdrop-filter: blur(12px) saturate(180%);
-    background-color: oklch(1 0 0 / 0.7);
+    backdrop-filter: blur(12px) saturate(160%);
+    background-color: oklch(0.97 0.012 85 / 0.8);
   }
   .dark .glass {
-    background-color: oklch(0.16 0.025 280 / 0.7);
+    background-color: oklch(0.18 0.012 60 / 0.8);
   }
   .shadow-glow {
-    box-shadow: 0 0 0 1px oklch(0.55 0.22 285 / 0.1), 0 4px 24px -4px oklch(0.55 0.22 285 / 0.25);
+    box-shadow: 0 0 0 1px oklch(0.78 0.13 88 / 0.2), 0 4px 24px -4px oklch(0.50 0.08 135 / 0.2);
   }
   .shadow-card {
-    box-shadow: 0 1px 3px oklch(0.18 0.02 280 / 0.04), 0 4px 16px -2px oklch(0.18 0.02 280 / 0.06);
+    box-shadow: 0 1px 3px oklch(0.22 0.03 50 / 0.05), 0 4px 16px -2px oklch(0.22 0.03 50 / 0.07);
   }
   .shadow-card-hover {
-    box-shadow: 0 1px 3px oklch(0.18 0.02 280 / 0.04), 0 12px 32px -4px oklch(0.55 0.22 285 / 0.18);
+    box-shadow: 0 1px 3px oklch(0.22 0.03 50 / 0.05), 0 12px 32px -4px oklch(0.50 0.08 135 / 0.15);
   }
+  /* Mucha decorative utilities */
+  .font-display {
+    font-family: var(--font-display), 'Cormorant Garamond', Georgia, serif;
+  }
+  .font-subdisplay {
+    font-family: var(--font-subdisplay), 'Marcellus', Georgia, serif;
+  }
+  .mucha-halo {
+    background: radial-gradient(circle, var(--halo) 0%, transparent 70%);
+  }
+  .drop-cap::first-letter {
+    font-family: var(--font-display), 'Cormorant Garamond', Georgia, serif;
+    font-size: 4em;
+    float: left;
+    line-height: 0.9;
+    padding-right: 0.1em;
+    padding-top: 0.05em;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .circuit-vine-bg {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' fill='none' stroke='%23629ba9' stroke-width='0.6' opacity='0.08'%3E%3Cpath d='M10 100 H 60 V 60 H 100'/%3E%3Ccircle cx='60' cy='60' r='2' fill='%23c4a44a' stroke='none'/%3E%3Cpath d='M100 60 Q 110 40 120 50 Q 115 70 100 60 Z' fill='%23407a4a' fill-opacity='0.15'/%3E%3Cpath d='M120 50 H 180' stroke-dasharray='3 2'/%3E%3C/svg%3E");
+  }
+  .gold-border {
+    border: 1px solid oklch(0.78 0.13 88 / 0.3);
+  }
+  .text-gold { color: var(--gold); }
+  .text-rose { color: var(--rose); }
+  .text-teal-dusty { color: var(--teal-dusty); }
+  .bg-gold { background-color: var(--gold); }
+  .bg-halo { background-color: var(--halo); }
+  .border-gold { border-color: oklch(0.78 0.13 88 / 0.3); }
 }
 
 /* === Animaciones personalizadas === */

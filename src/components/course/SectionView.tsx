@@ -300,9 +300,7 @@ function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: 
       ))}
 
       {/* Interactive playground — appears in every section's theory tab */}
-      {section.index <= 6 && (
-        <InteractivePlaygroundDemo sectionId={section.id} sectionTitle={section.title} />
-      )}
+      <InteractivePlaygroundDemo sectionId={section.id} sectionTitle={section.title} />
 
       <MarkDoneButton onDone={onDone} done={done} label="Marcar teoría como leída" />
     </div>
@@ -870,6 +868,197 @@ print(f"Suma por columnas: {matriz.sum(axis=0)}")
 print(f"Suma por filas: {matriz.sum(axis=1)}")`,
       hint: 'Crea una matriz 3x3 y calcula su transpuesta con .T',
     },
+    'pandas': {
+      title: 'Practica pandas DataFrame',
+      code: `# Practica pandas (se carga automaticamente)
+import pandas as pd
+
+# Crear DataFrame
+df = pd.DataFrame({
+    "producto": ["arroz", "aceite", "azucar", "arroz"],
+    "region": ["Lima", "Lima", "Arequipa", "Cusco"],
+    "ventas": [1500, 800, 900, 1200]
+})
+
+print("=== DataFrame ===")
+print(df)
+print(f"\\nShape: {df.shape}")
+
+# GroupBy: ventas por producto
+print("\\n=== Ventas por producto ===")
+print(df.groupby("producto")["ventas"].sum())
+
+# Filtrado
+print("\\n=== Solo Lima ===")
+print(df[df["region"] == "Lima"])
+
+# Estadisticas
+print(f"\\nVentas totales: {df['ventas'].sum()}")
+print(f"Ticket promedio: {df['ventas'].mean():.2f}")`,
+      expectedOutput: `=== DataFrame ===
+  producto   region  ventas
+0    arroz     Lima    1500
+1   aceite     Lima     800
+2  azucar  Arequipa     900
+3    arroz    Cusco    1200
+
+Shape: (4, 3)`,
+      hint: 'Agrega una quinta fila y observa cómo cambian los groupby',
+    },
+    'visualization': {
+      title: 'Practica matplotlib',
+      code: `# Practica matplotlib (se carga automaticamente)
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Datos
+meses = ["Ene", "Feb", "Mar", "Abr", "May"]
+ventas_2024 = [120, 145, 138, 165, 178]
+ventas_2025 = [135, 158, 162, 180, 195]
+
+# Crear grafico
+fig, ax = plt.subplots(figsize=(8, 4))
+ax.plot(meses, ventas_2024, marker='o', label='2024')
+ax.plot(meses, ventas_2025, marker='s', label='2025')
+ax.set_title('Ventas mensuales')
+ax.set_xlabel('Mes')
+ax.set_ylabel('Ventas')
+ax.legend()
+ax.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.savefig('plot.png', dpi=100)
+print("Grafico creado y guardado como plot.png")
+print(f"Crecimiento May: {((ventas_2025[-1] - ventas_2024[-1]) / ventas_2024[-1] * 100):.1f}%")`,
+      hint: 'Cambia los datos y vuelve a ejecutar para ver cómo cambia el gráfico',
+    },
+    'sklearn': {
+      title: 'Practica scikit-learn',
+      code: `# Practica scikit-learn (se carga automaticamente)
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import accuracy_score
+import numpy as np
+
+# Datos sinteticos
+np.random.seed(42)
+X = np.random.randn(100, 3)
+y = (X[:, 0] + X[:, 1] > 0).astype(int)
+
+# Entrenar modelo
+model = LogisticRegression(random_state=42)
+model.fit(X[:80], y[:80])
+
+# Predecir
+predictions = model.predict(X[80:])
+accuracy = accuracy_score(y[80:], predictions)
+
+print(f"Accuracy: {accuracy:.2%}")
+print(f"Coeficientes: {model.coef_[0].round(3)}")
+print(f"Intercept: {model.intercept_[0]:.3f}")
+
+# Cross-validation
+cv_scores = cross_val_score(model, X, y, cv=5, scoring='accuracy')
+print(f"\\nCV Accuracy: {cv_scores.mean():.2%} ± {cv_scores.std():.2%}")`,
+      hint: 'Cambia la semilla (seed) y observa cómo varían los resultados',
+    },
+    'testing': {
+      title: 'Practica testing con asserts',
+      code: `# Practica testing con asserts (simulando pytest)
+import numpy as np
+
+# Funcion a testear
+def calcular_promedio_ponderado(notas, pesos):
+    """Calcula promedio ponderado."""
+    if len(notas) != len(pesos):
+        raise ValueError("Listas deben tener misma longitud")
+    if sum(pesos) != 1.0:
+        raise ValueError("Pesos deben sumar 1.0")
+    return sum(n * p for n, p in zip(notas, pesos))
+
+# === TESTS ===
+
+# Test 1: caso normal
+notas = [18, 15, 20]
+pesos = [0.3, 0.3, 0.4]
+resultado = calcular_promedio_ponderado(notas, pesos)
+assert abs(resultado - 17.9) < 0.01, f"Esperado 17.9, got {resultado}"
+print("✓ Test 1: promedio ponderado correcto")
+
+# Test 2: error por longitudes distintas
+try:
+    calcular_promedio_ponderado([1, 2], [1.0])
+    print("✗ Test 2: deberia haber fallado")
+except ValueError as e:
+    assert "misma longitud" in str(e)
+    print("✓ Test 2: error de longitud detectado")
+
+# Test 3: error por pesos que no suman 1
+try:
+    calcular_promedio_ponderado([1, 2], [0.5, 0.3])
+    print("✗ Test 3: deberia haber fallado")
+except ValueError as e:
+    assert "sumar 1.0" in str(e)
+    print("✓ Test 3: error de pesos detectado")
+
+# Test 4: edge case - un solo elemento
+resultado = calcular_promedio_ponderado([20], [1.0])
+assert resultado == 20
+print("✓ Test 4: un solo elemento funciona")
+
+print("\\n✅ Todos los tests pasaron!")`,
+      expectedOutput: `✓ Test 1: promedio ponderado correcto
+✓ Test 2: error de longitud detectado
+✓ Test 3: error de pesos detectado
+✓ Test 4: un solo elemento funciona
+
+✅ Todos los tests pasaron!`,
+      hint: 'Agrega un test para verificar que funciona con notas negativas',
+    },
+    'advanced-topics': {
+      title: 'Practica generators y collections',
+      code: `# Practica generators y collections
+from collections import Counter, defaultdict
+import re
+
+# === GENERATOR: procesar datos en streaming ===
+def leer_ventas_sinteticas():
+    """Simula leer ventas de un archivo grande."""
+    for i in range(10):
+        yield {
+            "producto": ["arroz", "aceite", "azucar"][i % 3],
+            "monto": (i + 1) * 100,
+            "region": ["Lima", "Arequipa", "Cusco"][i % 3]
+        }
+
+# Procesar con generator (sin cargar todo en memoria)
+ventas_por_producto = defaultdict(float)
+for venta in leer_ventas_sinteticas():
+    ventas_por_producto[venta["producto"]] += venta["monto"]
+
+print("=== Ventas por producto (generator) ===")
+for producto, total in ventas_por_producto.items():
+    print(f"  {producto}: S/{total}")
+
+# === COUNTER: frecuencias ===
+texto = "el arte de python es el camino al dato"
+palabras = texto.split()
+contador = Counter(palabras)
+
+print("\\n=== Top 3 palabras ===")
+for palabra, freq in contador.most_common(3):
+    print(f"  '{palabra}': {freq}x")
+
+# === REGEX: extraer datos ===
+datos_mixtos = "Contacto: ana@python.pe, 999-888-777. Luis: luis@data.pe"
+emails = re.findall(r'[\\w.-]+@[\\w.-]+', datos_mixtos)
+telefonos = re.findall(r'\\d{3}-\\d{3}-\\d{3}', datos_mixtos)
+
+print(f"\\n=== Regex ===")
+print(f"Emails: {emails}")
+print(f"Telefonos: {telefonos}")`,
+      hint: 'Modifica el generator para que genere 20 ventas en vez de 10',
+    },
   }
 
   const demo = demos[sectionId]
@@ -878,8 +1067,8 @@ print(f"Suma por filas: {matriz.sum(axis=1)}")`,
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2 border-t border-border pt-6">
-        <Sparkles className="h-5 w-5 text-violet-600" />
-        <h3 className="text-lg font-semibold">Pruébalo tú mismo</h3>
+        <Sparkles className="h-5 w-5 text-gold" />
+        <h3 className="text-lg font-semibold" style={{ fontFamily: 'var(--font-subdisplay)' }}>Pruébalo tú mismo</h3>
       </div>
       <Callout type="tip" title="Editor interactivo en tu navegador">
         Este editor corre Python de verdad en tu browser (con Pyodide). Modifica el código, presiona <strong>Run</strong>, y experimenta. No necesitas instalar nada.

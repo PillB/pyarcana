@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Cormorant_Garamond, Marcellus } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/components/Providers";
@@ -16,8 +16,22 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+const cormorant = Cormorant_Garamond({
+  weight: ["500", "600", "700"],
+  variable: "--font-display",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const marcellus = Marcellus({
+  weight: ["400"],
+  variable: "--font-subdisplay",
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Python DS Perú · De cero a Data Analyst/Scientist",
+  title: "El Arte de Python · De cero a Data Scientist",
   description: "Curso online de Python para Data Analysis y Data Science. En español peruano, con método I Do / We Do / You Do, ejercicios prácticos y proyectos de portafolio.",
   keywords: ["Python", "Data Science", "Data Analyst", "Pandas", "NumPy", "scikit-learn", "curso online", "Perú"],
   authors: [{ name: "Python DS Perú" }],
@@ -45,7 +59,7 @@ export default function RootLayout({
   return (
     <html lang="es-PE" suppressHydrationWarning>
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} antialiased bg-background text-foreground`}
+        className={`${inter.variable} ${jetbrainsMono.variable} ${cormorant.variable} ${marcellus.variable} antialiased bg-background text-foreground`}
       >
         <Providers>
           {children}

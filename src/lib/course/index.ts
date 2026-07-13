@@ -12,10 +12,10 @@ import { section10 } from './sections/s10-testing'
 import { section11 } from './sections/s11-advanced-topics'
 
 export const COURSE_META: CourseMeta = {
-  title: 'Python DS Perú',
-  subtitle: 'De cero a Data Analyst / Data Scientist con proyectos reales para tu portafolio',
+  title: 'El Arte de Python',
+  subtitle: 'De cero a Data Scientist — un camino artesanal hacia el dominio del dato',
   description:
-    'Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 11 secciones que te llevan desde instalar Python hasta construir pipelines production-ready con scraping, APIs, SQL, multiprocessing y tests en GitHub Actions.',
+    'Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 11 secciones que te llevan desde instalar Python hasta construir pipelines production-ready con scraping, APIs, SQL, multiprocessing y tests en GitHub Actions. Donde la artesanía del código se encuentra con la ciencia del dato.',
   totalSections: 11,
   totalHours: 86,
   targetRole: 'Data Analyst / Data Scientist',
