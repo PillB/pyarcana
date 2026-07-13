@@ -2,6 +2,7 @@
 
 import { CodeBlock } from './CodeBlock'
 import { Callout } from './Callout'
+import { CodePlayground } from './CodePlayground'
 import type { TheoryBlock as TheoryBlockType, Callout as CalloutType, CodeExample } from '@/lib/types'
 
 interface RichTextProps {
@@ -22,6 +23,18 @@ export function RichText({ content }: RichTextProps) {
     <div className="space-y-4 text-[15px] leading-relaxed text-foreground/90">
       {blocks.map((block, i) => {
         if (block.type === 'code') {
+          // Detect "python runnable" or "python interactive" to render CodePlayground
+          const isRunnable = block.lang === 'python-runnable' || block.lang === 'python-interactive' || (block.lang === 'python' && block.title?.toLowerCase().includes('runnable'))
+          if (isRunnable) {
+            return (
+              <CodePlayground
+                key={i}
+                initialCode={block.content}
+                title={block.title || 'Editor interactivo'}
+                expectedOutput={block.output}
+              />
+            )
+          }
           return (
             <CodeBlock
               key={i}

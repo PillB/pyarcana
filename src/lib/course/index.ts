@@ -9,14 +9,15 @@ import { section07 } from './sections/s07-pandas'
 import { section08 } from './sections/s08-visualization'
 import { section09 } from './sections/s09-sklearn'
 import { section10 } from './sections/s10-testing'
+import { section11 } from './sections/s11-advanced-topics'
 
 export const COURSE_META: CourseMeta = {
   title: 'Python DS Perú',
   subtitle: 'De cero a Data Analyst / Data Scientist con proyectos reales para tu portafolio',
   description:
-    'Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 10 secciones que te llevan desde instalar Python hasta construir un pipeline de ML production-ready con scikit-learn, SHAP y tests en GitHub Actions.',
-  totalSections: 10,
-  totalHours: 70,
+    'Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 11 secciones que te llevan desde instalar Python hasta construir pipelines production-ready con scraping, APIs, SQL, multiprocessing y tests en GitHub Actions.',
+  totalSections: 11,
+  totalHours: 86,
   targetRole: 'Data Analyst / Data Scientist',
 }
 
@@ -31,4 +32,5 @@ export const COURSE_SECTIONS: CourseSection[] = [
   section08,
   section09,
   section10,
+  section11,
 ]

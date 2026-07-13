@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, Moon, Sun, Github, ArrowLeft, ShieldCheck } from 'lucide-react'
+import { Menu, Moon, Sun, Github, ArrowLeft, ShieldCheck, BookOpen, FileText } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useTheme } from 'next-themes'
 import { useSession } from 'next-auth/react'
@@ -12,6 +12,9 @@ import { SectionView } from '@/components/course/SectionView'
 import { ResourcesPage } from '@/components/course/ResourcesPage'
 import { AdminDashboard } from '@/components/course/AdminDashboard'
 import { AuthModal, UserMenu } from '@/components/course/AuthModal'
+import { Glossary } from '@/components/course/Glossary'
+import { PdfReport } from '@/components/course/PdfReport'
+import { LanguageToggle } from '@/components/course/LanguageToggle'
 import { useServerProgressSync } from '@/lib/progress-store'
 import { COURSE_META, COURSE_SECTIONS } from '@/lib/course'
 
@@ -23,6 +26,8 @@ export default function Home() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [authOpen, setAuthOpen] = useState(false)
   const [authTab, setAuthTab] = useState<'login' | 'register'>('login')
+  const [glossaryOpen, setGlossaryOpen] = useState(false)
+  const [pdfReportOpen, setPdfReportOpen] = useState(false)
   const { theme, setTheme } = useTheme()
   const { data: session } = useSession()
   const [mounted, setMounted] = useState(false)
@@ -104,6 +109,8 @@ export default function Home() {
   return (
     <div className="flex min-h-screen bg-background">
       <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} defaultTab={authTab} />
+      <Glossary open={glossaryOpen} onClose={() => setGlossaryOpen(false)} />
+      <PdfReport open={pdfReportOpen} onClose={() => setPdfReportOpen(false)} />
 
       {/* Sidebar — desktop */}
       <aside className="sticky top-0 hidden h-screen w-72 shrink-0 border-r border-sidebar-border lg:block">
@@ -165,8 +172,29 @@ export default function Home() {
             </div>
             <span className="text-sm font-bold">Python DS Perú</span>
           </button>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setGlossaryOpen(true)}
+              className="h-9 w-9"
+              aria-label="Glosario"
+            >
+              <BookOpen className="h-4 w-4" />
+            </Button>
+            {session?.user && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setPdfReportOpen(true)}
+                className="h-9 w-9"
+                aria-label="Reportes"
+              >
+                <FileText className="h-4 w-4" />
+              </Button>
+            )}
             <ThemeToggle mounted={mounted} theme={theme} setTheme={setTheme} />
+            <LanguageToggle />
             <UserMenu onOpenAuth={() => handleOpenAuth('login')} />
           </div>
         </header>
@@ -209,6 +237,30 @@ export default function Home() {
                 <span className="hidden sm:inline">Admin</span>
               </Button>
             )}
+            {/* Glossary — available to everyone */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setGlossaryOpen(true)}
+              className="gap-1.5"
+              title="Glosario (Cmd+K)"
+            >
+              <BookOpen className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">Glosario</span>
+            </Button>
+            {/* PDF report — only for logged-in users */}
+            {session?.user && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setPdfReportOpen(true)}
+                className="gap-1.5"
+                title="Reportes y certificados"
+              >
+                <FileText className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Reportes</span>
+              </Button>
+            )}
             <a
               href="https://github.com"
               target="_blank"
@@ -219,6 +271,7 @@ export default function Home() {
               <span className="hidden sm:inline">Repositorio</span>
             </a>
             <ThemeToggle mounted={mounted} theme={theme} setTheme={setTheme} />
+            <LanguageToggle />
             <UserMenu onOpenAuth={() => handleOpenAuth('login')} />
           </div>
         </header>

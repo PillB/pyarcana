@@ -1316,6 +1316,169 @@ const QUESTION_BANK: Record<string, Q[]> = {
       explanation: '80%+ es razonable. 100% es difícil y a veces innecesario (paths de error irreproducibles).',
     },
   ],
+
+  // === Section 11: Advanced Topics (advanced-topics) ===
+  // 4 concepts × 3 variants = 12 questions
+  'advanced-topics': [
+    // Concept 1: generators-yield (lazy evaluation, streaming CSVs)
+    {
+      concept: 'generators-yield',
+      question: '¿Qué hace la palabra clave `yield` en una función de Python?',
+      options: [
+        'Lo mismo que return — termina la función y devuelve un valor',
+        'Convierte la función en un generator: pausa su estado y resume en la próxima llamada a next()',
+        'Lanza una excepción StopIteration inmediatamente',
+        'Importa un módulo externo llamado yield',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Una función con yield se convierte en un generator. Cada next() corre la función hasta el próximo yield, devuelve el valor, y pausa. La próxima llamada continúa desde ahí. Esto permite lazy evaluation — clave para procesar CSVs de 8GB sin agotar RAM.',
+    },
+    {
+      concept: 'generators-yield',
+      question: '¿Cuál es la ventaja principal de leer un CSV con un generador en vez de list(csv.reader)?',
+      options: [
+        'Es más rápido porque usa C',
+        'Procesa una fila a la vez, manteniendo la RAM baja (~50MB) incluso con archivos de varios GB',
+        'Permite acceso aleatorio por índice en O(1)',
+        'Automáticamente elimina duplicados',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Una lista carga TODAS las filas en RAM. Un generator calcula cada fila solo cuando se la pide, manteniendo el uso de memoria constante. Para un CSV de 8GB, list() mata tu laptop; un generator lo procesa con ~50MB.',
+    },
+    {
+      concept: 'generators-yield',
+      question: '¿Qué parámetro de pd.read_csv te devuelve un iterador de DataFrames para procesar archivos grandes?',
+      options: ['iterator=True', 'stream=True', 'chunksize=10000', 'lazy=True'],
+      correctIndex: 2,
+      explanation:
+        'pd.read_csv(path, chunksize=10000) devuelve un iterador que yield DataFrames de 10k filas cada uno. Procesas cada chunk, agregas resultados, y nunca cargas el archivo entero en RAM. Combinado con generators propios, escala a datasets de cualquier tamaño.',
+    },
+
+    // Concept 2: sql-injection-safety (parameterized queries)
+    {
+      concept: 'sql-injection-safety',
+      question: '¿Cuál es la forma SEGURA de insertar un valor en una query SQL en Python?',
+      options: [
+        'f"SELECT * FROM users WHERE name = \'{name}\'"',
+        '"SELECT * FROM users WHERE name = " + name',
+        'cursor.execute("SELECT * FROM users WHERE name = ?", (name,))',
+        'cursor.execute("SELECT * FROM users WHERE name = {" + name + "}")',
+      ],
+      correctIndex: 2,
+      explanation:
+        'Usar parámetros con ? (sqlite3) o %s (PostgreSQL) previene SQL injection. La librería escapa el valor automáticamente. Si construyes la query con f-strings o concatenación, un input malicioso como \' OR 1=1 -- puede leer o borrar toda la base.',
+    },
+    {
+      concept: 'sql-injection-safety',
+      question: '¿Qué pasa si usas f-strings para construir queries SQL con input del usuario?',
+      options: [
+        'Nada, es perfectamente seguro',
+        'Es más rápido pero menos legible',
+        'Vulnerabilidad de SQL injection — un usuario malicioso puede leer o borrar toda la base de datos',
+        'Solo funciona en PostgreSQL',
+      ],
+      correctIndex: 2,
+      explanation:
+        'f-strings NO escapan caracteres peligrosos. Input como \'" OR 1=1 --\' se inserta literalmente en la query, devolviendo toda la tabla o peor (DROP TABLE). SIEMPRE uses parámetros (?, %s) — es la diferencia entre código production-ready y un CVE esperando pasar.',
+    },
+    {
+      concept: 'sql-injection-safety',
+      question: '¿Cómo persistirías un DataFrame de pandas a una tabla SQLite existente, agregando filas nuevas?',
+      options: [
+        'df.to_sql("ventas", conn, if_exists="append", index=False)',
+        'df.to_csv("ventas.db")',
+        'for row in df: cursor.insert(row)',
+        'pd.write_sql(df, "ventas")',
+      ],
+      correctIndex: 0,
+      explanation:
+        'df.to_sql(tabla, conn, if_exists="append", index=False) inserta todas las filas del DataFrame en la tabla SQL existente. if_exists puede ser "fail" (default), "replace" (borra y recrea), o "append" (agrega). El parámetro index=False evita crear una columna extra con el índice.',
+    },
+
+    // Concept 3: multiprocessing-vs-threads (GIL awareness)
+    {
+      concept: 'multiprocessing-vs-threads',
+      question: '¿Cuándo usarías ProcessPoolExecutor vs ThreadPoolExecutor en Python?',
+      options: [
+        'Thread para CPU-bound, Process para I/O-bound',
+        'Process para CPU-bound (cálculo pesado), Thread para I/O-bound (red, disco)',
+        'Siempre Thread — es más rápido',
+        'Siempre Process — es más seguro',
+      ],
+      correctIndex: 1,
+      explanation:
+        'El GIL de Python impide que múltiples threads ejecuten bytecode a la vez, así que threads NO aceleran cálculo. Pero durante I/O (esperar red, disco) el GIL se libera, así que threads SÍ ayudan con scraping/APIs. Para feature engineering pesado → Process; para 100 requests HTTP → Thread.',
+    },
+    {
+      concept: 'multiprocessing-vs-threads',
+      question: '¿Por qué el threading no acelera tareas CPU-bound en Python?',
+      options: [
+        'Porque los threads son lentos por naturaleza',
+        'Por el GIL (Global Interpreter Lock): solo un thread ejecuta bytecode a la vez',
+        'Porque la memoria se duplica',
+        'Porque threading no está bien implementado',
+      ],
+      correctIndex: 1,
+      explanation:
+        'El GIL es un lock del intérprete CPython que asegura que solo un thread ejecute bytecode Python a la vez. Esto significa que 8 threads corriendo cálculo NO usan 8 cores — comparten uno. Para CPU-bound necesitas procesos separados (cada uno con su propio GIL), de ahí ProcessPoolExecutor.',
+    },
+    {
+      concept: 'multiprocessing-vs-threads',
+      question: '¿Qué precaución es CRÍTICA al usar ProcessPoolExecutor.map con DataFrames grandes?',
+      options: [
+        'No hay precauciones, funciona perfecto',
+        'Cada proceso COPIA los datos que recibe — pasar DataFrames gigantes causa OOM. Pasa chunks pequeños',
+        'Solo funciona en Linux',
+        'Hay que instalar cython primero',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Para pasar datos entre procesos, Python los serializa con pickle. Si pasas un DataFrame de 4GB a 8 workers, son 32GB de memoria. Solución: dividir el DataFrame en chunks pequeños y pasar uno a cada worker, o usar memoria compartida (multiprocessing.shared_memory).',
+    },
+
+    // Concept 4: logging-best-practices (production logging)
+    {
+      concept: 'logging-best-practices',
+      question: '¿Cuál es la mejor práctica para logging en un pipeline de DS en producción?',
+      options: [
+        'Usar print() con timestamps manuales',
+        'logging.basicConfig con f-strings en los mensajes para legibilidad',
+        'logging con niveles (INFO/WARNING/ERROR), %-format en mensajes, y rotación de archivos',
+        'Solo loggear errores críticos, ignorar info',
+      ],
+      correctIndex: 2,
+      explanation:
+        'Buen logging usa niveles (permite subir/bajar verbosidad en prod sin tocar código), %-format (el formato se aplica solo si el nivel está activo — más rápido que f-string que siempre se evalúa), handlers múltiples (consola + archivo), y RotatingFileHandler para que los logs no crezcan infinitamente.',
+    },
+    {
+      concept: 'logging-best-practices',
+      question: '¿Por qué se recomienda usar logger.info("Procesé %d filas", n) en vez de logger.info(f"Procesé {n} filas")?',
+      options: [
+        'Por estilo — no hay diferencia técnica',
+        'Con f-string el formato se evalúa SIEMPRE aunque el nivel esté apagado; con %-format solo si se va a mostrar. En pipelines con miles de logs debug, es 5-10x más rápido',
+        'f-strings están deprecados',
+        '%-format permite formatear fechas automáticamente',
+      ],
+      correctIndex: 1,
+      explanation:
+        'f-string construye el mensaje final ANTES de pasarlo a logger — el trabajo se hace aunque el nivel DEBUG esté apagado. %-format pasa los args al logger, que solo los formatea si decide mostrar el mensaje. En pipelines con miles de logs debug por corrida, esto es 5-10x más rápido.',
+    },
+    {
+      concept: 'logging-best-practices',
+      question: '¿Qué handler usarías para evitar que un archivo de log crezca infinitamente?',
+      options: [
+        'logging.FileHandler("app.log")',
+        'logging.StreamHandler()',
+        'logging.handlers.RotatingFileHandler("app.log", maxBytes=10_000_000, backupCount=5)',
+        'No se puede, hay que borrar el log manualmente',
+      ],
+      correctIndex: 2,
+      explanation:
+        'RotatingFileHandler rota el archivo cuando supera maxBytes, manteniendo backupCount archivos viejos (app.log.1, app.log.2, ...). Para 10MB × 5 backups, tienes 60MB máximo de logs. Para rotación por tiempo (diaria), usa TimedRotatingFileHandler. Esencial para pipelines que corren por meses.',
+    },
+  ],
 }
 
 async function main() {

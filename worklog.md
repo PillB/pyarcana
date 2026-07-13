@@ -60,3 +60,44 @@ Stage Summary:
 - Key downstream decisions: upgrade next-auth ^4.24.11 → next-auth@beta (v5); use bcryptjs (pure JS, no native build) cost factor 12; NextAuth Credentials provider + JWT sessions (no DB sessions needed for SQLite dev); protect API via auth() inside route handlers, NOT middleware on `/` (SPA shell is public); migrate zustand progress-store to dual-write (localStorage optimistic + POST /api/progress server sync, hydrate from GET on mount).
 - Anti-cheat for exams: variantSeed JSON stored per attempt for audit; timeSpentSec tracked; attemptNumber @@unique prevents bypassing the 3-attempt cap; admin can review suspicious patterns (instant submits, identical answers across variants).
 - Source quality: Auth.js v5 + Next 16 stability is well-corroborated (3 independent 2025-2026 guides); bcrypt-vs-argon2 debate settled on bcryptjs for portability in dev/SQLite (argon2 needs native build); rate-limiting-without-Redis is the weakest recommendation (in-memory token bucket resets on serverless cold starts — acceptable for portfolio demo, document as known limitation).
+
+---
+Task ID: T2
+Agent: Curriculum Design
+Task: Create Section 11 — Advanced Python for Data Science (covers 10 EPUB gaps)
+
+Work Log:
+- Read prior worklog (P0-A gap analysis identified the 10 missing topics; P0-B auth context).
+- Read /home/z/my-project/src/lib/types.ts to confirm CourseSection type (id, index, title, shortTitle, tagline, estimatedHours, level, icon, accentColor, learningOutcomes, jobRelevance, theory, iDo{intro,steps[]}, weDo{intro,steps[]}, youDo, selfCheck, resources).
+- Read /home/z/my-project/src/lib/course/sections/s10-testing.ts (818 lines) as reference for style/depth, paragraph density, callout usage, code example structure, and Peruvian Spanish tone.
+- Read /home/z/my-project/src/lib/course/index.ts (35 lines) — confirmed COURSE_SECTIONS array and COURSE_META (totalSections=10, totalHours=70).
+- Read /home/z/my-project/prisma/seed.ts (1418 lines) — confirmed QUESTION_BANK structure: Record<sectionId, Q[]> with concept/question/options/correctIndex/explanation per entry, 3 variants per concept enforced by post-insert variant renumbering logic.
+- Created /home/z/my-project/src/lib/course/sections/s11-advanced-topics.ts (1608 lines) — full CourseSection object covering all 10 gaps:
+  (1) Iterators & generators (yield) — streaming CSV, lazy evaluation, pd.read_csv chunksize;
+  (2) Web scraping — requests + BeautifulSoup + Selenium with rate-limiting, caching, legal/ethical callout;
+  (3) REST APIs — requests.get/post, JSON parsing, paginación (next cursor + page param), retry with backoff exponencial, Session for keep-alive;
+  (4) SQL databases — sqlite3 with parameterized queries (SQL injection danger callout), SQLAlchemy ORM, pd.read_sql bridge, df.to_sql persistence;
+  (5) Multiprocessing & concurrent.futures — ProcessPoolExecutor for CPU-bound, ThreadPoolExecutor for I/O-bound, GIL explanation, memory considerations;
+  (6) Regular expressions — DNI/email/teléfono peruano extraction, log parsing, pandas str.replace with regex, regex101.com reference;
+  (7) collections — Counter (most_common, NLP word freq), defaultdict(list) for groupby, namedtuple for structured returns, deque for sliding windows;
+  (8) Profiling & benchmarking — timeit for microbenchmarks, cProfile for script-wide, line_profiler (kernprof -l -v) for line-by-line, memory_profiler bonus;
+  (9) Logging — basicConfig, niveles DEBUG/INFO/WARNING/ERROR/CRITICAL, %-format vs f-string performance, RotatingFileHandler, JSON structured logging (python-json-logger);
+  (10) argparse / CLI tooling — ArgumentParser, add_argument types/choices/action, pyproject.toml [project.scripts] entry points, typer as modern alternative.
+- Each theory block has 3 paragraphs of 150+ words, runnable Python code with realistic outputs (Peruvian context: SUNAT, Interbank, Mercado Libre, Falabella, Ripley), and a callout (info/warning/tip/danger) where pedagogically appropriate.
+- iDo: 3 integrated steps — (1) API paginación + SQLite persistence pipeline with logging, (2) parallel feature engineering with ProcessPoolExecutor, (3) full CLI with argparse + logging + subcommand skip flags.
+- weDo: 3 exercises with starter + solution code — (1) generator stream_csv + batch grouping, (2) fetch_all_pages with rate-limit retry, (3) clean_phones CLI with regex + logging.
+- youDo: capstone "lead-scraper" project combining all 10 gaps (API acquisition → regex cleaning → SQLAlchemy persistence → parallel features → structured logging → argparse CLI → pip-installable) with 8-criterion rubric.
+- selfCheck: 5 quiz questions covering yield, SQL injection safety, Process vs Thread, re.findall, logging best practices.
+- resources: 10 doc links (official Python + regex101), 4 books (Beazley/Ramalho/Mitchell/Teate), 4 courses (Real Python + FastAPI + TalkPython).
+- Updated /home/z/my-project/src/lib/course/index.ts (36 lines): added import of section11, appended to COURSE_SECTIONS array (now 11 entries), bumped COURSE_META totalSections 10→11 and totalHours 70→86, updated description to mention "11 secciones" and "scraping, APIs, SQL, multiprocessing".
+- Updated /home/z/my-project/prisma/seed.ts (1581 lines): added 'advanced-topics' key to QUESTION_BANK with 4 concepts × 3 variants = 12 new questions. Concepts chosen for highest DS-job-relevance: generators-yield, sql-injection-safety, multiprocessing-vs-threads, logging-best-practices. Each variant tests the same concept from a different angle (definition / application / edge case) per the variant pattern established by other sections. The existing variant-renumbering logic in main() handles assigning variant=1,2,3 automatically.
+- Fixed 2 syntax typos introduced during Write: lines 861 and 975 had `],` where `},` was needed (closing code: {} object not an array). Detected via `bun build --no-bundle` parser, confirmed via grep for orphan `],` after template literal closes.
+- Verified all files typecheck cleanly: `bunx tsc --noEmit --strict --target esnext --module esnext --moduleResolution bundler --skipLibCheck` on (s11-advanced-topics.ts, index.ts, types.ts) and (seed.ts) both pass with zero errors.
+
+Stage Summary:
+- Delivered Section 11 "Advanced Python for Data Science" (id='advanced-topics', index=11, 16 hours, level Avanzado, icon Rocket, orange→red gradient) — 1608 lines covering all 10 EPUB gap-analysis topics as integrated theory blocks with Peruvian Spanish voice ("chevere", "pega", examples referencing SUNAT/Interbank/Mercado Libre/Falabella).
+- 3 files modified: NEW s11-advanced-topics.ts (1608 lines), UPDATED index.ts (35→36 lines), UPDATED seed.ts (1418→1581 lines). All typecheck clean, all bun build clean.
+- Key downstream impact: COURSE_META now reports 11 sections / 86 hours; COURSE_SECTIONS array has 11 entries; QUESTION_BANK has 11 keys totaling 134 question variants (10 prior sections ~12 each + new 12). Smart-exam engine (P0-B design) will automatically pick up advanced-topics questions once UI lists section 11 in exam config.
+- Pedagogical decisions: (a) chose to put all 10 gaps in ONE advanced section (per task spec) rather than scattering across existing sections (which would have broken section-level progress tracking and required rewriting s03/s07/s10); (b) used ID 'advanced-topics' (kebab-case matching existing IDs 'setup', 'testing', etc.); (c) used 'Rocket' lucide icon (matches "advanced/launch" semantic, available in lucide-react); (d) orange→red gradient distinct from s10 (cyan→blue) for visual hierarchy; (e) 16 estimatedHours reflects 90min per topic × 10 + capstone (~1 hour), reasonable for autonomous learners.
+- Quality notes: 2 typos (`],` vs `},`) caught and fixed before completion via bun parser. No remaining issues. Code examples include realistic outputs (e.g., "Secuencial: 8.5s / Paralelo (8 workers): 1.4s", "Cargadas 10000 filas, 8 columnas en 0.85s") so learners can verify expected behavior. Callouts span all 5 types (info, warning, tip, danger, success) for visual variety.
+- Next agent recommendations: (a) UI agent should verify the new section renders correctly in the SPA — icon 'Rocket' must be in the lucide-react import map; accentColor class must be safelisted by Tailwind 4 (check tailwind.config or @source inline if dynamic classes are purged); (b) if any UI hardcoded "10 secciones" or "70 horas" outside COURSE_META, those need updating too; (c) smart-exam engine should be configured to include 'advanced-topics' in the section picker for the final exam; (d) consider adding a 12th section icon to the sidebar/navigation if it uses a fixed list.

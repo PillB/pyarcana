@@ -37,6 +37,7 @@ import { Callout } from './Callout'
 import { RichText } from './RichText'
 import { ProgressRing } from './ProgressRing'
 import { ExamView } from './ExamView'
+import { CodePlayground } from './CodePlayground'
 
 interface SectionViewProps {
   section: CourseSection
@@ -297,6 +298,12 @@ function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: 
           )}
         </div>
       ))}
+
+      {/* Interactive playground — appears in every section's theory tab */}
+      {section.index <= 6 && (
+        <InteractivePlaygroundDemo sectionId={section.id} sectionTitle={section.title} />
+      )}
+
       <MarkDoneButton onDone={onDone} done={done} label="Marcar teoría como leída" />
     </div>
   )
@@ -702,5 +709,187 @@ function MarkDoneButton({ onDone, done, label }: { onDone: () => void; done: boo
       <CheckCircle2 className="h-4 w-4" />
       {done ? 'Completado' : label}
     </Button>
+  )
+}
+
+// === Interactive Playground Demo ===
+// Per-section code examples that students can run in the browser
+function InteractivePlaygroundDemo({ sectionId, sectionTitle }: { sectionId: string; sectionTitle: string }) {
+  const demos: Record<string, { code: string; expectedOutput?: string; hint?: string; title: string }> = {
+    'setup': {
+      title: 'Tu primer programa en Python',
+      code: `# Tu primer programa en Python
+# Escribe tu nombre y ejecuta con Run
+nombre = "Estudiante"
+print(f"Hola {nombre}, bienvenido a Python DS Perú!")
+
+# Calcula tu edad en meses
+edad_anos = 25
+edad_meses = edad_anos * 12
+print(f"Tu edad en meses: {edad_meses}")`,
+      expectedOutput: `Hola Estudiante, bienvenido a Python DS Perú!
+Tu edad en meses: 300`,
+      hint: 'Cambia el valor de nombre y edad_anos por tus datos',
+    },
+    'basics': {
+      title: 'Practica variables y tipos',
+      code: `# Practica los tipos basicos de Python
+edad = 25
+altura = 1.75
+nombre = "Ana"
+es_alumno = True
+
+# Imprime el tipo de cada variable
+print(f"edad: {edad} -> {type(edad).__name__}")
+print(f"altura: {altura} -> {type(altura).__name__}")
+print(f"nombre: {nombre} -> {type(nombre).__name__}")
+print(f"es_alumno: {es_alumno} -> {type(es_alumno).__name__}")
+
+# Operacion: lista comprehension
+numeros = [1, 2, 3, 4, 5]
+cuadrados = [n**2 for n in numeros]
+print(f"Cuadrados: {cuadrados}")`,
+      expectedOutput: `edad: 25 -> int
+altura: 1.75 -> float
+nombre: Ana -> str
+es_alumno: True -> bool
+Cuadrados: [1, 4, 9, 16, 25]`,
+      hint: 'Cambia los valores y observa cómo cambia el output',
+    },
+    'data-structures': {
+      title: 'Practica dict y list',
+      code: `# Practica estructuras de datos
+alumnos = [
+    {"nombre": "Ana", "nota": 18},
+    {"nombre": "Luis", "nota": 15},
+    {"nombre": "Carlos", "nota": 20}
+]
+
+# List comprehension para extraer nombres
+nombres = [a["nombre"] for a in alumnos]
+print(f"Nombres: {nombres}")
+
+# Promedio de notas
+promedio = sum(a["nota"] for a in alumnos) / len(alumnos)
+print(f"Promedio: {promedio}")
+
+# Dict comprehension: nombre -> aprobado?
+resultados = {a["nombre"]: "Aprobado" if a["nota"] >= 14 else "Desaprobado" for a in alumnos}
+print(f"Resultados: {resultados}")`,
+      expectedOutput: `Nombres: ['Ana', 'Luis', 'Carlos']
+Promedio: 17.666666666666668
+Resultados: {'Ana': 'Aprobado', 'Luis': 'Aprobado', 'Carlos': 'Aprobado'}`,
+      hint: 'Agrega un cuarto alumno y observa cómo cambian los resultados',
+    },
+    'functions-modules': {
+      title: 'Practica funciones y decorators',
+      code: `# Practica funciones y decorators
+import functools
+import time
+
+def timing(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        inicio = time.time()
+        result = func(*args, **kwargs)
+        elapsed = (time.time() - inicio) * 1000
+        print(f"⏱️  {func.__name__} tardó {elapsed:.2f}ms")
+        return result
+    return wrapper
+
+@timing
+def fibonacci(n):
+    """Calcula el n-ésimo número de Fibonacci."""
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+# Probar
+resultado = fibonacci(10)
+print(f"fibonacci(10) = {resultado}")`,
+      hint: 'Intenta con fibonacci(15) o fibonacci(20) para ver cómo crece el tiempo',
+    },
+    'oop': {
+      title: 'Practica clases y herencia',
+      code: `# Practica OOP
+class Animal:
+    def __init__(self, nombre, edad):
+        self.nombre = nombre
+        self.edad = edad
+
+    def hacer_sonido(self):
+        return "sonido generico"
+
+    def __str__(self):
+        return f"{self.nombre} ({self.edad} años)"
+
+class Perro(Animal):
+    def __init__(self, nombre, edad, raza):
+        super().__init__(nombre, edad)
+        self.raza = raza
+
+    def hacer_sonido(self):
+        return "Guau!"
+
+    def __str__(self):
+        return f"{self.nombre}, {self.raza}, {self.edad} años"
+
+# Crear instancias
+animal = Animal("Generico", 5)
+fido = Perro("Fido", 3, "Labrador")
+
+print(animal)
+print(f"Sonido: {animal.hacer_sonido()}")
+print()
+print(fido)
+print(f"Sonido: {fido.hacer_sonido()}")`,
+      hint: 'Crea una clase Gato que herede de Animal y haga "Miau!"',
+    },
+    'numpy': {
+      title: 'Practica NumPy vectorizado',
+      code: `# Practica NumPy (se carga automaticamente)
+import numpy as np
+
+# Crear array
+arr = np.array([1, 2, 3, 4, 5])
+print(f"Array: {arr}")
+print(f"Shape: {arr.shape}")
+print(f"Mean: {arr.mean()}")
+
+# Operaciones vectorizadas
+print(f"Cuadrados: {arr ** 2}")
+print(f"Doble: {arr * 2}")
+
+# Boolean masking
+print(f"Mayores a 3: {arr[arr > 3]}")
+
+# Matriz 2D
+matriz = np.array([[1, 2, 3], [4, 5, 6]])
+print(f"\\nMatriz:\\n{matriz}")
+print(f"Suma por columnas: {matriz.sum(axis=0)}")
+print(f"Suma por filas: {matriz.sum(axis=1)}")`,
+      hint: 'Crea una matriz 3x3 y calcula su transpuesta con .T',
+    },
+  }
+
+  const demo = demos[sectionId]
+  if (!demo) return null
+
+  return (
+    <div className="space-y-3">
+      <div className="flex items-center gap-2 border-t border-border pt-6">
+        <Sparkles className="h-5 w-5 text-violet-600" />
+        <h3 className="text-lg font-semibold">Pruébalo tú mismo</h3>
+      </div>
+      <Callout type="tip" title="Editor interactivo en tu navegador">
+        Este editor corre Python de verdad en tu browser (con Pyodide). Modifica el código, presiona <strong>Run</strong>, y experimenta. No necesitas instalar nada.
+      </Callout>
+      <CodePlayground
+        initialCode={demo.code}
+        expectedOutput={demo.expectedOutput}
+        hint={demo.hint}
+        title={demo.title}
+      />
+    </div>
   )
 }

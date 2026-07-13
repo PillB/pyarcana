@@ -1,10 +1,15 @@
 import type { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+// === OAuth Providers ===
+// Uncomment the imports below when you configure OAuth credentials in .env
+// import GoogleProvider from 'next-auth/providers/google'
+// import AzureADProvider from 'next-auth/providers/azure-ad'
 import { db } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 
-export const authOptions: NextAuthOptions = {
-  providers: [
+// Build providers array — conditionally includes OAuth if env vars present
+function buildProviders() {
+  const providers: any[] = [
     CredentialsProvider({
       name: 'credentials',
       credentials: {
@@ -37,20 +42,40 @@ export const authOptions: NextAuthOptions = {
         }
       },
     }),
-    // Google and Microsoft providers are configured here but require real OAuth credentials.
-    // To enable: add GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET (and MS equivalents) to .env
-    // Then uncomment the providers below.
-    //
-    // GoogleProvider({
-    //   clientId: process.env.GOOGLE_CLIENT_ID!,
-    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    // }),
-    // MicrosoftProvider({
-    //   clientId: process.env.MICROSOFT_CLIENT_ID!,
-    //   clientSecret: process.env.MICROSOFT_CLIENT_SECRET!,
-    //   tenantId: process.env.MICROSOFT_TENANT_ID!,
-    // }),
-  ],
+  ]
+
+  // === Google OAuth ===
+  // Requires: GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET in .env
+  // Import GoogleProvider at the top of this file
+  //
+  // if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  //   providers.push(
+  //     GoogleProvider({
+  //       clientId: process.env.GOOGLE_CLIENT_ID,
+  //       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  //     })
+  //   )
+  // }
+
+  // === Microsoft OAuth (Azure AD) ===
+  // Requires: MICROSOFT_CLIENT_ID, MICROSOFT_CLIENT_SECRET, MICROSOFT_TENANT_ID in .env
+  // Import AzureADProvider at the top of this file
+  //
+  // if (process.env.MICROSOFT_CLIENT_ID && process.env.MICROSOFT_CLIENT_SECRET) {
+  //   providers.push(
+  //     AzureADProvider({
+  //       clientId: process.env.MICROSOFT_CLIENT_ID,
+  //       clientSecret: process.env.MICROSOFT_CLIENT_SECRET,
+  //       tenantId: process.env.MICROSOFT_TENANT_ID,
+  //     })
+  //   )
+  // }
+
+  return providers
+}
+
+export const authOptions: NextAuthOptions = {
+  providers: buildProviders(),
   session: {
     strategy: 'jwt',
     maxAge: 7 * 24 * 60 * 60, // 7 days
