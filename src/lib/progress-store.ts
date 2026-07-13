@@ -2,14 +2,17 @@
 
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { useSession } from 'next-auth/react'
 
 interface ProgressState {
   completedSections: string[]
-  completedSubSteps: Record<string, string[]> // sectionId -> ['theory','ido','wedo','youdo','quiz']
-  quizScores: Record<string, number> // sectionId -> score percentage
+  completedSubSteps: Record<string, string[]>
+  quizScores: Record<string, number>
   lastVisited: string | null
   bookmarks: string[]
   startDate: string | null
+  // server sync
+  isHydratedFromServer: boolean
 
   // actions
   toggleSectionComplete: (sectionId: string) => void
@@ -19,6 +22,10 @@ interface ProgressState {
   toggleBookmark: (sectionId: string) => void
   setStartDate: () => void
   resetAll: () => void
+  hydrateFromServer: (data: {
+    progress: Record<string, string[]>
+    bookmarks: string[]
+  }) => void
 }
 
 export const useProgressStore = create<ProgressState>()(
@@ -30,6 +37,7 @@ export const useProgressStore = create<ProgressState>()(
       lastVisited: null,
       bookmarks: [],
       startDate: null,
+      isHydratedFromServer: false,
 
       toggleSectionComplete: (sectionId) =>
         set((s) => ({
@@ -41,12 +49,15 @@ export const useProgressStore = create<ProgressState>()(
       toggleSubStep: (sectionId, step) =>
         set((s) => {
           const current = s.completedSubSteps[sectionId] || []
+          const newSteps = current.includes(step)
+            ? current.filter((st) => st !== step)
+            : [...current, step]
+          // Sync to server if logged in (fire-and-forget)
+          syncToServer(sectionId, step, !current.includes(step))
           return {
             completedSubSteps: {
               ...s.completedSubSteps,
-              [sectionId]: current.includes(step)
-                ? current.filter((st) => st !== step)
-                : [...current, step],
+              [sectionId]: newSteps,
             },
           }
         }),
@@ -57,14 +68,22 @@ export const useProgressStore = create<ProgressState>()(
         })),
 
       setLastVisited: (sectionId) => set({ lastVisited: sectionId }),
+
       toggleBookmark: (sectionId) =>
-        set((s) => ({
-          bookmarks: s.bookmarks.includes(sectionId)
-            ? s.bookmarks.filter((id) => id !== sectionId)
-            : [...s.bookmarks, sectionId],
-        })),
+        set((s) => {
+          const isBookmarked = s.bookmarks.includes(sectionId)
+          // Sync bookmark to server
+          syncBookmark(sectionId, !isBookmarked)
+          return {
+            bookmarks: isBookmarked
+              ? s.bookmarks.filter((id) => id !== sectionId)
+              : [...s.bookmarks, sectionId],
+          }
+        }),
+
       setStartDate: () =>
         set((s) => (s.startDate ? {} : { startDate: new Date().toISOString() })),
+
       resetAll: () =>
         set({
           completedSections: [],
@@ -73,11 +92,48 @@ export const useProgressStore = create<ProgressState>()(
           lastVisited: null,
           bookmarks: [],
           startDate: null,
+          isHydratedFromServer: false,
+        }),
+
+      hydrateFromServer: (data) =>
+        set({
+          completedSubSteps: data.progress || {},
+          bookmarks: data.bookmarks || [],
+          isHydratedFromServer: true,
         }),
     }),
     { name: 'python-ds-progress' }
   )
 )
+
+// Fire-and-forget sync to server
+async function syncToServer(sectionId: string, subStep: string, completed: boolean) {
+  try {
+    const res = await fetch('/api/progress', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sectionId, subStep, completed }),
+    })
+    if (!res.ok) {
+      // Silently fail — local state is still updated
+      console.debug('Progress sync failed (non-critical)')
+    }
+  } catch {
+    // Silent fail — local state is source of truth when offline
+  }
+}
+
+async function syncBookmark(sectionId: string, bookmarked: boolean) {
+  try {
+    await fetch('/api/progress', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sectionId, bookmarked }),
+    })
+  } catch {
+    // Silent fail
+  }
+}
 
 export const SUB_STEPS = ['theory', 'ido', 'wedo', 'youdo', 'quiz'] as const
 export type SubStep = (typeof SUB_STEPS)[number]
@@ -88,4 +144,23 @@ export const SUB_STEP_LABELS: Record<SubStep, string> = {
   wedo: 'Hacemos juntos',
   youdo: 'Tú haces',
   quiz: 'Autocheck',
+}
+
+// Hook to hydrate progress from server when user logs in
+export function useServerProgressSync() {
+  const { data: session, status } = useSession()
+  const { hydrateFromServer, isHydratedFromServer } = useProgressStore()
+
+  if (status === 'authenticated' && session?.user && !isHydratedFromServer) {
+    // Fetch progress from server
+    fetch('/api/progress')
+      .then((r) => r.json())
+      .then((data) => {
+        hydrateFromServer({
+          progress: data.progress || {},
+          bookmarks: data.bookmarks || [],
+        })
+      })
+      .catch(() => {})
+  }
 }

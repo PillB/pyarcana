@@ -29,12 +29,14 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { useSession } from 'next-auth/react'
 import { useProgressStore, SUB_STEPS, type SubStep } from '@/lib/progress-store'
 import type { CourseSection } from '@/lib/types'
 import { CodeBlock } from './CodeBlock'
 import { Callout } from './Callout'
 import { RichText } from './RichText'
 import { ProgressRing } from './ProgressRing'
+import { ExamView } from './ExamView'
 
 interface SectionViewProps {
   section: CourseSection
@@ -42,6 +44,7 @@ interface SectionViewProps {
   onNext: () => void
   hasNext: boolean
   hasPrev: boolean
+  onOpenAuth: () => void
 }
 
 const TAB_META: Record<SubStep, { icon: React.ElementType; label: string; color: string }> = {
@@ -52,8 +55,9 @@ const TAB_META: Record<SubStep, { icon: React.ElementType; label: string; color:
   quiz: { icon: HelpCircle, label: 'Autocheck', color: 'text-rose-600' },
 }
 
-export function SectionView({ section, onPrev, onNext, hasNext, hasPrev }: SectionViewProps) {
+export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenAuth }: SectionViewProps) {
   const [activeTab, setActiveTab] = useState<SubStep>('theory')
+  const { data: session } = useSession()
   const {
     completedSubSteps,
     toggleSubStep,
@@ -202,20 +206,28 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev }: Secti
               <YouDoTab section={section} onDone={() => toggleSubStep(section.id, 'youdo')} done={subStepsDone.includes('youdo')} />
             </TabsContent>
             <TabsContent value="quiz" className="mt-0 focus-visible:outline-none">
-              <QuizTab
-                section={section}
-                onDone={() => {
-                  toggleSubStep(section.id, 'quiz')
-                  if (allDone || subStepsDone.length >= SUB_STEPS.length - 1) {
-                    toggleSectionComplete(section.id)
-                  }
-                }}
-                done={subStepsDone.includes('quiz')}
-                score={quizScores[section.id] || 0}
-                onSubmitScore={(s) => {
-                  setQuizScore(section.id, s)
-                }}
-              />
+              {session?.user ? (
+                <ExamView
+                  sectionId={section.id}
+                  sectionTitle={section.title}
+                  onAuthRequired={onOpenAuth}
+                />
+              ) : (
+                <QuizTab
+                  section={section}
+                  onDone={() => {
+                    toggleSubStep(section.id, 'quiz')
+                    if (allDone || subStepsDone.length >= SUB_STEPS.length - 1) {
+                      toggleSectionComplete(section.id)
+                    }
+                  }}
+                  done={subStepsDone.includes('quiz')}
+                  score={quizScores[section.id] || 0}
+                  onSubmitScore={(s) => {
+                    setQuizScore(section.id, s)
+                  }}
+                />
+              )}
             </TabsContent>
           </motion.div>
         </AnimatePresence>

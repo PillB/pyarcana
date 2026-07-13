@@ -1,8 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+// Prisma schema — Python DS Perú LMS
+// User accounts, progress tracking, smart exams, exercise attempts
 
 generator client {
   provider = "prisma-client-js"
@@ -14,19 +11,80 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String?
+  passwordHash String? // null for OAuth-only users
+  role         String   @default("STUDENT") // STUDENT | ADMIN
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  progress         Progress[]
+  examAttempts     ExamAttempt[]
+  exerciseAttempts ExerciseAttempt[]
 }
 
-model Post {
-  id        String   @id @default(cuid())
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  authorId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+// Per-user progress tracking for sub-steps (theory, ido, wedo, youdo, quiz)
+model Progress {
+  userId      String
+  sectionId   String
+  subStep     String // theory|ido|wedo|youdo|quiz
+  completed   Boolean  @default(false)
+  completedAt DateTime?
+  bookmarked  Boolean  @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, sectionId, subStep])
+  @@index([userId, sectionId])
+}
+
+// Question bank with 3 variants per concept for anti-plagiarism
+model QuestionBank {
+  id           String   @id @default(cuid())
+  sectionId    String
+  concept      String // e.g. "list-comprehension"
+  variant      Int // 1 | 2 | 3
+  question     String
+  options      String // JSON array of strings
+  correctIndex Int
+  explanation  String
+  createdAt    DateTime @default(now())
+
+  @@unique([sectionId, concept, variant])
+  @@index([sectionId, concept])
+}
+
+// Exam attempt: max 3 per user/section (2 retries)
+model ExamAttempt {
+  id            String    @id @default(cuid())
+  userId        String
+  sectionId     String
+  attemptNumber Int // 1 | 2 | 3
+  answers       String // JSON: [{concept, variant, selectedIndex, correct}]
+  score         Float // 0-100
+  startedAt     DateTime  @default(now())
+  completedAt   DateTime?
+  timeSpentSec  Int       @default(0)
+  variantSeed   String // JSON: [{concept, variant}] audit trail
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, sectionId, attemptNumber])
+  @@index([userId, sectionId])
+}
+
+// Exercise attempts with hint usage tracking
+model ExerciseAttempt {
+  id          String   @id @default(cuid())
+  userId      String
+  sectionId   String
+  exerciseId  String
+  usedHint    Boolean  @default(false)
+  correct     Boolean  @default(false)
+  attemptedAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, sectionId, exerciseId])
 }

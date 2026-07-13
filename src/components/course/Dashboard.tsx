@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useSession } from 'next-auth/react'
 import {
   Sparkles,
   Target,
@@ -30,10 +31,12 @@ interface DashboardProps {
   meta: CourseMeta
   sections: CourseSection[]
   onSelectSection: (id: string) => void
+  onOpenAuth: (tab: 'login' | 'register') => void
 }
 
-export function Dashboard({ meta, sections, onSelectSection }: DashboardProps) {
+export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: DashboardProps) {
   const { completedSections, completedSubSteps, quizScores, lastVisited, startDate, setStartDate } = useProgressStore()
+  const { data: session } = useSession()
   const totalSubSteps = sections.length * 5
   const doneSubSteps = sections.reduce(
     (acc, s) => acc + (completedSubSteps[s.id]?.length || 0),
@@ -83,11 +86,29 @@ export function Dashboard({ meta, sections, onSelectSection }: DashboardProps) {
               {isReturning ? 'Continuar donde lo dejé' : 'Empezar ahora'}
               <ArrowRight className="h-4 w-4" />
             </Button>
+            {!session?.user && (
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => onOpenAuth('register')}
+                className="gap-2"
+              >
+                <Sparkles className="h-4 w-4" />
+                Crear cuenta gratis
+              </Button>
+            )}
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className="h-4 w-4" />
               {meta.totalHours}h · {meta.totalSections} secciones
             </div>
           </div>
+
+          {!session?.user && (
+            <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-xs text-foreground/80">
+              <Sparkles className="h-3 w-3 text-primary" />
+              Crea cuenta para guardar progreso, rendir exámenes con anti-plagio y ver tu dashboard
+            </div>
+          )}
         </div>
 
         {/* Floating decorative cards */}

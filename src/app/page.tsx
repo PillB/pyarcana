@@ -2,23 +2,33 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, Moon, Sun, Github, ArrowLeft } from 'lucide-react'
+import { Menu, Moon, Sun, Github, ArrowLeft, ShieldCheck } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useTheme } from 'next-themes'
+import { useSession } from 'next-auth/react'
 import { Sidebar } from '@/components/course/Sidebar'
 import { Dashboard } from '@/components/course/Dashboard'
 import { SectionView } from '@/components/course/SectionView'
 import { ResourcesPage } from '@/components/course/ResourcesPage'
+import { AdminDashboard } from '@/components/course/AdminDashboard'
+import { AuthModal, UserMenu } from '@/components/course/AuthModal'
+import { useServerProgressSync } from '@/lib/progress-store'
 import { COURSE_META, COURSE_SECTIONS } from '@/lib/course'
 
-type View = 'home' | 'section' | 'resources'
+type View = 'home' | 'section' | 'resources' | 'admin'
 
 export default function Home() {
   const [view, setView] = useState<View>('home')
   const [activeSectionId, setActiveSectionId] = useState<string | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [authOpen, setAuthOpen] = useState(false)
+  const [authTab, setAuthTab] = useState<'login' | 'register'>('login')
   const { theme, setTheme } = useTheme()
+  const { data: session } = useSession()
   const [mounted, setMounted] = useState(false)
+
+  // Sync progress from server when user is logged in
+  useServerProgressSync()
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -28,6 +38,9 @@ export default function Home() {
     if (hash === 'resources') {
        
       setView('resources')
+    } else if (hash === 'admin') {
+       
+      setView('admin')
     } else if (hash === 'home' || hash === '') {
        
       setView('home')
@@ -44,7 +57,7 @@ export default function Home() {
 
   const updateUrl = (id: string | null, newView: View) => {
     if (typeof window === 'undefined') return
-    const hash = newView === 'home' ? '' : newView === 'resources' ? 'resources' : id || ''
+    const hash = newView === 'home' ? '' : newView === 'resources' ? 'resources' : newView === 'admin' ? 'admin' : id || ''
     const newUrl = hash ? `${window.location.pathname}#${hash}` : window.location.pathname
     window.history.replaceState(null, '', newUrl)
   }
@@ -74,6 +87,11 @@ export default function Home() {
     }
   }
 
+  const handleOpenAuth = (tab: 'login' | 'register' = 'login') => {
+    setAuthTab(tab)
+    setAuthOpen(true)
+  }
+
   const activeSection = useMemo(
     () => COURSE_SECTIONS.find((s) => s.id === activeSectionId) || null,
     [activeSectionId]
@@ -85,6 +103,8 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen bg-background">
+      <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} defaultTab={authTab} />
+
       {/* Sidebar — desktop */}
       <aside className="sticky top-0 hidden h-screen w-72 shrink-0 border-r border-sidebar-border lg:block">
         <Sidebar
@@ -145,7 +165,10 @@ export default function Home() {
             </div>
             <span className="text-sm font-bold">Python DS Perú</span>
           </button>
-          <ThemeToggle mounted={mounted} theme={theme} setTheme={setTheme} />
+          <div className="flex items-center gap-2">
+            <ThemeToggle mounted={mounted} theme={theme} setTheme={setTheme} />
+            <UserMenu onOpenAuth={() => handleOpenAuth('login')} />
+          </div>
         </header>
 
         {/* Desktop top bar */}
@@ -160,6 +183,12 @@ export default function Home() {
             <div className="text-sm text-muted-foreground">
               {view === 'home' && 'Dashboard'}
               {view === 'resources' && 'Recursos'}
+              {view === 'admin' && (
+                <span className="flex items-center gap-1">
+                  <ShieldCheck className="h-3.5 w-3.5 text-primary" />
+                  <span className="text-primary font-medium">Panel de Administración</span>
+                </span>
+              )}
               {view === 'section' && activeSection && (
                 <span>
                   Sección {activeSection.index} · <span className="text-foreground">{activeSection.shortTitle}</span>
@@ -168,6 +197,18 @@ export default function Home() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            {/* Admin link — only for admins */}
+            {session?.user?.role === 'ADMIN' && view !== 'admin' && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => { setView('admin'); updateUrl(null, 'admin') }}
+                className="gap-1.5"
+              >
+                <ShieldCheck className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Admin</span>
+              </Button>
+            )}
             <a
               href="https://github.com"
               target="_blank"
@@ -178,6 +219,7 @@ export default function Home() {
               <span className="hidden sm:inline">Repositorio</span>
             </a>
             <ThemeToggle mounted={mounted} theme={theme} setTheme={setTheme} />
+            <UserMenu onOpenAuth={() => handleOpenAuth('login')} />
           </div>
         </header>
 
@@ -196,6 +238,7 @@ export default function Home() {
                   meta={COURSE_META}
                   sections={COURSE_SECTIONS}
                   onSelectSection={handleSelectSection}
+                  onOpenAuth={handleOpenAuth}
                 />
               )}
               {view === 'resources' && (
@@ -208,6 +251,7 @@ export default function Home() {
                   }))}
                 />
               )}
+              {view === 'admin' && <AdminDashboard />}
               {view === 'section' && activeSection && (
                 <SectionView
                   section={activeSection}
@@ -218,6 +262,7 @@ export default function Home() {
                     activeIndex < COURSE_SECTIONS.length - 1 &&
                     handleSelectSection(COURSE_SECTIONS[activeIndex + 1].id)
                   }
+                  onOpenAuth={() => handleOpenAuth('login')}
                 />
               )}
             </motion.div>
@@ -231,7 +276,7 @@ export default function Home() {
               Python DS Perú · Curso online autónomo de Python para Data Analyst / Data Scientist
             </p>
             <p className="mt-1">
-              Método I Do / We Do / You Do · 10 secciones · Proyectos de portafolio · Español peruano
+              Método I Do / We Do / You Do · 10 secciones · Exámenes con anti-plagio · Español peruano
             </p>
           </div>
         </footer>
