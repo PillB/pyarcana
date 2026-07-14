@@ -22,7 +22,7 @@ export const section50: CourseSection = {
   ],
   theory: [
     {
-      heading: 'Fundamentos',
+      heading: 'Liderazgo técnico: mentoría, code review y cultura de engineering',
       paragraphs: [
         'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
         'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
@@ -33,7 +33,7 @@ export const section50: CourseSection = {
     intro: 'Te muestro paso a paso cómo aplicar los conceptos de esta sección con ejemplos prácticos.',
     steps: [
       {
-        description: 'Demostración del concepto principal',
+        description: 'Escribir un design doc para una feature compleja de IA',
         code: {
           language: 'python',
           title: 'demo.py',
@@ -47,7 +47,7 @@ export const section50: CourseSection = {
     intro: 'Ahora te toca a ti practicar con guía. Lee cada instrucción, intenta escribir el código, y si te trabas revisa la solución.',
     steps: [
       {
-        instruction: 'Practica el concepto principal de esta sección',
+        instruction: 'Escribe un design doc para un feature store en tu organización',
         hint: 'Revisa la teoría y el I Do antes de intentar este ejercicio.',
         starterCode: {
           language: 'python',

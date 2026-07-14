@@ -22,7 +22,7 @@ export const section49: CourseSection = {
   ],
   theory: [
     {
-      heading: 'Fundamentos',
+      heading: 'Data Contracts: definiendo acuerdos entre productores y consumidores',
       paragraphs: [
         'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
         'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
@@ -33,7 +33,7 @@ export const section49: CourseSection = {
     intro: 'Te muestro paso a paso cómo aplicar los conceptos de esta sección con ejemplos prácticos.',
     steps: [
       {
-        description: 'Demostración del concepto principal',
+        description: 'Definir un data contract con pydantic + Great Expectations',
         code: {
           language: 'python',
           title: 'demo.py',
@@ -47,7 +47,7 @@ export const section49: CourseSection = {
     intro: 'Ahora te toca a ti practicar con guía. Lee cada instrucción, intenta escribir el código, y si te trabas revisa la solución.',
     steps: [
       {
-        instruction: 'Practica el concepto principal de esta sección',
+        instruction: 'Define un data contract para transacciones con pydantic',
         hint: 'Revisa la teoría y el I Do antes de intentar este ejercicio.',
         starterCode: {
           language: 'python',

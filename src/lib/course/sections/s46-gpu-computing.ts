@@ -22,7 +22,7 @@ export const section46: CourseSection = {
   ],
   theory: [
     {
-      heading: 'Fundamentos',
+      heading: 'CUDA y GPU computing con Python: Numba CUDA, CuPy, PyTorch',
       paragraphs: [
         'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
         'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
@@ -33,7 +33,7 @@ export const section46: CourseSection = {
     intro: 'Te muestro paso a paso cómo aplicar los conceptos de esta sección con ejemplos prácticos.',
     steps: [
       {
-        description: 'Demostración del concepto principal',
+        description: 'Acelerar operaciones numéricas con CuPy (GPU drop-in para NumPy)',
         code: {
           language: 'python',
           title: 'demo.py',
@@ -47,7 +47,7 @@ export const section46: CourseSection = {
     intro: 'Ahora te toca a ti practicar con guía. Lee cada instrucción, intenta escribir el código, y si te trabas revisa la solución.',
     steps: [
       {
-        instruction: 'Practica el concepto principal de esta sección',
+        instruction: 'Implementa matriz-multiplication con CuPy y compara con NumPy',
         hint: 'Revisa la teoría y el I Do antes de intentar este ejercicio.',
         starterCode: {
           language: 'python',

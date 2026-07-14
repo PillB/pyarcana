@@ -22,7 +22,7 @@ export const section32: CourseSection = {
   ],
   theory: [
     {
-      heading: 'Fundamentos',
+      heading: 'Arquitectura de microservicios: principios, trade-offs y cuándo NO usarla',
       paragraphs: [
         'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
         'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
@@ -33,7 +33,7 @@ export const section32: CourseSection = {
     intro: 'Te muestro paso a paso cómo aplicar los conceptos de esta sección con ejemplos prácticos.',
     steps: [
       {
-        description: 'Demostración del concepto principal',
+        description: 'Crear un Dockerfile multi-stage para FastAPI con imagen < 100MB',
         code: {
           language: 'python',
           title: 'demo.py',
@@ -47,7 +47,7 @@ export const section32: CourseSection = {
     intro: 'Ahora te toca a ti practicar con guía. Lee cada instrucción, intenta escribir el código, y si te trabas revisa la solución.',
     steps: [
       {
-        instruction: 'Practica el concepto principal de esta sección',
+        instruction: 'Escribe un Dockerfile multi-stage para un microservicio Python',
         hint: 'Revisa la teoría y el I Do antes de intentar este ejercicio.',
         starterCode: {
           language: 'python',
