@@ -73,7 +73,8 @@ export interface CourseSection {
   shortTitle: string
   tagline: string
   estimatedHours: number
-  level: 'Principiante' | 'Intermedio' | 'Avanzado'
+  level: 'Principiante' | 'Intermedio' | 'Avanzado' | 'Competente' | 'Senior' | 'Master'
+  phase: 0 | 1 | 2 | 3
   icon: string // lucide icon name
   accentColor: string // tailwind gradient classes
   learningOutcomes: LearningOutcome[]

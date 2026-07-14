@@ -8,6 +8,7 @@ export const section11: CourseSection = {
   tagline: 'pytest, fixtures, coverage y CI con GitHub Actions — el diferenciador senior',
   estimatedHours: 6,
   level: 'Avanzado',
+  phase: 0,
   icon: 'ShieldCheck',
   accentColor: 'bg-gradient-to-br from-cyan-500 to-blue-600',
   jobRelevance:

@@ -8,6 +8,7 @@ export const section01: CourseSection = {
   tagline: 'Python, VS Code, venv y Git listos para producción desde el día 1',
   estimatedHours: 4,
   level: 'Principiante',
+  phase: 0,
   icon: 'Wrench',
   accentColor: 'bg-gradient-to-br from-violet-500 to-violet-700',
   jobRelevance:

@@ -8,6 +8,7 @@ export const section09: CourseSection = {
   tagline: 'matplotlib, seaborn y plotly — de gráficos básicos a reportes ejecutivos interactivos',
   estimatedHours: 8,
   level: 'Intermedio',
+  phase: 0,
   icon: 'BarChart3',
   accentColor: 'bg-gradient-to-br from-pink-500 to-rose-600',
   jobRelevance:

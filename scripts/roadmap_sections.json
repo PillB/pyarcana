@@ -1,0 +1,1585 @@
+{
+  "metadata": {
+    "source_file": "/home/z/my-project/upload/learning_roadmap_v2_master.md",
+    "source_version": "v2.0 (Jul 2026)",
+    "extraction_task": "P0-A",
+    "agent": "Roadmap Analysis",
+    "extraction_scope": "sections 14-52 (39 new sections, Phases 1-3)",
+    "total_sections_extracted": 39,
+    "phases": {
+      "phase_1": {
+        "range": "14-26",
+        "level": "Competente",
+        "section_count": 13
+      },
+      "phase_2": {
+        "range": "27-39",
+        "level": "Senior",
+        "section_count": 13
+      },
+      "phase_3": {
+        "range": "40-52",
+        "level": "Master",
+        "section_count": 13
+      }
+    },
+    "total_estimated_hours": 478,
+    "hours_by_phase": {
+      "phase_1": 150,
+      "phase_2": 168,
+      "phase_3": 160
+    },
+    "fields_per_section": [
+      "section",
+      "title",
+      "phase",
+      "level",
+      "estimated_hours",
+      "icon",
+      "tagline",
+      "job_relevance",
+      "learning_objectives",
+      "theory_topics",
+      "i_do_steps",
+      "we_do_exercises",
+      "you_do_project",
+      "auto_evaluation",
+      "key_resources"
+    ],
+    "notes": [
+      "Sections 14-25, 27-29, 40-41 have FULL pedagogical structure (objectives, theory, I Do, We Do, You Do, auto-eval, resources).",
+      "Sections 26, 39, 51 are capstone integrator projects (component lists + deliverables only, no theory/I-Do/We-Do).",
+      "Sections 30-38, 42-50, 52 use a COMPACT format: only objectives summary + You Do project (theory, I Do, We Do, auto-eval, resources are EMPTY — these are GAPS for a future expansion task).",
+      "Auto-evaluation (3 variants A/B/C) is present only in sections 14-25 and 40-41 (14 sections). Sections 27-29 and the compact sections lack auto-eval (GAP).",
+      "Stated total in source file: ~398h for sections 14-52 (140+140+118). Actual sum of per-section hours: 478h. Discrepancy of 80h — the source's master table uses approximate (~) figures."
+    ]
+  },
+  "sections": [
+    {
+      "section": 14,
+      "title": "Seguridad para Automatizaciones e Inteligencia Artificial",
+      "phase": 1,
+      "level": "Competente",
+      "estimated_hours": 10,
+      "icon": "🔒",
+      "tagline": "La automatización no protegida es una bomba de tiempo. La IA sin seguridad es una puerta trasera.",
+      "job_relevance": "La seguridad en automatizaciones e IA es el gap más grande del mercado peruano y LATAM. Las empresas US y globales requieren que sus ingenieros de AI/Automation entiendan el OWASP LLM Top 10, protejan pipelines de datos, y defiendan modelos contra ataques de prompt injection. En 2026, el 65% de las brechas de seguridad involucran algún componente de IA o automatización. Obligatoria para cualquier perfil mid-senior.",
+      "learning_objectives": [
+        "Entender y aplicar el OWASP LLM Top 10 (2025) a aplicaciones reales con IA",
+        "Implementar defensa en capas contra prompt injection directa e indirecta",
+        "Usar `presidio` de Microsoft para anonimización de PII en pipelines de datos",
+        "Aplicar `detect-secrets` y gestión segura de credenciales con variables de entorno",
+        "Entender hashing y criptografía con `hashlib`, `cryptography` (Python 201 Ch. 14)",
+        "Implementar logging de auditoría y trazabilidad en bots y agentes",
+        "Aplicar el principio de mínimo privilegio en automatizaciones con APIs y bases de datos"
+      ],
+      "theory_topics": [
+        "OWASP LLM Top 10 (2025): LLM01 Prompt Injection, LLM02 Sensitive Info Disclosure, LLM03 Supply Chain, LLM04 Data Poisoning, LLM05 Improper Output Handling, LLM06 Excessive Agency, LLM07 System Prompt Leakage, LLM08 Vector/Embedding Weaknesses, LLM09 Misinformation, LLM10 Unbounded Consumption",
+        "Criptografía práctica en Python (Python 201, Ch.14): hashlib SHA-256, PBKDF2 key derivation, cryptography Fernet (symmetric) y RSA (asymmetric)",
+        "Gestión de secretos: python-decouple, python-dotenv, AWS Secrets Manager básico, nunca hardcodear API keys",
+        "Anonimización y PII: Microsoft presidio — detección y anonimización de NIT, DNI, correos, teléfonos peruanos en DataFrames",
+        "Defensa contra prompt injection en 6 capas: input validation regex, system prompt restrictivo, output filtering, privilege control en tools, human-in-the-loop, adversarial testing",
+        "detect-secrets como pre-commit hook: detectar API keys, passwords y tokens antes de git commit",
+        "Logging de auditoría con structlog: logs inmutables, estructurados (JSON), trazables con timestamp, user_id, input_hash, output_hash, latencia, security_flags",
+        "Seguridad en automatizaciones RPA: sanitizar inputs web, rotar credenciales, storage_state de Playwright con cifrado"
+      ],
+      "i_do_steps": [
+        "Función sanitize_prompt(user_input) que limpia entradas con regex y logging de intentos sospechosos",
+        "Script con presidio-analyzer + presidio-anonymizer para anonimizar DNIs y correos en un DataFrame de pandas",
+        "Pipeline de verificación de integridad con hashlib SHA-256 para archivos de modelos ML",
+        "Configuración de detect-secrets como pre-commit hook con git commit que falla si detecta un secret"
+      ],
+      "we_do_exercises": [
+        "Implementar PromptGuard class con validación de longitud máxima, detección de patrones de injection via regex, y structlog logging de cada violación",
+        "Construir AuditLogger con structlog que registra timestamp, user_id, input hash (SHA-256), output hash, latencia ms, security flags detectados",
+        "Simular los 3 ataques más comunes del OWASP LLM Top 10 en un chatbot de juguete (prompt injection, system prompt leakage, excessive agency) y aplicar mitigaciones correctas"
+      ],
+      "you_do_project": {
+        "name": "Security Audit Bot",
+        "description": "security-audit-bot que recibe un repositorio Git (path local o GitHub URL via argparse), escanea con detect-secrets, analiza con bandit (SAST), anonimiza PII con presidio en logs, genera reporte HTML con severidad (CRITICAL/HIGH/MEDIUM/LOW), e incluye pytest tests que verifican detección de secrets y vulnerabilidades conocidas. Diferenciador claro para roles AI/Security Engineer USA."
+      },
+      "auto_evaluation": {
+        "variant_A": "Explica la diferencia entre prompt injection directa (usuario) e indirecta (documento/tool output). Da un ejemplo de cada una con código Python que demuestre el ataque y la mitigación.",
+        "variant_B": "Crea una función Python que implemente mitigaciones para 3 de los OWASP LLM Top 10. ¿Por qué ninguna mitigación individual es suficiente?",
+        "variant_C": "¿Cuándo usarías Fernet vs RSA en un pipeline de datos? Implementa un ejemplo funcional de cada uno con cryptography."
+      },
+      "key_resources": [
+        "OWASP LLM Top 10 (2025) — genai.owasp.org",
+        "Presidio — Microsoft GitHub",
+        "detect-secrets — Yelp GitHub",
+        "Bandit SAST — PyCQA",
+        "Python cryptography package",
+        "structlog",
+        "Python 201 (Driscoll), Capítulo 14 — Encryption and Cryptography"
+      ]
+    },
+    {
+      "section": 15,
+      "title": "Python Avanzado — stdlib Profunda",
+      "phase": 1,
+      "level": "Competente",
+      "estimated_hours": 12,
+      "icon": "⚙️",
+      "tagline": "El Python que todos usan superficialmente. Tú lo dominarás en profundidad.",
+      "job_relevance": "Las entrevistas técnicas de empresas US para roles Python Senior testean: context managers, functools, itertools, descriptors y type hints. Cubre íntegramente los capítulos de Python 201 que no tenían sección dedicada en v1: Ch. 3 (contextlib), Ch. 4 (functools), Ch. 8 (itertools), Ch. 10 (typing), Ch. 12 (Unicode), Ch. 16-18 (super, descriptors, scope).",
+      "learning_objectives": [
+        "Crear context managers con contextlib: contextmanager, closing, suppress, ExitStack",
+        "Usar functools avanzado: lru_cache, partial, singledispatch, wraps, reduce",
+        "Explotar itertools: infinite iterators (count, cycle, repeat), combinatorics (product, combinations, permutations), terminators (groupby, islice, chain)",
+        "Implementar descriptors con __get__, __set__, __delete__ para validación de atributos",
+        "Aplicar type hints completos con typing: Protocol, TypeVar, Generic, Literal, TypedDict, overload",
+        "Manejar Unicode y encoding correctamente en pipelines de datos con texto peruano (ñ, tildes, caracteres especiales)",
+        "Comprender MRO y super() en herencia múltiple (diamond problem)",
+        "Dominar scope: closures, nonlocal, fábricas de funciones"
+      ],
+      "theory_topics": [
+        "Context Managers (Python 201, Ch. 3): with statement internals, __enter__/__exit__, contextlib.contextmanager, contextlib.ExitStack para múltiples CMs dinámicos",
+        "functools avanzado (Python 201, Ch. 4): lru_cache(maxsize=128) memoización, partial para fijar argumentos (currying), singledispatch para function overloading por tipo, wraps para decorators que preservan __name__ y docstring",
+        "itertools arsenal (Python 201, Ch. 8): count, cycle, repeat, chain, islice, groupby, product, combinations, permutations",
+        "Descriptors (Python 201, Ch. 17): non-data vs data descriptors, __set_name__, uso en frameworks (Django fields, SQLAlchemy columns)",
+        "Type Hints modernos (Python 201, Ch. 10): Protocol duck typing estructurado, TypeVar genéricos, Generic[T], Literal, TypedDict, @overload múltiples firmas",
+        "Unicode en profundidad (Python 201, Ch. 12): code points, UTF-8 vs UTF-16, str.encode(), bytes.decode(), chardet para detectar encoding, CSVs legacy peruanos",
+        "super() y MRO (Python 201, Ch. 16): Algoritmo C3 linearization, type.__mro__, diamond problem resuelto",
+        "Scope y closures (Python 201, Ch. 18): LEGB rule, nonlocal, cell objects, factories de funciones para currying manual"
+      ],
+      "i_do_steps": [
+        "Construir un Timer context manager con contextlib.contextmanager que mide latencia y loggea con structlog",
+        "Implementar decorator @memoize con functools.wraps y caché manual, comparar con @lru_cache en performance",
+        "Crear un ValidatedAttribute descriptor que valida tipo y rango en __set__, con mensaje de error descriptivo",
+        "Resolver problema real de encoding: leer CSV con datos peruanos con encoding mixto (Windows-1252/UTF-8) y normalizarlo"
+      ],
+      "we_do_exercises": [
+        "Construir sistema de paginación lazy con itertools.islice + generadores para procesar 1M de registros sin cargar todo en RAM",
+        "Implementar @singledispatch para un serializador que maneja int, str, list, pd.DataFrame con diferente lógica por tipo",
+        "Diseñar clase ValidatedModel usando descriptors que valida automáticamente tipos en __set__ para campos de un modelo de negocio"
+      ],
+      "you_do_project": {
+        "name": "CLI Toolkit Profesional",
+        "description": "pytools-cli combina toda la stdlib avanzada: CLI con argparse y 4 subcomandos (encode, decode, iterate, time); encode/decode usa cryptography de sección 14; iterate usa itertools.islice + groupby para procesar CSVs grandes lazily con estadísticas; time usa context manager personalizado con contextlib para medir y loggear performance; type hints completos (pasa mypy --strict); tests pytest ≥ 85% cobertura; pyproject.toml preparado para pip install."
+      },
+      "auto_evaluation": {
+        "variant_A": "Implementa contextlib.ExitStack para abrir 5 archivos simultáneamente y combinar sus contenidos. ¿Cuándo es mejor que with anidados?",
+        "variant_B": "Crea un descriptor Range(min_val, max_val) que valide que un número esté en el rango. Úsalo en una clase Producto con precio (0-10000) y stock (0-999).",
+        "variant_C": "¿Cuál es la diferencia entre functools.partial y un closure manual? Demuestra ambos con el mismo caso de uso de configuración de un logger."
+      },
+      "key_resources": [
+        "Python 201 (Driscoll) — Chapters 3, 4, 8, 10, 12, 16, 17, 18 (fuente primaria)",
+        "contextlib — Python docs oficiales",
+        "itertools recipes — Python docs",
+        "typing — Python docs",
+        "Mypy type checker"
+      ]
+    },
+    {
+      "section": 16,
+      "title": "GUI de Escritorio con wxPython",
+      "phase": 1,
+      "level": "Competente",
+      "estimated_hours": 10,
+      "icon": "🖥️",
+      "tagline": "Construye aplicaciones de escritorio profesionales que tus clientes instalan y usan sin abrir una terminal.",
+      "job_relevance": "wxPython es el toolkit GUI Python para herramientas internas empresariales (dashboards operativos, formularios de captura de datos, visualizadores). En Perú, muchas empresas reemplazan Excel/Access con Python + wxPython. El wxPython Cookbook es fuente primaria del curso y requiere cobertura explícita con todas sus recetas.",
+      "learning_objectives": [
+        "Crear ventanas con wx.Frame, wx.Panel y layouts con wx.BoxSizer, wx.GridSizer",
+        "Manejar eventos: EVT_BUTTON, EVT_CLOSE, EVT_TIMER, EVT_TEXT, key/char events",
+        "Usar widgets clave: wx.TextCtrl, wx.ComboBox, wx.ListCtrl, wx.Grid, wx.Notebook",
+        "Implementar threading seguro con wx.CallAfter y wx.PostEvent",
+        "Usar pubsub y PyDispatcher para comunicación desacoplada entre componentes (Recipes 7-8)",
+        "Persistir configuración con wx.Config y archivos de configuración (Recipe 16)",
+        "Crear iconos en la barra de tareas y minimizar a system tray (Recipes 29-30)",
+        "Distribuir apps de escritorio con PyInstaller generando un .exe o .app"
+      ],
+      "theory_topics": [
+        "Arquitectura wxPython: wx.App, event loop, wx.Frame como ventana principal, wx.Panel como contenedor",
+        "Sizers: wx.BoxSizer(wx.VERTICAL/HORIZONTAL), wx.GridBagSizer, WrapSizer, AddStretchSpacer, Fit() y Layout() tras agregar widgets",
+        "Widgets dinámicos (Recipe 1): agregar/remover widgets en runtime con Layout() y Fit()",
+        "Screenshots y printing (Recipe 2): wx.ScreenDC, wx.MemoryDC, wx.HtmlEasyPrinting",
+        "Icons en titlebar (Recipe 3): wx.Icon, img2py para convertir imágenes a código Python",
+        "Dark mode (Recipe 6): SetBackgroundColour, paletas dinámicas para modo oscuro",
+        "Pubsub (Recipe 7): Publisher.subscribe(), Publisher.sendMessage() para decoupling",
+        "Threading seguro (Recipe 47): wx.CallAfter(fn, *args), wx.PostEvent, threading.Thread con queue",
+        "Taskbar icons (Recipe 29): wx.adv.TaskBarIcon, CreatePopupMenu() para menú contextual",
+        "XRC — diseño declarativo (Recipes 49-51): xrc.XmlResource, diseño de GUIs con XML en lugar de código puro",
+        "Login Dialog + Config File (Recipes 14-16): flujos de autenticación GUI, wx.ConfigBase.Set() y Get()",
+        "ObjectListView (Recipe 35): lista con columnas ordenables y filtrado — alternativa potente a wx.ListCtrl"
+      ],
+      "i_do_steps": [
+        "Crear una app desde cero: wx.App → wx.Frame → wx.Panel → wx.BoxSizer → botón que abre wx.MessageDialog",
+        "Implementar un ProgressBar que se actualiza desde un thread de fondo usando wx.CallAfter",
+        "Agregar un widget de texto dinámicamente en respuesta a un checkbox, con Layout() para actualizar el layout"
+      ],
+      "we_do_exercises": [
+        "Construir un formulario de login con wx.TextCtrl (password con wx.TE_PASSWORD), validación, y pubsub para notificar al Frame principal",
+        "Implementar un wx.Notebook con 3 tabs: Datos, Estadísticas, Configuración",
+        "Añadir un wx.adv.TaskBarIcon con menú contextual de Mostrar App / Cerrar"
+      ],
+      "you_do_project": {
+        "name": "Data Dashboard GUI",
+        "description": "data-dashboard-gui con 3 tabs: Tab 1 Cargar Datos (wx.FileDialog CSV, ObjectListView preview 100 rows); Tab 2 Análisis (estadísticas con pandas en threading.Thread, mostradas con wx.CallAfter en wx.Grid); Tab 3 Gráficos (matplotlib FigureCanvasWxAgg embebido — histograma o scatter). Dark mode toggle, icon en titlebar, configuración guardada con wx.Config. Distribuido como ejecutable con PyInstaller (--onefile)."
+      },
+      "auto_evaluation": {
+        "variant_A": "¿Por qué NO puedes actualizar la GUI directamente desde un thread de fondo en wxPython? Escribe código que demuestra el crash y la solución correcta con wx.CallAfter.",
+        "variant_B": "Implementa un wx.Timer que actualice un wx.StaticText con el tiempo transcurrido cada segundo, y se detenga automáticamente a los 60 segundos.",
+        "variant_C": "Crea un diálogo personalizado heredando de wx.Dialog con 2 wx.TextCtrl y botones OK/Cancelar. Retorna una tupla con los valores ingresados o None si se cancela."
+      },
+      "key_resources": [
+        "wxPython Cookbook (Driscoll) — Todas las recetas (fuente primaria)",
+        "wxPython official Phoenix docs",
+        "wxPython Demo Package",
+        "PyInstaller docs"
+      ]
+    },
+    {
+      "section": 17,
+      "title": "Distribución, Packaging y CLI Profesional",
+      "phase": 1,
+      "level": "Competente",
+      "estimated_hours": 8,
+      "icon": "📦",
+      "tagline": "Tu código merece ser un paquete que otros puedan instalar con un solo comando.",
+      "job_relevance": "Publicar un paquete en PyPI es el diferenciador más concreto en CVs para roles globales. Las empresas US buscan ingenieros que sepan empaquetar, versionar y distribuir código. Moderniza Python 101 (Ch. 36-44) con pyproject.toml, hatch, click, y GitHub Actions para publicación automática.",
+      "learning_objectives": [
+        "Crear paquetes Python modernos con pyproject.toml (PEP 517/518/660)",
+        "Publicar en PyPI con twine y automatizar con GitHub Actions",
+        "Construir CLIs profesionales con click: grupos de comandos, opciones, callbacks, progress bars",
+        "Entender wheels vs source distributions y cuándo usar cada uno (Python 101 Ch. 38-39)",
+        "Usar ftplib para transferencia de archivos (Python 201, Ch. 21)",
+        "Aplicar Semantic Versioning (bumpversion) y gestionar CHANGELOGs con git-cliff",
+        "Crear ejecutables con PyInstaller y cx_Freeze para distribución multiplataforma (Python 101 Ch. 40-43)"
+      ],
+      "theory_topics": [
+        "pyproject.toml moderno: [build-system], [project], [project.scripts] (entry points), [project.optional-dependencies]",
+        "Wheels vs source distributions: pure Python wheels (py3-none-any) vs binary wheels, por qué son preferidos",
+        "click para CLIs: @click.group(), @click.command(), @click.option(), @click.argument(), click.echo(), click.progressbar()",
+        "Publicar en PyPI: Test PyPI primero, twine check dist/*, twine upload",
+        "GitHub Actions para publicación: workflow en .github/workflows/publish.yml que corre en on: release: types: [published]",
+        "ftplib (Python 201, Ch. 21): FTP, FTP.connect(), FTP.login(), FTP.retrbinary(), FTP.storbinary() — pipelines que envían reportes a servidores FTP legacy",
+        "py2exe y PyInstaller (Python 101, Ch. 40-43): pyinstaller --onefile --windowed, --hidden-import, creación de spec files"
+      ],
+      "i_do_steps": [
+        "Transformar un script Python en paquete instalable con pyproject.toml en 10 minutos",
+        "Crear un CLI con click con 3 subcomandos, opciones con tipos, y una progress bar animada",
+        "Publicar en Test PyPI (test.pypi.org) y verificar pip install --index-url https://test.pypi.org/simple/ mi-paquete"
+      ],
+      "we_do_exercises": [
+        "Añadir un GitHub Actions workflow que publica automáticamente al crear un Release en GitHub",
+        "Generar un ejecutable .exe con PyInstaller para el proyecto wxPython GUI de la sección anterior",
+        "Implementar Semantic Versioning automatizado con bumpversion y commit hooks"
+      ],
+      "you_do_project": {
+        "name": "Package Publicado en PyPI",
+        "description": "Publica pytools-cli (CLI Toolkit de la sección 15) en el ecosistema Python: pyproject.toml con metadata completa y entry_points para CLI; documentación con mkdocs-material o sphinx publicada en ReadTheDocs; GitHub Action que ejecuta tests → lint (ruff) → build → publish en PyPI al hacer release; versión 1.0.0 publicada en Test PyPI (o PyPI real); enlace en CV y LinkedIn: Autor de pytools-cli — X descargas en PyPI."
+      },
+      "auto_evaluation": {
+        "variant_A": "¿Cuál es la diferencia entre install_requires y extras_require (opcional-deps) en pyproject.toml? Da un ejemplo con una librería que tenga dependencias opcionales para features específicas.",
+        "variant_B": "Implementa un CLI con click que tenga un grupo principal con 3 subcomandos distintos, cada uno con al menos 2 opciones. El --help de cada subcomando debe ser informativo.",
+        "variant_C": "¿Por qué los wheels son preferidos sobre los source distributions? ¿En qué situación necesitarías publicar ambos en PyPI?"
+      },
+      "key_resources": [
+        "Python 101 (Driscoll) — Ch. 36-44 (base conceptual, modernizada)",
+        "Python 201 (Driscoll) — Ch. 21 ftplib",
+        "Python Packaging Authority — packaging.python.org",
+        "click documentation",
+        "GitHub Actions — publishing to PyPI",
+        "Twine docs"
+      ]
+    },
+    {
+      "section": 18,
+      "title": "Ingeniería de Datos Intermedia — Prefect, Parquet, Great Expectations",
+      "phase": 1,
+      "level": "Competente",
+      "estimated_hours": 12,
+      "icon": "🔧",
+      "tagline": "De scripts de análisis a pipelines de producción que corren solos cada noche.",
+      "job_relevance": "Data Engineer es uno de los roles más demandados en USA (2025-2026, ~$120K-$150K). Las empresas buscan candidatos que conozcan orquestación con Prefect/Airflow, almacenamiento eficiente con Parquet, y validación de calidad con Great Expectations. Construye esos fundamentos sobre el pipeline de la sección 7.",
+      "learning_objectives": [
+        "Construir pipelines ETL/ELT con prefect 3.x: @flow, @task, retries, deployments",
+        "Trabajar con Parquet usando pyarrow: lectura/escritura, partitioning por fecha, schema enforcement",
+        "Implementar idempotencia en pipelines: qué es, por qué importa, cómo garantizarla",
+        "Usar great_expectations para validar calidad de datos con Expectation Suites",
+        "Gestionar configuración de pipelines con Pydantic Settings y variables de entorno",
+        "Usar APScheduler para tareas recurrentes cuando Prefect es demasiado pesado",
+        "Entender sharding, partitioning por columnas y estrategias de almacenamiento por fecha"
+      ],
+      "theory_topics": [
+        "Prefect 3.x fundamentals: @flow como función principal, @task como unidades retryable, retries=3, retry_delay_seconds=60, logging automático, artifacts, deployments con serve() o deploy()",
+        "Parquet con pyarrow: pq.write_table(), pq.read_table(), write_to_dataset() con partitioning [year, month], schema enforcement",
+        "Idempotencia: el pipeline puede correr N veces sin duplicar datos — cómo verificar si el archivo del día ya existe",
+        "Great Expectations: DataContext, crear ExpectationSuite, ExpectationConfiguration (not_null, unique, values_in_set, between), checkpoint.run() para validación",
+        "Pydantic Settings: BaseSettings para configurar pipelines desde env vars con validación de tipos",
+        "APScheduler: BackgroundScheduler, CronTrigger(hour=8, timezone='America/Lima'), IntervalTrigger",
+        "Error handling de producción: dead letter queues (guardar registros fallidos), notificaciones de fallo via Slack webhook"
+      ],
+      "i_do_steps": [
+        "Tomar el pipeline de la sección 7 y transformarlo en un Prefect flow con @flow + @task + retries",
+        "Cambiar el output de CSV a Parquet particionado por year/month/day",
+        "Añadir validación con Great Expectations: ≥ 5 expectativas sobre el DataFrame de salida"
+      ],
+      "we_do_exercises": [
+        "Agregar un deployment a Prefect con schedule CronTrigger para ejecutar diariamente a las 8am Lima",
+        "Implementar idempotencia: el flow verifica si el archivo Parquet del día ya existe y termina gracefully si es así",
+        "Configurar notificación de fallo por Slack webhook cuando el flow falla 3 veces consecutivas"
+      ],
+      "you_do_project": {
+        "name": "ETL Pipeline de Producción",
+        "description": "etl-prod-pipeline: Prefect flow con ≥ 3 tasks en secuencia (extract, transform, validate, load); ingiere desde API REST paginada + CSV de S3 público; transforma (normaliza nombres, extrae campos con regex, agrega columna de fecha de proceso); valida con Great Expectations (≥ 5 expectativas) — falla el flow si no pasan; carga a Parquet particionado por fecha en directorio local (simula data lake); deployment con CronTrigger diario + README con arquitectura Mermaid y screenshots del Prefect UI."
+      },
+      "auto_evaluation": {
+        "variant_A": "¿Qué hace que un pipeline sea idempotente? Escribe un task Prefect que verifica si el archivo Parquet del día ya existe antes de procesar, y lo salta si existe.",
+        "variant_B": "¿Cuándo usarías Parquet vs CSV vs JSON-Lines en un data lake? Compara tamaño y velocidad de lectura con un dataset real de 100,000 filas.",
+        "variant_C": "Crea una ExpectationSuite con Great Expectations que valide: sin nulos en columna clave, tipos de datos correctos, y que ciertos valores estén dentro de un rango permitido."
+      },
+      "key_resources": [
+        "Prefect 3.x docs",
+        "Great Expectations docs",
+        "PyArrow — parquet",
+        "APScheduler docs"
+      ]
+    },
+    {
+      "section": 19,
+      "title": "Bases de Datos Avanzadas y ORMs",
+      "phase": 1,
+      "level": "Competente",
+      "estimated_hours": 10,
+      "icon": "🗄️",
+      "tagline": "Del SQL básico a queries complejas, ORM moderno y búsqueda vectorial para IA.",
+      "job_relevance": "Manejo avanzado de bases de datos es fundamental en todos los roles Backend/Data Engineering. Python 201 (Ch. 15) cubre adodbapi, pyodbc, MySQL, PostgreSQL y SQLAlchemy ORM — esta sección los moderniza con SQLAlchemy 2.0, asyncpg para FastAPI, alembic para migraciones y pgvector para IA.",
+      "learning_objectives": [
+        "Usar SQLAlchemy 2.0 ORM moderno: DeclarativeBase, mapped_column, Mapped[T], relationship, Session.execute(select(...))",
+        "Diseñar modelos con herencia (single-table, joined-table), relaciones 1:N y M:N",
+        "Ejecutar migraciones de schema con alembic: revision --autogenerate, upgrade head, downgrade",
+        "Conectar a PostgreSQL async con asyncpg para uso en FastAPI sin bloquear event loop",
+        "Usar pgvector PostgreSQL extension para almacenar y buscar embeddings semánticos",
+        "Ejecutar raw SQL analítico con pd.read_sql() y pd.to_sql() con un SQLAlchemy engine",
+        "Entender bases de datos legacy: adodbapi, pyodbc, pypyodbc (Python 201, Ch. 15) — integraciones con sistemas empresariales"
+      ],
+      "theory_topics": [
+        "SQLAlchemy 2.0 moderno: DeclarativeBase, mapped_column(type_), Mapped[Optional[str]], relationship('Model', back_populates=...), Session.execute(select(Model).where(...)), session.add(), session.commit()",
+        "Python 201 Ch. 15 — Bases legacy: adodbapi para bases Access/MSSQL, pyodbc para ODBC genérico, MySQLdb/pymysql para MySQL, psycopg2 para PostgreSQL — importante para integraciones en empresas peruanas con sistemas legacy",
+        "Alembic: alembic init, env.py configuración, alembic revision --autogenerate -m 'add_column', alembic upgrade head, alembic downgrade -1",
+        "asyncpg: driver PostgreSQL nativo async, await conn.fetch('SELECT ...', *args), asyncpg.create_pool()",
+        "pgvector: CREATE EXTENSION vector, columna VECTOR(1536), operador <=> (cosine), <-> (L2), índice HNSW USING hnsw (embedding vector_cosine_ops)",
+        "PostgreSQL avanzado: JSONB para datos semi-estructurados, window functions (ROW_NUMBER, RANK), CTEs, EXPLAIN ANALYZE para optimización",
+        "pandas + SQLAlchemy: pd.read_sql(query, engine) para EDA en notebooks, df.to_sql('table', engine, if_exists='append')"
+      ],
+      "i_do_steps": [
+        "Crear modelos SQLAlchemy 2.0 para un sistema e-commerce: Cliente, Pedido, Producto (relaciones 1:N, M:N con tabla intermedia)",
+        "Generar y aplicar una migración Alembic que agrega la columna score FLOAT DEFAULT 0 a la tabla Cliente",
+        "Crear la extensión pgvector e insertar/buscar embeddings de texto usando asyncpg"
+      ],
+      "we_do_exercises": [
+        "Conectar asyncpg a un endpoint FastAPI /search que busca los 5 productos más similares semánticamente a una query de texto",
+        "Escribir una CTE en PostgreSQL para calcular el ranking de los top-10 clientes por total de compras en los últimos 30 días",
+        "Usar pd.read_sql() con un join complejo para traer datos a un Jupyter Notebook para EDA"
+      ],
+      "you_do_project": {
+        "name": "ORM Multi-tabla + Búsqueda Vectorial",
+        "description": "inventory-api: Modelos SQLAlchemy 2.0 (Producto, Categoría, Inventario, MovimientoStock con relaciones completas); migraciones Alembic con historial de 3+ versiones; endpoints FastAPI CRUD completos (paginación, filtros, ordenamiento); endpoint /search con pgvector (búsqueda semántica de productos por descripción en lenguaje natural); tests de integración con pytest + pytest-asyncio + fixtures de DB en memoria (SQLite para tests); docker-compose.yml: PostgreSQL 16 + pgvector extension + FastAPI."
+      },
+      "auto_evaluation": {
+        "variant_A": "¿Cuál es la diferencia entre lazy loading y eager loading en SQLAlchemy? Muestra con código cómo el lazy loading puede causar el problema N+1 queries y cómo solucionarlo con joinedload().",
+        "variant_B": "Implementa búsqueda de vecinos más cercanos con pgvector. Explica la diferencia entre distancia coseno, L2 y L1 y cuándo usar cada una.",
+        "variant_C": "¿Cuándo usarías pyodbc vs asyncpg vs SQLAlchemy ORM? Da un caso de uso real para cada uno que justifique la elección."
+      },
+      "key_resources": [
+        "Python 201 (Driscoll) — Ch. 15 Databases (base conceptual)",
+        "Python 101 (Driscoll) — Ch. 34 SQLAlchemy (introducción)",
+        "SQLAlchemy 2.0 ORM tutorial",
+        "pgvector GitHub",
+        "Alembic tutorial",
+        "asyncpg docs"
+      ]
+    },
+    {
+      "section": 20,
+      "title": "RAG — Retrieval-Augmented Generation en Producción",
+      "phase": 1,
+      "level": "Competente",
+      "estimated_hours": 14,
+      "icon": "🧠",
+      "tagline": "Construye chatbots que saben de tu negocio — no alucinan, no inventan, sí citan.",
+      "job_relevance": "RAG es el skill #1 más solicitado en roles de AI Engineer en USA 2025-2026. Las empresas pagan $130K-$180K para ingenieros que pueden construir sistemas RAG de producción evaluados y monitoreados. Construye el pipeline completo con evaluación RAGAS, el estándar industrial.",
+      "learning_objectives": [
+        "Entender la arquitectura RAG completa: indexing → retrieval → augmentation → generation",
+        "Implementar chunking strategies: fixed-size, recursive character, semantic chunking",
+        "Usar embeddings de sentence-transformers (multilingual para español/inglés) y OpenAI text-embedding-3-small",
+        "Almacenar vectores en Qdrant para retrieval eficiente",
+        "Implementar re-ranking con cross-encoders (BAAI/bge-reranker) para precisión superior",
+        "Evaluar calidad del RAG con RAGAS: faithfulness, answer relevancy, context precision, context recall",
+        "Aplicar query expansion e HyDE (Hypothetical Document Embedding)",
+        "Proteger el pipeline contra vectorial injection (OWASP LLM #8 — Vector/Embedding Weaknesses)"
+      ],
+      "theory_topics": [
+        "RAG architecture: naive RAG (simple) → advanced RAG (re-ranking, query expansion) → modular RAG (composable) — cuándo usar cada nivel",
+        "Chunking strategies: RecursiveCharacterTextSplitter(chunk_size=512, chunk_overlap=50), parent-child chunking, semantic chunking con embeddings",
+        "Embeddings para español: paraphrase-multilingual-MiniLM-L12-v2 (sentence-transformers), text-embedding-3-small (OpenAI) — comparación en datasets peruanos",
+        "Dense vs sparse retrieval: BM25 (palabras exactas) vs embeddings (semántico), hybrid search como combinación óptima",
+        "Re-ranking con cross-encoders: BAAI/bge-reranker-v2-m3 como segundo paso — más lento pero más preciso que bi-encoders",
+        "RAGAS metrics: faithfulness (¿la respuesta está soportada por los chunks?), answer relevancy (¿responde la pregunta?), context precision (¿los chunks son relevantes?), context recall (¿recuperó todos los chunks necesarios?)",
+        "HyDE: generar un documento hipotético con el LLM y buscar embeddings similares — mejora recall en preguntas complejas",
+        "RAG poisoning: documentos maliciosos que manipulan respuestas — defensa con validación de fuentes y filtros de contenido"
+      ],
+      "i_do_steps": [
+        "Indexar la documentación oficial de FastAPI: parse PDFs/HTML con pypdf, chunkar con LangChain text splitters, embeber con sentence-transformers, guardar en Qdrant",
+        "Retriever básico: buscar top-5 chunks por cosine similarity y mostrar scores",
+        "Chain completo: chunks recuperados → prompt aumentado → GPT-4o-mini → respuesta citada"
+      ],
+      "we_do_exercises": [
+        "Agregar re-ranking con bge-reranker: re-ordenar top-20 → tomar top-3 → pasar al LLM",
+        "Evaluar el pipeline con RAGAS en un test set de 20 preguntas con respuestas esperadas",
+        "Implementar streaming de respuesta en FastAPI con async for token in stream"
+      ],
+      "you_do_project": {
+        "name": "RAG Chatbot de Producción",
+        "description": "rag-docs-chatbot sobre documentación técnica: pipeline completo (parse PDF/HTML → chunk → embed → store Qdrant → retrieve → rerank → generate); interfaz Streamlit con chat history, fuentes citadas (con número de chunk y score) en cada respuesta; evaluación RAGAS en test set ≥ 20 pares Q&A con faithfulness ≥ 0.7 y answer relevancy ≥ 0.7; logging estructurado (query, chunks recuperados, scores, tiempo respuesta, costo tokens); desplegado en Streamlit Community Cloud con URL pública."
+      },
+      "auto_evaluation": {
+        "variant_A": "¿Cuándo el hybrid retrieval (BM25 + dense) supera a cada uno individualmente? Implementa un simple hybrid retriever y compara métricas RAGAS.",
+        "variant_B": "¿Qué mide RAGAS faithfulness? Implementa un evaluador simple que verifique si cada oración de la respuesta está soportada por alguno de los chunks recuperados.",
+        "variant_C": "Diseña una defensa contra RAG poisoning. ¿Qué pasa si un usuario sube un documento con instrucciones maliciosas al índice? ¿Cómo lo detectas y mitigas?"
+      },
+      "key_resources": [
+        "LangChain RAG — Python docs",
+        "RAGAS framework",
+        "Qdrant quickstart",
+        "sentence-transformers multilingual",
+        "BAAI/bge-reranker-v2-m3"
+      ]
+    },
+    {
+      "section": 21,
+      "title": "FastAPI — Backend Python para Sitios Web en Vivo",
+      "phase": 1,
+      "level": "Competente",
+      "estimated_hours": 12,
+      "icon": "🌐",
+      "tagline": "Transforma tus modelos de Python en APIs que cualquier frontend puede consumir — en tiempo real.",
+      "job_relevance": "FastAPI es el framework backend más demandado en roles Python/AI Engineer USA 2026. El 90% de las ofertas de AI Engineer en LinkedIn incluyen 'FastAPI' explícitamente. Permite exponer modelos ML, RAG pipelines y agentes de IA como endpoints HTTP y WebSocket para uso en producción.",
+      "learning_objectives": [
+        "Construir APIs REST con FastAPI: path params, query params, request bodies con Pydantic v2",
+        "Implementar autenticación JWT con OAuth2 Password Flow y python-jose",
+        "Crear endpoints WebSocket para streaming de datos en tiempo real",
+        "Usar BackgroundTasks para tareas asíncronas que no bloquean la respuesta",
+        "Implementar middleware: CORS, logging estructurado, rate limiting con slowapi",
+        "Conectar FastAPI a PostgreSQL con SQLAlchemy async (construido en sección 19)",
+        "Desplegar con uvicorn (desarrollo) y gunicorn + uvicorn workers (producción)",
+        "Testing completo: TestClient de httpx, fixtures pytest, testing de WebSockets"
+      ],
+      "theory_topics": [
+        "FastAPI fundamentals: routing con decoradores, dependency injection con Depends(), APIRouter para modularizar",
+        "Pydantic v2: BaseModel, Field(default, gt=0, description=...), model_validator, computed_field, serialización/deserialización",
+        "Auth con JWT: OAuth2PasswordBearer, generar tokens con python-jose, ACCESS_TOKEN_EXPIRE_MINUTES, refresh token rotation",
+        "WebSockets en FastAPI: WebSocket class, ConnectionManager para gestionar múltiples conexiones, broadcast y unicast",
+        "async/await en FastAPI: async def vs def — cuándo cada uno bloquea el event loop, BackgroundTasks.add_task()",
+        "Middleware: CORSMiddleware, custom logging middleware con structlog, slowapi para rate limiting",
+        "Testing: httpx.AsyncClient + pytest-asyncio, fixtures para limpiar la DB entre tests, TestClient para tests síncronos",
+        "Producción: gunicorn -k uvicorn.workers.UvicornWorker, health check endpoint /health, graceful shutdown con signals"
+      ],
+      "i_do_steps": [
+        "Crear endpoint /predict que recibe features en el body (Pydantic model) y retorna predicción del modelo de churn (sección 10) — modelo cargado con @app.lifespan",
+        "Implementar /ws/metrics WebSocket que emite métricas del servidor (CPU, RAM, requests/min) cada segundo",
+        "Endpoint /auth/token con JWT: verifica usuario/contraseña, retorna access_token"
+      ],
+      "we_do_exercises": [
+        "Conectar FastAPI a PostgreSQL async (asyncpg/SQLAlchemy) con dependency injection del session",
+        "Implementar un ConnectionManager para WebSocket que soporta: broadcast a todos, mensaje a usuario específico, y limpieza en desconexión",
+        "Añadir rate limiting con slowapi: máximo 10 requests/minuto por IP en endpoints de predicción"
+      ],
+      "you_do_project": {
+        "name": "REST API + Auth + WebSockets + Streaming",
+        "description": "live-analytics-api: endpoints CRUD completos para un recurso de negocio con paginación (limit/offset); auth JWT con refresh tokens (access token 15min, refresh token 7 días); WebSocket /ws/events que hace streaming de eventos en tiempo real (simula ventas llegando); endpoint /predict que sirve el modelo de churn sección 10; rate limiting por usuario autenticado (no solo por IP); tests pytest con ≥ 80% cobertura incluyendo WebSocket y auth; docker-compose.yml con FastAPI + PostgreSQL + Redis (rate limiting y sessions); documentación OpenAPI completa con ejemplos en cada endpoint (auto-generada por FastAPI)."
+      },
+      "auto_evaluation": {
+        "variant_A": "¿Cuál es la diferencia entre async def y def en FastAPI? Demuestra con código cuándo def bloquea el event loop y cómo resolverlo con run_in_executor.",
+        "variant_B": "Implementa refresh token rotation completo: access token de 15 min, refresh token de 7 días, y revocación de tokens comprometidos.",
+        "variant_C": "Diseña un ConnectionManager para WebSockets con: broadcast, envío a usuario específico, rooms (grupos), y manejo de desconexión limpia."
+      },
+      "key_resources": [
+        "FastAPI official docs",
+        "FastAPI WebSocket examples",
+        "Pydantic v2 docs",
+        "python-jose JWT",
+        "slowapi — rate limiting",
+        "uvicorn deployment"
+      ]
+    },
+    {
+      "section": 22,
+      "title": "RapidFuzz y Resolución de Entidades a Escala",
+      "phase": 1,
+      "level": "Competente",
+      "estimated_hours": 10,
+      "icon": "🔎",
+      "tagline": "Los datos del mundo real están sucios. Esta sección te enseña a reconciliarlos como un profesional.",
+      "job_relevance": "Entity resolution (ER) y fuzzy matching son técnicas críticas en Data Engineering, Master Data Management y proyectos de integración. El proyecto 'Familiarity Score Dashboard' del curso lo requiere explícitamente. RapidFuzz es hasta 20x más rápido que fuzzywuzzy y es el estándar actual. En proyectos de linkage de datos peruanos (DNI, nombres, direcciones), estas técnicas son indispensables.",
+      "learning_objectives": [
+        "Usar RapidFuzz con las métricas correctas: ratio, partial_ratio, token_sort_ratio, WRatio, jaro_winkler",
+        "Implementar el pipeline de 4 pasos: normalizar → bloquear → matchear → auditar",
+        "Diseñar estrategias de blocking por campo de alta cardinalidad para escalar a O(n log n)",
+        "Entender cuándo RapidFuzz es suficiente vs cuándo escalar a Splink o dedupe.io",
+        "Aplicar entity resolution a datos peruanos: nombres, DNIs, distritos, empresas",
+        "Construir el Familiarity Score Dashboard completo (Capstone del curso)",
+        "Integrar el resultado con el mapa interactivo Leaflet de la sección 9"
+      ],
+      "theory_topics": [
+        "Distancias de strings: Levenshtein, Jaro-Winkler, Coseno, Hamming — cuándo usar cada una",
+        "RapidFuzz API: fuzz.ratio, fuzz.partial_ratio, fuzz.token_sort_ratio, process.extract, process.cdist",
+        "Pipeline de 4 pasos (patrón de producción): Paso 1 Normalizar (mayúsculas, stripear, quitar tildes, colapsar variantes); Paso 2 Bloquear (particionar por campo alta cardinalidad, escala O(n²) → O(n)); Paso 3 Matchear (RapidFuzz dentro de cada bloque con umbral configurable); Paso 4 Auditar (loggear cada merge con keys originales, score, regla, timestamp — reversible)",
+        "Fuzzy matching de DNIs y nombres peruanos: variantes de nombres hispanos, abreviaciones, transliteraciones",
+        "Umbral óptimo: cómo calibrar el threshold usando un conjunto de pares etiquetados manualmente",
+        "Escalando a Splink: cuándo los señales de 'blocking inestable', 'ground truth contestado' o 'schema churn' indican que necesitas más potencia",
+        "Integración con pandas: process.cdist() para matrices de similaridad vectorizadas"
+      ],
+      "i_do_steps": [
+        "Cargar un dataset de empresas peruanas con nombres sucios y demostrar las 5 métricas de RapidFuzz",
+        "Implementar el pipeline completo de 4 pasos en un Jupyter Notebook con logging de merges",
+        "Visualizar la distribución de scores con histograma para elegir el umbral"
+      ],
+      "we_do_exercises": [
+        "Construir un blocker por distrito (Lima/Callao/Arequipa) que reduce comparaciones en un 90%",
+        "Implementar process.cdist() para calcular la matriz de similaridad de 10,000 nombres en < 2 segundos",
+        "Crear el log de auditoría en SQLite que permite deshacer merges erróneos"
+      ],
+      "you_do_project": {
+        "name": "Familiarity Score Dashboard Completo",
+        "description": "Capstone Progresivo del curso (construido a lo largo de secciones 6-13, ahora completado): pipeline completo (carga Excel/CSV de clientes → normalización → entity resolution con RapidFuzz → cálculo del Familiarity Score); el Familiarity Score combina frecuencia de transacciones, recency, proximidad geográfica (coordenadas); mapa interactivo Leaflet (sección 9) con score como heatmap; API FastAPI (sección 21) que expone el score por cliente; log de auditoría de todos los merges realizados; dashboard Streamlit (sección 25) para que el VP pueda usarlo sin código."
+      },
+      "auto_evaluation": {
+        "variant_A": "¿Por qué token_sort_ratio('Juan Carlos Pérez', 'Pérez, Juan Carlos') da 100 pero ratio() no? ¿Cuándo importa esto?",
+        "variant_B": "Diseña una estrategia de blocking para un dataset de 500,000 clientes peruanos con campo distrito. Estima cuántas comparaciones reduces.",
+        "variant_C": "Implementa un AuditLogger que registra cada merge de RapidFuzz y permite hacer rollback de merges erróneos. Demuestra el rollback."
+      },
+      "key_resources": [
+        "RapidFuzz GitHub",
+        "RapidFuzz docs",
+        "Fuzzy record linkage — producción (kinyoubiatelier.com)",
+        "Splink — advanced entity resolution"
+      ]
+    },
+    {
+      "section": 23,
+      "title": "Visión por Computadora y Camera Feeds en Tiempo Real",
+      "phase": 1,
+      "level": "Competente",
+      "estimated_hours": 14,
+      "icon": "📷",
+      "tagline": "Haz que Python vea el mundo — y reaccione a él en tiempo real.",
+      "job_relevance": "Computer Vision con cámeras en tiempo real es una de las especializaciones más demandadas y mejor pagadas del mercado (USD $140K+ para senior CV engineers). Conecta directamente con el background profesional del aprendiz en sistemas de visión por computadora y pose detection, y expande esas habilidades hacia producción.",
+      "learning_objectives": [
+        "Capturar y procesar frames de cámara con OpenCV (cv2.VideoCapture)",
+        "Implementar detección de objetos en tiempo real con YOLO v11 (Ultralytics)",
+        "Usar MediaPipe para pose detection y skeleton tracking",
+        "Transmitir video procesado como MJPEG stream desde FastAPI",
+        "Procesar múltiples cámaras en paralelo con threading/asyncio",
+        "Detectar y trackear objetos a través de frames con ByteTrack",
+        "Optimizar throughput: resize frames antes de inferencia, skip frames, GPU inference",
+        "Integrar con RTSP streams de cámaras IP"
+      ],
+      "theory_topics": [
+        "OpenCV fundamentals de producción: VideoCapture, propiedades de cámara, buffer management, CAP_PROP_BUFFERSIZE",
+        "YOLO v11 (Ultralytics): arquitectura, inferencia con model.track(frame, persist=True), clases, confidence thresholds",
+        "MediaPipe: mp.solutions.pose, mp.solutions.hands, landmark coordinates — conexión con pose detection",
+        "MJPEG streaming: generar stream desde FastAPI con StreamingResponse y multipart/x-mixed-replace",
+        "Threading para múltiples cámaras: patrón VideoStream con threading.Thread y queue de frames",
+        "RTSP streams: OpenCV + rtsp:// URLs para cámaras IP en producción",
+        "ByteTrack: tracking de objetos entre frames sin perder identidad al cruzarse",
+        "Performance: resize → inference → draw pipeline, GPU vs CPU throughput, batch inference"
+      ],
+      "i_do_steps": [
+        "Abrir webcam con OpenCV, correr YOLO v11 nano frame por frame, mostrar bounding boxes y FPS",
+        "Conectar MediaPipe Pose para detectar pose de una persona en el frame en tiempo real",
+        "Exponer el stream procesado como endpoint MJPEG en FastAPI (/video/feed)"
+      ],
+      "we_do_exercises": [
+        "Implementar MultiCameraManager: clase que gestiona N cámaras en threads separados y merges frames",
+        "Agregar ByteTrack para mantener track_id de cada persona detectada entre frames",
+        "Emitir eventos de detección via WebSocket a un dashboard Streamlit"
+      ],
+      "you_do_project": {
+        "name": "Sistema CV en Tiempo Real",
+        "description": "cv-realtime-system: captura de webcam o archivo de video (argparse --source 0 o --source video.mp4); detección de objetos con YOLO v11 + tracking con ByteTrack; pose detection con MediaPipe; streaming MJPEG desde FastAPI + dashboard HTML que muestra el feed en el browser; log de eventos (entrada/salida de persona del frame, timestamp + screenshot); configurable vía YAML (modelo YOLO, thresholds, clases de interés); optimizado para ≥ 20 FPS en CPU (sin GPU)."
+      },
+      "auto_evaluation": {
+        "variant_A": "¿Por qué cv2.imshow() no funciona en producción de servidor? ¿Cómo transmites video procesado a un cliente web?",
+        "variant_B": "Implementa el patrón VideoStream con threading que captura frames en un thread y procesa en otro. ¿Por qué esto mejora el FPS?",
+        "variant_C": "¿Cuál es la diferencia entre detección y tracking? Demuestra ByteTrack manteniendo el mismo track_id para una persona que se mueve."
+      },
+      "key_resources": [
+        "Ultralytics YOLO v11 docs",
+        "MediaPipe Python",
+        "OpenCV docs",
+        "ByteTrack",
+        "FastAPI streaming",
+        "OpenCV YOLO real-time tutorial (2025)"
+      ]
+    },
+    {
+      "section": 24,
+      "title": "RPAs Avanzados y Orquestación",
+      "phase": 1,
+      "level": "Competente",
+      "estimated_hours": 12,
+      "icon": "🤖",
+      "tagline": "De macros básicos a robots de producción que trabajan 24/7 sin que tú estés presente.",
+      "job_relevance": "Los RPAs avanzados son la evolución de la sección 13 del curso. Mientras que la sección 13 cubre RPAs básicos con Playwright, esta sección agrega orquestación con Prefect, manejo de errores de producción, integración con APIs de IA, y técnicas anti-detección. Los roles de RPA Developer/Automation Engineer en USA requieren exactamente estas habilidades.",
+      "learning_objectives": [
+        "Construir RPAs resilientes con retry logic, circuit breakers y alertas de fallo",
+        "Orquestar múltiples bots con Prefect flows con dependencias entre tareas",
+        "Aplicar técnicas anti-detección en Playwright: user agents, fingerprint spoofing, stealth mode",
+        "Integrar AI en automatizaciones: usar GPT-4o-mini para tomar decisiones contextuales en el bot",
+        "Implementar RPA con captura de datos + entity resolution (RapidFuzz, sección 22)",
+        "Gestionar estados de browser sessions y cookies para automatizaciones de larga duración",
+        "Monitorear y alertar fallos de bots con notificaciones Slack/email"
+      ],
+      "theory_topics": [
+        "RPAs de producción vs scripts: manejo de timeouts, selectors rotos, cambios de UI, rate limits",
+        "Playwright avanzado: page.route() para interceptar requests, Browser.contexts para sesiones paralelas, storage_state para persistir cookies",
+        "Anti-detección: playwright-stealth, proxies rotativos, delays aleatorios, fingerprinting",
+        "Orquestación con Prefect: flows de múltiples bots con concurrencia controlada (ConcurrentTaskRunner)",
+        "Agentic RPAs: usar LLM para decidir el siguiente paso cuando la UI es ambigua",
+        "Error handling robusto: retries con exponential backoff, screenshots en fallo, notificaciones",
+        "RPA + ETL: automatizar descarga de reportes → limpiar con pandas → subir a base de datos"
+      ],
+      "i_do_steps": [
+        "Construir un bot con Playwright que extrae precios de un e-commerce con paginación, manejando timeouts y errores",
+        "Agregar playwright-stealth y un proxy para evitar detección",
+        "Integrar GPT-4o-mini para que el bot decida qué hacer cuando encuentra un captcha (notificar vs reintentar)"
+      ],
+      "we_do_exercises": [
+        "Orquestar 3 bots en paralelo con Prefect y ConcurrentTaskRunner",
+        "Implementar alertas de fallo via webhook a Slack cuando un bot falla 3 veces consecutivas",
+        "Combinar salida del bot con RapidFuzz entity resolution para consolidar datos de múltiples fuentes"
+      ],
+      "you_do_project": {
+        "name": "Pipeline RPA Orquestado",
+        "description": "rpa-orchestrated-pipeline: 3 bots Playwright (extraen datos de 3 fuentes distintas: gobiernos, portales públicos peruanos, e-commerce); cada bot con retry logic (3 intentos), screenshot en fallo, logging estructurado; orquestado con Prefect (dependencias entre bots, paralelismo configurable); datos consolidados con RapidFuzz entity resolution; resultado final sube automáticamente a PostgreSQL; alertas Slack configuradas para fallo de cualquier bot; dashboard de monitoring en Prefect UI."
+      },
+      "auto_evaluation": {
+        "variant_A": "¿Por qué un selector CSS puede funcionar hoy y fallar mañana en un RPA? Diseña una estrategia de selectors resilientes.",
+        "variant_B": "Implementa exponential backoff para retries en Playwright. ¿Por qué es mejor que retry inmediato?",
+        "variant_C": "¿Cómo usarías un LLM en un RPA para manejar páginas con estructura variante? Da un ejemplo concreto con prompt y código."
+      },
+      "key_resources": [
+        "Playwright Python docs",
+        "playwright-stealth",
+        "Prefect docs",
+        "Automation Engineer job market 2025"
+      ]
+    },
+    {
+      "section": 25,
+      "title": "Dashboards Interactivos y Streamlit",
+      "phase": 1,
+      "level": "Competente",
+      "estimated_hours": 10,
+      "icon": "📊",
+      "tagline": "Comparte tus análisis con el mundo sin escribir HTML ni JavaScript.",
+      "job_relevance": "Streamlit es la herramienta estándar para que Data Scientists compartan aplicaciones con stakeholders sin necesitar un frontend developer. Los roles de Data Scientist/AI Engineer en USA frecuentemente requieren 'capacidad de construir demos y herramientas internas'. Streamlit Community Cloud permite deployment gratuito.",
+      "learning_objectives": [
+        "Construir aplicaciones multi-página con Streamlit",
+        "Usar componentes clave: st.dataframe, st.charts, st.forms, st.sidebar, st.chat_message",
+        "Implementar caching con @st.cache_data y @st.cache_resource",
+        "Integrar plotly charts interactivos en Streamlit",
+        "Conectar Streamlit a bases de datos PostgreSQL usando st.connection",
+        "Desplegar en Streamlit Community Cloud (gratis) o Hugging Face Spaces",
+        "Construir un chatbot UI sobre el RAG de la sección 20"
+      ],
+      "theory_topics": [
+        "Streamlit architecture: cómo funciona el rerun model, session_state, caching",
+        "Layouts: st.columns, st.tabs, st.expander, st.sidebar, páginas múltiples",
+        "Widgets: st.file_uploader, st.selectbox, st.slider, st.text_input, st.form",
+        "Conexiones: st.connection para PostgreSQL, CSV, APIs",
+        "Chat interfaces: st.chat_message, st.chat_input, streaming con generators",
+        "Performance: @st.cache_data para DataFrames, @st.cache_resource para modelos ML",
+        "Deploy: Streamlit Community Cloud, Hugging Face Spaces, Docker"
+      ],
+      "i_do_steps": [
+        "Construir un dashboard Streamlit multi-página que visualiza datos del pipeline ETL (sección 18)",
+        "Agregar filtros interactivos con sidebar y caching de queries PostgreSQL",
+        "Añadir una página de chat que usa el RAG de la sección 20"
+      ],
+      "we_do_exercises": [
+        "Conectar el Familiarity Score Dashboard (sección 22) a Streamlit con mapa Folium embebido",
+        "Implementar file uploader que procesa un Excel con pandas y muestra EDA automático",
+        "Desplegar en Streamlit Community Cloud y generar URL pública"
+      ],
+      "you_do_project": {
+        "name": "Analytics Dashboard Público",
+        "description": "analytics-dashboard-public: dashboard multi-página (Overview, Análisis Temporal, Mapa Geográfico, Chatbot); página Overview con KPIs clave con st.metric y trends con plotly; página Mapa con Folium/plotly express con datos geolocalización; página Chatbot con interfaz de chat conectada al RAG de la sección 20; desplegado en Streamlit Community Cloud con URL pública en CV; README con screenshot del dashboard y link de acceso."
+      },
+      "auto_evaluation": {
+        "variant_A": "¿Cuál es la diferencia entre @st.cache_data y @st.cache_resource? ¿Qué pasaría si usas el incorrecto para un modelo ML?",
+        "variant_B": "Implementa un formulario Streamlit con validación que suba datos a PostgreSQL. ¿Cómo evitas que se doble-submit al recargar la página?",
+        "variant_C": "¿Cómo implementas streaming de respuesta de un LLM en Streamlit de forma que el texto aparezca token por token?"
+      },
+      "key_resources": [
+        "Streamlit docs",
+        "Streamlit Community Cloud",
+        "Plotly Express"
+      ]
+    },
+    {
+      "section": 26,
+      "title": "Proyecto Integrador Fase 1",
+      "phase": 1,
+      "level": "Competente",
+      "estimated_hours": 16,
+      "icon": "🏗️",
+      "tagline": "Integra todo lo aprendido en un sistema real que podrías vender.",
+      "job_relevance": "Capstone de Fase 1 que integra todas las competencias Competente en una sola plataforma vendible. Demuestra capacidad de diseñar sistemas end-to-end combinando backend, RAG, data pipelines, CV, entity resolution, RPA y dashboards. Diferenciador clave para entrevistas de mid-level.",
+      "learning_objectives": [
+        "Integrar backend FastAPI (S21), RAG chatbot (S20), pipeline de datos (S18-19), CV module (S23), entity resolution (S22), RPA bot (S24) y dashboard Streamlit (S25) en una plataforma coherente",
+        "Diseñar arquitectura de microservicios integrada con Docker Compose",
+        "Documentar arquitectura con Mermaid diagrams",
+        "Crear tests de integración para cada módulo del sistema",
+        "Producir demo video ejecutivo de 3-5 minutos",
+        "Reunir todos los componentes en un repositorio GitHub profesional"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "AI-Powered Automation Platform",
+        "description": "ai-automation-platform — plataforma que integra todas las habilidades de Fase 1. Componentes: (1) Backend FastAPI (S21) API REST + WebSocket para datos en tiempo real; (2) RAG Chatbot (S20) con conocimiento del negocio sobre documentación; (3) Pipeline de Datos (S18-19) Prefect orquestando ingesta + transformación + almacenamiento; (4) CV Module (S23) endpoint de análisis de imágenes con YOLO; (5) Entity Resolution (S22) endpoint para deduplicar registros de clientes con RapidFuzz; (6) RPA Bot (S24) que automáticamente recolecta datos nuevos diariamente; (7) Dashboard (S25) Streamlit frontend que visualiza todo. Entregables: repositorio GitHub con README arquitectural (Mermaid diagram), Docker Compose con todos los servicios, tests de integración para cada módulo, demo video de 3-5 minutos mostrando el sistema en acción."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 27,
+      "title": "Concurrencia Avanzada y Arquitecturas Async",
+      "phase": 2,
+      "level": "Senior",
+      "estimated_hours": 12,
+      "icon": "⚡",
+      "tagline": "El código que corre en paralelo no es el que más corre — es el que más escala.",
+      "job_relevance": "Los roles Senior Python/AI Engineer requieren dominar asyncio, threading, y multiprocessing para construir pipelines de alta concurrencia. Python 201 (Ch. 27-30) cubre estos módulos en profundidad. Esta sección lleva ese conocimiento a nivel de producción con patrones de arquitectura reales.",
+      "learning_objectives": [
+        "Dominar asyncio avanzado: event loops, TaskGroup, asyncio.Queue, semaphores, limitadores de rate",
+        "Entender el GIL y cuándo usar threading vs multiprocessing vs asyncio",
+        "Implementar el patrón producer-consumer con asyncio.Queue",
+        "Usar concurrent.futures para I/O-bound y CPU-bound tasks (Python 201 Ch. 30)",
+        "Construir pipelines asíncronos con backpressure control",
+        "Optimizar latencia en APIs con connection pooling (aiohttp, asyncpg)",
+        "Depurar race conditions con locks, semaphores y asyncio.Event"
+      ],
+      "theory_topics": [
+        "asyncio avanzado (Python 201 Ch. 27): async/await profundo, TaskGroup (Python 3.11+), asyncio.Queue, asyncio.Semaphore",
+        "threading en profundidad (Python 201 Ch. 28): Locks, RLocks, Conditions, Barriers, thread-safe queues",
+        "multiprocessing (Python 201 Ch. 29): Pool, Process, Manager, shared memory, pipes",
+        "concurrent.futures (Python 201 Ch. 30): ThreadPoolExecutor, ProcessPoolExecutor, as_completed, deadlocks",
+        "GIL y sus implicaciones: I/O-bound → threading/asyncio, CPU-bound → multiprocessing",
+        "Backpressure: cómo evitar que un producer rápido ahogue a un consumer lento",
+        "Async context managers y async generators: patrones para pipelines streaming"
+      ],
+      "i_do_steps": [
+        "Implementar un pipeline producer-consumer con asyncio.Queue que procesa 10,000 URLs en paralelo",
+        "Usar ProcessPoolExecutor para paralelizar cálculos CPU-bound (features para ML)",
+        "Construir un rate limiter async que permite máximo N requests/segundo a una API externa"
+      ],
+      "we_do_exercises": [
+        "Agregar backpressure al pipeline limitando el tamaño de la queue y usando Semaphore",
+        "Implementar un AsyncConnectionPool con asyncpg que reutiliza conexiones de DB",
+        "Debuggear un race condition intencional con asyncio.Lock"
+      ],
+      "you_do_project": {
+        "name": "High-Throughput Pipeline",
+        "description": "async-data-pipeline: ingiere 100,000 registros desde una API REST paginada, procesando 50 requests concurrentes; producer: fetch asíncrono con aiohttp + rate limiting (máx 100 req/s); consumer: transforma y valida cada registro con Pydantic v2; sink: inserta en PostgreSQL con asyncpg usando batch inserts de 1,000 rows; métricas (throughput registros/s, latencia p50/p99, errores) expuestas en endpoint /metrics; comparación de rendimiento: sync baseline vs async implementación (benchmarks en README)."
+      },
+      "auto_evaluation": null,
+      "key_resources": [
+        "Python 201 (Driscoll) — Ch. 27-30 (fuente primaria)",
+        "Python asyncio docs",
+        "asyncio TaskGroup (Python 3.11)",
+        "aiohttp docs"
+      ]
+    },
+    {
+      "section": 28,
+      "title": "LLM Agents con LangGraph — Producción",
+      "phase": 2,
+      "level": "Senior",
+      "estimated_hours": 14,
+      "icon": "🕸️",
+      "tagline": "Los agentes no son demos. Son sistemas con estado, herramientas y decisiones que escalan.",
+      "job_relevance": "LangGraph es el framework estándar de producción para multi-agent systems en 2026. Las ofertas laborales de Senior AI Engineer en USA requieren explícitamente 'LangGraph', 'multi-agent systems', y 'production agent deployment'. El survey de LangChain (1,300+ profesionales) confirma que multi-agent systems son la prioridad #1 en AI engineering.",
+      "learning_objectives": [
+        "Entender LangGraph como state machine: nodos, aristas, estado compartido",
+        "Implementar patrones de agentes: ReACT, Plan-and-Execute, Supervisor, Swarm",
+        "Construir multi-agent systems con handoffs y comunicación entre agentes",
+        "Implementar memoria a corto y largo plazo en agentes con MemorySaver y PostgreSQL",
+        "Integrar tool calling (function calling) con herramientas custom y APIs externas",
+        "Monitorear agentes con LangSmith: trazas, latencia, tokens, costos",
+        "Construir human-in-the-loop checkpoints para decisiones de alto riesgo",
+        "Aplicar seguridad en agents (OWASP LLM #6 — Excessive Agency)"
+      ],
+      "theory_topics": [
+        "LangGraph fundamentals: StateGraph, TypedDict state, add_node(), add_edge(), add_conditional_edges()",
+        "Patrones de agentes: ReACT (Reason + Act), Plan-and-Execute, Reflection, Multi-agent Supervisor",
+        "Tool calling: definir tools como funciones Python con @tool, JSON schema, parallel tool calls",
+        "Memoria de agentes: MemorySaver (in-memory), PostgresSaver (persistente), short-term vs long-term",
+        "Multi-agent handoffs: Command(goto='agent_b'), agent-as-node pattern",
+        "LangSmith observability: traces, evaluaciones automáticas, alertas de costo",
+        "Human-in-the-loop: interrupt_before, aprobación de acciones de alto riesgo",
+        "Seguridad en agents: least privilege en tools, sandboxing de code execution, rate limits por agente"
+      ],
+      "i_do_steps": [
+        "Construir un agente ReACT con 3 tools: search_web, read_file, write_to_db",
+        "Implementar un Supervisor que coordina 2 agentes especializados (research + writing)",
+        "Agregar persistencia de memoria con PostgresSaver y mostrar cómo el agente 'recuerda' conversaciones previas"
+      ],
+      "we_do_exercises": [
+        "Añadir human-in-the-loop: el agente pide aprobación antes de ejecutar write_to_db",
+        "Instrumentar el agente con LangSmith y analizar las trazas",
+        "Implementar rate limiting en las tools para evitar costos excesivos"
+      ],
+      "you_do_project": {
+        "name": "Multi-Agent Workflow en Producción",
+        "description": "multi-agent-platform: Agente Orchestrator (recibe la tarea del usuario y la delega a sub-agentes); Agente Researcher (usa Tavily/Serper + RAG para investigar y retornar fuentes); Agente Analyst (procesa datos con pandas y genera insights); Agente Writer (genera reporte en Markdown con los insights del analyst); memoria persistente con PostgreSQL para recordar preferencias del usuario; human-in-the-loop checkpoint antes de generar el reporte final; monitoreo completo con LangSmith (traces públicas en el CV/portafolio)."
+      },
+      "auto_evaluation": null,
+      "key_resources": [
+        "LangGraph docs",
+        "LangGraph Production Multi-Agent Guide",
+        "State of Agent Engineering — LangChain survey",
+        "AI Engineer job requirements 2026",
+        "Multi-agent patterns (FreeCodeCamp 2026)"
+      ]
+    },
+    {
+      "section": 29,
+      "title": "MLOps Avanzado — MLflow, DVC, Evidently",
+      "phase": 2,
+      "level": "Senior",
+      "estimated_hours": 14,
+      "icon": "🔬",
+      "tagline": "Un modelo que no está monitoreado es un modelo que está fallando silenciosamente.",
+      "job_relevance": "MLOps es el skill que separa Data Scientists de ML Engineers. Las empresas US buscan candidatos que puedan no solo entrenar modelos, sino desplegarlos, monitorearlos y retrenarlos automáticamente. MLflow, DVC y Evidently son el stack estándar de la industria.",
+      "learning_objectives": [
+        "Trackear experimentos ML con MLflow: parámetros, métricas, artifacts, modelo registry",
+        "Versionar datos y modelos con DVC integrado a Git",
+        "Detectar data drift y model drift con Evidently",
+        "Construir un pipeline de retraining automático cuando se detecta drift",
+        "Implementar A/B testing de modelos en producción",
+        "Usar MLflow Model Registry para gestionar ciclo de vida: Staging → Production → Archived",
+        "Servir modelos con MLflow serving o FastAPI"
+      ],
+      "theory_topics": [
+        "MLflow: mlflow.start_run(), log_param(), log_metric(), log_artifact(), model registry con etapas",
+        "DVC: dvc init, dvc add, dvc remote add, pipelines con dvc.yaml, dvc repro",
+        "Evidently: DataDriftPreset, TargetDriftPreset, RegressionPreset — reportes HTML y JSON",
+        "Data drift vs model drift vs concept drift: diferencias, cómo detectar cada uno",
+        "Retraining triggers: por tiempo (semanal), por drift score threshold, por nuevos datos etiquetados",
+        "A/B testing de modelos: shadow mode, canary deployment, traffic splitting",
+        "Feature stores: por qué importan, Feast como ejemplo open source"
+      ],
+      "i_do_steps": [
+        "Tomar el modelo de churn (sección 10) y agregar tracking completo con MLflow en todos los experimentos",
+        "Versionar el dataset con DVC conectado a un bucket S3 (o localstack)",
+        "Generar un reporte de drift con Evidently comparando datos de producción vs entrenamiento"
+      ],
+      "we_do_exercises": [
+        "Registrar el mejor modelo en MLflow Model Registry y transicionarlo a Production",
+        "Construir un Prefect flow de retraining que corre cuando Evidently detecta drift > 0.3",
+        "Implementar A/B testing: 10% del tráfico va al modelo nuevo (shadow mode)"
+      ],
+      "you_do_project": {
+        "name": "ML Sistema Monitorizado",
+        "description": "ml-ops-churn: experimentos con MLflow (≥ 10 runs con diferentes hiperparámetros); dataset versionado con DVC; modelo en producción sirviendo predicciones via FastAPI; monitoreo con Evidently (reporte automático diario de drift); pipeline de retraining con Prefect que se activa automáticamente cuando drift > umbral; Model Registry en MLflow con historial de versiones y performance."
+      },
+      "auto_evaluation": null,
+      "key_resources": [
+        "MLflow docs",
+        "DVC docs",
+        "Evidently AI docs",
+        "AI Skills 2025 — MLOps guide"
+      ]
+    },
+    {
+      "section": 30,
+      "title": "Seguridad Avanzada e Infraestructura",
+      "phase": 2,
+      "level": "Senior",
+      "estimated_hours": 12,
+      "icon": "🛡️",
+      "tagline": "En producción, la seguridad no es opcional — es el plano sobre el que todo lo demás se construye.",
+      "job_relevance": "Roles Senior/Staff requieren diseñar seguridad desde la arquitectura: Identity Providers, TLS/mTLS, secrets management a escala, SAST/SCA en CI/CD y pentesting básico. Continúa la sección 14 con foco en infraestructura y patrones Zero Trust.",
+      "learning_objectives": [
+        "OAuth2/OIDC flows completos con Keycloak o Auth0 como Identity Provider",
+        "HTTPS/TLS en producción con Let's Encrypt y nginx reverse proxy",
+        "Secrets management con HashiCorp Vault o AWS Secrets Manager",
+        "Implementar Zero Trust con mTLS entre microservicios",
+        "SAST con bandit + SCA con safety en CI/CD pipeline",
+        "Pentesting básico de APIs propias con OWASP ZAP",
+        "Rate limiting, WAF patterns, y DDoS mitigation en FastAPI"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "Security Hardened API",
+        "description": "La API de la sección 21 con: OAuth2 OIDC, secrets en Vault, mTLS entre servicios, pipeline CI/CD con bandit + safety, y reporte de OWASP ZAP."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 31,
+      "title": "Streaming de Datos en Tiempo Real",
+      "phase": 2,
+      "level": "Senior",
+      "estimated_hours": 12,
+      "icon": "🌊",
+      "tagline": "Los datos que esperan son datos muertos. El streaming los mantiene vivos.",
+      "job_relevance": "Sistemas de streaming en tiempo real son un skill diferenciador para roles Senior Data Engineer ($110K-$150K). Kafka es el estándar industrial para event-driven architectures. Conecta directamente con el sistema CV (S23) para eventos de detección en tiempo real.",
+      "learning_objectives": [
+        "Producir y consumir mensajes con Apache Kafka via confluent-kafka-python",
+        "Usar Redis Streams como alternativa ligera para casos sin Kafka",
+        "Procesar streams con faust (Python-native Kafka stream processing)",
+        "Implementar exactly-once semantics y offset management",
+        "Construir pipelines streaming + batch (Lambda architecture)",
+        "Integrar streaming con el pipeline CV de la sección 23 (events de detección)"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "Pipeline Kafka/Redis Streams",
+        "description": "Sistema que captura eventos de detección del sistema CV (S23), los publica a Kafka, los procesa en tiempo real con Faust, y persiste agregaciones en PostgreSQL con alertas vía WebSocket a dashboard Streamlit."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 32,
+      "title": "Microservicios Python + Docker + Kubernetes",
+      "phase": 2,
+      "level": "Senior",
+      "estimated_hours": 14,
+      "icon": "☸️",
+      "tagline": "De monolito a microservicios — la arquitectura que usan Netflix y Uber.",
+      "job_relevance": "Docker y Kubernetes son skills esenciales para Senior AI/Backend Engineers ($130K-$180K). Las empresas esperan que los Senior desplieguen, escaleen y operen sus propios sistemas. Conecta con S21 (FastAPI) y S32/S37 para el deployment del stack completo.",
+      "learning_objectives": [
+        "Containerizar aplicaciones Python con Docker multi-stage builds",
+        "Orquestar con Docker Compose para desarrollo y testing",
+        "Desplegar en Kubernetes: Deployments, Services, ConfigMaps, Secrets, Ingress",
+        "Implementar health checks, liveness/readiness probes en FastAPI",
+        "CI/CD con GitHub Actions: build → test → push to registry → deploy to K8s",
+        "Observabilidad: métricas con Prometheus + Grafana, trazas con OpenTelemetry"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "Despliegue Multi-servicio",
+        "description": "Los microservicios de Fases 1-2 (FastAPI API, RAG service, CV service) en Kubernetes con CI/CD automatizado y observabilidad completa."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 33,
+      "title": "Modelos Avanzados — Gradient Boosting, Stacking, Interpretabilidad",
+      "phase": 2,
+      "level": "Senior",
+      "estimated_hours": 12,
+      "icon": "🏆",
+      "tagline": "Los modelos que ganan competencias y que las empresas confían en producción.",
+      "job_relevance": "ML Engineer roles en USA ($120K-$160K) requieren dominio de gradient boosting, ensembling, optimización bayesiana y model interpretability. SHAP es requisito en sectores regulados (banca, seguros) donde los modelos deben ser explicables.",
+      "learning_objectives": [
+        "Dominar XGBoost, LightGBM y CatBoost: hiperparámetros clave, early stopping, categorical features",
+        "Implementar Stacking y Blending de modelos con scikit-learn StackingClassifier",
+        "Optimizar hiperparámetros con Optuna (bayesian optimization) vs GridSearchCV",
+        "Interpretar modelos con SHAP: global e individual explanations, dependence plots",
+        "Construir pipelines de ML production-grade con scikit-learn Pipelines + ColumnTransformer",
+        "Validar modelos correctamente: time-series CV, stratified K-fold, group K-fold"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "Competition-Grade ML System",
+        "description": "Pipeline completo con LightGBM + XGBoost ensemble, optimización Optuna, SHAP explanations, y deploy via MLflow + FastAPI."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 34,
+      "title": "Integración CV + IA + Automatización",
+      "phase": 2,
+      "level": "Senior",
+      "estimated_hours": 14,
+      "icon": "🎯",
+      "tagline": "El futuro de la automatización es una cámara conectada a un cerebro de IA.",
+      "job_relevance": "Combina Visión por Computadora (S23) con LLMs multimodales para construir sistemas de seguridad industrial, control de calidad y retail analytics. Senior CV+AI Engineer roles ($140K-$180K) valoran este stack diferenciado.",
+      "learning_objectives": [
+        "Integrar el sistema CV (S23) con LLMs para análisis semántico de imágenes (multimodal)",
+        "Usar GPT-4o Vision / Claude 3.5 Sonnet para describir lo que la cámara ve",
+        "Construir un pipeline: cámara → detección YOLO → clasificación LLM → acción automatizada",
+        "Implementar scene understanding: no solo 'hay una persona' sino 'la persona está en zona restringida'",
+        "Integrar con RPA: cuando CV detecta condición X, el bot ejecuta acción Y",
+        "Casos de uso reales: control de calidad industrial, seguridad perimetral, retail analytics"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "Smart CCTV + Alertas AI",
+        "description": "Sistema que monitorea cámaras, usa YOLO para detección, GPT-4o Vision para análisis semántico, y dispara alertas automáticas + acciones RPA cuando detecta condiciones definidas."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 35,
+      "title": "Diseño de Sistemas de IA en Producción",
+      "phase": 2,
+      "level": "Senior",
+      "estimated_hours": 12,
+      "icon": "📐",
+      "tagline": "El código que escala no es el más inteligente — es el mejor diseñado.",
+      "job_relevance": "El System Design Interview es obligatorio en FAANG y startups USA para roles Senior/Staff ($150K-$220K). ADRs son práctica estándar en equipos maduros. Diferenciador clave para promoción a Staff Engineer.",
+      "learning_objectives": [
+        "Aplicar patrones de diseño para sistemas AI: Command, Strategy, Observer, Factory para componentes ML",
+        "Diseñar con Architecture Decision Records (ADRs): documentar decisiones técnicas con contexto, alternativas y consecuencias",
+        "Evaluar trade-offs: latencia vs accuracy, costo vs calidad, simplicidad vs escalabilidad",
+        "Diseñar para fallo: circuit breakers, fallbacks, graceful degradation en AI systems",
+        "Modelar capacidad: cálculos de throughput, latencia, costos de tokens por volumen",
+        "Construir sistemas observables: logging estructurado, métricas de negocio, alertas"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "Architecture Decision Record",
+        "description": "ADR completo para el sistema de la sección 34 (Smart CCTV) con: context, decision drivers, opciones consideradas, decisión final, consecuencias y plan de validación."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 36,
+      "title": "APIs de IA Avanzadas — Tool Use, Structured Outputs, Batch API",
+      "phase": 2,
+      "level": "Senior",
+      "estimated_hours": 12,
+      "icon": "🔌",
+      "tagline": "Las APIs de IA son herramientas. Aprende a usarlas como un artesano, no como un usuario casual.",
+      "job_relevance": "Las APIs comerciales de LLMs (OpenAI, Anthropic, Google) son el corazón de las aplicaciones AI 2026. Senior AI Engineers deben optimizar costos (Batch API = 50% descuento), garantizar respuestas estructuradas (Structured Outputs) y diseñar fallback chains resilientes.",
+      "learning_objectives": [
+        "Dominar OpenAI tool calling: tools parameter, parallel tool execution, tool choice forcing",
+        "Usar Structured Outputs (JSON mode) para respuestas 100% confiables con Pydantic schemas",
+        "Gestionar costos con prompt caching (Anthropic) y Batch API (OpenAI) para procesamiento masivo",
+        "Implementar fallback chains: GPT-4o → GPT-4o-mini → respuesta por defecto",
+        "Usar Anthropic Claude para document processing: PDFs largos, análisis de contratos",
+        "Integrar Google Gemini para processing multimodal a gran escala",
+        "Construir un router inteligente que elige el modelo correcto según el tipo de tarea"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "AI-Powered B2B Integration",
+        "description": "Sistema que procesa contratos en PDF (carga masiva), extrae información estructurada con OpenAI Structured Outputs, valida con Pydantic, y sube a PostgreSQL — usando Batch API para 10,000+ documentos con costo optimizado."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 37,
+      "title": "Data Engineering con dbt y Snowflake/BigQuery",
+      "phase": 2,
+      "level": "Senior",
+      "estimated_hours": 12,
+      "icon": "📦",
+      "tagline": "El modern data stack que usan las empresas Fortune 500.",
+      "job_relevance": "dbt + Snowflake/BigQuery es el Modern Data Stack estándar en Fortune 500 y startups USA ($110K-$150K para Data Engineers). dbt se ha vuelto obligatorio en ofertas de Data Engineer Senior. Snowflake/BigQuery son los warehouses dominantes.",
+      "learning_objectives": [
+        "Entender el Modern Data Stack: ingesta (Fivetran/Airbyte) → transformación (dbt) → BI (Metabase/Looker)",
+        "Crear modelos dbt: staging, intermediate, marts — naming conventions y materializations",
+        "Escribir tests dbt: not_null, unique, relationships, custom SQL tests",
+        "Entender Snowflake architecture: virtual warehouses, time travel, clone",
+        "Conectar Python a BigQuery/Snowflake para análisis con pandas",
+        "Implementar data lineage con dbt docs + dbt docs generate",
+        "Gestionar entornos (dev/staging/prod) con dbt profiles"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "Modern Data Stack Pipeline",
+        "description": "Pipeline completo con Airbyte (ingesta), dbt (transformaciones con tests), PostgreSQL/BigQuery (warehouse), y dashboard Streamlit sobre los marts de dbt."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 38,
+      "title": "Performance Extrema — Numba, Cython, Vectorización",
+      "phase": 2,
+      "level": "Senior",
+      "estimated_hours": 10,
+      "icon": "🚀",
+      "tagline": "Cuando Python es demasiado lento, estas herramientas lo hacen volar.",
+      "job_relevance": "Performance optimization es diferenciador clave para Senior Python Engineer en fintech, adtech y HFT. Numba (10-100x speedup), Polars (pandas replacement 5-30x faster) y profiling profesional son skills obligatorios para datasets grandes (>10M rows).",
+      "learning_objectives": [
+        "Perfilar código Python correctamente con cProfile, line_profiler, memory_profiler (Python 201 Ch. 13, expandido)",
+        "Usar Numba JIT (@jit, @njit, @vectorize) para acelerar loops numéricos 10-100x",
+        "Escribir extensiones Cython para código crítico de rendimiento",
+        "Vectorizar operaciones con NumPy broadcasting para evitar Python loops",
+        "Usar Polars como alternativa ultra-rápida a pandas para datasets grandes",
+        "Optimizar uso de memoria: dtype optimization, categorical, sparse arrays",
+        "Benchmarking sistemático con pytest-benchmark"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "High-Performance Scoring Engine",
+        "description": "El motor de Familiarity Score (S22) reescrito con Numba + Polars, benchmarkeado contra la versión pandas/Python puro, con reducción documentada de latencia ≥ 5x."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 39,
+      "title": "Proyecto Integrador Fase 2",
+      "phase": 2,
+      "level": "Senior",
+      "estimated_hours": 18,
+      "icon": "🏛️",
+      "tagline": "Un sistema de IA Senior que cualquier startup querría contratar para construir.",
+      "job_relevance": "Capstone Senior que demuestra capacidad de diseñar y operar sistemas AI end-to-end a nivel Senior. Diferenciador claro para roles Senior AI Engineer ($130K-$180K). Es el proyecto que se presenta como caso de estudio principal en entrevistas de sistema.",
+      "learning_objectives": [
+        "Integrar multi-agent LangGraph (S28) coordinando tareas automáticamente",
+        "Construir MLOps pipeline (S29) con monitoreo de drift y retraining automático",
+        "Desplegar en Kubernetes (S32) con CI/CD y observabilidad",
+        "Implementar streaming Kafka (S31) para eventos en tiempo real",
+        "Integrar Smart CV module (S34) con análisis LLM de imágenes",
+        "Documentar ADR (S35) para las principales decisiones arquitecturales",
+        "Desplegar sistema completamente en la nube (GCP/AWS free tier)",
+        "Comunicar arquitectura a stakeholders de negocio con presentation deck de 10 slides"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "End-to-End AI Platform Senior",
+        "description": "ai-platform-senior — evolución del proyecto integrador de Fase 1 con capacidades senior. Componentes adicionales: Multi-agent LangGraph (S28) coordinando tareas automáticamente; MLOps pipeline (S29) con monitoreo de drift y retraining automático; Kubernetes deployment (S32) con CI/CD y observabilidad; Streaming Kafka (S31) para eventos en tiempo real; Smart CV module (S34) con análisis LLM de imágenes; ADR documentado (S35) para las principales decisiones arquitecturales. Entregables: sistema completamente deployado en la nube (GCP/AWS free tier); architecture diagram con Mermaid; presentation deck de 10 slides explicando el sistema a un stakeholder de negocio."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 40,
+      "title": "Arquitectura de Sistemas Agénticos a Escala",
+      "phase": 3,
+      "level": "Master",
+      "estimated_hours": 14,
+      "icon": "🌐",
+      "tagline": "Los sistemas que toman decisiones por sí solos, a escala industrial.",
+      "job_relevance": "Los roles de Principal/Staff AI Engineer en USA (2026, $180K-$250K) requieren diseñar arquitecturas de sistemas agénticos completos. Cubre los patrones arquitecturales avanzados que usan empresas como OpenAI, Anthropic, y startups AI de primer nivel.",
+      "learning_objectives": [
+        "Diseñar arquitecturas multi-agent a escala: Network, Supervisor, Hierarchical, Swarm patterns",
+        "Implementar agent-to-agent communication con Model Context Protocol (MCP)",
+        "Construir sistemas de evaluación automática de agentes (LLM-as-judge)",
+        "Gestionar recursos de agentes: token budgets, tool quotas, timeout hierarchies",
+        "Implementar checkpointing y resumption de workflows largos (LangGraph persistence)",
+        "Diseñar para fault tolerance: qué pasa cuando un sub-agent falla, retries, compensación",
+        "Construir observabilidad completa de sistemas agénticos con LangSmith + custom metrics"
+      ],
+      "theory_topics": [
+        "Patrones multi-agent avanzados: Network (peer-to-peer), Supervisor (centralizado), Hierarchical (árbol), Swarm (dinámico con handoffs)",
+        "Model Context Protocol (MCP): estándar emergente de Anthropic para tool/resource sharing entre agents",
+        "Agent evaluation: LLM-as-judge, pairwise evaluation, trajectory evaluation, benchmark construction",
+        "Resource management: per-agent token budgets, circuit breakers para tools costosas",
+        "Long-running workflows: LangGraph checkpointing, human approval gates, resumption after failures",
+        "Distributed agent state: Redis para estado compartido, locks, consensus entre agentes",
+        "Cost management: modelo cascading (cheap → expensive), prompt caching, output caching"
+      ],
+      "i_do_steps": [
+        "Construir una arquitectura Hierarchical con 3 niveles: Orchestrator → Domain Supervisors → Specialist Agents",
+        "Implementar MCP tool server con recursos compartidos accesibles por múltiples agentes",
+        "Construir un LLM-as-judge evaluator que evalúa la calidad de respuestas de un agente en producción"
+      ],
+      "we_do_exercises": [
+        "Implementar checkpointing con PostgreSQL para un workflow de 30 minutos que puede ser interrumpido y reanudado",
+        "Agregar per-agent token budget enforcement que hace fallback a modelo más barato",
+        "Construir dashboard de observabilidad que muestra: número de agentes activos, token consumption, task success rate"
+      ],
+      "you_do_project": {
+        "name": "Agentic Platform Architecture",
+        "description": "agentic-platform-v2: arquitectura Hierarchical con 3 niveles y 6+ agentes especializados; MCP integration para recursos compartidos (base de conocimiento, herramientas de análisis); sistema de evaluación automática con LLM-as-judge + dashboard de métricas; checkpointing persistente en PostgreSQL; load testing del sistema (100 tareas concurrentes, métricas de throughput y costo); white paper técnico de 5 páginas describiendo la arquitectura, decisiones de diseño y benchmarks."
+      },
+      "auto_evaluation": {
+        "variant_A": "¿Cuándo usarías Supervisor vs Swarm para coordinar agentes? Diseña un sistema de soporte al cliente con cada patrón y argumenta cuál es mejor para ese caso.",
+        "variant_B": "Implementa un sistema de token budget enforcement donde cada agente tiene un límite diario y se registran todos los consumos.",
+        "variant_C": "¿Qué es MCP y por qué es importante para la interoperabilidad de sistemas agénticos? Construye un MCP tool server con 2 recursos."
+      },
+      "key_resources": [
+        "LangGraph Multi-Agent docs",
+        "Model Context Protocol",
+        "State of Agent Engineering — LangChain",
+        "Building Production Multi-Agent Systems",
+        "Multi-agent with LangGraph + MCP (FreeCodeCamp)"
+      ]
+    },
+    {
+      "section": 41,
+      "title": "Fine-Tuning de LLMs (QLoRA, LoRA, SFT)",
+      "phase": 3,
+      "level": "Master",
+      "estimated_hours": 14,
+      "icon": "🧬",
+      "tagline": "Un modelo genérico sabe todo. Un modelo fine-tuned sabe exactamente lo que necesitas.",
+      "job_relevance": "Fine-tuning es el skill más diferenciador en el mercado AI 2026. Las empresas que no pueden pagar GPT-4 en producción fine-tunean Llama/Mistral para tareas específicas. Los roles de ML Engineer / Applied AI con fine-tuning experience reciben $150K-$200K en USA.",
+      "learning_objectives": [
+        "Entender cuándo fine-tuning vs RAG vs prompt engineering es la solución correcta",
+        "Implementar QLoRA (4-bit quantization + LoRA adapters) con transformers + peft + trl",
+        "Preparar datasets de fine-tuning: formatos Alpaca, ShareGPT, instruction-response pairs",
+        "Fine-tunear Llama 3.2 (3B) en Google Colab T4 gratuito (sin GPU propia)",
+        "Evaluar modelos fine-tuned: perplexity, benchmark tasks, human evaluation",
+        "Servir modelos fine-tuned con Ollama localmente y con HuggingFace Inference Endpoints",
+        "Aplicar fine-tuning a casos de uso específicos: extracción de datos, clasificación, Q&A"
+      ],
+      "theory_topics": [
+        "LoRA fundamentals: low-rank adaptation, rango r, scaling factor α, módulos target (q_proj, v_proj)",
+        "QLoRA: 4-bit NormalFloat quantization + doble quantization + paged optimizers — fine-tuning en 6GB VRAM",
+        "SFT (Supervised Fine-Tuning): SFTTrainer de TRL, chat templates, instruction formatting",
+        "Dataset preparation: curación, balanceo de clases, decontaminación, formato correcto",
+        "Evaluation: loss curves, benchmark en dataset de holdout, comparación con base model",
+        "Serving: merge LoRA adapters → modelo completo, Ollama modelfile, GGUF quantization",
+        "Fine-tuning vs RAG vs prompting: framework de decisión — cuándo usar qué"
+      ],
+      "i_do_steps": [
+        "Fine-tunear Llama 3.2-3B con QLoRA en Colab T4 para extracción de entidades en textos peruanos (RUC, DNI, razón social)",
+        "Evaluar el modelo fine-tuned vs el base model en 50 ejemplos del dominio",
+        "Exportar en formato GGUF y servir con Ollama localmente"
+      ],
+      "we_do_exercises": [
+        "Preparar un dataset de fine-tuning de 500+ ejemplos para clasificación de soporte técnico",
+        "Fine-tunear Mistral-7B-Instruct con LoRA (sin cuantización si hay GPU disponible)",
+        "Construir un endpoint FastAPI que sirve el modelo fine-tuned para producción"
+      ],
+      "you_do_project": {
+        "name": "Modelo Dominio-Específico",
+        "description": "llm-domain-expert: fine-tunes un LLM de 3-7B para un dominio específico (ej: extracción de datos tributarios peruanos, análisis de contratos, clasificación de soporte); dataset cuidadosamente curado de ≥ 1,000 ejemplos con train/val/test splits; evaluación rigurosa con métricas específicas del dominio; modelo publicado en HuggingFace Hub con model card completo; demo en Streamlit o HuggingFace Spaces con link público; blog post técnico explicando el proceso, hallazgos y benchmarks."
+      },
+      "auto_evaluation": {
+        "variant_A": "¿Cuándo fine-tuning es PEOR que RAG? Da 3 escenarios donde preferirías RAG aunque sea más caro/lento.",
+        "variant_B": "¿Cuál es el efecto del rango r en LoRA? Experimenta con r=4, r=16, r=64 en el mismo dataset y compara loss y tiempo de entrenamiento.",
+        "variant_C": "Diseña un dataset de fine-tuning para un asistente jurídico peruano. ¿Cómo aseguras que los ejemplos son de alta calidad y no tienen sesgos?"
+      },
+      "key_resources": [
+        "Fine-tuning open LLMs in 2025 — Philschmid",
+        "QLoRA — artidoro/qlora GitHub",
+        "TRL SFTTrainer docs",
+        "Fine-tuning LLMs with QLoRA 2026 tutorial",
+        "MLflow + PEFT fine-tuning"
+      ]
+    },
+    {
+      "section": 42,
+      "title": "Graph RAG y Knowledge Graphs",
+      "phase": 3,
+      "level": "Master",
+      "estimated_hours": 12,
+      "icon": "🕸️",
+      "tagline": "Cuando el texto no es suficiente — las relaciones entre entidades son la inteligencia real.",
+      "job_relevance": "GraphRAG es la frontera actual (2025-2026) en retrieval inteligente para dominios con relaciones complejas: fraud detection, recommendation, drug discovery, compliance. Master AI Engineer roles en banca y pharma valoran este skill diferenciador ($180K-$220K).",
+      "learning_objectives": [
+        "Construir Knowledge Graphs con Neo4j desde datos no estructurados con LLMs",
+        "Implementar GraphRAG: combinar graph traversal con LLM reasoning para respuestas más precisas",
+        "Usar py2neo y Cypher para queries de graph complejos",
+        "Aplicar entity resolution (S22) para poblar el knowledge graph sin duplicados",
+        "Entender Graph Embeddings para semantic search sobre graphs",
+        "Casos de uso: fraud detection, recommendation systems, drug discovery patterns"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "Knowledge Graph + GraphRAG",
+        "description": "Knowledge graph de entidades de un dominio (ej: empresas peruanas, ejecutivos, relaciones societarias) construido con LLM extraction + GraphRAG para consultas complejas que requieren razonamiento relacional."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 43,
+      "title": "LLMOps — Observabilidad, Evaluación, A/B Testing",
+      "phase": 3,
+      "level": "Master",
+      "estimated_hours": 12,
+      "icon": "📡",
+      "tagline": "Los LLMs en producción sin observabilidad son cajas negras con costos impredecibles.",
+      "job_relevance": "LLMOps es la disciplina emergente (2025-2026) que aplica MLOps a LLMs. Senior AI Engineer roles en enterprises ($150K-$200K) ya exigen experiencia con LangSmith, prompt versioning, A/B testing de prompts y monitoreo de costos. Es la frontera donde se separa 'demo de LLM' de 'producto de LLM'.",
+      "learning_objectives": [
+        "Implementar tracing completo con LangSmith + OpenTelemetry para LLM calls",
+        "Construir evaluación continua: RAGAS en producción, LLM-as-judge para calidad",
+        "Implementar prompt versioning: gestionar cambios de prompts como código (GitOps)",
+        "A/B testing de modelos y prompts con traffic splitting y métricas de negocio",
+        "Monitorear costos de tokens en tiempo real con alertas y budgets",
+        "Construir un feedback loop: usuarios califican respuestas → datos para mejorar modelo"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "LLMOps Dashboard",
+        "description": "Dashboard de Grafana/Streamlit que muestra: token costs en tiempo real, respuestas evaluadas por LLM-as-judge, prompt performance tracking, y alertas de costo."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 44,
+      "title": "Sistemas Multi-Modal — Visión + Lenguaje",
+      "phase": 3,
+      "level": "Master",
+      "estimated_hours": 12,
+      "icon": "👁️",
+      "tagline": "Los modelos que ven, leen y razonan al mismo tiempo.",
+      "job_relevance": "Sistemas multimodales (GPT-4o Vision, Claude 3.5, Gemini 1.5, Qwen-VL) son la frontera 2026 para automatización documental. Roles en fintech, contabilidad y legal buscan ingenieros que automaticen procesamiento de facturas, contratos y formularios escaneados. Fine-tuning multimodal es skill MUY escaso ($170K-$210K).",
+      "learning_objectives": [
+        "Usar GPT-4o Vision, Claude 3.5 Sonnet y Gemini 1.5 Pro para análisis multimodal",
+        "Integrar visión con documentos: extraer estructuras de PDFs escaneados, tablas, formularios",
+        "Combinar YOLO detection (S23) con análisis semántico LLM para comprensión de escenas",
+        "Construir sistemas de document intelligence: OCR + LLM para procesamiento de documentos peruanos (boletas, facturas, contratos)",
+        "Fine-tuning multimodal con modelos LLaVA/Qwen-VL para tareas específicas",
+        "Procesamiento de video: análisis frame-by-frame + temporal reasoning"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "Multimodal Analysis Pipeline",
+        "description": "Sistema que procesa facturas peruanas en imagen (JPEG/PDF), extrae con Qwen-VL, valida contra base de datos de proveedores con RapidFuzz (S22), y sube a sistema contable vía API."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 45,
+      "title": "Infraestructura como Código para AI Platforms",
+      "phase": 3,
+      "level": "Master",
+      "estimated_hours": 12,
+      "icon": "🏗️",
+      "tagline": "Tu infraestructura debería vivir en Git, no en tu cabeza.",
+      "job_relevance": "IaC (Terraform + ArgoCD + Helm) es obligatorio para roles Staff/Principal AI Engineer ($180K-$250K) en enterprises que operan en AWS/GCP. Permite reproducibilidad, audit trail y rollback rápido. Es el skill que separa 'deploya scripts' de 'opera plataformas'.",
+      "learning_objectives": [
+        "Gestionar infraestructura AWS/GCP con Terraform: VPCs, EKS, RDS, S3",
+        "Desplegar stacks ML completos con Terraform modules reutilizables",
+        "Usar Helm charts para aplicaciones Kubernetes complejas",
+        "Implementar GitOps con ArgoCD: el cluster se sincroniza automáticamente con Git",
+        "Automatizar provisioning con Ansible para configuración de servidores",
+        "Gestionar costos con AWS Cost Explorer integrado en pipelines CI/CD"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "Production IaC Deploy",
+        "description": "Todo el stack de la Fase 2 desplegado en AWS/GCP con Terraform, GitOps con ArgoCD, y monitoreo de costos automático."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 46,
+      "title": "Performance Extrema — CUDA, GPU Computing con Python",
+      "phase": 3,
+      "level": "Master",
+      "estimated_hours": 12,
+      "icon": "⚡",
+      "tagline": "Cuando la CPU no alcanza, la GPU procesa miles de operaciones en paralelo.",
+      "job_relevance": "CUDA + GPU computing es skill muy especializado para Senior/Master roles en CV, HPC y deep learning research ($170K-$220K). Diferenciador clave en empresas que procesan video, imágenes médicas o modelos grandes en producción. Conecta con S23 (CV) y S38 (perf).",
+      "learning_objectives": [
+        "Entender CUDA programming model: threads, blocks, grids desde Python con numba.cuda",
+        "Implementar kernels CUDA custom para algoritmos de visión (conecta directamente con sección 23)",
+        "Usar CuPy para arrays GPU con API NumPy-compatible",
+        "Optimizar inferencia de modelos con ONNX Runtime GPU y TensorRT",
+        "Profiling de GPU con NVIDIA Nsight y torch.profiler",
+        "Medir speedup real: benchmarks CPU vs GPU para operaciones de CV y ML"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "GPU-Accelerated CV Engine",
+        "description": "El pipeline de CV de la sección 23 reescrito con CUDA kernels para preprocessing + ONNX Runtime para inferencia, con benchmark documentado de speedup."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 47,
+      "title": "Contribución Open Source y Diseño de APIs Públicas",
+      "phase": 3,
+      "level": "Master",
+      "estimated_hours": 12,
+      "icon": "🌍",
+      "tagline": "El mejor CV para un Senior/Staff Engineer es el historial de contribuciones open source.",
+      "job_relevance": "El historial de contribuciones open source en GitHub es uno de los predictores más fuertes de contratación en empresas top (FAANG, Anthropic, OpenAI, Stripe). Publicar un paquete con comunidad activa es diferenciador enorme para Staff Engineer ($200K-$280K).",
+      "learning_objectives": [
+        "Proceso de contribución a proyectos open source: issues, PRs, code review, CI",
+        "Diseñar APIs públicas: principios de diseño (backward compatibility, versioning, documentation)",
+        "Construir y publicar un paquete Python con funcionalidades genuinamente útiles para la comunidad",
+        "Escribir documentación de calidad con Sphinx + ReadTheDocs + API reference auto-generada",
+        "Gestionar versiones con Conventional Commits + CHANGELOG automático con git-cliff",
+        "Construir una comunidad alrededor de un proyecto: README atractivo, ejemplos, Discord"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "Open Source Package Publicado",
+        "description": "Publica un paquete Python original en PyPI con ≥ 5 GitHub stars en la primera semana: elegir una herramienta que hayas necesitado y no existía, o mejora significativa de algo existente."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 48,
+      "title": "Gobernanza de IA, Ética y Compliance",
+      "phase": 3,
+      "level": "Master",
+      "estimated_hours": 10,
+      "icon": "⚖️",
+      "tagline": "La IA sin gobernanza es como un auto sin frenos — puede funcionar a gran velocidad hasta que choca.",
+      "job_relevance": "La EU AI Act (en vigor 2026) y el Executive Order de Biden/Trump sobre AI tienen implicaciones directas para empresas que operan sistemas de IA. Los roles de AI Engineer senior en enterprises requieren conocimiento de compliance. Este es un diferenciador enorme en el mercado.",
+      "learning_objectives": [
+        "Entender EU AI Act (2026): categorías de riesgo (unacceptable, high, limited, minimal), obligaciones por nivel",
+        "Aplicar ISO 42001 (AI Management Systems) para organizaciones",
+        "Construir un AI governance framework: model cards, datasheets, fairness assessments",
+        "Implementar fairness metrics con fairlearn: demographic parity, equalized odds",
+        "Detectar y mitigar bias en datasets con herramientas de ML fairness",
+        "Construir audit trails para sistemas de IA de alto riesgo (GDPR + AI Act compliance)"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "AI Governance Framework",
+        "description": "Documento de governance para el sistema de churn prediction (S10) con: model card, datasheet, fairness assessment con fairlearn, audit trail, y mapa de riesgos EU AI Act."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 49,
+      "title": "Data Contracts e Ingeniería de Datos Avanzada",
+      "phase": 3,
+      "level": "Master",
+      "estimated_hours": 12,
+      "icon": "📝",
+      "tagline": "Los datos sin contratos son promesas sin firma — nadie sabe qué esperar.",
+      "job_relevance": "Data Contracts son la frontera (2024-2026) del Data Engineering maduro. Empresas data-driven (Netflix, Airbnb, Spotify) los adoptan para escalar sin chaos. Staff/Principal Data Engineer roles ($180K-$240K) los exigen como práctica estándar.",
+      "learning_objectives": [
+        "Implementar data contracts con soda-core o great_expectations para garantías entre productores y consumidores",
+        "Usar Apache Iceberg para data lake con ACID transactions y time travel",
+        "Construir un data mesh: ownership por dominio, productos de datos autodescriptivos",
+        "Implementar data lineage completo con OpenLineage/Marquez",
+        "Versionado de schemas con Confluent Schema Registry (Avro/Protobuf)",
+        "Gestionar data quality SLAs con métricas y alertas automatizadas"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "Data Contract System",
+        "description": "Sistema de data contracts para el pipeline ETL del curso: contrato definido para cada dataset, validación automática en cada ingesta, lineage graph completo, y alertas de violación de SLA."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 50,
+      "title": "Liderazgo Técnico — Mentoría, ADRs, RFC y Technical Writing",
+      "phase": 3,
+      "level": "Master",
+      "estimated_hours": 10,
+      "icon": "👥",
+      "tagline": "El mejor ingeniero no es el que escribe el mejor código, sino el que hace mejor a todo el equipo.",
+      "job_relevance": "Staff/Principal Engineer roles ($200K-$280K) son 70% comunicación y 30% código. RFCs, ADRs, mentoría y technical writing son los skills que diferencian al Senior del Staff. Sin estos, no hay promoción al siguiente nivel.",
+      "learning_objectives": [
+        "Escribir RFCs (Request for Comments) que consigan alineación del equipo en decisiones técnicas",
+        "Conducir code reviews constructivos: dar feedback que enseña, no critica",
+        "Mentorear juniors: cómo estructurar 1-on-1s técnicos, path de crecimiento, feedback",
+        "Comunicar trade-offs a stakeholders no técnicos: hablar de negocio, no de código",
+        "Construir roadmaps técnicos: priorización, dependencias, estimaciones honestas",
+        "Escribir documentación técnica de calidad: READMEs, runbooks, incident reports"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "RFC + Architecture Memo",
+        "description": "RFC completo para una decisión técnica real de tu proyecto (ej: 'Propuesta: migrar de PostgreSQL a DynamoDB para el servicio de sessions'), con: contexto, propuesta, alternativas consideradas, riesgos, plan de migración, y criterios de éxito."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 51,
+      "title": "Proyecto Integrador Final — Sistema AI Production-Grade",
+      "phase": 3,
+      "level": "Master",
+      "estimated_hours": 20,
+      "icon": "🏆",
+      "tagline": "Tu obra maestra. El sistema que defines en LinkedIn como tu proyecto más grande.",
+      "job_relevance": "Capstone Final del roadmap. Demuestra capacidad Master end-to-end para diseñar, construir, desplegar y operar sistemas AI production-grade. Es el proyecto principal del portafolio que se presenta a FAANG y startups top. Define la transición de Senior a Staff/Principal.",
+      "learning_objectives": [
+        "Integrar multi-agent LangGraph con ≥ 5 agentes especializados (S40)",
+        "Servir modelo fine-tuned (S41) como componente del sistema",
+        "Operar RAG pipeline evaluado con RAGAS ≥ 0.75 (S20)",
+        "Integrar sistema CV en tiempo real (S34)",
+        "Operar pipeline de datos con Prefect + dbt (S29, S37)",
+        "Desplegar en Kubernetes con CI/CD completo (S32)",
+        "Implementar observabilidad completa: LangSmith + Grafana (S43)",
+        "Documentar governance framework (S48)"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "AI Platform Master",
+        "description": "ai-master-platform — sistema de IA de clase empresarial que demuestra todas las competencias del roadmap. Requisitos mínimos: (1) Multi-agent LangGraph con ≥ 5 agentes especializados (S40); (2) Modelo fine-tuned (S41) sirviendo un componente del sistema; (3) RAG pipeline evaluado con RAGAS ≥ 0.75 (S20); (4) Sistema CV en tiempo real integrado (S34); (5) Pipeline de datos con Prefect + dbt (S29, S37); (6) Desplegado en Kubernetes con CI/CD completo (S32); (7) Observabilidad completa: LangSmith + Grafana (S43); (8) Governance framework documentado (S48). Entregables de portafolio: repositorio GitHub con README de 3,000+ palabras; sistema desplegado públicamente (URL accesible); demo video de 10 minutos; technical blog post en Medium/Substack; presentación de 15 slides para stakeholders de negocio."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    },
+    {
+      "section": 52,
+      "title": "Perfil Global y Estrategia de Carrera",
+      "phase": 3,
+      "level": "Master",
+      "estimated_hours": 8,
+      "icon": "🌎",
+      "tagline": "El trabajo de tu vida necesita la presentación de tu vida.",
+      "job_relevance": "Cierre del roadmap con foco en empaquetar las 52 secciones en una presentación profesional para el mercado global. Sin esto, todo el trabajo técnico no se traduce en oportunidades reales. Cubre portfolio site, LinkedIn, CV ATS-friendly, entrevistas y networking estratégico.",
+      "learning_objectives": [
+        "Construir un portfolio site profesional con GitHub Pages o Vercel",
+        "Optimizar LinkedIn para visibilidad en recruiters de USA/Europa",
+        "Escribir un CV técnico que pase ATS y llame la atención de hiring managers",
+        "Prepararse para entrevistas técnicas en empresas globales: system design, coding, ML design",
+        "Estrategia de networking: contribución open source, conferencias, comunidades",
+        "Establecer tarifas como freelancer/contractor en plataformas globales (Toptal, Turing, Andela)",
+        "Plan de carrera 3 años: Junior → Mid → Senior → Staff en el mercado global"
+      ],
+      "theory_topics": [],
+      "i_do_steps": [],
+      "we_do_exercises": [],
+      "you_do_project": {
+        "name": "Portfolio Site + CV Global",
+        "description": "Sitio web de portfolio desplegado públicamente con bio, proyectos, skills, blog; CV en inglés y español, optimizado para ATS, con métricas reales de cada proyecto; LinkedIn profile optimizado con keywords de las 52 secciones del roadmap; 'Job hunt kit': lista de 20 empresas target, email templates, pitch de 30 segundos."
+      },
+      "auto_evaluation": null,
+      "key_resources": []
+    }
+  ]
+}

@@ -9,6 +9,7 @@ export const section13: CourseSection = {
     'Playwright, Ollama, OCR, Prefect — automatiza tareas multi-modales con IA local',
   estimatedHours: 14,
   level: 'Avanzado',
+  phase: 0,
   icon: 'Bot',
   accentColor: 'bg-gradient-to-br from-rose-500 to-pink-600',
   jobRelevance:

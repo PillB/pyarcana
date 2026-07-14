@@ -46,6 +46,15 @@ export async function GET(
     'setup', 'basics', 'data-structures', 'functions-modules', 'oop',
     'numpy', 'data-acquisition', 'pandas', 'visualization', 'sklearn',
     'testing', 'performance', 'rpa-automation',
+    'security', 'stdlib-deep', 'wxpython-gui', 'packaging', 'data-engineering',
+    'databases-orm', 'rag', 'fastapi', 'rapidfuzz-entity', 'computer-vision',
+    'rpa-advanced', 'streamlit-dashboards', 'integrator-phase1',
+    'async-concurrency', 'llm-agents', 'mlops', 'security-infra',
+    'streaming-data', 'microservices', 'advanced-models', 'cv-ai-integration',
+    'system-design', 'ai-apis-advanced', 'dbt-bigquery', 'performance-extreme',
+    'integrator-phase2', 'agentic-architecture', 'llm-finetuning', 'graph-rag',
+    'llmops', 'multimodal', 'iac', 'gpu-computing', 'opensource', 'ai-governance',
+    'data-contracts', 'tech-leadership', 'integrator-final', 'career-strategy',
   ]
 
   for (const sectionId of sectionIds) {

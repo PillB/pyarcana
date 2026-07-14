@@ -8,6 +8,7 @@ export const section08: CourseSection = {
   tagline: 'Tu herramienta principal diaria — groupby, merge, limpieza y EDA profesional',
   estimatedHours: 12,
   level: 'Intermedio',
+  phase: 0,
   icon: 'Table2',
   accentColor: 'bg-gradient-to-br from-green-500 to-emerald-600',
   jobRelevance:

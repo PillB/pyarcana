@@ -9,6 +9,7 @@ export const section12: CourseSection = {
     'Multiprocessing, profiling, logging y argparse — código production-ready',
   estimatedHours: 10,
   level: 'Avanzado',
+  phase: 0,
   icon: 'Gauge',
   accentColor: 'bg-gradient-to-br from-indigo-500 to-purple-600',
   jobRelevance:

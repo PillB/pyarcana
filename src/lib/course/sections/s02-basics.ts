@@ -8,6 +8,7 @@ export const section02: CourseSection = {
   tagline: 'Los 6 conceptos que cubren el 80% del Python que vas a escribir',
   estimatedHours: 8,
   level: 'Principiante',
+  phase: 0,
   icon: 'Code2',
   accentColor: 'bg-gradient-to-br from-sky-500 to-cyan-600',
   jobRelevance:

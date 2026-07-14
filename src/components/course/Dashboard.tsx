@@ -207,7 +207,7 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
           <div>
             <h2 className="text-2xl font-bold tracking-tight">Currículum del curso</h2>
             <p className="text-sm text-muted-foreground">
-              13 secciones · método I Do / We Do / You Do · proyectos de portafolio
+              52 secciones · método I Do / We Do / You Do · proyectos de portafolio
             </p>
           </div>
         </div>

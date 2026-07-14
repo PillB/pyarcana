@@ -8,6 +8,7 @@ export const section04: CourseSection = {
   tagline: 'Decorators, pathlib, datetime y empaquetado profesional',
   estimatedHours: 8,
   level: 'Intermedio',
+  phase: 0,
   icon: 'Puzzle',
   accentColor: 'bg-gradient-to-br from-amber-500 to-orange-600',
   jobRelevance:

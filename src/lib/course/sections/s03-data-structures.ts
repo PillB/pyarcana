@@ -8,6 +8,7 @@ export const section03: CourseSection = {
   tagline: 'Dicts, listas, CSV, JSON y manejo de errores como en producción',
   estimatedHours: 8,
   level: 'Principiante',
+  phase: 0,
   icon: 'Database',
   accentColor: 'bg-gradient-to-br from-emerald-500 to-teal-600',
   jobRelevance:

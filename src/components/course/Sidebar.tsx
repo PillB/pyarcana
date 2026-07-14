@@ -110,8 +110,22 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
             const isBookmarked = safeBookmarks.includes(section.id)
             const Icon = (Icons as Record<string, React.ElementType>)[section.icon] || Icons.Circle
 
+            // Phase header
+            const phaseHeader = section.phase === 1 && (idx === 0 || sections[idx - 1].phase !== 1)
+              ? 'Fase 1 — Competente'
+              : section.phase === 2 && (idx === 0 || sections[idx - 1].phase !== 2)
+              ? 'Fase 2 — Senior'
+              : section.phase === 3 && (idx === 0 || sections[idx - 1].phase !== 3)
+              ? 'Fase 3 — Master'
+              : null
+
             return (
               <div key={section.id}>
+                {phaseHeader && (
+                  <div className="mt-4 mb-1 px-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/60">
+                    {phaseHeader}
+                  </div>
+                )}
                 <div
                   role="button"
                   tabIndex={0}

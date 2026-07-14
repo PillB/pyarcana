@@ -38,19 +38,59 @@ interface PdfReportProps {
 }
 
 const SECTION_NAMES: Record<string, string> = {
-  setup: '1. Setup & Entorno',
-  basics: '2. Basics de Python',
-  'data-structures': '3. Data Structures & Files',
-  'functions-modules': '4. Functions & Modules',
+  setup: '1. Setup',
+  basics: '2. Basics',
+  "data-structures": '3. Data Struct',
+  "functions-modules": '4. Functions',
   oop: '5. OOP',
   numpy: '6. NumPy',
-  'data-acquisition': '7. Adquisición de Datos',
-  pandas: '8. Pandas & EDA',
-  visualization: '9. Visualización',
-  sklearn: '10. scikit-learn',
+  "data-acquisition": '7. Data Acq',
+  pandas: '8. Pandas',
+  visualization: '9. Viz',
+  sklearn: '10. sklearn',
   testing: '11. Testing',
-  performance: '12. Performance & Logging',
-  'rpa-automation': '13. RPA & Automatización',
+  performance: '12. Perf',
+  "rpa-automation": '13. RPA',
+  security: '14. Security',
+  "stdlib-deep": '15. stdlib',
+  "wxpython-gui": '16. GUI',
+  packaging: '17. Packaging',
+  "data-engineering": '18. Data Eng',
+  "databases-orm": '19. DB/ORM',
+  rag: '20. RAG',
+  fastapi: '21. FastAPI',
+  "rapidfuzz-entity": '22. RapidFuzz',
+  "computer-vision": '23. CV',
+  "rpa-advanced": '24. RPA+',
+  "streamlit-dashboards": '25. Streamlit',
+  "integrator-phase1": '26. Capstone P1',
+  "async-concurrency": '27. Async',
+  "llm-agents": '28. LLM Agents',
+  mlops: '29. MLOps',
+  "security-infra": '30. Sec/Infra',
+  "streaming-data": '31. Streaming',
+  microservices: '32. Microsvc',
+  "advanced-models": '33. ML+',
+  "cv-ai-integration": '34. CV+AI',
+  "system-design": '35. SysDesign',
+  "ai-apis-advanced": '36. AI APIs',
+  "dbt-bigquery": '37. dbt/BQ',
+  "performance-extreme": '38. Perf+',
+  "integrator-phase2": '39. Capstone P2',
+  "agentic-architecture": '40. Agentic',
+  "llm-finetuning": '41. FineTune',
+  "graph-rag": '42. GraphRAG',
+  llmops: '43. LLMOps',
+  multimodal: '44. Multi-Modal',
+  iac: '45. IaC',
+  "gpu-computing": '46. GPU',
+  opensource: '47. OSS',
+  "ai-governance": '48. Governance',
+  "data-contracts": '49. Contracts',
+  "tech-leadership": '50. Leadership',
+  "integrator-final": '51. Capstone F',
+  "career-strategy": '52. Career',
+
 }
 
 export function PdfReport({ open, onClose }: PdfReportProps) {
@@ -97,7 +137,7 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
         userName: session.user.name || 'Estudiante',
         userEmail: session.user.email,
         sectionsCompleted,
-        totalSections: 13,
+        totalSections: 52,
         totalExams,
         avgScore,
         totalTimeSec: totalTime,
@@ -139,7 +179,7 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
       if (sectionsCompleted < 8) {
         toast({
           title: 'Aún no puedes generar certificado',
-          description: `Completa al menos 8 secciones (tienes ${sectionsCompleted}/13)`,
+          description: `Completa al menos 8 secciones (tienes ${sectionsCompleted}/52)`,
           variant: 'destructive',
         })
         return
@@ -148,7 +188,7 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
       const html = generateCertificateHTML({
         userName: session.user.name || 'Estudiante',
         sectionsCompleted,
-        totalSections: 13,
+        totalSections: 52,
         date: new Date().toLocaleDateString('es-PE', { year: 'numeric', month: 'long', day: 'numeric' }),
       })
 
@@ -232,7 +272,7 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
 
           {/* Stats summary */}
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <StatBox icon={CheckCircle2} label="Secciones" value={`${sectionsCompleted}/13`} color="text-emerald-600" />
+            <StatBox icon={CheckCircle2} label="Secciones" value={`${sectionsCompleted}/52`} color="text-emerald-600" />
             <StatBox icon={Trophy} label="Exámenes" value={String(totalExams)} color="text-amber-600" />
             <StatBox icon={TrendingUp} label="Score prom." value={`${avgScore}%`} color="text-violet-600" />
             <StatBox icon={Clock} label="Tiempo" value={`${Math.round((Object.values(data?.examAttempts || {}).flat().reduce((a, e) => a + e.timeSpentSec, 0)) / 60)}m`} color="text-sky-600" />
@@ -277,7 +317,7 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
                   <p className="mt-1 text-sm text-muted-foreground">
                     {canGetCertificate
                       ? '¡Felicidades! Has completado suficientes secciones para generar tu certificado.'
-                      : `Completa al menos 8 secciones (tienes ${sectionsCompleted}/13) para desbloquear el certificado.`}
+                      : `Completa al menos 8 secciones (tienes ${sectionsCompleted}/52) para desbloquear el certificado.`}
                   </p>
                   <Button
                     onClick={generateCertificate}
@@ -450,60 +490,60 @@ function generateCertificateHTML(params: {
     width: 297mm; height: 210mm;
     background: linear-gradient(135deg, #fef3c7 0%, #ffffff 50%, #ede9fe 100%);
     border: 20px solid #6d28d9;
-    border-radius: 8px;
+    "border-radius": 8px;
     padding: 40px 60px;
-    box-sizing: border-box;
+    "box-sizing": border-box;
     position: relative;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    "flex-direction": column;
+    "align-items": center;
+    "justify-content": center;
   }
   .cert::before {
     content: '';
     position: absolute;
     top: 10px; left: 10px; right: 10px; bottom: 10px;
     border: 2px solid #c4b5fd;
-    border-radius: 4px;
+    "border-radius": 4px;
   }
   .badge-top {
     width: 80px; height: 80px;
     background: linear-gradient(135deg, #6d28d9, #4c1d95);
-    border-radius: 50%;
+    "border-radius": 50%;
     display: flex; align-items: center; justify-content: center;
     color: white; font-size: 36px; font-weight: bold;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 20px rgba(109, 40, 217, 0.3);
+    "margin-bottom": 20px;
+    "box-shadow": 0 4px 20px rgba(109, 40, 217, 0.3);
   }
   h1 {
     color: #6d28d9;
-    font-size: 42px;
+    "font-size": 42px;
     margin: 0 0 5px;
-    letter-spacing: 2px;
-    text-align: center;
+    "letter-spacing": 2px;
+    "text-align": center;
   }
   .subtitle {
     color: #666;
-    font-size: 16px;
-    margin-bottom: 30px;
-    text-transform: uppercase;
-    letter-spacing: 3px;
+    "font-size": 16px;
+    "margin-bottom": 30px;
+    "text-transform": uppercase;
+    "letter-spacing": 3px;
   }
   .name {
-    font-size: 36px;
+    "font-size": 36px;
     color: #1a1a2e;
     margin: 20px 0;
-    border-bottom: 2px solid #c4b5fd;
-    padding-bottom: 10px;
-    text-align: center;
-    min-width: 400px;
+    "border-bottom": 2px solid #c4b5fd;
+    "padding-bottom": 10px;
+    "text-align": center;
+    "min-width": 400px;
   }
   .body-text {
-    font-size: 16px;
+    "font-size": 16px;
     color: #333;
-    text-align: center;
-    max-width: 600px;
-    line-height: 1.6;
+    "text-align": center;
+    "max-width": 600px;
+    "line-height": 1.6;
     margin: 15px 0;
   }
   .stats-row {
@@ -512,48 +552,48 @@ function generateCertificateHTML(params: {
     margin: 25px 0;
   }
   .stat-item {
-    text-align: center;
+    "text-align": center;
   }
   .stat-value {
-    font-size: 24px;
-    font-weight: bold;
+    "font-size": 24px;
+    "font-weight": bold;
     color: #6d28d9;
   }
   .stat-label {
-    font-size: 11px;
+    "font-size": 11px;
     color: #666;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    "text-transform": uppercase;
+    "letter-spacing": 1px;
   }
   .footer-row {
     display: flex;
-    justify-content: space-between;
+    "justify-content": space-between;
     width: 80%;
-    margin-top: 30px;
-    border-top: 1px solid #c4b5fd;
-    padding-top: 15px;
+    "margin-top": 30px;
+    "border-top": 1px solid #c4b5fd;
+    "padding-top": 15px;
   }
   .footer-item {
-    text-align: center;
+    "text-align": center;
   }
   .footer-label {
-    font-size: 10px;
+    "font-size": 10px;
     color: #666;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    "text-transform": uppercase;
+    "letter-spacing": 1px;
   }
   .footer-value {
-    font-size: 14px;
+    "font-size": 14px;
     color: #1a1a2e;
-    margin-top: 4px;
+    "margin-top": 4px;
   }
   .cert-id {
     position: absolute;
     bottom: 20px;
     right: 30px;
-    font-size: 10px;
+    "font-size": 10px;
     color: #999;
-    font-family: monospace;
+    "font-family": monospace;
   }
 </style>
 </head>

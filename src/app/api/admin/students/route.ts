@@ -74,7 +74,7 @@ export async function GET() {
         sectionsStarted: sectionsStarted.size,
         sectionsCompleted: sectionsCompleted.size,
         totalSections: 10,
-        completionPct: Math.round((sectionsCompleted.size / 13) * 100),
+        completionPct: Math.round((sectionsCompleted.size / 52) * 100),
         examAttemptsCount: examAttempts.length,
         avgExamScore: Math.round(avgScore),
         exercisesAttempted: s._count.exerciseAttempts,

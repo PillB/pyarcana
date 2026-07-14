@@ -8,6 +8,7 @@ export const section10: CourseSection = {
   tagline: 'Pipeline, ColumnTransformer, cross-validation, tuning y SHAP — production-grade ML',
   estimatedHours: 14,
   level: 'Avanzado',
+  phase: 0,
   icon: 'Brain',
   accentColor: 'bg-gradient-to-br from-red-500 to-rose-600',
   jobRelevance:

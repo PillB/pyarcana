@@ -9,6 +9,7 @@ export const section07: CourseSection = {
     'Scraping, regex, SQL, APIs y generators — tu toolkit para conseguir datos del mundo real',
   estimatedHours: 14,
   level: 'Intermedio',
+  phase: 0,
   icon: 'Download',
   accentColor: 'bg-gradient-to-br from-teal-500 to-cyan-600',
   jobRelevance:

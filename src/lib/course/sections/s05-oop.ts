@@ -8,6 +8,7 @@ export const section05: CourseSection = {
   tagline: 'Classes, herencia, dunders y abstract classes — la llave para leer código de sklearn',
   estimatedHours: 10,
   level: 'Intermedio',
+  phase: 0,
   icon: 'Boxes',
   accentColor: 'bg-gradient-to-br from-purple-500 to-fuchsia-600',
   jobRelevance:

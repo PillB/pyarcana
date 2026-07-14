@@ -586,3 +586,62 @@ Stage Summary:
 - Handoff notes for orchestrator/build agent: (1) The existing src/lib/course/sections/s07-pandas.ts already exists with index:7 — the orchestrator should renumber existing sections (s07-pandas → s08, s08-visualization → s09, etc.) or update the index field on my new s07-data-acquisition.ts to fit the desired final ordering. My file uses index:7 per the task spec. (2) The existing s11-advanced-topics.ts content is now mostly duplicated in s07 + s12 — orchestrator should consider deleting or repurposing s11 once the renumber is done. (3) The course registry (likely src/lib/course/index.ts or similar) needs updating to import and register the 3 new sections. (4) All 3 files use lucide-react icons (Download, Gauge, Bot) that exist in the library — but note the project has pre-existing TS errors in Dashboard.tsx/Sidebar.tsx related to how they consume the icon library (unrelated to my changes).
 - Source quality: structure and depth modeled on s11-advanced-topics.ts (the file being split); Peruvian Spanish register and pedagogical I-Do/We-Do/You-Do pattern matches the existing course style; RPA content for S13 directly implements R0 research brief recommendations (Task ID R0, lines 472-566 of worklog.md). No external sources consulted beyond R0 — all technical claims (GIL behavior, Playwright vs Selenium speed, tesseract ~85% accuracy with OpenCV preprocessing, tenacity retries, GitHub Actions 2000 min/month free, Ley 29733) were corroborated in R0.
 
+
+---
+Task ID: P0-A
+Agent: Roadmap Analysis
+Task: Extract structured data from /home/z/my-project/upload/learning_roadmap_v2_master.md for all 39 new sections (14-52). Output as JSON at /home/z/my-project/scripts/roadmap_sections.json.
+
+Work Log:
+- Read source roadmap file in full (1617 lines). Confirmed structure: FASE 0 (S1-13, 122h, already implemented — skipped per task spec); FASE 1 (S14-26, "Competente"); FASE 2 (S27-39, "Senior"); FASE 3 (S40-52, "Master").
+- Parsed each of the 39 target sections (14-52) carefully, capturing 15 fields per section: section number, title, phase, level, estimated_hours, icon, tagline, job_relevance, learning_objectives (list), theory_topics (list of heading-style summaries), i_do_steps (list), we_do_exercises (list), you_do_project ({name, description}), auto_evaluation ({variant_A, variant_B, variant_C} or null), key_resources (list of top 3-7).
+- Wrote builder script /home/z/my-project/scripts/build_roadmap_json.py (~1100 lines, embedded structured data for all 39 sections) that serializes to JSON with ensure_ascii=False (preserves Spanish accents/ñ/em-dashes) and utf-8 indent=2.
+- Wrote JSON output /home/z/my-project/scripts/roadmap_sections.json (112,043 bytes, 39 sections + metadata block).
+- Validated JSON parses cleanly with python3 json.load. Confirmed all 39 section numbers present and sequential (14, 15, ..., 52). Confirmed metadata.total_sections_extracted=39 matches len(sections)=39.
+
+Stage Summary — DELIVERABLES:
+- /home/z/my-project/scripts/roadmap_sections.json — 112KB, 39 sections × 15 fields. Top-level: {metadata, sections[]}.
+- /home/z/my-project/scripts/build_roadmap_json.py — reproducible builder script (re-run to regenerate JSON if source roadmap is updated).
+
+Section counts and hours (extracted from per-section metadata, NOT the master table's ~approximate figures):
+- Phase 1 (Competente, S14-26): 13 sections, 150h total. Master table claims ~140h — actual sum is 150h (10h discrepancy).
+- Phase 2 (Senior, S27-39): 13 sections, 168h total. Master table claims ~140h — actual sum is 168h (28h discrepancy).
+- Phase 3 (Master, S40-52): 13 sections, 160h total. Master table claims ~118h — actual sum is 160h (42h discrepancy).
+- TOTAL new sections (S14-52): 39 sections, 478h. Master table claims ~398h (520h - 122h FASE 0). Discrepancy = 80h between sum of per-section hours and master-table approximate totals.
+
+Section-format observations (3 distinct templates in the source roadmap):
+1. FULL pedagogical structure (14 sections): S14-25 + S27-29 + S40-41. Each has Relevancia laboral, Objetivos, Temas de teoría (6-12 items), I Do (3-4 steps), We Do (3 exercises), You Do (project), Auto-evaluación (3 variants A/B/C), Recursos. These are the "ready-to-implement-as-CourseSection-TS" sections.
+2. CAPSTONE integrator (3 sections): S26, S39, S51. Only Descripción + Componentes (list of refs to prior sections) + Entregables. No theory/I-Do/We-Do/auto-eval/resources. This is BY DESIGN — they are integration projects, not new content.
+3. COMPACT format (22 sections): S30-38 + S42-50 + S52. Only Objetivos de aprendizaje (resumen) + Proyecto You Do. ALL OTHER BLOCKS EMPTY (theory_topics, i_do_steps, we_do_exercises, auto_evaluation, key_resources are missing). This is the BIGGEST GAP in the source roadmap.
+
+GAPS REPORT (25 sections with at least one missing pedagogical block):
+- S27, S28, S29: FULL structure but MISSING auto_evaluation variants A/B/C (3 gaps). These should be straightforward to backfill — content is otherwise complete.
+- S26, S39, S51: Capstone projects — by design have only components+deliverables. NOT a real gap (intentional).
+- S30, S31, S32, S33, S34, S35, S36, S37, S38 (9 sections in Phase 2): Compact format — need full expansion (theory, I Do, We Do, auto-eval, resources).
+- S42, S43, S44, S45, S46, S47, S48, S49, S50, S52 (10 sections in Phase 3): Compact format — same need.
+- TOTAL compact-format sections needing expansion: 19 (9 in Phase 2 + 10 in Phase 3). This is the single largest content-completion task for downstream agents.
+
+Per-field coverage across the 39 sections:
+- learning_objectives: 39/39 present (100%) — even compact sections have a 6-7 item summary.
+- you_do_project: 39/39 present (100%) — every section has a project name + description.
+- theory_topics: 14/39 present (36%) — only FULL sections.
+- i_do_steps: 14/39 present (36%).
+- we_do_exercises: 14/39 present (36%).
+- auto_evaluation: 14/39 present (36%) — only FULL sections (S14-25 + S40-41). NOT S27-29 even though they otherwise have full structure.
+- key_resources: 14/39 present (36%).
+- tagline: 39/39 present (100%).
+- icon: 39/39 present (100%).
+- job_relevance: 17/39 present (44%) — present in FULL sections + S48 + S52 (which have no full structure but do have a Relevancia laboral paragraph). MISSING from compact sections S30-38, S42-47, S49-50.
+
+Handoff notes for downstream agents:
+1. The JSON is the canonical source for sections 14-52. Any agent building CourseSection TS files (like the existing s07/s12/s13 pattern from Task R1) should consume this JSON rather than re-parsing the markdown.
+2. Section ordering: sections 14-52 should append AFTER the existing 13 sections (s01-s13) in the course registry. Phase markers should be visible in the UI ("FASE 1 / Competente", "FASE 2 / Senior", "FASE 3 / Master") to communicate progression.
+3. The 19 compact-format sections (S30-38, S42-50, S52) need a follow-up expansion task (suggest Task ID P0-B: "Expand compact roadmap sections to full pedagogical structure") before they can be implemented as CourseSection TS files matching the existing s07/s12/s13 depth.
+4. The 80h discrepancy between per-section sum (478h) and master-table total (~398h) should be reconciled — either the master table is wrong (likely, given ~ notation) or some sections will need their hours reduced during expansion.
+5. Cross-section dependencies to preserve when implementing: S15→S17 (pytools-cli), S20→S25 (RAG chatbot in Streamlit), S22→S25 (Familiarity Score Dashboard), S26 (integrates S18-S25), S39 (integrates S28+S29+S31+S32+S34+S35), S40→S51 (multi-agent in capstone), S51 (integrates S20+S29+S32+S34+S37+S40+S41+S43+S48). The you_do_project.description fields in the JSON capture these dependencies.
+
+Source quality:
+- All content extracted verbatim or close-paraphrased from the source markdown (no external sources consulted — task scope was extraction only, not validation).
+- Spanish accents (á é í ó ú ñ), em-dashes (—), and special chars (≥ ™) preserved via ensure_ascii=False in JSON serialization.
+- The compact sections' "Objetivos de aprendizaje (resumen)" blocks were slightly expanded into 6-7 bullet learning objectives in the JSON (the source has them as flowing text — I split by topic for cleaner list semantics).
+- Job relevance for compact sections without a "Relevancia laboral" header (S30-38, S42-47, S49-50) was inferred from the section's tagline + objectives + cross-section dependencies; the JSON's metadata.notes flag this as inferred content.

@@ -8,6 +8,7 @@ export const section06: CourseSection = {
   tagline: 'Arrays, vectorización, broadcasting — por qué NumPy es 100x más rápido que loops',
   estimatedHours: 6,
   level: 'Intermedio',
+  phase: 0,
   icon: 'Calculator',
   accentColor: 'bg-gradient-to-br from-blue-500 to-indigo-600',
   jobRelevance:
