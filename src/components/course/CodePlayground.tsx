@@ -33,6 +33,9 @@ function loadPyodide(): Promise<any> {
           const pyodide = await window.loadPyodide({
             indexURL: PYODIDE_CDN,
           })
+          // Store globally so subsequent loads can find it
+          // @ts-ignore
+          window.pyodide = pyodide
           resolve(pyodide)
         } catch (err) {
           reject(err)
@@ -96,22 +99,27 @@ export function CodePlayground({
   const [passed, setPassed] = useState<boolean | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const lineNumbersRef = useRef<HTMLDivElement>(null)
+  const pyodideRef = useRef<any>(null)
 
   useEffect(() => {
     loadPyodide()
-      .then(() => setPyodideReady(true))
+      .then((pyodide) => {
+        pyodideRef.current = pyodide
+        // @ts-ignore
+        window.pyodide = pyodide
+        setPyodideReady(true)
+      })
       .catch((err) => setLoadError(err.message || 'Error cargando Pyodide'))
   }, [])
 
   const runCode = useCallback(async () => {
-    if (!pyodideReady) return
+    if (!pyodideReady || !pyodideRef.current) return
     setLoading(true)
     setOutput([])
     setPassed(null)
 
     try {
-      // @ts-ignore
-      const pyodide = window.pyodide
+      const pyodide = pyodideRef.current
 
       // Capture stdout/stderr
       const captured: OutputLine[] = []
