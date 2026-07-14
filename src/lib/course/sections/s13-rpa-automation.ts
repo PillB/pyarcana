@@ -1509,7 +1509,7 @@ def mi_flow():
 
 # === Ejecutar ===
 if __name__ == "__main__":
-    # Corre el flow — verás en logs cómo reintenta descargar_datos hasta que pega
+    # Corre el flow — verás en logs cómo reintenta descargar_datos hasta que funciona
     resultado = mi_flow()
     print("\\nResultado final:")
     for k, v in resultado.items():

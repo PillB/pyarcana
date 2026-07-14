@@ -121,7 +121,7 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
             <Briefcase className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
             <div>
               <div className="text-sm font-semibold text-foreground">
-                ¿Para qué te sirve esto en la pega?
+                ¿Para qué te sirve esto en el trabajo?
               </div>
               <p className="mt-1 text-sm text-foreground/80">{section.jobRelevance}</p>
             </div>

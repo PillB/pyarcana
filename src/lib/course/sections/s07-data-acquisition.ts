@@ -12,7 +12,7 @@ export const section07: CourseSection = {
   icon: 'Download',
   accentColor: 'bg-gradient-to-br from-teal-500 to-cyan-600',
   jobRelevance:
-    'En cualquier pega seria de data en Perú — Interbank, BBVA, Mercado Libre, Rimac, Falabella — NUNCA te entregan un CSV limpio. Te dicen "consigue los precios de la competencia en Mercado Libre", "conéctate a la API interna de transacciones", "saca el reporte de la base SQL de créditos", o "limpia estos 50 mil textos libres que mandaron los clientes por WhatsApp". Esta sección cubre EXACTAMENTE esos 5 escenarios: web scraping, consumo de APIs REST, conexión a SQL, expresiones regulares para limpiar texto, generators para no morir con datasets gigantes, y `collections` para escribir código Python idiomático. Quien domina adquisición de datos cobra 30-40% más que un junior que solo sabe `pd.read_csv()`, porque puede llevar un proyecto desde "no tengo los datos" hasta "DataFrame listo para modelar" sin pedirle ayuda a nadie más. Es la skill #1 que separa un Data Analyst Junior de uno Senior.',
+    'En cualquier trabajo serio de data en Perú — Interbank, BBVA, Mercado Libre, Rimac, Falabella — NUNCA te entregan un CSV limpio. Te dicen "consigue los precios de la competencia en Mercado Libre", "conéctate a la API interna de transacciones", "saca el reporte de la base SQL de créditos", o "limpia estos 50 mil textos libres que mandaron los clientes por WhatsApp". Esta sección cubre EXACTAMENTE esos 5 escenarios: web scraping, consumo de APIs REST, conexión a SQL, expresiones regulares para limpiar texto, generators para no morir con datasets gigantes, y `collections` para escribir código Python idiomático. Quien domina adquisición de datos cobra 30-40% más que un junior que solo sabe `pd.read_csv()`, porque puede llevar un proyecto desde "no tengo los datos" hasta "DataFrame listo para modelar" sin pedirle ayuda a nadie más. Es la skill #1 que separa un Data Analyst Junior de uno Senior.',
   learningOutcomes: [
     { text: 'Construir generators con `yield` para procesar CSVs gigantes sin agotar RAM' },
     { text: 'Scrapear sitios con requests + BeautifulSoup y automatizar con Selenium cuando hay JS' },
@@ -594,7 +594,7 @@ print(f"deque.appendleft x1000: {time.time() - start:.3f}s")  # ~0.0001s (10000x
   ],
   iDo: {
     intro:
-      'Vamos a construir juntos 3 pipelines pequeños que cubren los 3 escenarios más comunes de adquisición de datos: (1) consumir una API REST paginada y llevar el resultado a un DataFrame, (2) scrapear una tabla HTML y convertirla en DataFrame, (3) consultar una base SQL y traer el resultado a pandas. Estos 3 patrones son el 80% del trabajo de adquisición en cualquier pega real.',
+      'Vamos a construir juntos 3 pipelines pequeños que cubren los 3 escenarios más comunes de adquisición de datos: (1) consumir una API REST paginada y llevar el resultado a un DataFrame, (2) scrapear una tabla HTML y convertirla en DataFrame, (3) consultar una base SQL y traer el resultado a pandas. Estos 3 patrones son el 80% del trabajo de adquisición en cualquier proyecto real.',
     steps: [
       {
         description: 'API REST paginada → DataFrame con pd.json_normalize',
@@ -1078,7 +1078,7 @@ os.unlink(db_path)`,
   youDo: {
     title: 'Capstone: Data Acquisition Pipeline — 3 fuentes unificadas en un solo DataFrame',
     context:
-      'Construyes un pipeline llamado `data-acquisition-pipeline` que adquiere datos de 3 fuentes distintas y las unifica en un DataFrame único listo para análisis. Las 3 fuentes: (1) API REST paginada (puedes usar OpenFoodFacts, JSONPlaceholder, o cualquier API pública), (2) scraping de una tabla HTML (puedes usar Wikipedia o cualquier página con datos tabulados), (3) base de datos SQLite local (la creas con datos sintéticos peruanos). El pipeline debe limpiar cada fuente con regex (normalizar nombres, extraer/validar formatos), unificarlas en un schema común, y persistir el resultado a SQLite + parquet. Es lo que harías en tu primer sprint como Data Engineer Junior en una pega peruana.',
+      'Construyes un pipeline llamado `data-acquisition-pipeline` que adquiere datos de 3 fuentes distintas y las unifica en un DataFrame único listo para análisis. Las 3 fuentes: (1) API REST paginada (puedes usar OpenFoodFacts, JSONPlaceholder, o cualquier API pública), (2) scraping de una tabla HTML (puedes usar Wikipedia o cualquier página con datos tabulados), (3) base de datos SQLite local (la creas con datos sintéticos peruanos). El pipeline debe limpiar cada fuente con regex (normalizar nombres, extraer/validar formatos), unificarlas en un schema común, y persistir el resultado a SQLite + parquet. Es lo que harías en tu primer sprint como Data Engineer Junior en una empresa peruana.',
     objectives: [
       'Consumir una API REST con paginación y manejo de errores (rate limit, retry, backoff)',
       'Scrapear una tabla HTML con requests + BeautifulSoup y convertirla a DataFrame',

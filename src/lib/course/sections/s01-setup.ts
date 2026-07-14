@@ -11,7 +11,7 @@ export const section01: CourseSection = {
   icon: 'Wrench',
   accentColor: 'bg-gradient-to-br from-violet-500 to-violet-700',
   jobRelevance:
-    'El 90% de los problemas en equipos de data science no son de código, son de entorno. Un analista que sabe configurar venv, git y VS Code properly ahorra horas al equipo y se gana la confianza del líder técnico. En empresas peruanas como Interbank, BBVA o Caja Arequipa, el primer día te piden clonar un repo, levantar el entorno y correr un notebook. Si te trabas ahí, no pasas la semana de prueba.',
+    'El 90% de los problemas en equipos de data science no son de código, son de entorno. Un analista que sabe configurar venv, git y VS Code correctamente ahorra horas al equipo y se gana la confianza del líder técnico. En empresas peruanas como Interbank, BBVA o Caja Arequipa, el primer día te piden clonar un repo, levantar el entorno y correr un notebook. Si te trabas ahí, no pasas la semana de prueba.',
   learningOutcomes: [
     { text: 'Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)' },
     { text: 'Crear y activar entornos virtuales con venv y conda' },

@@ -15,9 +15,9 @@ import { section13 } from './sections/s13-rpa-automation'
 
 export const COURSE_META: CourseMeta = {
   title: 'El Arte de Python',
-  subtitle: 'De cero a Data Scientist — un camino artesanal hacia el dominio del dato',
+  subtitle: 'De cero a Data Scientist — transforma datos en decisiones que cambian negocios',
   description:
-    'Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 13 secciones que te llevan desde instalar Python hasta construir pipelines de automatización con RPA e IA local. Incluye adquisición de datos (scraping, SQL, APIs), análisis con pandas, visualización con mapas interactivos, ML production-ready, testing, performance y automatización multi-modal.',
+    'Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 13 secciones que te llevan desde instalar Python hasta construir pipelines de automatización con RPA e IA local. Incluye adquisición de datos (scraping, SQL, APIs), análisis con pandas, visualización con mapas interactivos, ML production-ready, testing, performance y automatización multi-modal. Cada sección tiene un proyecto real para tu portafolio.',
   totalSections: 13,
   totalHours: 110,
   targetRole: 'Data Analyst / Data Scientist',

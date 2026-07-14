@@ -149,7 +149,7 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
           icon={Trophy}
           label="Secciones completadas"
           value={`${completedCount}/${sections.length}`}
-          sublabel={completedCount > 0 ? 'Vas chevere, sigue así' : 'Aún no abres ninguna'}
+          sublabel={completedCount > 0 ? 'Vas bien, sigue así' : 'Aún no abres ninguna'}
           color="emerald"
           delay={0.1}
         />
