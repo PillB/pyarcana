@@ -24,8 +24,9 @@ export const section44: CourseSection = {
     {
       heading: 'Sistemas multi-modal: combinando visión + lenguaje + audio',
       paragraphs: [
-        'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
-        'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
+        'CLIP (Contrastive Language-Image Pre-training) de OpenAI alinea imágenes y texto en el mismo espacio vectorial. Esto permite buscar imágenes con texto (zero-shot image classification) y buscar texto con imágenes. En Python: `from transformers import CLIPModel; model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")`. Calculas embeddings de imagen y texto, y la similitud coseno indica qué tan relacionados están. Para un buscador de imágenes: pre-calculas embeddings de 1000 imágenes, luego para un query de texto, calculas el embedding del texto y encuentras las top-5 imágenes más similares por coseno.',
+        'Whisper de OpenAI transcribe audio a texto con precisión cercana a humana en 99 idiomas. Para español, el modelo "base" es suficiente; para reuniones con ruido de fondo, usa "medium" o "large". En Python: `import whisper; model = whisper.load_model("base"); result = model.transcribe("audio.mp3")`. El resultado incluye timestamps por palabra, lo que permite subtítulos sincronizados. Whisper es la pieza clave para automatización de reuniones: transcribe → extrae action items con LLM → envía por email. Todo esto corre localmente con `faster-whisper` (CTranslate2) en una CPU normal.',
+        'El multi-modal RAG indexa imágenes (via CLIP embeddings) y texto (via text embeddings) en el mismo vector store. Cuando el usuario hace un query, el retriever encuentra tanto documentos de texto como imágenes relevantes. El LLM (GPT-4V o LLaVA) puede entonces razonar sobre ambos: "Según el documento y el diagrama que encontré, el proceso es...". Esto es especialmente útil para manuales técnicos, reportes médicos, y análisis de diseños donde la información está distribuida entre texto e imágenes.',
       ],
     },
   ],

@@ -26,8 +26,9 @@ export const section39: CourseSection = {
     {
       heading: 'Arquitectura del proyecto integrador Senior',
       paragraphs: [
-        'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
-        'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
+        'El proyecto integrador de Fase 2 consolida todas las skills Senior en un sistema end-to-end: ingesta de datos con Kafka, microservicio de inferencia con FastAPI + Docker + Kubernetes, modelo XGBoost con SHAP para interpretabilidad, y dashboard de monitoreo con Streamlit + Prometheus + Grafana. El objetivo es construir un sistema que cualquier startup peruana querría contratar para construir: un pipeline de scoring crediticio en tiempo real que procesa transacciones, calcula riesgo, y muestra resultados en un dashboard.',
+        'La arquitectura del sistema tiene 5 componentes: (1) Kafka producer que envía eventos de transacciones, (2) FastAPI microservicio que consume eventos, extrae features del feature store, y llama al modelo XGBoost para scoring, (3) MLflow model registry para versionar y servir el modelo, (4) Prometheus + Grafana para monitorear latency, throughput, error rate, y model drift, (5) Streamlit dashboard para visualizar predicciones en tiempo real y alertas. Cada componente se despliega independientemente en Kubernetes con rolling updates zero-downtime.',
+        'El CI/CD pipeline usa GitHub Actions: en cada push a main, se ejecutan tests con pytest (>85% cobertura), se construye la imagen Docker, se publica en GitHub Container Registry, y se despliega a Kubernetes con `kubectl apply`. El despliegue es canary: 10% del tráfico va a la nueva versión, 90% a la antigua. Si no hay errores en 30 minutos, el canary sube a 100%. Si hay errores, rollback automático. Este patrón es estándar en empresas US y es lo que diferencia a un Senior de un Mid-level.',
       ],
     },
   ],

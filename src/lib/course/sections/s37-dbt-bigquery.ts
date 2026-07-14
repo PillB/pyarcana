@@ -25,8 +25,9 @@ export const section37: CourseSection = {
     {
       heading: 'dbt fundamentals: models, sources, tests, snapshots y materializaciones',
       paragraphs: [
-        'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
-        'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
+        'dbt (data build tool) transforma datos en SQL de forma declarativa y testeable. Un modelo dbt es un SELECT statement que se materializa como tabla, view, o incremental. La magia de dbt: define dependencias automáticamente (si modelo B hace JOIN con modelo A, dbt ejecuta A antes de B). Esto elimina el caos de scripts SQL con orden de ejecución manual. En BigQuery, dbt aprovecha partitioning (PARTITION BY date) y clustering (CLUSTER BY user_id) para optimizar queries y reducir costos. Una tabla particionada por fecha y consultada con `WHERE date >= CURRENT_DATE() - 7` cuesta 100x menos que un full scan.',
+        'Los modelos incrementales son la clave para datasets grandes. Un modelo incremental solo procesa registros nuevos desde la última ejecución, no toda la tabla. Se configura con `materialized="incremental"` y un filtro temporal: `WHERE event_date > (SELECT max(event_date) FROM {{ this }})`. Sin `unique_key`, dbt hace INSERT (duplicados en re-runs). Con `unique_key="event_id"`, dbt hace MERGE (upsert). El error #1: olvidar `unique_key` y tener duplicados cada vez que el pipeline corre dos veces en un día.',
+        'dbt tests validan integridad de datos en cada modelo. Los tests genéricos incluyen: `not_null` (la columna no tiene nulls), `unique` (no hay valores duplicados), `accepted_values` (solo ciertos valores permitidos), `relationships` (integridad referencial — cada foreign key existe en la tabla padre). Si un test falla, el pipeline se detiene con error. Esto previene que datos corruptos propaguen a dashboards y modelos de ML. La regla: cada columna crítica (IDs, fechas, montos) debe tener al menos un test.',
       ],
     },
   ],

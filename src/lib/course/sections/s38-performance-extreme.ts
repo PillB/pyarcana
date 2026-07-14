@@ -25,8 +25,9 @@ export const section38: CourseSection = {
     {
       heading: 'Numba: JIT compilation para loops numéricos 100x más rápidos',
       paragraphs: [
-        'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
-        'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
+        'Numba es un compilador JIT (Just-In-Time) que convierte Python a código máquina via LLVM. Con `@numba.njit`, un loop numérico que tarda 500ms en Python puro corre en 5ms — 100x speedup. La limitación: Numba solo soporta tipos primitivos (int, float, arrays NumPy) y no soporta operaciones con strings, DataFrames, ni llamadas a APIs. Para funciones numéricas puras (cálculo de distancias, simulaciones Monte Carlo, procesamiento de señales), Numba es la herramienta #1. Usa `@njit(cache=True)` para cachear la compilación entre ejecuciones — el primer run compila (lento), los siguientes cargan del cache (instantáneo).',
+        'Polars es la alternativa a pandas que usa Apache Arrow multi-threaded con evaluación lazy. En benchmarks reales, Polars es 5-30x más rápido que pandas en operaciones de groupby + join, y usa 2-5x menos memoria. La API es diferente: `pl.col("x").sum()` en vez de `df["x"].sum()`, y `df.group_by("col").agg(...)` en vez de `df.groupby("col").agg(...)`. La evaluación lazy (`df.lazy().filter(...).collect()`) optimiza el plan de ejecución: Polars puede reordenar operaciones, eliminar columnas no usadas, y paralelizar automáticamente. Para pipelines de datos con >1M filas, la migración de pandas a Polars es el upgrade de performance más impactante que puedes hacer.',
+        'La vectorización con NumPy elimina loops de Python reemplazándolos con operaciones a nivel de array en C. En vez de `for i in range(n): result[i] = a[i] + b[i]`, escribes `result = a + b` — NumPy ejecuta todo en C sin overhead de Python. Para 1M de elementos, el loop tarda 500ms; la vectorización tarda 5ms. La regla: si tienes un for-loop sobre datos numéricos, hay una operación vectorizada de NumPy que lo reemplaza. `np.where()` reemplaza if/else, `np.vectorize()` reemplaza funciones custom, y broadcasting reemplaza loops anidados.',
       ],
     },
   ],

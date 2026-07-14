@@ -24,8 +24,9 @@ export const section45: CourseSection = {
     {
       heading: 'Infraestructura como Código (IaC): Terraform para plataformas de IA',
       paragraphs: [
-        'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
-        'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
+        'Terraform es el estándar de facto para Infraestructura como Código (IaC). Define recursos cloud en archivos .tf (declarativos), y Terraform se encarga de crear/modificar/eliminar los recursos para que el estado real coincida con el declarado. Para plataformas de IA, los recursos típicos son: instancias GPU (para entrenamiento), clusters Kubernetes (para serving), buckets S3/GCS (para datos y modelos), y bases de datos (para feature stores). La ventaja principal: reproducibilidad. Un `terraform apply` levanta toda la infra desde cero en minutos, y `terraform destroy` la elimina sin dejar recursos huérfanos que cobran.',
+        'ArgoCD implementa GitOps: el estado deseado del cluster Kubernetes vive en un repo Git, y ArgoCD sincroniza continuamente el cluster con el repo. Cada git push a la rama main despliega automáticamente. La ventaja: el repo Git es la única fuente de verdad — no hay `kubectl apply` manual que pueda desincronizar el cluster. Si alguien hace un cambio manual en el cluster, ArgoCD lo revierte en el próximo sync. Para rollback, simplemente haces `git revert` y ArgoCD despliega la versión anterior automáticamente. Esto es lo que usan empresas como Intuit, BlackRock, y Tesla.',
+        'FinOps es la práctica de optimizar costos cloud continuamente. Para IA, el costo #1 son las GPUs: una instancia NVIDIA T4 cuesta $0.90/hora en AWS, una A100 cuesta $3.00/hora. Para training, usa spot instances (60-70% de descuento) con checkpointing — si la instancia se interrumpe, reanudas desde el último checkpoint. Para inference, configura auto-scaling con KEDA: escala a 0 pods cuando no hay tráfico (ahorra 80% en workloads con tráfico variable). Usa Kubecost para visualizar costos por namespace, deployment, y pod. Sin FinOps, una plataforma de IA puede costar 3-5x más de lo necesario.',
       ],
     },
   ],

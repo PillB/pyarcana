@@ -24,8 +24,9 @@ export const section34: CourseSection = {
     {
       heading: 'OpenCV + Deep Learning: detección de objetos con YOLOv8 en Python',
       paragraphs: [
-        'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
-        'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
+        'YOLOv8 de Ultralytics es el modelo de detección de objetos más rápido y preciso para uso general. Puede detectar 80 clases del dataset COCO (persona, auto, perro, etc.) en 5ms por frame en GPU. Para usarlo en Python: `from ultralytics import YOLO; model = YOLO("yolov8n.pt"); results = model.predict("image.jpg")`. Los resultados incluyen bounding boxes, confianza, y clase para cada detección. Para video en tiempo real, itera frame por frame con OpenCV: `cap = cv2.VideoCapture(0); while cap.isOpened(): ret, frame = cap.read(); results = model.predict(frame)`.',
+        'El OCR con Tesseract requiere preprocessing de OpenCV para ser útil en documentos reales. La cadena típica es: (1) convertir a grayscale, (2) aplicar adaptive threshold para binarizar, (3) deskew (corregir rotación) con `cv2.minAreaRect`, (4) denoise con `cv2.fastNlMeansDenoising`, (5) upscale 2x con `cv2.resize`. Sin este preprocessing, Tesseract tiene ~60% de precisión. Con él, llega a 85-90%. Para facturas peruanas, instala `tesseract-ocr-spa` (paquete de idioma español) — sin él, los acentos y la ñ se confunden sistemáticamente.',
+        'La integración de visión computacional con LLMs abre posibilidades únicas. Por ejemplo: YOLOv8 detecta objetos en una escena (persona, mesa, laptop), luego un LLM (Ollama local o GPT-4V) genera una descripción natural: "Veo una persona sentada en una mesa con una laptop, parece estar trabajando". Esto es útil para accesibilidad (describir escenas para personas con discapacidad visual), monitoreo de seguridad (detectar intrusos y generar alertas contextuales), y análisis de retail (contar productos en góndolas y reportar quiebres de stock).',
       ],
     },
   ],

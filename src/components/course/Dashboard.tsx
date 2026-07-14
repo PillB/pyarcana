@@ -369,11 +369,14 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
 
       {/* Certifications */}
       <section className="mt-12">
-        <h2 className="text-2xl font-bold tracking-tight">Certificaciones gratuitas recomendadas</h2>
+        <h2 className="text-2xl font-bold tracking-tight">Certificaciones recomendadas</h2>
         <p className="text-sm text-muted-foreground">
           Hazlas en paralelo al curso. Complementan tu portafolio y suman en LinkedIn.
         </p>
-        <div className="mt-4 grid gap-4 sm:grid-cols-3">
+
+        {/* Free certifications */}
+        <h3 className="mt-6 mb-3 text-sm font-semibold text-muted-foreground">Gratuitas (principiantes)</h3>
+        <div className="grid gap-4 sm:grid-cols-3">
           {[
             { name: 'CS50P Harvard', desc: 'Python para no-programadores. Reconocido por reclutadores US.', url: 'https://cs50.harvard.edu/python' },
             { name: 'Google Python Certificate', desc: 'IT Automation with Python. Marca fuerte en LinkedIn.', url: 'https://www.coursera.org/professional-certificates/google-it-automation' },
@@ -381,6 +384,33 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
           ].map((c, i) => (
             <Card key={i} className="p-5">
               <Award className="h-6 w-6 text-primary" />
+              <h4 className="mt-2 font-semibold">{c.name}</h4>
+              <p className="mt-1 text-xs text-muted-foreground">{c.desc}</p>
+              <a
+                href={c.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline"
+              >
+                Abrir <ArrowRight className="h-3 w-3" />
+              </a>
+            </Card>
+          ))}
+        </div>
+
+        {/* Professional cloud certifications */}
+        <h3 className="mt-8 mb-3 text-sm font-semibold text-muted-foreground">Profesionales Cloud (avanzado — desbloquea roles remotos US/EU)</h3>
+        <div className="grid gap-4 sm:grid-cols-3">
+          {[
+            { name: 'AWS ML Engineer Associate', desc: 'MLA-C01 · $150 · 130min · AWS domina LATAM. Reemplaza al MLS-C01 retirado Mar 2026.', url: 'https://aws.amazon.com/certification/certified-machine-learning-engineer-associate/', badge: '⭐ Recomendada #1' },
+            { name: 'GCP Professional ML Engineer', desc: 'PMLE · $200 · 120min · Fuerte en fintech LATAM (Nubank, MercadoLibre).', url: 'https://cloud.google.com/learn/certification/machine-learning-engineer' },
+            { name: 'Azure AI Engineer Associate', desc: 'AI-102 · $165 · 100min + labs · Microsoft enterprise en Perú (bancos, gobierno).', url: 'https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer/' },
+          ].map((c, i) => (
+            <Card key={i} className="p-5">
+              <div className="flex items-center gap-2">
+                <Award className="h-6 w-6 text-gold" />
+                {c.badge && <Badge className="bg-gold text-white text-[10px]">{c.badge}</Badge>}
+              </div>
               <h4 className="mt-2 font-semibold">{c.name}</h4>
               <p className="mt-1 text-xs text-muted-foreground">{c.desc}</p>
               <a

@@ -24,8 +24,9 @@ export const section42: CourseSection = {
     {
       heading: 'Graph RAG: combinando knowledge graphs con retrieval-augmented generation',
       paragraphs: [
-        'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
-        'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
+        'GraphRAG combina knowledge graphs (Neo4j) con retrieval-augmented generation para dar respuestas más precisas que el RAG vector-only tradicional. En RAG vector-only, recuperas documentos similares al query por similitud coseno. En GraphRAG, también navegas las relaciones entre entidades: si el usuario pregunta "¿quiénes son los colegas de Ana?", el vector search encuentra documentos sobre Ana, pero el graph traversal encuentra explícitamente las relaciones "trabaja_con" conectadas a Ana. Esto es especialmente poderoso para preguntas multi-hop: "¿qué proyectos comparten los colegas de Ana?" — vector-only no puede responder esto porque requiere joins entre entidades.',
+        'Neo4j es la base de datos de grafos más usada. Usa Cypher como query language: `MATCH (a:Person {name: "Ana"})-[:WORKS_WITH]->(b:Person) RETURN b.name`. En Python, la librería `neo4j` oficial conecta al driver. Para construir el knowledge graph, usas LLMs para extraer entidades (persona, empresa, proyecto) y relaciones (trabaja_con, pertenece_a) de documentos no estructurados. OpenAI structured outputs con pydantic garantiza que el LLM devuelva entidades y relaciones en formato válido. Luego, cargas estos en Neo4j con Cypher CREATE.',
+        'El hybrid retrieval combina vector search (pgvector o Pinecone) con graph traversal (Neo4j). Primero, vector search encuentra los top-K documentos relevantes al query. Luego, graph traversal expande desde las entidades mencionadas en esos documentos, encontrando relaciones que el vector search no captura. Finalmente, combinas ambos contextos y los envías al LLM. En benchmarks RAGAS, GraphRAG reduce hallucination rate 40-60% vs vector-only RAG, especialmente en preguntas multi-hop y de razonamiento relacional.',
       ],
     },
   ],

@@ -25,8 +25,9 @@ export const section52: CourseSection = {
     {
       heading: 'Estrategia de carrera global: del Senior al Staff/Principal Engineer',
       paragraphs: [
-        'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
-        'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
+        'Un portfolio site es tu CV interactivo. Debe mostrar 3 proyectos con demo en vivo (no solo código en GitHub), case study escrito (problema, solución, impacto), y stack técnico. Usa Next.js + Tailwind para un diseño profesional. Deploya en Vercel (gratis). Incluye: nombre, título, bio de 2 líneas, 3 proyectos con screenshots/demo, links a GitHub y LinkedIn, y un formulario de contacto. Sin portfolio site, eres uno más entre 1000 CVs. Con uno, demuestras que puedes construir cosas reales, no solo pasar entrevistas.',
+        'Un CV técnico optimizado para ATS (Applicant Tracking Systems) tiene 70% de keyword overlap con el job description. ATS filtra CVs automáticamente antes de que un humano los vea. Si la oferta dice "Python, pandas, scikit-learn, AWS, Docker, Kubernetes", tu CV debe incluir esas palabras exactas. Formato: 1 página, sin tablas ni imágenes (ATS no las lee bien), logros cuantificables ("Reduje latencia 80% optimizando con ONNX, sirviendo 10M predicciones/día"), no responsabilidades ("Desarrollé pipelines de ML"). Usa verbos de acción: construí, optimicé, lideré, automaticé. Cada bullet point debe tener un número.',
+        'El networking en conferencias es la forma más efectiva de conseguir entrevistas sin aplicar. Prepara un pitch de 2 minutos: quién soy, qué hago, qué busco, qué me hace único. Asiste a PyCon, DataDay, Latin America AI Summit, y meetups locales. Después de cada charla, acércate al speaker y haz una pregunta específica. Intercambia LinkedIn (no WhatsApp — más profesional). Después del evento, envía un mensaje: "Hola X, fue un gusto escuchar tu charla sobre Y en PyCon. Estoy trabajando en algo similar y me encantaría conversar". El 80% no responde, pero el 20% que sí puede cambiar tu carrera.',
       ],
     },
   ],

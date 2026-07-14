@@ -24,8 +24,9 @@ export const section32: CourseSection = {
     {
       heading: 'Arquitectura de microservicios: principios, trade-offs y cuándo NO usarla',
       paragraphs: [
-        'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
-        'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
+        'La arquitectura de microservicios divide una aplicación monolítica en servicios independientes que se comunican via APIs. Cada microservicio tiene su propia base de datos, su propio ciclo de deploy, y puede escalar independientemente. En Python, FastAPI es el framework preferido por su velocidad (Starlette + Pydantic) y documentación automática OpenAPI. El trade-off principal: complejidad operacional. Un monolito se depura en un solo proceso; 10 microservicios requieren distributed tracing (Jaeger/Zipkin), logging centralizado (ELK), y service mesh (Istio/Linkerd) para mTLS y circuit breakers.',
+        'Docker es el estándar para empaquetar microservicios. Un Dockerfile multi-stage para Python separa el entorno de build (con gcc, headers, dev deps) del runtime (solo Python + app). La imagen final usa `python:3.12-slim` como base y puede ser < 100MB. El truco clave: copia `requirements.txt` primero y instala deps antes de copiar el código — esto aprovecha el layer caching de Docker y hace que los builds sean rápidos cuando solo cambias código, no dependencias. Usa `.dockerignore` para excluir `venv/`, `__pycache__/`, `.git/`.',
+        'Kubernetes (K8s) orquesta contenedores a escala. Un Deployment define cuántas réplicas quieres (ej. 3) y K8s mantiene ese estado deseado. Si un pod muere, K8s lo reinicia automáticamente. Un Service expone el Deployment internamente (ClusterIP) o externamente (LoadBalancer). Un Ingress publica el servicio al exterior con TLS termination. Para Python, los health checks son críticos: `/health` (liveness — el pod está vivo) y `/ready` (readiness — el pod puede recibir tráfico). Sin readiness probe, K8s envía tráfico a un pod que aún no ha cargado el modelo de ML.',
       ],
     },
   ],

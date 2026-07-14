@@ -24,8 +24,9 @@ export const section47: CourseSection = {
     {
       heading: 'Contribución a Open Source: forks, PRs, code review y CI',
       paragraphs: [
-        'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
-        'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
+        'Contribuir a Open Source es la forma más efectiva de construir reputación técnica internacional. En GitHub, los reclutadores buscan candidatos con PRs merged en proyectos conocidos (pandas, scikit-learn, FastAPI). Para empezar: busca issues con label "good first issue" en proyectos que ya usas. Un typo en la documentación, un bug en un edge case, o una mejora en un docstring son contribuciones válidas. El proceso: fork el repo, crea una rama, haz el cambio, escribe un test, abre un PR con descripción clara. La primera contribución merged es la más difícil — las siguientes son cada vez más fáciles.',
+        'Diseñar una API pública para tu paquete Python requiere disciplina. La regla #1: todo lo que NO tiene underscore inicial es API pública y no puede cambiar sin un major version bump. Usa `__all__` en `__init__.py` para definir explícitamente qué se exporta. Sigue Semantic Versioning (semver): MAJOR.MINOR.PATCH. MAJOR para breaking changes, MINOR para nuevas features backward-compatible, PATCH para bugfixes. Antes de un breaking change, emite `DeprecationWarning` en la versión MINOR anterior. Usa `pyproject.toml` (PEP 621) con hatchling como build backend — es el estándar moderno que reemplaza a setup.py.',
+        'El CI/CD para un paquete Open Source usa GitHub Actions con matrix testing: prueba en Python 3.10/3.11/3.12 × Ubuntu/macOS/Windows (9 combinaciones). El workflow: (1) lint con ruff, (2) tests con pytest + coverage, (3) build con hatch, (4) publish a Test PyPI en cada push a main, (5) publish a PyPI real en cada release. El archivo `.github/workflows/ci.yml` define todo esto. Sin CI matrix, tu paquete "funciona en mi máquina" pero falla en Windows o Python 3.10. Sin publish automático, olvidas publicar la nueva versión después de un merge.',
       ],
     },
   ],

@@ -24,8 +24,9 @@ export const section49: CourseSection = {
     {
       heading: 'Data Contracts: definiendo acuerdos entre productores y consumidores',
       paragraphs: [
-        'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
-        'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
+        'Un data contract es un acuerdo formal entre quien produce datos y quien los consume. Define: schema (columnas, tipos), quality rules (no nulls, rangos válidos), SLAs (frescura máxima), y ownership (quién responde cuando algo falla). Sin data contracts, el productor puede cambiar una columna de int a float sin avisar, y el pipeline del consumidor se rompe en producción a las 3am. Con data contracts, el cambio requiere una nueva versión del contrato (backward compatible o con migración planificada). En Python, pydantic define el schema: `class Transaction(BaseModel): id: str; amount: PositiveFloat; date: datetime`.',
+        'Great Expectations valida data contracts en cada paso del pipeline. Defines Expectation Suites: `expect_column_to_not_be_null("user_id")`, `expect_column_values_to_be_unique("transaction_id")`, `expect_column_values_to_be_between("amount", min_value=0, max_value=100000)`. Si una expectation falla, el pipeline se detiene con error y notifica al owner. Esto previene que datos corruptos propaguen a dashboards y modelos de ML. La integración con dbt es directa: dbt tests son una forma lightweight de data contracts, y Great Expectations es la versión heavy-duty para pipelines críticos.',
+        'OpenLineage captura metadata de cada paso del pipeline automáticamente: qué dataset se leyó, qué transformación se aplicó, qué dataset se escribió, quién lo ejecutó, cuándo. Esto construye un grafo de linaje que responde: "si la tabla `user_features` tiene un bug, ¿qué dashboards y modelos de ML se ven afectados?" Sin linaje, investigar el impacto de un cambio de datos es manual y propenso a errores. OpenLineage se integra con Prefect, Airflow, dbt, y Spark — cada herramienta reporta su lineage automáticamente a un backend (Marquez o DataHub) donde se visualiza como un DAG.',
       ],
     },
   ],

@@ -25,8 +25,9 @@ export const section36: CourseSection = {
     {
       heading: 'Tool use y function calling con OpenAI API: el modelo decide qué herramienta usar',
       paragraphs: [
-        'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
-        'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
+        'Function calling con OpenAI API permite al LLM decidir qué función Python ejecutar basado en el contexto del usuario. Defines las funciones con schema JSON (nombre, descripción, parámetros), y el LLM responde con `tool_calls` indicando qué función llamar con qué argumentos. Por ejemplo, si el usuario pregunta "¿cuánto gastó el usuario 123 el mes pasado?", el LLM puede llamar `query_database(user_id=123, period="last_month")`. Tu código ejecuta la función, retorna el resultado al LLM, y el LLM genera una respuesta natural. Esto convierte al LLM en un orquestador inteligente que puede interactuar con bases de datos, APIs externas, y herramientas internas.',
+        'Structured Outputs (agosto 2024) garantiza que el LLM devuelva JSON válido que parsea exactamente a tu modelo pydantic. Antes, usabas `response_format={"type": "json_object"}` que garantizaba JSON válido pero no el schema. Ahora, con `client.beta.chat.completions.parse(response_format=MyPydanticModel)`, el LLM respeta los tipos, campos requeridos, y validaciones de pydantic. Esto elimina el problema #1 de trabajar con LLMs en producción: parsear respuestas no estructuradas. Si el LLM no puede cumplir el schema, lanza `OutputParserException` en vez de devolver JSON roto.',
+        'La Batch API de OpenAI procesa hasta 24h asíncrono con 50% de descuento vs synchronous API. Ideal para workloads no urgentes: clasificar 10,000 reviews de productos, extraer entidades de 50,000 documentos, o generar embeddings para 100,000 productos. Subes un archivo .jsonl donde cada línea es un request independiente. OpenAI procesa todo en paralelo internamente y te notifica cuando está listo. El resultado es otro .jsonl con las respuestas. Para un workload de 10K clasificaciones que costaría $200 síncrono, Batch cuesta $100 y completa en 2-4 horas.',
       ],
     },
   ],

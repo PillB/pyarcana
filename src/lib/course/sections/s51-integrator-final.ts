@@ -26,8 +26,9 @@ export const section51: CourseSection = {
     {
       heading: 'Arquitectura del proyecto integrador Master',
       paragraphs: [
-        'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
-        'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
+        'El proyecto integrador final consolida todo el curso en una plataforma agéntica de IA production-grade. La plataforma combina: (1) LangGraph multi-agent con 3 sub-agentes (researcher con RAG, analyst con datos, writer de reportes), (2) modelo fine-tuned con QLoRA para dominio específico, (3) RAG con knowledge graph para razonamiento relacional, (4) LLMOps completo con LangSmith tracing, RAGAS evaluation, y A/B testing, (5) despliegue con Terraform + Kubernetes + ArgoCD. El objetivo: construir un sistema que un startup peruano podría usar como producto, no un toy project.',
+        'QLoRA (Quantized Low-Rank Adaptation) fine-tunea un LLM en una GPU consumer. Cuantiza el modelo base a 4-bit (NF4) y solo entrena adapters LoRA (0.1% de los parámetros). Un Llama 3.1 8B se fine-tunea en una RTX 3090 (24GB) en 3 horas con 1000 ejemplos. El resultado: un modelo especializado en tu dominio (ej. análisis de facturas peruanas, soporte al cliente en español) que supera a GPT-4 en tareas específicas, pero corre localmente sin costo por token. La integración con Ollama permite servir el modelo fine-tuned en producción con la misma API que un modelo base.',
+        'El despliegue usa Terraform para provisionar el cluster Kubernetes con GPU nodes, ArgoCD para GitOps, y Prometheus + Grafana para monitoring. El pipeline CI/CD: (1) push a main → tests, (2) build Docker image, (3) deploy canary 10%, (4) si sin errores en 30min → 100%, (5) si errores → rollback automático. La plataforma se monitorea con LangSmith (LLM tracing), RAGAS (calidad del RAG), y Prometheus (latency, throughput, error rate). Un dashboard de Grafana une todo en una vista ejecutiva: "plataforma saludable, 99.9% uptime, AUC del modelo 0.87, costo $50/día".',
       ],
     },
   ],

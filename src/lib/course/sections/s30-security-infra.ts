@@ -25,8 +25,9 @@ export const section30: CourseSection = {
     {
       heading: 'Seguridad de red y Zero Trust Architecture para pipelines de IA',
       paragraphs: [
-        'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
-        'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
+        'Zero Trust Architecture (ZTA) elimina el modelo de "castle and moat" donde todo dentro de la red corporativa era confiable. En ZTA, cada request debe autenticarse y autorizarse sin importar su origen. Para pipelines de IA, esto significa mTLS entre microservicios con certificados firmados por una CA interna, JWT firmados con RS256 para autenticación, y RBAC estricto en cada endpoint. Herramientas como HashiCorp Vault centralizan la gestión de secretos con rotación automática, eliminando el riesgo de API keys hardcodeadas en código o variables de entorno.',
+        'El OWASP API Top 10 (2023) identifica BOLA (Broken Object Level Authorization) como la vulnerabilidad #1 en APIs. En pipelines de IA, esto significa que un usuario no debe poder acceder a predicciones de otro usuario sin autorización explícita. La mitigación implementa checks de autorización a nivel de objeto en cada endpoint, no solo a nivel de endpoint. En Python FastAPI, esto se logra con dependencies que verifican ownership antes de retornar datos: `if resource.owner_id != current_user.id: raise HTTPException(403)`.',
+        'El logging de auditoría con structlog es esencial para compliance y forense. structlog produce logs JSON estructurados con campos como timestamp, user_id, endpoint, ip, response_code, y duration_ms. Esto permite queries eficientes en ELK/Datadog: "muéstrame todos los requests al endpoint /predict desde IP X en las últimas 24h". Sin logs estructurados, investigar un incidente de seguridad es como buscar una aguja en un pajar de texto plano. La regla: cada acción de seguridad (login, acceso a datos sensibles, cambio de configuración) debe loggearse con nivel INFO mínimo.',
       ],
     },
   ],

@@ -24,8 +24,9 @@ export const section43: CourseSection = {
     {
       heading: 'LLMOps fundamentals: observabilidad, evaluación y A/B testing para LLMs',
       paragraphs: [
-        'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
-        'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
+        'LLMOps extiende DevOps/MLOps para sistemas basados en LLMs. Los desafíos únicos: (1) no hay "accuracy" tradicional — los LLMs generan texto, no clasificaciones, (2) el costo por request varía 100x según tokens, (3) los prompts son código que degrada con cambios de modelo. LangSmith (de LangChain) es la herramienta canónica de observabilidad: tracea cada step del pipeline (prompt, retrieval, generation, tool call) con latencia, tokens, y costo por step. Visualizas el razonamiento completo del modelo, lo que es imposible con un simple `print()`.',
+        'RAGAS evalúa calidad de RAG con 4 métricas: (1) Faithfulness — la respuesta está fundamentada en el contexto recuperado (no hallucination), (2) Answer Relevancy — la respuesta responde la pregunta, (3) Context Precision — el contexto recuperado es relevante, (4) Context Recall — el contexto recuperado es completo. RAGAS usa un LLM como juez (GPT-4) para evaluar, lo que es costoso pero efectivo. La estrategia: corre RAGAS en un test set de 20-50 preguntas después de cada cambio de prompt, modelo, o chunking strategy. Si faithfulness baja de 0.85 a 0.70, hay un regression que debes investigar antes de deploy.',
+        'El A/B testing de prompts es diferente al A/B testing tradicional porque no hay un solo metric (CTR, conversión). Mide: (1) calidad humana (human eval en escala 1-5), (2) costo por request (tokens × precio), (3) latencia, (4)满意度 del usuario (thumbs up/down). Usa feature flags (LaunchDarkly o custom) para enrutar 50% del tráfico a prompt A y 50% a prompt B. Después de 1000 interacciones por variante, aplica bootstrap confidence intervals para determinar si la diferencia es estadísticamente significativa. Promociona el ganador y depreca el perdedor.',
       ],
     },
   ],

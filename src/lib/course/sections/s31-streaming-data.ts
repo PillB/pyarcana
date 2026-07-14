@@ -24,8 +24,9 @@ export const section31: CourseSection = {
     {
       heading: 'Arquitecturas de streaming: Kafka vs Redis Streams vs RabbitMQ',
       paragraphs: [
-        'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
-        'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
+        'Apache Kafka es el estándar de facto para streaming de datos a escala. Un cluster Kafka tiene brokers (servidores), topics (canales de datos), producers (quienes escriben), y consumers (quienes leen). Para Python, confluent-kafka-python es el cliente más robusto con soporte para Avro serializers y schema registry. Un producer envía eventos con `producer.produce(topic, key, value, callback)` — el callback se ejecuta async cuando el broker confirma. Para exactly-once semantics (EOS), Kafka 3.x+ requiere `enable.idempotence=true` en el producer y `isolation.level=read_committed` en el consumer.',
+        'El procesamiento de streams requiere windowing: agrupar eventos por tiempo. Tumbling windows son no superpuestas (cada 5 min, un batch completo). Sliding windows se superponen (ventana de 10 min que avanza cada 5 min — útil para medias móviles). Session windows agrupan por actividad con gap de inactividad (sesión de usuario). En Python, Faust o aiokafka implementan estos patrones. El truco clave: siempre usa `consumer.commit()` manualmente después de procesar exitosamente — nunca auto-commit, porque si el consumer crashea entre leer y procesar, pierdes datos.',
+        'Backpressure es el problema #1 en streaming. Si el producer produce 10K msg/seg pero el consumer solo procesa 1K, la queue crece hasta OOM. asyncio.Queue(maxsize=N) soluciona esto: cuando la queue está llena, `await queue.put(item)` bloquea al producer hasta que haya espacio. Esto es backpressure natural. En Kafka, se controla via `max.poll.records` y `fetch.max.bytes` para limitar cuántos registros consume el consumer por poll. Monitorea `consumer-lag` con Burrow o Kafka UI — si crece, necesitas más consumers o procesamiento más rápido.',
       ],
     },
   ],
