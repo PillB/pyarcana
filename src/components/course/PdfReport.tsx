@@ -44,11 +44,13 @@ const SECTION_NAMES: Record<string, string> = {
   'functions-modules': '4. Functions & Modules',
   oop: '5. OOP',
   numpy: '6. NumPy',
-  pandas: '7. Pandas & EDA',
-  visualization: '8. Visualización',
-  sklearn: '9. scikit-learn',
-  testing: '10. Testing',
-  'advanced-topics': '11. Advanced Topics',
+  'data-acquisition': '7. Adquisición de Datos',
+  pandas: '8. Pandas & EDA',
+  visualization: '9. Visualización',
+  sklearn: '10. scikit-learn',
+  testing: '11. Testing',
+  performance: '12. Performance & Logging',
+  'rpa-automation': '13. RPA & Automatización',
 }
 
 export function PdfReport({ open, onClose }: PdfReportProps) {
@@ -95,7 +97,7 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
         userName: session.user.name || 'Estudiante',
         userEmail: session.user.email,
         sectionsCompleted,
-        totalSections: 11,
+        totalSections: 13,
         totalExams,
         avgScore,
         totalTimeSec: totalTime,
@@ -137,7 +139,7 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
       if (sectionsCompleted < 8) {
         toast({
           title: 'Aún no puedes generar certificado',
-          description: `Completa al menos 8 secciones (tienes ${sectionsCompleted}/11)`,
+          description: `Completa al menos 8 secciones (tienes ${sectionsCompleted}/13)`,
           variant: 'destructive',
         })
         return
@@ -146,7 +148,7 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
       const html = generateCertificateHTML({
         userName: session.user.name || 'Estudiante',
         sectionsCompleted,
-        totalSections: 11,
+        totalSections: 13,
         date: new Date().toLocaleDateString('es-PE', { year: 'numeric', month: 'long', day: 'numeric' }),
       })
 
@@ -230,7 +232,7 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
 
           {/* Stats summary */}
           <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <StatBox icon={CheckCircle2} label="Secciones" value={`${sectionsCompleted}/11`} color="text-emerald-600" />
+            <StatBox icon={CheckCircle2} label="Secciones" value={`${sectionsCompleted}/13`} color="text-emerald-600" />
             <StatBox icon={Trophy} label="Exámenes" value={String(totalExams)} color="text-amber-600" />
             <StatBox icon={TrendingUp} label="Score prom." value={`${avgScore}%`} color="text-violet-600" />
             <StatBox icon={Clock} label="Tiempo" value={`${Math.round((Object.values(data?.examAttempts || {}).flat().reduce((a, e) => a + e.timeSpentSec, 0)) / 60)}m`} color="text-sky-600" />
@@ -275,7 +277,7 @@ export function PdfReport({ open, onClose }: PdfReportProps) {
                   <p className="mt-1 text-sm text-muted-foreground">
                     {canGetCertificate
                       ? '¡Felicidades! Has completado suficientes secciones para generar tu certificado.'
-                      : `Completa al menos 8 secciones (tienes ${sectionsCompleted}/11) para desbloquear el certificado.`}
+                      : `Completa al menos 8 secciones (tienes ${sectionsCompleted}/13) para desbloquear el certificado.`}
                   </p>
                   <Button
                     onClick={generateCertificate}

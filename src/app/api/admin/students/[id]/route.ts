@@ -44,7 +44,8 @@ export async function GET(
 
   const sectionIds = [
     'setup', 'basics', 'data-structures', 'functions-modules', 'oop',
-    'numpy', 'pandas', 'visualization', 'sklearn', 'testing',
+    'numpy', 'data-acquisition', 'pandas', 'visualization', 'sklearn',
+    'testing', 'performance', 'rpa-automation',
   ]
 
   for (const sectionId of sectionIds) {

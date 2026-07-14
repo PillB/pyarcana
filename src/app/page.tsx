@@ -345,7 +345,7 @@ export default function Home() {
               El Arte de Python · Curso online autónomo de Python para Data Analyst / Data Scientist
             </p>
             <p className="mt-1">
-              Método I Do / We Do / You Do · 11 secciones · Exámenes con anti-plagio · Español peruano
+              Método I Do / We Do / You Do · 13 secciones · Exámenes con anti-plagio · Español peruano
             </p>
           </div>
         </footer>

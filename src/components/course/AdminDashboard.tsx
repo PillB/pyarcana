@@ -78,10 +78,13 @@ const SECTION_NAMES: Record<string, string> = {
   'functions-modules': '4. Functions',
   oop: '5. OOP',
   numpy: '6. NumPy',
-  pandas: '7. Pandas',
-  visualization: '8. Viz',
-  sklearn: '9. sklearn',
-  testing: '10. Testing',
+  'data-acquisition': '7. Data Acquisition',
+  pandas: '8. Pandas',
+  visualization: '9. Viz',
+  sklearn: '10. sklearn',
+  testing: '11. Testing',
+  performance: '12. Performance',
+  'rpa-automation': '13. RPA',
 }
 
 export function AdminDashboard() {

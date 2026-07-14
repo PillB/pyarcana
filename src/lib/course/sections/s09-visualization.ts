@@ -1,8 +1,8 @@
 import type { CourseSection } from '../../types'
 
-export const section08: CourseSection = {
+export const section09: CourseSection = {
   id: 'visualization',
-  index: 8,
+  index: 9,
   title: 'Data Visualization',
   shortTitle: 'Visualización',
   tagline: 'matplotlib, seaborn y plotly — de gráficos básicos a reportes ejecutivos interactivos',

@@ -1317,9 +1317,9 @@ const QUESTION_BANK: Record<string, Q[]> = {
     },
   ],
 
-  // === Section 11: Advanced Topics (advanced-topics) ===
+  // === Section 7: Data Acquisition (data-acquisition) ===
   // 4 concepts × 3 variants = 12 questions
-  'advanced-topics': [
+  'data-acquisition': [
     // Concept 1: generators-yield (lazy evaluation, streaming CSVs)
     {
       concept: 'generators-yield',
@@ -1477,6 +1477,323 @@ const QUESTION_BANK: Record<string, Q[]> = {
       correctIndex: 2,
       explanation:
         'RotatingFileHandler rota el archivo cuando supera maxBytes, manteniendo backupCount archivos viejos (app.log.1, app.log.2, ...). Para 10MB × 5 backups, tienes 60MB máximo de logs. Para rotación por tiempo (diaria), usa TimedRotatingFileHandler. Esencial para pipelines que corren por meses.',
+    },
+  ],
+
+  // === Section 12: Performance & Logging (performance) ===
+  // 4 concepts × 3 variants = 12 questions
+  'performance': [
+    {
+      concept: 'multiprocessing-vs-threads',
+      question: '¿Cuándo usar multiprocessing en vez de threading en Python?',
+      options: [
+        'Siempre, multiprocessing es mejor',
+        'Para tareas CPU-bound (cálculos) porque el GIL bloquea threads en Python puro',
+        'Para tareas I/O-bound (red, archivos)',
+        'Solo en servidores Linux',
+      ],
+      correctIndex: 1,
+      explanation:
+        'El GIL (Global Interpreter Lock) de Python permite que solo un thread ejecute bytecode a la vez. Para CPU-bound, multiprocessing usa procesos separados con su propio GIL. Para I/O-bound, threading funciona bien porque el GIL se libera durante I/O.',
+    },
+    {
+      concept: 'multiprocessing-vs-threads',
+      question: '¿Qué es el GIL en Python?',
+      options: [
+        'Un tipo de garbage collector',
+        'Global Interpreter Lock — bloqueo que permite solo un thread ejecute bytecode a la vez',
+        'Un módulo para concurrencia',
+        'Un error que hay que arreglar',
+      ],
+      correctIndex: 1,
+      explanation:
+        'El GIL (Global Interpreter Lock) es un mutex que protege el acceso a objetos Python. Solo un thread puede ejecutar bytecode a la vez. Esto simplifica la gestión de memoria pero limita el paralelismo real en código CPU-bound.',
+    },
+    {
+      concept: 'multiprocessing-vs-threads',
+      question: 'Para scraping de 100 URLs en paralelo, ¿qué usas?',
+      options: [
+        'multiprocessing.Pool',
+        'concurrent.futures.ThreadPoolExecutor (I/O bound)',
+        'asyncio sin threads',
+        'Ninguna, hacerlo secuencial',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Scraping es I/O-bound (esperar respuesta HTTP). ThreadPoolExecutor es ideal porque el GIL se libera durante I/O. multiprocessing sería overkill y tiene más overhead por la creación de procesos.',
+    },
+    {
+      concept: 'profiling-tools',
+      question: '¿Para qué sirve cProfile?',
+      options: [
+        'Para testear código',
+        'Para medir tiempo de ejecución de cada función y encontrar bottlenecks',
+        'Para compilar Python a C',
+        'Para debuggear',
+      ],
+      correctIndex: 1,
+      explanation:
+        'cProfile es un profiler determinístico que mide cuántas veces se llama cada función y cuánto tiempo consume. Es la herramienta #1 para encontrar bottlenecks antes de optimizar.',
+    },
+    {
+      concept: 'profiling-tools',
+      question: '¿Qué hace `timeit` en Python?',
+      options: [
+        'Mide el tiempo de ejecución de pequeños fragmentos de código con precisión',
+        'Es un timer para scheduling',
+        'Formatea timestamps',
+        'Convierte entre zonas horarias',
+      ],
+      correctIndex: 0,
+      explanation:
+        'timeit ejecuta código N veces y mide el tiempo promedio con precisión de microsegundos. Ideal para comparar implementaciones (ej: list vs comprehension vs map).',
+    },
+    {
+      concept: 'profiling-tools',
+      question: '¿Cuál es la regla #1 de optimización?',
+      options: [
+        'Siempre optimizar desde el inicio',
+        'Medir primero, optimizar después (premature optimization is the root of all evil)',
+        'Usar Cython siempre',
+        'Compilar con -O3',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Knuth: "premature optimization is the root of all evil". Primero profile, encuentra el bottleneck real, y luego optimiza SOLO esa parte. El 80% del tiempo está en 20% del código.',
+    },
+    {
+      concept: 'logging-best-practices',
+      question: '¿Por qué usar logging en vez de print en producción?',
+      options: [
+        'print es más rápido',
+        'logging permite niveles (DEBUG/INFO/WARNING/ERROR), formato, y rotación de archivos',
+        'No hay diferencia',
+        'print es más seguro',
+      ],
+      correctIndex: 1,
+      explanation:
+        'logging ofrece: niveles para filtrar severidad, formato consistente con timestamps, múltiples handlers (archivo, consola, email), y rotación automática. print no tiene ninguna de estas características.',
+    },
+    {
+      concept: 'logging-best-practices',
+      question: '¿Qué nivel de logging usas para "usuario hizo login exitosamente"?',
+      options: ['DEBUG', 'INFO', 'WARNING', 'ERROR'],
+      correctIndex: 1,
+      explanation:
+        'INFO es para eventos normales esperados del sistema (login exitoso, registro creado, job completado). DEBUG es para diagnóstico detallado. WARNING para situaciones anormales pero no críticas. ERROR para fallos.',
+    },
+    {
+      concept: 'logging-best-practices',
+      question: '¿Por qué NO usar f-strings en logging?',
+      options: [
+        'Son más lentos',
+        'Se evalúan siempre, incluso si el nivel está desactivado. Usar % y dejar que logging formatee solo si es necesario',
+        'No soportan variables',
+        'Son inseguras',
+      ],
+      correctIndex: 1,
+      explanation:
+        'logger.debug(f"Procesando {data}") evalúa el f-string SIEMPRE, incluso si DEBUG está desactivado. logger.debug("Procesando %s", data) solo formatea si el mensaje se va a emitir. Para pipelines con millones de iteraciones, la diferencia es enorme.',
+    },
+    {
+      concept: 'argparse-cli',
+      question: '¿Para qué sirve argparse?',
+      options: [
+        'Para parsear JSON',
+        'Para crear interfaces de línea de comandos (CLI) con argumentos, flags y help',
+        'Para leer archivos de configuración',
+        'Para debuggear',
+      ],
+      correctIndex: 1,
+      explanation:
+        'argparse es el módulo estándar de Python para crear CLIs. Permite definir argumentos posicionales, opcionales (--flag), tipos, valores por defecto, y genera --help automáticamente.',
+    },
+    {
+      concept: 'argparse-cli',
+      question: '¿Cómo defines un argumento opcional --output en argparse?',
+      options: [
+        'parser.arg("--output")',
+        'parser.add_argument("--output", type=str, default="out.txt")',
+        'parser.optional("output")',
+        'parser.flag("output")',
+      ],
+      correctIndex: 1,
+      explanation:
+        'add_argument con -- prefijo crea un argumento opcional. type valida el tipo, default da valor por defecto. El valor se accede como args.output (guiones se convierten en underscores).',
+    },
+    {
+      concept: 'argparse-cli',
+      question: '¿Cómo haces que tu script sea ejecutable como comando del sistema?',
+      options: [
+        'Solo con chmod +x',
+        'Definiendo entry_points en pyproject.toml [project.scripts]',
+        'No se puede en Python',
+        'Solo con shell aliases',
+      ],
+      correctIndex: 1,
+      explanation:
+        'En pyproject.toml: [project.scripts] mi-comando = "mi_modulo:main". Después de pip install, mi-comando está disponible en el PATH. Es cómo funcionan pytest, black, ruff, etc.',
+    },
+  ],
+
+  // === Section 13: RPA & Automation (rpa-automation) ===
+  // 4 concepts × 3 variants = 12 questions
+  'rpa-automation': [
+    {
+      concept: 'playwright-vs-selenium',
+      question: '¿Por qué preferir Playwright sobre Selenium en 2025-2026?',
+      options: [
+        'Selenium ya no se mantiene',
+        'Playwright es más rápido, tiene auto-wait, mejor API y soporta múltiples browsers con una instalación',
+        'Selenium es más caro',
+        'No hay diferencia real',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Playwright (Microsoft, 2020+) tiene: auto-wait inteligente, velocidad superior, API moderna, soporte nativo para Chromium/Firefox/WebKit, y mejor manejo de async. Selenium sigue siendo válido para legacy pero Playwright es el estándar moderno.',
+    },
+    {
+      concept: 'playwright-vs-selenium',
+      question: '¿Qué es "headless" en browser automation?',
+      options: [
+        'Un navegador sin internet',
+        'Ejecutar el navegador sin interfaz gráfica — más rápido y ideal para servidores/CI',
+        'Un modo de debugging',
+        'Un tipo de selector',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Headless ejecuta el navegador sin UI visible. Es más rápido (no renderiza visualmente), usa menos memoria, y funciona en servidores sin display. Ideal para scraping, testing en CI, y RPA en servidores.',
+    },
+    {
+      concept: 'playwright-vs-selenium',
+      question: '¿Qué hace `page.wait_for_selector(".item")` en Playwright?',
+      options: [
+        'Espera a que aparezca un elemento con clase "item" antes de continuar',
+        'Crea un elemento con clase "item"',
+        'Borra elementos con clase "item"',
+        'Cuenta cuántos elementos hay',
+      ],
+      correctIndex: 0,
+      explanation:
+        'wait_for_selector es el auto-wait de Playwright. Espera automáticamente a que el elemento aparezca en el DOM (con timeout configurable). Evita el problema #1 de Selenium: errores "element not found" por timing.',
+    },
+    {
+      concept: 'ollama-local-llm',
+      question: '¿Qué es Ollama?',
+      options: [
+        'Un cloud LLM como OpenAI',
+        'Una herramienta para correr LLMs localmente en tu máquina (sin internet, sin costo por token)',
+        'Un framework de RPA',
+        'Un ORM para Python',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Ollama corre modelos de lenguaje (llama3.1, mistral, etc.) localmente. Ventajas: sin costo por token, datos no salen de tu máquina (Ley 29733 compliance), funciona offline. Ideal para automatización con datos sensibles.',
+    },
+    {
+      concept: 'ollama-local-llm',
+      question: '¿Cuándo usar Ollama (local) vs OpenAI API (cloud)?',
+      options: [
+        'Siempre OpenAI, es mejor',
+        'Local para datos sensibles/privados, cloud para máxima calidad o cuando no tienes GPU',
+        'Siempre local, es más barato',
+        'Da igual, son lo mismo',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Decisión: (1) Datos sensibles → local (Ley 29733). (2) Necesitas máxima calidad → cloud (GPT-4 > llama3.1:8b). (3) Sin GPU adecuada → cloud. (4) Automation 24/7 con alto volumen → local (sin costo por token). (5) Latencia crítica → local (sin red).',
+    },
+    {
+      concept: 'ollama-local-llm',
+      question: '¿Qué librería de Python usas para hablar con Ollama?',
+      options: [
+        'openai (la misma que GPT)',
+        'ollama (pip install ollama) — cliente oficial que se conecta a localhost:11434',
+        'No se puede desde Python',
+        'requests únicamente',
+      ],
+      correctIndex: 1,
+      explanation:
+        'pip install ollama te da el cliente oficial. import ollama; ollama.chat(model="llama3.1", messages=[...]). También puedes usar la API REST directamente con requests a localhost:11434.',
+    },
+    {
+      concept: 'ocr-tesseract',
+      question: '¿Para qué sirve pytesseract?',
+      options: [
+        'Para crear PDFs',
+        'Para OCR — extraer texto de imágenes (facturas, recibos, documentos escaneados)',
+        'Para leer Excel',
+        'Para generar imágenes',
+      ],
+      correctIndex: 1,
+      explanation:
+        'pytesseract es el wrapper Python de Tesseract OCR. Extrae texto de imágenes. Combinado con OpenCV (preprocesamiento) y pdfplumber (PDFs escaneados), automatiza la digitalización de documentos físicos.',
+    },
+    {
+      concept: 'ocr-tesseract',
+      question: '¿Por qué preprocesar imágenes antes de OCR?',
+      options: [
+        'Para hacerlas más bonitas',
+        'Para mejorar la precisión del OCR: escalar, binarizar, remover ruido, corregir rotación',
+        'No es necesario',
+        'Solo para PDFs',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Tesseract sin preprocesamiento tiene ~60-70% de precisión en documentos reales. Con OpenCV (grayscale → threshold → denoise → deskew) llega a 85-90%. El preprocesamiento es la diferencia entre OCR usable y OCR inútil.',
+    },
+    {
+      concept: 'ocr-tesseract',
+      question: '¿Qué paquete de idioma necesitas para OCR en español?',
+      options: [
+        'Ninguno, Tesseract viene con español',
+        'tesseract-ocr-spa (instalación aparte del sistema operativo)',
+        'No se puede OCR en español',
+        'Solo inglés está soportado',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Tesseract viene con inglés por defecto. Para español: apt install tesseract-ocr-spa (Linux) o descargar del repo de Tesseract. Sin el paquete de idioma, los caracteres acentuados se confunden (ñ → n, á → a).',
+    },
+    {
+      concept: 'prefect-orchestration',
+      question: '¿Qué es Prefect?',
+      options: [
+        'Un ORM',
+        'Un orquestador de flujos de datos con decorators @task y @flow',
+        'Un web framework',
+        'Un reemplazo de pandas',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Prefect es un orquestador moderno. @task define unidades de trabajo, @flow orquesta. Maneja retries, caching, logging, y scheduling automáticamente. Más simple que Airflow (1/3 del boilerplate).',
+    },
+    {
+      concept: 'prefect-orchestration',
+      question: '¿Por qué usar tenacity en pipelines de automatización?',
+      options: [
+        'Es más rápido',
+        'Para retries automáticos con backoff exponencial ante fallos transitorios (429, timeout, red)',
+        'Para logging',
+        'Para testing',
+      ],
+      correctIndex: 1,
+      explanation:
+        'tenacity (@retry) reintenta automáticamente funciones que fallan. Configurable: stops (max intentos), wait (backoff exponencial), retry (si condición). Esencial para APIs que fallan transitoriamente — sin retries, tu pipeline se cae al primer 429.',
+    },
+    {
+      concept: 'prefect-orchestration',
+      question: '¿Cómo programas un script para que corra todos los días a las 9am?',
+      options: [
+        'time.sleep(86400) en loop',
+        'GitHub Actions cron (gratis, portfolio-visible) o Prefect deployments',
+        'No se puede en Python',
+        'Solo con crontab del sistema',
+      ],
+      correctIndex: 1,
+      explanation:
+        'GitHub Actions cron: schedule: cron: "0 9 * * *" en un workflow YAML. Gratis, visible en tu repo (portfolio), y no requiere servidor. Prefect deployments es la alternativa para flujos más complejos con dependencias.',
     },
   ],
 }

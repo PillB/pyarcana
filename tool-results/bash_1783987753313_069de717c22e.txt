@@ -1,3 +1,41 @@
+total 577
+drwxr-xr-x   1 z    z      4096 Jul 13 23:08 .
+drwxr-xr-x   1 z    z      4096 Jul 13 19:57 ..
+-rw-r--r--   1 z    z        50 Jul 13 18:46 .env
+-rw-rw-r--   1 z    z      1716 Jul 13 21:40 .env.example
+drwxrwxr-x   8 z    z      4096 Jul 13 23:17 .git
+drwxrwxr-x   3 z    z      4096 Jul 13 20:05 .github
+-rw-r--r--   1 z    z       586 May 12 10:06 .gitignore
+drwxrwxr-x   3 z    z      4096 Jul 13 23:08 .next
+drwxr-xr-x   2 z    z      4096 Jul 13 23:14 .zscripts
+-rw-r--r--   1 z    z       493 May 12 10:06 Caddyfile
+-rw-rw-r--   1 z    z      7611 Jul 13 21:41 DEPLOY.md
+-rw-rw-r--   1 z    z     17561 Jul 13 21:50 README.md
+-rw-r--r--   1 z    z    336909 Jul 13 22:58 bun.lock
+-rw-r--r--   1 z    z       430 May 12 10:06 components.json
+drwxrwxr-x   2 z    z      4096 Jul 13 21:30 db
+-rw-rw-r--   1 z    z      1501 Jul 13 23:53 dev.log
+drwxr-xr-x   2 z    z      4096 Jul 13 18:46 download
+-rw-r--r--   1 z    z      1632 May 12 10:06 eslint.config.mjs
+drwxr-xr-x   3 z    z      4096 Jun 18 10:12 examples
+drwxr-xr-x   2 z    z      4096 Jun 18 10:12 mini-services
+-rw-rw-r--   1 z    z       251 Jul 13 19:18 next-env.d.ts
+-rw-r--r--   1 z    z       233 May 12 10:06 next.config.ts
+drwxr-xr-x 580 z    z     20480 Jul 13 22:58 node_modules
+-rw-r--r--   1 z    z      3388 Jul 13 22:58 package.json
+-rw-rw-r--   1 z    z      2780 Jul 13 20:35 parse_epubs.py
+-rw-r--r--   1 z    z        81 May 12 10:06 postcss.config.mjs
+drwxr-xr-x   2 z    z      4096 Jul 13 20:48 prisma
+drwxr-xr-x   2 z    z      4096 Jun 18 10:12 public
+drwxr-xr-x   1 z    z      4096 Jul 13 22:33 skills
+drwxr-xr-x   6 z    z      4096 Jun 18 10:12 src
+-rw-r--r--   1 z    z      1696 May 12 10:06 tailwind.config.ts
+drwxrwxr-x   2 z    z      4096 Jul 13 22:42 tool-results
+-rw-r--r--   1 z    z       730 Jul 13 19:18 tsconfig.json
+drwxrwxrwx   1 root root   4096 Jan  1  1970 upload
+-rw-rw-r--   1 z    z       460 Jul 13 21:40 vercel.json
+-rw-rw-r--   1 z    z     60686 Jul 13 22:48 worklog.md
+---WORKLOG---
 # Solarize Orchestrator Worklog
 
 This is the shared worklog for the Solarize multi-agent orchestrator building a
@@ -468,121 +506,3 @@ Embed via `background-image: url("data:image/svg+xml,...")`.
 - **Strongly corroborated** (3+ independent sources): Mucha palette warm-earth tones (Reddit fiber-reactile palette, Pinterest hex collection, Copperant 48-color seasonal palette, Facebook "Spring 1900" pastel analysis); Cormorant Garamond as free Mucha analog (Google Fonts, Adobe pairing guide, designer forum consensus); Mucha's floral border motifs (Internet Archive 30-design book, Vecteezy, Magnific).
 - **Medium**: modern Art Nouveau web examples — Awwwards referenced generally but no single canonical "Mucha revival" survey; recommendations synthesized from design-blog consensus (Addy Osmani, Smashing Magazine) rather than peer-reviewed research.
 - **Weak/emerging**: "Art Nouveau meets AI" fusion — Medium + Instagram discourse (Pininfarina Blue Loop, "AI Architecture: Case for Art Nouveau Revival") is qualitative and emerging, not yet codified. The Circuit-Vine pattern (§3e) is an original synthesis grounded in PCB-art discourse (Medium "How I Combine Art and PCB Design") + Art Nouveau organic-line principle. Recommend follow-up task F0-D2: snapshot 20 Awwwards sites tagged "ornamental" 2024-2025 to empirically validate which patterns survive modern UX constraints.
-
----
-Task ID: R0
-Agent: Research/STORM
-Task: Research RPA (Robotic Process Automation) and multi-modal task automation with Python (2025-2026) for the Python DS course; design a new RPA/automation section.
-
-Work Log:
-- Read worklog.md (470 lines) for course context: Solarize course = 11 sections (Python 0 -> DS), Peruvian Spanish, Next.js 16 + Tailwind 4 + shadcn/ui + Prisma + zustand + z-ai-web-dev-sdk. Section 11 = "Advanced Python for DS" (Lead Scraper CLI capstone) covering iterators/generators, BeautifulSoup+Selenium, requests+REST, sqlite3+SQLAlchemy, multiprocessing, regex, collections, profiling, logging, argparse. Confirmed RPA section fits naturally as Section 12.
-- Ran 12 web_search queries via z-ai CLI covering: (1) Python RPA 2025 landscape rpaframework vs pyautogui vs playwright; (2) UiPath vs Power Automate vs Python enterprise; (3) Prefect vs Airflow beginner orchestration; (4) Ollama local LLM Python extraction/classification; (5) Tesseract pytesseract invoice OCR; (6) Whisper Python audio transcription local; (7) RPA finance use cases invoice processing; (8) Hugging Face transformers local NLP classification; (9) OpenAI API structured outputs function calling; (10) automated report PDF email pipeline portfolio; (11) Python automation beginner pitfalls tenacity secrets; (12) rpaframework Robocorp + GitHub Actions cron + DS automation job demand.
-- Cross-referenced 6+ sources for the UiPath/Power Automate/Python-RPA triage: Reddit r/rpa, MosChip comparison, Gartner Peer Insights 2026, Smartbridge, EPC Group, pythonrpa.org — convergent verdict: UiPath/Power Automate win for enterprise complex-UI + low-code + orchestration; Python wins for cost, flexibility, AI integration, maintainability, and is "more powerful/capable/easier to maintain than no-code" per r/rpa consensus.
-- Cross-referenced Prefect vs Airflow (ZenML, Prefect.io, r/dataengineering, Pluralsight, Medium): Prefect = decorator-based, dynamic, small learning curve (better for a course); Airflow = DAG boilerplate, most widely used in enterprise (teach as conceptual reference only). GitHub Actions cron corroborated as the free, portfolio-deployable scheduler of choice (davidmuraya, python-engineer, r/learnpython).
-- Validated local-AI stack: Ollama for local LLMs (extraction/classification/summarization) — strong 2025-2026 momentum (Collabnix 2025 guide, Cohorte 2026 tutorial, Gartner 2026); OpenAI API structured outputs with pydantic (agenta.ai Sep 2025 guide, OpenAI community); pytesseract ~80-85% OCR accuracy (Extend AI Oct 2025, Klippa 2026) needs OpenCV preprocessing; Whisper local transcription free (OpenAI repo, faster-whisper/WhisperX for long-form).
-- Confirmed finance RPA use cases as the dominant job-relevant pattern: invoice processing, accounts payable/receivable, expense report auditing, journal entry creation, financial reporting — corroborated across Celonis, Blue Prism, IBM, Keyence, HubiFi, CAI (6 independent sources).
-- Mapped job-relevance ranking to 2025 LinkedIn analyses (200 DA postings, "Automation Architect" role explicitly cited; Python = 86% of DS jobs; "automate repetitive tasks like scheduled reports, data pipelines, batch processing" per LinkedIn business-strategy).
-
-Stage Summary:
-- Delivered a ~855-word research brief (within 1000-word cap) with 5 sections per spec: (1) top 10 RPA/automation topics ranked by job relevance; (2) recommended Section 12 structure (7 sub-sections, ~14h); (3) 5 concrete mini-projects (Invoice Digitizer Bot, Daily Market/News Monitor, Automated Weekly Report, Email Triage Assistant, Meeting Notes Transcriber); (4) recommended Python libraries with install commands (Playwright, pyautogui, rpaframework, pdfplumber, pytesseract+opencv, prefect, tenacity, schedule, python-dotenv, ollama, openai, pydantic, transformers, whisper, reportlab/weasyprint); (5) integration points (prereqs = Sections 2/3/4/7/11; placement = new Section 12 after S11; feeds forward into a deployment lab + final capstone that reuses S11 Lead Scraper as scheduled/monitored/AI-augmented bot).
-- Key downstream decisions for build agent: (a) use **Playwright** (not Selenium) as the primary browser-automation library — faster, modern API, auto-wait, better for a 2025-2026 course; mention Selenium as legacy reference. (b) Use **Prefect** (not Airflow) for orchestration teaching — decorator-based, fits the course's existing decorator lesson (S4), 1/3 the boilerplate. (c) Use **GitHub Actions cron** as the scheduler — free, portfolio-visible, no server needed, addresses F0-B2's "no deployment lab" gap. (d) Use **Ollama** as default local LLM (zero-config, llama3.1/8b for course demos) and OpenAI API for the cloud-structured-output lesson — teach the local-vs-cloud decision tree explicitly (privacy under Peru Ley 29733, cost, latency, accuracy). (e) Use **pytesseract + OpenCV** for OCR (free, Spanish language pack tesseract-ocr-spa available) — do NOT use paid OCR APIs (Google Vision, AWS Textract) in the course. (f) Use **tenacity** for ALL retry logic (Apache 2.0, decorator-based, integrates with Prefect). (g) Use **reportlab** for PDF (pure-Python, no system deps) over weasyprint (needs system GTK/cairo — install friction on Windows learners).
-- Anti-patterns flagged: don't teach UiPath/Power Automate as primary tools (paid licenses, vendor lock-in, not Python) — teach the decision matrix only; don't teach Airflow hands-on in a 14h course (too much boilerplate); don't use Selenium as primary when Playwright is strictly better in 2025-2026; don't skip the secrets-management lesson (hardcoded API keys = #1 beginner pitfall + security risk + fails F0-C's Ley 29733 compliance); don't run OCR without OpenCV preprocessing (accuracy drops below 60% on real invoices); don't call OpenAI/Ollama synchronously in a loop without tenacity retries (rate limits + 429s); don't schedule with `time.sleep` loops (use GitHub Actions cron or Prefect deployments); don't store credentials in the repo even in `.env` (gitignore + Actions secrets + `python-dotenv` for local).
-- Source quality: RPA tool comparison strongly corroborated (r/rpa + MosChip + Gartner 2026 + Smartbridge + EPC + pythonrpa.org = 6 independent sources). Prefect-vs-Airflow strongly corroborated (ZenML + Prefect.io + r/dataengineering + Pluralsight + Medium = 5 sources). Local AI stack (Ollama/Whisper/pytesseract) strongly corroborated (official repos + 2025-2026 guides + Gartner). Finance RPA use cases strongly corroborated (6 vendor/analyst sources). Pedagogical pitfalls (secrets, rate limits, retries) medium-strong (forum density + library docs + Instructor/Tenacity official docs). Peru-specific: tesseract-ocr-spa language pack confirmed available; SUNAT invoice structure (IGV 18%) is real context for Invoice Digitizer project but no scraping of SUNAT done — recommend F0-R1: validate tesseract-ocr-spa accuracy on 10 sample Peruvian boletas/facturas before finalizing Project #1.
-
-Findings (full research brief below):
-
-## 1. Top 10 RPA/automation topics (ranked by job relevance)
-
-1. **Web automation with Playwright/Selenium** — scraping, form filling, login flows. Top automation skill cited in DA/DS job posts; the "Automation Architect" role (Python/Alteryx/ETL) appears in a 2025 LinkedIn analysis of 200 DA postings.
-2. **Scheduling & orchestration** — GitHub Actions cron (free, portfolio-deployable) + Prefect decorators (modern, low-friction); Airflow as conceptual reference only (DAG boilerplate, steep learning curve per Prefect/ZenML comparisons).
-3. **API integration & retry logic** — `requests` + `tenacity` for resilient calls; structured outputs from LLM APIs. Universal in data pipelines.
-4. **Document processing pipeline (PDF/Excel -> extract -> DB)** — `pdfplumber`/`pytesseract` + `openpyxl` + `sqlite3`. Mirrors invoice/expense-report automation, the #1 cited RPA finance use case (Celonis, Blue Prism, IBM, Keyence, HubiFi all corroborate).
-5. **Automated report generation (data -> PDF -> email)** — `pandas` + `reportlab`/`weasyprint` + `smtplib`. Weekly stakeholder reports are the most-cited "first automation" on r/learnpython and Medium.
-6. **Local LLM automation (Ollama)** — extraction, classification, summarization without cloud cost/egress. Strongly trending 2025-2026 (Gartner Peer Insights 2026, Collabnix 2025 guide, Cohorte 2026 tutorial).
-7. **OCR for documents (pytesseract)** — invoice/receipt digitization. Real finance/accounting RPA use case; ~80-85% accuracy, needs OpenCV preprocessing.
-8. **Email automation** — IMAP read + rule-based labeling + SMTP send. High-frequency business task; great multi-modal glue.
-9. **Web monitoring + alerting** — scrape -> diff -> notify (Slack/Telegram/email). Portfolio-impressive, teaches idempotency and persistent state.
-10. **Secrets & logging hygiene** — `.env`/`python-dotenv`, stdlib `logging`, never hardcode keys. The #1 beginner pitfall flagged across r/learnpython, Medium, Instructor docs.
-
-## 2. Recommended Section Structure (Section 12, ~14h)
-
-- **12.1 RPA landscape & tool selection** (1h): UiPath/Power Automate vs Python-RPA decision matrix; when Python wins (cost, flexibility, AI integration). Read-only comparison.
-- **12.2 Browser automation with Playwright** (3h): headless vs headed, selectors, waits, screenshots, login flow. Mini-lab: log into a demo site, scrape a table.
-- **12.3 Desktop & file automation** (2h): `pyautogui` basics, `pathlib` batch file ops, `shutil` organization, `watchdog` for folder triggers.
-- **12.4 Document & OCR processing** (2h): `pdfplumber` text extraction, `pytesseract` OCR with OpenCV preprocessing, structure -> DataFrame -> SQLite.
-- **12.5 AI-augmented automation** (3h): Ollama local LLM for extraction/classification; OpenAI API structured outputs with `pydantic`; Whisper for audio->text; Hugging Face `pipeline` for sentiment. Local-vs-cloud decision tree.
-- **12.6 Orchestration, scheduling & resilience** (2h): Prefect `@task`/`@flow`, `tenacity` retries, `logging`, GitHub Actions cron deploy, secrets via Actions/env.
-- **12.7 Capstone: Multi-modal automation pipeline** (1h integration): combines 3+ modalities end-to-end (projects #1-5 below).
-
-## 3. Five concrete mini-projects
-
-1. **Invoice Digitizer Bot** — PDF folder -> `pdfplumber`/`pytesseract` extract -> Ollama/LLM structure (vendor, amount, due date, VAT/IGV) -> SQLite + Excel export. Resume-ready finance automation; maps to Peru SUNAT invoice context.
-2. **Daily Market/News Monitor** — Playwright scrape competitor/price pages -> diff vs yesterday -> Ollama summarize change -> Telegram/Slack alert via GitHub Actions cron. Teaches idempotency + state persistence.
-3. **Automated Weekly Report** — pandas aggregate from DB -> `reportlab` PDF with Plotly chart -> `smtplib` email to stakeholder list. Mirrors #1 LinkedIn-cited automation task.
-4. **Email Triage Assistant** — IMAP read inbox -> Hugging Face zero-shot classify -> move to folders + draft reply with Ollama. Multi-modal (email + AI + file).
-5. **Meeting Notes Transcriber** — Whisper audio->text -> Ollama extract action items + decisions -> append to Markdown log + send summary email. Audio + LLM + email.
-
-## 4. Recommended Python libraries (install commands)
-
-```bash
-# Browser & desktop RPA
-pip install playwright && playwright install
-pip install pyautogui pillow
-pip install rpaframework           # optional: Robot Framework-style keywords
-
-# Documents & OCR
-pip install pdfplumber pypdf openpyxl python-docx
-pip install pytesseract            # + system Tesseract-OCR + tesseract-ocr-spa
-pip install opencv-python          # image preprocessing for OCR
-
-# Orchestration & resilience
-pip install prefect                # @task/@flow decorators
-pip install tenacity               # retry/backoff
-pip install schedule               # dead-simple cron alternative
-pip install python-dotenv          # secrets
-
-# AI (local + cloud)
-pip install ollama                 # local LLM client
-pip install openai                 # OpenAI API + structured outputs
-pip install pydantic               # schema for structured outputs
-pip install "transformers[torch]"  # Hugging Face NLP (sentiment, zero-shot)
-pip install openai-whisper         # audio transcription (or: faster-whisper)
-
-# Reporting & notifications
-pip install reportlab weasyprint   # PDF generation
-```
-
-## 5. Integration points with existing course
-
-**Required BEFORE Section 12** (prereqs learners must have): Section 2 (basics), Section 3 (file I/O, pathlib, JSON/CSV), Section 4 (functions, decorators -- needed for Prefect), Section 7 (pandas -- needed for report/dataframe projects), Section 11 (requests, REST APIs, logging, argparse, BeautifulSoup/Selenium foundations). Section 12 sits naturally as the capstone integration layer.
-
-**Recommended placement**: as **Section 12 (new)** after Section 11, OR as a 14h "Automation & AI Augmentation" specialization block. It synthesizes everything: Python core, APIs, DBs, pandas, visualization, scraping. Reinforces the "Automation Architect" role from the 2025 LinkedIn 200-posting analysis.
-
-**Sections that should come AFTER / feed forward**: a deployment lab (Streamlit/Gradio + GitHub Pages) and a final capstone that uses the Section 12 pipeline as a sub-component (e.g., the Lead Scraper CLI from S11 becomes a scheduled, monitored, AI-augmented bot in S12). This directly addresses the "no deployment lab" gap flagged in Task F0-B2's recommendations.
-
-### Source quality notes
-- **Strongly corroborated** (3+ independent sources): RPA tool triage UiPath/PowerAutomate/Python (r/rpa, MosChip, Gartner Peer Insights 2026, Smartbridge, EPC Group, pythonrpa.org = 6 sources); Prefect vs Airflow (ZenML, Prefect.io, r/dataengineering, Pluralsight, Medium = 5); finance RPA use cases invoice/AP/expense/journal (Celonis, Blue Prism, IBM, Keyence, HubiFi, CAI = 6); GitHub Actions cron as free scheduler (davidmuraya, python-engineer, r/learnpython, GitHub discussions = 4); tenacity for retry (Tenacity docs, Instructor docs, Medium, YouTube = 4); Ollama local LLM trend (Gartner 2026, Collabnix 2025, Cohorte 2026, Reddit r/ollama = 4).
-- **Medium**: pytesseract 80-85% accuracy figure (Extend AI Oct 2025, Klippa 2026, PyImageSearch — single-source-per-claim but convergent range); Whisper local vs WhisperX/faster-whisper (OpenAI repo + r/LocalLLaMA benchmark + Towards AI — WhisperX best for long-form is anecdotal consensus).
-- **Weak/anecdotal**: exact job-relevance ranking of the top 10 topics — synthesized from LinkedIn post density + forum complaint frequency, not a published skills-gap survey (same caveat as Task F0-B2). Peru-specific OCR accuracy on boletas/facturas (SUNAT format with IGV 18%) is inferred, not tested — recommend follow-up task F0-R1: run tesseract-ocr-spa on 10 sample Peruvian invoices to validate Project #1 feasibility before build phase.
-
----
-Task ID: R1
-Agent: Curriculum Design
-Task: Create 3 new course section files for "El Arte de Python" course restructuring (11 → 13 sections): s07-data-acquisition, s12-performance, s13-rpa-automation.
-
-Work Log:
-- Read 3 reference files to understand exact TypeScript type structure and content style: src/lib/types.ts (CourseSection interface + 8 supporting interfaces), src/lib/course/sections/s11-advanced-topics.ts (1608 lines, 10 theory blocks — content being SPLIT into new sections), src/lib/course/sections/s06-numpy.ts (644 lines — simpler structure reference).
-- Confirmed all 3 new files comply with the CourseSection interface: id, index, title, shortTitle, tagline, estimatedHours, level (one of 'Principiante'|'Intermedio'|'Avanzado'), icon (lucide name), accentColor (Tailwind gradient classes), jobRelevance (string), learningOutcomes (LearningOutcome[]), theory (TheoryBlock[] with heading + 3+ paragraphs of 150+ words each + runnable Python code + callout), iDo ({intro, steps: IDoStep[]}), weDo ({intro, steps: WeDoStep[] with starterCode + solutionCode}), youDo (YouDoProject with objectives/requirements/starterCode/portfolioNote/rubric), selfCheck (5 questions), resources ({docs, books, courses}).
-- Created **File 1: src/lib/course/sections/s07-data-acquisition.ts** (1257 lines). 6 theory blocks (iterators/generators, web scraping, REST APIs, SQL databases, regex with Peruvian DNI/RUC/phone patterns, collections). 3 I-Do steps (API→DataFrame, scraping→DataFrame, SQL→DataFrame). 3 We-Do exercises with full starter+solution code. You-Do capstone: "Data Acquisition Pipeline" unifying 3 sources. Level: Intermedio. 14 hours. Icon: Download. Accent: teal→cyan gradient. Peruvian context: SUNAT, Mercado Libre, Falabella, BBVA, Interbank, Ley 29733.
-- Created **File 2: src/lib/course/sections/s12-performance.ts** (1220 lines). 4 theory blocks (multiprocessing/concurrent.futures with GIL explanation, profiling with timeit/cProfile/line_profiler, structured logging with RotatingFileHandler, argparse + pyproject.toml entry_points). 3 I-Do steps (parallel feature engineering, profiling a slow function with 100x+ speedup demo, logging setup integrated with CLI). 3 We-Do exercises (parallel_squares, profile+vectorize limpiar_nombres, logging with rotating file). You-Do capstone: "Performance Optimizer" — take a slow script, profile, parallelize, add logging, package as CLI. Level: Avanzado. 10 hours. Icon: Gauge. Accent: indigo→purple gradient.
-- Created **File 3: src/lib/course/sections/s13-rpa-automation.ts** (1721 lines — largest). 6 theory blocks covering R0 research: (1) RPA landscape & tool selection (Python vs UiPath/Power Automate decision matrix), (2) Playwright browser automation (replaces Selenium for 2025-2026), (3) Desktop & file automation (pyautogui + pathlib + watchdog folder triggers), (4) Document & OCR processing (pdfplumber + pytesseract + OpenCV preprocessing for ~85% accuracy), (5) AI-augmented automation (Ollama local LLM, OpenAI API structured outputs with pydantic, Whisper audio transcription, Hugging Face transformers for Spanish sentiment with RoBERTuito), (6) Orchestration & scheduling (Prefect @task/@flow, tenacity retries, GitHub Actions cron). 3 I-Do steps (Playwright scrape with login flow, Ollama extraction with pydantic schema, Prefect pipeline with retries). 3 We-Do exercises (playwright scrape, Ollama extract with fallback regex, Prefect flow with random failure + retries demo). You-Do capstone: "Invoice Digitizer Bot" — PDF folder → OCR/LLM extract → validate RUC with módulo 11 algorithm → SQLite + Excel + GitHub Actions cron. Level: Avanzado. 14 hours. Icon: Bot. Accent: rose→pink gradient. Peruvian context: SUNAT facturas, IGV 18%, Ley 29733, Mercado Libre, Interbank, BCP, BBVA, Rimac, Falabella, Backus.
-- All content written in natural Peruvian Spanish ("tú", "chevere", "pega", "no morir", "gorroazo"). Code comments and docstrings in Spanish explaining WHY not just what. Technical terms kept in English (DataFrame, Pipeline, GIL, OCR, LLM, etc.). Each theory block has 3+ paragraphs of 150+ words each. All Python code examples are runnable with realistic outputs. Callouts (info/warning/tip/danger) included throughout for non-negotiable rules (SQL injection, scraping ethics under Ley 29733, pyautogui moves real mouse, f-strings in logging waste CPU, local-vs-cloud LLM decision under Ley 29733).
-- Fixed 1 TypeScript syntax error during type-checking: s13-rpa-automation.ts lines 804-805 contained `${{ secrets.X }}` (GitHub Actions YAML syntax) which TypeScript interpreted as template literal interpolation. Escaped with `\${{` so the literal `${{ }}` is preserved in the output string.
-- Verified all 3 files type-check successfully with `npx tsc --noEmit --skipLibCheck` (no errors in new files). Full project type-check shows only pre-existing errors in unrelated files (examples/, skills/, src/app/page.tsx, src/components/course/Dashboard.tsx, Sidebar.tsx, RichText.tsx) — none in the new section files.
-
-Stage Summary:
-- Delivered 3 new course section files totaling 4,198 lines of TypeScript (1,257 + 1,220 + 1,721). All files comply exactly with the CourseSection interface from src/lib/types.ts. All type-check cleanly. Combined the 3 sections add 38 estimated hours of new curriculum content (14 + 10 + 14) to the course.
-- Key content decisions: (a) Split old S11's 10 theory blocks across new S07 (6 data-acquisition blocks: generators, scraping, APIs, SQL, regex, collections) and new S12 (4 performance blocks: multiprocessing, profiling, logging, argparse) — S07 covers "conseguir datos del mundo real" and S12 covers "hacer código production-ready"; this gives S07 a coherent Intermedio narrative and S12 a focused Avanzado one. (b) Built S13 entirely from R0 research findings (Playwright not Selenium, Prefect not Airflow, Ollama local as default, pytesseract+OpenCV for OCR, GitHub Actions cron as free scheduler) — implemented all 5 anti-patterns flagged by R0 as explicit callouts (no Selenium primary, no Airflow hands-on, no UiPath as primary tool, no paid OCR APIs, no hardcoded secrets). (c) Every You-Do capstone maps to a real Peruvian job scenario: S07 = Data Engineer Junior acquisition sprint, S12 = second-month Data Engineer refactor task (8min→30sec), S13 = contabilidad bot saving 20+ horas/semana. (d) Every I-Do/We-Do step has runnable Python with realistic output comments so learners can copy-paste and verify.
-- Handoff notes for orchestrator/build agent: (1) The existing src/lib/course/sections/s07-pandas.ts already exists with index:7 — the orchestrator should renumber existing sections (s07-pandas → s08, s08-visualization → s09, etc.) or update the index field on my new s07-data-acquisition.ts to fit the desired final ordering. My file uses index:7 per the task spec. (2) The existing s11-advanced-topics.ts content is now mostly duplicated in s07 + s12 — orchestrator should consider deleting or repurposing s11 once the renumber is done. (3) The course registry (likely src/lib/course/index.ts or similar) needs updating to import and register the 3 new sections. (4) All 3 files use lucide-react icons (Download, Gauge, Bot) that exist in the library — but note the project has pre-existing TS errors in Dashboard.tsx/Sidebar.tsx related to how they consume the icon library (unrelated to my changes).
-- Source quality: structure and depth modeled on s11-advanced-topics.ts (the file being split); Peruvian Spanish register and pedagogical I-Do/We-Do/You-Do pattern matches the existing course style; RPA content for S13 directly implements R0 research brief recommendations (Task ID R0, lines 472-566 of worklog.md). No external sources consulted beyond R0 — all technical claims (GIL behavior, Playwright vs Selenium speed, tesseract ~85% accuracy with OpenCV preprocessing, tenacity retries, GitHub Actions 2000 min/month free, Ley 29733) were corroborated in R0.
-

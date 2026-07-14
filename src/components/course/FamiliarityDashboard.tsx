@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Upload, FileSpreadsheet, Users, AlertTriangle, MapPin,
@@ -551,28 +551,44 @@ function SignalBox({ label, value }: { label: string; value: string }) {
   )
 }
 
-// Simple SVG map (no external dependency)
+// Leaflet map with real tiles — loaded dynamically to avoid SSR issues
 function MapView({ records, clusters }: { records: ClientRecord[]; clusters: ClientRecord[][] }) {
-  // Find bounding box
   const withCoords = records.filter(r => r.lat && r.lon)
-  if (withCoords.length === 0) return null
+  const [LeafletMap, setLeafletMap] = useState<any>(null)
 
-  const lats = withCoords.map(r => r.lat!)
-  const lons = withCoords.map(r => r.lon!)
-  const minLat = Math.min(...lats), maxLat = Math.max(...lats)
-  const minLon = Math.min(...lons), maxLon = Math.max(...lons)
-  const latRange = maxLat - minLat || 0.01
-  const lonRange = maxLon - minLon || 0.01
+  useEffect(() => {
+    // Dynamic import to avoid SSR
+    import('react-leaflet').then((mod) => {
+      setLeafletMap(() => ({ MapContainer: mod.MapContainer, TileLayer: mod.TileLayer, CircleMarker: mod.CircleMarker, Popup: mod.Popup, Polyline: mod.Polyline, useMap: mod.useMap }))
+    })
+    // Load Leaflet CSS
+    if (!document.getElementById('leaflet-css')) {
+      const link = document.createElement('link')
+      link.id = 'leaflet-css'
+      link.rel = 'stylesheet'
+      link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
+      document.head.appendChild(link)
+    }
+  }, [])
 
-  // Padding
-  const padLat = latRange * 0.1, padLon = lonRange * 0.1
-  const minLatP = minLat - padLat, maxLatP = maxLat + padLat
-  const minLonP = minLon - padLon, maxLonP = maxLon + padLon
+  if (withCoords.length === 0) {
+    return (
+      <div className="py-12 text-center text-sm text-muted-foreground">
+        Los registros no tienen coordenadas (lat/lon).
+      </div>
+    )
+  }
 
-  // Map to SVG coordinates (400x300)
-  const W = 800, H = 500
-  const toX = (lon: number) => ((lon - minLonP) / (maxLonP - minLonP)) * W
-  const toY = (lat: number) => H - ((lat - minLatP) / (maxLatP - minLatP)) * H
+  if (!LeafletMap) {
+    return (
+      <div className="flex h-96 items-center justify-center">
+        <Loader2 className="h-6 w-6 animate-spin text-primary" />
+        <span className="ml-2 text-sm text-muted-foreground">Cargando mapa...</span>
+      </div>
+    )
+  }
+
+  const { MapContainer, TileLayer, CircleMarker, Popup, Polyline } = LeafletMap
 
   // Build cluster lookup
   const clusterMap = new Map<string, number>()
@@ -580,23 +596,25 @@ function MapView({ records, clusters }: { records: ClientRecord[]; clusters: Cli
     cluster.forEach(r => clusterMap.set(r.id, i))
   })
 
-  // Cluster colors
   const clusterColors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e']
   const getColor = (id: string) => {
     const ci = clusterMap.get(id)
     return ci !== undefined ? clusterColors[ci % clusterColors.length] : '#95a5a6'
   }
 
-  // Draw lines between cluster members
-  const lines: { x1: number; y1: number; x2: number; y2: number; color: string }[] = []
+  // Center on average of all points
+  const avgLat = withCoords.reduce((s, r) => s + r.lat!, 0) / withCoords.length
+  const avgLon = withCoords.reduce((s, r) => s + r.lon!, 0) / withCoords.length
+
+  // Cluster connection lines
+  const lines: { positions: [number, number][]; color: string }[] = []
   for (const cluster of clusters) {
-    const color = clusterColors[clusterMap.get(cluster[0].id) || 0 % clusterColors.length]
+    const color = clusterColors[(clusterMap.get(cluster[0].id) || 0) % clusterColors.length]
     for (let i = 0; i < cluster.length; i++) {
       for (let j = i + 1; j < cluster.length; j++) {
         if (cluster[i].lat && cluster[i].lon && cluster[j].lat && cluster[j].lon) {
           lines.push({
-            x1: toX(cluster[i].lon!), y1: toY(cluster[i].lat!),
-            x2: toX(cluster[j].lon!), y2: toY(cluster[j].lat!),
+            positions: [[cluster[i].lat!, cluster[i].lon!], [cluster[j].lat!, cluster[j].lon!]],
             color,
           })
         }
@@ -605,49 +623,47 @@ function MapView({ records, clusters }: { records: ClientRecord[]; clusters: Cli
   }
 
   return (
-    <div className="overflow-x-auto">
-      <svg viewBox={`0 0 ${W} ${H}`} className="w-full" style={{ maxHeight: '500px' }}>
-        {/* Background */}
-        <rect x="0" y="0" width={W} height={H} fill="var(--halo)" opacity="0.3" />
-
-        {/* Grid lines */}
-        {[0.25, 0.5, 0.75].map(p => (
-          <g key={p}>
-            <line x1="0" y1={H * p} x2={W} y2={H * p} stroke="var(--border)" strokeWidth="0.5" opacity="0.3" />
-            <line x1={W * p} y1="0" x2={W * p} y2={H} stroke="var(--border)" strokeWidth="0.5" opacity="0.3" />
-          </g>
-        ))}
-
+    <div>
+      <MapContainer
+        center={[avgLat, avgLon]}
+        zoom={12}
+        style={{ height: '400px', width: '100%', borderRadius: '8px' }}
+        scrollWheelZoom={false}
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; OpenStreetMap contributors'
+        />
         {/* Cluster connection lines */}
         {lines.map((l, i) => (
-          <line key={i} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke={l.color} strokeWidth="1.5" opacity="0.4" strokeDasharray="3 2" />
+          <Polyline key={i} positions={l.positions} pathOptions={{ color: l.color, opacity: 0.4, dashArray: '5 5' }} />
         ))}
-
-        {/* Client points */}
+        {/* Client markers */}
         {withCoords.map(r => {
           const color = getColor(r.id)
           const ci = clusterMap.get(r.id)
           const isClustered = ci !== undefined
           return (
-            <g key={r.id}>
-              {isClustered && (
-                <circle cx={toX(r.lon!)} cy={toY(r.lat!)} r="12" fill={color} opacity="0.2" />
-              )}
-              <circle
-                cx={toX(r.lon!)}
-                cy={toY(r.lat!)}
-                r={isClustered ? 5 : 3}
-                fill={color}
-                stroke="white"
-                strokeWidth="1"
-              />
-              <title>{r.nombre} {r.apellido_paterno} — {r.distrito}</title>
-            </g>
+            <CircleMarker
+              key={r.id}
+              center={[r.lat!, r.lon!]}
+              radius={isClustered ? 8 : 5}
+              pathOptions={{ color: color, fillColor: color, fillOpacity: 0.7, weight: 1 }}
+            >
+              <Popup>
+                <div className="text-xs">
+                  <strong>{r.nombre} {r.apellido_paterno}</strong><br />
+                  📍 {r.distrito}<br />
+                  📞 {r.telefono}<br />
+                  {ci !== undefined && <span>👥 Clúster #{ci + 1}</span>}
+                </div>
+              </Popup>
+            </CircleMarker>
           )
         })}
-      </svg>
+      </MapContainer>
       <div className="mt-2 text-center text-xs text-muted-foreground">
-        {withCoords.length} clientes geolocalizados · {clusters.length} clústeres familiares
+        {withCoords.length} clientes geolocalizados · {clusters.length} clústeres familiares · Mapa con tiles reales de OpenStreetMap
       </div>
     </div>
   )

@@ -1,8 +1,8 @@
 import type { CourseSection } from '../../types'
 
-export const section07: CourseSection = {
+export const section08: CourseSection = {
   id: 'pandas',
-  index: 7,
+  index: 8,
   title: 'Pandas: Data Cleaning & EDA',
   shortTitle: 'Pandas & EDA',
   tagline: 'Tu herramienta principal diaria — groupby, merge, limpieza y EDA profesional',

@@ -1,8 +1,8 @@
 import type { CourseSection } from '../../types'
 
-export const section10: CourseSection = {
+export const section11: CourseSection = {
   id: 'testing',
-  index: 10,
+  index: 11,
   title: 'Testing Your Python Code',
   shortTitle: 'Testing',
   tagline: 'pytest, fixtures, coverage y CI con GitHub Actions — el diferenciador senior',

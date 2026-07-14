@@ -1,8 +1,8 @@
 import type { CourseSection } from '../../types'
 
-export const section09: CourseSection = {
+export const section10: CourseSection = {
   id: 'sklearn',
-  index: 9,
+  index: 10,
   title: 'scikit-learn: Full ML Pipeline',
   shortTitle: 'scikit-learn',
   tagline: 'Pipeline, ColumnTransformer, cross-validation, tuning y SHAP — production-grade ML',
