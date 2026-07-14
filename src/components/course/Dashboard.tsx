@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { MuchaHalo, DividerVine } from '@/components/ornaments/Ornaments'
 import {
@@ -38,17 +39,31 @@ interface DashboardProps {
 export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: DashboardProps) {
   const { completedSections, completedSubSteps, quizScores, lastVisited, startDate, setStartDate } = useProgressStore()
   const { data: session } = useSession()
+  const [mounted, setMounted] = useState(false)
+
+  // Prevent hydration mismatch: render with empty state on SSR
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true)
+  }, [])
+
+  // Use empty state during SSR and first client render
+  const safeCompletedSections = mounted ? completedSections : []
+  const safeCompletedSubSteps = mounted ? completedSubSteps : {}
+  const safeQuizScores = mounted ? quizScores : {}
+  const safeLastVisited = mounted ? lastVisited : null
+
   const totalSubSteps = sections.length * 5
   const doneSubSteps = sections.reduce(
-    (acc, s) => acc + (completedSubSteps[s.id]?.length || 0),
+    (acc, s) => acc + (safeCompletedSubSteps[s.id]?.length || 0),
     0
   )
   const overallProgress = Math.round((doneSubSteps / totalSubSteps) * 100)
-  const completedCount = completedSections.length
+  const completedCount = safeCompletedSections.length
 
   // Find next section to do
-  const nextSection = sections.find((s) => !completedSections.includes(s.id)) || sections[0]
-  const isReturning = lastVisited !== null
+  const nextSection = sections.find((s) => !safeCompletedSections.includes(s.id)) || sections[0]
+  const isReturning = safeLastVisited !== null
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
@@ -142,10 +157,10 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
           icon={Flame}
           label="Quiz promedio"
           value={`${Math.round(
-            Object.values(quizScores).reduce((a, b) => a + b, 0) /
-              Math.max(Object.keys(quizScores).length, 1)
+            Object.values(safeQuizScores).reduce((a, b) => a + b, 0) /
+              Math.max(Object.keys(safeQuizScores).length, 1)
           )}%`}
-          sublabel={`${Object.keys(quizScores).length} quizzes rendidos`}
+          sublabel={`${Object.keys(safeQuizScores).length} quizzes rendidos`}
           color="amber"
           delay={0.15}
         />
@@ -199,8 +214,8 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {sections.map((section, idx) => {
-            const isCompleted = completedSections.includes(section.id)
-            const subStepsDone = completedSubSteps[section.id] || []
+            const isCompleted = safeCompletedSections.includes(section.id)
+            const subStepsDone = safeCompletedSubSteps[section.id] || []
             const sectionProgress = Math.round((subStepsDone.length / 5) * 100)
             const isNext = section.id === nextSection.id
             const Icon = (Icons as Record<string, React.ElementType>)[section.icon] || Icons.Circle

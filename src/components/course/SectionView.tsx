@@ -1059,6 +1059,158 @@ print(f"Emails: {emails}")
 print(f"Telefonos: {telefonos}")`,
       hint: 'Modifica el generator para que genere 20 ventas en vez de 10',
     },
+    'data-acquisition': {
+      title: 'Practica scraping, regex y SQL',
+      code: `# Practica adquisicion de datos (sin librerias externas en Pyodide)
+import re
+import sqlite3
+from collections import Counter, defaultdict
+
+# === REGEX: extraer datos de texto desestructurado ===
+texto_clientes = """
+Cliente 1: Maria Quispe, DNI 12345678, tel 999-888-777, maria@email.pe
+Cliente 2: Luis Garcia, DNI 87654321, tel 987-654-321, luis.garcia@empresa.com
+Cliente 3: Ana Flores, DNI 11223344, tel 999-111-222, ana.f@pe.org
+"""
+
+# Extraer todos los DNIs (8 digitos)
+dnis = re.findall(r'\\b\\d{8}\\b', texto_clientes)
+print(f"DNIs encontrados: {dnis}")
+
+# Extraer emails
+emails = re.findall(r'[\\w.-]+@[\\w.-]+\\.\\w+', texto_clientes)
+print(f"Emails: {emails}")
+
+# Extraer telefonos (formato XXX-XXX-XXX)
+telefonos = re.findall(r'\\d{3}-\\d{3}-\\d{3}', texto_clientes)
+print(f"Telefonos: {telefonos}")
+
+# === COUNTER: frecuencias ===
+nombres = ["Maria", "Luis", "Ana", "Maria", "Carlos", "Maria", "Luis"]
+contador = Counter(nombres)
+print(f"\\nTop 2 nombres mas frecuentes: {contador.most_common(2)}")
+
+# === DEFAULTDICT: agrupar ===
+ventas = [("Maria", 100), ("Luis", 200), ("Maria", 150), ("Ana", 300)]
+por_vendedor = defaultdict(list)
+for nombre, monto in ventas:
+    por_vendedor[nombre].append(monto)
+
+print("\\nVentas por vendedor:")
+for vendedor, montos in por_vendedor.items():
+    print(f"  {vendedor}: {montos} (total: {sum(montos)})")`,
+      hint: 'Intenta extraer los nombres del texto con regex (palabras despues de "Cliente N:")',
+    },
+    'performance': {
+      title: 'Practica multiprocessing y logging',
+      code: `# Practica performance y logging (simulado en Pyodide)
+import time
+import logging
+
+# === LOGGING setup ===
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    datefmt='%H:%M:%S'
+)
+logger = logging.getLogger(__name__)
+
+# === BENCHMARK: comparar enfoques ===
+def lento(n):
+    """Enfoque con loop tradicional."""
+    resultado = []
+    for i in range(n):
+        if i % 2 == 0:
+            resultado.append(i ** 2)
+    return resultado
+
+def rapido(n):
+    """Enfoque con list comprehension."""
+    return [i ** 2 for i in range(n) if i % 2 == 0]
+
+# Medir tiempo
+n = 100000
+
+inicio = time.time()
+r1 = lento(n)
+t1 = time.time() - inicio
+logger.info(f"Loop tradicional: {t1:.4f}s ({len(r1)} elementos)")
+
+inicio = time.time()
+r2 = rapido(n)
+t2 = time.time() - inicio
+logger.info(f"List comprehension: {t2:.4f}s ({len(r2)} elementos)")
+
+speedup = t1 / t2 if t2 > 0 else 0
+logger.info(f"Speedup: {speedup:.1f}x mas rapido con comprehension")
+
+# Verificar que ambos dan el mismo resultado
+assert r1 == r2, "Los resultados no coinciden!"
+logger.info("✓ Ambos enfoques producen el mismo resultado")`,
+      hint: 'Cambia n a 1000000 y observa como cambia el speedup',
+    },
+    'rpa-automation': {
+      title: 'Practica automatización con tenacity y argparse',
+      code: `# Practica RPA: retry logic y CLI (simulado en Pyodide)
+import time
+import random
+from functools import wraps
+
+# === DECORADOR DE RETRY (simulando tenacity) ===
+def retry(max_attempts=3, delay=0.1):
+    """Decorador que reintenta una funcion hasta max_attempts veces."""
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            for attempt in range(1, max_attempts + 1):
+                try:
+                    result = func(*args, **kwargs)
+                    print(f"  ✓ Intento {attempt}: exitoso")
+                    return result
+                except Exception as e:
+                    print(f"  ✗ Intento {attempt}: fallo - {e}")
+                    if attempt < max_attempts:
+                        time.sleep(delay)
+                        print(f"    Reintentando en {delay}s...")
+                    else:
+                        print(f"  ✗ Agotados {max_attempts} intentos")
+                        raise
+        return wrapper
+    return decorator
+
+# === SIMULAR API QUE FALLA ALEATORIAMENTE ===
+@retry(max_attempts=5, delay=0.05)
+def llamar_api_inestable(endpoint):
+    """Simula una API que falla 70% de las veces."""
+    if random.random() < 0.7:
+        raise ConnectionError(f"Timeout en {endpoint}")
+    return {"status": "ok", "data": [1, 2, 3]}
+
+# Probar la API con retry
+print("=== Llamando API inestable con retry ===")
+random.seed(42)  # para reproducibilidad
+try:
+    resultado = llamar_api_inestable("/api/clientes")
+    print(f"Resultado: {resultado}")
+except Exception as e:
+    print(f"Error final: {e}")
+
+# === SIMULAR ARGPARSE ===
+print("\\n=== Simulando CLI con argumentos ===")
+def procesar_clientes(archivo, formato="csv", verbose=False):
+    """Simula procesamiento de clientes con argumentos CLI."""
+    if verbose:
+        print(f"  Procesando {archivo} en formato {formato}...")
+    # Simular procesamiento
+    clientes = ["Maria", "Luis", "Ana"]
+    if verbose:
+        print(f"  Encontrados {len(clientes)} clientes")
+    return clientes
+
+# Simular: python script.py --archivo clientes.xlsx --formato xlsx --verbose
+procesar_clientes("clientes.xlsx", formato="xlsx", verbose=True)`,
+      hint: 'Cambia max_attempts a 10 y observa cuántos intentos necesita la API',
+    },
   }
 
   const demo = demos[sectionId]
