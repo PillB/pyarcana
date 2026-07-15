@@ -34,6 +34,21 @@ export const section01: CourseSection = {
       paragraphs: [
         'Vamos a instalar 4 cosas, en este orden: (1) Python 3.12 desde python.org, (2) VS Code desde code.visualstudio.com, (3) Git desde git-scm.com, y (4) las extensiones de Python en VS Code. Cada una tiene su rol específico y no se mezclan. Python es el lenguaje. VS Code es el editor donde escribes código. Git es el sistema de control de versiones que registra cada cambio. GitHub es la nube donde publicas tu código para que otros lo vean y colaboren.',
         'Una decisión clave: **¿venv o conda?** Para data science en Perú, `venv` es suficiente y es lo estándar. `conda` es más pesado (descarga 3-5 GB) y tiene su propio sistema de paquetes que a veces entra en conflicto con pip. Solo te recomiendo conda si trabajas con investigadores que ya lo usan, o si necesitas CUDA/GPU para deep learning. En el 90% de los casos de data analysis (pandas, numpy, sklearn, matplotlib), `venv` + pip es lo correcto.',
+        'Python viene con una biblioteca estándar que incluye módulos como `sys` (información del sistema), `datetime` (fechas y horas), `os` (sistema operativo), y `json` (manejo de JSON). Estos módulos **no necesitan `pip install`** — funcionan con solo hacer `import sys` o `from datetime import datetime`. En contraste, paquetes de terceros como `pandas`, `numpy`, o `matplotlib` NO vienen con Python y sí necesitan `pip install` antes de poder importarlos. Esta distinción es la causa #1 del error `ModuleNotFoundError` en principiantes: intentan `import pandas` sin haber hecho `pip install pandas` primero.',
+      ],
+      callout: {
+        type: 'info',
+        title: 'Biblioteca estándar vs paquetes de terceros',
+        content:
+          'Biblioteca estándar (sin pip install): sys, datetime, os, json, csv, pathlib, math, random. Paquetes de terceros (con pip install): pandas, numpy, matplotlib, scikit-learn, requests. Si te sale `ModuleNotFoundError`, primero revisa si es de la biblioteca estándar (no necesita install) o de terceros (necesita `pip install nombre_paquete`).',
+      },
+    },
+    {
+      heading: 'requirements.txt, .gitignore y README — los 3 archivos esenciales',
+      paragraphs: [
+        'Todo proyecto Python profesional tiene 3 archivos esenciales en la raíz. **requirements.txt** lista las dependencias con versiones exactas (ej: `pandas==2.2.2`). Se genera con `pip freeze > requirements.txt`, que exporta TODOS los paquetes instalados en tu venv incluyendo dependencias transitivas (los paquetes que tus paquetes dependen). Para replicar el entorno en otra máquina: `pip install -r requirements.txt`. La diferencia clave: `pip install pandas` agrega UN paquete; `pip freeze > requirements.txt` exporta TODOS los instalados como un snapshot; `pip install -r requirements.txt` restaura ese snapshot.',
+        '**.gitignore** le dice a Git qué archivos NO subir al repositorio. Los archivos esenciales a ignorar son: `venv/` (pesa 100MB+, se regenera con pip install), `__pycache__/` (archivos compilados que se regeneran solos), `.env` (credenciales y secretos), y `*.pyc` (bytecode compilado). GitHub mantiene plantillas oficiales en https://github.com/github/gitignore — busca la de Python y úsala como base. Importante: si ya subiste un archivo por error, `.gitignore` NO lo remueve del historial. Necesitas `git rm --cached archivo` para dejar de trackearlo, y luego commit.',
+        '**README.md** es lo primero que ve un visitante de tu repo en GitHub. Un buen README tiene: (1) título del proyecto, (2) descripción de qué hace, (3) instrucciones de instalación (`pip install -r requirements.txt`), (4) instrucciones de uso (`python main.py`), (5) estructura del proyecto (opcional). Usa Markdown: `#` para títulos, `**texto**` para negritas, bloques de código con triple backtick. Un repo sin README se ve abandonado — los reclutadores lo notan. Incluye también un archivo `LICENSE` (MIT es el default seguro para proyectos de portafolio).',
       ],
     },
     {
@@ -190,13 +205,24 @@ git push -u origin main
         starterCode: {
           language: 'python',
           title: 'hello.py',
-          code: `# Tu código aquí
-# 1. Importa sys y datetime
-# 2. Define una variable nombre con tu nombre
-# 3. Imprime las 3 cosas con f-strings
+          code: `# 1. Importa los modulos de la biblioteca estandar
+# (no necesitan pip install)
+import sys
+from datetime import datetime
 
-if __name__ == "__main__":
-    pass  # tu código aquí`,
+# 2. Define tu nombre
+nombre = "Tu Nombre Aqui"
+
+# 3. Obten la version de Python con sys.version.split()[0]
+version_python = sys.____.split()[0]
+
+# 4. Obten la fecha con datetime.now().strftime("%d/%m/%Y %H:%M")
+fecha = datetime.____().strftime("____")
+
+# 5. Imprime con f-strings
+print(f"Hola, soy {____}")
+print(f"Corriendo Python {____}")
+print(f"Fecha actual: {____}")`,
         },
         solutionCode: {
           language: 'python',
@@ -288,10 +314,17 @@ python hello.py
         starterCode: {
           language: 'bash',
           title: 'Terminal',
-          code: `# Tu código aquí
-# 1. Agrega todos los cambios
-# 2. Haz commit con mensaje descriptivo
-# 3. Sube a GitHub`,
+          code: `# 1. Agrega todos los cambios al staging area
+git ____
+
+# 2. Verifica que hello.py y README.md estan staged
+git ____
+
+# 3. Haz commit con mensaje siguiendo Conventional Commits
+git commit -m "____: agregar hello.py y README inicial"
+
+# 4. Sube a GitHub
+git ____`,
         },
         solutionCode: {
           language: 'bash',
