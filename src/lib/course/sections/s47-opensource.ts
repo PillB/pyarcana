@@ -38,9 +38,9 @@ export const section47: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '# pyproject.toml moderno (PEP 621)\n[project]\nname = "pytools-cli"\nversion = "1.0.0"\ndependencies = ["click>=8.0", "pandas>=2.0", "rich>=13.0"]\n\n[project.optional-dependencies]\ndev = ["pytest", "ruff", "mypy"]\nml = ["scikit-learn", "xgboost"]\n\n[project.scripts]\npytools = "pytools_cli.main:cli"\n\n# pip install .  -> instala el paquete\n# pytools --help -> usa el CLI\nprint("pyproject.toml: entry_points + optional-deps")',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'pyproject.toml con hatchling es el estandar moderno. project.scripts crea el comando ejecutable. optional-dependencies separa deps de dev y features modulares.',
       },
     ],
   },
@@ -58,7 +58,7 @@ export const section47: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '# GitHub Actions CI con matrix testing (3 OS x 3 Python = 9 jobs)\nname: CI\non: [push, pull_request]\njobs:\n  test:\n    runs-on: ${{ matrix.os }}\n    strategy:\n      matrix:\n        os: [ubuntu-latest, macos-latest, windows-latest]\n        python: ["3.10", "3.11", "3.12"]\n    steps:\n    - uses: actions/checkout@v4\n    - run: pip install -e ".[dev]"\n    - run: ruff check .\n    - run: pytest --cov\nprint("CI: 9 combinaciones, lint + tests + coverage en paralelo")',
         },
       },
     ],

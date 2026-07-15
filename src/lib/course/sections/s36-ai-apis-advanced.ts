@@ -39,9 +39,9 @@ export const section36: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '"""Function calling con OpenAI API."""\nfrom openai import OpenAI\nimport json\n\nclient = OpenAI()\ntools = [{\n    "type": "function",\n    "function": {\n        "name": "query_database",\n        "description": "Consulta transacciones de un usuario",\n        "parameters": {\n            "type": "object",\n            "properties": {\n                "user_id": {"type": "integer"},\n                "period": {"type": "string", "enum": ["day", "week", "month"]},\n            },\n            "required": ["user_id"],\n        },\n    },\n}]\n\nresponse = client.chat.completions.create(\n    model="gpt-4o",\n    messages=[{"role": "user", "content": "Cuanto gasto el usuario 123 el mes pasado?"}],\n    tools=tools,\n)\n\nif response.choices[0].message.tool_calls:\n    call = response.choices[0].message.tool_calls[0]\n    args = json.loads(call.function.arguments)\n    print(f"LLM decidio llamar: {call.function.name}({args})")',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'Function calling permite al LLM orquestar herramientas externas. El modelo decide cuando y como llamar cada funcion basado en el contexto. Tu codigo ejecuta la funcion y retorna el resultado al LLM para que genere la respuesta final.',
       },
     ],
   },
@@ -59,7 +59,7 @@ export const section36: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '"""Structured outputs con pydantic."""\nfrom pydantic import BaseModel, Field\nfrom openai import OpenAI\n\nclient = OpenAI()\n\nclass FinancialAnalysis(BaseModel):\n    ticker: str = Field(description="Simbolo de la accion")\n    recommendation: str = Field(description="BUY, SELL, o HOLD")\n    confidence: float = Field(ge=0, le=1)\n    reasoning: str\n\nresponse = client.beta.chat.completions.parse(\n    model="gpt-4o",\n    response_format=FinancialAnalysis,\n    messages=[{"role": "user", "content": "Analiza BIP"}],\n)\nanalysis = response.choices[0].message.parsed\nprint(f"Ticker: {analysis.ticker}, Rec: {analysis.recommendation}, Conf: {analysis.confidence:.0%}")',
         },
       },
     ],

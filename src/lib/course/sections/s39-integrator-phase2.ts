@@ -40,9 +40,9 @@ export const section39: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '"""Arquitectura del sistema integrador Senior."""\nfrom fastapi import FastAPI\nfrom prometheus_fastapi_instrumentator import Instrumentator\nimport xgboost as xgb\nimport mlflow\nimport structlog\n\nlogger = structlog.get_logger()\napp = FastAPI(title="ML Platform", version="2.0.0")\nInstrumentator().instrument(app).expose(app)\n\nmlflow.set_tracking_uri("http://mlflow:5000")\nmodel = mlflow.xgboost.load_model("models:/churn-xgb/Production")\n\n@app.post("/score")\nasync def score_transaction(transaction: dict):\n    logger.info("scoring_request", user_id=transaction.get("user_id"))\n    features = extract_features(transaction)\n    prediction = float(model.predict_proba(features)[0, 1])\n    risk = "ALTO" if prediction > 0.7 else "MEDIO" if prediction > 0.4 else "BAJO"\n    return {"risk_score": prediction, "risk_level": risk}',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'La arquitectura integra 5 componentes que cubren todo el stack Senior: Kafka para ingesta, FastAPI para serving, XGBoost para ML, Prometheus para monitoring, y Streamlit para visualization. Cada componente es independiente y escalable.',
       },
     ],
   },
@@ -60,7 +60,7 @@ export const section39: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '"""Dashboard de monitoreo con Streamlit."""\nimport streamlit as st\nimport pandas as pd\nimport plotly.express as px\n\nst.title("ML Platform Monitoring")\ncol1, col2, col3 = st.columns(3)\ncol1.metric("Predicciones hoy", "12,345", "+15%")\ncol2.metric("Latencia p99", "87ms", "-5ms")\ncol3.metric("Error rate", "0.02%", "-0.01%")\n\nscores = pd.DataFrame({"score": [0.1,0.3,0.5,0.7,0.9], "count": [500,300,150,80,20]})\nfig = px.bar(scores, x="score", y="count", color="score", color_continuous_scale="RdYlGn_r")\nst.plotly_chart(fig)\nst.info("Se actualiza cada 30s con datos de Prometheus")',
         },
       },
     ],

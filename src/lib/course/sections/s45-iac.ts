@@ -38,9 +38,9 @@ export const section45: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '# Terraform: cluster K8s con GPU nodes spot\nresource "aws_eks_node_group" "gpu" {\n  cluster_name    = aws_eks_cluster.ml.name\n  instance_types  = ["g4dn.xlarge"]  # NVIDIA T4\n  capacity_type   = "SPOT"  # 60-70% descuento\n  scaling_config {\n    desired_size = 1\n    max_size     = 4  # Auto-scale\n    min_size     = 0  # Scale to zero\n  }\n}\n# terraform apply -> crea infra\n# terraform destroy -> elimina todo\nprint("Terraform: GPU spot instances, scale-to-zero")',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'Terraform hace la infra reproducible. SPOT instances ahorran 60-70% en GPUs. min_size=0 permite scale-to-zero cuando no hay trafico, ahorrando 80% en workloads variables.',
       },
     ],
   },
@@ -58,7 +58,7 @@ export const section45: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '# ArgoCD GitOps: cada git push despliega automaticamente\n# Application que sincroniza cluster K8s con repo Git\napiVersion: argoproj.io/v1alpha1\nkind: Application\nspec:\n  source:\n    repoURL: https://github.com/org/k8s-manifests\n    path: overlays/production\n  syncPolicy:\n    automated:\n      prune: true     # elimina recursos no en Git\n      selfHeal: true  # revierte cambios manuales\nprint("ArgoCD: rollback = git revert + sync automatico")',
         },
       },
     ],

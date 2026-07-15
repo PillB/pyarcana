@@ -38,9 +38,9 @@ export const section33: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '"""XGBoost con Optuna para hyperparameter tuning."""\nimport optuna\nimport xgboost as xgb\nfrom sklearn.model_selection import cross_val_score\nfrom sklearn.datasets import make_classification\n\nX, y = make_classification(n_samples=1000, n_features=20, random_state=42)\n\ndef objective(trial):\n    params = {\n        "n_estimators": trial.suggest_int("n_estimators", 100, 500),\n        "max_depth": trial.suggest_int("max_depth", 3, 10),\n        "learning_rate": trial.suggest_float("learning_rate", 0.01, 0.3, log=True),\n        "subsample": trial.suggest_float("subsample", 0.6, 1.0),\n    }\n    model = xgb.XGBClassifier(**params, random_state=42)\n    return cross_val_score(model, X, y, cv=5, scoring="roc_auc").mean()\n\nstudy = optuna.create_study(direction="maximize", pruner=optuna.pruners.MedianPruner())\nstudy.optimize(objective, n_trials=20)\nprint(f"Mejor AUC: {study.best_value:.4f}")\nprint(f"Mejores params: {study.best_params}")',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'Optuna con TPE explora inteligentemente el espacio de hiperparametros. MedianPruner corta trials malos temprano ahorrando 60% del tiempo. 20 trials de Optuna ≈ 200 de GridSearch en calidad.',
       },
     ],
   },
@@ -58,7 +58,7 @@ export const section33: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '"""Stacking ensemble con 3 modelos base."""\nfrom sklearn.ensemble import StackingClassifier, RandomForestClassifier\nfrom sklearn.linear_model import LogisticRegression\nfrom sklearn.model_selection import cross_val_score\nimport xgboost as xgb\n\nbase_models = [\n    ("lr", LogisticRegression(random_state=42, max_iter=1000)),\n    ("rf", RandomForestClassifier(n_estimators=100, random_state=42)),\n    ("xgb", xgb.XGBClassifier(random_state=42)),\n]\nstacking = StackingClassifier(estimators=base_models, final_estimator=LogisticRegression(), cv=5)\n\nfor name, model in base_models + [("stacking", stacking)]:\n    scores = cross_val_score(model, X, y, cv=5, scoring="roc_auc")\n    print(f"  {name:10s}: AUC = {scores.mean():.4f}")\nprint("Stacking generalmente mejora 2-5% sobre el mejor individual")',
         },
       },
     ],

@@ -38,9 +38,9 @@ export const section50: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '# Design Doc: estructura para feature compleja\n# 1. Context: que problema resuelves y por que importa\n# 2. Goals: que vas a lograr (metricas)\n# 3. Design: como lo vas a hacer (con diagramas)\n# 4. Alternatives: que mas consideraste y descartaste\n# 5. Risks: que puede salir mal\n\n# Ejemplo: Sistema de Scoring Crediticio Real-Time\n# Goal: latencia p99 < 100ms, 10K QPS, 99.9% uptime\n# Design: FastAPI + XGBoost + Redis cache + Prometheus\n# Alt: Batch (descartado, necesitan tiempo real)\n# Risk: Feature drift (mitigar con Evidently)\nprint("Design Doc: alinea stakeholders antes de implementar")',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'Un design doc alinea stakeholders antes de implementar. Documentar alternatives y risks previene preguntas meses despues. El formato es conciso pero completo.',
       },
     ],
   },
@@ -58,7 +58,7 @@ export const section50: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '# Postmortem blameless template\n# Summary: API caida 23 min, 12K requests fallidos\n# Timeline: 12:03 alerta -> 12:05 investigacion -> 12:15 rollback -> 12:26 restaurado\n# Root Cause (5 Whys):\n#   1. Por que cayo? Redis pool agotado\n#   2. Por que? Codigo nuevo no cerraba connections\n#   3. Por que no se detecto? No habia test de connection pooling\n#   4. Por que? CI no cubre integracion con Redis\n#   5. Por que? Falta contract testing\n# Action Items: [ ] Redis en docker-compose test, [ ] contract test, [ ] alerta > 80%\nprint("Postmortem blameless: sin culpar personas, mejora procesos")',
         },
       },
     ],

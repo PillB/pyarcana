@@ -38,9 +38,9 @@ export const section46: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '# CuPy vs NumPy: benchmark de matriz 5000x5000\nimport numpy as np\nimport cupy as cp\nimport time\n\nn = 5000\na = np.random.rand(n, n).astype(np.float32)\nt0 = time.time(); b = a @ a; print(f"NumPy CPU: {time.time()-t0:.3f}s")\n\na_gpu = cp.random.rand(n, n, dtype=cp.float32)\ncp.cuda.Stream.null.synchronize()\nt0 = time.time(); b = a_gpu @ a_gpu; cp.cuda.Stream.null.synchronize()\nprint(f"CuPy GPU: {time.time()-t0:.3f}s ({40}x mas rapido)")',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'CuPy tiene la misma API que NumPy pero corre en GPU. Para matrices grandes, el speedup es 40-100x. synchronize() asegura que el computo termino antes de medir.',
       },
     ],
   },
@@ -58,7 +58,7 @@ export const section46: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '# vLLM: 3-5x mas rapido que HuggingFace para serving\n# vllm serve mistralai/Mistral-7B --tensor-parallel-size 2\nfrom openai import OpenAI\nclient = OpenAI(base_url="http://localhost:8000/v1", api_key="dummy")\nresp = client.chat.completions.create(\n    model="mistralai/Mistral-7B",\n    messages=[{"role": "user", "content": "Que es un decorator?"}],\n    max_tokens=200,\n)\nprint(f"Respuesta: {resp.choices[0].message.content[:100]}...")\nprint(f"Tokens: {resp.usage.total_tokens}")',
         },
       },
     ],

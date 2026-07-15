@@ -39,9 +39,9 @@ export const section38: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '"""Numba JIT: 100x speedup para loops numericos."""\nimport numpy as np\nfrom numba import njit\nimport time\n\n@njit(cache=True, fastmath=True)\ndef haversine_numba(lat1, lon1, lat2, lon2):\n    """Distancia haversine optimizada con Numba JIT."""\n    R = 6371.0\n    dlat = np.radians(lat2 - lat1)\n    dlon = np.radians(lon2 - lon1)\n    a = (np.sin(dlat / 2) ** 2 +\n         np.cos(np.radians(lat1)) * np.cos(np.radians(lat2)) *\n         np.sin(dlon / 2) ** 2)\n    return 2 * R * np.arcsin(np.sqrt(a))\n\nn = 1_000_000\nlat1, lon1 = np.random.uniform(-12, -12.1, n), np.random.uniform(-77, -77.1, n)\nlat2, lon2 = np.random.uniform(-12, -12.1, n), np.random.uniform(-77, -77.1, n)\n\nt0 = time.time()\ndistances = haversine_numba(lat1, lon1, lat2, lon2)\nprint(f"Numba: {time.time()-t0:.4f}s para {n:,} puntos")\nprint(f"Distancia promedio: {distances.mean():.2f} km")',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: '@njit(cache=True, fastmath=True) compila Python a LLVM IR. cache=True evita recompilar en runs siguientes. fastmath=True permite optimizaciones matematicas. Para loops numericos puros, logra velocidad de C/Fortran.',
       },
     ],
   },
@@ -59,7 +59,7 @@ export const section38: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '"""Polars vs pandas: benchmark de groupby."""\nimport pandas as pd, polars as pl, numpy as np, time\n\nn = 1_000_000\ndf = pd.DataFrame({"grupo": np.random.choice(["A","B","C","D"], n), "valor": np.random.randn(n)*100})\n\nt0 = time.time()\nresult_pd = df.groupby("grupo")["valor"].agg(["mean","std","count"])\nprint(f"Pandas: {time.time()-t0:.4f}s")\n\ndf_pl = pl.DataFrame(df)\nt0 = time.time()\nresult_pl = df_pl.group_by("grupo").agg([pl.col("valor").mean(), pl.col("valor").std()])\nprint(f"Polars: {time.time()-t0:.4f}s")\nprint(f"Speedup: {(time.time()-t0):.1f}x mas rapido")',
         },
       },
     ],

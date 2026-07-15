@@ -38,9 +38,9 @@ export const section31: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '"""Productor Kafka con exactly-once semantics."""\nimport json\nfrom confluent_kafka import Producer\n\nconf = {\n    "bootstrap.servers": "localhost:9092",\n    "enable.idempotence": True,  # Exactly-once\n    "acks": "all",\n    "retries": 2147483647,\n}\nproducer = Producer(conf)\n\ndef delivery_report(err, msg):\n    if err: print(f"Error: {err}")\n    else: print(f"Enviado a {msg.topic()} [part {msg.partition()}]")\n\nfor tx in [{"user_id": 1, "amount": 150.0}, {"user_id": 2, "amount": -50.0}]:\n    producer.produce("transactions", key=str(tx["user_id"]),\n                     value=json.dumps(tx).encode(), callback=delivery_report)\nproducer.flush()\nprint("3 transacciones enviadas con exactly-once")',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'enable.idempotence=True garantiza exactly-once: Kafka deduplica reintentos automaticamente. acks=all asegura persistencia en multiples replicas. El callback async confirma entrega sin bloquear el productor.',
       },
     ],
   },
@@ -58,7 +58,7 @@ export const section31: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '"""Consumer Kafka con procesamiento de ventanas."""\nfrom collections import defaultdict\nimport json\n\nwindow_size = 5  # segundos\nventana = []\n\ndef procesar_ventana(eventos):\n    total = sum(e["amount"] for e in eventos)\n    print(f"  Ventana: {len(eventos)} eventos, total: S/{total:.2f}")\n\neventos = [{"amount": 100, "ts": 0}, {"amount": 200, "ts": 1}, {"amount": 150, "ts": 3}, {"amount": 300, "ts": 6}]\n\nprint("Procesando con ventana tumbling de 5s:")\nfor e in eventos:\n    if e["ts"] >= window_size and ventana:\n        procesar_ventana(ventana)\n        ventana = []\n        window_size += 5\n    ventana.append(e)\nif ventana: procesar_ventana(ventana)\nprint("Consumer con windowing implementado")',
         },
       },
     ],

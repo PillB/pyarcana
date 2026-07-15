@@ -38,9 +38,9 @@ export const section48: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '# Bias detection con fairlearn\nfrom fairlearn.metrics import MetricFrame, demographic_parity_difference\nfrom sklearn.metrics import accuracy_score\nimport numpy as np\n\ny_true = np.array([1, 0, 1, 0, 1, 0, 1, 0])\ny_pred = np.array([1, 0, 1, 0, 0, 0, 1, 0])\nsensitive = np.array(["M", "M", "M", "M", "F", "F", "F", "F"])\n\nmf = MetricFrame(accuracy_score, y_true, y_pred, sensitive_features=sensitive)\nprint(f"Accuracy M: {mf.by_group[\'M\']:.2f}, F: {mf.by_group[\'F\']:.2f}")\ndpd = demographic_parity_difference(y_true, y_pred, sensitive_features=sensitive)\nprint(f"Disparate impact: {dpd:.3f} ({\'BIAS\' if abs(dpd)>0.1 else \'OK\'})")',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'fairlearn mide bias objetivamente. Un disparate impact > 0.1 indica sesgo significativo. La auditoria debe ser continua, no un evento unico.',
       },
     ],
   },
@@ -58,7 +58,7 @@ export const section48: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '# Model Card template\n# Model Card: Churn Prediction v2.0\n# Intended Use: predecir churn de telecom\n# Training Data: Telco Churn, 7043 registros\n# Metrics: AUC 0.87, F1 0.79\n# Bias: disparate impact 0.08 (aceptable < 0.1)\n# Limitations: solo clientes con > 3 meses antiguedad\n# Human oversight: requerido para churn > 80%\nprint("Model Card: transparencia para usuarios y reguladores")',
         },
       },
     ],

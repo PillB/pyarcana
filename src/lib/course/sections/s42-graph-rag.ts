@@ -38,9 +38,9 @@ export const section42: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '# GraphRAG: Neo4j knowledge graph + hybrid retrieval\nfrom neo4j import GraphDatabase\ndriver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4r", "password"))\n\ndef create_graph(tx, entities, rels):\n    for e in entities:\n        tx.run("MERGE (n:Entity {name: $name, type: $type})", **e)\n    for r in rels:\n        tx.run("MATCH (a:Entity {name: $s}), (b:Entity {name: $t}) MERGE (a)-[:RELATES {type: $rt}]->(b)", s=r["source"], t=r["target"], rt=r["type"])\n\nentities = [{"name": "Ana", "type": "Person"}, {"name": "Interbank", "type": "Company"}]\nrels = [{"source": "Ana", "target": "Interbank", "type": "WORKS_AT"}]\nwith driver.session() as s:\n    s.execute_write(create_graph, entities, rels)\n    result = s.run("MATCH (a:Entity {name: \\"Ana\\"})-[:WORKS_AT]->(c) RETURN c.name")\nfor r in result: print(f"  Trabaja en: {r[\'c.name\']}")',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'GraphRAG combina vector search con graph traversal. Neo4j almacena entidades y relaciones. Cypher queries navegan el grafo para preguntas multi-hop que el RAG vectorial no puede resolver.',
       },
     ],
   },
@@ -58,7 +58,7 @@ export const section42: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '# Hybrid retrieval: vector search + graph traversal\ndocs = vector_store.similarity_search("Quien trabaja con Ana?", k=5)\nwith driver.session() as s:\n    result = s.run("MATCH (e:Entity)-[r]->(rel) WHERE e.name CONTAINS \\"Ana\\" RETURN e.name, type(r), rel.name")\n    for r in result: print(f"  {r[\'e.name\']} --{r[\'type(r)\']}--> {r[\'rel.name\']}")\nprint("Hybrid retrieval: vector + graph = mejor precision")',
         },
       },
     ],

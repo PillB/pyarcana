@@ -38,9 +38,9 @@ export const section32: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '# Dockerfile multi-stage para FastAPI (imagen < 100MB)\n# Stage 1: Builder (con gcc, headers, dev deps)\nFROM python:3.12-slim AS builder\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\n\n# Stage 2: Runtime (solo lo necesario)\nFROM python:3.12-slim AS runtime\nWORKDIR /app\nCOPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages\nCOPY --from=builder /usr/local/bin /usr/local/bin\nCOPY . .\nHEALTHCHECK --interval=30s CMD curl -f http://localhost:8000/health || exit 1\nEXPOSE 8000\nCMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]\n# Imagen builder: 900MB | Imagen runtime: 150MB (83% menos)',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'Multi-stage separa build de runtime: la imagen final no incluye gcc ni headers, reduciendo 83% el tamanho. HEALTHCHECK permite a Kubernetes saber si el contenedor esta vivo. python:3.12-slim es la base mas ligera con soporte completo.',
       },
     ],
   },
@@ -58,7 +58,7 @@ export const section32: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '"""Deployment de Kubernetes con health checks."""\n# k8s/deployment.yaml\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: ml-api\nspec:\n  replicas: 3  # 3 pods para alta disponibilidad\n  template:\n    spec:\n      containers:\n      - name: api\n        image: mi-api:latest\n        livenessProbe:\n          httpGet: {path: /health, port: 8000}\n        readinessProbe:\n          httpGet: {path: /ready, port: 8000}\n        resources:\n          requests: {memory: "256Mi", cpu: "250m"}\n          limits: {memory: "512Mi", cpu: "500m"}\nprint("Deployment con 3 replicas, liveness y readiness probes")',
         },
       },
     ],

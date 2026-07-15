@@ -38,9 +38,9 @@ export const section49: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '# Data contract con pydantic\nfrom pydantic import BaseModel, PositiveFloat, Field\nfrom datetime import datetime\n\nclass Transaction(BaseModel):\n    transaction_id: str = Field(..., min_length=1)\n    user_id: str = Field(..., min_length=1)\n    amount: PositiveFloat = Field(..., le=100000)\n    timestamp: datetime\n    currency: str = Field(..., pattern="^(PEN|USD|EUR)$")\n\ntx = Transaction(transaction_id="tx1", user_id="u1", amount=150.50, timestamp=datetime.now(), currency="PEN")\nprint(f"Contrato valido: {tx.transaction_id}")\n# Great Expectations valida quality rules en el pipeline\n# Si falla: el pipeline se detiene con error',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'pydantic valida schema en runtime con tipos y restricciones. Great Expectations valida quality rules en el pipeline. Sin data contracts, un cambio de schema rompe al consumidor en produccion.',
       },
     ],
   },
@@ -58,7 +58,7 @@ export const section49: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '# OpenLineage: tracking automatico de linaje\nfrom prefect import flow, task\n\n@task\ndef extract(): return [{"user_id": 1, "amount": 100}]\n@task\ndef transform(data): return [{"user_id": d["user_id"], "amount_usd": d["amount"]/3.7} for d in data]\n\n@flow\ndef etl():\n    raw = extract()\n    processed = transform(raw)\n    return processed\n\n# OpenLineage reporta automaticamente: que dataset se leyo,\n# que transformacion se aplico, quien lo ejecuto y cuando\nprint("OpenLineage: linaje automatico, visualiza en Marquez UI")',
         },
       },
     ],

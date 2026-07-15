@@ -39,9 +39,9 @@ export const section37: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '-- Modelo incremental dbt para metricas diarias\n{{ config(\n    materialized="incremental",\n    unique_key="date_user",\n    partition_by={"field": "date", "data_type": "date"},\n    cluster_by=["user_id"]\n) }}\n\nWITH transactions AS (\n    SELECT * FROM {{ ref("stg_transactions") }}\n    {% if is_incremental() %}\n    WHERE date > (SELECT max(date) FROM {{ this }})\n    {% endif %}\n)\n\nSELECT\n    date, user_id,\n    CONCAT(CAST(date AS STRING), "-", user_id) AS date_user,\n    COUNT(*) AS transaction_count,\n    SUM(amount) AS total_amount\nFROM transactions\nGROUP BY date, user_id',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'Incremental + unique_key evita duplicados en re-runs. Partitioning por fecha + clustering por user_id reduce costos de BigQuery 100x. dbt tests validan integridad en cada ejecucion.',
       },
     ],
   },
@@ -59,7 +59,7 @@ export const section37: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '-- dbt test: validar integridad de datos\nversion: 2\nmodels:\n  - name: daily_metrics\n    columns:\n      - name: date_user\n        tests: [unique, not_null]\n      - name: date\n        tests: [not_null]\n      - name: total_amount\n        tests:\n          - dbt_utils.expression_is_true:\n              expression: ">= 0"\n-- dbt test --select daily_metrics\n-- Si falla: el pipeline se detiene con error',
         },
       },
     ],

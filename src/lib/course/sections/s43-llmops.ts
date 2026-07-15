@@ -38,9 +38,9 @@ export const section43: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '# LLMOps: tracing con LangSmith + RAGAS evaluation\nfrom langsmith import traceable\nfrom ragas import evaluate\nfrom ragas.metrics import faithfulness, answer_relevancy\n\n@traceable(name="rag_pipeline")\ndef rag_pipeline(question: str) -> str:\n    docs = retriever.get_relevant_documents(question)\n    context = "\\n".join([d.page_content for d in docs])\n    return llm.invoke(f"Contexto: {context}\\nPregunta: {question}")\n\nresults = evaluate(test_data, metrics=[faithfulness, answer_relevancy])\nprint(f"Faithfulness: {results[\'faithfulness\']:.2f}")\nprint(f"Answer Relevancy: {results[\'answer_relevancy\']:.2f}")',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'LangSmith tracea cada step del pipeline para debugging. RAGAS mide calidad objetivamente con 4 metricas. Correr en CI detecta regresiones antes de deploy.',
       },
     ],
   },
@@ -58,7 +58,7 @@ export const section43: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '# Cost tracking para LLMs\nclass CostTracker:\n    pricing = {"gpt-4o": {"in": 0.0025, "out": 0.01}}\n    def log(self, model, in_tok, out_tok, user):\n        cost = (in_tok * self.pricing[model]["in"] + out_tok * self.pricing[model]["out"]) / 1000\n        print(f"Costo: ${cost:.4f} (in:{in_tok} out:{out_tok} user:{user})")\n        return cost\n\ntracker = CostTracker()\ntracker.log("gpt-4o", 1500, 300, "user_123")',
         },
       },
     ],

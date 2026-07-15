@@ -37,9 +37,9 @@ export const section26: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '"""Proyecto integrador: plataforma de IA."""\nfrom fastapi import FastAPI\nfrom pydantic import BaseModel\nimport structlog\n\nlogger = structlog.get_logger()\napp = FastAPI(title="AI Platform API", version="1.0.0")\n\nclass PredictionRequest(BaseModel):\n    user_id: str\n    features: dict\n\n@app.post("/predict")\nasync def predict(request: PredictionRequest):\n    logger.info("prediction_request", user_id=request.user_id)\n    prediction = sum(request.features.values()) / len(request.features)\n    return {"user_id": request.user_id, "prediction": prediction, "confidence": 0.87}\n\n# uvicorn main:app --reload --port 8000',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'Un proyecto integrador combina multiples tecnologias en un sistema cohesivo. FastAPI sirve predicciones, Pydantic valida inputs/outputs, structlog registra eventos para auditoria. Cada componente es independiente pero se integra via contratos claros (schemas Pydantic).',
       },
     ],
   },
@@ -57,7 +57,7 @@ export const section26: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '# Estructura del proyecto integrador\n"""\nai-platform/\n+-- api/           # FastAPI endpoints\n+-- models/        # Modelos ML (XGBoost, SHAP)\n+-- tests/         # pytest con >85% coverage\n+-- docker/        # Dockerfile multi-stage\n+-- k8s/           # Manifiestos Kubernetes\n+-- .github/       # CI/CD con GitHub Actions\n+-- README.md      # Documentacion completa\n"""\nprint("Estructura del proyecto integrador definida")',
         },
       },
     ],

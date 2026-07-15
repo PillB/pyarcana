@@ -40,9 +40,9 @@ export const section51: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '# Plataforma agenticaca: LangGraph multi-agent\nfrom langgraph.graph import StateGraph, END\nfrom typing import TypedDict\n\nclass AgentState(TypedDict):\n    query: str\n    research: str\n    analysis: str\n    report: str\n\ndef researcher(state): return {"research": f"Docs encontrados para: {state[\'query\']}"}\ndef analyst(state): return {"analysis": f"Analisis de: {state[\'research\'][:30]}"}\ndef writer(state): return {"report": f"Reporte: {state[\'query\']}"}\n\ng = StateGraph(AgentState)\ng.add_node("researcher", researcher)\ng.add_node("analyst", analyst)\ng.add_node("writer", writer)\ng.set_entry_point("researcher")\ng.add_edge("researcher", "analyst")\ng.add_edge("analyst", "writer")\ng.add_edge("writer", END)\napp = g.compile()\nprint("Plataforma: 3 agentes (researcher -> analyst -> writer)")',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'La plataforma integra agentes especializados que colaboran via shared state. LangGraph orquesta el flujo. Cada agente tiene tools y prompts especificos.',
       },
     ],
   },
@@ -60,7 +60,7 @@ export const section51: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '# QLoRA: fine-tuning en GPU consumer\nfrom transformers import AutoModelForCausalLM, BitsAndBytesConfig\nfrom peft import LoraConfig, get_peft_model\nimport torch\n\nbnb = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.float16)\nmodel = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-8B", quantization_config=bnb, device_map="auto")\nlora = LoraConfig(r=16, lora_alpha=32, target_modules=["q_proj", "v_proj"], task_type="CAUSAL_LM")\nmodel = get_peft_model(model, lora)\nmodel.print_trainable_parameters()\n# Output: trainable: 8M (0.1%) | total: 8B (100%)\nprint("QLoRA: 8B params fine-tunable en GPU de 24GB")',
         },
       },
     ],

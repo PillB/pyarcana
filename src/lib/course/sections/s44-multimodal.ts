@@ -38,9 +38,9 @@ export const section44: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '# CLIP: zero-shot image classification\nfrom transformers import CLIPModel, CLIPProcessor\nimport torch\n\nmodel = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")\nprocessor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")\n\ntexts = ["un gato", "un perro", "un auto rojo"]\ninputs = processor(text=texts, images=images, return_tensors="pt", padding=True)\nwith torch.no_grad():\n    outputs = model(**inputs)\n    logits = outputs.logits_per_image\nbest = texts[logits[0].argmax()]\nprint(f"Mejor match: {best} (confianza: {torch.softmax(logits[0], 0).max():.1%})")',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'CLIP permite zero-shot image classification sin entrenar un modelo custom. Solo necesitas describir las clases en texto y CLIP las clasifica automaticamente.',
       },
     ],
   },
@@ -58,7 +58,7 @@ export const section44: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '# Whisper: transcripcion de audio a texto\nimport whisper\nmodel = whisper.load_model("base")\nresult = model.transcribe("reunion.mp3", language="es")\nprint(f"Transcrito: {len(result[\'text\'])} caracteres")\nfor seg in result["segments"][:3]:\nprint(f"  [{seg[\'start\']:.1f}s] {seg[\'text\'][:50]}...")',
         },
       },
     ],

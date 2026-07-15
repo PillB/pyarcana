@@ -38,9 +38,9 @@ export const section34: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '"""Deteccion de objetos con YOLOv8 en tiempo real."""\nfrom ultralytics import YOLO\nimport cv2\n\nmodel = YOLO("yolov8n.pt")  # nano = mas rapido, 5ms/frame\nresults = model.predict("imagen.jpg", conf=0.5, classes=[0])  # Solo personas\n\nfor r in results:\n    boxes = r.boxes\n    print(f"Personas detectadas: {len(boxes)}")\n    for box in boxes:\n        x1, y1, x2, y2 = box.xyxy[0]\n        conf = box.conf[0]\n        print(f"  Coords: ({x1:.0f},{y1:.0f},{x2:.0f},{y2:.0f}) Conf: {conf:.2f}")\n\n# Para video: cap = cv2.VideoCapture(0); while cap.isOpened(): ...',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'YOLOv8 detecta objetos en 5ms por frame. conf=0.5 balancea precision y recall. classes=[0] filtra solo personas reduciendo falsos positivos. El modelo se carga una vez y se reutiliza para cada frame.',
       },
     ],
   },
@@ -58,7 +58,7 @@ export const section34: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '"""OCR con Tesseract + preprocessing OpenCV."""\nimport cv2\nimport pytesseract\n\ndef preprocess_image(image_path):\n    img = cv2.imread(image_path)\n    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)\n    thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 11, 2)\n    denoised = cv2.fastNlMeansDenoising(thresh)\n    return cv2.resize(denoised, None, fx=2, fy=2)\n\n# img = preprocess_image("factura.jpg")\n# texto = pytesseract.image_to_string(img, lang="spa+eng")\n# print(f"Texto: {texto[:200]}...")\nprint("Pipeline OCR: grayscale -> threshold -> denoise -> upscale -> tesseract")\nprint("Precision sin preprocessing: ~60% | Con preprocessing: ~85-90%")',
         },
       },
     ],

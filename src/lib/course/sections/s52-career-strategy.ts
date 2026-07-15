@@ -39,9 +39,9 @@ export const section52: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '# Portfolio site: 3 proyectos con demo en vivo\nprojects = [\n    {"title": "Churn Pipeline", "tech": ["XGBoost", "FastAPI", "Docker"], "impact": "Redujo churn 15%"},\n    {"title": "Familiarity Dashboard", "tech": ["RapidFuzz", "Next.js", "Leaflet"], "impact": "Detecto 500+ duplicados"},\n    {"title": "Invoice Bot", "tech": ["Playwright", "Ollama", "Tesseract"], "impact": "Automatizo 200h/mes"},\n]\nfor p in projects:\n    print(f"  {p[\'title\']}: {p[\'impact\']} ({\', \'.join(p[\'tech\'])})")\nprint("Deploy: Vercel gratis, HTTPS automatico, CDN global")',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'Un portfolio site muestra 3 proyectos con demo en vivo, case study, stack tecnico y impacto cuantificable. Sin portfolio, eres uno mas entre 1000 CVs.',
       },
     ],
   },
@@ -59,7 +59,7 @@ export const section52: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '# CV ATS: 70% keyword overlap con job description\n# Formato: 1 pagina, PDF, sin tablas/imagenes\n# Logros cuantificables (no responsabilidades):\n#\n# MALO: "Desarrollé pipelines de ML"\n# BUENO: "Construí pipeline de churn con XGBoost,\n#        reduciendo churn 15% y salvando S/2M anuales"\n#\n# MALO: "Trabajé con datos"\n# BUENO: "Procesé 50M transacciones/día con Kafka + Spark,\n#        reduciendo latencia 80% vs solución anterior"\nprint("CV ATS: cada bullet point debe tener un número")',
         },
       },
     ],

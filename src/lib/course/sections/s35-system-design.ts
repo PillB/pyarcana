@@ -38,9 +38,9 @@ export const section35: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '"""Feature store con Feast para consistencia training/serving."""\nfrom feast import FeatureStore, Entity, FeatureView, Feature\nfrom feast.types import Int32, Float32\n\nuser = Entity(name="user_id", join_key="user_id")\nuser_features = FeatureView(\n    name="user_features", entities=[user],\n    features=[\n        Feature(name="age", dtype=Int32),\n        Feature(name="avg_spend_30d", dtype=Float32),\n    ],\n    source=batch_source,\n)\nstore = FeatureStore(repo_path=".")\nstore.apply([user, user_features])\n\n# Training: features historicas point-in-time\ntrain = store.get_historical_features(entity_df=df, features=["user_features:age"]).to_df()\n# Inference: features online <10ms desde Redis\nonline = store.get_online_features(features=["user_features:age"], entity_rows=[{"user_id": 123}]).to_dict()\nprint(f"Online features: {online}")',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'Feast elimina training-serving skew: las mismas features en training e inference. get_historical_features trae features point-in-time correctas para training. get_online_features sirve desde Redis en <10ms para inference en tiempo real.',
       },
     ],
   },
@@ -58,7 +58,7 @@ export const section35: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '"""ADR: Architecture Decision Record."""\n# ADR-001: Batch vs Real-Time Inference\n# Context: riesgo necesita scoring en <100ms\n# Decision: real-time con FastAPI + Redis cache\n# Alternatives: Batch (descartado, necesitan real-time), Lambda (cold start > 100ms)\n# Consequences: latencia p99 < 100ms, requiere Redis + monitoring 24/7\n# Status: Accepted\n# Date: 2026-07-14\nprint("ADR documentado en /docs/adr/001-batch-vs-realtime.md")',
         },
       },
     ],

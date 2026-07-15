@@ -39,9 +39,9 @@ export const section30: CourseSection = {
         code: {
           language: 'python',
           title: 'demo.py',
-          code: '# Demostración del concepto\nprint("Hola desde la demostración")',
+          code: '"""Seguridad Zero Trust: Vault + Fernet + structlog."""\nimport structlog\nfrom cryptography.fernet import Fernet\nimport hashlib, os\n\nlogger = structlog.get_logger()\nkey = Fernet.generate_key()\ncipher = Fernet(key)\n\ndef encrypt_pii(data: str) -> bytes:\n    """Cifra datos personales antes de almacenarlos."""\n    return cipher.encrypt(data.encode())\n\ndef hash_password(password: str) -> tuple:\n    """PBKDF2 con salt aleatorio."""\n    salt = os.urandom(32)\n    key = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 100000)\n    return key, salt\n\nemail_enc = encrypt_pii("ana@python.pe")\nprint(f"Email cifrado: {email_enc[:30]}...")\nprint(f"Email descifrado: {cipher.decrypt(email_enc).decode()}")\nlog_security_event("login_success", user_id="u123", ip="190.x.x.x")',
         },
-        why: 'Esta demostración te muestra cómo aplicar el concepto en un caso real.',
+        why: 'Vault centraliza secretos con rotacion automatica. Fernet cifra PII con AES-128-CBC + HMAC. PBKDF2 hashea passwords con salt aleatorio. structlog registra eventos JSON para forense. Sin estas capas, un atacante con acceso a la DB ve todos los datos en claro.',
       },
     ],
   },
@@ -59,7 +59,7 @@ export const section30: CourseSection = {
         solutionCode: {
           language: 'python',
           title: 'solucion.py',
-          code: '# Solución de referencia\nprint("Solución")',
+          code: '"""Middleware de seguridad para FastAPI."""\nfrom fastapi import Request\nimport time, structlog\n\nlogger = structlog.get_logger()\n\nasync def security_middleware(request: Request, call_next):\n    start = time.time()\n    ip = request.client.host\n    response = await call_next(request)\n    duration_ms = (time.time() - start) * 1000\n    logger.info("request_completed", ip=ip, path=request.url.path,\n                status=response.status_code, duration_ms=round(duration_ms, 2))\n    return response\n\nprint("Middleware de seguridad implementado")',
         },
       },
     ],
