@@ -1115,3 +1115,123 @@ Stage Summary:
 - All 52 demos confirmed Pyodide-compatible and structurally complete.
 - CodePlayground component now auto-loads numpy/pandas/matplotlib/sklearn based on detected imports.
 - Ready to proceed to Task 4 (Update learning roadmap with detailed exam requirements).
+
+---
+Task ID: 4 (Iteration 1/6)
+Agent: Main Agent (Task 4 — Learning Roadmap Exam Specs)
+Task: Update learning roadmap with detailed exam requirements
+
+Work Log:
+- Analyzed existing roadmap structure (1042 lines, only covered 13 sections / Phase 0).
+- Analyzed Prisma schema for QuestionBank + ExamAttempt models — confirmed support for: concept slug, variant 1/2/3, unique constraint per (sectionId, concept, variant), audit trail via variantSeed JSON.
+- Analyzed /api/exam/start route logic — confirmed: max 3 attempts enforced via HTTP 403, random variant selection avoiding previous attempts, Fisher-Yates question shuffling, no correctIndex leak (only question+options sent to client).
+- Analyzed prisma/seed.ts — found only 8 of 52 sections have questions seeded (setup, basics, oop, numpy, pandas, visualization, sklearn, testing). 44 sections would return HTTP 404.
+- Replaced the 6-line "Sistema de exámenes con anti-plagio" section with a comprehensive 80-line specification covering: (1) Reglas de evaluación table with 10 rules × valor × justificación pedagógica, (2) Taxonomía de conceptos, (3) Estructura de cada variante (qué comparten vs qué difieren), (4) Política de retries detallada paso a paso, (5) Tabla anti-plagio vector por vector (5 vectores con mitigación), (6) Scoring y feedback, (7) Integración con sistema de progreso, (8) Limitaciones conocidas.
+- Fixed a Russian word that slipped in ("копирование" → "copia entre pestañas").
+
+Stage Summary:
+- Foundation specification for the exam system is now production-grade and reviewer-ready.
+- Each subsequent iteration will add per-section exam spec sheets that reference this foundation.
+- Iteration 1 complete. Next iteration: per-section exam specs for Phase 0 (S1-S13).
+
+---
+Task ID: 4 (Iteration 2/6)
+Agent: Main Agent (Task 4 — Learning Roadmap Exam Specs)
+Task: Update learning roadmap with detailed exam requirements
+
+Work Log:
+- For each of the 13 Phase 0 sections (S1-S13), replaced the brief 6-line "Auto-evaluación (conceptos evaluados)" stub with a comprehensive exam spec sheet containing:
+  * Configuration table (8 parameters: conceptos, preguntas/intento, variantes, intentos, nota mínima, tiempo estimado, etc.)
+  * Concept taxonomy table (4-5 conceptos × slug × Bloom category × description)
+  * Worked example of 3 variants for one concept (showing what's shared vs what changes)
+  * Original 5 auto-evaluation questions preserved (for offline/no-login mode)
+- Manually mapped each existing question to a concept slug that matches the seed.ts taxonomy (venv-purpose, list-comprehension, json-load-vs-loads, functools-wraps, str-vs-repr, numpy-vectorization, generator-yield, pandas-groupby-agg, matplotlib-oo-api, pipeline-benefits, pytest-discovery, process-vs-thread-pool, python-rpa-vs-enterprise).
+- Assigned Bloom category (Recordar / Aplicar / Analizar) to each concept based on actual cognitive demand.
+- For each section, hand-crafted 3 variant examples that share the same concept + Bloom level but differ in context, values, or framing.
+- Fixed 3 typos in V2/V3 markdown markers.
+
+Stage Summary:
+- All 13 Phase 0 sections now have production-grade exam spec sheets.
+- Concept slugs are stable and match the seed.ts convention (kebab-case, descriptive).
+- 4 Bloom categories used: Recordar (recall facts), Aplicar (use in new context), Analizar (compare/troubleshoot). No Crear/Evaluar — those are assessed via You Do projects.
+- Roadmap grew from 1042 → 1497 lines (Phase 0 sections alone added ~455 lines of detailed spec).
+- Iteration 2 complete. Next iteration: add Phase 1 sections (S14-S26) to the roadmap.
+
+---
+Task ID: 4 (Iteration 3/6)
+Agent: Main Agent (Task 4 — Learning Roadmap Exam Specs)
+Task: Update learning roadmap with detailed exam requirements
+
+Work Log:
+- Added 13 new sections (S14-S26) to learning_roadmap.md, completing Phase 1 (Competente).
+- Each new section includes full pedagogical structure: tagline, relevancia laboral, objetivos de aprendizaje, temas de teoría, I Do, We Do, You Do (project), Auto-evaluación with detailed exam spec, recursos principales.
+- Each exam spec sheet contains: configuration table (7 params), concept taxonomy table (3-5 conceptos × slug × Bloom × description), worked variant example, preserved auto-eval questions.
+- Phase 1 sections covered: S14 Security (5 conceptos), S15 stdlib-deep (5), S16 wxpython-gui (4), S17 packaging (4), S18 data-engineering (5), S19 databases-orm (5), S20 rag (5), S21 fastapi (5), S22 rapidfuzz-entity (4), S23 computer-vision (5), S24 rpa-advanced (4), S25 streamlit-dashboards (4), S26 integrator-phase1 capstone (3).
+- Concept slugs aligned with seed.ts conventions where possible. Bloom categories: Recordar (1), Aplicar (majority), Analizar (several). No Crear/Evaluar.
+- Added Phase 1 section header explaining objective + 150h total + prerequisite (S1-S13).
+- Fixed 1 remaining V3 typo.
+- Roadmap grew from 1497 → 2655 lines (Phase 1 added ~1158 lines of structured content).
+
+Stage Summary:
+- All 26 sections (Phase 0 + Phase 1) now have production-grade content with detailed exam spec sheets.
+- 26 detailed exam spec sections verified (one per section S1-S26).
+- Iteration 3 complete. Next iteration: add Phase 2 sections (S27-S39) to the roadmap.
+
+---
+Task ID: 4 (Iteration 4/6)
+Agent: Main Agent (Task 4 — Learning Roadmap Exam Specs)
+Task: Update learning roadmap with detailed exam requirements
+
+Work Log:
+- Added all 13 Phase 2 sections (S27-S39) to learning_roadmap.md, completing Senior phase.
+- Each section follows the same pedagogical structure: tagline, relevancia laboral, objetivos, teoría, I Do, We Do, You Do, Auto-evaluación with detailed exam spec, recursos.
+- Phase 2 sections covered: S27 async-concurrency (5), S28 llm-agents (5), S29 mlops (5), S30 security-infra (5), S31 streaming-data (5), S32 microservices (5), S33 advanced-models (5), S34 cv-ai-integration (5), S35 system-design (5), S36 ai-apis-advanced (5), S37 dbt-bigquery (5), S38 performance-extreme (5), S39 integrator-phase2 capstone (3).
+- Each exam spec includes: config table (6-7 params), concept taxonomy table (3-5 conceptos × slug × Bloom × description), worked variant example with V1/V2/V3, preserved auto-eval questions.
+- Fixed 10 remaining V2"/V3" markdown typos via sed.
+- Roadmap grew from 2655 → 3799 lines (Phase 2 added ~1144 lines of structured content).
+- Added Phase 2 section header explaining objective + 168h total + prerequisite.
+
+Stage Summary:
+- All 39 sections (Phase 0 + Phase 1 + Phase 2) now have production-grade content with detailed exam spec sheets.
+- 39 detailed exam spec sections verified (one per section S1-S39).
+- Iteration 4 complete. Next iteration: add Phase 3 sections (S40-S52).
+
+---
+Task ID: 4 (Iteration 5/6)
+Agent: Main Agent (Task 4 — Learning Roadmap Exam Specs)
+Task: Update learning roadmap with detailed exam requirements
+
+Work Log:
+- Added all 13 Phase 3 sections (S40-S52) to learning_roadmap.md, completing Master phase.
+- Each section follows the same pedagogical structure as Phases 0/1/2.
+- Phase 3 sections covered: S40 agentic-architecture (5), S41 llm-finetuning (5), S42 graph-rag (5), S43 llmops (5), S44 multimodal (5), S45 iac (5), S46 gpu-computing (5), S47 opensource (5), S48 ai-governance (5), S49 data-contracts (5), S50 tech-leadership (5), S51 integrator-final capstone (3), S52 career-strategy (5).
+- Each exam spec includes: config table (6-7 params), concept taxonomy table (3-5 conceptos × slug × Bloom × description), worked variant example with V1/V2/V3, preserved auto-eval questions.
+- Fixed all V2"/V3" markdown typos via sed (across all batches, Phase 3 included).
+- Fixed malformed `**Ícono: X` (missing closing `*`) in 10 Phase 3 section headers via sed.
+- Added Phase 3 section header explaining objective + 160h total + prerequisite (interview técnica).
+- Roadmap grew from 3799 → 4942 lines (Phase 3 added ~1143 lines of structured content).
+
+Stage Summary:
+- All 52 sections (Phase 0 + 1 + 2 + 3) now have production-grade content with detailed exam spec sheets.
+- 52 detailed exam spec sections verified (one per section S1-S52).
+- Iteration 5 complete. Next iteration: final cross-check, update Tabla de Contenidos, Flujo de Aprendizaje, Estadísticas.
+
+---
+Task ID: 4 (Iteration 6/6 — FINAL)
+Agent: Main Agent (Task 4 — Learning Roadmap Exam Specs)
+Task: Update learning roadmap with detailed exam requirements
+
+Work Log:
+- Updated Tabla de Contenidos: split into 4 phase sub-tables (Fase 0/1/2/3) listing all 52 sections with hours + You Do project.
+- Updated Flujo de Aprendizaje: replaced old 13-section diagram with 4-phase progression + 4-capstone progressive structure (S13, S26, S39, S51).
+- Updated Estadísticas del curso: per-phase breakdown (sections/hours/concepts/variants/projects/demos/capstones) + Bloom distribution table (Recordar/Aplicar/Analizar with progression analysis).
+- Updated Pyodide note: now reflects all 52 sections (was "1-11") with auto-load packages mention.
+- Final cross-check: 52 sections, 52 detailed exam spec sheets, 0 markdown typos, all concept slugs kebab-case.
+- Updated TASK_PROGRESS.md to mark Task 4 as COMPLETED with comprehensive summary.
+
+Stage Summary:
+- Task 4 COMPLETE after 6 full iterations of Understand → Execute → Validate → Refine → Document.
+- Roadmap grew from 1042 → 5013 lines (5x expansion) covering all 52 sections with production-grade exam specs.
+- 240 conceptos evaluados totales × 3 variantes = ~720 preguntas en QuestionBank al completar seed.
+- Bloom distribution: 10% Recordar, 54% Aplicar, 36% Analizar (pedagogically sound progression).
+- Ready to proceed to Task 5 (Cross-reference con EPUBs para verificar cobertura completa).

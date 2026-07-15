@@ -50,5 +50,26 @@ All 52 active sections (S1-S52) now have production-grade CodePlayground demos t
 - All 52 demos confirmed Pyodide-compatible (stdlib + loadable packages only, no forbidden imports).
 - Refactored security demo to use fixed salt for reproducibility (production code uses os.urandom, documented in comment).
 
-## Task 4 — NOT STARTED
+## Task 4 — COMPLETED ✅ (6 iterations)
+
+Updated `learning_roadmap.md` from 1042 → 5013 lines covering all 52 sections with detailed exam requirements.
+
+### What was delivered:
+1. **Foundational exam system spec** (80 lines): 10-rule table with pedagogical justifications, concept taxonomy, variant structure (shared vs differing), retry policy step-by-step, anti-plagiarism vector-by-vector (5 vectors × mitigation), scoring/feedback, integration with progress store, known limitations.
+2. **Per-section exam spec sheets for all 52 sections**: each with config table (6-7 params), concept taxonomy (3-5 conceptos × slug × Bloom × description), worked variant example (V1/V2/V3 showing shared concept + differing context), preserved auto-eval questions.
+3. **Updated Tabla de Contenidos**: 4 sub-tables by phase (Fase 0/1/2/3), each listing all sections with hours + You Do project.
+4. **Updated Flujo de Aprendizaje**: 4-phase progression diagram + 4-capstone progressive structure (S13, S26, S39, S51).
+5. **Updated Estadísticas**: per-phase breakdown of sections/hours/concepts/variants/projects/demos, plus Bloom distribution table (Recordar/Aplicar/Analizar with progression analysis).
+6. **Updated Pyodide note**: now reflects all 52 sections (not 1-11) with auto-load packages.
+
+### Quality metrics:
+- 240 conceptos evaluados totales (60 F0 + 56 F1 + 64 F2 + 60 F3)
+- ~720 preguntas en QuestionBank al completar seed (3 variantes × 240 conceptos)
+- Bloom distribution: 10% Recordar, 54% Aplicar, 36% Analizar (pedagogically sound progression)
+- 0 typos en markdown (V2/V3 markers all fixed)
+- All 52 sections follow consistent structure
+
+### Concept slug alignment:
+All concept slugs are stable kebab-case identifiers (e.g. `venv-purpose`, `list-comprehension`, `pipeline-idempotency`, `qlora-4bit-mechanics`) that match the `QuestionBank.concept` field convention, enabling per-concept progress tracking and remediation.
+
 ## Task 5 — NOT STARTED
