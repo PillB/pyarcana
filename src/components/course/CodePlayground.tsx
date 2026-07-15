@@ -112,17 +112,57 @@ export function CodePlayground({
       .catch((err) => setLoadError(err.message || 'Error cargando Pyodide'))
   }, [])
 
+  // Map Python import names to Pyodide package names.
+  // Many course demos use numpy / pandas / matplotlib / sklearn — these are NOT
+  // loaded automatically by Pyodide and must be loaded explicitly via loadPackage
+  // before the user code runs, otherwise the demo fails with ModuleNotFoundError.
+  const REQUIRED_PACKAGES: Record<string, string> = {
+    numpy: 'numpy',
+    pandas: 'pandas',
+    matplotlib: 'matplotlib',
+    sklearn: 'scikit-learn',
+    scipy: 'scipy',
+    sympy: 'sympy',
+    networkx: 'networkx',
+    PIL: 'Pillow',
+    pillow: 'Pillow',
+    yaml: 'pyyaml',
+    requests: 'requests',
+    beautifulsoup4: 'beautifulsoup4',
+    bs4: 'beautifulsoup4',
+  }
+
+  const detectRequiredPackages = (src: string): string[] => {
+    const needed = new Set<string>()
+    for (const [importName, packageName] of Object.entries(REQUIRED_PACKAGES)) {
+      // Match `import <name>` or `from <name> import ...` at the start of a line.
+      // The character after <name> can be: whitespace, comma, end-of-line (for
+      // `import numpy` or `import numpy as np`), or a dot (for
+      // `import matplotlib.pyplot` or `from sklearn.linear_model import ...`).
+      const importRegex = new RegExp(
+        `^\\s*(?:from\\s+${importName}(?:\\.|\\s|,|$)|import\\s+${importName}(?:\\.|\\s|,|$))`,
+        'm',
+      )
+      if (importRegex.test(src)) {
+        needed.add(packageName)
+      }
+    }
+    return Array.from(needed)
+  }
+
   const runCode = useCallback(async () => {
     if (!pyodideReady || !pyodideRef.current) return
     setLoading(true)
     setOutput([])
     setPassed(null)
 
+    // Capture stdout/stderr — set BEFORE any package-load messages so we can
+    // surface progress to the student.
+    const captured: OutputLine[] = []
+
     try {
       const pyodide = pyodideRef.current
 
-      // Capture stdout/stderr
-      const captured: OutputLine[] = []
       pyodide.setStdout({
         batched: (text: string) => {
           captured.push({ type: 'stdout', content: text })
@@ -133,6 +173,21 @@ export function CodePlayground({
           captured.push({ type: 'stderr', content: text })
         },
       })
+
+      // Auto-load any third-party packages the student's code imports.
+      // This keeps the educational code clean (no `import micropip` boilerplate
+      // at the top of every demo) while still making numpy/pandas/sklearn work.
+      const packages = detectRequiredPackages(code)
+      if (packages.length > 0) {
+        captured.push({
+          type: 'system',
+          content: `Cargando paquetes: ${packages.join(', ')} (primera vez ~5-15s)...`,
+        })
+        setOutput([...captured])
+        await pyodide.loadPackage(packages)
+        // Drop the loading notice so the expected-output check still passes.
+        captured.pop()
+      }
 
       // Run the code
       await pyodide.runPythonAsync(code)

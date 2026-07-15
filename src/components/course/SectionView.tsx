@@ -841,6 +841,11 @@ print(f"Sonido: {animal.hacer_sonido()}")
 print()
 print(fido)
 print(f"Sonido: {fido.hacer_sonido()}")`,
+      expectedOutput: `Generico (5 años)
+Sonido: sonido generico
+
+Fido, Labrador, 3 años
+Sonido: Guau!`,
       hint: 'Crea una clase Gato que herede de Animal y haga "Miau!"',
     },
     'numpy': {
@@ -866,6 +871,18 @@ matriz = np.array([[1, 2, 3], [4, 5, 6]])
 print(f"\\nMatriz:\\n{matriz}")
 print(f"Suma por columnas: {matriz.sum(axis=0)}")
 print(f"Suma por filas: {matriz.sum(axis=1)}")`,
+      expectedOutput: `Array: [1 2 3 4 5]
+Shape: (5,)
+Mean: 3.0
+Cuadrados: [ 1  4  9 16 25]
+Doble: [ 2  4  6  8 10]
+Mayores a 3: [4 5]
+
+Matriz:
+[[1 2 3]
+ [4 5 6]]
+Suma por columnas: [5 7 9]
+Suma por filas: [ 6 15]`,
       hint: 'Crea una matriz 3x3 y calcula su transpuesta con .T',
     },
     'pandas': {
@@ -896,13 +913,28 @@ print(df[df["region"] == "Lima"])
 print(f"\\nVentas totales: {df['ventas'].sum()}")
 print(f"Ticket promedio: {df['ventas'].mean():.2f}")`,
       expectedOutput: `=== DataFrame ===
-  producto   region  ventas
-0    arroz     Lima    1500
-1   aceite     Lima     800
-2  azucar  Arequipa     900
-3    arroz    Cusco    1200
+  producto    region  ventas
+0    arroz      Lima    1500
+1   aceite      Lima     800
+2   azucar  Arequipa     900
+3    arroz     Cusco    1200
 
-Shape: (4, 3)`,
+Shape: (4, 3)
+
+=== Ventas por producto ===
+producto
+aceite     800
+arroz     2700
+azucar     900
+Name: ventas, dtype: int64
+
+=== Solo Lima ===
+  producto region  ventas
+0    arroz   Lima    1500
+1   aceite   Lima     800
+
+Ventas totales: 4400
+Ticket promedio: 1100.00`,
       hint: 'Agrega una quinta fila y observa cómo cambian los groupby',
     },
     'visualization': {
@@ -960,6 +992,11 @@ print(f"Intercept: {model.intercept_[0]:.3f}")
 # Cross-validation
 cv_scores = cross_val_score(model, X, y, cv=5, scoring='accuracy')
 print(f"\\nCV Accuracy: {cv_scores.mean():.2%} ± {cv_scores.std():.2%}")`,
+      expectedOutput: `Accuracy: 100.00%
+Coeficientes: [2.584 2.408 0.118]
+Intercept: -0.206
+
+CV Accuracy: 96.00% ± 3.74%`,
       hint: 'Cambia la semilla (seed) y observa cómo varían los resultados',
     },
     'testing': {
@@ -1015,50 +1052,6 @@ print("\\n✅ Todos los tests pasaron!")`,
 ✅ Todos los tests pasaron!`,
       hint: 'Agrega un test para verificar que funciona con notas negativas',
     },
-    'advanced-topics': {
-      title: 'Practica generators y collections',
-      code: `# Practica generators y collections
-from collections import Counter, defaultdict
-import re
-
-# === GENERATOR: procesar datos en streaming ===
-def leer_ventas_sinteticas():
-    """Simula leer ventas de un archivo grande."""
-    for i in range(10):
-        yield {
-            "producto": ["arroz", "aceite", "azucar"][i % 3],
-            "monto": (i + 1) * 100,
-            "region": ["Lima", "Arequipa", "Cusco"][i % 3]
-        }
-
-# Procesar con generator (sin cargar todo en memoria)
-ventas_por_producto = defaultdict(float)
-for venta in leer_ventas_sinteticas():
-    ventas_por_producto[venta["producto"]] += venta["monto"]
-
-print("=== Ventas por producto (generator) ===")
-for producto, total in ventas_por_producto.items():
-    print(f"  {producto}: S/{total}")
-
-# === COUNTER: frecuencias ===
-texto = "el arte de python es el camino al dato"
-palabras = texto.split()
-contador = Counter(palabras)
-
-print("\\n=== Top 3 palabras ===")
-for palabra, freq in contador.most_common(3):
-    print(f"  '{palabra}': {freq}x")
-
-# === REGEX: extraer datos ===
-datos_mixtos = "Contacto: ana@python.pe, 999-888-777. Luis: luis@data.pe"
-emails = re.findall(r'[\\w.-]+@[\\w.-]+', datos_mixtos)
-telefonos = re.findall(r'\\d{3}-\\d{3}-\\d{3}', datos_mixtos)
-
-print(f"\\n=== Regex ===")
-print(f"Emails: {emails}")
-print(f"Telefonos: {telefonos}")`,
-      hint: 'Modifica el generator para que genere 20 ventas en vez de 10',
-    },
     'data-acquisition': {
       title: 'Practica scraping, regex y SQL',
       code: `# Practica adquisicion de datos (sin librerias externas en Pyodide)
@@ -1099,6 +1092,16 @@ for nombre, monto in ventas:
 print("\\nVentas por vendedor:")
 for vendedor, montos in por_vendedor.items():
     print(f"  {vendedor}: {montos} (total: {sum(montos)})")`,
+      expectedOutput: `DNIs encontrados: ['12345678', '87654321', '11223344']
+Emails: ['maria@email.pe', 'luis.garcia@empresa.com', 'ana.f@pe.org']
+Telefonos: ['999-888-777', '987-654-321', '999-111-222']
+
+Top 2 nombres mas frecuentes: [('Maria', 3), ('Luis', 2)]
+
+Ventas por vendedor:
+  Maria: [100, 150] (total: 250)
+  Luis: [200] (total: 200)
+  Ana: [300] (total: 300)`,
       hint: 'Intenta extraer los nombres del texto con regex (palabras despues de "Cliente N:")',
     },
     'performance': {
@@ -1209,6 +1212,21 @@ def procesar_clientes(archivo, formato="csv", verbose=False):
 
 # Simular: python script.py --archivo clientes.xlsx --formato xlsx --verbose
 procesar_clientes("clientes.xlsx", formato="xlsx", verbose=True)`,
+      expectedOutput: `=== Llamando API inestable con retry ===
+  ✗ Intento 1: fallo - Timeout en /api/clientes
+    Reintentando en 0.05s...
+  ✗ Intento 2: fallo - Timeout en /api/clientes
+    Reintentando en 0.05s...
+  ✗ Intento 3: fallo - Timeout en /api/clientes
+    Reintentando en 0.05s...
+  ✗ Intento 4: fallo - Timeout en /api/clientes
+    Reintentando en 0.05s...
+  ✓ Intento 5: exitoso
+Resultado: {'status': 'ok', 'data': [1, 2, 3]}
+
+=== Simulando CLI con argumentos ===
+  Procesando clientes.xlsx en formato xlsx...
+  Encontrados 3 clientes`,
       hint: 'Cambia max_attempts a 10 y observa cuántos intentos necesita la API',
     },
     // === Phase 1 demos (S14-S26) — Pyodide-compatible (stdlib only) ===
@@ -1216,7 +1234,6 @@ procesar_clientes("clientes.xlsx", formato="xlsx", verbose=True)`,
       title: 'Practica seguridad: hashing y cifrado',
       code: `# Practica seguridad con biblioteca estandar
 import hashlib
-import os
 
 # 1. Hash SHA-256 (irreversible - para passwords)
 password = "mi_password_123"
@@ -1225,7 +1242,9 @@ print(f"Password: {password}")
 print(f"SHA-256:  {hash_sha256}")
 
 # 2. PBKDF2 con salt (mas seguro que SHA-256 solo)
-salt = os.urandom(16)
+# En produccion: salt = os.urandom(16) (aleatorio unico por usuario)
+# Aqui usamos salt fijo para demo reproducible
+salt = b"sal_demo_12345678"  # 16 bytes
 key = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 100000)
 print(f"\\nPBKDF2 (100k iteraciones): {key.hex()[:32]}...")
 print(f"Salt: {salt.hex()[:16]}...")
@@ -1238,6 +1257,14 @@ def verificar_password(password, hash_guardado):
 
 print(f"\\nPassword correcto: {verificar_password('mi_password_123', hash_sha256)}")
 print(f"Password incorrecto: {verificar_password('wrong', hash_sha256)}")`,
+      expectedOutput: `Password: mi_password_123
+SHA-256:  dcad9884ca445045900d381e4b0ce34413a8cc2e45d4d32f1d795b9cebc4306e
+
+PBKDF2 (100k iteraciones): 8be36e32b6c83c53cc9585f0b41929c5...
+Salt: 73616c5f64656d6f...
+
+Password correcto: True
+Password incorrecto: False`,
       hint: 'Cambia el numero de iteraciones de PBKDF2 y observa como cambia el hash',
     },
     'stdlib-deep': {
@@ -1277,6 +1304,24 @@ cuadrado = functools.partial(potencia, exponente=2)
 cubo = functools.partial(potencia, exponente=3)
 print(f"\\ncuadrado(5) = {cuadrado(5)}")
 print(f"cubo(3) = {cubo(3)}")`,
+      expectedOutput: `Fibonacci con lru_cache:
+  fib(0) = 0
+  fib(1) = 1
+  fib(2) = 1
+  fib(3) = 2
+  fib(4) = 3
+  fib(5) = 5
+  fib(6) = 8
+  fib(7) = 13
+  fib(8) = 21
+  fib(9) = 34
+  Cache info: CacheInfo(hits=16, misses=10, maxsize=128, currsize=10)
+
+Chain: [1, 2, 3, 4, 5, 6]
+Combinations(4,2): [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)]
+
+cuadrado(5) = 25
+cubo(3) = 27`,
       hint: 'Cambia maxsize de lru_cache a 1 y observa como cambia el cache_info',
     },
     'wxpython-gui': {
@@ -1322,6 +1367,13 @@ btn_salir.bind("EVT_BUTTON", on_salir)
 print("Simulando clics:")
 btn_saludar.click()
 btn_salir.click()`,
+      expectedOutput: `  btn_saludar: evento 'EVT_BUTTON' vinculado
+  btn_salir: evento 'EVT_BUTTON' vinculado
+Simulando clics:
+  btn_saludar: CLICK detectado!
+    -> Hola desde el boton saludar!
+  btn_salir: CLICK detectado!
+    -> Cerrando aplicacion...`,
       hint: 'Anade un tercer boton con su propio callback y haz clic en el',
     },
     'packaging': {
@@ -1366,6 +1418,13 @@ def is_backward_compatible(old, new):
 
 print(f"\\n1.4.2 -> 1.5.0 compatible: {is_backward_compatible('1.4.2', '1.5.0')}")
 print(f"1.4.2 -> 2.0.0 compatible: {is_backward_compatible('1.4.2', '2.0.0')}")`,
+      expectedOutput: `Version actual: 1.4.2
+  patch bump:  1.4.3
+  minor bump:  1.5.0
+  major bump:  2.0.0
+
+1.4.2 -> 1.5.0 compatible: True
+1.4.2 -> 2.0.0 compatible: False`,
       hint: 'Implementa una funcion que determine si un bump es breaking change',
     },
     'data-engineering': {
@@ -1431,6 +1490,33 @@ print(f"Output: {json.dumps(pipeline.output, indent=2)}")
 n2 = pipeline.run(datos)
 print(f"\\nRun 2: {n2} registros procesados (idempotente!)")
 print(f"Total output: {len(pipeline.output)} registros")`,
+      expectedOutput: `Run 1: 3 registros procesados
+Output: [
+  {
+    "id": 1,
+    "cantidad": 10,
+    "precio": 5.0,
+    "total": 50.0,
+    "moneda": "PEN"
+  },
+  {
+    "id": 2,
+    "cantidad": 5,
+    "precio": 12.0,
+    "total": 60.0,
+    "moneda": "PEN"
+  },
+  {
+    "id": 3,
+    "cantidad": 8,
+    "precio": 3.5,
+    "total": 28.0,
+    "moneda": "PEN"
+  }
+]
+
+Run 2: 0 registros procesados (idempotente!)
+Total output: 3 registros`,
       hint: 'Que pasa si corres el pipeline 3 veces? El output debe ser el mismo que 1 vez',
     },
     'databases-orm': {
@@ -1486,6 +1572,16 @@ for row in cursor.fetchall():
 cursor.execute("SELECT COUNT(*) FROM clientes")
 print(f"\\nTotal clientes: {cursor.fetchone()[0]}")
 conn.close()`,
+      expectedOutput: `Clientes de Lima: 2
+  Ana Garcia (25 anos) - ana@email.pe
+  Carlos Diaz (22 anos) - carlos@email.pe
+
+Promedio de edad por ciudad:
+  Arequipa: 30.0 anos
+  Cusco: 28.0 anos
+  Lima: 23.5 anos
+
+Total clientes: 4`,
       hint: 'Anade un cliente mas y re-ejecuta las queries',
     },
     'rag': {
@@ -1530,6 +1626,14 @@ for doc, score in resultados:
 # Generar respuesta (simulando LLM)
 contexto = " ".join([d["texto"] for d, _ in resultados])
 print(f"\\nContexto para LLM: '{contexto[:80]}...'")`,
+      expectedOutput: `Query: 'como analizo datos con Python'
+
+Top 3 documentos recuperados:
+  [16.7%] #2: Pandas es una libreria de Python para analisis de datos
+  [10.0%] #3: NumPy permite computacion numerica con arrays
+  [9.1%] #1: Python es un lenguaje de programacion interpretado
+
+Contexto para LLM: 'Pandas es una libreria de Python para analisis de datos NumPy permite computacio...'`,
       hint: 'Cambia el query a "que es machine learning" y observa como cambian los resultados',
     },
     'fastapi': {
@@ -1592,6 +1696,13 @@ print("\\n=== Request invalido ===")
 result = create_user({"email": "no-email", "name": "A", "age": -5})
 print(f"Status: {result['status']}")
 print(f"Errors: {result['errors']}")`,
+      expectedOutput: `=== Request valido ===
+Status: 201
+User: {'email': 'ana@python.pe', 'name': 'Ana', 'age': 25}
+
+=== Request invalido ===
+Status: 422
+Errors: ['email debe contener @', 'name debe tener al menos 2 caracteres', 'age debe ser entero entre 0 y 120']`,
       hint: 'Intenta crear un usuario con role "superadmin" - que error da?',
     },
     'rapidfuzz-entity': {
@@ -1652,6 +1763,16 @@ for i in range(len(clientes)):
         sim = similarity(clientes[i]["nombre"], clientes[j]["nombre"])
         if sim > 0.85:
             print(f"  #{clientes[i]['id']} vs #{clientes[j]['id']}: {sim:.1%}")`,
+      expectedOutput: `Fuzzy matching de nombres:
+  'Ana Garcia' vs 'Ana Garcia': 100.0%
+  'Ana Garcia' vs 'Ana Garca': 90.0%
+  'Ana Garcia' vs 'Ana Torres': 50.0%
+  'Luis Quispe' vs 'Luis Quisp': 90.9%
+
+Posibles duplicados (similitud > 85%):
+  #1 vs #2: 100.0%
+  #1 vs #3: 91.7%
+  #2 vs #3: 91.7%`,
       hint: 'Cambia el umbral de 85% a 70% y observa cuantos mas duplicados aparecen',
     },
     'computer-vision': {
@@ -1710,6 +1831,22 @@ def count_bright_regions(bin_img):
 white_pixels = count_bright_regions(binaria)
 total_pixels = len(imagen) * len(imagen[0])
 print(f"\\nPixeles blancos: {white_pixels}/{total_pixels} ({white_pixels/total_pixels:.0%})")`,
+      expectedOutput: `Original (5x5):
+   10  20  30  20  10
+   20  30  40  30  20
+   30  40  50  40  30
+   20  30  40  30  20
+   10  20  30  20  10
+Threshold(25) (5x5):
+    0   0 255   0   0
+    0 255 255 255   0
+  255 255 255 255 255
+    0 255 255 255   0
+    0   0 255   0   0
+
+Estadisticas: min=10, max=50, mean=26.0
+
+Pixeles blancos: 13/25 (52%)`,
       hint: 'Cambia el threshold a 35 y observa como cambian los pixeles blancos',
     },
     'rpa-advanced': {
@@ -1770,6 +1907,22 @@ for nombre, tarea in tareas:
         break
 
 print("\\n✓ Pipeline completado")`,
+      expectedOutput: `=== Pipeline RPA ===
+
+Ejecutando: Login
+  Resultado: {'status': 'ok', 'token': 'abc123'}
+
+Ejecutando: Navegar
+  Resultado: {'status': 'ok', 'page': 'reportes'}
+
+Ejecutando: Descargar
+  ✓ Intento 1: exitoso
+  Resultado: {'status': 'ok', 'data': [1, 2, 3]}
+
+Ejecutando: Cerrar sesion
+  Resultado: {'status': 'ok'}
+
+✓ Pipeline completado`,
       hint: 'Cambia la probabilidad de fallo a 0.9 y observa cuantos intentos necesita',
     },
     'streamlit-dashboards': {
@@ -1832,6 +1985,21 @@ print(f"  Clicks iniciales: {contador}")
 st.session_state["clicks"] += 1
 st.session_state["clicks"] += 1
 print(f"  Clicks despues de 2: {st.session('clicks')}")`,
+      expectedOutput: `=== Primera llamada (cache miss) ===
+  [CACHE MISS] cargar_datos(100,) - calculando...
+  Datos: 100 registros
+
+=== Segunda llamada (cache hit) ===
+  [CACHE HIT] cargar_datos(100,)
+  Datos: 100 registros
+
+=== Tercera llamada con args diferentes (cache miss) ===
+  [CACHE MISS] cargar_datos(50,) - calculando...
+  Datos: 50 registros
+
+=== Session State ===
+  Clicks iniciales: 0
+  Clicks despues de 2: 2`,
       hint: 'Llama cargar_datos(100) una tercera vez - debe ser cache hit',
     },
     'integrator-phase1': {
@@ -2005,6 +2173,18 @@ def agent_react(question, max_steps=3):
 # Ejecutar agente
 result = agent_react("que es Python")
 print(f"\\nRespuesta final: {result}")`,
+      expectedOutput: `Pregunta: que es Python
+
+Step 1:
+  Thought: Necesito buscar informacion sobre la pregunta
+  Action: search(que es Python)
+  Observation: Python es un lenguaje de programacion interpretado, creado en 1991
+Step 2:
+  Thought: Tengo la informacion, puedo responder
+  Action: respond()
+  Answer: Python es un lenguaje de programacion interpretado, creado en 1991
+
+Respuesta final: Python es un lenguaje de programacion interpretado, creado en 1991`,
       hint: 'Cambia la pregunta a "que es Pandas" y observa el resultado',
     },
     'mlops': {
@@ -2109,6 +2289,17 @@ hash_original = hashlib.sha256(file_content).hexdigest()
 print(f"\\nHash original: {hash_original[:32]}...")
 print(f"Hash verificado: {hashlib.sha256(file_content).hexdigest()[:32]}...")
 print(f"Integridad OK: {hashlib.sha256(file_content).hexdigest() == hash_original}")`,
+      expectedOutput: `=== Zero Trust: cada request se verifica ===
+  [access_granted] {'user': 'user1', 'ip': '190.x.x.x', 'endpoint': '/predict'}
+True
+  [authz_denied] {'user': 'user1', 'endpoint': '/admin'}
+False
+  [auth_failed] {'ip': '190.x.x.x', 'reason': 'no_token'}
+False
+
+Hash original: 9ca69c5e8ad72087c36bcd6291c98886...
+Hash verificado: 9ca69c5e8ad72087c36bcd6291c98886...
+Integridad OK: True`,
       hint: 'Que pasa si cambias el contenido del archivo? El hash cambia',
     },
     'streaming-data': {
@@ -2163,6 +2354,32 @@ q = BoundedQueue(3)
 for i in range(5):
     ok = q.put(f"item_{i}")
     print(f"  Put item_{i}: {'OK' if ok else 'BLOCKED'}")`,
+      expectedOutput: `=== Tumbling Window (3s) ===
+  [0-3]: 3 eventos, total=45
+  [3-6]: 3 eventos, total=95
+  [6-9]: 3 eventos, total=130
+  [9-12]: 1 eventos, total=60
+
+=== Sliding Window (3s, slide 1s) ===
+  [0-3]: avg=15.0
+  [1-4]: avg=21.7
+  [2-5]: avg=23.3
+  [3-6]: avg=31.7
+  [4-7]: avg=33.3
+  [5-8]: avg=41.7
+  [6-9]: avg=43.3
+  [7-10]: avg=51.7
+  [8-11]: avg=52.5
+  [9-12]: avg=60.0
+
+=== Backpressure (Queue maxsize=3) ===
+  Put item_0: OK
+  Put item_1: OK
+  Put item_2: OK
+    QUEUE LLENA! Productor esperando...
+  Put item_3: BLOCKED
+    QUEUE LLENA! Productor esperando...
+  Put item_4: BLOCKED`,
       hint: 'Cambia window_size a 5 y observa como cambian los resultados',
     },
     'microservices': {
@@ -2176,6 +2393,7 @@ class CircuitBreaker:
     def __init__(self, threshold=3, reset_timeout=5):
         self.failures = 0
         self.threshold = threshold
+        self.reset_timeout = reset_timeout
         self.state = "CLOSED"  # CLOSED, OPEN, HALF_OPEN
         self.last_failure = 0
     
@@ -2218,6 +2436,37 @@ for i in range(8):
     if result:
         print(f"  Resultado: {result}")
     print(f"  Estado: {cb.state}")`,
+      expectedOutput: `=== Circuit Breaker ===
+
+Llamada 1:
+  Resultado: {'status': 'ok'}
+  Estado: CLOSED
+
+Llamada 2:
+  Estado: CLOSED
+
+Llamada 3:
+  Estado: CLOSED
+
+Llamada 4:
+  Circuit: CLOSED -> OPEN (3 fallos)
+  Estado: OPEN
+
+Llamada 5:
+  Circuit: OPEN (rechazando llamada)
+  Estado: OPEN
+
+Llamada 6:
+  Circuit: OPEN (rechazando llamada)
+  Estado: OPEN
+
+Llamada 7:
+  Circuit: OPEN (rechazando llamada)
+  Estado: OPEN
+
+Llamada 8:
+  Circuit: OPEN (rechazando llamada)
+  Estado: OPEN`,
       hint: 'Cambia threshold a 1 y observa como se abre mas rapido',
     },
     'advanced-models': {
@@ -2319,11 +2568,22 @@ def simulate_ocr(text_image):
         result += char_map.get(pixel, "?")
     return result
 
-texto_como_pixeles = [1, 2, 3, 2, 4]  # H-o-l-a
+texto_como_pixeles = [1, 2, 3, 2, 4]  # H-o-l-o-a
 texto = simulate_ocr(texto_como_pixeles)
 print(f"\\n=== OCR ===")
 print(f"Imagen: {texto_como_pixeles}")
 print(f"Texto extraido: '{texto}'")`,
+      expectedOutput: `=== Deteccion de Objetos ===
+Objetos detectados: 5
+  person (conf: 99%) bbox: [2, 1, 3, 2]
+  object (conf: 90%) bbox: [1, 2, 2, 3]
+  person (conf: 99%) bbox: [2, 2, 3, 3]
+  object (conf: 90%) bbox: [3, 2, 4, 3]
+  person (conf: 99%) bbox: [2, 3, 3, 4]
+
+=== OCR ===
+Imagen: [1, 2, 3, 2, 4]
+Texto extraido: 'Holoa'`,
       hint: 'Anade mas pixeles a texto_como_pixeles y observa el resultado',
     },
     'system-design': {
@@ -2373,6 +2633,28 @@ def get_features(user_id, source="online"):
 
 print(f"Online user_123: {get_features('user_123', 'online')}")
 print(f"Online user_999: {get_features('user_999', 'online')}")`,
+      expectedOutput: `# ADR: Batch vs Real-Time Inference
+
+## Context
+El equipo de riesgo necesita scoring en <100ms para aprobar creditos en tiempo real.
+
+## Decision
+Usar real-time inference con FastAPI + Redis cache + XGBoost model.
+
+## Alternatives
+- Batch scoring: descartado (necesitan tiempo real)
+- Lambda function: descartado (cold start > 100ms)
+- gRPC: descartado (clientes usan REST)
+
+## Consequences
+Latencia p99 < 100ms. Requiere Redis + monitoring 24/7. Costo ~$500/mes.
+
+## Status: Proposed
+
+
+=== Feature Store (simulado) ===
+Online user_123: {'age': 25, 'avg_spend': 150.5, 'login_count': 30}
+Online user_999: {}`,
       hint: 'Escribe un ADR para tu propia decision tecnica',
     },
     'ai-apis-advanced': {
@@ -2384,7 +2666,7 @@ print(f"Online user_999: {get_features('user_999', 'online')}")`,
 tools = {
     "search_web": lambda query: f"Resultados para '{query}': Python es chevere",
     "calculate": lambda expr: str(eval(expr)),
-    "get_time": lambda: "2026-07-14 19:45:00",
+    "get_time": lambda *args: "2026-07-14 19:45:00",
 }
 
 def simulate_llm_function_calling(user_message):
@@ -2423,6 +2705,18 @@ for msg in messages:
     result = simulate_llm_function_calling(msg)
     print(f"  Tool: {result.get('tool_called', 'N/A')}")
     print(f"  Response: {result['response']}")`,
+      expectedOutput: `
+Usuario: que es Python
+  Tool: search_web
+  Response: Segun search_web: Resultados para 'Python': Python es chevere
+
+Usuario: calcula 2+3
+  Tool: calculate
+  Response: Segun calculate: 5
+
+Usuario: que hora es
+  Tool: get_time
+  Response: Segun get_time: 2026-07-14 19:45:00`,
       hint: 'Anade una nueva tool "send_email" y haz que el LLM la use',
     },
     'dbt-bigquery': {
@@ -2482,6 +2776,15 @@ def test_not_null(rows, column):
 test_unique(metrics, "date_user")
 test_not_null(metrics, "total_amount")
 test_not_null(metrics, "date")`,
+      expectedOutput: `=== Modelo: daily_metrics ===
+  2026-07-01 u1: 2 tx, S/150.0
+  2026-07-01 u2: 1 tx, S/200.0
+  2026-07-02 u1: 1 tx, S/75.0
+
+=== Tests ===
+  unique(date_user): PASS
+  not_null(total_amount): PASS
+  not_null(date): PASS`,
       hint: 'Anade una transaccion duplicada y observa si test_unique falla',
     },
     'performance-extreme': {
@@ -2646,6 +2949,16 @@ shared["research"] = "1. Precio alto 2. Mal servicio 3. Competencia"
 shared["analysis"] = "Precio: 45%, Servicio: 30%, Competencia: 25%"
 shared["report"] = "El churn se debe principalmente a precio (45%)"
 print(f"  State final: {shared}")`,
+      expectedOutput: `=== Multi-Agent: Analisis de churn Q2 2026 ===
+  [Researcher] Ejecutando: Buscar: Analisis de churn Q2 2026
+  [Analyst] Ejecutando: Analizar: Researcher_result
+  [Writer] Ejecutando: Escribir reporte basado en: Analyst_result
+
+Reporte final: Writer_result
+
+=== Shared State ===
+  State inicial: {'query': 'Top 3 causas de churn', 'research': '', 'analysis': '', 'report': ''}
+  State final: {'query': 'Top 3 causas de churn', 'research': '1. Precio alto 2. Mal servicio 3. Competencia', 'analysis': 'Precio: 45%, Servicio: 30%, Competencia: 25%', 'report': 'El churn se debe principalmente a precio (45%)'}`,
       hint: 'Anade un cuarto agente "Reviewer" que valide el reporte',
     },
     'llm-finetuning': {
@@ -2688,6 +3001,22 @@ print(f"FP32: {fp32_vram:.1f} GB")
 print(f"FP16: {fp16_vram:.1f} GB")
 print(f"INT4: {int4_vram:.1f} GB (QLoRA)")
 print(f"GPU necesaria: RTX 3090 (24GB) puede fine-tunear 8B en INT4")`,
+      expectedOutput: `=== Cuantizacion ===
+Original (FP32): [0.123, 0.456, 0.789, 0.012, 0.345]
+Cuantizado (4-bit): [0.133, 0.467, 0.8, 0.0, 0.333]
+Compression: 88% menos memoria
+
+=== LoRA ===
+Modelo total: 8,000,000,000 parametros
+LoRA adapters: 8,000,000 parametros
+Porcentaje entrenable: 0.10%
+Ahorro de VRAM: ~99.9% (no se guardan gradientes del modelo base)
+
+=== VRAM Requirements ===
+FP32: 32.0 GB
+FP16: 16.0 GB
+INT4: 4.0 GB (QLoRA)
+GPU necesaria: RTX 3090 (24GB) puede fine-tunear 8B en INT4`,
       hint: 'Calcula la VRAM necesaria para un modelo de 70B en INT4',
     },
     'graph-rag': {
@@ -2760,6 +3089,12 @@ for proj in kg.neighbors("Ana", "WORKS_ON"):
     for e in kg.edges:
         if e["target"] == proj and e["source"] != "Ana":
             print(f"  {e['source']} tambien trabaja en {proj}")`,
+      expectedOutput: `=== Knowledge Graph Queries ===
+Colegas de Ana: ['Interbank']
+Proyectos de Ana: ['ChurnBot']
+
+Multi-hop: colegas en mismo proyecto:
+  Luis tambien trabaja en ChurnBot`,
       hint: 'Anade un nodo "Maria" que tambien trabaja en Interbank y encuentra el camino',
     },
     'llmops': {
@@ -2883,6 +3218,19 @@ for seg in audio_segments:
 
 full_text = " ".join(seg["text"] for seg in audio_segments)
 print(f"\\nTexto completo: '{full_text}'")`,
+      expectedOutput: `=== CLIP: Buscar imagen por texto ===
+Query: 'un gato' -> embedding: [0.2, 0.4]
+  img1.jpg: similitud=0.70
+  img2.jpg: similitud=0.89
+  img3.jpg: similitud=0.40
+
+=== Whisper: Transcripcion (simulada) ===
+Transcripcion con timestamps:
+  [0.0s - 2.5s] Hola, bienvenidos al curso
+  [2.5s - 5.0s] de Python para Data Science
+  [5.0s - 7.5s] vamos a aprender mucho
+
+Texto completo: 'Hola, bienvenidos al curso de Python para Data Science vamos a aprender mucho'`,
       hint: 'Cambia el query a "un auto" y observa cual imagen tiene mayor similitud',
     },
     'iac': {
@@ -2961,6 +3309,25 @@ print(f"  ml_api replicas: {tf.state['ml_api']['replicas']}")
 print("\\n=== terraform destroy ===")
 tf.destroy_all()
 print(f"  State: {list(tf.state.keys())}")`,
+      expectedOutput: `=== terraform plan ===
+  Create: ['ml_api', 'redis', 'prometheus']
+  Modify: []
+  Destroy: []
+
+=== terraform apply ===
+  + Creating ml_api
+  + Creating redis
+  + Creating prometheus
+  State: ['ml_api', 'redis', 'prometheus']
+
+=== Actualizar (cambiar replicas) ===
+  ml_api replicas: 5
+
+=== terraform destroy ===
+  - Destroying ml_api
+  - Destroying redis
+  - Destroying prometheus
+  State: []`,
       hint: 'Anade un nuevo recurso "grafana" al estado deseado y aplica',
     },
     'gpu-computing': {
@@ -2999,11 +3366,8 @@ print("  Limitacion: datos deben caber en VRAM")
 print("  T4: 16GB | A100: 80GB | H100: 80GB")
 
 # 3. Simular benchmark de small matrix
-n = 100
-A = [[random.random() for _ in range(n)] for _ in range(n)]
-B = [[random.random() for _ in range(n)] for _ in range(n)]
-
 import random
+n = 100
 random.seed(42)
 A = [[random.random() for _ in range(n)] for _ in range(n)]
 B = [[random.random() for _ in range(n)] for _ in range(n)]
@@ -3081,6 +3445,23 @@ print(f"  OS: {oses}")
 print(f"  Python: {pythons}")
 print(f"  Total jobs: {len(oses) * len(pythons)} (paralelo)")
 print(f"  Steps: checkout -> setup-python -> pip install -> ruff -> pytest")`,
+      expectedOutput: `=== pyproject.toml ===
+  Nombre: pytools-cli
+  Version: 1.0.0
+  Entry point: pytools
+  Deps: ['click>=8.0', 'pandas>=2.0']
+  Extras: ['dev', 'ml']
+
+=== Semantic Versioning ===
+  1.0.0 -> 1.0.1: COMPATIBLE (patch bump - bugfix)
+  1.0.0 -> 1.1.0: COMPATIBLE (minor bump - new features)
+  1.0.0 -> 2.0.0: BREAKING (major bump)
+
+=== CI Matrix (simulado) ===
+  OS: ['ubuntu', 'macos', 'windows']
+  Python: ['3.10', '3.11', '3.12']
+  Total jobs: 9 (paralelo)
+  Steps: checkout -> setup-python -> pip install -> ruff -> pytest`,
       hint: 'Que pasa si cambio la version a 2.0.0? Es compatible con 1.x?',
     },
     'ai-governance': {
@@ -3139,6 +3520,20 @@ model_card = {
 }
 for key, value in model_card.items():
     print(f"  {key}: {value}")`,
+      expectedOutput: `=== Bias Detection ===
+  Tasa aprobacion Hombres: 76.0%
+  Tasa aprobacion Mujeres: 50.0%
+  Disparate Impact: 0.658
+  Bias detectado: SI (umbral: 0.8)
+
+=== Model Card ===
+  name: Credit Scoring Model v2.0
+  intended_use: Scoring crediticio para clientes de banca
+  training_data: 10,000 registros historicos (2024)
+  metrics: {'auc': 0.87, 'precision': 0.82}
+  bias_check: Disparate impact: 0.658
+  limitations: Solo valido para clientes con > 3 meses de antiguedad
+  human_oversight: Requerido para score > 80%`,
       hint: 'Cambia la probabilidad de aprobacion de mujeres a 0.65 y observa si el bias desaparece',
     },
     'data-contracts': {
@@ -3210,6 +3605,15 @@ results = gx_validate(transactions, expectations)
 for r in results:
     status = "PASS" if r["passed"] else "FAIL"
     print(f"  {r['name']}: {status}")`,
+      expectedOutput: `=== Data Contract Validation ===
+  tx1: OK
+  tx2: OK
+  tx3: ERROR: ['user_id es requerido', 'amount debe ser positivo']
+
+=== Great Expectations ===
+  not_null_id: PASS
+  positive_amount: FAIL
+  unique_ids: PASS`,
       hint: 'Corrige la transaccion 3 y observa si todas las validaciones pasan',
     },
     'tech-leadership': {
@@ -3266,6 +3670,46 @@ pm = generate_postmortem(
     actions=["Anadir Redis a docker-compose test", "Contract test para pool", "Alerta pool > 80%"]
 )
 print(pm)`,
+      expectedOutput: `# Design Doc: Sistema de Recomendacion en Tiempo Real
+
+## Context
+Necesitamos recomendar productos en <50ms para 10K usuarios concurrentes.
+
+## Goals
+- Latencia p99 < 50ms
+- Throughput: 10K QPS
+- Cobertura: 95% de catalogo
+
+## Design
+Redis cache + collaborative filtering + fallback a populares
+
+## Alternatives
+- Batch pre-compute (descartado: no personalizado)
+- ML en cada request (descartado: >200ms)
+
+## Risks
+- Cache invalidation staleness
+- Cold start para nuevos usuarios
+
+
+==================================================
+# Postmortem: API caida 23 min (12K requests fallidos)
+
+## Timeline
+- 12:03 Alerta error rate >5%
+- 12:05 Investigacion: Redis pool
+- 12:15 Rollback
+- 12:26 Restaurado
+
+## Root Cause (5 Whys)
+- Pool agotado por leak
+- No habia test de pool
+- CI no cubre Redis
+
+## Action Items
+- [ ] Anadir Redis a docker-compose test
+- [ ] Contract test para pool
+- [ ] Alerta pool > 80%`,
       hint: 'Escribe un design doc para tu propio proyecto',
     },
     'integrator-final': {
@@ -3326,6 +3770,24 @@ metrics = {
 }
 for k, v in metrics.items():
     print(f"  {k}: {v}")`,
+      expectedOutput: `=== Plataforma Agéntica ===
+Query: Analisis de churn Q2 2026
+
+  [Researcher] Buscando: Analisis de churn Q2 2026
+  [Analyst] Analizando: Datos encontrados sobre Analis...
+  [Writer] Escribiendo reporte...
+
+=== Reporte Final ===
+# Reporte
+
+Query: Analisis de churn Q2 2026
+Analisis: Insights: Analisis de churn Q2 2026 tiene 3 patrones clave
+
+=== LLMOps ===
+  latency_p99: 245
+  tokens_used: 1850
+  cost_usd: 0.0046
+  faithfulness: 0.92`,
       hint: 'Anade un cuarto agente "Reviewer" que valide el reporte antes de entregarlo',
     },
     'career-strategy': {
@@ -3384,9 +3846,37 @@ total = len(set(job_desc.lower().split()))
 print(f"  Job desc keywords: {job_desc}")
 print(f"  CV keywords: {cv_keywords}")
 print(f"  Overlap: {overlap}/{total} ({overlap/total:.0%})")`,
+      expectedOutput: `=== Portfolio Site ===
+
+  Churn Prediction Pipeline
+    Tech: Python, XGBoost, FastAPI, Docker
+    Impacto: Redujo churn 15%, salvando S/2M anuales
+    Metrics: {'auc': 0.87, 'qps': 12500, 'latency_ms': 87}
+
+  Familiarity Score Dashboard
+    Tech: Python, RapidFuzz, Leaflet, Next.js
+    Impacto: Detecto 500+ duplicados en base de 50K clientes
+    Metrics: {'accuracy': 0.95, 'records': 50000, 'duplicates': 500}
+
+  Invoice Digitizer Bot
+    Tech: Python, Playwright, Ollama, Tesseract
+    Impacto: Automatizo 200h/mes de trabajo manual
+    Metrics: {'hours_saved': 200, 'accuracy': 0.89, 'cost': '$0'}
+
+=== CV: Logros Cuantificables ===
+  1. ✓ Construi pipeline de churn con XGBoost, reduciendo churn 15% y salvando S/2M anuales
+  2. ✓ Procese 50M transacciones/dia con Kafka + Spark, reduciendo latencia 80%
+  3. ✓ Automatice 200h/mes de trabajo manual con Python + Playwright, 99.5% uptime
+  4. ✓ Implemente entity resolution con RapidFuzz, detectando 500+ duplicados en 50K registros
+
+=== ATS Keyword Check ===
+  Job desc keywords: Python pandas scikit-learn AWS Docker Kubernetes FastAPI
+  CV keywords: Python XGBoost FastAPI Docker pandas numpy
+  Overlap: 4/7 (57%)`,
       hint: 'Anade mas keywords de la job desc a tu CV para aumentar el overlap',
     },
   }
+  const demo = demos[sectionId]
   if (!demo) return null
 
   return (
