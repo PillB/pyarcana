@@ -1583,6 +1583,7 @@ Para `lru-cache-memoization`, las 3 variantes cambian la función:
 
 > **Tagline**: Cuando la CLI no basta: interfaces de escritorio cross-platform para herramientas internas
 > **Nivel**: Competente · **Horas estimadas**: 10h · **Ícono**: AppWindow
+> **⚠️ Nota de modernización (2026)**: Para proyectos NUEVOS, prefiere Streamlit (S25) o Gradio — son más rápidos de desarrollar, web-based, y no requieren PyInstaller. wxPython se mantiene en este curso porque (1) muchas empresas peruanas todavía usan tools desktop legacy, (2) PyInstaller sigue siendo la forma estándar de distribuir Python como .exe standalone, y (3) el modelo event-driven es conceptualmente transferible a otros GUI frameworks. Si tu objetivo es construir dashboards modernos, salta a S25.
 
 ### Relevancia laboral
 
@@ -2914,6 +2915,7 @@ Para `zero-trust-principle`:
 
 > **Tagline**: Kafka, windowing, backpressure — datos en movimiento a escala
 > **Nivel**: Senior · **Horas estimadas**: 14h · **Ícono**: Radio
+> **⚠️ Nota de modernización (2026)**: Faust (Python stream processing sobre Kafka) ha estado sin mantenimiento desde 2022. Para proyectos NUEVOS, considera **Quix Streams** (`quix.io`), que es el sucesor espiritual de Faust con soporte activo y mejor integración con Kafka. **Bytewax** es otra alternativa Python-native para streaming. Mantenemos Faust en este curso por su valor pedagógico (los conceptos de agents, tables, windows son transferibles), pero marca tu código como legacy si lo usas en producción.
 
 ### Relevancia laboral
 
@@ -4959,13 +4961,116 @@ Si un estudiante reprueba los 3 intentos, los sub-steps `theory`, `ido`, `wedo`,
 - Comparación automática con output esperado (✓ correcto / ✗ incorrecto)
 - Hints colapsables por ejercicio
 
-### Cobertura de libros de referencia (EPUBs)
+### Recursos externos recomendados (suplementarios)
 
-Se realizó gap analysis de 3 EPUBs contra las 13 secciones:
+Cada sección del curso se complementa con recursos gratuitos externos verificados. El inventario completo está en `docs/PYTHON_DS_RESOURCES_INVENTORY.md` y los recursos para áreas de gap en `docs/PYTHON_DS_GAP_RESOURCES.md`.
 
-- **Python 101** (Michael Driscoll, 44 capítulos): ~85% cubierto
-- **Python 201** (Michael Driscoll, 30 capítulos): ~75% cubierto (tras añadir S7 Data Acquisition y S12 Performance)
-- **Use Python to Become AWESOME at Your Job** (Shantnu Tiwari, 8 capítulos): ~70% cubierto (tras añadir S13 RPA)
+#### Recursos principales por fase
+
+| Fase | Recurso externo principal | Tipo | URL |
+|------|---------------------------|------|-----|
+| Fase 0 (S1-S13) | Python Data Science Handbook (VanderPlas) | Libro gratis | https://jakevdp.github.io/PythonDataScienceHandbook |
+| Fase 0 (S1-S13) | Harvard CS50P | Curso universitario gratis | https://cs50.harvard.edu/python |
+| Fase 0 (S1-S13) | UMich Python for Everybody (Dr. Chuck) | Curso universitario gratis | https://www.py4e.com |
+| Fase 0 (S1-S13) | Automate the Boring Stuff (Sweigart) | Libro gratis | https://automatetheboringstuff.com |
+| Fase 1 (S14-S26) | Ed Donner `llm_engineering` repo | GitHub course | https://github.com/ed-donner/llm_engineering |
+| Fase 1 (S14-S26) | Ed Donner `tech2ai` repo | GitHub course | https://github.com/ed-donner/tech2ai |
+| Fase 1 (S14-S26) | Real Python (free articles) | Blog | https://realpython.com |
+| Fase 1 (S14-S26) | Corey Schafer YouTube | Video tutorials | https://www.youtube.com/@coreyms |
+| Fase 2 (S27-S39) | Ed Donner `agents` repo | GitHub course | https://github.com/ed-donner/agents |
+| Fase 2 (S27-S39) | Ed Donner `production` repo | GitHub course | https://github.com/ed-donner/production |
+| Fase 2 (S27-S39) | Stanford CS229 (ML) | Curso universitario gratis | https://cs229.stanford.edu |
+| Fase 2 (S27-S39) | Stanford CS231n (CV) | Curso universitario gratis | https://cs231n.stanford.edu |
+| Fase 3 (S40-S52) | Ed Donner `agents` repo (advanced) | GitHub course | https://github.com/ed-donner/agents |
+| Fase 3 (S40-S52) | LangGraph Documentation | Docs primarias | https://langchain-ai.github.io/langgraph |
+| Fase 3 (S40-S52) | Google SRE Book | Libro gratis | https://sre.google/sre-book/table-of-contents |
+
+#### Recursos para áreas de gap (suplementarios)
+
+| Área de gap | Mejor recurso gratis | Suplementa sección(es) |
+|-------------|---------------------|------------------------|
+| Estadística & Probabilidad | OpenIntro Statistics + Think Stats (Downey) + StatQuest YouTube | S8, S10 |
+| Bayesian & A/B Testing | Bayesian Methods for Hackers + Statistical Rethinking lectures | S10, S33 |
+| Time-series Forecasting | Penn State STAT 510 + Prophet docs + NeuralForecast (Nixtla) | S10, S33 |
+| MLOps | Made With ML + MLOps Zoomcamp (DataTalksClub) | S29, S43 |
+| NLP Fundamentals | Speech & Language Processing (Jurafsky/Martin free draft) + NLTK Book | S20, S22, S28 |
+| Data Eng / Spark / Airflow | Data Engineering Zoomcamp + Databricks Free Edition | S18, S31 |
+| Causal Inference | Causal Inference: The Mixtape (Cunningham) + What If (Hernán/Robins) | S29, S33, S48, S49 |
+| Cloud DW | BigQuery Sandbox (truly free) + dbt Fundamentals (free cert) | S37 |
+
+#### Recomendación: "S0 — Statistics Primer" (módulo opcional)
+
+El gap más grande identificado en el cross-reference es la falta de un arco dedicado de estadística/probabilidad antes de S6 (NumPy). Recomendamos un módulo opcional "S0" combinando:
+- **OpenIntro Statistics** (libro de texto backbone)
+- **Think Stats** de Allen Downey (estadística en Python)
+- **StatQuest** YouTube playlist (intuición conceptual)
+- **3Blue1Brown** probabilities playlist (intuición visual)
+
+Esto cerraría el gap donde los estudiantes saltan de Python basics (S2-S5) directamente a NumPy (S6) y Pandas (S8) sin fundamentos estadísticos formales.
+
+### Cobertura de libros de referencia (EPUBs + GitHub + Cursos externos)
+
+Se realizó gap analysis exhaustivo contra 4 EPUBs + repositorios de Ed Donner + top GitHub Python courses + university open courseware + top online courses + free books online. El reporte completo está en `docs/CROSS_REFERENCE_REPORT.md` y el inventario de recursos en `docs/PYTHON_DS_RESOURCES_INVENTORY.md`.
+
+#### Cobertura por EPUB (4 libros)
+
+- **Python 101** (Michael Driscoll, 51 capítulos): ~85% cubierto por Fase 0 (S1-S13)
+- **Python 201** (Michael Driscoll, 36 capítulos): ~80% cubierto entre Fase 0 (S7, S12) y Fase 1 (S15 stdlib-deep es esencialmente Python 201 Ch.2-8)
+- **Use Python to Become AWESOME at Your Job** (Shantnu Tiwari, 9 capítulos): ~70% cubierto por S12 (Performance) y S13 (RPA)
+- **Python: From Apprentice to Master** (Shantnu Tiwari, 6 capítulos): meta-guía sobre etapas de aprendizaje (Beginner/Intermediate/Advanced) + recomendaciones de libros. No es contenido técnico, pero alinea con nuestra progresión de 4 fases.
+
+#### Cobertura por GitHub repos (Ed Donner + top rated)
+
+- **Ed Donner `llm_engineering`** (8-week): mapeado a S20 (RAG), S28 (LLM Agents), S36 (AI APIs), S41 (Fine-tuning)
+- **Ed Donner `agents`** (6-week): mapeado a S28 (LLM Agents), S40 (Agentic Architecture)
+- **Ed Donner `production`** (4-week): mapeado a S29 (MLOps), S43 (LLMOps), S45 (IaC)
+- **Ed Donner `tech2ai`**: mapeado a S6 (NumPy), S8 (Pandas), S10 (sklearn)
+- **vinta/awesome-python** (305k★): referencia cruzada para todas las secciones de librerías
+- **TheAlgorithms/Python** (223k★): referencia cruzada para algoritmos en S3, S4, S5
+- **Asabeneh/30-Days-Of-Python** (51k★): referencia cruzada para S1-S5 fundamentos
+- **jakevdp/PythonDataScienceHandbook** (43k★): referencia cruzada para S6 (NumPy), S8 (Pandas), S9 (Viz), S10 (sklearn)
+- **trekhleb/homemade-machine-learning** (24.5k★): referencia cruzada para S10 (sklearn)
+- **rasbt/python-machine-learning-book** (15k★): referencia cruzada para S10, S33 (Advanced ML)
+- **mrdbourke/pytorch-deep-learning** (11k★): referencia para S46 (GPU Computing)
+
+#### Cobertura por university open courseware
+
+- **MIT 6.0001/6.0002**: mapeado a S2 (Basics), S5 (OOP), S7 (Data Acquisition)
+- **Harvard CS50P**: mapeado a S2 (Basics), S4 (Functions/Modules)
+- **Stanford CS229**: mapeado a S10 (sklearn), S33 (Advanced ML)
+- **Stanford CS231n**: mapeado a S23 (CV), S34 (CV+AI), S44 (Multimodal)
+- **Berkeley CS 61A**: mapeado a S3 (Data Structures), S5 (OOP)
+- **Berkeley Data 8**: mapeado a S8 (Pandas), S9 (Viz)
+- **CMU 15-112**: mapeado a S2 (Basics), S3 (Data Structures)
+- **UMich PY4E (Dr. Chuck)**: mapeado a S2-S7 (todo Fase 0 fundamentos)
+
+#### Cobertura por online courses
+
+- **freeCodeCamp Scientific Computing + Data Analysis**: mapeado a S2-S10
+- **Kaggle Learn (Python, Pandas, ML, etc.)**: mapeado a S2, S8, S10
+- **Google Data Analytics Cert**: mapeado a S8 (Pandas), S9 (Viz)
+- **IBM Data Science Professional**: mapeado a S8 (Pandas), S10 (sklearn)
+- **DataCamp Data Scientist Track**: mapeado a S8, S10, S18 (Data Engineering)
+- **Real Python + Corey Schafer YouTube**: mapeado a S2-S5 fundamentos, S21 (FastAPI), S25 (Streamlit)
+
+#### Cobertura por free books online
+
+- **Think Python (Downey)**: mapeado a S2 (Basics), S5 (OOP)
+- **Python Data Science Handbook (VanderPlas)**: mapeado a S6 (NumPy), S8 (Pandas), S9 (Viz), S10 (sklearn)
+- **Dive Into Python 3 (Pilgrim)**: mapeado a S4 (Functions/Modules), S5 (OOP)
+- **Automate the Boring Stuff (Sweigart)**: mapeado a S7 (Data Acquisition), S13 (RPA)
+- **Hitchhiker's Guide to Python (Reitz)**: mapeado a S1 (Setup), S17 (Packaging), S11 (Testing)
+
+### Resumen del cross-reference (52 secciones vs recursos externos)
+
+| Cobertura | Cantidad | % | Notas |
+|-----------|----------|---|-------|
+| ✅ Strong (múltiples recursos gratuitos de calidad) | 36 | 69% | Fase 0 casi 100%, Fase 1 y 2 mayoría |
+| ⚠️ Partial (alguna cobertura pero gaps) | 12 | 23% | Mayoría Fase 2/3, suplementado con docs primarias |
+| 🔍 Gap (poca cobertura gratuita) | 4 | 8% | S16 wxPython, S31 Faust, S42 GraphRAG, S45 FinOps |
+| 🌟 Unique Strength (nuestro curso es el más profundo) | 8 | — | Peruvian SUNAT, PII, Ley 29733, 4-capstone structure |
+
+**Conclusión**: No hay gaps críticos. 3 de 4 "gaps" son en realidad unique strengths que diferencian nuestro curriculum. Solo S16 (wxPython) y S31 (Faust) necesitan notas de modernización, ya aplicadas.
 
 ### Temas identificados como gaps y cubiertos
 
@@ -4992,6 +5097,17 @@ Los siguientes 10 temas fueron identificados como faltantes en el gap analysis d
 6. ✅ Orquestación con Prefect (S13)
 7. ✅ Scheduling con GitHub Actions cron (S13)
 8. ✅ Resilencia con tenacity (S13)
+
+### Temas identificados como unique strengths (no cubiertos por ningún recurso gratuito único)
+
+1. 🌟 Pipeline YOLO+Tesseract+LLM para facturas SUNAT peruanas (S13, S34)
+2. 🌟 Detección de PII peruana (DNI, RUC) con presidio custom recognizers (S14)
+3. 🌟 Compliance con Ley 29733 (Protección de Datos Personales Perú) (S30, S48)
+4. 🌟 Entity resolution con normalización de nombres peruanos (acentos, SAC/S.A.) (S22)
+5. 🌟 Combinación OWASP LLM Top 10 + presidio en una sección (S14)
+6. 🌟 GraphRAG con Neo4j (cutting-edge 2024, paper de Microsoft) (S42)
+7. 🌟 FinOps for ML (Kubecost + AWS Cost Hub + GPU spot instances) (S45)
+8. 🌟 Estructura 4-capstone progresiva (S13, S26, S39, S51) construyendo portafolio a lo largo de 4 fases
 
 ---
 

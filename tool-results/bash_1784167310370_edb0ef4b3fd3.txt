@@ -1,0 +1,605 @@
+===== g1a.json =====
+  - [PDF] OpenIntro Statistics
+    URL: https://www.biostat.jhsph.edu/~iruczins/teaching/books/2019.openintro.statistics.pdf
+    Snippet: This book may be downloaded as a free PDF at openintro.org/os. This textbook is also available under a Creative Commons license, with the ...
+
+  - OpenIntro Statistics - Fourth Edition - Open Textbook Library
+    URL: https://open.umn.edu/opentextbooks/textbooks/60
+    Snippet: Rating 4.5 (24) This book covers almost all the topics needed for an introductory statistics course from introduction to data to multiple and logistic regression models.
+
+  - OpenIntro Statistics
+    URL: https://www.openintro.org/book/os
+    Snippet: FREE -- OpenIntro Statistics PDF. Book PDF Best for Screen Readers Extra text to ease aid navigation and "alt text" for all. This translation is available ...
+
+  - [PDF] OpenIntro Statistics - Stat@Duke
+    URL: https://www2.stat.duke.edu/courses/Spring20/sta101.002/openintro-statistics-edition-3.pdf
+    Snippet: This textbook is available under a Creative Commons license. Visit openintro.org for a free. PDF, to download the textbook's source files, or ...
+
+  - OpenIntro Statistics [4 ed.] - DOKUMEN.PUB
+    URL: https://dokumen.pub/openintro-statistics-4nbsped.html
+    Snippet: This book may be downloaded as a free PDF at openintro.org/os. This textbook is also available under a Creative Commons license, with the source files hosted ...
+
+  - [PDF] OpenIntro Statistics - Biostatistics
+    URL: https://biostat.jhsph.edu/~iruczins/teaching/books/OpenIntroStatSecond.pdf
+    Snippet: This textbook (OpenIntro Statistics) is available online for free and is released by Open-. Intro under Creative Commons ...
+
+===== g1b.json =====
+  - [PDF] Think Stats - Green Tea Press
+    URL: https://greenteapress.com/thinkstats2/thinkstats2.pdf
+    Snippet: I present most ideas using Python code, All of the code is written to work in both Python 2 and Python 3 with no translation. is a free Python distribution ・ ...
+
+  - [PDF] Think Bayes - Green Tea Press
+    URL: https://www.greenteapress.com/thinkbayes/thinkbayes.pdf
+    Snippet: This book uses Python code instead of math, and discrete approximations instead of continuous math- ematics. which is a free Python distribution that includes ...
+
+  - Think Stats, 3rd edition - GitHub Pages
+    URL: https://allendowney.github.io/ThinkStats
+    Snippet: Think Stats is an introduction to Probability and Statistics for Python programmers. If you have basic skills in Python, you can use them to learn concepts ... Missing: Bayes | Show results with: Baye
+
+  - Think Stats: Exploratory Data Analysis in Python - Green Tea Press
+    URL: https://greenteapress.com/thinkstats2/html/index.html
+    Snippet: Think Stats: Exploratory Data Analysis in Python Allen B. Downey Version 2.2.0 Copyright 2014 Allen B. Think Bayes Think Python
+
+  - Think Bayes: Bayesian Statistics Made Simple - Open Textbook Library
+    URL: https://open.umn.edu/opentextbooks/textbooks/think-bayes-bayesian-statistics-made-simple
+    Snippet: Rating 5.0 (1) Think Bayes is an introduction to Bayesian statistics using computational methods. Allen B. Downey, Publisher: Green Tea Press Language: English Formats ...
+
+  - Text and code for the second edition of Think Bayes, by Allen  - GitHub
+    URL: https://github.com/allendowney/thinkbayes2
+    Snippet: Think Bayes is an introduction to Bayesian statistics using computational methods. Print and electronic versions of this book are available from Bookshop.org, ...
+
+===== g1c.json =====
+  - Statistics Fundamentals - YouTube
+    URL: https://www.youtube.com/playlist?list=PLblh5JKOoLUK0FLuzwntyYI10UQFUhsY9
+    Snippet: StatQuest with Josh Starmer Playlist•62 videos•4,036,766. These videos give you a general overview of statistics as well as a be a reference for statistical ...
+
+  - StatQuest with Josh Starmer - YouTube
+    URL: https://www.youtube.com/c/joshstarmer
+    Snippet: This playlist has everything you need to know about Neural Networks, from the basics to the state of the art Statistics Fundamentals
+
+  - StatQuest with Josh Starmer - YouTube
+    URL: https://www.youtube.com/@statquest/playlists
+    Snippet: Playlist 9 Linear Regression and Linear Models
+
+  - Videos!!! - StatQuest!!!
+    URL: https://statquest.org/video_index.html
+    Snippet: Statistics Fundamentals: These videos give you a general overview of statistics as well a reference for statistical concepts. Topics include: Histograms
+
+  - StatQuest: Histograms, Clearly Explained - YouTube
+    URL: https://www.youtube.com/watch?v=qBigTkBLU6g
+    Snippet: / joshuastarmer #statquest #statistics #histogram. StatQuest ... Go to channel StatQuest with Josh Starmer · How to calculate p-values.
+
+  - Confidence Intervals, Clearly Explained!!! - YouTube
+    URL: https://www.youtube.com/watch?v=TqOeMYtOc1w
+    Snippet: Josh, when I finish the StatQuest Statistics Fundamentals playlist, will you send me a BAM certificate? I want to be BAM certified.
+
+===== g1d.json =====
+  - Essence of probability - 3Blue1Brown - YouTube
+    URL: https://www.youtube.com/playlist?list=PLiAulSm0XXgvCGe63mrAkda9UQ9478YQv
+    Snippet: Essence of probability. Amr Elsayyad Playlist•10 videos•143,213 views. Binomial distributions | Probabilities of probabilities, part 1 3Blue1Brown 2.5M views
+
+  - Probability & Statistics (3Blue1Brown) - YouTube
+    URL: https://m.youtube.com/playlist?list=PLwKgqLBY_rXJ44oXBO6qS3ebgp3enGcKX
+    Snippet: Probability & Statistics (3Blue1Brown) Playlist•5 videos•19 views Play all. Probabilities of probabilities, part 1 3Blue1Brown 2.5M views Missing: Essence | Show results with: Essence
+
+  - Binomial distributions | Probabilities of probabilities, part 1 - YouTube
+    URL: https://www.youtube.com/watch?v=8idr1WZ1A7Q
+    Snippet: Part 2: https://youtu.be/ZA4JkHKZM50 Help fund future projects: https://www.patreon.com/3blue1brown An equally valuable form of support is ... Missing: Essence | Show results with: Essence
+
+  - 3Blue1Brown Probabilities - YouTube
+    URL: https://www.youtube.com/playlist?list=PLk8K5CcEXPXP26gqXH1BID6d48I8_7ihG
+    Snippet: Why “probability of 0” does not mean “impossible” | Probabilities of probabilities, part 2. Missing: statistics Essence
+
+  - Statistics 3Blue1Brown - YouTube
+    URL: https://www.youtube.com/playlist?list=PL4cNQ1YkG5WhQGmPnRe4vDUImh_nviriy
+    Snippet: Why “probability of 0” does not mean “impossible” | Probabilities of probabilities, part 2. Missing: Essence | Show results with: Essence
+
+  - Probabilities of probabilities - YouTube
+    URL: https://www.youtube.com/playlist?list=PLZHQObOWTQDOjmo3Y6ADm0ScWAlEXf-fp
+    Snippet: 3Blue1Brown Playlist•2 videos•306,410 views Play all 12:34 Binomial distributions | Probabilities of probabilities, part 1 3Blue1Brown 2.5M views • 6 years Missing: statistics Essence
+
+===== g2a.json =====
+  - GitHub - CamDavidsonPilon/Probabilistic
+    URL: https://github.com/camdavidsonpilon/probabilistic-programming-and-bayesian-methods-for-hackers
+    Snippet: Bayesian Methods for Hackers is designed as an introduction to Bayesian inference from a computational/understanding-first, and mathematics-second, point of ...
+
+  - Probabilistic Programming and Bayesian Methods for Hackers
+    URL: https://github.com/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/blob/master/Chapter1_Introduction/Ch1_Introduction_PyMC2.ipynb
+    Snippet: Welcome to Bayesian Methods for Hackers. The full Github repository is available at github/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers. The other ... Missing: Cameron | Show results wit
+
+  - Probabilistic-Programming-and
+    URL: https://github.com/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/blob/master/book_layout.txt
+    Snippet: aka "Bayesian Methods for Hackers": An introduction to Bayesian methods + probabilistic programming with a computation/understanding-first, ... Missing: Cameron free book
+
+  - Probabilistic Programming and Bayesian Methods for Hackers
+    URL: https://github.com/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/blob/master/Chapter4_TheGreatestTheoremNeverTold/Ch4_LawOfLargeNumbers_TFP.ipynb
+    Snippet: An introduction to Bayesian methods + probabilistic programming … created by Cam Davidson-Pilon. The full Github repository is available at github/ ...
+
+  - Probabilistic Programming and Bayesian Methods for Hackers
+    URL: https://github.com/CamDavidsonPilon/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers/blob/master/Chapter1_Introduction/Ch1_Introduction_TFP.ipynb
+    Snippet: Welcome to Bayesian Methods for Hackers. The full Github repository is available at github/Probabilistic-Programming-and-Bayesian-Methods-for-Hackers.
+
+  - [PDF] Bayesian Methods for Hackers: Probabilistic Programming and
+    URL: https://ptgmedia.pearsoncmg.com/images/9780133902839/samplepages/9780133902839.pdf
+    Snippet: This book is filled with examples, figures, and working Python code that make it easy to get started solving actual problems.
+
+===== g2b.json =====
+  - Trustworthy Online Controlled Experiments: A Practical Guide to A/B
+    URL: https://dokumen.pub/trustworthy-online-controlled-experiments-a-practical-guide-to-a-b-testing-1nbsped-9781108724265-1108724264.html
+    Snippet: This practical guide by experimentation leaders at Google, LinkedIn, and Microsoft will teach you how to accelerate innovation using trustworthy online ...
+
+  - Trustworthy Online Controlled Experiments | PDF - Scribd
+    URL: https://www.scribd.com/document/652985441/Kohavi-R-Tang-D-Xu-Y-2020-Trustworthy-Online-Controlled-Experiments-A-Practical-Guide-to-A-B-Testing-1-Edicion-Cap-ES
+    Snippet: The document discusses common errors in interpreting results from controlled experiments and A/B tests. It covers misinterpreting statistical significance,
+
+  - (PDF) Trustworthy online controlled experiments - Academia.edu
+    URL: https://www.academia.edu/116730221/Trustworthy_online_controlled_experiments
+    Snippet: Trustworthy Online Controlled Experiments: Five Puzzling Outcomes Explained Ron Kohavi, A/B testing. A/B testing, Kohavi, Ron and Round,
+
+  - [PDF] Trustworthy Online Controlled Experiments
+    URL: https://experimentguide.com/wp-content/uploads/TrustworthyOnlineControlledExperiments_PracticalGuideToABTesting_Chapter1.pdf
+    Snippet: This excellent and lively book by experts from Microsoft, Google, and LinkedIn presents the theory and best practices of A/B testing. A must read for anyone who ...
+
+  - Trustworthy Online Controlled Experiments: A Practical Guide to A/B
+    URL: https://www.researchgate.net/publication/339914315_Trustworthy_Online_Controlled_Experiments_A_Practical_Guide_to_AB_Testing
+    Snippet: This practical guide by experimentation leaders at Google, LinkedIn, and Microsoft will teach you how to accelerate innovation using trustworthy online ...
+
+  - A Practical Guide to A/B Testing PDF by Ron Kohavi  - Spotify
+    URL: https://open.spotify.com/episode/1pnq8oCor0eCKwW0YxnPIU
+    Snippet: Trustworthy Online Controlled Experiments: by Ron Kohavi is a popular choice for readers who want downloadable access in a digital format.
+
+===== g3a.json =====
+  - Quick Start | Prophet - Meta Open Source
+    URL: https://facebook.github.io/prophet/docs/quick_start.html
+    Snippet: Prophet is a forecasting procedure implemented in R and Python. It is fast and provides completely automated forecasts that can be tuned by hand by data ...
+
+  - Getting Started Predicting Time Series Data with Facebook Prophet
+    URL: https://medium.com/data-science/getting-started-predicting-time-series-data-with-facebook-prophet-c74ad3040525
+    Snippet: This article aims to take away the entry barriers to get started with time series analysis in a hands-on tutorial using Prophet.
+
+  - Prophet | Forecasting at scale. - Meta Open Source
+    URL: https://facebook.github.io/prophet
+    Snippet: Prophet is a forecasting procedure implemented in R and Python. It is fast and provides completely automated forecasts that can be tuned by hand by data ... Missing: tutorial | Show results with: tuto
+
+  - Python Time Series Forecasting Tutorial with Meta Prophet
+    URL: https://www.youtube.com/watch?v=nIoHj7ei2to&vl=en
+    Snippet: Learn how to forecast time series data in Python using Facebook Prophet, now known as Meta Prophet. In this step-by-step tutorial, ... Missing: documentation | Show results with: documentation
+
+  - Time Series Forecasting With Prophet in Python - Machine Learning Mastery
+    URL: https://machinelearningmastery.com/time-series-forecasting-with-prophet-in-python
+    Snippet: In this tutorial, you will discover how to use the Facebook Prophet library for time series forecasting. After completing this tutorial, you will know: Prophet ...
+
+  - How to Forecast like Facebook -- python forecasting with fbprophet
+    URL: https://www.reddit.com/r/datascience/comments/b7hsjj/how_to_forecast_like_facebook_python_forecasting
+    Snippet: Check out this vignette I wrote and put on GitHub that explores the basic functionalities of Facebook's time series forecasting package called ... Missing: documentation | Show results with: documenta
+
+===== g3b.json =====
+  - Nixtla/neuralforecast: Scalable and user friendly neural forecasting
+    URL: https://github.com/nixtla/neuralforecast
+    Snippet: NeuralForecast offers a large collection of neural forecasting models focusing on their performance, usability, and robustness. more than 30 state-of-the-art ...
+
+  - In 2024 which library is best for time series forecasting and anomaly
+    URL: https://www.reddit.com/r/MachineLearning/comments/1bho0r0/in_2024_which_library_is_best_for_time_series
+    Snippet: Yes, Darts and sktime are more or less standard for forecasting in Python. Statsmodels and a few libraries by Nixtla are also extensively used. [P] Deep Learning for time series forecasting (neuralfor
+
+  - About NeuralForecast - Nixtla - Nixtlaverse
+    URL: https://nixtlaverse.nixtla.io/neuralforecast/docs/getting-started/introduction.html
+    Snippet: NeuralForecast offers a large collection of neural forecasting models focused on their usability, and robustness. The models range from classic networks ...
+
+  - Nixtla | Time Series Forecasting & Anomaly Detection
+    URL: https://www.nixtla.io
+    Snippet: Enterprise-grade time series forecasting and anomaly detection. Accurate predictions powered by Nixtla's industry-leading AI solutions.
+
+  - Unleash the Magic of NeuralForecast: A Practical Guide to Time Series
+    URL: https://medium.com/@marcelboersma/unleash-the-magic-of-neuralforecast-a-practical-guide-to-time-series-transformation-and-model-60da27a57ea5
+    Snippet: NeuralForecast library, NeuralForecast prepares the time series data for easy use, All the code is available in this Colab environment.
+
+  - Neil Leiser's Post - LinkedIn
+    URL: https://www.linkedin.com/posts/leiserneil_this-python-library-will-change-the-way-you-activity-7264529608811724801-rBxP
+    Snippet: This python library will change the way you build time series forecasting forecasting algorithms Meet Nixtla, an open source time series ...
+
+===== g3c.json =====
+  - STAT 510 | Applied Time Series Analysis - Statistics Online
+    URL: https://online.stat.psu.edu/stat510
+    Snippet: The objective of this course is to learn and apply statistical methods for the analysis of data that have been observed over time.
+
+  - STAT 510: Applied Time Series Analysis - Statistics Online
+    URL: https://online.stat.psu.edu/statprogram/stat510
+    Snippet: This course will provide students with a basic understanding of the nature and basic processes used to analyze such data.
+
+  - 1 Time Series Basics – STAT 510 - Statistics Online
+    URL: https://online.stat.psu.edu/stat510/Lesson01.html
+    Snippet: This first lesson will introduce you to time series data and important characteristics of time series data. We will also begin some basic modeling. Missing: free | Show results with: free
+
+  - Free Course: STAT 510: Applied Time Series Analysis from
+    URL: https://www.classcentral.com/index.php/course/open-edatpsu-stat-510-applied-time-series-analysis-116660
+    Snippet: Learn to analyze and forecast time series data using ARIMA models, smoothing methods, and advanced techniques. Gain practical skills in R for handling ...
+
+  - Using ARIMA models to forecast future values – STAT 510 - Statistics Online
+    URL: https://online.stat.psu.edu/stat510/Lesson03.html
+    Snippet: In this lesson, we will learn some techniques for identifying and estimating non-seasonal ARIMA models. We'll also look at the basics of using an ARIMA model ... Missing: free | Show results with: fre
+
+  - STAT 510: Applied Time Series Analysis - Class Central
+    URL: https://www.classcentral.com/course/open-edatpsu-stat-510-applied-time-series-analysis-116660
+    Snippet: Learn to analyze and forecast time series data using ARIMA models, smoothing methods, and advanced techniques. STAT 510: Applied Time Series Analysis
+
+===== g4a.json =====
+  - Home - Made With ML by Anyscale
+    URL: https://madewithml.com
+    Snippet: Learn how to combine machine learning with software engineering to design, develop, deploy and iterate on production ML applications.
+
+  - GokuMohandas/mlops-course: Learn how to design, develop  - GitHub
+    URL: https://github.com/GokuMohandas/mlops-course
+    Snippet: MLOps Course. Learn how to combine machine learning with software engineering to design, develop, deploy and iterate on production-grade ML applications ...
+
+  - MLOps Course - Made With ML by Anyscale
+    URL: https://madewithml.com/courses/mlops
+    Snippet: Learn how to combine machine learning with software engineering to design, develop, deploy and iterate on production ML applications. Missing: open | Show results with: open
+
+  - MLOps Course download | SourceForge.net
+    URL: https://sourceforge.net/projects/mlops-course.mirror
+    Snippet: Download MLOps Course for free. Learn how to design, develop, deploy and iterate on ML apps. The MLOps Course by Goku Mohandas is an open-source ...
+
+  - Open-source MLOps Fundamentals Course : r/learnmachinelearning
+    URL: https://www.reddit.com/r/learnmachinelearning/comments/ynrvs9/opensource_mlops_fundamentals_course
+    Snippet: Hi everyone, I'm the creator of Made With ML and I wanted to share that V1 of the open-source course is finally complete! Open-source Machine Learning for Software Engineerings Course Open-source Prod
+
+  - MLOps Course by Goku Mohandas | PDF | Machine Learning - Scribd
+    URL: https://www.scribd.com/document/689669465/Made-With-Ml
+    Snippet: MLOps Course by Goku Mohandas. This document summarizes the Made With ML GitHub repository, which provides free educational content for developing, deploying ... Missing: source | Show results with: s
+
+===== g4b.json =====
+  - DataTalksClub/mlops-zoomcamp: Free MLOps course from  - GitHub
+    URL: https://github.com/DataTalksClub/mlops-zoomcamp
+    Snippet: This free 9-week course teaches the fundamentals of MLOps, from training and experimentation to deployment and monitoring, through structured modules, hands-on ...
+
+  - MLOps Zoomcamp: Free MLOps Course and Certification
+    URL: https://datatalks.club/blog/mlops-zoomcamp.html
+    Snippet: This 3-month course covers a comprehensive curriculum with all materials open and available anytime on GitHub. You'll work with an industry-standard stack ...
+
+  - DataTalksClub/mlops-zoomcamp at scrimba.com - GitHub
+    URL: https://github.com/DataTalksClub/mlops-zoomcamp?ref=scrimba.com
+    Snippet: MLOps Zoomcamp: A Free 9-Week Course on Productionizing ML Services. MLOps (machine learning operations) is a must-know skill for many data ...
+
+  - Free MLOps course from DataTalks.Club - GitHub
+    URL: https://github.com/anjijava16/mlops-zoomcamp_2022
+    Snippet: Free MLOps course from DataTalks.Club. Our MLOps Zoomcamp course Sign up here: https://airtable.com/shrCb8y6eTbPKwSTL. Module 1: Introduction What is MLOps. ...
+
+  - DataTalksClub - GitHub
+    URL: https://github.com/DataTalksClub
+    Snippet: Pick a free course — self-paced … s All courses are free and open-source. Zoomcamp Beginner to intermediate. Free MLOps course from DataTalks. ...
+
+  - MLOps Zoomcamp — 1 - Medium
+    URL: https://medium.com/@neskafebardagi/mlops-zoomcamp-1-d9436e562ee2
+    Snippet: Here is the github page for the course materials: https://github.com/DataTalksClub/mlops-zoomcamp/tree/main. Datatalks Club courses
+
+===== g4c.json =====
+  - MLOps: Continuous delivery and automation pipelines in machine learning | Cloud 
+    URL: https://docs.cloud.google.com/architecture/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning
+    Snippet: This document discusses techniques for implementing and automating continuous integration (CI), continuous delivery (CD), and continuous ...
+
+  - [PDF] Practitioners guide to MLOps: A framework for continuous delivery and auto
+    URL: https://services.google.com/fh/files/misc/practitioners_guide_to_mlops_whitepaper.pdf
+    Snippet: The current document takes a deeper dive into the themes of scale and automate to illustrate the requirements for building and operationalizing ML systems. ...
+
+  - Practitioners Guide to Machine Learning Operations (MLOps) - Google Cloud
+    URL: https://cloud.google.com/resources/mlops-whitepaper
+    Snippet: The Practitioners Guide to MLOps is intended for ML leaders and enterprise architects who want to understand MLOps in theory and in practice. Missing: documentation | Show results with: documentation
+
+  - Machine Learning Operations (MLOps): Getting Started - Google Skills
+    URL: https://www.skills.google/course_templates/158
+    Snippet: This course introduces participants to MLOps tools and best practices for deploying, evaluating, monitoring and operating production ML systems on Google Cloud.
+
+  - A comprehensive guide to MLOps with Intelligent Products Essentials
+    URL: https://discuss.google.dev/t/a-comprehensive-guide-to-mlops-with-intelligent-products-essentials/165542
+    Snippet: This document describes the various ML workflows, architectures, and MLOps pipelines for Intelligent Product Essentials using Vertex AI.
+
+  - MLOps: A Practical Guide To Production Machine Learning - ML4Devs
+    URL: https://www.ml4devs.com/what-is/mlops
+    Snippet: Learn what MLOps is, why it matters, and how to build reliable, scalable ML model lifecycles in production.
+
+===== g5a.json =====
+  - [PDF] Speech and Language Processing - Stanford University
+    URL: https://web.stanford.edu/~jurafsky/slp3/ed3book_jan26.pdf
+    Snippet: Page 1. Speech and Language Processing. An Introduction to Natural Language Processing ... Edition draft. Daniel Jurafsky. Stanford University.
+In the first part of the book we introduce the fundament
+
+  - Speech and Language Processing
+    URL: https://web.stanford.edu/~jurafsky/slp3
+    Snippet: An introduction to natural language processing, computational linguistics, and speech recognition with language models, 3rd edition.
+
+  - Speech and Language Processing (3rd Edition).pdf - GitHub
+    URL: https://github.com/yanshengjia/ml-road/blob/master/resources/Speech%20and%20Language%20Processing%20(3rd%20Edition).pdf
+    Snippet: Machine Learning and Agentic AI Resources, Practice and Research - ml-road/resources/Speech and Language Processing (3rd Edition).pdf at master ...
+
+  - Speech and Language Processing (Draft) [3 ed.] - DOKUMEN.PUB
+    URL: https://dokumen.pub/speech-and-language-processing-draft-3nbsped.html
+    Snippet: peech and Language Processing: Third Edition draft. With this comprehensive guide you will learn. Jurafsky D. Martin J.H. contents : I Fundamental Algorithms ...
+Speech and Language Processing (Draft)
+
+  - Speech and Language Processing: Third Edition Draft | PDF - Scribd
+    URL: https://www.scribd.com/document/788194317/eBook-Speech-and-Language-Processing-an-Introduction-to-Natural-Language-Processing-Computational-Linguistics-And-Speech-Recognition-Part-1-Dani
+    Snippet: Speech and Language Processing. An Introduction to Natural Language Processing,. Computational Linguistics, and Speech Recognition. Third Edition draft.
+Introduction to Natural Language Processing, Co
+
+  - [PDF] Speech and Language Processing - Home Page of Jerzy Karczmarczuk
+    URL: https://karczmarczuk.users.greyc.fr/TEACH/TAL/Doc/jurafsky_martin.pdf
+    Snippet: An Introduction to Natural Language Processing, Computational Linguistics and Speech Recognition Daniel Jurafsky and James H. Martin
+
+===== g5b.json =====
+  - [PDF] Natural Language Processing with Python
+    URL: https://tjzhifei.github.io/resources/NLTK.pdf
+    Snippet: This book provides a highly accessible introduction to the field of NLP. all freely downloadable from http://www.nltk.org/.
+
+  - [PDF] Natural Language Processing in Python
+    URL: https://cs.pomona.edu/~kim/CSC181S08/text/book.pdf
+    Snippet: This is a book about Natural Language Processing. By natural language we mean a language that is used for everyday communication by humans; ...
+
+  - NLTK Book
+    URL: https://www.nltk.org/book
+    Snippet: Natural Language Processing with Python. – Analyzing Text with the Natural Language Toolkit. Steven Bird, Ewan Klein, and Edward Loper.
+
+  - [PDF] Natural Language Processing with Python
+    URL: http://logica.uniroma3.it/~maieli/Natural_Language_Processing_with_Python.pdf
+    Snippet: We believe this book is unique in providing a comprehensive framework for students to learn about NLP in the context of learning to program.
+
+  - (PDF) Natural Language Processing with Python - ResearchGate
+    URL: https://www.researchgate.net/publication/220691633_Natural_Language_Processing_with_Python
+    Snippet: Steven Bird NLTK, the Natural Language Toolkit, is a suite of open source program modules, tutorials and problem sets, providing ready-to-use computational ...
+
+  - NLTK Book Python 3 Edition
+    URL: https://sites.pitt.edu/~naraehan/ling1330/nltk_book.html
+    Snippet: Natural Language Processing with Python --- Analyzing Text with the Natural Language Toolkit Steven Bird, Ewan Klein, and Edward Loper O'Reilly Media, 2009. Missing: online | Show results with: online
+
+===== g5c.json =====
+  - models.word2vec – Word2vec embeddings — gensim
+    URL: https://radimrehurek.com/gensim/models/word2vec.html
+    Snippet: This module implements the word2vec family of algorithms, using highly optimized C routines, data streaming and Pythonic interfaces.
+
+  - Word2Vec Model — gensim
+    URL: https://radimrehurek.com/gensim/auto_examples/tutorials/run_word2vec.html
+    Snippet: In this tutorial we learned how to train word2vec models on your custom data and also how to evaluate it.
+
+  - Gensim: Topic Modelling For Humans - Tutorials
+    URL: https://markroxor.github.io/gensim/tutorials
+    Snippet: LDA (Model) Docs, Source Example with Android issue reports, Topic Modeling LDA: pre-processing and training tips. Tool to get the most similar documents for ...
+
+  - Topic Modeling with Word2Vec | Baeldung on Computer Science
+    URL: https://www.baeldung.com/cs/ml-word2vec-topic-modeling
+    Snippet: In this tutorial, we'll introduce the definition and known techniques for topic modeling. Then, we'll show an overview of word embeddings and the Word2Vec ...
+
+  - Topic Modeling using Gensim-LDA in Python | by Aravind CR - Medium
+    URL: https://medium.com/analytics-vidhya/topic-modeling-using-gensim-lda-in-python-48eaa2344920
+    Snippet: Topic modeling is technique to extract the hidden topics from large volumes of text. This is used as input to LDA model.
+
+  - Gensim: Topic modelling for humans
+    URL: https://radimrehurek.com/gensim
+    Snippet: ... tutorial material provides students an excellent introduction to quickly understand the underlying principles in topic modeling based on both LSA and LDA.
+
+===== g6a.json =====
+  - Introduction to Apache Spark™ | Databricks
+    URL: https://www.databricks.com/training/catalog/introduction-to-apache-spark-3901
+    Snippet: This course offers essential knowledge of Apache Spark™, with a focus on its distributed architecture and practical applications for large-scale data ...
+
+  - Getting Started with Apache Spark on Databricks
+    URL: https://www.databricks.com/spark/getting-started-with-apache-spark
+    Snippet: This self-paced Apache Spark tutorial will teach you the basic concepts behind Spark using Databricks Community Edition. Click here to get started.
+
+  - Apache Spark™ Programming with Databricks
+    URL: https://www.databricks.com/training/catalog/apache-spark-programming-with-databricks-134
+    Snippet: This course offers essential knowledge of Apache Spark, with a focus on its distributed architecture and practical applications for large-scale data processing.
+
+  - Databricks Tutorial (From Zero to Hero) | Azure Databricks Masterclass
+    URL: https://www.youtube.com/watch?v=7pee6_Sq3VY
+    Snippet: What You'll Learn: - Spark Architecture: Understand the core components and how they work together. - Databricks Fundamentals: Get ...
+
+  - Get free Databricks training
+    URL: https://docs.databricks.com/aws/en/getting-started/free-training
+    Snippet: As a customer, you have access to all Databricks free customer training offerings. These offerings include courses, recorded webinars, and quarterly product ...
+
+  - Master Databricks and Apache Spark Step by Step: Lesson 1 - Introduction
+    URL: https://www.youtube.com/watch?v=YvTzvZh3yTE
+    Snippet: In this first lesson, you learn about scale-up vs. scale-out, Databricks, and Apache Spark. This video lays the foundation of the series by ...
+
+===== g6b.json =====
+  - Tutorials — Airflow 3.3.0 Documentation - Apache Airflow
+    URL: https://airflow.apache.org/docs/apache-airflow/stable/tutorial/index.html
+    Snippet: Building Your First Workflow. Once you have Airflow up and running with the Quick Start, these tutorials are a great way to get a sense for how Airflow works.
+
+  - Airflow 101: Building Your First Workflow
+    URL: https://airflow.apache.org/docs/apache-airflow/stable/tutorial/fundamentals.html
+    Snippet: In this tutorial, we'll guide you through the essential concepts of Airflow, helping you understand how to write your first DAG. Missing: free | Show results with: free
+
+  - Introduction to Apache Airflow®: A Technical Overview for Beginners
+    URL: https://www.astronomer.io/docs/learn/intro-to-airflow
+    Snippet: Start learning Apache Airflow with this comprehensive guide. Covers Dags, tasks, scheduling, and all core concepts. Includes code examples and links
+
+  - Airflow basics — Airflow tutorial documentation - Read the Docs
+    URL: https://airflow-tutorial.readthedocs.io/en/latest/airflow-intro.html
+    Snippet: Airflow is a Workflow engine which means: Manage scheduling and running jobs and data pipelines Ensures jobs are ordered correctly based on dependencies … 4 ... Missing: free | Show results with: free
+
+  - Apache Airflow Tutorial for Data Engineers - YouTube
+    URL: https://www.youtube.com/watch?v=y5rYZLBZ_Fw
+    Snippet: Chapters: 2:57 Pre-requisites 4:15 Airflow UI tour 11:04 Write your first DAG (that copies data files from AWS S3 to a Postgres DB) 23:16 ...
+
+  - How to get started with Apache Airflow [2024 updated] | by Hugo Lu
+    URL: https://medium.com/@hugolu87/how-to-get-started-with-apache-airflow-2024-updated-c388fb5433e4
+    Snippet: The official Airflow documentation is comprehensive and a good starting point. There are various online tutorials, courses … and YouTube videos ...
+
+===== g6c.json =====
+  - Data Engineering Zoomcamp is a free 9-week course on building  - GitHub
+    URL: https://github.com/DataTalksClub/data-engineering-zoomcamp
+    Snippet: This free 9-week course teaches the fundamentals of data engineering by building an end-to-end data pipeline from scratch. It consists of structured modules ...
+
+  - Data Engineering Zoomcamp: Free Data Engineering Course and
+    URL: https://datatalks.club/blog/data-engineering-zoomcamp.html
+    Snippet: Free data engineering course with certificate. Learn Python, SQL, dbt, Kafka, and Spark. Build production pipelines, earn a certificate.
+
+  - DataTalksClub - GitHub
+    URL: https://github.com/DataTalksClub
+    Snippet: Data Engineering Zoomcamp is a free 9-week course on building production-ready data pipelines. The next cohort starts in January 2026. Join the ...
+
+  - Data Engineering Zoomcamp starts next week - learn DE for free! - Reddit
+    URL: https://www.reddit.com/r/dataengineering/comments/1hvne3s/data_engineering_zoomcamp_starts_next_week_learn
+    Snippet: The DE zoomcamp starts next week on Monday. They are covering: https://github.com/DataTalksClub/data-engineering-zoomcamp See you on the course!
+
+  - asking-questions.md - GitHub
+    URL: https://github.com/DataTalksClub/data-engineering-zoomcamp/blob/main/asking-questions.md
+    Snippet: Data Engineering Zoomcamp is a free 9-week course on building production-ready data pipelines. The next cohort starts in January 2026. DataTalks.Club slack.
+
+  - Data science Containerization Docker - Glittr.org
+    URL: https://glittr.org/DataTalksClub/data-engineering-zoomcamp
+    Snippet: Data Engineering Zoomcamp is a free 9-week course on building production-ready data pipelines. The next cohort starts in January 2026.
+
+===== g7a.json =====
+  - [PDF] Scott Cunningham - Causal Inference: The Mixtape - J. W. Mason
+    URL: https://jwmason.org/wp-content/uploads/2021/08/Cunningham-Cuasal-Inference-the-Mixtape.pdf
+    Snippet: Consider this my mix- tape of research designs that I hope you'll find fun, interesting, and powerful for estimating causal effects.
+
+  - Causal Inference: The Mixtape 2020939011, 9780300251685
+    URL: https://dokumen.pub/causal-inference-the-mixtape-2020939011-9780300251685.html
+    Snippet: This book, and the class it was based on, is a distillation of countless journal articles, books, as well as classes I have taken in person and studied from ...
+
+  - Scott Cunningham - Causal Inference (2020) PDF - Scribd
+    URL: https://www.scribd.com/document/490297221/Scott-Cunningham-Causal-Inference-2020-pdf
+    Snippet: Rating 3.0 (2) Scott Cunningham - Causal Inference (2020).pdf - Free download as PDF File (.pdf), Text File (.txt) or read online for free.
+
+  - Causal Inference The Mixtape - Scott Cunningham
+    URL: https://mixtape.scunning.com
+    Snippet: This is the online version of Causal Inference: The Mixtape Causal inference encompasses the tools that allow social scientists to determine what causes what.
+
+  - Book_Cunningham_2021_Caus
+    URL: https://publish.obsidian.md/mrd-brain/Knowledge+Base/Books/Book_Cunningham_2021_CausalInferenceMixtape
+    Snippet: The author describes this book as a "readable introductory book [about causal inference] with programming examples, data, and [a] detailed exposition."
+
+  - Causal Inference: The Mixtape [1 ed.] 9780300255881 - DOKUMEN.PUB
+    URL: https://dokumen.pub/causal-inference-the-mixtape-1nbsped-9780300255881.html
+    Snippet: An accessible and contemporary introduction to the methods for determining cause and effect in the social sciences... Copyright DOWNLOAD FILE
+
+===== g7b.json =====
+  - Causal Inference: What If (the book) - Miguel Hernán
+    URL: https://miguelhernan.org/whatifbook
+    Snippet: Jamie Robins and I have written a book on methods for causal inference. Here you can download the book and its associated materials (code and data) for free. ...
+Here you can download the book and its
+
+  - [PDF] Causal Inference: What If - Squarespace
+    URL: https://static1.squarespace.com/static/675db8b0dd37046447128f5f/t/677676888e31cc50c2c33877/1735816881944/hernanrobins_WhatIf_2jan25.pdf
+    Snippet: This book is available online at https://miguelhernan.org/whatifbook. A print version (for purchase) is expected to become available soon. Page ...
+
+  - [PDF] Causal Inference: What If - Population Data BC
+    URL: https://www.popdata.bc.ca/sites/default/files/documents/events/etu/Hernan_Book.pdf
+    Snippet: If treatment. Robins, Hernán, and Rotnitzky. (2007) used causal diagrams to de- scribe the structure of bias due to the effect of pre-study ...
+If treatment Robins, Hernán, and Rotnitzky (2007) used c
+
+  - [PDF] Causal Inference - | C3PO
+    URL: https://c3po.media.mit.edu/wp-content/uploads/sites/45/2015/12/hernanrobins_v1.10.30.pdf
+    Snippet: By reading this book you are expressing an interest in learning about causal inference. ... Robins, Hernán, and Rotnitzky. (2007) used causal diagrams to de-.
+By reading this book you are expressing a
+
+  - Pls help me learn causal inference : r/epidemiology - Reddit
+    URL: https://www.reddit.com/r/epidemiology/comments/19dloao/pls_help_me_learn_causal_inference
+    Snippet: Miguel Hernan's book on causal inference (What If) is available for free from his Harvard web page, he's done a lot of research on ... Causal Inference: What If (Complete Text) : r/CompSocial causal i
+
+  - Causal Inference What If (Miguel A. Hernán, James M. Robins) (z-lib.org)
+    URL: https://pubhtml5.com/ekgp/nrmm/Causal_Inference_What_If_%28Miguel_A._Herna%CC%81n%2C_James_M._Robins%29_%28z-lib.org%29/176
+    Snippet: We spent Part I of this book reviewing the definition of average causal ef- fect, the assumptions required to estimate it, and many potential biases.
+
+===== g7c.json =====
+  - feast/docs/getting-started/quickstart.md at master - GitHub
+    URL: https://github.com/feast-dev/feast/blob/master/docs/getting-started/quickstart.md
+    Snippet: Feast (Feature Store) is an open-source feature store designed to facilitate the management and serving of machine learning features in a way that supports ...
+
+  - iamirmasoud/feast-tutorial: Feast Feature Store Tutorial - GitHub
+    URL: https://github.com/iamirmasoud/feast-tutorial
+    Snippet: Feast is an open-source feature store that provides a centralized repository for managing and serving machine learning features.
+
+  - GitHub - feast-dev/feast: The Open Source Feature Store for AI/ML
+    URL: https://github.com/feast-dev/feast
+    Snippet: 2. Create a feature repository · 3. Register your feature definitions and set up your feature store · 4. Explore your data in ...
+
+  - A workshop with several modules to help learn Feast, an  - GitHub
+    URL: https://github.com/feast-dev/feast-workshop
+    Snippet: This workshop aims to teach users about Feast, an open-source feature store. We explain concepts & best practices by example, and also showcase how to address ...
+
+  - feast/docs/project/development-guide.md at master - GitHub
+    URL: https://github.com/feast-dev/feast/blob/master/docs/project/development-guide.md
+    Snippet: This guide is targeted at developers looking to contribute to Feast components in the main Feast repository: Feast Python SDK and CLI Feast Java Missing: tutorial | Show results with: tutorial
+
+  - feast/docs/getting-started/use-cases.md at master - GitHub
+    URL: https://github.com/feast-dev/feast/blob/master/docs/getting-started/use-cases.md
+    Snippet: This page covers common use cases for Feast and how a feature store can benefit your AI/ML workflows. it remarkably easy to make data available for retrieval ...
+
+===== g8a.json =====
+  - Try BigQuery using the sandbox - Google Cloud Documentation
+    URL: https://docs.cloud.google.com/bigquery/docs/sandbox
+    Snippet: Use the BigQuery sandbox to query a public dataset and visualize the results, learn about the BigQuery sandbox limitations, and learn how to upgrade from ...
+
+  - BigQuery public datasets - Google Cloud Documentation
+    URL: https://docs.cloud.google.com/bigquery/public-data
+    Snippet: You can access BigQuery public datasets by using the Google Cloud console, by using the bq command-line tool, or by making calls to the BigQuery REST API using ... Missing: sandbox | Show results with
+
+  - Query without a credit card: introducing BigQuery sandbox
+    URL: https://cloud.google.com/blog/products/data-analytics/query-without-a-credit-card-introducing-bigquery-sandbox
+    Snippet: With BigQuery sandbox, you can try out queries for free, to test performance or to try Standard SQL before you migrate your data warehouse.
+
+  - BigQuery Sandbox: A Guide to Google's Free SQL Playground
+    URL: https://www.youtube.com/watch?v=bSTzu4Rzprk
+    Snippet: ✓ Get started with BigQuery Sandbox ✓ Query public datasets (GitHub Activity Dataset) ✓ Upload your own data ✓ Build interactive ... Missing: tier | Show results with: tier
+
+  - BigQuery Tutorial for Beginners: Setup, SQL & Free Sandbox | DataCamp
+    URL: https://www.datacamp.com/tutorial/beginners-guide-to-bigquery
+    Snippet: Learn what BigQuery is, how it works, its differences from traditional data warehouses, and how to use the BigQuery console to query public datasets.
+
+  - What is BigQuery Sandbox and How to Use it? - Estuary.dev
+    URL: https://estuary.dev/blog/bigquery-sandbox
+    Snippet: BigQuery Sandbox is a no-strings-attached way to try Google BigQuery. Learn exactly how, and why, to get started.
+
+===== g8b.json =====
+  - dbt Fundamentals - dbt Learn
+    URL: https://learn.getdbt.com/courses/dbt-fundamentals
+    Snippet: Learn the foundational steps of transforming data in dbt ・ explore key concepts like modeling, sources, testing, documentation, and deployment. Analytics ...
+
+  - dbt Learn: Course Catalog
+    URL: https://learn.getdbt.com/catalog
+    Snippet: Learn online learning platform course catalog. Role Analytics Engineer (35) Data Analyst (33) Data Engineer (32) try dbt with a 14 day free ...
+
+  - Learn dbt from the source — official courses & training - dbt Labs
+    URL: https://www.getdbt.com/dbt-learn
+    Snippet: Expert-led dbt training by the team that created dbt. On-demand courses, live workshops, & team programs — for all skill levels. Start learning free.
+
+  - Analytics Engineering with dbt Specialization - Coursera
+    URL: https://www.coursera.org/specializations/analytics-engineering-with-dbt
+    Snippet: Design analytics-ready data models using SQL, dimensional modeling, and modern data warehousing principles. · Build, test, and document ...
+
+  - How to get into analytics engineering from scratch? #1540 - GitHub
+    URL: https://github.com/dbt-labs/docs.getdbt.com/discussions/1540
+    Snippet: If your goal is really to be an analytics engineer then dbt is the place to go: Take the dbt Fundamentals course online, it is free! There are other courses on ...
+
+  - Analytics Engineering with dbt Workshop - Juan Manuel Perafan
+    URL: https://www.youtube.com/watch?v=9mdvSD63s4Y
+    Snippet: Check our free online courses: ML Engineering course - http://mlzoomcamp.com; Data Engineering course - https://github.com/Dat... MLOps ... Missing: documentation | Show results with: documentation
+
+===== g8c.json =====
+  - Tutorials - Snowflake Documentation
+    URL: https://docs.snowflake.com/en/tutorials
+    Snippet: Browse Tutorials. Follow along with our tutorials to get you up and running with the Snowflake Data Cloud. 679 Tutorials.
+
+  - Snowflake Virtual Hands on Lab
+    URL: https://www.snowflake.com/en/webinars/virtual-hands-on-lab
+    Snippet: Virtual Hands-on Labs. Participate in instructor-led labs that guide you through building and shipping working solutions, step by step. Missing: trial | Show results with: trial
+
+  - Getting Started with Snowflake
+    URL: https://www.snowflake.com/en/developers/guides/getting-started-with-snowflake
+    Snippet: This Snowflake Guide is available as a free, instructor-led Virtual Hands on Lab. How to create stages, databases, tables, views, and virtual warehouses.
+
+  - Snowflake free trial_lab_guide | PDF
+    URL: https://www.slideshare.net/slideshow/snowflake-free-triallabguide/250217585
+    Snippet: This document provides instructions for a hands-on lab guide to explore the Snowflake data warehouse platform using a free trial.
+
+  - Snowflake Trial: Build AI & Apps in Minutes
+    URL: https://www.snowflake.com/en/snowflake-trial
+    Snippet: BUILD AI AND APPS IN MINUTES WITH A SNOWFLAKE TRIAL. Turn data and AI into impact with developer guides, hands-on labs and more.
+
+  - First Hands on Exercise | Lab Demo | Free trial account - YouTube
+    URL: https://www.youtube.com/watch?v=-JLqo2JhJIU
+    Snippet: Snowflake Tutorial snowflake free trial How to get snowflake 120 days trial snowflake hands on snowflake connectors Snowflake free video ...

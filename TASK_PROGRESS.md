@@ -72,4 +72,50 @@ Updated `learning_roadmap.md` from 1042 → 5013 lines covering all 52 sections 
 ### Concept slug alignment:
 All concept slugs are stable kebab-case identifiers (e.g. `venv-purpose`, `list-comprehension`, `pipeline-idempotency`, `qlora-4bit-mechanics`) that match the `QuestionBank.concept` field convention, enabling per-concept progress tracking and remediation.
 
-## Task 5 — NOT STARTED
+## Task 5 — COMPLETED ✅ (6 iterations)
+
+Cross-referenced the 52-section curriculum against 4 EPUBs + Ed Donner GitHub repos + top GitHub Python courses + university open courseware + top online courses + free books online. Verified complete coverage with no critical gaps.
+
+### Deliverables created:
+1. **`docs/PYTHON_DS_RESOURCES_INVENTORY.md`** (145 lines, 21KB) — comprehensive inventory of:
+   - Ed Donner's 39 GitHub repos (6 core course repos + 10 companion + ~20 capstone apps)
+   - 13 top GitHub Python course repos (356k-11k stars, verified)
+   - 9 university open courseware courses (MIT, Harvard, Stanford x2, Berkeley x2, CMU, UMich)
+   - 11 top online courses (freeCodeCamp, Kaggle, Google, IBM, DataCamp, Real Python, Corey Schafer)
+   - 5 free books (Think Python, PDSH, Dive Into Python 3, Automate the Boring Stuff, Hitchhiker's Guide)
+
+2. **`docs/CROSS_REFERENCE_REPORT.md`** (721 lines, 36KB) — section-by-section mapping of all 52 sections to external resources, with coverage classification:
+   - 36/52 sections (69%) Strong coverage from multiple quality free resources
+   - 12/52 sections (23%) Partial coverage supplemented with primary docs
+   - 4/52 sections (8%) in gap areas — but 3 of 4 are unique strengths
+   - 8 unique strengths identified where our curriculum is the deepest free resource
+
+3. **`docs/PYTHON_DS_GAP_RESOURCES.md`** (173 lines, 20KB) — 3-4 verified free resources for each of 8 gap areas:
+   - Statistics & Probability (OpenIntro + Think Stats + StatQuest + 3Blue1Brown)
+   - Bayesian/A-B Testing (Bayesian Methods for Hackers + Statistical Rethinking)
+   - Time-series Forecasting (Penn State STAT 510 + Prophet + NeuralForecast)
+   - MLOps (Made With ML + MLOps Zoomcamp + Google MLOps white paper)
+   - NLP Fundamentals (Jurafsky/Martin SLP3 + NLTK Book + Gensim)
+   - Data Eng/Spark/Airflow (Data Engineering Zoomcamp + Databricks Free + Airflow tutorial)
+   - Causal Inference (The Mixtape + What If + Feast)
+   - Cloud DW (BigQuery Sandbox + dbt Fundamentals + Snowflake tutorials)
+
+### Immediate fixes applied to learning_roadmap.md:
+1. **S16 wxPython**: Added ⚠️ modernization note recommending Streamlit (S25) for new projects; explains why wxPython is kept (legacy enterprise tools, PyInstaller, event-driven model).
+2. **S31 Faust streaming**: Added ⚠️ modernization note flagging Faust as unmaintained since 2022; recommends Quix Streams + Bytewax as modern alternatives.
+3. **EPUB coverage section**: Expanded from 32 → 100 lines with full cross-reference against all external resource categories (4 EPUBs + Ed Donner repos + GitHub + university + online courses + free books).
+4. **New "Recursos externos recomendados" subsection**: 14-row table of primary resources by phase + 8-row table of gap resources + S0 Statistics Primer recommendation.
+
+### Key findings:
+- **No critical gaps**: Every concept in the 52-section curriculum has at least one external reference.
+- **4 gap areas** identified, but 3 of 4 (GraphRAG, FinOps, Peruvian localization) are unique strengths that differentiate the curriculum.
+- **8 unique strengths**: Peruvian SUNAT invoice digitization, PII detection, Ley 29733 compliance, name normalization, OWASP+presidio combo, GraphRAG, FinOps, 4-capstone structure.
+- **Honest limitations documented**: Kohavi A/B book not free, Snowflake no perpetual free tier, no fully-free LSTM course, Faust unmaintained.
+- **Recommended future enhancement**: "S0 — Statistics Primer" module to close the biggest curriculum gap (no dedicated stats arc before S6).
+
+### Verification:
+- All 52 sections mapped in cross-reference report ✅
+- All 8 gap areas have 3-4 verified free resources ✅
+- All ~30 URLs HTTP-verified (200 status) ✅
+- 2 modernization notes applied to roadmap ✅
+- 3 docs files cross-linked from roadmap ✅

@@ -9,6 +9,7 @@ BOOKS = {
     'python_101': '/home/z/my-project/upload/python_101.epub',
     'python201':  '/home/z/my-project/upload/python201.epub',
     'PythonAwesomeJob': '/home/z/my-project/upload/PythonAwesomeJob.epub',
+    'ApprenticeToMaster': '/home/z/my-project/upload/Python Apprentice to Master.epub',
 }
 
 def clean(text):
