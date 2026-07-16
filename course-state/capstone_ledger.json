@@ -1,0 +1,34 @@
+{
+  "version": "3.1",
+  "generated_at": "2026-07-16T04:00:00Z",
+  "capstones": [
+    {"id": "CP-N1-A", "gate_section": "S04", "name": "Client Intake & Data Quality Script", "level": 1, "state": "NOT_STARTED", "evidence_required": "script stdin/stdout, synthetic inputs, validation, README, demo"},
+    {"id": "CP-N1-B", "gate_section": "S08", "name": "Client/Transaction ETL Pipeline", "level": 1, "state": "NOT_STARTED", "evidence_required": "scripts, CSV/JSON contracts, quarantine, tests, lineage"},
+    {"id": "CP-N1-C", "gate_section": "S13", "name": "Familiarity Evidence Dashboard", "level": 1, "state": "PARTIAL", "evidence_required": "ER separated, explainable signals, geodata, human review, privacy sheet", "notes": "Existing FamiliarityDashboard component exists but needs V3 alignment"},
+    {"id": "CP-N2-A", "gate_section": "S17", "name": "Executive Data Quality & EDA Portfolio", "level": 2, "state": "NOT_STARTED", "evidence_required": "reproducible notebook, reconciliation, metrics, executive memo"},
+    {"id": "CP-N2-B", "gate_section": "S21", "name": "Accessible Insights Dashboard & Reporting Factory", "level": 2, "state": "NOT_STARTED", "evidence_required": "accessible dashboard, templated report, tables/charts, traceability"},
+    {"id": "CP-N2-C", "gate_section": "S26", "name": "VP RPA + AI Analyst", "level": 2, "state": "PARTIAL", "evidence_required": "Excel → analysis → report → approval → email draft, with rollback", "notes": "Existing integrator-phase1 capstone is related but needs V3 alignment"},
+    {"id": "CP-N3-A", "gate_section": "S30", "name": "Testable Entity Resolution Engine", "level": 3, "state": "PARTIAL", "evidence_required": "blocking, comparators, labeled evaluation, review queue", "notes": "Existing rapidfuzz-entity section is related but needs V3 alignment"},
+    {"id": "CP-N3-B", "gate_section": "S34", "name": "Relationship Investigation Workbench", "level": 3, "state": "NOT_STARTED", "evidence_required": "explainable graph, path search, cases, privacy controls"},
+    {"id": "CP-N3-C", "gate_section": "S39", "name": "Responsible ML Case Triage", "level": 3, "state": "PARTIAL", "evidence_required": "baseline, calibration, threshold, abstention, model card, monitoring", "notes": "Existing integrator-phase2 capstone is related but needs V3 alignment"},
+    {"id": "CP-N4-A", "gate_section": "S43", "name": "Governed Python Service Platform", "level": 4, "state": "NOT_STARTED", "evidence_required": "versioned API, contracts, auth, containers, tests"},
+    {"id": "CP-N4-B", "gate_section": "S47", "name": "Production Data/ML Platform", "level": 4, "state": "NOT_STARTED", "evidence_required": "CI/CD, orchestration, registry, serving, rollback"},
+    {"id": "CP-N4-C", "gate_section": "S51", "name": "Auditable AI Operations Copilot", "level": 4, "state": "PARTIAL", "evidence_required": "RAG/agents, evals, tool policies, observability, human control", "notes": "Existing integrator-final capstone is related but needs V3 alignment"},
+    {"id": "CP-FINAL", "gate_section": "S52", "name": "Enterprise Relationship & Operations Intelligence Platform", "level": "FINAL", "state": "NOT_STARTED", "evidence_required": "integration of all 12, reproducible demo, architecture, tests, system card, CV impact narrative"}
+  ],
+  "transversal_checkpoints": [
+    {"id": "CF-1", "gate_section": "S13", "artifact": "stakeholders, jobs-to-be-done, success metrics, constraints, contracts, base demo", "state": "NOT_STARTED"},
+    {"id": "CF-2", "gate_section": "S26", "artifact": "Familiarity↔reporting↔RPA/AI interfaces, schemas, approval flow", "state": "NOT_STARTED"},
+    {"id": "CF-3", "gate_section": "S39", "artifact": "ER↔graph↔triage contracts, benchmark, preliminary cards", "state": "NOT_STARTED"},
+    {"id": "CF-4", "gate_section": "S47", "artifact": "deployable architecture, lineage, SLO, rollback, supply chain evidence", "state": "NOT_STARTED"},
+    {"id": "CF-5", "gate_section": "S51", "artifact": "manifest of 12 capstones, frozen interfaces, system cards, demo/publication plan", "state": "NOT_STARTED"}
+  ],
+  "summary": {
+    "total_capstones": 13,
+    "not_started": 9,
+    "partial": 4,
+    "passed": 0,
+    "total_checkpoints": 5,
+    "checkpoints_passed": 0
+  }
+}

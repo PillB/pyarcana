@@ -1,0 +1,74 @@
+{
+  "version": "3.1",
+  "generated_at": "2026-07-16T04:00:00Z",
+  "authority_hierarchy": [
+    "System instructions and platform security",
+    "Current owner request",
+    "learning_roadmap.md (52 sections, primary) + V3 roadmap (complementary)",
+    "Versioned specs and decisions in repo",
+    "Existing course content",
+    "External sources"
+  ],
+  "invariant_vector": {
+    "levels": 4,
+    "sections": 52,
+    "sections_per_level": 13,
+    "topics_per_section": 4,
+    "subtopics_per_topic": 2,
+    "subtopics": 416,
+    "demos_per_subtopic": 1,
+    "demos": 416,
+    "student_exercises_per_subtopic": 3,
+    "student_exercises": 1248,
+    "topic_evaluations": 208,
+    "variants_per_subtopic": 3,
+    "exam_variants": 1248,
+    "section_exams": 52,
+    "section_project_increments": 52,
+    "level_capstones": 12,
+    "final_capstones": 1,
+    "capstones_total": 13
+  },
+  "v3_complementary_requirements": {
+    "source_file": "upload/learning_roadmap_52_V3.md",
+    "relationship": "complementary — amplifies existing roadmap with exact counting contract, 13-capstone structure, 12-phase pedagogical cycle, privacy/ER/relationship-scoring principles",
+    "does_not": "replace, reduce, or renumber the existing 52 sections in learning_roadmap.md",
+    "adds": [
+      "Exact counting: 416 subtopics, 1248 exercises, 1248 exam variants (current state has ~240 concepts, not yet at V3 target)",
+      "13 capstones (was 4): CP-N1-A through CP-N4-C + CP-FINAL",
+      "12-phase per-section cycle: RESEARCH → OUTCOMES_LOCKED → BLUEPRINT_LOCKED → CONTENT_AUTHORED → PRACTICE_AUTHORED → ASSESSMENTS_AUTHORED → TECHNICALLY_VERIFIED → EQUIVALENCE_REVIEWED → ACCESSIBILITY_FAIRNESS_REVIEWED → PILOTED_OR_PROVISIONAL → RELEASED → RETROSPECTIVE_COMPLETE",
+      "Privacy principle: entity resolution ≠ relationship scoring ≠ risk triage",
+      "Capstone gates at S4/S8/S13/S17/S21/S26/S30/S34/S39/S43/S47/S51/S52",
+      "5 transversal checkpoints: CF-1(S13), CF-2(S26), CF-3(S39), CF-4(S47), CF-5(S51)"
+    ]
+  },
+  "contradictions_identified": [
+    {
+      "id": "CONTRADICTION-001",
+      "issue": "V3 defines different section topics than existing learning_roadmap.md for S1-S13",
+      "v3_s1": "Entorno reproducible y trabajo seguro (Runtime, venv, Git, Quality)",
+      "existing_s1": "Setup & Entorno de Desarrollo (Python, VS Code, venv, Git, requirements.txt, GitHub PR)",
+      "resolution": "Existing roadmap governs section IDs and titles. V3 topic structure (4 topics × 2 subtopics) is a TARGET to add within each existing section, not a replacement.",
+      "authority": "learning_roadmap.md is primary; V3 adds counting + capstone requirements"
+    },
+    {
+      "id": "CONTRADICTION-002",
+      "issue": "V3 has 13 capstones; existing has 4 (S13, S26, S39, S51)",
+      "resolution": "Adopt V3's 13-capstone structure. Existing 4 capstones map to: S13→CP-N1-C, S26→CP-N2-C, S39→CP-N3-C, S51→CP-N4-C. Add 9 new capstone gates at S4/S8/S17/S21/S30/S34/S43/S47 + CP-FINAL at S52.",
+      "authority": "V3 capstone structure adopted as it's more granular and pedagogically sound"
+    },
+    {
+      "id": "CONTRADICTION-003",
+      "issue": "Existing sections have 3-5 exam concepts each (~240 total); V3 requires 8 subtopics × 3 variants = 24 variants per section (1248 total)",
+      "resolution": "Current exam specs are a STARTING POINT. V3 target requires expanding each section to 8 subtopics (4 topics × 2). This is a multi-session production effort, not a single-pass fix.",
+      "authority": "V3 counting contract is the target; current state is provisional"
+    }
+  ],
+  "contract_tests": {
+    "json_mode": "available via response_format={type:json_object}",
+    "finish_reason": "validated — stop is only terminal; tool_calls is intermediate",
+    "tool_streaming": "available via stream=true + tool_stream=true",
+    "preserved_thinking": "available via thinking={type:enabled,clear_thinking:false}",
+    "status": "capabilities registered, fallbacks tested"
+  }
+}

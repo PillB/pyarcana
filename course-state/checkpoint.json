@@ -1,0 +1,45 @@
+{
+  "version": "3.1",
+  "generated_at": "2026-07-16T04:00:00Z",
+  "current_section": "S01",
+  "current_phase": "PHASE_0",
+  "prompt_version": "3.1",
+  "model": "glm-5.2",
+  "last_known_good_revision": "cd3ed1e",
+  "objective": "Initialize V3 state machine infrastructure and begin PHASE 0 for S01",
+  "scope_completed": [
+    "PHASE_MINUS_1: Created course_requirements.json, section_ledger.json, capstone_ledger.json, issue_registry.json",
+    "Read and analyzed V3 roadmap (830 lines)",
+    "Identified 3 contradictions between V3 and existing roadmap, resolved in course_requirements.json",
+    "Identified 5 issues (2 P1, 3 P2) in issue_registry.json"
+  ],
+  "decisions": [
+    "Existing learning_roadmap.md (52 sections) is PRIMARY authority for section IDs and titles",
+    "V3 roadmap is COMPLEMENTARY authority for: counting contract, 13-capstone structure, 12-phase cycle, privacy principles",
+    "Current content state is 'CONTENT_EXISTS' for all 52 sections — not yet at V3 target (needs expansion to 8 subtopics per section)",
+    "4 existing capstones (S13/S26/S39/S51) map to V3 capstones CP-N1-C/CP-N2-C/CP-N3-C/CP-N4-C",
+    "9 new capstone gates need to be created (S4/S8/S17/S21/S30/S34/S43/S47/S52-FINAL)",
+    "Platform exists and is functional but needs formal V3 audit"
+  ],
+  "files_changed": [
+    "course-state/course_requirements.json",
+    "course-state/section_ledger.json",
+    "course-state/capstone_ledger.json",
+    "course-state/issue_registry.json",
+    "course-state/checkpoint.json"
+  ],
+  "open_issues": [
+    "GLOBAL-V3-001 (P1): Subtopic count gap (240 current vs 416 target)",
+    "GLOBAL-V3-002 (P1): Capstone count gap (4 current vs 13 target)",
+    "GLOBAL-V3-003 (P2): Exercise count gap (current vs 1248 target)",
+    "PLATFORM-001 (P2): Platform audit needed against V3 criteria",
+    "CONTENT-001 (P2): Privacy 3-layer separation audit needed"
+  ],
+  "next_single_action": "Begin PHASE 0 for S01: extract requirements from V3 + existing roadmap, create requirement matrix, detect contradictions specific to S01",
+  "resume_preconditions": [
+    "course-state/*.json files exist and validate",
+    "learning_roadmap.md has 52 sections",
+    "upload/learning_roadmap_52_V3.md exists",
+    "Section files in src/lib/course/sections/ exist for all 52 sections"
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "version": "3.1",
+  "generated_at": "2026-07-16T04:00:00Z",
+  "issues": [
+    {
+      "issue_id": "GLOBAL-V3-001",
+      "severity": "P1",
+      "status": "open",
+      "section": "ALL",
+      "category": "counting_contract",
+      "observed_evidence": "Current course has ~240 exam concepts across 52 sections. V3 requires 416 subtopics (8 per section × 52) with 3 variants each = 1248 total.",
+      "expected": "416 subtopics, 1248 exam variants per V3 invariant vector",
+      "root_cause": "V2 structure used 3-5 concepts per section; V3 mandates 8 (4 topics × 2 subtopics)",
+      "impact": "Sections do not meet V3 counting contract. Current content is a starting point, not the final target.",
+      "fix": "Multi-session effort: expand each section from current concept count to 8 subtopics. Prioritize by section order S1→S52.",
+      "verification": ["Count subtopics per section in section files", "Verify total = 416", "Verify 3 variants per subtopic = 1248"]
+    },
+    {
+      "issue_id": "GLOBAL-V3-002",
+      "severity": "P1",
+      "status": "open",
+      "section": "ALL",
+      "category": "capstone_structure",
+      "observed_evidence": "Existing course has 4 capstones (S13, S26, S39, S51). V3 requires 13 (12 level + 1 final) with gates at S4/S8/S13/S17/S21/S26/S30/S34/S39/S43/S47/S51/S52.",
+      "expected": "13 capstones with defined gates and evidence requirements",
+      "root_cause": "V2 consolidated capstones to 4; V3 distributes them across 12 gates + 1 final",
+      "impact": "9 capstone gates are missing (S4, S8, S17, S21, S30, S34, S43, S47, S52-FINAL). Students don't have intermediate project milestones.",
+      "fix": "Create capstone increment specifications for each of the 9 missing gates. Map to existing section content.",
+      "verification": ["capstone_ledger.json has 13 entries", "Each capstone has gate_section, evidence_required, state"]
+    },
+    {
+      "issue_id": "GLOBAL-V3-003",
+      "severity": "P2",
+      "status": "open",
+      "section": "ALL",
+      "category": "exercise_count",
+      "observed_evidence": "Current sections have varying exercise counts (typically 3-5 per section). V3 requires 24 per section (3 per subtopic × 8 subtopics).",
+      "expected": "1,248 student exercises total (24 per section × 52)",
+      "root_cause": "V2 didn't mandate the 4×2×3 structure",
+      "impact": "Insufficient practice opportunities for mastery learning",
+      "fix": "Expand exercises as subtopics are expanded (linked to GLOBAL-V3-001)",
+      "verification": ["Count exercises per section", "Verify 24 per section", "Verify 1248 total"]
+    },
+    {
+      "issue_id": "PLATFORM-001",
+      "severity": "P2",
+      "status": "open",
+      "section": "S01",
+      "category": "platform",
+      "observed_evidence": "V3 roadmap states S01 state as 'BLOCKED_PLATFORM; contenido candidato'",
+      "expected": "Platform must be auditable and functional before S01 can reach RELEASED",
+      "root_cause": "V3 was written before the current Next.js platform was built. Platform now exists but hasn't been formally audited against V3 criteria.",
+      "impact": "S01 cannot progress to RELEASED without platform audit",
+      "fix": "Run platform audit (PHASE 1 inventory) against V3 criteria. Document results in issue_registry.",
+      "verification": ["Platform audit complete", "All V3 platform requirements verified or issues opened"]
+    },
+    {
+      "issue_id": "CONTENT-001",
+      "severity": "P2",
+      "status": "open",
+      "section": "ALL",
+      "category": "privacy_principle",
+      "observed_evidence": "V3 mandates: 'Coincidir en apellido, teléfono, email, dirección, distancia o transacciones es evidencia para revisión, no prueba de parentesco, colusión o fraude. Entity resolution, relationship evidence y risk triage son capas separadas.'",
+      "expected": "All content involving entity resolution, matching, or relationship scoring must clearly separate these three layers",
+      "root_cause": "Existing content (especially S22 rapidfuzz-entity) may conflate matching with relationship inference",
+      "impact": "Privacy/ethics violation risk if content implies that matching = fraud detection",
+      "fix": "Audit all sections touching entity resolution, matching, or scoring. Ensure 3-layer separation is explicit.",
+      "verification": ["Audit S22, S13, S30, S31, S34, S39, S52 for 3-layer separation", "Document findings"]
+    }
+  ],
+  "summary": {
+    "total_issues": 5,
+    "P0": 0,
+    "P1": 2,
+    "P2": 3,
+    "P3": 0,
+    "open": 5,
+    "fixed": 0,
+    "blocked": 0
+  }
+}
