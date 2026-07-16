@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, Moon, Sun, Github, ArrowLeft, ShieldCheck, BookOpen, FileText, Network } from 'lucide-react'
+import { Menu, Moon, Sun, Github, ArrowLeft, ShieldCheck, BookOpen, FileText, Network, CreditCard } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useTheme } from 'next-themes'
 import { useSession } from 'next-auth/react'
@@ -15,11 +15,12 @@ import { AuthModal, UserMenu } from '@/components/course/AuthModal'
 import { Glossary } from '@/components/course/Glossary'
 import { PdfReport } from '@/components/course/PdfReport'
 import { LanguageToggle } from '@/components/course/LanguageToggle'
+import { PricingPage } from '@/components/course/PricingPage'
 import { FamiliarityDashboard } from '@/components/course/FamiliarityDashboard'
 import { useServerProgressSync } from '@/lib/progress-store'
 import { COURSE_META, COURSE_SECTIONS } from '@/lib/course'
 
-type View = 'home' | 'section' | 'resources' | 'admin' | 'familiarity'
+type View = 'home' | 'section' | 'resources' | 'admin' | 'familiarity' | 'pricing'
 
 export default function Home() {
   const [view, setView] = useState<View>('home')
@@ -50,6 +51,9 @@ export default function Home() {
     } else if (hash === 'familiarity') {
 
       setView('familiarity')
+    } else if (hash === 'pricing') {
+
+      setView('pricing')
     } else if (hash === 'home' || hash === '') {
 
       setView('home')
@@ -252,6 +256,17 @@ export default function Home() {
                 <span className="hidden sm:inline">Admin</span>
               </Button>
             )}
+            {/* Pricing — always visible */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => { setView('pricing'); updateUrl(null, 'pricing') }}
+              className="gap-1.5"
+              title="Planes y precios"
+            >
+              <CreditCard className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">Planes</span>
+            </Button>
             {/* Glossary — available to everyone */}
             <Button
               variant="ghost"
@@ -321,6 +336,28 @@ export default function Home() {
               )}
               {view === 'admin' && <AdminDashboard />}
               {view === 'familiarity' && <FamiliarityDashboard />}
+              {view === 'pricing' && (
+                <PricingPage
+                  isAuthenticated={!!session?.user}
+                  onOpenAuth={() => handleOpenAuth('login')}
+                  onSelectPlan={async (planCode, cycle, country) => {
+                    try {
+                      const res = await fetch('/api/subscription/checkout', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ planCode, billingCycle: cycle, country }),
+                      })
+                      const data = await res.json()
+                      if (data.redirectUrl) {
+                        window.location.hash = data.redirectUrl.replace('/#', '')
+                        setView('section')
+                      }
+                    } catch {
+                      // silent fail in test mode
+                    }
+                  }}
+                />
+              )}
               {view === 'section' && activeSection && (
                 <SectionView
                   section={activeSection}
