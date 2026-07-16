@@ -13,7 +13,11 @@
       "root_cause": "V2 structure used 3-5 concepts per section; V3 mandates 8 (4 topics × 2 subtopics)",
       "impact": "Sections do not meet V3 counting contract. Current content is a starting point, not the final target.",
       "fix": "Multi-session effort: expand each section from current concept count to 8 subtopics. Prioritize by section order S1→S52.",
-      "verification": ["Count subtopics per section in section files", "Verify total = 416", "Verify 3 variants per subtopic = 1248"]
+      "verification": [
+        "Count subtopics per section in section files",
+        "Verify total = 416",
+        "Verify 3 variants per subtopic = 1248"
+      ]
     },
     {
       "issue_id": "GLOBAL-V3-002",
@@ -26,7 +30,10 @@
       "root_cause": "V2 consolidated capstones to 4; V3 distributes them across 12 gates + 1 final",
       "impact": "9 capstone gates are missing (S4, S8, S17, S21, S30, S34, S43, S47, S52-FINAL). Students don't have intermediate project milestones.",
       "fix": "Create capstone increment specifications for each of the 9 missing gates. Map to existing section content.",
-      "verification": ["capstone_ledger.json has 13 entries", "Each capstone has gate_section, evidence_required, state"]
+      "verification": [
+        "capstone_ledger.json has 13 entries",
+        "Each capstone has gate_section, evidence_required, state"
+      ]
     },
     {
       "issue_id": "GLOBAL-V3-003",
@@ -39,20 +46,11 @@
       "root_cause": "V2 didn't mandate the 4×2×3 structure",
       "impact": "Insufficient practice opportunities for mastery learning",
       "fix": "Expand exercises as subtopics are expanded (linked to GLOBAL-V3-001)",
-      "verification": ["Count exercises per section", "Verify 24 per section", "Verify 1248 total"]
-    },
-    {
-      "issue_id": "PLATFORM-001",
-      "severity": "P2",
-      "status": "open",
-      "section": "S01",
-      "category": "platform",
-      "observed_evidence": "V3 roadmap states S01 state as 'BLOCKED_PLATFORM; contenido candidato'",
-      "expected": "Platform must be auditable and functional before S01 can reach RELEASED",
-      "root_cause": "V3 was written before the current Next.js platform was built. Platform now exists but hasn't been formally audited against V3 criteria.",
-      "impact": "S01 cannot progress to RELEASED without platform audit",
-      "fix": "Run platform audit (PHASE 1 inventory) against V3 criteria. Document results in issue_registry.",
-      "verification": ["Platform audit complete", "All V3 platform requirements verified or issues opened"]
+      "verification": [
+        "Count exercises per section",
+        "Verify 24 per section",
+        "Verify 1248 total"
+      ]
     },
     {
       "issue_id": "CONTENT-001",
@@ -65,16 +63,111 @@
       "root_cause": "Existing content (especially S22 rapidfuzz-entity) may conflate matching with relationship inference",
       "impact": "Privacy/ethics violation risk if content implies that matching = fraud detection",
       "fix": "Audit all sections touching entity resolution, matching, or scoring. Ensure 3-layer separation is explicit.",
-      "verification": ["Audit S22, S13, S30, S31, S34, S39, S52 for 3-layer separation", "Document findings"]
+      "verification": [
+        "Audit S22, S13, S30, S31, S34, S39, S52 for 3-layer separation",
+        "Document findings"
+      ]
+    },
+    {
+      "issue_id": "S01-CONTENT-001",
+      "severity": "P1",
+      "status": "open",
+      "section": "S01",
+      "category": "counting_contract",
+      "observed_evidence": "S01 has 4 exam concepts but V3 requires 8 subtopics (4 topics × 2 subtopics each). Missing: interpreter-selection, terminal-paths, git-branch-pr, ruff-config.",
+      "expected": "8 subtopics with 3 variants each = 24 exam variants",
+      "root_cause": "V2 structure used 4 concepts per section; V3 mandates 8 (4×2)",
+      "impact": "Insufficient assessment coverage for V3 compliance",
+      "fix": "Expand to 8 subtopics by splitting T1 (Runtime → interpreter + terminal), T3 (Git → commits + branches/PR), T4 (Quality → gitignore + ruff/env). Add 4 new concept slugs + 12 new exam variants.",
+      "verification": [
+        "Count concepts in seed.ts = 8",
+        "Count variants = 24"
+      ]
+    },
+    {
+      "issue_id": "S01-CONTENT-002",
+      "severity": "P1",
+      "status": "open",
+      "section": "S01",
+      "category": "exercise_count",
+      "observed_evidence": "S01 has 3 We Do exercises. V3 requires 24 student exercises (3 per subtopic × 8 subtopics).",
+      "expected": "24 exercises with starter, 2 hints, solution, edge cases, tests, feedback",
+      "root_cause": "V2 structure had 3 exercises per section; V3 mandates 24",
+      "impact": "Insufficient practice for mastery learning",
+      "fix": "Create 21 additional exercises across the 8 subtopics. Each exercise: E1 guided, E2 independent, E3 transfer.",
+      "verification": [
+        "Count exercises in section file = 24",
+        "Each has starter + solution + tests"
+      ]
+    },
+    {
+      "issue_id": "S01-CONTENT-003",
+      "severity": "P2",
+      "status": "open",
+      "section": "S01",
+      "category": "demo_count",
+      "observed_evidence": "S01 has 1 CodePlayground demo. V3 requires 8 demos (1 per subtopic).",
+      "expected": "8 demos, one per subtopic, each executable in declared environment",
+      "root_cause": "Current CodePlayground has 1 demo per section, not per subtopic",
+      "impact": "Students can't interact with each subtopic's concept",
+      "fix": "Add 7 more demos or restructure to show multiple demos per section",
+      "verification": [
+        "Count demos for 'setup' section = 8"
+      ]
+    },
+    {
+      "issue_id": "S01-CONTENT-004",
+      "severity": "P2",
+      "status": "open",
+      "section": "S01",
+      "category": "topic_evaluations",
+      "observed_evidence": "S01 has 0 topic evaluations. V3 requires 4 (one per topic).",
+      "expected": "4 topic evaluations with rubric 0-3",
+      "root_cause": "V2 had selfCheck (section-level quiz) but no per-topic evaluations",
+      "impact": "No formative assessment at topic level",
+      "fix": "Create 4 topic evaluation packages, each with 2 authentic tasks + rubric",
+      "verification": [
+        "Count topic evaluations = 4"
+      ]
+    },
+    {
+      "issue_id": "S01-CONTENT-005",
+      "severity": "P2",
+      "status": "open",
+      "section": "S01",
+      "category": "content_gap",
+      "observed_evidence": "V3 S01 T1 mentions REPL, exit codes, PATH. V3 T4 mentions Ruff, .env.example. Current content doesn't cover these.",
+      "expected": "Theory covers REPL, exit codes, PATH, Ruff, .env.example",
+      "root_cause": "Existing content was written for V2 scope which was narrower",
+      "impact": "Incomplete coverage of V3 T1 and T4 topics",
+      "fix": "Add theory blocks for REPL/exit-codes/PATH (T1) and Ruff/.env.example (T4)",
+      "verification": [
+        "Theory blocks cover all V3 T1-T4 subtopics"
+      ]
+    },
+    {
+      "issue_id": "S01-CONTENT-006",
+      "severity": "P3",
+      "status": "open",
+      "section": "S01",
+      "category": "capstone_alignment",
+      "observed_evidence": "V3 S01 project increment is 'esqueleto de CP-N1-A'. Existing You Do is 'Reproducible Data Environment'.",
+      "expected": "Project increment explicitly references CP-N1-A",
+      "root_cause": "CP-N1-A concept didn't exist when S01 was written",
+      "impact": "Students don't know their repo will become CP-N1-A",
+      "fix": "Add note in You Do context referencing CP-N1-A",
+      "verification": [
+        "You Do context mentions CP-N1-A"
+      ]
     }
   ],
   "summary": {
-    "total_issues": 5,
+    "total_issues": 10,
     "P0": 0,
-    "P1": 2,
-    "P2": 3,
-    "P3": 0,
-    "open": 5,
+    "P1": 4,
+    "P2": 5,
+    "P3": 1,
+    "open": 10,
     "fixed": 0,
     "blocked": 0
   }

@@ -1,0 +1,229 @@
+{
+  "version": "3.1",
+  "section": "S01",
+  "section_id": "setup",
+  "phase": "PHASE_0_COMPLETE",
+  "generated_at": "2026-07-16T05:00:00Z",
+
+  "requirement_matrix": {
+    "global_requirements": [
+      {
+        "id": "REQ-GLOBAL-001",
+        "requirement": "Cada sección tiene exactamente 4 temas evaluables",
+        "source": "V3 prompt §4 Definiciones de conteo",
+        "acceptance_test": "Contar temas en blueprint de S01 = 4",
+        "status": "pass",
+        "evidence": "V3 roadmap S01 defines T1-T4: Runtime, Entornos, Git, Calidad inicial"
+      },
+      {
+        "id": "REQ-GLOBAL-002",
+        "requirement": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar subtemas en blueprint de S01 = 8 (4×2)",
+        "status": "blocked",
+        "evidence": "Current content has 5 learningOutcomes, not structured as 4×2 subtopics. Needs restructuring."
+      },
+      {
+        "id": "REQ-GLOBAL-003",
+        "requirement": "Cada subtema tiene 1 demo I Do y 3 ejercicios del estudiante",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar demos = 8, ejercicios = 24 para S01",
+        "status": "blocked",
+        "evidence": "Current S01 has 1 demo (CodePlayground) and 3 We Do steps. Needs expansion to 8 demos + 24 exercises."
+      },
+      {
+        "id": "REQ-GLOBAL-004",
+        "requirement": "Cada subtema tiene 3 variantes de examen A/B/C",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar variantes = 24 (8 subtemas × 3) para S01",
+        "status": "blocked",
+        "evidence": "Current seed has 12 questions across 4 concepts (3 variants each). Needs expansion to 8 concepts × 3 = 24."
+      },
+      {
+        "id": "REQ-GLOBAL-005",
+        "requirement": "Cada sección tiene evaluación por tema, examen acumulativo y proyecto",
+        "source": "V3 prompt §4",
+        "acceptance_test": "4 topic evaluations + 1 section exam + 1 project increment for S01",
+        "status": "partial",
+        "evidence": "S01 has selfCheck (5 questions = partial exam) and youDo (project). Missing: 4 separate topic evaluations."
+      },
+      {
+        "id": "REQ-GLOBAL-006",
+        "requirement": "Idioma: español peruano profesional",
+        "source": "V3 prompt §3 Restricciones invariantes",
+        "acceptance_test": "Contenido de S01 en español peruano sin caricaturas",
+        "status": "pass",
+        "evidence": "Content uses 'pega', 'chevere' appropriately in context, maintains professional tone"
+      },
+      {
+        "id": "REQ-GLOBAL-007",
+        "requirement": "No equiparar coincidencia con parentesco/colusión/fraude",
+        "source": "V3 prompt §3",
+        "acceptance_test": "S01 no involucra entity resolution o relationship scoring",
+        "status": "pass",
+        "evidence": "S01 is about setup/environment — no ER or relationship content"
+      },
+      {
+        "id": "REQ-GLOBAL-008",
+        "requirement": "Todo código debe ejecutarse o marcarse UNVERIFIED",
+        "source": "V3 prompt §3",
+        "acceptance_test": "Código de S01 ejecutado en entorno declarado",
+        "status": "pass",
+        "evidence": "CodePlayground demo verified in Iter 1 of Task 3. I Do code is bash commands (local-python env)."
+      },
+      {
+        "id": "REQ-GLOBAL-009",
+        "requirement": "Datos sintéticos o legalmente reutilizables",
+        "source": "V3 prompt §3",
+        "acceptance_test": "S01 no usa datos reales de personas",
+        "status": "pass",
+        "evidence": "S01 uses 'Maria Quispe', 'Estudiante' as synthetic names"
+      }
+    ],
+
+    "section_requirements": [
+      {
+        "id": "REQ-S01-001",
+        "requirement": "S01 cubre: Runtime (intérprete, REPL, terminal, rutas, procesos, códigos de salida)",
+        "source": "V3 roadmap S01 T1",
+        "acceptance_test": "Contenido de S01 incluye explicación de intérprete y terminal",
+        "status": "partial",
+        "evidence": "Existing content covers Python installation and terminal verification. Missing: REPL, process exit codes, PATH explanation."
+      },
+      {
+        "id": "REQ-S01-002",
+        "requirement": "S01 cubre: Entornos (venv, activación, pip, versiones, lock/freeze, compatibilidad)",
+        "source": "V3 roadmap S01 T2",
+        "acceptance_test": "Contenido incluye venv creation, activation, pip install, pip freeze",
+        "status": "pass",
+        "evidence": "I Do step 2 covers venv creation + activation. Theory covers pip freeze > requirements.txt. We Do covers pip install."
+      },
+      {
+        "id": "REQ-S01-003",
+        "requirement": "S01 cubre: Git (repositorio, commits, diffs, ramas, PR, conflictos, recuperación)",
+        "source": "V3 roadmap S01 T3",
+        "acceptance_test": "Contenido incluye git init, commit, push, PR workflow",
+        "status": "partial",
+        "evidence": "I Do covers git init/add/commit/push. Missing: branches, PR creation, conflict resolution, recovery."
+      },
+      {
+        "id": "REQ-S01-004",
+        "requirement": "S01 cubre: Calidad inicial (editor, Ruff, .gitignore, .env.example, secretos, README)",
+        "source": "V3 roadmap S01 T4",
+        "acceptance_test": "Contenido incluye VS Code setup, .gitignore, .env, README",
+        "status": "partial",
+        "evidence": "Theory covers .gitignore, README, .env. Missing: Ruff configuration, .env.example template, VS Code extensions detail."
+      },
+      {
+        "id": "REQ-S01-005",
+        "requirement": "S01 incremento/gate: repositorio ejecutable en equipo limpio + diccionario de datos + dataset sintético sin PII",
+        "source": "V3 roadmap S01 Incremento/gate",
+        "acceptance_test": "S01 You Do project produces a clean repo + synthetic data dictionary",
+        "status": "partial",
+        "evidence": "You Do asks for repo with README/.gitignore/requirements.txt/hello.py. Missing: data dictionary, synthetic dataset. CP-N1-A esqueleton starts here."
+      },
+      {
+        "id": "REQ-S01-006",
+        "requirement": "S01 examen verifica: selección de intérprete, aislamiento, lectura de diff, manejo de secretos",
+        "source": "V3 roadmap S01 Incremento/gate",
+        "acceptance_test": "Exam bank covers: interpreter selection, venv isolation, diff reading, secret handling",
+        "status": "pass",
+        "evidence": "Seed has 4 concepts: venv-purpose, gitignore, commit-message, pip-install. Covers isolation + secrets + diff (via commit-message). Missing explicit diff-reading question but commit-message covers related skill."
+      },
+      {
+        "id": "REQ-S01-007",
+        "requirement": "S01 entorno: local-python",
+        "source": "V3 roadmap S01",
+        "acceptance_test": "CodePlayground demo funciona en browser-pyodide (suplemento), I Do en local-python",
+        "status": "pass",
+        "evidence": "I Do is bash commands (local-python). CodePlayground demo is a supplementary browser demo (print Hello + age calculation)."
+      },
+      {
+        "id": "REQ-S01-008",
+        "requirement": "S01 prerrequisitos: ninguno",
+        "source": "V3 roadmap S01",
+        "acceptance_test": "S01 no requiere conocimiento previo",
+        "status": "pass",
+        "evidence": "Content starts from zero: install Python, open terminal."
+      }
+    ],
+
+    "platform_requirements": [
+      {
+        "id": "REQ-PLATFORM-001",
+        "requirement": "S01 carga sin errores en la plataforma",
+        "source": "Regression test scripts/regression.spec.ts",
+        "acceptance_test": "Playwright test 'section setup loads and shows tabs' passes",
+        "status": "pass",
+        "evidence": "All regression tests pass (11/11 in last run)"
+      },
+      {
+        "id": "REQ-PLATFORM-002",
+        "requirement": "S01 tiene CodePlayground demo funcional",
+        "source": "Task 3 completion",
+        "acceptance_test": "Demo 'setup' in SectionView.tsx renders and runs",
+        "status": "pass",
+        "evidence": "Demo exists with verified expectedOutput. Pyodide auto-loader handles imports."
+      },
+      {
+        "id": "REQ-PLATFORM-003",
+        "requirement": "S01 tiene spec de examen detallado en learning_roadmap.md",
+        "source": "Task 4 completion",
+        "acceptance_test": "Auto-evaluación section in roadmap has config table + concept taxonomy",
+        "status": "pass",
+        "evidence": "Roadmap lines 111-160: config table (4 conceptos, 4 preguntas, 70% min), concept taxonomy (venv-purpose, gitignore-rules, conventional-commits, env-reproducibility)"
+      },
+      {
+        "id": "REQ-PLATFORM-004",
+        "requirement": "S01 tiene HUD overlay navigation (FABs, sticky top bar)",
+        "source": "Task 6 (UI/UX overhaul)",
+        "acceptance_test": "Prev/next FABs + progress dots + compact top bar visible",
+        "status": "pass",
+        "evidence": "SectionView.tsx refactored with HUD FABs. Regression test 'HUD overlay integrity' passes."
+      },
+      {
+        "id": "REQ-PLATFORM-005",
+        "requirement": "S01 no tiene overlaps geométricos",
+        "source": "Task 6 geometric analysis",
+        "acceptance_test": "Geometric integrity test passes (0 overlaps)",
+        "status": "pass",
+        "evidence": "scripts/regression.spec.ts test 'setup: no text element overlaps another' passes"
+      }
+    ]
+  },
+
+  "contradictions_detected": [
+    {
+      "id": "CONTRADICTION-S01-001",
+      "issue": "V3 defines S01 as 'Entorno reproducible y trabajo seguro' with 4 topics (Runtime, Entornos, Git, Calidad). Existing content titled 'Setup & Entorno de Desarrollo' covers similar topics but with 5 learningOutcomes, not structured as 4×2 subtopics.",
+      "resolution": "Existing title and content are kept (authority: learning_roadmap.md is primary). V3's 4-topic structure is the TARGET for blueprint expansion. The 5 learningOutcomes will be reorganized into 4 topics × 2 subtopics during PHASE 3 (Blueprint).",
+      "authority": "learning_roadmap.md is primary for section title/ID. V3 is primary for counting structure.",
+      "impact": "Does not block PHASE 1. Blocks PHASE 3 (Blueprint) until resolved.",
+      "status": "resolved"
+    },
+    {
+      "id": "CONTRADICTION-S01-002",
+      "issue": "V3 S01 mentions 'CP-N1-A esqueleto' as project increment. Existing S01 You Do is 'Reproducible Data Environment'. These are related but not identical.",
+      "resolution": "Map existing You Do to CP-N1-A esqueleton. The 'Reproducible Data Environment' repo IS the starting point for CP-N1-A (Client Intake & Data Quality Script) which gates at S04. S01 creates the repo skeleton; S02-S04 build the intake script on top.",
+      "authority": "V3 capstone structure defines the gate; existing You Do is the starting increment.",
+      "impact": "Does not block. Maps cleanly.",
+      "status": "resolved"
+    },
+    {
+      "id": "CONTRADICTION-S01-003",
+      "issue": "V3 S01 mentions 'Ruff' as linter. Existing content mentions VS Code extensions (Pylance, Ruff, Jupyter) but doesn't teach Ruff configuration.",
+      "resolution": "Add Ruff configuration to the content expansion in PHASE 4. Not a blocker for PHASE 0/1.",
+      "authority": "V3 roadmap adds requirement; existing content partially covers it.",
+      "impact": "Does not block PHASE 0/1. Tracked as content gap for PHASE 4.",
+      "status": "resolved"
+    }
+  ],
+
+  "phase_0_gate": {
+    "all_requirements_extracted": true,
+    "all_contradictions_resolved": true,
+    "requirement_matrix_complete": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_1"
+  }
+}

@@ -1,0 +1,251 @@
+{
+  "version": "3.1",
+  "section": "S01",
+  "section_id": "setup",
+  "phase": "PHASE_1_COMPLETE",
+  "generated_at": "2026-07-16T05:30:00Z",
+
+  "content_inventory": {
+    "section_file": "src/lib/course/sections/s01-setup.ts",
+    "total_lines": 474,
+    "structure": {
+      "id": "setup",
+      "index": 1,
+      "title": "Setup & Entorno de Desarrollo",
+      "tagline": "Python, VS Code, venv y Git listos para producción desde el día 1",
+      "estimatedHours": 4,
+      "level": "Principiante",
+      "phase": 0,
+      "icon": "Wrench"
+    },
+
+    "theory_blocks": [
+      {"block": 1, "heading": "Por qué el setup importa más de lo que crees", "paragraphs": 3, "has_code": false, "has_callout": false},
+      {"block": 2, "heading": "Componentes del stack que vamos a instalar", "paragraphs": 3, "has_code": false, "has_callout": true},
+      {"block": 3, "heading": "requirements.txt, .gitignore y README — los 3 archivos esenciales", "paragraphs": 3, "has_code": false, "has_callout": false},
+      {"block": 4, "heading": "El flujo de trabajo profesional con Git", "paragraphs": 2, "has_code": false, "has_callout": true}
+    ],
+
+    "iDo_steps": [
+      {"step": 1, "description": "Verificar instalación de Python y crear carpeta del proyecto", "language": "bash", "has_code": true},
+      {"step": 2, "description": "Crear y activar entorno virtual con venv", "language": "bash", "has_code": true},
+      {"step": 3, "description": "Instalar paquetes esenciales y guardar requirements.txt", "language": "bash", "has_code": true},
+      {"step": 4, "description": "Inicializar Git y crear .gitignore", "language": "bash", "has_code": true},
+      {"step": 5, "description": "Crear repo en GitHub y subir el código", "language": "bash", "has_code": true}
+    ],
+
+    "weDo_steps": [
+      {"step": 1, "instruction": "Crea un archivo hello.py que imprima tu nombre, la versión de Python y la fecha actual", "has_starter": true, "has_solution": true, "language": "python"},
+      {"step": 2, "instruction": "Crea un README.md con título, descripción, instrucciones de instalación y uso", "has_starter": true, "has_solution": true, "language": "markdown"},
+      {"step": 3, "instruction": "Sube los cambios a GitHub con un commit bien escrito", "has_starter": true, "has_solution": true, "language": "bash"}
+    ],
+
+    "youDo_project": {
+      "title": "Reproducible Data Environment — Tu primer repo profesional",
+      "objectives_count": 4,
+      "requirements_count": 6,
+      "has_starter_code": true,
+      "rubric_criteria_count": 6,
+      "maps_to_capstone": "CP-N1-A (esqueleton)"
+    },
+
+    "selfCheck_questions": {
+      "total": 5,
+      "concepts_covered": ["venv-purpose", "gitignore", "commit-message", "pip-install"],
+      "note": "5th question covers .env/security — maps to env-reproducibility concept"
+    },
+
+    "codePlayground_demo": {
+      "demo_id": "setup",
+      "title": "Tu primer programa en Python",
+      "has_expected_output": true,
+      "has_hint": true,
+      "verified": true
+    },
+
+    "resources": {
+      "docs_count": 5,
+      "books_count": 2,
+      "courses_count": 2
+    }
+  },
+
+  "exam_bank_inventory": {
+    "source_file": "prisma/seed.ts",
+    "section_id": "setup",
+    "total_questions": 12,
+    "unique_concepts": 4,
+    "variants_per_concept": 3,
+    "concepts": [
+      {
+        "slug": "venv-purpose",
+        "variants": 3,
+        "bloom_target": "Recordar",
+        "format": "mcq",
+        "coverage": "V3 T2 (Entornos)"
+      },
+      {
+        "slug": "gitignore",
+        "variants": 3,
+        "bloom_target": "Aplicar",
+        "format": "mcq",
+        "coverage": "V3 T4 (Calidad inicial)"
+      },
+      {
+        "slug": "commit-message",
+        "variants": 3,
+        "bloom_target": "Aplicar",
+        "format": "mcq",
+        "coverage": "V3 T3 (Git)"
+      },
+      {
+        "slug": "pip-install",
+        "variants": 3,
+        "bloom_target": "Aplicar",
+        "format": "mcq",
+        "coverage": "V3 T2 (Entornos)"
+      }
+    ],
+    "gap_vs_v3": {
+      "current_concepts": 4,
+      "v3_target_subtopics": 8,
+      "missing_subtopics": 4,
+      "missing_concept_slugs": [
+        "interpreter-selection (V3 T1 Runtime)",
+        "terminal-paths (V3 T1 Runtime)",
+        "git-branch-pr (V3 T3 Git)",
+        "ruff-config (V3 T4 Calidad)"
+      ]
+    }
+  },
+
+  "platform_inventory": {
+    "section_renders": true,
+    "tabs_visible": ["theory", "ido", "wedo", "youdo", "quiz"],
+    "hud_overlay_present": true,
+    "codeplayground_functional": true,
+    "geometric_overlaps": 0,
+    "regression_tests_pass": true
+  },
+
+  "counting_summary": {
+    "current_state": {
+      "topics": 4,
+      "subtopics": 4,
+      "demos": 1,
+      "student_exercises": 3,
+      "topic_evaluations": 0,
+      "exam_variants": 12,
+      "section_exam": 1,
+      "project_increments": 1
+    },
+    "v3_target": {
+      "topics": 4,
+      "subtopics": 8,
+      "demos": 8,
+      "student_exercises": 24,
+      "topic_evaluations": 4,
+      "exam_variants": 24,
+      "section_exam": 1,
+      "project_increments": 1
+    },
+    "gap": {
+      "topics": 0,
+      "subtopics": 4,
+      "demos": 7,
+      "student_exercises": 21,
+      "topic_evaluations": 4,
+      "exam_variants": 12,
+      "section_exam": 0,
+      "project_increments": 0
+    }
+  },
+
+  "issues_found": [
+    {
+      "issue_id": "S01-CONTENT-001",
+      "severity": "P1",
+      "status": "open",
+      "category": "counting_contract",
+      "observed_evidence": "S01 has 4 exam concepts but V3 requires 8 subtopics (4 topics × 2 subtopics each). Missing: interpreter-selection, terminal-paths, git-branch-pr, ruff-config.",
+      "expected": "8 subtopics with 3 variants each = 24 exam variants",
+      "root_cause": "V2 structure used 4 concepts per section; V3 mandates 8 (4×2)",
+      "impact": "Insufficient assessment coverage for V3 compliance",
+      "fix": "Expand to 8 subtopics by splitting T1 (Runtime → interpreter + terminal), T3 (Git → commits + branches/PR), T4 (Quality → gitignore + ruff/env). Add 4 new concept slugs + 12 new exam variants.",
+      "verification": ["Count concepts in seed.ts = 8", "Count variants = 24"]
+    },
+    {
+      "issue_id": "S01-CONTENT-002",
+      "severity": "P1",
+      "status": "open",
+      "category": "exercise_count",
+      "observed_evidence": "S01 has 3 We Do exercises. V3 requires 24 student exercises (3 per subtopic × 8 subtopics).",
+      "expected": "24 exercises with starter, 2 hints, solution, edge cases, tests, feedback",
+      "root_cause": "V2 structure had 3 exercises per section; V3 mandates 24",
+      "impact": "Insufficient practice for mastery learning",
+      "fix": "Create 21 additional exercises across the 8 subtopics. Each exercise: E1 guided, E2 independent, E3 transfer.",
+      "verification": ["Count exercises in section file = 24", "Each has starter + solution + tests"]
+    },
+    {
+      "issue_id": "S01-CONTENT-003",
+      "severity": "P2",
+      "status": "open",
+      "category": "demo_count",
+      "observed_evidence": "S01 has 1 CodePlayground demo. V3 requires 8 demos (1 per subtopic).",
+      "expected": "8 demos, one per subtopic, each executable in declared environment",
+      "root_cause": "Current CodePlayground has 1 demo per section, not per subtopic",
+      "impact": "Students can't interact with each subtopic's concept",
+      "fix": "Add 7 more demos covering: REPL, terminal paths, pip freeze, git branch, PR creation, Ruff config, .env.example",
+      "verification": ["Count demos in SectionView.tsx for 'setup' = 8 or create subtopic-specific demo component"]
+    },
+    {
+      "issue_id": "S01-CONTENT-004",
+      "severity": "P2",
+      "status": "open",
+      "category": "topic_evaluations",
+      "observed_evidence": "S01 has 0 topic evaluations. V3 requires 4 (one per topic, each with 2 authentic tasks).",
+      "expected": "4 topic evaluations with rubric 0-3 on correctness, robustness, maintainability, responsible use",
+      "root_cause": "V2 had selfCheck (section-level quiz) but no per-topic evaluations",
+      "impact": "No formative assessment at topic level",
+      "fix": "Create 4 topic evaluation packages, each with 2 authentic tasks + rubric",
+      "verification": ["Count topic evaluations = 4", "Each has 2 tasks + rubric"]
+    },
+    {
+      "issue_id": "S01-CONTENT-005",
+      "severity": "P2",
+      "status": "open",
+      "category": "content_gap",
+      "observed_evidence": "V3 S01 T1 mentions REPL, exit codes, PATH. V3 T4 mentions Ruff, .env.example. Current content doesn't cover these.",
+      "expected": "Theory covers REPL, exit codes, PATH, Ruff, .env.example",
+      "root_cause": "Existing content was written for V2 scope which was narrower",
+      "impact": "Incomplete coverage of V3 T1 and T4 topics",
+      "fix": "Add theory blocks for REPL/exit-codes/PATH (T1) and Ruff/.env.example (T4)",
+      "verification": ["Theory blocks cover all V3 T1-T4 subtopics"]
+    },
+    {
+      "issue_id": "S01-CONTENT-006",
+      "severity": "P3",
+      "status": "open",
+      "category": "capstone_alignment",
+      "observed_evidence": "V3 S01 project increment is 'esqueleto de CP-N1-A'. Existing You Do is 'Reproducible Data Environment'.",
+      "expected": "Project increment explicitly references CP-N1-A and creates the skeleton",
+      "root_cause": "CP-N1-A concept didn't exist when S01 was written",
+      "impact": "Students don't know their repo will become CP-N1-A",
+      "fix": "Add a note in You Do context: 'Este repo es el esqueleto de CP-N1-A: Client Intake & Data Quality Script que completarás en S04.'",
+      "verification": ["You Do context mentions CP-N1-A"]
+    }
+  ],
+
+  "phase_1_gate": {
+    "all_paths_inspected": true,
+    "all_artifacts_counted": true,
+    "all_gaps_registered": true,
+    "issues_count": 6,
+    "issues_P0": 0,
+    "issues_P1": 2,
+    "issues_P2": 3,
+    "issues_P3": 1,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_2"
+  }
+}

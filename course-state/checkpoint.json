@@ -1,45 +1,56 @@
 {
   "version": "3.1",
-  "generated_at": "2026-07-16T04:00:00Z",
+  "generated_at": "2026-07-16T05:30:00Z",
   "current_section": "S01",
-  "current_phase": "PHASE_0",
+  "current_phase": "PHASE_1_COMPLETE",
   "prompt_version": "3.1",
   "model": "glm-5.2",
-  "last_known_good_revision": "cd3ed1e",
-  "objective": "Initialize V3 state machine infrastructure and begin PHASE 0 for S01",
+  "last_known_good_revision": "49e8a29",
+  "objective": "Complete PHASE 0 (requirement matrix) and PHASE 1 (inventory) for S01",
   "scope_completed": [
-    "PHASE_MINUS_1: Created course_requirements.json, section_ledger.json, capstone_ledger.json, issue_registry.json",
-    "Read and analyzed V3 roadmap (830 lines)",
-    "Identified 3 contradictions between V3 and existing roadmap, resolved in course_requirements.json",
-    "Identified 5 issues (2 P1, 3 P2) in issue_registry.json"
+    "PHASE_0: Read S01 content (474 lines), V3 S01 spec, existing exam seed (12 questions, 4 concepts)",
+    "PHASE_0: Extracted 9 global requirements, 8 section requirements, 5 platform requirements",
+    "PHASE_0: Detected and resolved 3 contradictions (title mapping, capstone mapping, Ruff gap)",
+    "PHASE_0: Requirement matrix complete, no blockers",
+    "PHASE_1: Inventoried all S01 artifacts: 4 theory blocks, 5 I Do steps, 3 We Do steps, 1 You Do project, 5 selfCheck questions, 1 CodePlayground demo, 12 exam questions (4 concepts × 3 variants)",
+    "PHASE_1: Counted gap vs V3: missing 4 subtopics, 7 demos, 21 exercises, 4 topic evaluations, 12 exam variants",
+    "PHASE_1: Registered 6 issues (0 P0, 2 P1, 3 P2, 1 P3)"
   ],
   "decisions": [
-    "Existing learning_roadmap.md (52 sections) is PRIMARY authority for section IDs and titles",
-    "V3 roadmap is COMPLEMENTARY authority for: counting contract, 13-capstone structure, 12-phase cycle, privacy principles",
-    "Current content state is 'CONTENT_EXISTS' for all 52 sections — not yet at V3 target (needs expansion to 8 subtopics per section)",
-    "4 existing capstones (S13/S26/S39/S51) map to V3 capstones CP-N1-C/CP-N2-C/CP-N3-C/CP-N4-C",
-    "9 new capstone gates need to be created (S4/S8/S17/S21/S30/S34/S43/S47/S52-FINAL)",
-    "Platform exists and is functional but needs formal V3 audit"
+    "S01 existing title 'Setup & Entorno de Desarrollo' is kept (learning_roadmap.md is primary authority)",
+    "V3's 4-topic structure (Runtime, Entornos, Git, Calidad) is the TARGET for blueprint expansion",
+    "Existing 5 learningOutcomes will be reorganized into 4 topics × 2 subtopics during PHASE 3",
+    "S01 You Do 'Reproducible Data Environment' maps to CP-N1-A esqueleton (gate at S04)",
+    "4 new concept slugs needed: interpreter-selection, terminal-paths, git-branch-pr, ruff-config",
+    "S01 content gaps: REPL, exit codes, PATH, Ruff, .env.example (V3 T1 + T4 expansion)"
   ],
   "files_changed": [
-    "course-state/course_requirements.json",
-    "course-state/section_ledger.json",
-    "course-state/capstone_ledger.json",
-    "course-state/issue_registry.json",
-    "course-state/checkpoint.json"
+    "course-state/s01_phase0.json (NEW)",
+    "course-state/s01_phase1.json (NEW)",
+    "course-state/checkpoint.json (UPDATED)",
+    "course-state/section_ledger.json (UPDATED)",
+    "course-state/issue_registry.json (UPDATED)"
   ],
   "open_issues": [
-    "GLOBAL-V3-001 (P1): Subtopic count gap (240 current vs 416 target)",
-    "GLOBAL-V3-002 (P1): Capstone count gap (4 current vs 13 target)",
-    "GLOBAL-V3-003 (P2): Exercise count gap (current vs 1248 target)",
-    "PLATFORM-001 (P2): Platform audit needed against V3 criteria",
-    "CONTENT-001 (P2): Privacy 3-layer separation audit needed"
+    "S01-CONTENT-001 (P1): Subtopic count gap (4 current vs 8 target)",
+    "S01-CONTENT-002 (P1): Exercise count gap (3 current vs 24 target)",
+    "S01-CONTENT-003 (P2): Demo count gap (1 current vs 8 target)",
+    "S01-CONTENT-004 (P2): Topic evaluation count gap (0 current vs 4 target)",
+    "S01-CONTENT-005 (P2): Content gaps (REPL, exit codes, PATH, Ruff, .env.example)",
+    "S01-CONTENT-006 (P3): Capstone alignment (add CP-N1-A reference to You Do)",
+    "GLOBAL-V3-001 (P1): Global subtopic count gap (240 vs 416)",
+    "GLOBAL-V3-002 (P1): Global capstone count gap (4 vs 13)",
+    "GLOBAL-V3-003 (P2): Global exercise count gap",
+    "PLATFORM-001 (P2): Platform audit needed",
+    "CONTENT-001 (P2): Privacy 3-layer separation audit"
   ],
-  "next_single_action": "Begin PHASE 0 for S01: extract requirements from V3 + existing roadmap, create requirement matrix, detect contradictions specific to S01",
+  "next_single_action": "Begin PHASE 2 for S01: Research dossier covering 8 subtopics (4 topics × 2 subtopics). Four research rounds per subtopic: primary sources, curricular benchmarks, practical repos, pedagogical references.",
   "resume_preconditions": [
-    "course-state/*.json files exist and validate",
-    "learning_roadmap.md has 52 sections",
-    "upload/learning_roadmap_52_V3.md exists",
-    "Section files in src/lib/course/sections/ exist for all 52 sections"
+    "course-state/s01_phase0.json exists and validates",
+    "course-state/s01_phase1.json exists and validates",
+    "src/lib/course/sections/s01-setup.ts exists (474 lines)",
+    "prisma/seed.ts has 'setup' section with 12 questions, 4 concepts",
+    "learning_roadmap.md has S01 exam spec (lines 111-160)",
+    "upload/learning_roadmap_52_V3.md has S01 spec (lines 127-136)"
   ]
 }
