@@ -25,3 +25,85 @@ jobs:
 
       - name: Run ESLint
         run: bun run lint
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Type check
+        run: npx tsc --noEmit --skipLibCheck
+
+  regression-content:
+    name: Content Regression (no sections removed)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Run content regression tests (source-only, no dev server)
+        run: npx playwright test scripts/regression.spec.ts --grep "Section registry|CodePlayground|Roadmap" --reporter=list
+
+  regression-browser:
+    name: Browser Regression (UI + HUD + geometry)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Start dev server
+        run: |
+          bun run dev &
+          sleep 15
+          curl -sI http://localhost:3000 | head -1
+
+      - name: Run browser regression tests
+        run: npx playwright test scripts/regression.spec.ts --grep "HUD overlay|Sub-step tabs|Capstone|Geometric|section.*loads" --reporter=list
+        env:
+          BASE_URL: http://localhost:3000
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: |
+            test-results/
+            playwright-report/

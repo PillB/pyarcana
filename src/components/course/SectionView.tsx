@@ -23,12 +23,28 @@ import {
   Award,
   ExternalLink,
   GraduationCap,
+  ListChecks,
+  CircleHelp,
+  ArrowRight,
+  LayoutGrid,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import { useSession } from 'next-auth/react'
 import { useProgressStore, SUB_STEPS, type SubStep } from '@/lib/progress-store'
 import type { CourseSection } from '@/lib/types'
@@ -89,80 +105,92 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
   )
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8" id="section-content">
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="mb-6"
-      >
-        <div className="flex flex-wrap items-center gap-3 mb-3">
-          <Badge variant="outline" className="gap-1.5 border-primary/30 text-primary">
-            <span className="font-bold">Sección {section.index}</span>
+    <div className="mx-auto max-w-5xl px-4 py-4 sm:px-6 lg:px-8 pb-32 lg:pb-24" id="section-content">
+      {/* Compact sticky top bar — replaces 500px preamble stack */}
+      <div className="sticky top-14 z-30 -mx-4 mb-3 bg-background/85 backdrop-blur-md border-b border-border/60 px-4 py-2.5">
+        <div className="flex items-center gap-2.5">
+          <Badge variant="outline" className="gap-1 border-primary/30 text-primary shrink-0">
+            <span className="font-bold">S{section.index}</span>
           </Badge>
-          <Badge variant="secondary" className="gap-1.5">
+          <h1 className="text-base sm:text-lg font-bold tracking-tight truncate flex-1 min-w-0">
+            <span className="gradient-text">{section.title}</span>
+          </h1>
+
+          {/* Compact progress ring — replaces progress strip card */}
+          <div className="shrink-0" title={`${sectionProgress}% completado`}>
+            <ProgressRing progress={sectionProgress} size={32} />
+          </div>
+
+          {/* Job relevance — popover (was 100px card) */}
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title="¿Para qué te sirve?">
+                <Briefcase className="h-4 w-4 text-primary" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80 sm:w-96" side="bottom" align="end">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm font-semibold">
+                  <Briefcase className="h-4 w-4 text-primary" />
+                  ¿Para qué te sirve esto en el trabajo?
+                </div>
+                <p className="text-sm text-foreground/80">{section.jobRelevance}</p>
+              </div>
+            </PopoverContent>
+          </Popover>
+
+          {/* Learning outcomes — sheet (was 200-400px grid) */}
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title="Objetivos de aprendizaje">
+                <ListChecks className="h-4 w-4 text-primary" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-80 sm:w-96 overflow-y-auto">
+              <SheetHeader>
+                <SheetTitle className="flex items-center gap-2">
+                  <Target className="h-4 w-4 text-primary" />
+                  Objetivos de aprendizaje
+                </SheetTitle>
+              </SheetHeader>
+              <div className="mt-4 space-y-2">
+                {section.learningOutcomes.map((lo, i) => (
+                  <div
+                    key={i}
+                    className="flex items-start gap-2 rounded-lg border border-border/60 bg-card p-2.5"
+                  >
+                    <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-primary" />
+                    <span className="text-xs text-foreground/90">{lo.text}</span>
+                  </div>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
+
+        {/* Tagline as muted secondary line (was its own <p>) */}
+        <p className="mt-0.5 text-xs text-muted-foreground line-clamp-1">{section.tagline}</p>
+
+        {/* Inline meta badges */}
+        <div className="mt-1 flex items-center gap-2 text-[10px] text-muted-foreground">
+          <span className="flex items-center gap-1">
             <Clock className="h-3 w-3" />
-            {section.estimatedHours}h estimadas
-          </Badge>
-          <Badge variant="secondary" className="gap-1.5">
+            {section.estimatedHours}h
+          </span>
+          <span className="flex items-center gap-1">
             <Target className="h-3 w-3" />
             {section.level}
-          </Badge>
+          </span>
+          {allDone && (
+            <Badge className="ml-auto gap-1 bg-green-600 text-white h-5 px-1.5 text-[10px]">
+              <Award className="h-3 w-3" />
+              Completada
+            </Badge>
+          )}
         </div>
-        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-          <span className="gradient-text">{section.title}</span>
-        </h1>
-        <p className="mt-2 text-lg text-muted-foreground">{section.tagline}</p>
-
-        {/* Job relevance strip */}
-        <Card className="mt-4 border-primary/20 bg-primary/5 p-4">
-          <div className="flex items-start gap-3">
-            <Briefcase className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-            <div>
-              <div className="text-sm font-semibold text-foreground">
-                ¿Para qué te sirve esto en el trabajo?
-              </div>
-              <p className="mt-1 text-sm text-foreground/80">{section.jobRelevance}</p>
-            </div>
-          </div>
-        </Card>
-
-        {/* Learning outcomes */}
-        <div className="mt-4 grid gap-2 sm:grid-cols-2">
-          {section.learningOutcomes.map((lo, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: -8 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.1 + i * 0.05 }}
-              className="flex items-start gap-2 rounded-lg border border-border/60 bg-card p-3"
-            >
-              <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-              <span className="text-sm text-foreground/90">{lo.text}</span>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Progress strip */}
-      <div className="mb-6 flex items-center gap-4 rounded-xl border border-border/60 bg-card p-4">
-        <ProgressRing progress={sectionProgress} size={56} />
-        <div className="flex-1">
-          <div className="text-sm font-semibold">Progreso de la sección</div>
-          <div className="text-xs text-muted-foreground">
-            {subStepsDone.length} de {SUB_STEPS.length} etapas completadas
-          </div>
-        </div>
-        {allDone && (
-          <Badge className="gap-1 bg-green-600 text-white">
-            <Award className="h-3 w-3" />
-            Completada
-          </Badge>
-        )}
       </div>
 
-      {/* Tabs */}
+      {/* Tabs — compact horizontal, no per-trigger CheckCircle (uses color) */}
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as SubStep)}>
         <TabsList className="grid w-full grid-cols-5 h-auto">
           {SUB_STEPS.map((step) => {
@@ -173,13 +201,11 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
               <TabsTrigger
                 key={step}
                 value={step}
-                className="flex flex-col gap-1 py-2 data-[state=active]:bg-background data-[state=active]:shadow-sm"
+                className="flex flex-row items-center justify-center gap-1.5 py-2 data-[state=active]:bg-background data-[state=active]:shadow-sm"
               >
-                <div className="flex items-center gap-1.5">
-                  <Icon className={cn('h-4 w-4', meta.color)} />
-                  {done && <CheckCircle2 className="h-3 w-3 text-green-600" />}
-                </div>
-                <span className="text-[11px] sm:text-xs">{meta.label}</span>
+                <Icon className={cn('h-3.5 w-3.5', meta.color, done && 'opacity-100')} />
+                <span className="text-[10px] sm:text-xs hidden sm:inline">{meta.label}</span>
+                {done && <CheckCircle2 className="h-3 w-3 text-green-600 sm:hidden" />}
               </TabsTrigger>
             )
           })}
@@ -188,11 +214,11 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
-            initial={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2 }}
-            className="mt-6"
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.15 }}
+            className="mt-3"
           >
             <TabsContent value="theory" className="mt-0 focus-visible:outline-none">
               <TheoryTab section={section} onDone={() => toggleSubStep(section.id, 'theory')} done={subStepsDone.includes('theory')} />
@@ -234,36 +260,60 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
         </AnimatePresence>
       </Tabs>
 
-      {/* Bottom nav */}
-      <div className="mt-10 flex items-center justify-between border-t border-border pt-6">
-        <Button
-          variant="outline"
-          onClick={onPrev}
-          disabled={!hasPrev}
-          className="gap-2"
-        >
-          <ChevronLeft className="h-4 w-4" />
-          Anterior
-        </Button>
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          {SUB_STEPS.map((s) => (
-            <span
-              key={s}
-              className={cn(
-                'h-1.5 w-6 rounded-full transition-colors',
-                subStepsDone.includes(s) ? 'bg-primary' : 'bg-muted'
-              )}
-            />
-          ))}
-        </div>
-        <Button
-          onClick={onNext}
-          disabled={!hasNext}
-          className="gap-2"
-        >
-          Siguiente
-          <ChevronRight className="h-4 w-4" />
-        </Button>
+      {/* HUD FABs — game-style overlay navigation (replaces bottom nav) */}
+      {/* Bottom-left: Prev section */}
+      <motion.button
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        whileHover={{ scale: 1.06 }}
+        whileTap={{ scale: 0.94 }}
+        onClick={onPrev}
+        disabled={!hasPrev}
+        aria-label="Sección anterior"
+        className={cn(
+          'fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded-full shadow-lg backdrop-blur-md',
+          'bg-card/90 border border-border flex items-center justify-center',
+          'hover:bg-card transition-colors',
+          !hasPrev && 'opacity-40 cursor-not-allowed'
+        )}
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </motion.button>
+
+      {/* Bottom-right: Next section */}
+      <motion.button
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        whileHover={{ scale: 1.06 }}
+        whileTap={{ scale: 0.94 }}
+        onClick={onNext}
+        disabled={!hasNext}
+        aria-label="Sección siguiente"
+        className={cn(
+          'fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded-full shadow-lg backdrop-blur-md',
+          'bg-primary text-primary-foreground border border-primary/50 flex items-center justify-center',
+          'hover:bg-primary/90 transition-colors',
+          !hasNext && 'opacity-40 cursor-not-allowed'
+        )}
+      >
+        <ArrowRight className="h-5 w-5" />
+      </motion.button>
+
+      {/* Bottom-center: 5-dot progress strip + Mark done — floating above FABs */}
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 hidden md:flex items-center gap-2 bg-card/90 border border-border rounded-full px-3 py-1.5 shadow-md backdrop-blur-md">
+        {SUB_STEPS.map((s) => (
+          <button
+            key={s}
+            onClick={() => setActiveTab(s)}
+            className={cn(
+              'h-1.5 w-6 rounded-full transition-all hover:scale-110',
+              subStepsDone.includes(s) ? 'bg-primary' : 'bg-muted',
+              activeTab === s && 'ring-2 ring-primary/40 ring-offset-1 ring-offset-card'
+            )}
+            title={TAB_META[s].label}
+            aria-label={`Ir a ${TAB_META[s].label}`}
+          />
+        ))}
       </div>
     </div>
   )
