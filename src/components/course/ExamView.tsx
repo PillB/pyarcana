@@ -191,21 +191,26 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
   if (exam && !submitted) {
     return (
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2 flex-wrap">
           <div className="flex items-center gap-2">
             <HelpCircle className="h-5 w-5 text-rose-600" />
             <h2 className="text-xl font-semibold">Examen — {sectionTitle}</h2>
           </div>
-          <Badge variant="outline" className="gap-1.5">
-            Intento {exam.attemptNumber} de {exam.totalAttemptsAllowed}
-          </Badge>
+          <div className="flex items-center gap-2">
+            <Badge variant="secondary" className="gap-1.5">
+              {exam.questions.length} pregunta{exam.questions.length === 1 ? '' : 's'} · 1 por concepto
+            </Badge>
+            <Badge variant="outline" className="gap-1.5">
+              Intento {exam.attemptNumber} de {exam.totalAttemptsAllowed}
+            </Badge>
+          </div>
         </div>
 
         <Card className="border-amber-500/30 bg-amber-500/5 p-4">
           <div className="flex items-start gap-2">
             <AlertTriangle className="mt-0.5 h-4 w-4 text-amber-600" />
             <div className="text-sm">
-              <strong>Reglas:</strong> Tienes 3 intentos máximo por sección. Cada intento tiene preguntas diferentes (variantes equivalentes). Tu mejor score es el que cuenta.
+              <strong>Reglas:</strong> Una pregunta por concepto ({exam.questions.length} en este intento). Tienes 3 intentos máximo por sección. Cada intento usa variantes diferentes. Tu mejor score es el que cuenta. Necesitas 70% para aprobar.
             </div>
           </div>
         </Card>
@@ -356,7 +361,8 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
           <div>
             <div className="text-sm font-semibold">Examen de sección con anti-plagio</div>
             <p className="mt-1 text-sm text-foreground/80">
-              Cada intento muestra <strong>preguntas diferentes</strong> (3 variantes equivalentes por concepto).
+              <strong>Una pregunta por concepto</strong> (el total depende del banco de la sección; secciones V3 completas: 8).
+              Cada intento muestra <strong>variantes diferentes</strong> (3 equivalentes por concepto).
               Tienes <strong>3 intentos máximo</strong> (2 retries). Tu mejor score es el que cuenta.
               Necesitas <strong>70% para aprobar</strong>.
             </p>

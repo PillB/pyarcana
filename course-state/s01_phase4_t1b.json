@@ -1,0 +1,76 @@
+{
+  "version": "3.2",
+  "section": "S01",
+  "section_id": "setup",
+  "phase": "PHASE_4_IN_PROGRESS",
+  "block": "S01-T1-B",
+  "block_status": "COMPLETE",
+  "generated_at": "2026-07-20T09:15:00Z",
+  "prompt_version": "3.2",
+
+  "preamble": {
+    "objective": "Author S01-T1-B (terminal, paths, exit codes) with full pedagogical package and executed evidence.",
+    "scope_in": ["S01-T1-B only"],
+    "scope_out": ["S01-T2-A", "exam A/B/C terminal-paths", "section passed"]
+  },
+
+  "artifacts_authored": {
+    "theory": {
+      "heading": "Terminal, rutas y códigos de salida",
+      "subtopicId": "S01-T1-B",
+      "must_cover": ["cwd vs PATH", "exit 0/non-zero", "bash $? / PowerShell $LASTEXITCODE", "mkdir/cd", "sys.exit"],
+      "has_code": true,
+      "has_callout": true
+    },
+    "demo": {
+      "demoId": "S01-T1-B-DEMO",
+      "environment": "local-python",
+      "executed": true
+    },
+    "exercises": [
+      {"id": "S01-T1-B-E1", "kind": "guided", "hints": 2, "complete": true},
+      {"id": "S01-T1-B-E2", "kind": "independent", "hints": 2, "complete": true, "solution_executed": true},
+      {"id": "S01-T1-B-E3", "kind": "transfer", "hints": 2, "complete": true}
+    ]
+  },
+
+  "execution_evidence": {
+    "environment": "local-python",
+    "host_python": "Python 3.9.6",
+    "commands": [
+      {"cmd": "python3 -c \"... sys.exit(0)\"", "exit": 0, "status": "PASS"},
+      {"cmd": "python3 -c \"... sys.exit(1)\"", "exit": 1, "status": "PASS"},
+      {"cmd": "python3 check_arg.py hola", "exit": 0, "stdout": "OK:hola", "status": "PASS"},
+      {"cmd": "python3 check_arg.py", "exit": 1, "status": "PASS"},
+      {"cmd": "python3 check_arg.py a b", "exit": 1, "status": "PASS"},
+      {"cmd": "mkdir/cd /tmp/s01_t1b_demo", "status": "PASS"}
+    ],
+    "unverified": []
+  },
+
+  "topic_t1_status": {
+    "note": "Both T1 subtopics authored. Topic evaluation S01-T1-TE still pending (after remaining topics or after T1 pair).",
+    "subtopics_complete": ["S01-T1-A", "S01-T1-B"],
+    "topic_evaluation": "NOT_YET — scheduled with other TE packages later in PHASE 4"
+  },
+
+  "block_gate_S01_T1_B": {
+    "theory_present": true,
+    "demo_present_and_executed": true,
+    "three_exercises_complete": true,
+    "each_exercise_has_starter_2hints_solution_edges_tests_feedback": true,
+    "environment_declared": "local-python",
+    "authorized_to_proceed": "S01-T2-A",
+    "blocked": false
+  },
+
+  "phase_4_progress_after_block": {
+    "subtopics_done": ["S01-T1-A", "S01-T1-B"],
+    "exercises_done": 6,
+    "exercises_target": 24,
+    "demos_done": 2,
+    "demos_target": 8
+  },
+
+  "next_single_action": "PHASE 4 block 3: Author S01-T2-A (venv-purpose): theory on .venv, demo create/activate, E1/E2/E3. Prefer python -m venv .venv (DEC-R02/R03). Execute or mark UNVERIFIED."
+}

@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-07-20T20:05:00Z",
+  "verdict": "S01_READY_TO_COMMIT",
+  "henry_ford_merge": {
+    "kept_structure": "V3 4×2, 8 demos, 24 exercises, CP-N1-A You Do, layout/types",
+    "took_from_prior_user": [
+      "Peruvian professional voice and job relevance",
+      "Beginner error callout (venv/.env/wip/main/force-push)",
+      "selfCheck quality stems with .venv modernization",
+      "Windows/PATH/Conventional Commits pedagogy retained from HEAD intro"
+    ],
+    "discarded": [
+      "Non-V3 4-concept-only exam as sole bank",
+      "You Do without CP-N1-A gate mapping"
+    ]
+  },
+  "functional_evidence_file": "course-state/s01_skeptical_functional_evidence.json",
+  "functional_summary": {
+    "python_repl": "PASS",
+    "exit_codes": "PASS",
+    "hello_sys": "PASS",
+    "check_arg": "PASS",
+    "venv": "PASS (reverified)",
+    "pip_freeze_cycle": "PASS",
+    "ruff": "PASS",
+    "git_local": "PASS",
+    "cpn1a_smoke": "PASS",
+    "exam_bank_24": "PASS",
+    "db_setup_24": "PASS",
+    "github_remote_pr": "UNVERIFIED_NO_AUTH"
+  },
+  "counts": {
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "topic_evaluations": 4,
+    "exam_variants": 24
+  },
+  "no_placeholders_in_product_paths": true,
+  "note": "Exercise blanks (____) are intentional student scaffolding, not unfinished product code."
+}

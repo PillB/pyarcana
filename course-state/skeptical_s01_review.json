@@ -1,0 +1,83 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-07-20T20:00:00Z",
+  "phase": "skeptical_review_s01_henry_ford_merge",
+  "authority": {
+    "structure_king": "V3 CourseSection + 4×2 + platform layout",
+    "content_source_prior": "HEAD 4fd83f0 s01-setup.ts (prior user polish)",
+    "content_source_ours": "working tree V3 expansion"
+  },
+  "inventory": {
+    "head": {
+      "lines": 474,
+      "v3_subtopics": 0,
+      "demos": 0,
+      "v3_exercises": 0,
+      "strengths": [
+        "es-PE professional voice",
+        "Peru job relevance (Interbank, BBVA, Caja Arequipa)",
+        "Windows PATH / PowerShell pedagogy",
+        "Conventional Commits + gitignore callouts",
+        "selfCheck MCQ quality"
+      ]
+    },
+    "merged": {
+      "lines": 2100,
+      "v3_subtopics": 8,
+      "demos": 8,
+      "v3_exercises": 24,
+      "topicEvaluations": 4,
+      "exam_setup_concepts": 8,
+      "exam_variants": 24,
+      "youDo": "CP-N1-A skeleton"
+    }
+  },
+  "merge_applied": [
+    {
+      "from": "HEAD callout Errores típicos del principiante",
+      "into": "S01-T3-B callout (merged with force-push ban + git rm --cached)",
+      "status": "done"
+    },
+    {
+      "from": "HEAD selfCheck gitignore / pip / .env explanations",
+      "into": "selfCheck updated for .venv + python -m pip + .env.example",
+      "status": "done"
+    },
+    {
+      "from": "ours",
+      "into": "topicEvaluations mounted on section01 (4 packages)",
+      "status": "done"
+    },
+    {
+      "from": "audit",
+      "into": "exercise blanks clarified (not product TODOs)",
+      "status": "done"
+    }
+  ],
+  "issues": [
+    {
+      "issue_id": "S01-SK-001",
+      "severity": "P2",
+      "status": "accepted",
+      "observed_evidence": "GitHub push/PR requires remote auth; demos document UI/gh path",
+      "expected": "Local git flow fully verified; remote UNVERIFIED with cause",
+      "root_cause": "Sandbox without GitHub credentials"
+    },
+    {
+      "issue_id": "S01-SK-002",
+      "severity": "P3",
+      "status": "accepted",
+      "observed_evidence": "Host Python may be 3.9.x; course targets 3.12+",
+      "expected": "Students verify interpreter version; content teaches verification"
+    },
+    {
+      "issue_id": "S01-SK-003",
+      "severity": "P1",
+      "status": "fixed",
+      "observed_evidence": "Duplicate callout key risk in T3-B object literal would drop content",
+      "fix": "Single merged callout with prior-user tips + force-push ban"
+    }
+  ],
+  "p0_open": 0,
+  "p1_open": 0
+}

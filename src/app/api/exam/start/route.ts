@@ -55,7 +55,10 @@ export async function POST(request: Request) {
       )
     }
 
-    // Group questions by concept
+    // Group questions by concept.
+    // V3 exam model: N concepts × 1 variant per attempt (full sections: N=8).
+    // Question count is dynamic — not hardcoded. Expanding the seed/bank to more
+    // concepts automatically yields more questions without changing this sampler.
     const byConcept = new Map<string, typeof allQuestions>()
     for (const q of allQuestions) {
       if (!byConcept.has(q.concept)) byConcept.set(q.concept, [])
@@ -74,6 +77,7 @@ export async function POST(request: Request) {
     const selectedQuestions: typeof allQuestions = []
     const variantSeed: { concept: string; variant: number; questionId: string }[] = []
 
+    // One question per distinct concept present in the bank for this section
     for (const [concept, variants] of byConcept.entries()) {
       // Filter out already-used variants for this concept
       let available = variants.filter(

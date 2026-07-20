@@ -1,0 +1,1002 @@
+{
+  "version": "3.2",
+  "section": "S01",
+  "section_id": "setup",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T07:30:00Z",
+  "prompt_version": "3.2",
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "research_agent": "Pre-Round Research curricular blueprint patterns",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts, ledger, checkpoint, count validation"
+  },
+
+  "preamble": {
+    "objective": "Lock S01 blueprint: 4 topics × 2 subtopics with full artifact specs and canonical counts before PHASE 4 authorship.",
+    "scope_in": [
+      "S01 only",
+      "Blueprint: outcomes, demos, exercises E1/E2/E3, topic evals, A/B/C slots, CP-N1-A increment",
+      "Count validation vs invariant vector",
+      "Platform gap notes for Implementer (types may need extension)"
+    ],
+    "scope_out": [
+      "Writing full theory paragraphs / complete exercise bodies (PHASE 4)",
+      "Writing full A/B/C item stems (PHASE 5)",
+      "S02+",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics with 11 pedagogical components planned each; totals equal S01 slice of canonical vector; no authorship of long content; gate authorizes PHASE 4 only.",
+    "inputs_used": [
+      "course-state/s01_phase2.json (decisions DEC-S01-R01..R07)",
+      "course-state/s01_phase1.json (gaps)",
+      "learning_roadmap_52_V3.md S1",
+      "src/lib/types.ts (CourseSection shape)",
+      "src/lib/course/sections/s01-setup.ts",
+      "prisma/seed.ts setup concepts"
+    ]
+  },
+
+  "pre_round_research": {
+    "executed_at": "2026-07-20",
+    "findings": [
+      "Blueprint curricular estricto: outcomes medibles por subtema → demo I Do → 3 ejercicios andamiaje decreciente (guiado / independiente / transferencia) → evaluación formativa por tema → banco paralelo A/B/C.",
+      "Bloom para S01 (novato): Recordar/Comprender/Aplicar dominantes; Analizar solo en lectura de diffs y diagnóstico de fallas de entorno.",
+      "Plantilla de ítems paralelos: misma habilidad, mismo formato, misma demanda cognitiva; variar contexto/superficies, no dificultad ni outcome.",
+      "Plataforma actual (CourseSection): theory[], iDo.steps, weDo.steps (sin subtopic IDs), selfCheck, youDo — NO modela aún 8 demos, 24 ejercicios ni topic evaluations. Blueprint debe declarar extensión de tipos o estructura embebida en theory/weDo con IDs estables.",
+      "Exam seed: 4 concepts × 3 variants; target 8 × 3 = 24."
+    ],
+    "sources": [
+      "V3 prompt §4 counting + §5 DoD",
+      "s01_phase2 source_registry SRC-S01-001..010",
+      "src/lib/types.ts CourseSection"
+    ]
+  },
+
+  "section_meta": {
+    "id": "setup",
+    "index": 1,
+    "title_platform": "Setup & Entorno de Desarrollo",
+    "title_v3": "Entorno reproducible y trabajo seguro",
+    "title_decision": "KEEP platform title (learning_roadmap.md authority); V3 phrase used as tagline secondary / learning focus",
+    "tagline": "Python, VS Code, venv y Git listos para producción desde el día 1",
+    "estimatedHours": 4,
+    "level": "Principiante",
+    "phase": 0,
+    "prerequisites": [],
+    "environment": "local-python",
+    "environment_supplement": "browser-pyodide (sintaxis only; no venv/git/path)",
+    "project_capstone": "CP-N1-A skeleton",
+    "next_section_prereq_for_s02": "S01 completed: clean cloneable repo + venv workflow + git basics"
+  },
+
+  "learning_outcomes_section": [
+    "Seleccionar e invocar el intérprete Python correcto y usar el REPL para inspección rápida",
+    "Usar la terminal con rutas y códigos de salida para diagnosticar fallos de comandos",
+    "Crear, activar y desactivar un entorno virtual (.venv) por proyecto",
+    "Instalar dependencias con python -m pip y fijar un requirements.txt reproducible",
+    "Inicializar un repositorio, escribir commits legibles y leer un diff simple",
+    "Crear una rama de feature, abrir un Pull Request y aplicar recuperación no destructiva básica",
+    "Configurar VS Code + Ruff con un pyproject.toml mínimo",
+    "Publicar un repo con .gitignore, .env.example, README y sin secretos ni PII"
+  ],
+
+  "topics": [
+    {
+      "topic_id": "S01-T1",
+      "title": "Runtime",
+      "bloom_focus": ["Recordar", "Comprender", "Aplicar"],
+      "subtopics": [
+        {
+          "subtopic_id": "S01-T1-A",
+          "slug": "interpreter-selection",
+          "title": "Intérprete y REPL",
+          "outcome": "El estudiante verifica la versión del intérprete e interactúa con el REPL (print, type, quit) sin confundirlo con la ejecución de scripts.",
+          "content_status": "expand",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "El intérprete Python y el REPL",
+              "must_cover": ["python vs python3", "REPL >>>", "quit()/EOF", "script vs interactivo", "stdlib import sin pip"]
+            },
+            "demo_ido": {
+              "demo_id": "S01-T1-A-DEMO",
+              "title": "Verificar intérprete y sesión REPL mínima",
+              "environment": "local-python",
+              "language": "bash+python-repl",
+              "success_criterion": "python --version imprime 3.12+; en REPL se evalúa 2+2 y se sale limpio",
+              "maps_existing": "partial — iDo step 1 verification only"
+            },
+            "exercises": [
+              {
+                "id": "S01-T1-A-E1",
+                "kind": "guided",
+                "title": "Sesión REPL guiada",
+                "skill": "Usar REPL para expresiones e imports stdlib",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["salir del REPL sin matar la terminal"],
+                "tests": "manual checklist + expected REPL transcript",
+                "feedback": true
+              },
+              {
+                "id": "S01-T1-A-E2",
+                "kind": "independent",
+                "title": "Script hello_sys.py vs REPL",
+                "skill": "Diferenciar ejecución de archivo vs sesión interactiva",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["if __name__ == '__main__' no aplica en REPL de la misma forma"],
+                "tests": "run script exit 0 + stdout contains version",
+                "feedback": true
+              },
+              {
+                "id": "S01-T1-A-E3",
+                "kind": "transfer",
+                "title": "Diagnóstico: comando python no reconocido",
+                "skill": "Elegir acción correcta (PATH / instalador / python3)",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["Windows Store alias", "py launcher"],
+                "tests": "rubric scenario MC + short procedure",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S01-T1-A-EX",
+                "slug": "interpreter-selection",
+                "format": "mcq",
+                "bloom": "Comprender",
+                "skill": "Selección/verificación de intérprete",
+                "variants": ["A", "B", "C"],
+                "parallelism_rules": "Misma habilidad; variar OS o síntoma superficial; una sola mejor respuesta"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S01-T1-B",
+          "slug": "terminal-paths",
+          "title": "Terminal, rutas, procesos y códigos de salida",
+          "outcome": "El estudiante interpreta códigos de salida (0 vs no-cero) y distingue PATH del directorio de trabajo al ejecutar comandos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Terminal, rutas y códigos de salida",
+              "must_cover": ["cwd vs PATH", "exit code 0/non-zero", "PowerShell vs bash", "echo $? / $LASTEXITCODE", "mkdir/cd básicos"]
+            },
+            "demo_ido": {
+              "demo_id": "S01-T1-B-DEMO",
+              "title": "Exit codes con python -c y sys.exit",
+              "environment": "local-python",
+              "language": "bash",
+              "success_criterion": "sys.exit(0) → 0; sys.exit(1) → non-zero visible en shell",
+              "maps_existing": false
+            },
+            "exercises": [
+              {
+                "id": "S01-T1-B-E1",
+                "kind": "guided",
+                "title": "Observar códigos de salida",
+                "skill": "Leer exit status tras comandos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["comando inexistente → non-zero"],
+                "tests": "transcript checklist",
+                "feedback": true
+              },
+              {
+                "id": "S01-T1-B-E2",
+                "kind": "independent",
+                "title": "Script que sale con 0 o 1 según argumento",
+                "skill": "sys.exit según validación simple",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["sin argumentos"],
+                "tests": "python check_arg.py ok → 0; sin arg → 1",
+                "feedback": true
+              },
+              {
+                "id": "S01-T1-B-E3",
+                "kind": "transfer",
+                "title": "Caso: pip falla — ¿PATH o paquete?",
+                "skill": "Clasificar fallo de entorno vs dependencia",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["pip de otro Python"],
+                "tests": "scenario rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S01-T1-B-EX",
+                "slug": "terminal-paths",
+                "format": "mcq",
+                "bloom": "Aplicar",
+                "skill": "Interpretar exit codes y PATH",
+                "variants": ["A", "B", "C"],
+                "parallelism_rules": "Misma habilidad; variar shell o mensaje de error"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S01-T1-TE",
+        "title": "Evaluación formativa — Runtime",
+        "tasks": [
+          {
+            "id": "S01-T1-TE-1",
+            "title": "Verificar intérprete y capturar versión",
+            "authentic": true,
+            "deliverable": "Captura o transcript: python --version + sesión REPL de 3 líneas"
+          },
+          {
+            "id": "S01-T1-TE-2",
+            "title": "Demostrar exit code no cero",
+            "authentic": true,
+            "deliverable": "Comando + código de salida documentado"
+          }
+        ],
+        "rubric_0_3": {
+          "correctness": "¿El intérprete y los exit codes son los correctos?",
+          "robustness": "¿Funciona en su SO documentado?",
+          "maintainability": "¿El transcript es claro y reproducible?",
+          "responsible_use": "¿No incluye secretos ni rutas con datos sensibles?"
+        }
+      }
+    },
+    {
+      "topic_id": "S01-T2",
+      "title": "Entornos",
+      "bloom_focus": ["Comprender", "Aplicar"],
+      "subtopics": [
+        {
+          "subtopic_id": "S01-T2-A",
+          "slug": "venv-purpose",
+          "title": "venv y activación",
+          "outcome": "El estudiante crea y activa un .venv y explica por qué aísla dependencias por proyecto.",
+          "content_status": "refine",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Entornos virtuales con venv",
+              "must_cover": [".venv naming (DEC-R02)", "activate Windows/Unix", "deactivate", "un proyecto = un entorno", "conda como alternativa no default"]
+            },
+            "demo_ido": {
+              "demo_id": "S01-T2-A-DEMO",
+              "title": "Crear y activar .venv",
+              "environment": "local-python",
+              "language": "bash",
+              "success_criterion": "prompt muestra (.venv); which/where python apunta al venv",
+              "maps_existing": "iDo step 2 (update venv → .venv)"
+            },
+            "exercises": [
+              {
+                "id": "S01-T2-A-E1",
+                "kind": "guided",
+                "title": "Crear .venv y activar",
+                "skill": "python -m venv .venv + activate",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["PowerShell execution policy"],
+                "tests": "checklist activate",
+                "feedback": true
+              },
+              {
+                "id": "S01-T2-A-E2",
+                "kind": "independent",
+                "title": "Recrear entorno roto",
+                "skill": "Borrar .venv y recrear sin tocar código",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["olvidar activar"],
+                "tests": "procedure rubric",
+                "feedback": true
+              },
+              {
+                "id": "S01-T2-A-E3",
+                "kind": "transfer",
+                "title": "¿Por qué no instalar global?",
+                "skill": "Argumentar aislamiento ante conflicto de versiones",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["dos proyectos, dos pandas"],
+                "tests": "short written + rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S01-T2-A-EX",
+                "slug": "venv-purpose",
+                "format": "mcq",
+                "bloom": "Recordar/Comprender",
+                "skill": "Propósito del venv",
+                "variants": ["A", "B", "C"],
+                "maps_existing_seed": true,
+                "parallelism_rules": "Reutilizar familia seed; revisar equivalencia en PHASE 5"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S01-T2-B",
+          "slug": "pip-install",
+          "title": "pip, versiones, lock/freeze y compatibilidad",
+          "outcome": "El estudiante usa python -m pip install/freeze/-r y distingue snapshot reproducible de lockfile con hashes.",
+          "content_status": "refine",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "pip, freeze y requirements.txt",
+              "must_cover": ["python -m pip", "pin ==", "freeze > requirements.txt", "install -r", "límites de freeze vs poetry/uv lock", "stdlib vs terceros"]
+            },
+            "demo_ido": {
+              "demo_id": "S01-T2-B-DEMO",
+              "title": "Install + freeze + install -r",
+              "environment": "local-python",
+              "language": "bash",
+              "success_criterion": "requirements.txt generado; reinstall en env limpio funciona",
+              "maps_existing": "iDo step 3 (switch to python -m pip)"
+            },
+            "exercises": [
+              {
+                "id": "S01-T2-B-E1",
+                "kind": "guided",
+                "title": "Instalar un paquete y congelar",
+                "skill": "pip install + freeze",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["freeze sin activar venv"],
+                "tests": "file contains package==",
+                "feedback": true
+              },
+              {
+                "id": "S01-T2-B-E2",
+                "kind": "independent",
+                "title": "Replicar desde requirements.txt",
+                "skill": "install -r en env nuevo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["archivo vacío"],
+                "tests": "pip list contains expected",
+                "feedback": true
+              },
+              {
+                "id": "S01-T2-B-E3",
+                "kind": "transfer",
+                "title": "ModuleNotFoundError forense",
+                "skill": "Diagnosticar missing package vs wrong interpreter",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["paquete instalado en otro Python"],
+                "tests": "scenario rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S01-T2-B-EX",
+                "slug": "pip-install",
+                "format": "mcq",
+                "bloom": "Aplicar",
+                "skill": "Replicar entorno con -r",
+                "variants": ["A", "B", "C"],
+                "maps_existing_seed": true,
+                "parallelism_rules": "Reutilizar familia seed; reforzar python -m pip en distractores"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S01-T2-TE",
+        "title": "Evaluación formativa — Entornos",
+        "tasks": [
+          {
+            "id": "S01-T2-TE-1",
+            "title": "Crear .venv e instalar desde requirements de plantilla",
+            "authentic": true,
+            "deliverable": "Transcript de create/activate/install -r"
+          },
+          {
+            "id": "S01-T2-TE-2",
+            "title": "Generar freeze y explicar una línea pinneada",
+            "authentic": true,
+            "deliverable": "requirements.txt + explicación de 2–3 oraciones"
+          }
+        ],
+        "rubric_0_3": {
+          "correctness": "¿El entorno se activa y las deps instalan?",
+          "robustness": "¿Funciona tras desactivar/reactivar?",
+          "maintainability": "¿requirements.txt es usable por un colega?",
+          "responsible_use": "¿No pinnea secretos ni rutas locales?"
+        }
+      }
+    },
+    {
+      "topic_id": "S01-T3",
+      "title": "Git",
+      "bloom_focus": ["Aplicar", "Comprender"],
+      "subtopics": [
+        {
+          "subtopic_id": "S01-T3-A",
+          "slug": "commit-message",
+          "title": "Repositorio, commits y diffs",
+          "outcome": "El estudiante inicializa un repo, hace commits con Conventional Commits y describe un diff simple.",
+          "content_status": "expand",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Git: commits y lectura de diffs",
+              "must_cover": ["git init", "status/add/commit", "Conventional Commits", "git diff / git show", "mensaje imperativo"]
+            },
+            "demo_ido": {
+              "demo_id": "S01-T3-A-DEMO",
+              "title": "Primer commit y lectura de diff",
+              "environment": "local-python",
+              "language": "bash",
+              "success_criterion": "commit creado; git show muestra +/- legibles",
+              "maps_existing": "iDo step 4 partial"
+            },
+            "exercises": [
+              {
+                "id": "S01-T3-A-E1",
+                "kind": "guided",
+                "title": "Commit Conventional Commits",
+                "skill": "feat:/docs: messages",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["mensaje vacío"],
+                "tests": "git log -1 matches pattern",
+                "feedback": true
+              },
+              {
+                "id": "S01-T3-A-E2",
+                "kind": "independent",
+                "title": "Leer un diff de README",
+                "skill": "Interpretar +/- en un diff",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["archivo nuevo vs modificado"],
+                "tests": "questions on provided diff fixture",
+                "feedback": true
+              },
+              {
+                "id": "S01-T3-A-E3",
+                "kind": "transfer",
+                "title": "Reescribir mensaje malo (squash conceptual)",
+                "skill": "Elegir mejor mensaje para un conjunto de cambios",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["wip vs feat"],
+                "tests": "MC + justification",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S01-T3-A-EX",
+                "slug": "commit-message",
+                "format": "mcq",
+                "bloom": "Aplicar",
+                "skill": "Mensajes de commit y/o lectura de diff",
+                "variants": ["A", "B", "C"],
+                "maps_existing_seed": true,
+                "parallelism_rules": "Al menos una variante debe exigir lectura de diff (V3 exam skill)"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S01-T3-B",
+          "slug": "git-branch-pr",
+          "title": "Ramas, PR, conflictos y recuperación no destructiva",
+          "outcome": "El estudiante crea una rama, prepara un PR y usa git restore/stash como recuperación no destructiva (sin force-push).",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Ramas, Pull Requests y recuperación segura",
+              "must_cover": ["git switch -c", "push -u", "PR en GitHub", "conflicto simple", "git restore / stash", "prohibir force-push a main"]
+            },
+            "demo_ido": {
+              "demo_id": "S01-T3-B-DEMO",
+              "title": "Rama feature y PR",
+              "environment": "local-python",
+              "language": "bash",
+              "success_criterion": "rama remota creada; PR abierto o pasos UI documentados",
+              "maps_existing": "learningOutcome mentions PR; no deep demo"
+            },
+            "exercises": [
+              {
+                "id": "S01-T3-B-E1",
+                "kind": "guided",
+                "title": "Crear rama feat/* y commit",
+                "skill": "branch workflow",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["trabajar en main por error"],
+                "tests": "branch exists + commit",
+                "feedback": true
+              },
+              {
+                "id": "S01-T3-B-E2",
+                "kind": "independent",
+                "title": "Preparar descripción de PR",
+                "skill": "Resumir cambios para review",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["PR vacío"],
+                "tests": "template filled",
+                "feedback": true
+              },
+              {
+                "id": "S01-T3-B-E3",
+                "kind": "transfer",
+                "title": "Recuperar cambio no commiteado con restore",
+                "skill": "Recuperación no destructiva",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["no usar reset --hard como default"],
+                "tests": "procedure rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S01-T3-B-EX",
+                "slug": "git-branch-pr",
+                "format": "mcq",
+                "bloom": "Aplicar",
+                "skill": "Flujo de ramas/PR o recuperación segura",
+                "variants": ["A", "B", "C"],
+                "maps_existing_seed": false,
+                "parallelism_rules": "Nueva familia; no force-push como clave correcta"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S01-T3-TE",
+        "title": "Evaluación formativa — Git",
+        "tasks": [
+          {
+            "id": "S01-T3-TE-1",
+            "title": "Dos commits Conventional Commits + un diff explicado",
+            "authentic": true,
+            "deliverable": "git log + explicación de 1 diff"
+          },
+          {
+            "id": "S01-T3-TE-2",
+            "title": "Rama feature y plan de PR",
+            "authentic": true,
+            "deliverable": "Nombre de rama + título PR + 3 bullets de cambios"
+          }
+        ],
+        "rubric_0_3": {
+          "correctness": "¿Los commits y la rama son correctos?",
+          "robustness": "¿Se puede recuperar de un error sin destruir historial?",
+          "maintainability": "¿Mensajes legibles para un colega?",
+          "responsible_use": "¿No hay secretos en el historial del ejercicio?"
+        }
+      }
+    },
+    {
+      "topic_id": "S01-T4",
+      "title": "Calidad inicial",
+      "bloom_focus": ["Aplicar", "Comprender"],
+      "subtopics": [
+        {
+          "subtopic_id": "S01-T4-A",
+          "slug": "ruff-config",
+          "title": "Editor y Ruff",
+          "outcome": "El estudiante configura Ruff en pyproject.toml mínimo y ejecuta ruff check sobre un archivo de ejemplo.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "VS Code y Ruff como calidad mínima",
+              "must_cover": ["Pylance + Ruff extension", "pyproject.toml [tool.ruff]", "ruff check / format", "line-length 88", "select E/F/I básico"]
+            },
+            "demo_ido": {
+              "demo_id": "S01-T4-A-DEMO",
+              "title": "Ruff check en hello con import sin usar",
+              "environment": "local-python",
+              "language": "bash+toml",
+              "success_criterion": "ruff check reporta F401 o similar; config en repo",
+              "maps_existing": false
+            },
+            "exercises": [
+              {
+                "id": "S01-T4-A-E1",
+                "kind": "guided",
+                "title": "Añadir pyproject.toml Ruff mínimo",
+                "skill": "Config básica Ruff",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["sin [tool.ruff]"],
+                "tests": "file validates structure",
+                "feedback": true
+              },
+              {
+                "id": "S01-T4-A-E2",
+                "kind": "independent",
+                "title": "Corregir violaciones reportadas",
+                "skill": "ruff check → fix",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["noqa justificado"],
+                "tests": "ruff check exits 0",
+                "feedback": true
+              },
+              {
+                "id": "S01-T4-A-E3",
+                "kind": "transfer",
+                "title": "Elegir reglas para un repo de datos",
+                "skill": "Justificar select mínimo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["no habilitar ALL ciegamente en S01"],
+                "tests": "written justification",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S01-T4-A-EX",
+                "slug": "ruff-config",
+                "format": "mcq",
+                "bloom": "Aplicar",
+                "skill": "Propósito/config de Ruff",
+                "variants": ["A", "B", "C"],
+                "maps_existing_seed": false,
+                "parallelism_rules": "Nueva familia; no confundir Ruff con formateador-only"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S01-T4-B",
+          "slug": "gitignore",
+          "title": ".gitignore, .env.example, secretos y README reproducible",
+          "outcome": "El estudiante publica un repo con .gitignore correcto, .env.example sin secretos, README clonable y sin PII real.",
+          "content_status": "expand",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Archivos de calidad: ignore, secretos y README",
+              "must_cover": [".gitignore plantilla Python", ".env vs .env.example", "git rm --cached", "README install/run", "datos sintéticos"]
+            },
+            "demo_ido": {
+              "demo_id": "S01-T4-B-DEMO",
+              "title": ".gitignore + .env.example + README install",
+              "environment": "local-python",
+              "language": "bash+markdown",
+              "success_criterion": ".env ignored; .env.example tracked; README tiene 3 comandos de setup",
+              "maps_existing": "theory block 3 + iDo gitignore partial"
+            },
+            "exercises": [
+              {
+                "id": "S01-T4-B-E1",
+                "kind": "guided",
+                "title": "Completar .gitignore desde plantilla",
+                "skill": "Ignorar venv/__pycache__/.env",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["archivo ya trackeado"],
+                "tests": "git check-ignore .env",
+                "feedback": true
+              },
+              {
+                "id": "S01-T4-B-E2",
+                "kind": "independent",
+                "title": "Crear .env.example",
+                "skill": "Plantilla sin secretos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["no copiar valores reales"],
+                "tests": "file has keys empty; no secrets pattern",
+                "feedback": true
+              },
+              {
+                "id": "S01-T4-B-E3",
+                "kind": "transfer",
+                "title": "Checklist máquina limpia",
+                "skill": "Verificar clon + install + run",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": ["README incompleto"],
+                "tests": "checklist 5 items pass",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S01-T4-B-EX",
+                "slug": "gitignore",
+                "format": "mcq",
+                "bloom": "Aplicar",
+                "skill": "gitignore y manejo de secretos",
+                "variants": ["A", "B", "C"],
+                "maps_existing_seed": true,
+                "parallelism_rules": "Incluir .env.example en al menos una variante"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S01-T4-TE",
+        "title": "Evaluación formativa — Calidad inicial",
+        "tasks": [
+          {
+            "id": "S01-T4-TE-1",
+            "title": "Repo con Ruff config + ruff check limpio en un script",
+            "authentic": true,
+            "deliverable": "pyproject.toml + salida ruff check"
+          },
+          {
+            "id": "S01-T4-TE-2",
+            "title": "Paquete ignore/env/README de seguridad",
+            "authentic": true,
+            "deliverable": ".gitignore + .env.example + sección README Seguridad"
+          }
+        ],
+        "rubric_0_3": {
+          "correctness": "¿Ruff y ignore funcionan?",
+          "robustness": "¿Un clon limpio arranca?",
+          "maintainability": "¿README es suficiente para un colega?",
+          "responsible_use": "¿Cero secretos y cero PII real?"
+        }
+      }
+    }
+  ],
+
+  "section_exam": {
+    "id": "S01-EXAM",
+    "type": "cumulative_section",
+    "attempts": 3,
+    "selection_rule": "1 variant per subtopic unused in prior attempts when possible; 8 questions if platform supports 8 concepts, else phased: 4→8",
+    "target_concepts": 8,
+    "target_variants_total": 24,
+    "min_score": 0.7,
+    "skills_verified": [
+      "selección de intérprete",
+      "aislamiento venv",
+      "lectura de diff",
+      "manejo de secretos"
+    ],
+    "platform_note": "ExamView currently samples 4 concepts. Implementer must extend to 8 concepts for full V3 compliance (issue S01-CONTENT-001 + PLATFORM exam sampling)."
+  },
+
+  "project_increment": {
+    "id": "S01-PROJ",
+    "title": "Esqueleto CP-N1-A — Reproducible Client Intake Repo",
+    "maps_to": "CP-N1-A Client Intake & Data Quality Script (gate S04)",
+    "existing_youDo": "Reproducible Data Environment — rename context to reference CP-N1-A",
+    "objectives": [
+      "Repo público clonable en equipo limpio",
+      ".gitignore + .env.example + requirements.txt + pyproject.toml (Ruff)",
+      "README con install/run y mención CP-N1-A",
+      "data/clients_synthetic.csv (sintético, sin PII real) + data/data_dictionary.md",
+      "scripts/hello_env.py (smoke) y estructura section_01/",
+      "Mínimo 3 commits Conventional Commits; 1 rama feature mergeada o PR abierto"
+    ],
+    "acceptance_criteria": [
+      "AC1: git clone + python -m venv .venv + activate + python -m pip install -r requirements.txt completa sin error",
+      "AC2: python scripts/hello_env.py exit 0",
+      "AC3: .env no está en el repo; .env.example sí",
+      "AC4: data_dictionary.md describe columnas del CSV sintético",
+      "AC5: README menciona 'esqueleto de CP-N1-A'",
+      "AC6: ruff check scripts/hello_env.py exit 0 (si ruff en requirements o dev note)",
+      "AC7: Rúbrica 0–3 en correctness, robustness, maintainability, responsible_use ≥ 2 promedio"
+    ],
+    "rubric_0_3": {
+      "correctness": "¿El entorno se reproduce y el smoke corre?",
+      "robustness": "¿Funciona en Windows y Unix según README?",
+      "maintainability": "¿Estructura y mensajes de commit claros?",
+      "responsible_use": "¿Datos sintéticos y cero secretos?"
+    },
+    "synthetic_data_spec": {
+      "file": "data/clients_synthetic.csv",
+      "columns": ["client_id", "nombres", "apellido_paterno", "apellido_materno", "email", "telefono", "distrito", "fecha_registro"],
+      "rules": ["nombres ficticios peruanos sintéticos", "no filas de personas reales", "emails dominio example.com"]
+    }
+  },
+
+  "pedagogical_template_per_subtopic": {
+    "required_components_count": 11,
+    "components": [
+      "outcome medible",
+      "teoría (bloque planificado)",
+      "demo I Do ejecutable",
+      "ejercicio E1 guiado",
+      "ejercicio E2 independiente",
+      "ejercicio E3 transferencia",
+      "starter codes (×3)",
+      "2 hints por ejercicio",
+      "soluciones + edge cases",
+      "tests/feedback por ejercicio",
+      "familia A/B/C examen"
+    ],
+    "note": "Los 11 se cumplen a nivel de plan en este blueprint; la autoría material es PHASE 4–5."
+  },
+
+  "count_validation": {
+    "canonical_section_slice": {
+      "topics": 4,
+      "subtopics": 8,
+      "demos": 8,
+      "student_exercises": 24,
+      "topic_evaluations": 4,
+      "exam_variant_families": 8,
+      "exam_variants": 24,
+      "section_exams": 1,
+      "project_increments": 1
+    },
+    "blueprint_counts": {
+      "topics": 4,
+      "subtopics": 8,
+      "demos": 8,
+      "student_exercises": 24,
+      "topic_evaluations": 4,
+      "exam_variant_families": 8,
+      "exam_variants": 24,
+      "section_exams": 1,
+      "project_increments": 1
+    },
+    "match": true,
+    "exercises_by_subtopic": {
+      "S01-T1-A": 3,
+      "S01-T1-B": 3,
+      "S01-T2-A": 3,
+      "S01-T2-B": 3,
+      "S01-T3-A": 3,
+      "S01-T3-B": 3,
+      "S01-T4-A": 3,
+      "S01-T4-B": 3
+    },
+    "existing_vs_blueprint_gap": {
+      "subtopics_content": "4 partial → 8 planned",
+      "demos_implemented": "1 → 8 planned",
+      "exercises_implemented": "3 → 24 planned",
+      "topic_evaluations_implemented": "0 → 4 planned",
+      "exam_variants_seeded": "12 → 24 planned"
+    }
+  },
+
+  "platform_implementation_notes": {
+    "types_ts": {
+      "gap": "CourseSection lacks subtopics[], topicEvaluations[], multi-demo, exercise metadata (hints×2, edgeCases, tests)",
+      "options": [
+        "A) Extend CourseSection with optional V3 fields (preferred long-term)",
+        "B) Encode V3 IDs in theory headings + weDo steps metadata in comments/JSON sidecar during S01 only",
+        "C) Parallel course-state content files + thin section loader (larger change)"
+      ],
+      "recommendation": "Option A minimal: add optional subtopics array and topicEvaluations; keep backward compatibility for S02–S52 until expanded"
+    },
+    "exam_system": {
+      "gap": "seed + ExamView assume 4 concepts per section",
+      "fix": "Expand setup to 8 concepts; update attempt sampler to N concepts per section config",
+      "issue_links": ["S01-CONTENT-001", "GLOBAL-V3-001"]
+    },
+    "codeplayground": {
+      "gap": "1 demo per section id",
+      "fix": "Support demo_id list or embed demos in section file; browser demos only for pure-python slices"
+    },
+    "no_platform_edit_in_phase_3": true
+  },
+
+  "phase_4_authoring_order": [
+    "S01-T1-A",
+    "S01-T1-B",
+    "S01-T2-A",
+    "S01-T2-B",
+    "S01-T3-A",
+    "S01-T3-B",
+    "S01-T4-A",
+    "S01-T4-B",
+    "topic evaluations T1–T4",
+    "project increment You Do CP-N1-A",
+    "resources update (Ruff docs, gitignore template)"
+  ],
+
+  "phase_5_exam_order": [
+    "Expand seed families: interpreter-selection, terminal-paths, git-branch-pr, ruff-config",
+    "Revise existing: venv-purpose, pip-install, commit-message, gitignore for parallelism + diff/secrets coverage",
+    "Equivalence review A/B/C (no cosmetic-only variants)"
+  ],
+
+  "issues_impact": [
+    {
+      "issue_id": "S01-CONTENT-001",
+      "blueprint_effect": "8 slugs locked; seed expansion plan ready"
+    },
+    {
+      "issue_id": "S01-CONTENT-002",
+      "blueprint_effect": "24 exercise IDs assigned"
+    },
+    {
+      "issue_id": "S01-CONTENT-003",
+      "blueprint_effect": "8 demo_ids assigned"
+    },
+    {
+      "issue_id": "S01-CONTENT-004",
+      "blueprint_effect": "4 topic_evaluation packages specified"
+    },
+    {
+      "issue_id": "S01-CONTENT-005",
+      "blueprint_effect": "must_cover lists for REPL, exit codes, Ruff, .env.example"
+    },
+    {
+      "issue_id": "S01-CONTENT-006",
+      "blueprint_effect": "project_increment explicitly maps CP-N1-A with AC5"
+    }
+  ],
+
+  "security_privacy_a11y": {
+    "pii": "Solo datos sintéticos; emails example.com",
+    "secrets": ".env never committed; .env.example placeholders only",
+    "fraud_language": "N/A S01 — no entity resolution",
+    "a11y": "README y transcripts en texto; evitar demos solo-imagen; contraste UI existente no se modifica en PHASE 3"
+  },
+
+  "phase_3_gate": {
+    "blueprint_covers_roadmap_t1_t4": true,
+    "counts_match_canonical_slice": true,
+    "eight_subtopics_named": true,
+    "twenty_four_exercises_id_assigned": true,
+    "eight_demos_id_assigned": true,
+    "four_topic_evals_specified": true,
+    "twenty_four_exam_slots_planned": true,
+    "capstone_increment_specified": true,
+    "no_long_form_content_authored": true,
+    "platform_gaps_documented": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_AUTHORING",
+    "first_authoring_unit": "S01-T1-A interpreter-selection"
+  },
+
+  "retrospection": {
+    "what_worked": [
+      "Decisions from PHASE 2 mapped 1:1 into subtopic IDs",
+      "Count validation scriptable from blueprint structure",
+      "Platform gaps explicit so PHASE 4 does not invent silent schema breaks"
+    ],
+    "risks": [
+      "PHASE 4 may need Implementer work on types/seed before full content can render in UI",
+      "Exam still 4-concept until seed+API updated — document dual-mode if shipping partial"
+    ],
+    "next_single_action": "PHASE 4 block 1: Author S01-T1-A (intérprete y REPL) with theory, demo, E1–E3 complete artifacts; execute code in local-python or mark UNVERIFIED; do not start T1-B until T1-A block gate passes."
+  }
+}

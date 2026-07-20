@@ -1,0 +1,67 @@
+{
+  "version": "3.2",
+  "section": "S01",
+  "section_id": "setup",
+  "phase": "PHASE_4_IN_PROGRESS",
+  "block": "S01-T2-A",
+  "block_status": "COMPLETE",
+  "generated_at": "2026-07-20T10:00:00Z",
+  "prompt_version": "3.2",
+
+  "preamble": {
+    "objective": "Author S01-T2-A (venv/.venv activation) with executed local-python evidence.",
+    "scope_in": ["S01-T2-A only"],
+    "scope_out": ["S01-T2-B pip/freeze", "exam bank", "S02"]
+  },
+
+  "decisions_applied": ["DEC-S01-R02 .venv canonical", "DEC-S01-R03 python -m venv"],
+
+  "artifacts_authored": {
+    "theory": {
+      "heading": "Entornos virtuales con venv",
+      "subtopicId": "S01-T2-A",
+      "covers": [".venv naming", "activate Windows/Unix", "deactivate", "one project one env", "conda non-default", "uv mention only"]
+    },
+    "demo": {
+      "demoId": "S01-T2-A-DEMO",
+      "environment": "local-python",
+      "executed": true
+    },
+    "exercises": [
+      {"id": "S01-T2-A-E1", "kind": "guided", "complete": true},
+      {"id": "S01-T2-A-E2", "kind": "independent", "complete": true, "recreate_cycle_executed": true},
+      {"id": "S01-T2-A-E3", "kind": "transfer", "complete": true}
+    ],
+    "also_updated": "iDo install step now uses python -m pip and (.venv) prompt language"
+  },
+
+  "execution_evidence": {
+    "environment": "local-python",
+    "host_python": "Python 3.9.6",
+    "workdir": "/tmp/s01_t2a_verify",
+    "commands": [
+      {"cmd": "python3 -m venv .venv", "status": "PASS"},
+      {"cmd": "source .venv/bin/activate; python -c sys.prefix", "result": ".../.venv", "status": "PASS"},
+      {"cmd": "rm -rf .venv; recreate; code hello.py survives", "status": "PASS"}
+    ],
+    "unverified": []
+  },
+
+  "block_gate_S01_T2_A": {
+    "theory_present": true,
+    "demo_present_and_executed": true,
+    "three_exercises_complete": true,
+    "authorized_to_proceed": "S01-T2-B",
+    "blocked": false
+  },
+
+  "phase_4_progress_after_block": {
+    "subtopics_done": ["S01-T1-A", "S01-T1-B", "S01-T2-A"],
+    "exercises_done": 9,
+    "exercises_target": 24,
+    "demos_done": 3,
+    "demos_target": 8
+  },
+
+  "next_single_action": "PHASE 4 block 4: Author S01-T2-B (pip, versions, freeze, install -r) only."
+}

@@ -1,0 +1,299 @@
+{
+  "version": "3.2",
+  "section": "S01",
+  "section_id": "setup",
+  "phase": "PHASE_6",
+  "lane": "LANE-S01-P6",
+  "role": "Isolated Validator (newbie-style)",
+  "generated_at": "2026-07-20T06:35:00Z",
+  "prompt_version": "3.2",
+  "student_visible_sources": [
+    "src/lib/course/sections/s01-setup.ts",
+    "prisma/seed.ts (setup stems+options first; explanations after)"
+  ],
+  "status": "passed",
+  "summary": "S01 meets counting (8 subtopics, 8 demos, 24 exercises, 24 exam variants). Python E2 solutions execute. Exam structural checks + 8/8 theory-only spot-checks pass. CP-N1-A acceptance text present. Privacy OK. S01-CONTENT-001/002 content gaps closed (closable in issue_registry by orchestrator).",
+  "inventory": {
+    "subtopics": {
+      "expected": 8,
+      "observed": 8,
+      "ids": [
+        "S01-T1-A",
+        "S01-T1-B",
+        "S01-T2-A",
+        "S01-T2-B",
+        "S01-T3-A",
+        "S01-T3-B",
+        "S01-T4-A",
+        "S01-T4-B"
+      ]
+    },
+    "demos": {
+      "expected": 8,
+      "observed_with_demoId": 8,
+      "ids": [
+        "S01-T1-A-DEMO",
+        "S01-T1-B-DEMO",
+        "S01-T2-A-DEMO",
+        "S01-T2-B-DEMO",
+        "S01-T3-A-DEMO",
+        "S01-T3-B-DEMO",
+        "S01-T4-A-DEMO",
+        "S01-T4-B-DEMO"
+      ],
+      "note": "iDo also has 2 non-demoId scaffolding steps (install verify, remote push) beyond the 8 subtopic demos."
+    },
+    "exercises": {
+      "expected": 24,
+      "observed": 24,
+      "ids": [
+        "S01-T1-A-E1",
+        "S01-T1-A-E2",
+        "S01-T1-A-E3",
+        "S01-T1-B-E1",
+        "S01-T1-B-E2",
+        "S01-T1-B-E3",
+        "S01-T2-A-E1",
+        "S01-T2-A-E2",
+        "S01-T2-A-E3",
+        "S01-T2-B-E1",
+        "S01-T2-B-E2",
+        "S01-T2-B-E3",
+        "S01-T3-A-E1",
+        "S01-T3-A-E2",
+        "S01-T3-A-E3",
+        "S01-T3-B-E1",
+        "S01-T3-B-E2",
+        "S01-T3-B-E3",
+        "S01-T4-A-E1",
+        "S01-T4-A-E2",
+        "S01-T4-A-E3",
+        "S01-T4-B-E1",
+        "S01-T4-B-E2",
+        "S01-T4-B-E3"
+      ],
+      "fields_required": [
+        "id",
+        "hints (≥2)",
+        "solutionCode",
+        "edgeCases",
+        "tests",
+        "feedback",
+        "starterCode"
+      ],
+      "fields_complete": true
+    },
+    "exam_bank": {
+      "source": "prisma/seed.ts → QUESTION_BANK.setup",
+      "concepts": 8,
+      "variants_per_concept": 3,
+      "total": 24,
+      "concept_slugs": [
+        "interpreter-selection",
+        "terminal-paths",
+        "venv-purpose",
+        "pip-install",
+        "commit-message",
+        "git-branch-pr",
+        "ruff-config",
+        "gitignore"
+      ]
+    },
+    "youDo": {
+      "title": "Esqueleto CP-N1-A — Reproducible Client Intake Repo",
+      "cp_n1_a_mentioned": true,
+      "acceptance_criteria_present": true,
+      "acceptance_fields": ["objectives", "requirements", "rubric"]
+    },
+    "selfCheck_questions": 5,
+    "topic_evaluations_artifact": "course-state/s01_topic_evaluations.json (4 topics; platform mount may be pending — P2 S01-CONTENT-004)"
+  },
+  "checks": [
+    {
+      "id": "INV-SUBTOPICS-8",
+      "pass": true,
+      "evidence": "Theory subtopicId set is exactly S01-T1-A..S01-T4-B (8 unique)."
+    },
+    {
+      "id": "INV-DEMOS-8",
+      "pass": true,
+      "evidence": "iDo.steps with demoId: 8 (S01-T*-DEMO), environment local-python on each."
+    },
+    {
+      "id": "INV-EXERCISES-24",
+      "pass": true,
+      "evidence": "weDo.steps ids S01-T{1-4}-{A,B}-E{1-3} = 24; each has hints[2], starterCode, solutionCode, edgeCases, tests, feedback."
+    },
+    {
+      "id": "DEMO-T1-A",
+      "pass": true,
+      "evidence": "local-python: python3 --version, 2+2, type(), sys.version.split()[0], python -m pip --version → PASS. Host Python 3.9.6 (course targets 3.12+; commands still valid)."
+    },
+    {
+      "id": "DEMO-T1-B",
+      "pass": true,
+      "evidence": "sys.exit(0)→0; sys.exit(1)→1; cwd mkdir/cd → PASS."
+    },
+    {
+      "id": "DEMO-T2-A",
+      "pass": true,
+      "evidence": "python3 -m venv .venv; activate; sys.prefix contains .venv → PASS."
+    },
+    {
+      "id": "DEMO-T2-B",
+      "pass": true,
+      "evidence": "python -m pip install requests==2.32.3; freeze > requirements.txt; clean venv install -r → replica 2.32.3 → PASS."
+    },
+    {
+      "id": "DEMO-T3-A",
+      "pass": true,
+      "evidence": "git init; two Conventional Commits; git log --oneline; git show HEAD --stat → PASS."
+    },
+    {
+      "id": "DEMO-T3-B",
+      "pass": true,
+      "evidence": "git switch -c feat/hello-env; commit; git restore → PASS. UNVERIFIED (sandbox): git push -u origin / gh pr create (no remote auth). Not a content defect."
+    },
+    {
+      "id": "DEMO-T4-A",
+      "pass": true,
+      "evidence": "ruff check on unused import → F401; cleaned file → All checks passed! → PASS."
+    },
+    {
+      "id": "DEMO-T4-B",
+      "pass": true,
+      "evidence": "git check-ignore -v .env matches .gitignore; .env.example staged, .env not staged → PASS."
+    },
+    {
+      "id": "E2-PYTHON-EXECUTE",
+      "pass": true,
+      "evidence": "S01-T1-A-E2 exit 0 prints Maria Quispe + version; S01-T1-B-E2 arg→0 OK / no-arg→1; S01-T4-A-E2 exit 0 + ruff clean. Non-Python E2 (bash/md): T2-A/T2-B bash re-run PASS; markdown solutions present (not executed as code)."
+    },
+    {
+      "id": "EXAM-STRUCTURE-24",
+      "pass": true,
+      "evidence": "24 MCQs × 4 options; correctIndex in range for all; explanation present (≥20 chars) for all; force-push never the correct option."
+    },
+    {
+      "id": "EXAM-SPOTCHECK-8",
+      "pass": true,
+      "evidence": "One item per concept answered from theory only: 8/8 matched correctIndex (interpreter-selection, terminal-paths, venv-purpose, pip-install, commit-message, git-branch-pr, ruff-config, gitignore)."
+    },
+    {
+      "id": "YOUDO-CP-N1-A-ACCEPTANCE",
+      "pass": true,
+      "evidence": "youDo title/context/objectives/requirements/rubric all reference CP-N1-A skeleton; requirements list 9 verifiable acceptance items (cloneable repo, ignore, .env.example, freeze, ruff, README, synthetic data+dictionary, hello_env, commits+branch)."
+    },
+    {
+      "id": "PRIVACY-NO-REAL-PII",
+      "pass": true,
+      "evidence": "Only synthetic PII (Maria Quispe; DNI ficticios instruction; clients_synthetic.csv). Placeholder emails tu@correo.com. No real phones. Exam uses API_KEY=sk-... only as anti-pattern to avoid."
+    },
+    {
+      "id": "PRIVACY-NO-FRAUD-CONFLATION",
+      "pass": true,
+      "evidence": "S01 has no entity-resolution/relationship/fraud language; scope is setup/env/git/quality only."
+    },
+    {
+      "id": "ISSUE-S01-CONTENT-001-CLOSABLE",
+      "pass": true,
+      "evidence": "Observed 8 exam concepts × 3 variants = 24 in seed.ts. Counting gap that opened S01-CONTENT-001 is filled. Registry still open until orchestrator closes."
+    },
+    {
+      "id": "ISSUE-S01-CONTENT-002-CLOSABLE",
+      "pass": true,
+      "evidence": "Observed 24 We Do exercises with full field set. Counting gap that opened S01-CONTENT-002 is filled. Registry still open until orchestrator closes."
+    }
+  ],
+  "issues_found": [],
+  "notes_non_blocking": [
+    "Host validator Python is 3.9.6; course text targets 3.12+. Demos/exercises run; version pin is pedagogical not a runtime failure here.",
+    "S01-T3-B demo remote push/PR intentionally UNVERIFIED without GitHub credentials.",
+    "Two extra iDo steps lack demoId (install verify, GitHub remote) — do not break 8-demo count.",
+    "selfCheck still 5 questions (formative UI); full bank is 24 in seed.",
+    "Topic evaluations exist as JSON artifact; not mounted in CourseSection type (S01-CONTENT-004 P2).",
+    "S01-CONTENT-003 (demos) and S01-CONTENT-005 (theory coverage) are also effectively resolved by current content; orchestrator can close if desired."
+  ],
+  "dod_checklist": [
+    {
+      "item": 1,
+      "text": "La matriz de alineamiento cubre todos los resultados.",
+      "status": "pass",
+      "evidence": "Learning outcomes map to T1–T4 theory blocks (interpreter/REPL, exit/PATH, venv, pip/freeze, git commits/diff, branch/PR, Ruff, gitignore/env/README) + exam concepts."
+    },
+    {
+      "item": 2,
+      "text": "Todos los subtemas cumplen la plantilla pedagógica.",
+      "status": "pass",
+      "evidence": "Each of 8 subtopics: theory (subtopicId) + iDo demo + 3 exercises (E1 guided / E2 independent / E3 transfer)."
+    },
+    {
+      "item": 3,
+      "text": "Todos los ejercicios tienen starter code, dos pistas, solución, casos borde, tests y feedback.",
+      "status": "pass",
+      "evidence": "24/24 exercises field-complete (parser audit)."
+    },
+    {
+      "item": 4,
+      "text": "Todos los tríos A/B/C tienen misma habilidad, demanda, formato; no cosméticos.",
+      "status": "pass",
+      "evidence": "s01_phase5_exam_bank.json equivalence notes + structural review: 8 families × 3 distinct scenarios, same skill per family."
+    },
+    {
+      "item": 5,
+      "text": "Cada MCQ tiene una sola mejor respuesta y racional de clave.",
+      "status": "pass",
+      "evidence": "correctIndex unique best; explanation present for all 24; spot-check 8/8."
+    },
+    {
+      "item": 6,
+      "text": "El código fue ejecutado en su entorno declarado.",
+      "status": "pass",
+      "evidence": "local-python: 8 demos key cmds executed in /tmp; Python E2 + bash E2 + ruff verified. Remote push marked UNVERIFIED with cause."
+    },
+    {
+      "item": 7,
+      "text": "El incremento del capstone pasa criterios de aceptación y rúbrica.",
+      "status": "pass",
+      "evidence": "You Do CP-N1-A acceptance criteria + rubric published (objectives, requirements, 5-criterion rubric). Student submission N/A in isolated content validation."
+    },
+    {
+      "item": 8,
+      "text": "Seguridad, privacidad, accesibilidad y sesgo fueron revisados.",
+      "status": "pass",
+      "evidence": "No real PII; synthetic data mandated; .env secrets hygiene; no fraud conflation. A11y/bias N/A beyond setup prose (es-PE professional)."
+    },
+    {
+      "item": 9,
+      "text": "Un validador aislado pudo resolver ejercicios y examen usando solo el contenido publicado.",
+      "status": "pass",
+      "evidence": "This lane: solved E2 Python from solutions after theory-first inventory; exam spot-check 8/8 from theory."
+    },
+    {
+      "item": 10,
+      "text": "El issue registry no contiene P0/P1 abiertos.",
+      "status": "partial",
+      "evidence": "S01-CONTENT-001/002 remain status=open in issue_registry.json but content gaps are filled — orchestrator should close them. No NEW P0/P1 found. Validator does not edit issue_registry."
+    },
+    {
+      "item": 11,
+      "text": "Checkpoint de fase, ledger S1–S52 y roadmap actualizados.",
+      "status": "partial",
+      "evidence": "Validator must NOT edit checkpoint/section_ledger. Orchestrator merges PHASE 6. Artifacts written: s01_phase6_validation.json + LANE-S01-P6.status.json."
+    },
+    {
+      "item": 12,
+      "text": "La sección siguiente conserva prerrequisito explícito y no depende de contenido no enseñado.",
+      "status": "pass",
+      "evidence": "S01 prerequisites none; teaches runtime/venv/git/quality baseline. CP-N1-A skeleton hands off to S02–S04 without requiring later sections."
+    }
+  ],
+  "authorized_to_close_section": true,
+  "authorization_rationale": "Zero remaining P0/P1 content gaps for counting (8 subtopics), exercises (24 complete), and exam bank (24 variants). Demo count 8 satisfied. Residual open registry rows are process-close, not missing content. Orchestrator should close S01-CONTENT-001/002, merge checkpoint/ledger, and reseed DB.",
+  "orchestrator_handoff": [
+    "Close issue_registry S01-CONTENT-001 and S01-CONTENT-002 (and optionally 003/005).",
+    "Update checkpoint.json s01.phase → PHASE_6_COMPLETE / section_passed when ledger rules allow.",
+    "Run bun/prisma db:seed so setup bank is live.",
+    "Do not block on UNVERIFIED GitHub push in sandbox."
+  ]
+}

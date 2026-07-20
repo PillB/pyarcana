@@ -1,0 +1,115 @@
+{
+  "version": "3.2",
+  "section": "S01",
+  "section_id": "setup",
+  "artifact": "topic_evaluations",
+  "platform_note": "Structured data for future TopicEvaluation rendering; CourseSection types may not mount this yet.",
+  "generated_at": "2026-07-20T06:15:00Z",
+  "rubric_scale": "0-3 per criterion",
+  "topic_evaluations": [
+    {
+      "id": "S01-T1-TE",
+      "topic_id": "S01-T1",
+      "title": "Evaluación formativa — Runtime",
+      "subtopics_covered": ["S01-T1-A", "S01-T1-B"],
+      "tasks": [
+        {
+          "id": "S01-T1-TE-1",
+          "title": "Verificar intérprete y capturar versión",
+          "authentic": true,
+          "deliverable": "Captura o transcript: python --version + sesión REPL de 3 líneas (expresión, type, quit)"
+        },
+        {
+          "id": "S01-T1-TE-2",
+          "title": "Demostrar exit code no cero",
+          "authentic": true,
+          "deliverable": "Comando con sys.exit(1) o equivalente + código de salida documentado ($? o $LASTEXITCODE)"
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿El intérprete y los exit codes son los correctos?",
+        "robustness": "¿Funciona en su SO documentado?",
+        "maintainability": "¿El transcript es claro y reproducible?",
+        "responsible_use": "¿No incluye secretos ni rutas con datos sensibles?"
+      }
+    },
+    {
+      "id": "S01-T2-TE",
+      "topic_id": "S01-T2",
+      "title": "Evaluación formativa — Entornos",
+      "subtopics_covered": ["S01-T2-A", "S01-T2-B"],
+      "tasks": [
+        {
+          "id": "S01-T2-TE-1",
+          "title": "Crear .venv e instalar desde requirements de plantilla",
+          "authentic": true,
+          "deliverable": "Transcript: python -m venv .venv → activate → python -m pip install -r requirements.txt"
+        },
+        {
+          "id": "S01-T2-TE-2",
+          "title": "Generar freeze y explicar una línea pinneada",
+          "authentic": true,
+          "deliverable": "requirements.txt + 2–3 oraciones sobre una línea paquete==versión y por qué no es un lock con hashes"
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿El entorno se activa y las deps instalan?",
+        "robustness": "¿Funciona tras desactivar/reactivar?",
+        "maintainability": "¿requirements.txt es usable por un colega?",
+        "responsible_use": "¿No pinnea secretos ni rutas locales?"
+      }
+    },
+    {
+      "id": "S01-T3-TE",
+      "topic_id": "S01-T3",
+      "title": "Evaluación formativa — Git",
+      "subtopics_covered": ["S01-T3-A", "S01-T3-B"],
+      "tasks": [
+        {
+          "id": "S01-T3-TE-1",
+          "title": "Dos commits Conventional Commits + un diff explicado",
+          "authentic": true,
+          "deliverable": "git log --oneline (2+ commits) + explicación de 1 diff (git show) en 3–5 oraciones"
+        },
+        {
+          "id": "S01-T3-TE-2",
+          "title": "Rama feature y plan de PR",
+          "authentic": true,
+          "deliverable": "Nombre de rama feat/* + título de PR + 3 bullets de cambios; sin force-push"
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Los commits y la rama son correctos?",
+        "robustness": "¿Se puede recuperar de un error sin destruir historial?",
+        "maintainability": "¿Mensajes legibles para un colega?",
+        "responsible_use": "¿No hay secretos en el historial del ejercicio?"
+      }
+    },
+    {
+      "id": "S01-T4-TE",
+      "topic_id": "S01-T4",
+      "title": "Evaluación formativa — Calidad inicial",
+      "subtopics_covered": ["S01-T4-A", "S01-T4-B"],
+      "tasks": [
+        {
+          "id": "S01-T4-TE-1",
+          "title": "Repo con Ruff config + ruff check limpio en un script",
+          "authentic": true,
+          "deliverable": "pyproject.toml mínimo + salida de python -m ruff check scripts/hello_env.py (exit 0)"
+        },
+        {
+          "id": "S01-T4-TE-2",
+          "title": "Paquete ignore/env/README de seguridad",
+          "authentic": true,
+          "deliverable": ".gitignore (incluye .venv/ y venv/) + .env.example + sección README Seguridad/CP-N1-A"
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Ruff y ignore funcionan?",
+        "robustness": "¿Un clon limpio arranca según README?",
+        "maintainability": "¿README es suficiente para un colega?",
+        "responsible_use": "¿Cero secretos y cero PII real?"
+      }
+    }
+  ]
+}

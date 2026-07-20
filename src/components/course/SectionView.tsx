@@ -428,9 +428,28 @@ function WeDoTab({ section, onDone, done }: { section: CourseSection; onDone: ()
               </div>
             </div>
             <div className="space-y-3 p-5">
-              <Callout type="tip" title="Pista">
-                {step.hint}
-              </Callout>
+              {step.hints && step.hints.length > 0 ? (
+                step.hints.map((h, hi) => (
+                  <Callout key={hi} type="tip" title={hi === 0 ? 'Pista 1' : `Pista ${hi + 1}`}>
+                    {h}
+                  </Callout>
+                ))
+              ) : (
+                <Callout type="tip" title="Pista">
+                  {step.hint}
+                </Callout>
+              )}
+              {step.kind && (
+                <p className="text-xs text-muted-foreground">
+                  Tipo:{' '}
+                  {step.kind === 'guided'
+                    ? 'Guiado'
+                    : step.kind === 'independent'
+                      ? 'Independiente'
+                      : 'Transferencia'}
+                  {step.id ? ` · ${step.id}` : ''}
+                </p>
+              )}
               <div>
                 <div className="mb-2 text-xs font-medium text-muted-foreground">Starter code:</div>
                 <CodeBlock
@@ -463,6 +482,7 @@ function WeDoTab({ section, onDone, done }: { section: CourseSection; onDone: ()
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
+                  className="space-y-3"
                 >
                   <div className="mb-2 text-xs font-medium text-muted-foreground">Solución:</div>
                   <CodeBlock
@@ -471,6 +491,26 @@ function WeDoTab({ section, onDone, done }: { section: CourseSection; onDone: ()
                     title={step.solutionCode.title}
                     output={step.solutionCode.output}
                   />
+                  {step.edgeCases && step.edgeCases.length > 0 && (
+                    <Callout type="warning" title="Casos borde">
+                      <ul className="list-disc pl-4 space-y-1">
+                        {step.edgeCases.map((ec, eci) => (
+                          <li key={eci}>{ec}</li>
+                        ))}
+                      </ul>
+                    </Callout>
+                  )}
+                  {step.feedback && (
+                    <Callout type="success" title="Feedback">
+                      {step.feedback}
+                    </Callout>
+                  )}
+                  {step.tests && (
+                    <p className="text-xs text-muted-foreground">
+                      <span className="font-medium">Verificación: </span>
+                      {step.tests}
+                    </p>
+                  )}
                 </motion.div>
               )}
             </div>
@@ -566,6 +606,44 @@ function YouDoTab({ section, onDone, done }: { section: CourseSection; onDone: (
           </div>
         </div>
       </Card>
+
+      {section.topicEvaluations && section.topicEvaluations.length > 0 && (
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <GraduationCap className="h-5 w-5 text-rose-600" />
+            <h3 className="text-lg font-semibold">Evaluaciones de tema (V3)</h3>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            Rúbrica 0–3 por criterio (corrección, robustez, mantenibilidad, uso responsable). Solo datos sintéticos.
+          </p>
+          {section.topicEvaluations.map((te) => (
+            <Card key={te.id} className="border-rose-500/20 p-4 space-y-3">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <Badge variant="outline" className="mb-1 text-[10px] font-mono">
+                    {te.id}
+                  </Badge>
+                  <h4 className="text-sm font-semibold">{te.title}</h4>
+                </div>
+              </div>
+              <ul className="space-y-2">
+                {te.tasks.map((task) => (
+                  <li key={task.id} className="rounded-md border border-border/60 bg-muted/30 p-2.5">
+                    <div className="text-xs font-medium text-foreground">{task.title}</div>
+                    <p className="mt-1 text-xs text-foreground/75">{task.deliverable}</p>
+                  </li>
+                ))}
+              </ul>
+              <div className="grid gap-1.5 sm:grid-cols-2 text-[11px] text-muted-foreground">
+                <div><span className="font-medium text-foreground/80">Corrección: </span>{te.rubric_0_3.correctness}</div>
+                <div><span className="font-medium text-foreground/80">Robustez: </span>{te.rubric_0_3.robustness}</div>
+                <div><span className="font-medium text-foreground/80">Mantenibilidad: </span>{te.rubric_0_3.maintainability}</div>
+                <div><span className="font-medium text-foreground/80">Uso responsable: </span>{te.rubric_0_3.responsible_use}</div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
 
       <MarkDoneButton onDone={onDone} done={done} label="Proyecto enviado a mi GitHub" />
     </div>
