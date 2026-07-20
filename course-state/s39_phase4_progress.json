@@ -1,0 +1,348 @@
+{
+  "version": "3.2",
+  "section": "S39",
+  "section_id": "integrator-phase2",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S31-S39-P4",
+  "generated_at": "2026-07-20T08:26:41Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget integrator-phase2 section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s39-integrator-phase2.ts",
+      "course-state/s39_phase4_progress.json",
+      "course-state/lanes/LANE-S31-S39-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "integrator-phase2",
+    "index": 39,
+    "title": "Responsible ML Case Triage y cierre de nivel",
+    "shortTitle": "Case Triage N3",
+    "tagline": "Responsible ML Case Triage con baseline, calibración, abstención, monitoreo y revisión; promoción N3 con regresión S27–S39 y CF-3",
+    "estimatedHours": 16,
+    "learningOutcomes": 8,
+    "youDo": "Responsible ML Case Triage (cierre CP-N3-C) + notas regresión N3/CF-3",
+    "icon": "Award",
+    "legacy_note": "integrator-phase2 retargeted to Responsible ML Case Triage CP-N3-C close",
+    "capstone": "CP-N3-C (cierre) + CF-3 + Level-3 regression",
+    "regression_notes": {
+      "scope": "S27-S39",
+      "gates": [
+        "CP-N3-A",
+        "CP-N3-B",
+        "CP-N3-C",
+        "CF-3"
+      ],
+      "status_in_author_lane": "PLANNED_NOT_PASSED",
+      "section_passed": false
+    }
+  },
+  "subtopics_authored": {
+    "S39-T1-A": {
+      "slug": "intake-er-rel-features-model",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S39-T1-A-DEMO",
+      "exercises": [
+        "S39-T1-A-E1",
+        "S39-T1-A-E2",
+        "S39-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S39-T1-B": {
+      "slug": "contracts-versions-ownership",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S39-T1-B-DEMO",
+      "exercises": [
+        "S39-T1-B-E1",
+        "S39-T1-B-E2",
+        "S39-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S39-T2-A": {
+      "slug": "queue-evidence-packet-explain",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S39-T2-A-DEMO",
+      "exercises": [
+        "S39-T2-A-E1",
+        "S39-T2-A-E2",
+        "S39-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S39-T2-B": {
+      "slug": "decision-override-feedback-appeal",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S39-T2-B-DEMO",
+      "exercises": [
+        "S39-T2-B-E1",
+        "S39-T2-B-E2",
+        "S39-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S39-T3-A": {
+      "slug": "privacy-fairness-security",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S39-T3-A-DEMO",
+      "exercises": [
+        "S39-T3-A-E1",
+        "S39-T3-A-E2",
+        "S39-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S39-T3-B": {
+      "slug": "drift-incidents-rollback-human",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S39-T3-B-DEMO",
+      "exercises": [
+        "S39-T3-B-E1",
+        "S39-T3-B-E2",
+        "S39-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S39-T4-A": {
+      "slug": "acceptance-demo",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S39-T4-A-DEMO",
+      "exercises": [
+        "S39-T4-A-E1",
+        "S39-T4-A-E2",
+        "S39-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S39-T4-B": {
+      "slug": "cards-value-metrics-postmortem",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S39-T4-B-DEMO",
+      "exercises": [
+        "S39-T4-B-E1",
+        "S39-T4-B-E2",
+        "S39-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Responsible ML Case Triage (cierre CP-N3-C) + notas regresión N3/CF-3",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S39-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S39-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "ER/matching y scores no implican fraude, parentesco ni colusión. Solo decide 'misma entidad' cuando aplique.",
+  "capstone_gate": "CP-N3-C",
+  "gate_role": "CLOSE + Level-3 regression + CF-3",
+  "regression_notes": {
+    "scope": "S27-S39",
+    "gates": [
+      "CP-N3-A",
+      "CP-N3-B",
+      "CP-N3-C",
+      "CF-3"
+    ],
+    "status_in_author_lane": "PLANNED_NOT_PASSED",
+    "section_passed": false
+  },
+  "cp_n3_c": "AUTHORED_NOT_PASSED",
+  "n3_regression": "PLANNED_NOT_PASSED",
+  "cf3": "PLANNED_NOT_PASSED"
+}

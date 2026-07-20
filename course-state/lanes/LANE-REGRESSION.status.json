@@ -1,0 +1,59 @@
+{
+  "lane_id": "LANE-REGRESSION",
+  "status": "completed",
+  "validator_exit_code": 0,
+  "tests_created": [
+    "/Users/pabloillescas/Projects/PyArcana/scripts/v3_regression_counts.test.mjs",
+    "/Users/pabloillescas/Projects/PyArcana/scripts/check_section_structure.py"
+  ],
+  "tests_extended": [
+    "/Users/pabloillescas/Projects/PyArcana/scripts/v3_regression.spec.ts"
+  ],
+  "reports_written": [
+    "course-state/v3_invariant_report.json",
+    "course-state/v3_regression_counts_report.json",
+    "course-state/v3_section_structure_report.json",
+    "course-state/layout_regression_plan.json",
+    "course-state/lanes/LANE-REGRESSION.status.json"
+  ],
+  "results": {
+    "v3_invariant_validator": {
+      "cmd": "python3 scripts/v3_invariant_validator.py",
+      "exit_code": 0,
+      "ok": true,
+      "warnings": 3,
+      "v3_tagged_sections": 2
+    },
+    "v3_regression_counts": {
+      "cmd": "node scripts/v3_regression_counts.test.mjs",
+      "exit_code": 0,
+      "asserts": {
+        "COURSE_SECTIONS": 52,
+        "setup_exercises": 24,
+        "setup_demos": 8
+      }
+    },
+    "check_section_structure": {
+      "cmd": "python3 scripts/check_section_structure.py",
+      "exit_code": 0,
+      "purpose": "CI fail if S01 V3 tags removed"
+    },
+    "layout": {
+      "node_modules": false,
+      "plan": "course-state/layout_regression_plan.json",
+      "note": "Playwright layout suites deferred until npm install; geometric_analyzer hardcodes /home/z/my-project paths"
+    }
+  },
+  "files_changed": [
+    "scripts/v3_regression_counts.test.mjs",
+    "scripts/check_section_structure.py",
+    "scripts/v3_regression.spec.ts",
+    "course-state/layout_regression_plan.json",
+    "course-state/lanes/LANE-REGRESSION.status.json"
+  ],
+  "execution_summary": "Confirmed scripts/v3_invariant_validator.py exit 0. Added node-based count test (52 sections, setup 24 exercises / 8 demos), CI structure gate for S01 V3 tags, extended v3_regression.spec.ts with same counts. Wrote layout_regression_plan.json because node_modules missing. All three runnable gates exit 0.",
+  "blockers": [
+    "node_modules missing — full Playwright regression/layout not executed"
+  ],
+  "next_action": "After npm install: run commands in course-state/layout_regression_plan.json; optionally fix geometric_analyzer.py GEOMETRY_PATH to repo-relative."
+}

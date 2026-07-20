@@ -1,157 +1,1153 @@
 import type { CourseSection } from '../../types'
 
 export const section47: CourseSection = {
-  id: 'opensource',
+  id: "opensource",
   index: 47,
-  title: 'Contribución Open Source y Diseño de APIs Públicas',
-  shortTitle: 'Contribución Open Source y Dis',
-  tagline: 'El mejor CV para un Senior/Staff Engineer es el historial de contribuciones open source.',
-  estimatedHours: 12,
-  level: 'Master',
+  title: "MLOps: experimentos, registro y serving",
+  shortTitle: "MLOps serving",
+  tagline: "Production Data/ML Platform: experimento→servicio con gates, lineage y rollback; CF-4",
+  estimatedHours: 16,
+  level: "Master",
   phase: 3,
-  icon: 'Github',
-  accentColor: 'bg-gradient-to-br from-amber-500 to-red-600',
-  jobRelevance: 'El historial de contribuciones open source en GitHub es uno de los predictores más fuertes de contratación en empresas top (FAANG, Anthropic, OpenAI, Stripe). Publicar un paquete con comunidad activa es diferenciador enorme para Staff Engineer ($200K-$280K).',
+  icon: "Github",
+  accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
+  jobRelevance:
+    "Retemática V3 **MLOps: experimentos, registro y serving** (id de plataforma `opensource` conservado; legado «Contribución Open Source y Diseño de APIs Públicas»). Contribuye a **CP-N4-B (cierre) + CF-4**: Production Data/ML Platform promueve un modelo desde experimento hasta servicio solo tras gates, conserva lineage y revierte sin perder decisiones. CF-4 valida la ruta desplegable de los capstones previos. Datos sintéticos; sin PII real. ER/matching no implica fraude ni parentesco.",
   learningOutcomes: [
-    { text: 'Proceso de contribución a proyectos open source: issues, PRs, code review, CI' },
-    { text: 'Diseñar APIs públicas: principios de diseño (backward compatibility, versioning, documentation)' },
-    { text: 'Construir y publicar un paquete Python con funcionalidades genuinamente útiles para la comunidad' },
-    { text: 'Escribir documentación de calidad con Sphinx + ReadTheDocs + API reference auto-generada' },
-    { text: 'Gestionar versiones con Conventional Commits + CHANGELOG automático con git-cliff' },
-    { text: 'Construir una comunidad alrededor de un proyecto: README atractivo, ejemplos, Discord' },
+    { text: "Trackea experimentos reproducibles" },
+    { text: "Compara runs con lineage completo" },
+    { text: "Registra con stages y approvals" },
+    { text: "Publica artefactos y compatibilidad" },
+    { text: "Sirve batch/online con features consistentes" },
+    { text: "Controla latency, batching y fallback" },
+    { text: "Despliega shadow/canary con monitoring" },
+    { text: "Revierte, retira y audita modelos" },
   ],
   theory: [
     {
-      heading: 'Contribución a Open Source: forks, PRs, code review y CI',
+      heading: "Mapa V3 S47: MLOps: experimentos, registro y serving",
       paragraphs: [
-        'Contribuir a Open Source es la forma más efectiva de construir reputación técnica internacional. En GitHub, los reclutadores buscan candidatos con PRs merged en proyectos conocidos (pandas, scikit-learn, FastAPI). Para empezar: busca issues con label "good first issue" en proyectos que ya usas. Un typo en la documentación, un bug en un edge case, o una mejora en un docstring son contribuciones válidas. El proceso: fork el repo, crea una rama, haz el cambio, escribe un test, abre un PR con descripción clara. La primera contribución merged es la más difícil — las siguientes son cada vez más fáciles.',
-        'Diseñar una API pública para tu paquete Python requiere disciplina. La regla #1: todo lo que NO tiene underscore inicial es API pública y no puede cambiar sin un major version bump. Usa `__all__` en `__init__.py` para definir explícitamente qué se exporta. Sigue Semantic Versioning (semver): MAJOR.MINOR.PATCH. MAJOR para breaking changes, MINOR para nuevas features backward-compatible, PATCH para bugfixes. Antes de un breaking change, emite `DeprecationWarning` en la versión MINOR anterior. Usa `pyproject.toml` (PEP 621) con hatchling como build backend — es el estándar moderno que reemplaza a setup.py.',
-        'El CI/CD para un paquete Open Source usa GitHub Actions con matrix testing: prueba en Python 3.10/3.11/3.12 × Ubuntu/macOS/Windows (9 combinaciones). El workflow: (1) lint con ruff, (2) tests con pytest + coverage, (3) build con hatch, (4) publish a Test PyPI en cada push a main, (5) publish a PyPI real en cada release. El archivo `.github/workflows/ci.yml` define todo esto. Sin CI matrix, tu paquete "funciona en mi máquina" pero falla en Windows o Python 3.10. Sin publish automático, olvidas publicar la nueva versión después de un merge.',
+        "En V3, **S47** retematiza el archivo de plataforma `opensource` hacia **MLOps: experimentos, registro y serving**. **FINAL/CLOSE gate** (CLOSE + CF-4).",
+        "Incremento: Production Data/ML Platform promueve un modelo desde experimento hasta servicio solo tras gates, conserva lineage y revierte sin perder decisiones. CF-4 valida la ruta desplegable de los capstones previos.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger.",
       ],
+      callout: {
+        type: "info",
+        title: "Platform id preservado",
+        content:
+          "KEEP_PLATFORM_ID_RETHEME_CONTENT: `opensource`. Capstone: CP-N4-B (cierre) + CF-4.",
+      },
+    },
+    {
+      heading: "tracking y reproducibilidad",
+      subtopicId: "S47-T1-A",
+      paragraphs: [
+        "**tracking y reproducibilidad** — outcome del blueprint phase3 para `tracking-reproducibility`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (cierre) + CF-4** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "tracking_reproducibility.py",
+        code: `print("r1"); print({"f1":0.81}); print("repro", 42)`,
+        output: `r1
+{'f1': 0.81}
+repro 42`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "data/code/env lineage y comparación",
+      subtopicId: "S47-T1-B",
+      paragraphs: [
+        "**data/code/env lineage y comparación** — outcome del blueprint phase3 para `data-code-env-lineage-compare`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (cierre) + CF-4** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "data_code_env_lineage_compare.py",
+        code: `print({"data":"ds-v3","code":"git:abc","env":"locked"}); print("compare", ["f1","latency"]); print("diff", True)`,
+        output: `{'data': 'ds-v3', 'code': 'git:abc', 'env': 'locked'}
+compare ['f1', 'latency']
+diff True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "firmas, stages y approvals",
+      subtopicId: "S47-T2-A",
+      paragraphs: [
+        "**firmas, stages y approvals** — outcome del blueprint phase3 para `signatures-stages-approvals`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (cierre) + CF-4** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "signatures_stages_approvals.py",
+        code: `print({"stage":"Staging","approvals":["ml-lead"]}); print("signature", "required"); print("prod_gate", True)`,
+        output: `{'stage': 'Staging', 'approvals': ['ml-lead']}
+signature required
+prod_gate True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "artefactos, model card y compatibilidad",
+      subtopicId: "S47-T2-B",
+      paragraphs: [
+        "**artefactos, model card y compatibilidad** — outcome del blueprint phase3 para `artifacts-card-compat`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (cierre) + CF-4** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "artifacts_card_compat.py",
+        code: `print({"model":"er-ranker","version":"1.2.0"}); print("artifact", "model.pkl"); print("card_required", True)`,
+        output: `{'model': 'er-ranker', 'version': '1.2.0'}
+artifact model.pkl
+card_required True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "batch/online y feature consistency",
+      subtopicId: "S47-T3-A",
+      paragraphs: [
+        "**batch/online y feature consistency** — outcome del blueprint phase3 para `batch-online-feature-consistency`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (cierre) + CF-4** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "batch_online_feature_consistency.py",
+        code: `print("consistent", True); print("modes", ["batch","online"]); print("skew_risk", "watch")`,
+        output: `consistent True
+modes ['batch', 'online']
+skew_risk watch`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "latency, batching y fallback",
+      subtopicId: "S47-T3-B",
+      paragraphs: [
+        "**latency, batching y fallback** — outcome del blueprint phase3 para `latency-batching-fallback`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (cierre) + CF-4** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "latency_batching_fallback.py",
+        code: `print({"p95_ms":50,"fallback":"rules"}); print("on_timeout", "rules"); print("batching", True)`,
+        output: `{'p95_ms': 50, 'fallback': 'rules'}
+on_timeout rules
+batching True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "shadow/canary y monitoring hooks",
+      subtopicId: "S47-T4-A",
+      paragraphs: [
+        "**shadow/canary y monitoring hooks** — outcome del blueprint phase3 para `shadow-canary-monitoring`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (cierre) + CF-4** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "shadow_canary_monitoring.py",
+        code: `print("shadow"); print(["f1","latency","drift"]); print("canary_next", True)`,
+        output: `shadow
+['f1', 'latency', 'drift']
+canary_next True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "rollback, retirement y audit",
+      subtopicId: "S47-T4-B",
+      paragraphs: [
+        "**rollback, retirement y audit** — outcome del blueprint phase3 para `rollback-retire-audit`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (cierre) + CF-4** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "rollback_retire_audit.py",
+        code: `print({"action":"rollback","to":"1.1.0"}); print("decisions_kept", True); print("cf4", "deployable_path")`,
+        output: `{'action': 'rollback', 'to': '1.1.0'}
+decisions_kept True
+cf4 deployable_path`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
     },
   ],
   iDo: {
-    intro: 'Te muestro paso a paso cómo aplicar los conceptos de esta sección con ejemplos prácticos.',
+    intro: "Te muestro 8 demos de S47 (MLOps: experimentos, registro y serving) alineadas a CP-N4-B (cierre) + CF-4.",
     steps: [
       {
-        description: 'Hacer tu primera contribución a un proyecto Open Source Python',
+        demoId: "S47-T1-A-DEMO",
+        subtopicId: "S47-T1-A",
+        environment: "local-python",
+        description: "Demo: tracking y reproducibilidad",
         code: {
           language: 'python',
-          title: 'demo.py',
-          code: '# pyproject.toml moderno (PEP 621)\n[project]\nname = "pytools-cli"\nversion = "1.0.0"\ndependencies = ["click>=8.0", "pandas>=2.0", "rich>=13.0"]\n\n[project.optional-dependencies]\ndev = ["pytest", "ruff", "mypy"]\nml = ["scikit-learn", "xgboost"]\n\n[project.scripts]\npytools = "pytools_cli.main:cli"\n\n# pip install .  -> instala el paquete\n# pytools --help -> usa el CLI\nprint("pyproject.toml: entry_points + optional-deps")',
+          title: "demo_tracking_reproducibility.py",
+          code: `print("tracking", "mlflow_like"); print("params", True); print("seed", 42)`,
+          output: `tracking mlflow_like
+params True
+seed 42`,
         },
-        why: 'pyproject.toml con hatchling es el estandar moderno. project.scripts crea el comando ejecutable. optional-dependencies separa deps de dev y features modulares.',
+        why: "Demuestra el outcome de S47-T1-A con Python verificable.",
+      },
+      {
+        demoId: "S47-T1-B-DEMO",
+        subtopicId: "S47-T1-B",
+        environment: "local-python",
+        description: "Demo: data/code/env lineage y comparación",
+        code: {
+          language: 'python',
+          title: "demo_data_code_env_lineage_compare.py",
+          code: `print("data", "ds-v3"); print("code", "git:abc"); print("env", "locked")`,
+          output: `data ds-v3
+code git:abc
+env locked`,
+        },
+        why: "Demuestra el outcome de S47-T1-B con Python verificable.",
+      },
+      {
+        demoId: "S47-T2-A-DEMO",
+        subtopicId: "S47-T2-A",
+        environment: "local-python",
+        description: "Demo: firmas, stages y approvals",
+        code: {
+          language: 'python',
+          title: "demo_signatures_stages_approvals.py",
+          code: `print("stage", "Staging"); print("approve", True); print("signature", True)`,
+          output: `stage Staging
+approve True
+signature True`,
+        },
+        why: "Demuestra el outcome de S47-T2-A con Python verificable.",
+      },
+      {
+        demoId: "S47-T2-B-DEMO",
+        subtopicId: "S47-T2-B",
+        environment: "local-python",
+        description: "Demo: artefactos, model card y compatibilidad",
+        code: {
+          language: 'python',
+          title: "demo_artifacts_card_compat.py",
+          code: `print("compat", "features_v3"); print("version", "1.2.0"); print("artifact_hash", True)`,
+          output: `compat features_v3
+version 1.2.0
+artifact_hash True`,
+        },
+        why: "Demuestra el outcome de S47-T2-B con Python verificable.",
+      },
+      {
+        demoId: "S47-T3-A-DEMO",
+        subtopicId: "S47-T3-A",
+        environment: "local-python",
+        description: "Demo: batch/online y feature consistency",
+        code: {
+          language: 'python',
+          title: "demo_batch_online_feature_consistency.py",
+          code: `print("batch", True); print("online", True); print("same_codepath", True)`,
+          output: `batch True
+online True
+same_codepath True`,
+        },
+        why: "Demuestra el outcome de S47-T3-A con Python verificable.",
+      },
+      {
+        demoId: "S47-T3-B-DEMO",
+        subtopicId: "S47-T3-B",
+        environment: "local-python",
+        description: "Demo: latency, batching y fallback",
+        code: {
+          language: 'python',
+          title: "demo_latency_batching_fallback.py",
+          code: `print("latency_ok", True); print("fallback", "rules"); print("batch", 32)`,
+          output: `latency_ok True
+fallback rules
+batch 32`,
+        },
+        why: "Demuestra el outcome de S47-T3-B con Python verificable.",
+      },
+      {
+        demoId: "S47-T4-A-DEMO",
+        subtopicId: "S47-T4-A",
+        environment: "local-python",
+        description: "Demo: shadow/canary y monitoring hooks",
+        code: {
+          language: 'python',
+          title: "demo_shadow_canary_monitoring.py",
+          code: `print("shadow", True); print("hooks", True); print("promote_if", "gates_green")`,
+          output: `shadow True
+hooks True
+promote_if gates_green`,
+        },
+        why: "Demuestra el outcome de S47-T4-A con Python verificable.",
+      },
+      {
+        demoId: "S47-T4-B-DEMO",
+        subtopicId: "S47-T4-B",
+        environment: "local-python",
+        description: "Demo: rollback, retirement y audit",
+        code: {
+          language: 'python',
+          title: "demo_rollback_retire_audit.py",
+          code: `print("rollback", "1.1.0"); print("retire", "1.0.0"); print("audit", True)`,
+          output: `rollback 1.1.0
+retire 1.0.0
+audit True`,
+        },
+        why: "Demuestra el outcome de S47-T4-B con Python verificable.",
       },
     ],
   },
   weDo: {
-    intro: 'Ahora te toca a ti practicar con guía. Lee cada instrucción, intenta escribir el código, y si te trabas revisa la solución.',
+    intro: "24 ejercicios (8×E1 guided / E2 independent / E3 transfer) en es-PE con soluciones verificadas.",
     steps: [
       {
-        instruction: 'Encuentra un issue good-first-issue en un proyecto Python y envíalo como PR',
-        hint: 'Revisa la teoría y el I Do antes de intentar este ejercicio.',
+        id: "S47-T1-A-E1",
+        subtopicId: "S47-T1-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'ejercicio.py',
-          code: '# Tu código aquí\n',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
         },
         solutionCode: {
           language: 'python',
-          title: 'solucion.py',
-          code: '# GitHub Actions CI con matrix testing (3 OS x 3 Python = 9 jobs)\nname: CI\non: [push, pull_request]\njobs:\n  test:\n    runs-on: ${{ matrix.os }}\n    strategy:\n      matrix:\n        os: [ubuntu-latest, macos-latest, windows-latest]\n        python: ["3.10", "3.11", "3.12"]\n    steps:\n    - uses: actions/checkout@v4\n    - run: pip install -e ".[dev]"\n    - run: ruff check .\n    - run: pytest --cov\nprint("CI: 9 combinaciones, lint + tests + coverage en paralelo")',
+          title: "exercise.py",
+          code: `print('r1')`,
+          output: `r1`,
+        },
+      },
+      {
+        id: "S47-T1-A-E2",
+        subtopicId: "S47-T1-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(0.81)`,
+          output: `0.81`,
+        },
+      },
+      {
+        id: "S47-T1-A-E3",
+        subtopicId: "S47-T1-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(42)`,
+          output: `42`,
+        },
+      },
+      {
+        id: "S47-T1-B-E1",
+        subtopicId: "S47-T1-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('ds-v3')`,
+          output: `ds-v3`,
+        },
+      },
+      {
+        id: "S47-T1-B-E2",
+        subtopicId: "S47-T1-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['f1','latency'])`,
+          output: `['f1', 'latency']`,
+        },
+      },
+      {
+        id: "S47-T1-B-E3",
+        subtopicId: "S47-T1-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S47-T2-A-E1",
+        subtopicId: "S47-T2-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('Staging')`,
+          output: `Staging`,
+        },
+      },
+      {
+        id: "S47-T2-A-E2",
+        subtopicId: "S47-T2-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['ml-lead'])`,
+          output: `['ml-lead']`,
+        },
+      },
+      {
+        id: "S47-T2-A-E3",
+        subtopicId: "S47-T2-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S47-T2-B-E1",
+        subtopicId: "S47-T2-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('1.2.0')`,
+          output: `1.2.0`,
+        },
+      },
+      {
+        id: "S47-T2-B-E2",
+        subtopicId: "S47-T2-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('features_v3')`,
+          output: `features_v3`,
+        },
+      },
+      {
+        id: "S47-T2-B-E3",
+        subtopicId: "S47-T2-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S47-T3-A-E1",
+        subtopicId: "S47-T3-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S47-T3-A-E2",
+        subtopicId: "S47-T3-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['batch','online'])`,
+          output: `['batch', 'online']`,
+        },
+      },
+      {
+        id: "S47-T3-A-E3",
+        subtopicId: "S47-T3-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('watch')`,
+          output: `watch`,
+        },
+      },
+      {
+        id: "S47-T3-B-E1",
+        subtopicId: "S47-T3-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(50)`,
+          output: `50`,
+        },
+      },
+      {
+        id: "S47-T3-B-E2",
+        subtopicId: "S47-T3-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('rules')`,
+          output: `rules`,
+        },
+      },
+      {
+        id: "S47-T3-B-E3",
+        subtopicId: "S47-T3-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(32)`,
+          output: `32`,
+        },
+      },
+      {
+        id: "S47-T4-A-E1",
+        subtopicId: "S47-T4-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('shadow')`,
+          output: `shadow`,
+        },
+      },
+      {
+        id: "S47-T4-A-E2",
+        subtopicId: "S47-T4-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['f1','latency','drift'])`,
+          output: `['f1', 'latency', 'drift']`,
+        },
+      },
+      {
+        id: "S47-T4-A-E3",
+        subtopicId: "S47-T4-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S47-T4-B-E1",
+        subtopicId: "S47-T4-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('rollback')`,
+          output: `rollback`,
+        },
+      },
+      {
+        id: "S47-T4-B-E2",
+        subtopicId: "S47-T4-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('1.1.0')`,
+          output: `1.1.0`,
+        },
+      },
+      {
+        id: "S47-T4-B-E3",
+        subtopicId: "S47-T4-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
         },
       },
     ],
   },
   youDo: {
-    title: 'Open Source Package Publicado',
-    context: 'Publica un paquete Python original en PyPI con ≥ 5 GitHub stars en la primera semana: elegir una herramienta que hayas necesitado y no existía, o mejora significativa de algo existente.',
+    title: "[FINAL] MLOps: experimentos, registro y serving (CP-N4-B (cierre) + CF-4)",
+    context:
+      "Proyecto de sección **S47** (MLOps: experimentos, registro y serving). Gate: **CP-N4-B (cierre) + CF-4**. Production Data/ML Platform promueve un modelo desde experimento hasta servicio solo tras gates, conserva lineage y revierte sin perder decisiones. CF-4 valida la ruta desplegable de los capstones previos. **FINAL — CP-N4-B CLOSE + CF-4**: Production Data/ML Platform (experimento→servicio con gates, lineage y rollback). CF-4 valida ruta desplegable. Nota FINAL de cierre N4-B. Usa solo datos sintéticos; no marques section_passed desde esta entrega de autoría.",
     objectives: [
-      'Aplicar los conceptos aprendidos en un proyecto real',
-      'Demostrar dominio del tema con un entregable de portafolio',
-      'Documentar el proceso y los resultados',
+      "FINAL: Production Data/ML Platform promueve un modelo desde experimento hasta servicio solo tras gates, conserva lineage y revierte sin perder decisiones. CF-4 valida la ruta desplegable de los capstones previos.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-B (cierre) + CF-4",
     ],
     requirements: [
-      'Código funcional y documentado',
-      'Tests que validen el funcionamiento',
-      'README con instrucciones de uso',
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección",
     ],
-    portfolioNote: 'Este proyecto es ideal para mostrar en entrevistas técnicas y agregar a tu portafolio de GitHub.',
+    starterCode: `# S47 You Do — MLOps: experimentos, registro y serving
+# Gate: CP-N4-B (cierre) + CF-4
+# Production Data/ML Platform promueve un modelo desde experimento hasta servicio solo tras gates, conserva lineage y revi
+
+def main():
+    print("section", "S47")
+    print("gate", 'CP-N4-B (cierre) + CF-4')
+    print("synthetic", True)
+    # TODO: implementar incremento del blueprint
+
+if __name__ == "__main__":
+    main()
+`,
+    portfolioNote:
+      "FINAL. Entrega alineada a CP-N4-B (cierre) + CF-4. Portfolio en español profesional; evidencia ejecutable; privacidad. Otra lane califica PASS; no editar checkpoint/ledger/seed.",
     rubric: [
-      { criterion: 'Funcionalidad', weight: '40%' },
-      { criterion: 'Calidad de código', weight: '20%' },
-      { criterion: 'Documentación', weight: '20%' },
-      { criterion: 'Tests', weight: '20%' },
+      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
+      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
+      { criterion: "Privacidad / sin PII real / sin secretos", weight: "20%" },
+      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
+      { criterion: "Código legible y límites claros", weight: "10%" },
+      { criterion: "Documentación en español profesional", weight: "10%" },
+      { criterion: "Nota FINAL de gate: CLOSE + CF-4", weight: "gate FINAL" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: '¿Qué es Semantic Versioning (semver)?',
+        question: "El id de plataforma de S47 que se preserva es:",
         options: [
-          'MAJOR.MINOR.PATCH: MAJOR para breaking changes, MINOR para nuevas features compatibles, PATCH para bugfixes — antes de un breaking change, emitir DeprecationWarning',
-          'Es un sistema de versiones basado en fechas',
-          'Es un tipo de tag de Git',
-          'Es un formato de changelog',
+          "opensource",
+          "renamed-v3",
+          "legacy-drop",
+          "random",
         ],
         correctIndex: 0,
-        explanation: 'semver: 1.4.2 → 1.4.3 (bugfix), 1.5.0 (nueva feature), 2.0.0 (breaking change). Antes de MAJOR bump, depreca APIs con DeprecationWarning en la última versión MINOR. Los usuarios tienen tiempo de migrar. pip usa semver para resolver dependencias.',
+        explanation:
+          "KEEP_PLATFORM_ID_RETHEME_CONTENT.",
       },
       {
-        question: '¿Qué debe incluir un CONTRIBUTING.md?',
+        question: "El incremento/gate V3 de S47 pertenece a:",
         options: [
-          'Cómo configurar el entorno de desarrollo, cómo correr tests, estilo de código, proceso de PR, y código de conducta — reduce fricción para nuevos contribuidores',
-          'Solo las reglas del proyecto',
-          'Solo la licencia',
-          'No es necesario',
+          "CP-N4-B (cierre) + CF-4",
+          "CP-N1-A",
+          "solo marketing",
+          "sin capstone",
         ],
         correctIndex: 0,
-        explanation: 'CONTRIBUTING.md dice: "pip install -e .[dev] para instalar", "pytest para tests", "ruff para lint", "abre un issue antes de un PR grande". Sin esto, los contribuidores externos no saben cómo empezar y abandonan. Proyectos sin CONTRIBUTING reciben 80% menos PRs.',
+        explanation:
+          "Blueprint phase3 capstone_notes.",
       },
       {
-        question: '¿Qué es __all__ en Python y por qué importa para APIs públicas?',
+        question: "Los ejemplos del curso deben usar:",
         options: [
-          'Define explícitamente qué se exporta con "from modulo import *" — sin __all__, todo lo público (sin underscore) se exporta, incluyendo internals',
-          'Es una lista de todas las variables',
-          'Es un decorador',
-          'Es un type hint',
+          "PII real de clientes",
+          "Datos sintéticos",
+          "Secretos de prod",
+          "Claves API reales",
         ],
-        correctIndex: 0,
-        explanation: '__all__ = ["funcion_principal", "ClasePrincipal"] controla qué se exporta. Sin __all__, from modulo import * exporta todo lo que no empiece con _. Esto puede exponer funciones internas que no quieres que los usuarios dependan. Con __all__, tu API pública es explícita y deliberada.',
+        correctIndex: 1,
+        explanation:
+          "Synthetic data only.",
       },
       {
-        question: '¿Qué es matrix testing en CI?',
+        question: "Entity resolution (si aparece) decide:",
         options: [
-          'Probar en múltiples combinaciones de OS × Python version (ej: Ubuntu/macOS/Windows × 3.10/3.11/3.12) — asegura que tu paquete funciona en todos los entornos',
-          'Es un test de matrices matemáticas',
-          'Es un sistema de control de versiones',
-          'Es un tipo de benchmark',
+          "Fraude",
+          "Parentesco",
+          "Misma entidad cuando aplique",
+          "Sentimiento",
         ],
-        correctIndex: 0,
-        explanation: 'Matrix testing en GitHub Actions: strategy: matrix: os: [ubuntu, macos, windows], python: ["3.10", "3.11", "3.12"]. Esto crea 9 jobs que corren en paralelo. Sin matrix, tu paquete "funciona en mi máquina" pero falla en Windows o Python 3.10. Es el estándar para paquetes open-source serios.',
-      },
-      {
-        question: '¿Cómo publicas un paquete en PyPI?',
-        options: [
-          'python -m build → twine upload dist/* → pip install tu-paquete funciona globalmente. Automatizado con GitHub Actions on release',
-          'Subir el .py a un servidor FTP',
-          'Enviar por email a PyPI',
-          'Compilar a binario y subir',
-        ],
-        correctIndex: 0,
-        explanation: 'Flujo: (1) python -m build genera dist/*.whl y *.tar.gz, (2) twine check dist/* valida metadata, (3) twine upload dist/* publica en PyPI. Automatizado: GitHub Actions que publica on release. Después, cualquier usuario puede pip install tu-paquete globalmente.',
+        correctIndex: 2,
+        explanation:
+          "ER ≠ relación ≠ fraude.",
       },
     ],
   },
   resources: {
     docs: [
-      { label: 'Documentación oficial', url: 'https://docs.python.org/3/' },
+      {
+        label: "Python docs",
+        url: "https://docs.python.org/3/",
+        note: "Referencia stdlib",
+      },
+      {
+        label: "V3 section support",
+        url: "https://docs.python.org/3/library/",
+        note: "Apoyo S47 MLOps: experimentos, registro y serving",
+      },
     ],
     books: [
-      { label: 'Python 201 — Michael Driscoll', note: 'Capítulos relevantes para esta sección' },
+      {
+        label: "Architecture / platform engineering refs",
+        note: "Alinear a MLOps: experimentos, registro y serving",
+      },
+      {
+        label: "Site Reliability / Security basics",
+        note: "Operación y privacidad",
+      },
     ],
     courses: [
-      { label: 'Real Python', url: 'https://realpython.com', note: 'Tutoriales complementarios' },
+      {
+        label: "MDN / cloud / MLOps primers",
+        url: "https://developer.mozilla.org/",
+        note: "Complemento conceptual",
+      },
     ],
   },
 }

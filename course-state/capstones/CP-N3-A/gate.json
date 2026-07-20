@@ -1,0 +1,85 @@
+{
+  "id": "CP-N3-A",
+  "gate_section": "S30",
+  "name": "Testable Entity Resolution Engine",
+  "level": 3,
+  "acceptance_criteria": [
+    "Bloqueo (blocking) reduce pares candidatos de forma medible.",
+    "Comparadores deterministas con scores y umbrales documentados.",
+    "Evaluación con etiquetas sintéticas (precision/recall o proxies).",
+    "Cola de revisión para bandas grises.",
+    "Sin inferencia de fraude/parentesco; solo match de identidad sintética."
+  ],
+  "rubric_0_3": {
+    "correctness": {
+      "weight_hint": 0.35,
+      "scale": "0-3",
+      "levels": {
+        "0": "No cumple el comportamiento principal.",
+        "1": "Parcial; fallas en casos normales.",
+        "2": "Cumple casos normales; bordes incompletos.",
+        "3": "Correcto en normal, borde y error documentado."
+      },
+      "focus": "Métricas de evaluación correctas sobre gold sintético."
+    },
+    "robustness": {
+      "weight_hint": 0.2,
+      "scale": "0-3",
+      "levels": {
+        "0": "Crashea ante entradas imperfectas.",
+        "1": "Algunos bordes cubiertos.",
+        "2": "Bordes y errores no críticos manejados.",
+        "3": "Resiliente y con mensajes accionables."
+      },
+      "focus": "Bloqueo y umbrales parametrizables."
+    },
+    "maintainability": {
+      "weight_hint": 0.25,
+      "scale": "0-3",
+      "levels": {
+        "0": "Monolito opaco.",
+        "1": "Estructura mínima.",
+        "2": "Módulos/funciones claros y legibles.",
+        "3": "Diseño limpio, testeable y documentado."
+      },
+      "focus": "Comparadores unit-testables."
+    },
+    "responsible_use": {
+      "weight_hint": 0.2,
+      "scale": "0-3",
+      "levels": {
+        "0": "Riesgo ético/privacidad no abordado.",
+        "1": "Menciones superficiales.",
+        "2": "Controles y límites presentes.",
+        "3": "Controles, límites y comunicación impecables."
+      },
+      "focus": "Separación ER vs risk; datos sintéticos."
+    },
+    "gate_rule": "Promedio ponderado conceptual ≥ 2.4/3 y ningún criterio crítico < 2; cero P0 de seguridad/privacidad/fraude-inference."
+  },
+  "dependencies": [
+    "CP-N2-C",
+    "S27",
+    "S28",
+    "S29",
+    "S30"
+  ],
+  "wow_factor_definition": "Motor ER testeable con blocking, comparadores, métricas etiquetadas y cola de revisión — reproducible en stdlib/numpy.",
+  "scoring_weights_reference": {
+    "correctness": 0.35,
+    "edge_cases_data": 0.2,
+    "tests": 0.15,
+    "design": 0.1,
+    "reproducibility": 0.1,
+    "communication_limits": 0.1,
+    "pass_threshold": 0.8
+  },
+  "prohibitions": [
+    "No real PII",
+    "No fraud inference as automatic decision",
+    "No hardcoded production secrets",
+    "Synthetic or legally reusable data only"
+  ],
+  "package_version": "1.0.0",
+  "generated_at": "2026-07-20T14:53:43Z"
+}

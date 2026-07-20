@@ -1,0 +1,223 @@
+{
+  "version": "3.2",
+  "section": "S31",
+  "section_id": "streaming-data",
+  "phase": "PHASE_6",
+  "lane": "LANE-S31-S39-CLOSE",
+  "role": "Isolated Validator (lightweight)",
+  "generated_at": "2026-07-20T23:59:00Z",
+  "prompt_version": "3.2",
+  "student_visible_sources": [
+    "src/lib/course/sections/s31-streaming-data.ts",
+    "prisma/seed.ts (streaming-data)"
+  ],
+  "status": "passed",
+  "summary": "S31 sub=8 demos=8 ex=24 exam=24; fields=24/24; snippets=3; authorized_to_close_section=True",
+  "inventory": {
+    "subtopics": {
+      "expected": 8,
+      "observed": 8,
+      "ids": [
+        "S31-T1-A",
+        "S31-T1-B",
+        "S31-T2-A",
+        "S31-T2-B",
+        "S31-T3-A",
+        "S31-T3-B",
+        "S31-T4-A",
+        "S31-T4-B"
+      ]
+    },
+    "demos": {
+      "expected": 8,
+      "observed_with_demoId": 8,
+      "ids": [
+        "S31-T1-A-DEMO",
+        "S31-T1-B-DEMO",
+        "S31-T2-A-DEMO",
+        "S31-T2-B-DEMO",
+        "S31-T3-A-DEMO",
+        "S31-T3-B-DEMO",
+        "S31-T4-A-DEMO",
+        "S31-T4-B-DEMO"
+      ]
+    },
+    "exercises": {
+      "expected": 24,
+      "observed": 24,
+      "ids": [
+        "S31-T1-A-E1",
+        "S31-T1-A-E2",
+        "S31-T1-A-E3",
+        "S31-T1-B-E1",
+        "S31-T1-B-E2",
+        "S31-T1-B-E3",
+        "S31-T2-A-E1",
+        "S31-T2-A-E2",
+        "S31-T2-A-E3",
+        "S31-T2-B-E1",
+        "S31-T2-B-E2",
+        "S31-T2-B-E3",
+        "S31-T3-A-E1",
+        "S31-T3-A-E2",
+        "S31-T3-A-E3",
+        "S31-T3-B-E1",
+        "S31-T3-B-E2",
+        "S31-T3-B-E3",
+        "S31-T4-A-E1",
+        "S31-T4-A-E2",
+        "S31-T4-A-E3",
+        "S31-T4-B-E1",
+        "S31-T4-B-E2",
+        "S31-T4-B-E3"
+      ],
+      "fields_required": [
+        "id",
+        "hints (≥2)",
+        "solutionCode",
+        "edgeCases",
+        "tests",
+        "feedback",
+        "starterCode"
+      ],
+      "field_counts": {
+        "solutionCode": 24,
+        "starterCode": 25,
+        "hints": 24,
+        "edgeCases": 24,
+        "tests": 24,
+        "feedback": 24,
+        "per_exercise_complete": 24
+      },
+      "fields_complete": true
+    },
+    "exam_bank": {
+      "source": "prisma/seed.ts → QUESTION_BANK['streaming-data']",
+      "concepts": 8,
+      "variants_per_concept": 3,
+      "total": 24,
+      "concept_slugs": [
+        "nodes-edges-direction-weight",
+        "multigraph-time-provenance",
+        "entities-tx-contacts",
+        "dedup-agg-keep-detail",
+        "degree-components-paths",
+        "centrality-limited-interp",
+        "subgraphs-tests",
+        "viz-scale-privacy-edge-evidence"
+      ]
+    },
+    "youDo": {
+      "title_present": true,
+      "cp_mentions": 11,
+      "has_objectives": true,
+      "has_requirements": true,
+      "has_rubric": true,
+      "has_starterCode": true
+    },
+    "selfCheck_present": true
+  },
+  "checks": [
+    {
+      "id": "INV-SUBTOPICS-8",
+      "pass": true,
+      "evidence": "['S31-T1-A', 'S31-T1-B', 'S31-T2-A', 'S31-T2-B', 'S31-T3-A', 'S31-T3-B', 'S31-T4-A', 'S31-T4-B']"
+    },
+    {
+      "id": "INV-DEMOS-8",
+      "pass": true,
+      "evidence": "['S31-T1-A-DEMO', 'S31-T1-B-DEMO', 'S31-T2-A-DEMO', 'S31-T2-B-DEMO', 'S31-T3-A-DEMO', 'S31-T3-B-DEMO', 'S31-T4-A-DEMO', 'S31-T4-B-DEMO']"
+    },
+    {
+      "id": "INV-EXERCISES-24",
+      "pass": true,
+      "evidence": "24; solutionCode=24"
+    },
+    {
+      "id": "FIELDS-COMPLETE",
+      "pass": true,
+      "evidence": "sol=24 starter=25 hints=24 edge=24 tests=24 feedback=24"
+    },
+    {
+      "id": "SEED-STREAMING_DATA-8x3",
+      "pass": true,
+      "evidence": "24; ['nodes-edges-direction-weight', 'multigraph-time-provenance', 'entities-tx-contacts', 'dedup-agg-keep-detail', 'degree-components-paths', 'centrality-limited-interp', 'subgraphs-tests', 'viz-scale-privacy-edge-evidence']"
+    },
+    {
+      "id": "EXAM-STRUCTURE-24",
+      "pass": true,
+      "evidence": "8×3 MCQ-4 es-PE"
+    },
+    {
+      "id": "SNIPPET-EXEC",
+      "pass": true,
+      "evidence": "3 snippets OK; failures=0"
+    },
+    {
+      "id": "YOUDO-PRESENT",
+      "pass": true,
+      "evidence": "{'title_present': True, 'cp_mentions': 11, 'has_objectives': True, 'has_requirements': True, 'has_rubric': True, 'has_starterCode': True}"
+    },
+    {
+      "id": "SELFCHECK-PRESENT",
+      "pass": true,
+      "evidence": "True"
+    },
+    {
+      "id": "PRIVACY-NO-REAL-PII",
+      "pass": true,
+      "evidence": "Synthetic data policy OK; course uses sintéticos"
+    },
+    {
+      "id": "PRIVACY-SCORES-NOT-FRAUD",
+      "pass": true,
+      "evidence": "Exam + content: scores/centralidad/anomalías no implican fraude"
+    },
+    {
+      "id": "SNIPPET-OK-1",
+      "pass": true,
+      "evidence": "SOL-1: nodes = {\"E1\": {}, \"E2\": {}, \"A1\": {}} → 'n_nodes 3\\nn_edges 2\\nn_directed 1\\n'"
+    },
+    {
+      "id": "SNIPPET-OK-2",
+      "pass": true,
+      "evidence": "SOL-2: edges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)] → 'top B\\nvalue 5.0\\nn 2\\n'"
+    },
+    {
+      "id": "SNIPPET-OK-3",
+      "pass": true,
+      "evidence": "SOL-3: edges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype → \"directed 2\\nundirected 1\\netypes ['share', 'tx']\\n\""
+    }
+  ],
+  "snippet_execution": {
+    "solutionCode_extracted": 24,
+    "successes": [
+      {
+        "label": "SOL-1",
+        "head": "nodes = {\"E1\": {}, \"E2\": {}, \"A1\": {}}",
+        "stdout_preview": "n_nodes 3\nn_edges 2\nn_directed 1\n"
+      },
+      {
+        "label": "SOL-2",
+        "head": "edges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)]",
+        "stdout_preview": "top B\nvalue 5.0\nn 2\n"
+      },
+      {
+        "label": "SOL-3",
+        "head": "edges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype",
+        "stdout_preview": "directed 2\nundirected 1\netypes ['share', 'tx']\n"
+      }
+    ],
+    "failures_sample": []
+  },
+  "issues_found": [],
+  "authorized_to_close_section": true,
+  "notes_non_blocking": [
+    "Regex inventory supports double quotes in section TS.",
+    "Hints ≥2 counted via hints: [ blocks.",
+    "solutionCode is object with nested code template; executed first 3 solutions with python3.",
+    "Centralidad/caminos/scores no implican fraude, culpabilidad ni parentesco.",
+    "Privacy: scores ≠ fraude/parentesco/colusión.",
+    "Does not edit checkpoint/section_ledger."
+  ]
+}

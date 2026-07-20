@@ -1,0 +1,255 @@
+{
+  "version": "3.2",
+  "section": "S14",
+  "section_id": "security",
+  "phase": "PHASE_0_COMPLETE",
+  "generated_at": "2026-07-20T17:30:00Z",
+  "lane": "LANE-N2-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "requirement_matrix": {
+    "global_requirements": [
+      {
+        "id": "REQ-GLOBAL-001",
+        "requirement": "Cada sección tiene exactamente 4 temas evaluables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S14",
+        "status": "pass",
+        "evidence": "V3 S14 define T1–T4"
+      },
+      {
+        "id": "REQ-GLOBAL-002",
+        "requirement": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S14",
+        "status": "blocked",
+        "evidence": "Plataforma no está en 4×2 V3; requiere retheme PHASE 4"
+      },
+      {
+        "id": "REQ-GLOBAL-003",
+        "requirement": "Cada subtema tiene 1 demo I Do y 3 ejercicios",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S14",
+        "status": "blocked",
+        "evidence": "Inventario plataforma bajo vector canónico"
+      },
+      {
+        "id": "REQ-GLOBAL-004",
+        "requirement": "Cada subtema tiene 3 variantes A/B/C",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S14",
+        "status": "blocked",
+        "evidence": "seed legacy 4×3=12; target V3 8×3=24"
+      },
+      {
+        "id": "REQ-GLOBAL-005",
+        "requirement": "Evaluación por tema + examen acumulativo + proyecto",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S14",
+        "status": "partial",
+        "evidence": "selfCheck/youDo legacy; faltan 4 topic evals V3"
+      },
+      {
+        "id": "REQ-GLOBAL-006",
+        "requirement": "Idioma: español peruano profesional",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S14",
+        "status": "pass",
+        "evidence": "Tono profesional en plataforma"
+      },
+      {
+        "id": "REQ-GLOBAL-007",
+        "requirement": "No equiparar coincidencia con parentesco/colusión/fraude",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S14",
+        "status": "pass",
+        "evidence": "Principio transversal; N2 no es gate ER"
+      },
+      {
+        "id": "REQ-GLOBAL-008",
+        "requirement": "Código ejecutable o UNVERIFIED",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S14",
+        "status": "partial",
+        "evidence": "Re-verificación en PHASE 7"
+      },
+      {
+        "id": "REQ-GLOBAL-009",
+        "requirement": "Datos sintéticos o legalmente reutilizables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S14",
+        "status": "pass",
+        "evidence": "Preferencia V3 datasets sintéticos"
+      }
+    ],
+    "section_requirements": [
+      {
+        "id": "REQ-S14-001",
+        "requirement": "S14 cubre: Arrays — ndarray, dtype y shape; creación, indexación y máscaras",
+        "source": "V3 roadmap S14 T1",
+        "acceptance_test": "Contenido de S14 incluye ambos subtemas de T1",
+        "status": "fail",
+        "evidence": "Plataforma 'security' (Seguridad para Automatizaciones e Inteligencia Artificial) no enseña el tema V3 'Arrays' como ownership canónico."
+      },
+      {
+        "id": "REQ-S14-002",
+        "requirement": "S14 cubre: Operaciones — ufuncs y reducciones; broadcasting y compatibilidad de shapes",
+        "source": "V3 roadmap S14 T2",
+        "acceptance_test": "Contenido de S14 incluye ambos subtemas de T2",
+        "status": "fail",
+        "evidence": "Plataforma 'security' (Seguridad para Automatizaciones e Inteligencia Artificial) no enseña el tema V3 'Operaciones' como ownership canónico."
+      },
+      {
+        "id": "REQ-S14-003",
+        "requirement": "S14 cubre: Semántica — views/copies y mutabilidad; NaN, inf y estabilidad numérica",
+        "source": "V3 roadmap S14 T3",
+        "acceptance_test": "Contenido de S14 incluye ambos subtemas de T3",
+        "status": "fail",
+        "evidence": "Plataforma 'security' (Seguridad para Automatizaciones e Inteligencia Artificial) no enseña el tema V3 'Semántica' como ownership canónico."
+      },
+      {
+        "id": "REQ-S14-004",
+        "requirement": "S14 cubre: Rendimiento — vectorización frente a loops; memoria, medición y tests con tolerancia",
+        "source": "V3 roadmap S14 T4",
+        "acceptance_test": "Contenido de S14 incluye ambos subtemas de T4",
+        "status": "fail",
+        "evidence": "Plataforma 'security' (Seguridad para Automatizaciones e Inteligencia Artificial) no enseña el tema V3 'Rendimiento' como ownership canónico."
+      },
+      {
+        "id": "REQ-S14-005",
+        "requirement": "S14 incremento/gate: cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+        "source": "V3 roadmap S14 Incremento/gate",
+        "acceptance_test": "You Do / project cumple el gate V3",
+        "status": "fail",
+        "evidence": "You Do plataforma alineado a 'Seguridad para Automatizaciones e Inteligencia Artificial', no al gate V3."
+      },
+      {
+        "id": "REQ-S14-006",
+        "requirement": "S14 proyecto: inicio CP-N2-A (capstone CP-N2-A (inicio))",
+        "source": "V3 roadmap S14 + capstone_ledger",
+        "acceptance_test": "Incremento de proyecto alineado a capstone",
+        "status": "fail",
+        "evidence": "Proyecto de plataforma desalineado; ver phase3 project_increment"
+      },
+      {
+        "id": "REQ-S14-007",
+        "requirement": "S14 entorno: local/browser compatible",
+        "source": "V3 roadmap S14",
+        "acceptance_test": "Demos declaran entorno correcto",
+        "status": "pass",
+        "evidence": "Target environment local/browser compatible"
+      },
+      {
+        "id": "REQ-S14-008",
+        "requirement": "S14 prerrequisitos: Nivel 1 (S01–S13)",
+        "source": "V3 roadmap S14",
+        "acceptance_test": "Prerrequisitos documentados en blueprint",
+        "status": "pass",
+        "evidence": "['Nivel 1 (S01–S13)']"
+      },
+      {
+        "id": "REQ-S14-009",
+        "requirement": "Contenido legado de plataforma no se elimina; se inventaría y planifica reubicación",
+        "source": "Instrucciones LANE-N2-FACTORY",
+        "acceptance_test": "Archivo src/lib/course/sections/s14-security.ts intacto en PHASE 0–3",
+        "status": "pass",
+        "evidence": "Esta lane solo escribe course-state artifacts; no reescribe .ts"
+      }
+    ],
+    "platform_requirements": [
+      {
+        "id": "REQ-PLATFORM-001",
+        "requirement": "S14 carga en la plataforma con id estable 'security'",
+        "source": "src/lib/course/index.ts + learning_roadmap.md",
+        "acceptance_test": "Section id security registrado",
+        "status": "pass",
+        "evidence": "file src/lib/course/sections/s14-security.ts; id: 'security'"
+      },
+      {
+        "id": "REQ-PLATFORM-002",
+        "requirement": "S14 tiene especificación de examen en seed/roadmap de plataforma",
+        "source": "prisma/seed.ts",
+        "acceptance_test": "4 conceptos legacy × 3 presentes; 8 V3 pendientes",
+        "status": "partial",
+        "evidence": "seed 'security': 4×3=12 legacy; 0 alineados a V3 S14"
+      },
+      {
+        "id": "REQ-PLATFORM-003",
+        "requirement": "Tabs theory/ido/wedo/youdo/quiz renderizan",
+        "source": "CourseSection shape",
+        "acceptance_test": "theory[], iDo, weDo, youDo, selfCheck presentes",
+        "status": "pass",
+        "evidence": "src/lib/course/sections/s14-security.ts incluye shape actual"
+      }
+    ]
+  },
+  "contradictions_detected": [
+    {
+      "id": "CONTRADICTION-S14-001",
+      "issue": "V3 define S14 como 'NumPy y cómputo vectorizado'. Plataforma id 'security' es 'Seguridad para Automatizaciones e Inteligencia Artificial' (src/lib/course/sections/s14-security.ts).",
+      "resolution": "KEEP platform id 'security' (learning_roadmap.md authority). TARGET production content = V3 4×2. Legacy inventariado, no borrado.",
+      "authority": "learning_roadmap.md = id/title platform; V3 = counting + outcomes target",
+      "impact": "No claim de section passed. PHASE 4+ retheme.",
+      "status": "recorded",
+      "type": "platform_id_mapping_conflict"
+    },
+    {
+      "id": "CONTRADICTION-S14-002",
+      "issue": "You Do / project de plataforma no coincide con gate V3: cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al basel...",
+      "resolution": "Mapear You Do legacy; TARGET project_increment en phase3.",
+      "authority": "V3 Incremento/gate S14",
+      "impact": "You Do reescritura en PHASE 4; no borrar hasta reemplazo verificado",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S14-003",
+      "issue": "Exam bank 4×3 legacy vs 8×3 V3 subtopics",
+      "resolution": "PHASE 5 introduce 8 familias A/B/C V3; legacy se reasigna o retira en seed coordinado",
+      "authority": "V3 counting contract",
+      "impact": "12 vs 24 variants; 0 cobertura skills V3",
+      "status": "recorded"
+    }
+  ],
+  "platform_id_mapping": {
+    "platform_section_id": "security",
+    "platform_title": "Seguridad para Automatizaciones e Inteligencia Artificial",
+    "v3_title": "NumPy y cómputo vectorizado",
+    "decision": "KEEP_PLATFORM_ID",
+    "conflict": true,
+    "severity": "learning_roadmap.md for id; V3 for content target"
+  },
+  "v3_section_snapshot": {
+    "v3_label": "S14 — NumPy y cómputo vectorizado",
+    "prerequisite": "Nivel 1 (S01–S13)",
+    "environment": "local/browser compatible",
+    "project": "inicio CP-N2-A",
+    "topics": {
+      "T1": "Arrays: ndarray, dtype y shape; creación, indexación y máscaras",
+      "T2": "Operaciones: ufuncs y reducciones; broadcasting y compatibilidad de shapes",
+      "T3": "Semántica: views/copies y mutabilidad; NaN, inf y estabilidad numérica",
+      "T4": "Rendimiento: vectorización frente a loops; memoria, medición y tests con tolerancia"
+    },
+    "increment_gate": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+    "capstone": "CP-N2-A (inicio)"
+  },
+  "platform_section_snapshot": {
+    "section_id": "security",
+    "index": 14,
+    "title": "Seguridad para Automatizaciones e Inteligencia Artificial",
+    "shortTitle": "Seguridad",
+    "file": "src/lib/course/sections/s14-security.ts",
+    "orphan_files": [],
+    "exam_concepts_seed_expected": 4,
+    "note": "Legacy content retained; V3 retheme in PHASE 4+"
+  },
+  "phase_0_gate": {
+    "all_requirements_extracted": true,
+    "all_contradictions_recorded": true,
+    "requirement_matrix_complete": true,
+    "content_not_deleted": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_3_LIGHTWEIGHT",
+    "note": "PHASE 1/2 skipped in lightweight factory mode; phase3 carries slug plan + counts"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "CP-N4-A",
+  "status": "pass",
+  "exit_code": 0,
+  "stdout": "METRICS_JSON: {\"capstone_id\": \"CP-N4-A\", \"status\": \"pass\", \"api_version\": \"v1\", \"contract_tests_total\": 6, \"contract_tests_passed\": 6, \"tests\": [{\"name\": \"health_ok\", \"pass\": true}, {\"name\": \"auth_required\", \"pass\": true}, {\"name\": \"create_ok\", \"pass\": true}, {\"name\": \"schema_reject\", \"pass\": true}, {\"name\": \"get_ok\", \"pass\": true}, {\"name\": \"not_found\", \"pass\": true}]}\nCP-N4-A Service OK — 6/6 contract tests\n",
+  "stderr": "",
+  "command": "python3 demo.py",
+  "cwd": "course-state/capstones/CP-N4-A",
+  "executed_at": "2026-07-20T14:53:43Z",
+  "python": "3.9.6"
+}

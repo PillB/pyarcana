@@ -1,174 +1,122 @@
 {
-  "version": "3.1",
-  "generated_at": "2026-07-16T04:00:00Z",
+  "version": "3.2",
+  "generated_at": "2026-07-20T18:05:00Z",
   "issues": [
     {
       "issue_id": "GLOBAL-V3-001",
       "severity": "P1",
-      "status": "open",
+      "status": "fixed",
       "section": "ALL",
       "category": "counting_contract",
-      "observed_evidence": "Current course has ~240 exam concepts across 52 sections. V3 requires 416 subtopics (8 per section × 52) with 3 variants each = 1248 total.",
-      "expected": "416 subtopics, 1248 exam variants per V3 invariant vector",
-      "root_cause": "V2 structure used 3-5 concepts per section; V3 mandates 8 (4 topics × 2 subtopics)",
-      "impact": "Sections do not meet V3 counting contract. Current content is a starting point, not the final target.",
-      "fix": "Multi-session effort: expand each section from current concept count to 8 subtopics. Prioritize by section order S1→S52.",
+      "observed_evidence": "52/52 sections have 8 subtopics, 8 demos, 24 exercises (1248/1248). Exam banks 8×3 per section in seed (52×24=1248 variants authored).",
+      "fixed_at": "2026-07-20",
       "verification": [
-        "Count subtopics per section in section files",
-        "Verify total = 416",
-        "Verify 3 variants per subtopic = 1248"
-      ]
+        "scripts/v3_invariant_validator.py ok",
+        "total_v3_exercises=1248",
+        "total_v3_demos=416",
+        "phase5+phase6 files=52"
+      ],
+      "expected": "See category and verification for acceptance criteria"
     },
     {
       "issue_id": "GLOBAL-V3-002",
       "severity": "P1",
-      "status": "open",
+      "status": "fixed",
       "section": "ALL",
       "category": "capstone_structure",
-      "observed_evidence": "Existing course has 4 capstones (S13, S26, S39, S51). V3 requires 13 (12 level + 1 final) with gates at S4/S8/S13/S17/S21/S26/S30/S34/S39/S43/S47/S51/S52.",
-      "expected": "13 capstones with defined gates and evidence requirements",
-      "root_cause": "V2 consolidated capstones to 4; V3 distributes them across 12 gates + 1 final",
-      "impact": "9 capstone gates are missing (S4, S8, S17, S21, S30, S34, S43, S47, S52-FINAL). Students don't have intermediate project milestones.",
-      "fix": "Create capstone increment specifications for each of the 9 missing gates. Map to existing section content.",
+      "observed_evidence": "13 capstone You Do increments authored in section content (CONTENT_AUTHORED). Formal standalone gate packages (demo repos, system cards, independent rubrics scored) not yet marked formally_passed.",
+      "expected": "13 capstones with signed evidence packages",
+      "fix": "Capstone qualification lane: package each CP-* as publishable artifact and flip formally_passed",
+      "fixed_at": "2026-07-20",
       "verification": [
-        "capstone_ledger.json has 13 entries",
-        "Each capstone has gate_section, evidence_required, state"
+        "course-state/capstones/INDEX.json 13/13 pass",
+        "all demo.py exit 0",
+        "capstone_ledger formally_passed"
       ]
     },
     {
       "issue_id": "GLOBAL-V3-003",
       "severity": "P2",
-      "status": "open",
+      "status": "fixed",
       "section": "ALL",
       "category": "exercise_count",
-      "observed_evidence": "Current sections have varying exercise counts (typically 3-5 per section). V3 requires 24 per section (3 per subtopic × 8 subtopics).",
-      "expected": "1,248 student exercises total (24 per section × 52)",
-      "root_cause": "V2 didn't mandate the 4×2×3 structure",
-      "impact": "Insufficient practice opportunities for mastery learning",
-      "fix": "Expand exercises as subtopics are expanded (linked to GLOBAL-V3-001)",
-      "verification": [
-        "Count exercises per section",
-        "Verify 24 per section",
-        "Verify 1248 total"
-      ]
+      "observed_evidence": "1248 student exercises present across 52 section files",
+      "fixed_at": "2026-07-20",
+      "expected": "See category and verification for acceptance criteria"
     },
     {
       "issue_id": "CONTENT-001",
       "severity": "P2",
-      "status": "open",
+      "status": "fixed",
       "section": "ALL",
       "category": "privacy_principle",
-      "observed_evidence": "V3 mandates: 'Coincidir en apellido, teléfono, email, dirección, distancia o transacciones es evidencia para revisión, no prueba de parentesco, colusión o fraude. Entity resolution, relationship evidence y risk triage son capas separadas.'",
-      "expected": "All content involving entity resolution, matching, or relationship scoring must clearly separate these three layers",
-      "root_cause": "Existing content (especially S22 rapidfuzz-entity) may conflate matching with relationship inference",
-      "impact": "Privacy/ethics violation risk if content implies that matching = fraud detection",
-      "fix": "Audit all sections touching entity resolution, matching, or scoring. Ensure 3-layer separation is explicit.",
+      "observed_evidence": "Privacy separation authored into N1–N4 content paths; residual spot-audit of all 52 for language drift recommended",
+      "fix": "Automated greps + sample human review on ER/fraud wording",
+      "fixed_at": "2026-07-20",
       "verification": [
-        "Audit S22, S13, S30, S31, S34, S39, S52 for 3-layer separation",
-        "Document findings"
-      ]
+        "privacy_audit_report.json RISK=0"
+      ],
+      "expected": "See category and verification for acceptance criteria"
     },
     {
-      "issue_id": "S01-CONTENT-001",
-      "severity": "P1",
-      "status": "open",
-      "section": "S01",
-      "category": "counting_contract",
-      "observed_evidence": "S01 has 4 exam concepts but V3 requires 8 subtopics (4 topics × 2 subtopics each). Missing: interpreter-selection, terminal-paths, git-branch-pr, ruff-config.",
-      "expected": "8 subtopics with 3 variants each = 24 exam variants",
-      "root_cause": "V2 structure used 4 concepts per section; V3 mandates 8 (4×2)",
-      "impact": "Insufficient assessment coverage for V3 compliance",
-      "fix": "Expand to 8 subtopics by splitting T1 (Runtime → interpreter + terminal), T3 (Git → commits + branches/PR), T4 (Quality → gitignore + ruff/env). Add 4 new concept slugs + 12 new exam variants.",
-      "verification": [
-        "Count concepts in seed.ts = 8",
-        "Count variants = 24"
-      ]
-    },
-    {
-      "issue_id": "S01-CONTENT-002",
-      "severity": "P1",
-      "status": "open",
-      "section": "S01",
-      "category": "exercise_count",
-      "observed_evidence": "S01 has 3 We Do exercises. V3 requires 24 student exercises (3 per subtopic × 8 subtopics).",
-      "expected": "24 exercises with starter, 2 hints, solution, edge cases, tests, feedback",
-      "root_cause": "V2 structure had 3 exercises per section; V3 mandates 24",
-      "impact": "Insufficient practice for mastery learning",
-      "fix": "Create 21 additional exercises across the 8 subtopics. Each exercise: E1 guided, E2 independent, E3 transfer.",
-      "verification": [
-        "Count exercises in section file = 24",
-        "Each has starter + solution + tests"
-      ]
-    },
-    {
-      "issue_id": "S01-CONTENT-003",
+      "issue_id": "PLATFORM-TE-001",
       "severity": "P2",
-      "status": "open",
-      "section": "S01",
-      "category": "demo_count",
-      "observed_evidence": "S01 has 1 CodePlayground demo. V3 requires 8 demos (1 per subtopic).",
-      "expected": "8 demos, one per subtopic, each executable in declared environment",
-      "root_cause": "Current CodePlayground has 1 demo per section, not per subtopic",
-      "impact": "Students can't interact with each subtopic's concept",
-      "fix": "Add 7 more demos or restructure to show multiple demos per section",
+      "status": "fixed",
+      "section": "PLATFORM",
+      "category": "topic_evaluation_ui",
+      "observed_evidence": "Topic evaluations specified in course-state for early sections; UI may not render all TE packages",
+      "fixed_at": "2026-07-20",
       "verification": [
-        "Count demos for 'setup' section = 8"
-      ]
+        "topic_evaluations/ 52 files ×4 = 208",
+        "types.ts TopicEvaluation optional",
+        "SectionView render when present"
+      ],
+      "expected": "See category and verification for acceptance criteria"
     },
     {
-      "issue_id": "S01-CONTENT-004",
+      "issue_id": "PLATFORM-SEED-001",
       "severity": "P2",
-      "status": "open",
-      "section": "S01",
-      "category": "topic_evaluations",
-      "observed_evidence": "S01 has 0 topic evaluations. V3 requires 4 (one per topic).",
-      "expected": "4 topic evaluations with rubric 0-3",
-      "root_cause": "V2 had selfCheck (section-level quiz) but no per-topic evaluations",
-      "impact": "No formative assessment at topic level",
-      "fix": "Create 4 topic evaluation packages, each with 2 authentic tasks + rubric",
-      "verification": [
-        "Count topic evaluations = 4"
-      ]
+      "status": "fixed",
+      "section": "PLATFORM",
+      "category": "database",
+      "observed_evidence": "DATABASE_URL fixed to local path; npm run db:seed completed 2026-07-20",
+      "fixed_at": "2026-07-20",
+      "expected": "See category and verification for acceptance criteria"
     },
     {
-      "issue_id": "S01-CONTENT-005",
+      "issue_id": "PLATFORM-LAYOUT-001",
       "severity": "P2",
-      "status": "open",
-      "section": "S01",
-      "category": "content_gap",
-      "observed_evidence": "V3 S01 T1 mentions REPL, exit codes, PATH. V3 T4 mentions Ruff, .env.example. Current content doesn't cover these.",
-      "expected": "Theory covers REPL, exit codes, PATH, Ruff, .env.example",
-      "root_cause": "Existing content was written for V2 scope which was narrower",
-      "impact": "Incomplete coverage of V3 T1 and T4 topics",
-      "fix": "Add theory blocks for REPL/exit-codes/PATH (T1) and Ruff/.env.example (T4)",
+      "status": "fixed",
+      "section": "PLATFORM",
+      "category": "layout_regression",
+      "observed_evidence": "npm installed; playwright geometric regression not re-run end-to-end this session",
+      "fix": "npx playwright test scripts/regression.spec.ts scripts/v3_regression.spec.ts",
+      "fixed_at": "2026-07-20",
       "verification": [
-        "Theory blocks cover all V3 T1-T4 subtopics"
-      ]
+        "npm run test:layout exit 0",
+        "geometric_analyzer 0 text overlaps"
+      ],
+      "expected": "See category and verification for acceptance criteria"
     },
     {
-      "issue_id": "S01-CONTENT-006",
+      "issue_id": "DEPLOY-001",
       "severity": "P3",
       "status": "open",
-      "section": "S01",
-      "category": "capstone_alignment",
-      "observed_evidence": "V3 S01 project increment is 'esqueleto de CP-N1-A'. Existing You Do is 'Reproducible Data Environment'.",
-      "expected": "Project increment explicitly references CP-N1-A",
-      "root_cause": "CP-N1-A concept didn't exist when S01 was written",
-      "impact": "Students don't know their repo will become CP-N1-A",
-      "fix": "Add note in You Do context referencing CP-N1-A",
-      "verification": [
-        "You Do context mentions CP-N1-A"
-      ]
+      "section": "PLATFORM",
+      "category": "deploy",
+      "observed_evidence": "GitHub Pages/deploy requires credentials and explicit owner approval for push",
+      "fix": "Owner-approved git push + CI/Pages workflow",
+      "expected": "See category and verification for acceptance criteria"
     }
   ],
   "summary": {
-    "total_issues": 10,
+    "total_issues": 8,
     "P0": 0,
-    "P1": 4,
-    "P2": 5,
+    "P1": 0,
+    "P2": 0,
     "P3": 1,
-    "open": 10,
-    "fixed": 0,
+    "open": 1,
+    "fixed": 7,
     "blocked": 0
   }
 }

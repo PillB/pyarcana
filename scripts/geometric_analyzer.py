@@ -19,8 +19,13 @@ from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Any
 
-GEOMETRY_PATH = Path("/home/z/my-project/scripts/screenshots/geometry.json")
-OUT_DIR = Path("/home/z/my-project/scripts/screenshots/analysis")
+# Project-relative paths (scripts/ is one level under repo root)
+_SCRIPT_DIR = Path(__file__).resolve().parent
+_REPO_ROOT = _SCRIPT_DIR.parent
+_SCREENSHOTS = _SCRIPT_DIR / "screenshots"
+
+GEOMETRY_PATH = _SCREENSHOTS / "geometry.json"
+OUT_DIR = _SCREENSHOTS / "analysis"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 

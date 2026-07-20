@@ -1,0 +1,321 @@
+{
+  "version": "3.2",
+  "section": "S29",
+  "section_id": "mlops",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S27-S30-P4",
+  "generated_at": "2026-07-20T08:10:41Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget mlops section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s29-mlops.ts",
+      "course-state/s29_phase4_progress.json",
+      "course-state/lanes/LANE-S27-S30-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "mlops",
+    "index": 29,
+    "title": "SQL avanzado y modelado relacional",
+    "shortTitle": "SQL almacén ER",
+    "tagline": "esquema que preserva registros fuente, entidades, pares candidatos, decisiones y evidencia sin sobrescribir historia",
+    "estimatedHours": 14,
+    "learningOutcomes": 8,
+    "youDo": "Almacén de verdad ER — esquema, historia y repositorio",
+    "icon": "Database",
+    "legacy_note": "mlops retargeted to advanced SQL / ER store",
+    "capstone": "CP-N3-A (almacén ER)"
+  },
+  "subtopics_authored": {
+    "S29-T1-A": {
+      "slug": "keys-constraints-normalization",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S29-T1-A-DEMO",
+      "exercises": [
+        "S29-T1-A-E1",
+        "S29-T1-A-E2",
+        "S29-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S29-T1-B": {
+      "slug": "temporality-provenance",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S29-T1-B-DEMO",
+      "exercises": [
+        "S29-T1-B-E1",
+        "S29-T1-B-E2",
+        "S29-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S29-T2-A": {
+      "slug": "cte-windows-antijoins",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S29-T2-A-DEMO",
+      "exercises": [
+        "S29-T2-A-E1",
+        "S29-T2-A-E2",
+        "S29-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S29-T2-B": {
+      "slug": "cardinality-null-plans",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S29-T2-B-DEMO",
+      "exercises": [
+        "S29-T2-B-E1",
+        "S29-T2-B-E2",
+        "S29-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S29-T3-A": {
+      "slug": "acid-isolation",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S29-T3-A-DEMO",
+      "exercises": [
+        "S29-T3-A-E1",
+        "S29-T3-A-E2",
+        "S29-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S29-T3-B": {
+      "slug": "upserts-concurrency-recovery",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S29-T3-B-DEMO",
+      "exercises": [
+        "S29-T3-B-E1",
+        "S29-T3-B-E2",
+        "S29-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S29-T4-A": {
+      "slug": "indexes-migrations",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S29-T4-A-DEMO",
+      "exercises": [
+        "S29-T4-A-E1",
+        "S29-T4-A-E2",
+        "S29-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S29-T4-B": {
+      "slug": "repository-pooling-tests",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S29-T4-B-DEMO",
+      "exercises": [
+        "S29-T4-B-E1",
+        "S29-T4-B-E2",
+        "S29-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Almacén de verdad ER — esquema, historia y repositorio",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S29-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S29-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "ER/matching y scores no implican fraude, parentesco ni colusión. Solo decide 'misma entidad' cuando aplique."
+}

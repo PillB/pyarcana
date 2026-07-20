@@ -1,0 +1,322 @@
+{
+  "version": "3.2",
+  "section": "S07",
+  "section_id": "data-acquisition",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S06-S08-P4",
+  "generated_at": "2026-07-20T07:02:09Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/s01-s05/orchestration",
+  "preamble": {
+    "objective": "Retarget data-acquisition section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s07-data-acquisition.ts",
+      "course-state/s07_phase4_progress.json",
+      "course-state/lanes/LANE-S06-S08-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "s01-setup.ts",
+      "s02-basics.ts",
+      "s03-data-structures.ts",
+      "s04-functions-modules.ts",
+      "s05-oop.ts",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "data-acquisition",
+    "index": 7,
+    "title": "Texto, Unicode y expresiones regulares",
+    "shortTitle": "Texto & Unicode",
+    "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+    "estimatedHours": 14,
+    "learningOutcomes": 8,
+    "youDo": "Normalización latinoamericana (CP-N1-B)",
+    "icon": "Languages",
+    "legacy_note": "Scraping/API/SQL demoted; target is Unicode/str/regex latam for CP-N1-B"
+  },
+  "subtopics_authored": {
+    "S07-T1-A": {
+      "slug": "unicode-normalization-casefold",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S07-T1-A-DEMO",
+      "exercises": [
+        "S07-T1-A-E1",
+        "S07-T1-A-E2",
+        "S07-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S07-T1-B": {
+      "slug": "latam-names-particles",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S07-T1-B-DEMO",
+      "exercises": [
+        "S07-T1-B-E1",
+        "S07-T1-B-E2",
+        "S07-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S07-T2-A": {
+      "slug": "string-ops",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S07-T2-A-DEMO",
+      "exercises": [
+        "S07-T2-A-E1",
+        "S07-T2-A-E2",
+        "S07-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S07-T2-B": {
+      "slug": "names-emails-phones",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S07-T2-B-DEMO",
+      "exercises": [
+        "S07-T2-B-E1",
+        "S07-T2-B-E2",
+        "S07-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S07-T3-A": {
+      "slug": "regex-patterns-groups",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S07-T3-A-DEMO",
+      "exercises": [
+        "S07-T3-A-E1",
+        "S07-T3-A-E2",
+        "S07-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S07-T3-B": {
+      "slug": "compile-extract-limits",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S07-T3-B-DEMO",
+      "exercises": [
+        "S07-T3-B-E1",
+        "S07-T3-B-E2",
+        "S07-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S07-T4-A": {
+      "slug": "exact-token-similarity",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S07-T4-A-DEMO",
+      "exercises": [
+        "S07-T4-A-E1",
+        "S07-T4-A-E2",
+        "S07-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S07-T4-B": {
+      "slug": "fp-fn-evidence",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S07-T4-B-DEMO",
+      "exercises": [
+        "S07-T4-B-E1",
+        "S07-T4-B-E2",
+        "S07-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Normalización latinoamericana (CP-N1-B)",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S07-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S07-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "next_action": "PHASE 5 exam bank for data-acquisition V3 slugs. Do not mark S07 passed from this lane."
+}

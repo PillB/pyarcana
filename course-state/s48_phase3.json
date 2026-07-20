@@ -1,0 +1,1068 @@
+{
+  "version": "3.2",
+  "section": "S48",
+  "section_id": "ai-governance",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S48 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S48 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s48-ai-governance.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "ai-governance",
+    "index": 48,
+    "title_platform": "Gobernanza de IA, Ética y Compliance",
+    "title_v3": "LLM applications y RAG con evidencia",
+    "title_decision": "KEEP platform id 'ai-governance' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta",
+    "estimatedHours": 14,
+    "level": "Experto a máster",
+    "phase": 3,
+    "prerequisites": [
+      "S47"
+    ],
+    "environment": "local/cloud aprobado",
+    "project_capstone": "CP-N4-C (inicio)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "ai-governance",
+    "platform_title": "Gobernanza de IA, Ética y Compliance",
+    "v3_title": "LLM applications y RAG con evidencia",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante calcula embeddings y similarity.",
+    "El estudiante versiona embeddings y evalúa límites.",
+    "El estudiante chunking con metadata y dedup.",
+    "El estudiante respeta ACL, deletion y provenance.",
+    "El estudiante recupera hybrid y rerankea.",
+    "El estudiante arma contexto con citas y permisos.",
+    "El estudiante genera structured grounded output.",
+    "El estudiante evalúa retrieval/answer y se abstiene."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S48-T1-A",
+      "slug": "embeddings-similarity",
+      "title": "embeddings y similarity"
+    },
+    {
+      "subtopic_id": "S48-T1-B",
+      "slug": "limits-versions-eval",
+      "title": "límites, versiones y evaluación"
+    },
+    {
+      "subtopic_id": "S48-T2-A",
+      "slug": "chunking-metadata-dedup",
+      "title": "chunking, metadata y dedup"
+    },
+    {
+      "subtopic_id": "S48-T2-B",
+      "slug": "acl-deletion-provenance",
+      "title": "ACL, deletion y provenance"
+    },
+    {
+      "subtopic_id": "S48-T3-A",
+      "slug": "lexical-vector-hybrid-rerank",
+      "title": "lexical/vector/hybrid y reranking"
+    },
+    {
+      "subtopic_id": "S48-T3-B",
+      "slug": "context-cites-permissions",
+      "title": "contexto, citas y permisos"
+    },
+    {
+      "subtopic_id": "S48-T4-A",
+      "slug": "structured-grounding",
+      "title": "structured output y grounding"
+    },
+    {
+      "subtopic_id": "S48-T4-B",
+      "slug": "retrieval-answer-eval-cost-abstain",
+      "title": "retrieval/answer eval, costo y abstención"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S48-T1",
+      "title": "Representación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S48-T1-A",
+          "slug": "embeddings-similarity",
+          "title": "embeddings y similarity",
+          "outcome": "El estudiante calcula embeddings y similarity.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "embeddings y similarity",
+              "must_cover": [
+                "embeddings",
+                "cosine"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S48-T1-A-DEMO",
+              "title": "Demo: embeddings y similarity",
+              "environment": "local/cloud aprobado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S48-T1-A-E1",
+                "kind": "guided",
+                "title": "embeddings y similarity — guided",
+                "skill": "embeddings",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S48-T1-A-E2",
+                "kind": "independent",
+                "title": "embeddings y similarity — independent",
+                "skill": "embeddings",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S48-T1-A-E3",
+                "kind": "transfer",
+                "title": "embeddings y similarity — transfer",
+                "skill": "embeddings",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S48-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S48-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S48-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S48-T1-B",
+          "slug": "limits-versions-eval",
+          "title": "límites, versiones y evaluación",
+          "outcome": "El estudiante versiona embeddings y evalúa límites.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "límites, versiones y evaluación",
+              "must_cover": [
+                "embedding version",
+                "eval"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S48-T1-B-DEMO",
+              "title": "Demo: límites, versiones y evaluación",
+              "environment": "local/cloud aprobado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S48-T1-B-E1",
+                "kind": "guided",
+                "title": "límites, versiones y evaluación — guided",
+                "skill": "limits",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S48-T1-B-E2",
+                "kind": "independent",
+                "title": "límites, versiones y evaluación — independent",
+                "skill": "limits",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S48-T1-B-E3",
+                "kind": "transfer",
+                "title": "límites, versiones y evaluación — transfer",
+                "skill": "limits",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S48-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S48-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S48-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S48-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S48-T1-EVAL-1",
+            "title": "embeddings y similarity — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S48-T1-EVAL-2",
+            "title": "límites, versiones y evaluación — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S48-T2",
+      "title": "Ingesta",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S48-T2-A",
+          "slug": "chunking-metadata-dedup",
+          "title": "chunking, metadata y dedup",
+          "outcome": "El estudiante chunking con metadata y dedup.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "chunking, metadata y dedup",
+              "must_cover": [
+                "chunk",
+                "metadata"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S48-T2-A-DEMO",
+              "title": "Demo: chunking, metadata y dedup",
+              "environment": "local/cloud aprobado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S48-T2-A-E1",
+                "kind": "guided",
+                "title": "chunking, metadata y dedup — guided",
+                "skill": "chunking",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S48-T2-A-E2",
+                "kind": "independent",
+                "title": "chunking, metadata y dedup — independent",
+                "skill": "chunking",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S48-T2-A-E3",
+                "kind": "transfer",
+                "title": "chunking, metadata y dedup — transfer",
+                "skill": "chunking",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S48-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S48-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S48-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S48-T2-B",
+          "slug": "acl-deletion-provenance",
+          "title": "ACL, deletion y provenance",
+          "outcome": "El estudiante respeta ACL, deletion y provenance.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "ACL, deletion y provenance",
+              "must_cover": [
+                "ACL",
+                "provenance"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S48-T2-B-DEMO",
+              "title": "Demo: ACL, deletion y provenance",
+              "environment": "local/cloud aprobado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S48-T2-B-E1",
+                "kind": "guided",
+                "title": "ACL, deletion y provenance — guided",
+                "skill": "acl",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S48-T2-B-E2",
+                "kind": "independent",
+                "title": "ACL, deletion y provenance — independent",
+                "skill": "acl",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S48-T2-B-E3",
+                "kind": "transfer",
+                "title": "ACL, deletion y provenance — transfer",
+                "skill": "acl",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S48-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S48-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S48-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S48-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S48-T2-EVAL-1",
+            "title": "chunking, metadata y dedup — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S48-T2-EVAL-2",
+            "title": "ACL, deletion y provenance — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S48-T3",
+      "title": "Retrieval",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S48-T3-A",
+          "slug": "lexical-vector-hybrid-rerank",
+          "title": "lexical/vector/hybrid y reranking",
+          "outcome": "El estudiante recupera hybrid y rerankea.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "lexical/vector/hybrid y reranking",
+              "must_cover": [
+                "hybrid search",
+                "rerank"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S48-T3-A-DEMO",
+              "title": "Demo: lexical/vector/hybrid y reranking",
+              "environment": "local/cloud aprobado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S48-T3-A-E1",
+                "kind": "guided",
+                "title": "lexical/vector/hybrid y reranking — guided",
+                "skill": "lexical",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S48-T3-A-E2",
+                "kind": "independent",
+                "title": "lexical/vector/hybrid y reranking — independent",
+                "skill": "lexical",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S48-T3-A-E3",
+                "kind": "transfer",
+                "title": "lexical/vector/hybrid y reranking — transfer",
+                "skill": "lexical",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S48-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S48-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S48-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S48-T3-B",
+          "slug": "context-cites-permissions",
+          "title": "contexto, citas y permisos",
+          "outcome": "El estudiante arma contexto con citas y permisos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "contexto, citas y permisos",
+              "must_cover": [
+                "citations",
+                "permissions"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S48-T3-B-DEMO",
+              "title": "Demo: contexto, citas y permisos",
+              "environment": "local/cloud aprobado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S48-T3-B-E1",
+                "kind": "guided",
+                "title": "contexto, citas y permisos — guided",
+                "skill": "context",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S48-T3-B-E2",
+                "kind": "independent",
+                "title": "contexto, citas y permisos — independent",
+                "skill": "context",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S48-T3-B-E3",
+                "kind": "transfer",
+                "title": "contexto, citas y permisos — transfer",
+                "skill": "context",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S48-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S48-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S48-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S48-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S48-T3-EVAL-1",
+            "title": "lexical/vector/hybrid y reranking — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S48-T3-EVAL-2",
+            "title": "contexto, citas y permisos — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S48-T4",
+      "title": "Generación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S48-T4-A",
+          "slug": "structured-grounding",
+          "title": "structured output y grounding",
+          "outcome": "El estudiante genera structured grounded output.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "structured output y grounding",
+              "must_cover": [
+                "structured output",
+                "grounding"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S48-T4-A-DEMO",
+              "title": "Demo: structured output y grounding",
+              "environment": "local/cloud aprobado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S48-T4-A-E1",
+                "kind": "guided",
+                "title": "structured output y grounding — guided",
+                "skill": "structured",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S48-T4-A-E2",
+                "kind": "independent",
+                "title": "structured output y grounding — independent",
+                "skill": "structured",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S48-T4-A-E3",
+                "kind": "transfer",
+                "title": "structured output y grounding — transfer",
+                "skill": "structured",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S48-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S48-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S48-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S48-T4-B",
+          "slug": "retrieval-answer-eval-cost-abstain",
+          "title": "retrieval/answer eval, costo y abstención",
+          "outcome": "El estudiante evalúa retrieval/answer y se abstiene.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "retrieval/answer eval, costo y abstención",
+              "must_cover": [
+                "RAG eval",
+                "abstain"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S48-T4-B-DEMO",
+              "title": "Demo: retrieval/answer eval, costo y abstención",
+              "environment": "local/cloud aprobado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S48-T4-B-E1",
+                "kind": "guided",
+                "title": "retrieval/answer eval, costo y abstención — guided",
+                "skill": "retrieval",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S48-T4-B-E2",
+                "kind": "independent",
+                "title": "retrieval/answer eval, costo y abstención — independent",
+                "skill": "retrieval",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S48-T4-B-E3",
+                "kind": "transfer",
+                "title": "retrieval/answer eval, costo y abstención — transfer",
+                "skill": "retrieval",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S48-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S48-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S48-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S48-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S48-T4-EVAL-1",
+            "title": "structured output y grounding — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S48-T4-EVAL-2",
+            "title": "retrieval/answer eval, costo y abstención — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S48-PROJ",
+    "title": "LLM applications y RAG con evidencia",
+    "replaces_legacy": "Legacy You Do de 'Gobernanza de IA, Ética y Compliance' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "asistente responde sobre documentación autorizada, cita fragmentos verificables y se abstiene cuando retrieval no sostiene la respuesta.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-C (inicio)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N4-C (inicio)",
+    "increment_gate": "asistente responde sobre documentación autorizada, cita fragmentos verificables y se abstiene cuando retrieval no sostiene la respuesta."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'ai-governance' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s48-ai-governance.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Gobernanza de IA, Ética y Compliance' vs 'LLM applications y RAG con evidencia'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N4-C (inicio)",
+    "increment_gate": "asistente responde sobre documentación autorizada, cita fragmentos verificables y se abstiene cuando retrieval no sostiene la respuesta.",
+    "project_id": "S48-PROJ",
+    "section_passed": false,
+    "notes": "S48 contributes to CP-N4-C (inicio). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S48",
+    "risk": "Display title still 'Gobernanza de IA, Ética y Compliance' until product rename; topic mismatch vs V3 'LLM applications y RAG con evidencia'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S48-T1-A first"
+  }
+}

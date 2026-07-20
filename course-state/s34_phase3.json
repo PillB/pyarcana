@@ -1,0 +1,1077 @@
+{
+  "version": "3.2",
+  "section": "S34",
+  "section_id": "cv-ai-integration",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S34 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S34 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s34-cv-ai-integration.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "cv-ai-integration",
+    "index": 34,
+    "title_platform": "Integración CV + IA + Automatización",
+    "title_v3": "Métricas, desbalance, calibración y umbrales",
+    "title_decision": "KEEP platform id 'cv-ai-integration' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "Relationship Investigation Workbench: grafo + evidencia con ranking calibrado para revisión; no etiqueta fraude automáti",
+    "estimatedHours": 14,
+    "level": "Competente a experto",
+    "phase": 2,
+    "prerequisites": [
+      "S33"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N3-B (cierre)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "cv-ai-integration",
+    "platform_title": "Integración CV + IA + Automatización",
+    "v3_title": "Métricas, desbalance, calibración y umbrales",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante elige métricas para desbalance.",
+    "El estudiante dimensiona top-k y carga de revisión.",
+    "El estudiante balancea clases sin leakage en CV.",
+    "El estudiante evita métricas engañosas por prevalencia.",
+    "El estudiante evalúa calibración con Brier/reliability.",
+    "El estudiante calibra y evalúa fuera de muestra.",
+    "El estudiante elige umbral por costo y capacidad.",
+    "El estudiante aplica abstención y sensibilidad por slice."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S34-T1-A",
+      "slug": "confusion-pr-f-prauc",
+      "title": "confusion matrix, precision/recall/F y PR-AUC"
+    },
+    {
+      "subtopic_id": "S34-T1-B",
+      "slug": "topk-review-load",
+      "title": "top-k y carga de revisión"
+    },
+    {
+      "subtopic_id": "S34-T2-A",
+      "slug": "class-weights-resampling-cv",
+      "title": "class weights y resampling dentro de CV"
+    },
+    {
+      "subtopic_id": "S34-T2-B",
+      "slug": "prevalence-misleading-metrics",
+      "title": "prevalencia y métricas engañosas"
+    },
+    {
+      "subtopic_id": "S34-T3-A",
+      "slug": "reliability-brier",
+      "title": "reliability curves y Brier"
+    },
+    {
+      "subtopic_id": "S34-T3-B",
+      "slug": "calibrators-oos",
+      "title": "calibradores y evaluación fuera de muestra"
+    },
+    {
+      "subtopic_id": "S34-T4-A",
+      "slug": "threshold-cost-capacity",
+      "title": "threshold por costo/capacidad"
+    },
+    {
+      "subtopic_id": "S34-T4-B",
+      "slug": "abstention-slices-sensitivity",
+      "title": "abstención, slices y sensibilidad"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S34-T1",
+      "title": "Métricas",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S34-T1-A",
+          "slug": "confusion-pr-f-prauc",
+          "title": "confusion matrix, precision/recall/F y PR-AUC",
+          "outcome": "El estudiante elige métricas para desbalance.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "confusion matrix, precision/recall/F y PR-AUC",
+              "must_cover": [
+                "confusion",
+                "PR-AUC",
+                "F-score"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S34-T1-A-DEMO",
+              "title": "Demo: confusion matrix, precision/recall/F y PR-AUC",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S34-T1-A-E1",
+                "kind": "guided",
+                "title": "confusion matrix, precision/recall/F y PR-AUC — guided",
+                "skill": "confusion",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S34-T1-A-E2",
+                "kind": "independent",
+                "title": "confusion matrix, precision/recall/F y PR-AUC — independent",
+                "skill": "confusion",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S34-T1-A-E3",
+                "kind": "transfer",
+                "title": "confusion matrix, precision/recall/F y PR-AUC — transfer",
+                "skill": "confusion",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S34-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S34-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S34-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S34-T1-B",
+          "slug": "topk-review-load",
+          "title": "top-k y carga de revisión",
+          "outcome": "El estudiante dimensiona top-k y carga de revisión.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "top-k y carga de revisión",
+              "must_cover": [
+                "precision@k",
+                "review capacity"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S34-T1-B-DEMO",
+              "title": "Demo: top-k y carga de revisión",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S34-T1-B-E1",
+                "kind": "guided",
+                "title": "top-k y carga de revisión — guided",
+                "skill": "topk",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S34-T1-B-E2",
+                "kind": "independent",
+                "title": "top-k y carga de revisión — independent",
+                "skill": "topk",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S34-T1-B-E3",
+                "kind": "transfer",
+                "title": "top-k y carga de revisión — transfer",
+                "skill": "topk",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S34-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S34-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S34-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S34-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S34-T1-EVAL-1",
+            "title": "confusion matrix, precision/recall/F y PR-AUC — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S34-T1-EVAL-2",
+            "title": "top-k y carga de revisión — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S34-T2",
+      "title": "Desbalance",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S34-T2-A",
+          "slug": "class-weights-resampling-cv",
+          "title": "class weights y resampling dentro de CV",
+          "outcome": "El estudiante balancea clases sin leakage en CV.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "class weights y resampling dentro de CV",
+              "must_cover": [
+                "class_weight",
+                "resampling",
+                "CV"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S34-T2-A-DEMO",
+              "title": "Demo: class weights y resampling dentro de CV",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S34-T2-A-E1",
+                "kind": "guided",
+                "title": "class weights y resampling dentro de CV — guided",
+                "skill": "class",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S34-T2-A-E2",
+                "kind": "independent",
+                "title": "class weights y resampling dentro de CV — independent",
+                "skill": "class",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S34-T2-A-E3",
+                "kind": "transfer",
+                "title": "class weights y resampling dentro de CV — transfer",
+                "skill": "class",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S34-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S34-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S34-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S34-T2-B",
+          "slug": "prevalence-misleading-metrics",
+          "title": "prevalencia y métricas engañosas",
+          "outcome": "El estudiante evita métricas engañosas por prevalencia.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "prevalencia y métricas engañosas",
+              "must_cover": [
+                "prevalence",
+                "accuracy trap"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S34-T2-B-DEMO",
+              "title": "Demo: prevalencia y métricas engañosas",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S34-T2-B-E1",
+                "kind": "guided",
+                "title": "prevalencia y métricas engañosas — guided",
+                "skill": "prevalence",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S34-T2-B-E2",
+                "kind": "independent",
+                "title": "prevalencia y métricas engañosas — independent",
+                "skill": "prevalence",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S34-T2-B-E3",
+                "kind": "transfer",
+                "title": "prevalencia y métricas engañosas — transfer",
+                "skill": "prevalence",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S34-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S34-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S34-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S34-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S34-T2-EVAL-1",
+            "title": "class weights y resampling dentro de CV — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S34-T2-EVAL-2",
+            "title": "prevalencia y métricas engañosas — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S34-T3",
+      "title": "Calibración",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S34-T3-A",
+          "slug": "reliability-brier",
+          "title": "reliability curves y Brier",
+          "outcome": "El estudiante evalúa calibración con Brier/reliability.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "reliability curves y Brier",
+              "must_cover": [
+                "calibration curve",
+                "Brier"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S34-T3-A-DEMO",
+              "title": "Demo: reliability curves y Brier",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S34-T3-A-E1",
+                "kind": "guided",
+                "title": "reliability curves y Brier — guided",
+                "skill": "reliability",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S34-T3-A-E2",
+                "kind": "independent",
+                "title": "reliability curves y Brier — independent",
+                "skill": "reliability",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S34-T3-A-E3",
+                "kind": "transfer",
+                "title": "reliability curves y Brier — transfer",
+                "skill": "reliability",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S34-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S34-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S34-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S34-T3-B",
+          "slug": "calibrators-oos",
+          "title": "calibradores y evaluación fuera de muestra",
+          "outcome": "El estudiante calibra y evalúa fuera de muestra.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "calibradores y evaluación fuera de muestra",
+              "must_cover": [
+                "CalibratedClassifierCV",
+                "OOS"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S34-T3-B-DEMO",
+              "title": "Demo: calibradores y evaluación fuera de muestra",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S34-T3-B-E1",
+                "kind": "guided",
+                "title": "calibradores y evaluación fuera de muestra — guided",
+                "skill": "calibrators",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S34-T3-B-E2",
+                "kind": "independent",
+                "title": "calibradores y evaluación fuera de muestra — independent",
+                "skill": "calibrators",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S34-T3-B-E3",
+                "kind": "transfer",
+                "title": "calibradores y evaluación fuera de muestra — transfer",
+                "skill": "calibrators",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S34-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S34-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S34-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S34-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S34-T3-EVAL-1",
+            "title": "reliability curves y Brier — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S34-T3-EVAL-2",
+            "title": "calibradores y evaluación fuera de muestra — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S34-T4",
+      "title": "Decisión",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S34-T4-A",
+          "slug": "threshold-cost-capacity",
+          "title": "threshold por costo/capacidad",
+          "outcome": "El estudiante elige umbral por costo y capacidad.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "threshold por costo/capacidad",
+              "must_cover": [
+                "threshold",
+                "cost"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S34-T4-A-DEMO",
+              "title": "Demo: threshold por costo/capacidad",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S34-T4-A-E1",
+                "kind": "guided",
+                "title": "threshold por costo/capacidad — guided",
+                "skill": "threshold",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S34-T4-A-E2",
+                "kind": "independent",
+                "title": "threshold por costo/capacidad — independent",
+                "skill": "threshold",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S34-T4-A-E3",
+                "kind": "transfer",
+                "title": "threshold por costo/capacidad — transfer",
+                "skill": "threshold",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S34-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S34-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S34-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S34-T4-B",
+          "slug": "abstention-slices-sensitivity",
+          "title": "abstención, slices y sensibilidad",
+          "outcome": "El estudiante aplica abstención y sensibilidad por slice.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "abstención, slices y sensibilidad",
+              "must_cover": [
+                "abstention",
+                "slices"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S34-T4-B-DEMO",
+              "title": "Demo: abstención, slices y sensibilidad",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S34-T4-B-E1",
+                "kind": "guided",
+                "title": "abstención, slices y sensibilidad — guided",
+                "skill": "abstention",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S34-T4-B-E2",
+                "kind": "independent",
+                "title": "abstención, slices y sensibilidad — independent",
+                "skill": "abstention",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S34-T4-B-E3",
+                "kind": "transfer",
+                "title": "abstención, slices y sensibilidad — transfer",
+                "skill": "abstention",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S34-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S34-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S34-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S34-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S34-T4-EVAL-1",
+            "title": "threshold por costo/capacidad — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S34-T4-EVAL-2",
+            "title": "abstención, slices y sensibilidad — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S34-PROJ",
+    "title": "Métricas, desbalance, calibración y umbrales (CP-N3-B (cierre))",
+    "replaces_legacy": "Legacy You Do de 'Integración CV + IA + Automatización' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Relationship Investigation Workbench combina grafo y evidencia con ranking calibrado para revisión, explica cada caso y registra decisiones; no etiqueta fraude automáticamente.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N3-B (cierre)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N3-B (cierre)",
+    "increment_gate": "Relationship Investigation Workbench combina grafo y evidencia con ranking calibrado para revisión, explica cada caso y registra decisiones; no etiqueta fraude automáticamente."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'cv-ai-integration' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s34-cv-ai-integration.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Integración CV + IA + Automatización' vs 'Métricas, desbalance, calibración y umbrales'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N3-B (cierre)",
+    "increment_gate": "Relationship Investigation Workbench combina grafo y evidencia con ranking calibrado para revisión, explica cada caso y registra decisiones; no etiqueta fraude automáticamente.",
+    "project_id": "S34-PROJ",
+    "section_passed": false,
+    "notes": "S34 contributes to CP-N3-B (cierre). No passed states written by factory lane.",
+    "capstone_gate": "CP-N3-B",
+    "gate_role": "CLOSE",
+    "promotion_requires": [
+      "CP-N3-B completion evidence"
+    ],
+    "blocks": "S35 until CP-N3-B PASS",
+    "cp_n3_b": "PLANNED_NOT_PASSED"
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S34",
+    "risk": "Display title still 'Integración CV + IA + Automatización' until product rename; topic mismatch vs V3 'Métricas, desbalance, calibración y umbrales'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S34-T1-A first"
+  }
+}

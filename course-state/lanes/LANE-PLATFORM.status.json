@@ -1,0 +1,21 @@
+{
+  "lane_id": "LANE-PLATFORM",
+  "status": "completed",
+  "focus": "exam_n_concepts",
+  "verified": {
+    "start_route_dynamic_by_concept": true,
+    "submit_score_uses_answers_length": true,
+    "exam_view_uses_questions_length": true,
+    "no_hardcoded_4_in_exam_api_or_ui": true
+  },
+  "files_changed": [
+    "src/app/api/exam/start/route.ts",
+    "src/components/course/ExamView.tsx",
+    "src/lib/i18n.ts",
+    "course-state/platform_exam_n_concepts.json",
+    "course-state/lanes/LANE-PLATFORM.status.json"
+  ],
+  "execution_summary": "Verified exam start sampler already selects 1 variant per concept via Map.entries() — no rewrite needed for V3 N=8. Documented V3 comment in start/route.ts. Updated ExamView + i18n copy from implicit fixed bank to 'una pregunta por concepto' / questions.length badge. submit already percentage-based (≥70%). Wrote platform_exam_n_concepts.json with residual UX/seed risks.",
+  "blockers": [],
+  "next_action": "Content lanes expand seed to 8 concepts × 3 variants; optional UX polish for long 8-question mobile exams (progress rail). Do not edit checkpoint/ledger from this lane."
+}

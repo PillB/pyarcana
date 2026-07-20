@@ -1,0 +1,827 @@
+{
+  "version": "3.2",
+  "section": "S08",
+  "section_id": "pandas",
+  "phase": "PHASE_2_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1-FACTORY",
+  "prompt_version": "3.2",
+  "preamble": {
+    "objective": "PHASE 2 research dossier light de S08: 8 subtemas V3 listos para blueprint.",
+    "scope_in": [
+      "S08",
+      "fuentes oficiales ≥4",
+      "mapeo 4×2",
+      "contradicciones plataforma"
+    ],
+    "scope_out": [
+      "autoría larga",
+      "banco A/B/C completo",
+      "edits a .ts de sección",
+      "marcar passed"
+    ],
+    "stop_criterion": "8 subtemas con fuentes, patrones y notas pedagógicas"
+  },
+  "pre_round_research": {
+    "executed_at": "2026-07-20",
+    "findings": [
+      "V3 S8 — Archivos, CSV, JSON y contratos de ingesta es TARGET pedagógico; platform 'Pandas: Data Cleaning & EDA' es legado.",
+      "Capstone link: CP-N1-B — Client/Transaction ETL Pipeline (cierre CP-N1-B)",
+      "Legacy destination: Pandas EDA → post N1 / V3 nivel 2 (después de CF-1). File I/O stdlib is V3 S8 target. Orphan s08-visualization.ts is index S09 in platform.",
+      "Stdlib Python 3.12+ docs vigentes Jul 2026; no deprecaciones bloqueantes en T1–T4 V3."
+    ],
+    "source_registry": [
+      {
+        "id": "SRC-S08-001",
+        "title": "pathlib — Object-oriented filesystem paths",
+        "url": "https://docs.python.org/3/library/pathlib.html",
+        "official": true
+      },
+      {
+        "id": "SRC-S08-002",
+        "title": "csv — CSV File Reading and Writing",
+        "url": "https://docs.python.org/3/library/csv.html",
+        "official": true
+      },
+      {
+        "id": "SRC-S08-003",
+        "title": "json — JSON encoder and decoder",
+        "url": "https://docs.python.org/3/library/json.html",
+        "official": true
+      },
+      {
+        "id": "SRC-S08-004",
+        "title": "hashlib — Secure hashes",
+        "url": "https://docs.python.org/3/library/hashlib.html",
+        "official": true
+      },
+      {
+        "id": "SRC-S08-005",
+        "title": "tempfile — Generate temporary files",
+        "url": "https://docs.python.org/3/library/tempfile.html",
+        "official": true
+      },
+      {
+        "id": "SRC-S08-006",
+        "title": "os.replace — Atomic rename",
+        "url": "https://docs.python.org/3/library/os.html#os.replace",
+        "official": true
+      }
+    ],
+    "deprecation_check": {
+      "note": "APIs core de esta sección (stdlib loops/functions/collections/str/re/pathlib/csv/json) NO deprecadas",
+      "avoid": "pandas/numpy/OOP deep APIs en TARGET V3 de estos slots aunque vivan en archivos legacy"
+    }
+  },
+  "canonical_subtopic_map": {
+    "source": "learning_roadmap_52_V3.md §08",
+    "platform_id_authority": "learning_roadmap.md → pandas",
+    "v3_title": "Archivos, CSV, JSON y contratos de ingesta",
+    "platform_title": "Pandas: Data Cleaning & EDA",
+    "topics": [
+      {
+        "topic_id": "S08-T1",
+        "title": "Archivos",
+        "subtopics": [
+          {
+            "subtopic_id": "S08-T1-A",
+            "slug": "pathlib-with-modes",
+            "title": "pathlib, with, modos y encodings",
+            "v3_text": "pathlib, with, modos y encodings",
+            "exam_skill": "El estudiante abre archivos con pathlib/Path y with, eligiendo modo y encoding explícitos (utf-8).",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          },
+          {
+            "subtopic_id": "S08-T1-B",
+            "slug": "newlines-atomic-write",
+            "title": "Newlines y escritura atómica",
+            "v3_text": "newlines y escritura atómica",
+            "exam_skill": "El estudiante maneja newlines y escribe de forma atómica (temp + replace) para no corromper salidas.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          }
+        ]
+      },
+      {
+        "topic_id": "S08-T2",
+        "title": "CSV",
+        "subtopics": [
+          {
+            "subtopic_id": "S08-T2-A",
+            "slug": "csv-dialects-headers",
+            "title": "Dialectos, headers y tipos",
+            "v3_text": "dialectos, headers y tipos",
+            "exam_skill": "El estudiante lee/escribe CSV con csv module, headers y conversión de tipos controlada.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          },
+          {
+            "subtopic_id": "S08-T2-B",
+            "slug": "irregular-rows-quarantine",
+            "title": "Filas irregulares y cuarentena",
+            "v3_text": "filas irregulares y cuarentena",
+            "exam_skill": "El estudiante detecta filas con columnas de más/menos y las envía a cuarentena con motivo.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          }
+        ]
+      },
+      {
+        "topic_id": "S08-T3",
+        "title": "JSON",
+        "subtopics": [
+          {
+            "subtopic_id": "S08-T3-A",
+            "slug": "json-serialize",
+            "title": "Objetos/arrays y serialización",
+            "v3_text": "objetos/arrays y serialización",
+            "exam_skill": "El estudiante serializa/deserializa JSON con json load/dump y entiende objetos vs arrays.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          },
+          {
+            "subtopic_id": "S08-T3-B",
+            "slug": "schema-nulls-evolution",
+            "title": "Schema, nulls y evolución compatible",
+            "v3_text": "schema, nulls y evolución compatible",
+            "exam_skill": "El estudiante valida schema mínimo, trata null/None y evoluciona campos con defaults compatibles.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          }
+        ]
+      },
+      {
+        "topic_id": "S08-T4",
+        "title": "Operación",
+        "subtopics": [
+          {
+            "subtopic_id": "S08-T4-A",
+            "slug": "backups-hashes-provenance",
+            "title": "Backups, hashes y provenance",
+            "v3_text": "backups, hashes y provenance",
+            "exam_skill": "El estudiante calcula hashes de archivos, conserva backup de inputs y registra provenance básica.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          },
+          {
+            "subtopic_id": "S08-T4-B",
+            "slug": "reconciliation-manifest",
+            "title": "Reconciliación input/output y manifest",
+            "v3_text": "reconciliación input/output y manifest",
+            "exam_skill": "El estudiante emite manifest de corrida con conteos in/out/quarantine y reconcilia totales.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          }
+        ]
+      }
+    ]
+  },
+  "research_dossier": {
+    "S08-T1-A": {
+      "title": "pathlib, with, modos y encodings",
+      "slug": "pathlib-with-modes",
+      "v3_text": "pathlib, with, modos y encodings",
+      "exam_skill": "El estudiante abre archivos con pathlib/Path y with, eligiendo modo y encoding explícitos (utf-8).",
+      "round_1_primary": [
+        {
+          "source": "pathlib — Object-oriented filesystem paths",
+          "url": "https://docs.python.org/3/library/pathlib.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para pathlib, with, modos y encodings"
+          ]
+        },
+        {
+          "source": "csv — CSV File Reading and Writing",
+          "url": "https://docs.python.org/3/library/csv.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para pathlib, with, modos y encodings"
+          ]
+        },
+        {
+          "source": "json — JSON encoder and decoder",
+          "url": "https://docs.python.org/3/library/json.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para pathlib, with, modos y encodings"
+          ]
+        },
+        {
+          "source": "hashlib — Secure hashes",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para pathlib, with, modos y encodings"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Comprender']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Leer y escribir intake UTF-8 con Path",
+          "must_cover": [
+            "Path",
+            "with open",
+            "modes r/w/a/x",
+            "encoding='utf-8'",
+            "errors= strict/replace documentado",
+            "Path.read_text/write_text"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Leer y escribir intake UTF-8 con Path",
+        "E1: Path exists/check",
+        "E2: with read lines",
+        "E3: Diagnosticar UnicodeDecodeError"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: pathlib, with, modos y encodings",
+        "Contexto capstone: CP-N1-B",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S08-T1-B": {
+      "title": "Newlines y escritura atómica",
+      "slug": "newlines-atomic-write",
+      "v3_text": "newlines y escritura atómica",
+      "exam_skill": "El estudiante maneja newlines y escribe de forma atómica (temp + replace) para no corromper salidas.",
+      "round_1_primary": [
+        {
+          "source": "pathlib — Object-oriented filesystem paths",
+          "url": "https://docs.python.org/3/library/pathlib.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Newlines y escritura atómica"
+          ]
+        },
+        {
+          "source": "csv — CSV File Reading and Writing",
+          "url": "https://docs.python.org/3/library/csv.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Newlines y escritura atómica"
+          ]
+        },
+        {
+          "source": "json — JSON encoder and decoder",
+          "url": "https://docs.python.org/3/library/json.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Newlines y escritura atómica"
+          ]
+        },
+        {
+          "source": "hashlib — Secure hashes",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Newlines y escritura atómica"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Comprender']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: write_atomic(path, text)",
+          "must_cover": [
+            "newline='' para csv",
+            "\\n universal",
+            "tempfile + os.replace",
+            "no truncate a medias",
+            "permisos básicos"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: write_atomic(path, text)",
+        "E1: Detectar \\r\\n",
+        "E2: Implementar atomic write",
+        "E3: Simular fallo mid-write vs atomic"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Newlines y escritura atómica",
+        "Contexto capstone: CP-N1-B",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S08-T2-A": {
+      "title": "Dialectos, headers y tipos",
+      "slug": "csv-dialects-headers",
+      "v3_text": "dialectos, headers y tipos",
+      "exam_skill": "El estudiante lee/escribe CSV con csv module, headers y conversión de tipos controlada.",
+      "round_1_primary": [
+        {
+          "source": "pathlib — Object-oriented filesystem paths",
+          "url": "https://docs.python.org/3/library/pathlib.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Dialectos, headers y tipos"
+          ]
+        },
+        {
+          "source": "csv — CSV File Reading and Writing",
+          "url": "https://docs.python.org/3/library/csv.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Dialectos, headers y tipos"
+          ]
+        },
+        {
+          "source": "json — JSON encoder and decoder",
+          "url": "https://docs.python.org/3/library/json.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Dialectos, headers y tipos"
+          ]
+        },
+        {
+          "source": "hashlib — Secure hashes",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Dialectos, headers y tipos"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Analizar']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Ingesta CSV de clientes con tipos monto/fecha string",
+          "must_cover": [
+            "csv.DictReader/Writer",
+            "delimiter/dialect",
+            "fieldnames",
+            "type casting seguro",
+            "skipinitialspace"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Ingesta CSV de clientes con tipos monto/fecha string",
+        "E1: DictReader básico",
+        "E2: Writer con header",
+        "E3: Cast fallido → reject"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Dialectos, headers y tipos",
+        "Contexto capstone: CP-N1-B",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S08-T2-B": {
+      "title": "Filas irregulares y cuarentena",
+      "slug": "irregular-rows-quarantine",
+      "v3_text": "filas irregulares y cuarentena",
+      "exam_skill": "El estudiante detecta filas con columnas de más/menos y las envía a cuarentena con motivo.",
+      "round_1_primary": [
+        {
+          "source": "pathlib — Object-oriented filesystem paths",
+          "url": "https://docs.python.org/3/library/pathlib.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Filas irregulares y cuarentena"
+          ]
+        },
+        {
+          "source": "csv — CSV File Reading and Writing",
+          "url": "https://docs.python.org/3/library/csv.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Filas irregulares y cuarentena"
+          ]
+        },
+        {
+          "source": "json — JSON encoder and decoder",
+          "url": "https://docs.python.org/3/library/json.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Filas irregulares y cuarentena"
+          ]
+        },
+        {
+          "source": "hashlib — Secure hashes",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Filas irregulares y cuarentena"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Analizar']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Separar good.csv vs quarantine.csv",
+          "must_cover": [
+            "restkey/restval",
+            "validar len(row)",
+            "quarantine file",
+            "reason code",
+            "continuar procesamiento"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Separar good.csv vs quarantine.csv",
+        "E1: Detectar row irregular",
+        "E2: Escribir cuarentena",
+        "E3: Resumen de motivos"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Filas irregulares y cuarentena",
+        "Contexto capstone: CP-N1-B",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S08-T3-A": {
+      "title": "Objetos/arrays y serialización",
+      "slug": "json-serialize",
+      "v3_text": "objetos/arrays y serialización",
+      "exam_skill": "El estudiante serializa/deserializa JSON con json load/dump y entiende objetos vs arrays.",
+      "round_1_primary": [
+        {
+          "source": "pathlib — Object-oriented filesystem paths",
+          "url": "https://docs.python.org/3/library/pathlib.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Objetos/arrays y serialización"
+          ]
+        },
+        {
+          "source": "csv — CSV File Reading and Writing",
+          "url": "https://docs.python.org/3/library/csv.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Objetos/arrays y serialización"
+          ]
+        },
+        {
+          "source": "json — JSON encoder and decoder",
+          "url": "https://docs.python.org/3/library/json.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Objetos/arrays y serialización"
+          ]
+        },
+        {
+          "source": "hashlib — Secure hashes",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Objetos/arrays y serialización"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Comprender']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Exportar results a JSON array + JSONL",
+          "must_cover": [
+            "json.load/loads",
+            "dump/dumps",
+            "ensure_ascii=False",
+            "indent",
+            "JSONL intro",
+            "tipos no serializables"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Exportar results a JSON array + JSONL",
+        "E1: loads de fixture",
+        "E2: dumps con ensure_ascii False",
+        "E3: TypeError de datetime → str"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Objetos/arrays y serialización",
+        "Contexto capstone: CP-N1-B",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S08-T3-B": {
+      "title": "Schema, nulls y evolución compatible",
+      "slug": "schema-nulls-evolution",
+      "v3_text": "schema, nulls y evolución compatible",
+      "exam_skill": "El estudiante valida schema mínimo, trata null/None y evoluciona campos con defaults compatibles.",
+      "round_1_primary": [
+        {
+          "source": "pathlib — Object-oriented filesystem paths",
+          "url": "https://docs.python.org/3/library/pathlib.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Schema, nulls y evolución compatible"
+          ]
+        },
+        {
+          "source": "csv — CSV File Reading and Writing",
+          "url": "https://docs.python.org/3/library/csv.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Schema, nulls y evolución compatible"
+          ]
+        },
+        {
+          "source": "json — JSON encoder and decoder",
+          "url": "https://docs.python.org/3/library/json.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Schema, nulls y evolución compatible"
+          ]
+        },
+        {
+          "source": "hashlib — Secure hashes",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Schema, nulls y evolución compatible"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Comprender']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: validate_schema(obj, required) + campo opcional nuevo",
+          "must_cover": [
+            "required keys",
+            "null vs missing",
+            "default de campos nuevos",
+            "version en schema",
+            "no romper lectores viejos"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: validate_schema(obj, required) + campo opcional nuevo",
+        "E1: Rechazar missing required",
+        "E2: null explícito",
+        "E3: Añadir campo con default"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Schema, nulls y evolución compatible",
+        "Contexto capstone: CP-N1-B",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S08-T4-A": {
+      "title": "Backups, hashes y provenance",
+      "slug": "backups-hashes-provenance",
+      "v3_text": "backups, hashes y provenance",
+      "exam_skill": "El estudiante calcula hashes de archivos, conserva backup de inputs y registra provenance básica.",
+      "round_1_primary": [
+        {
+          "source": "pathlib — Object-oriented filesystem paths",
+          "url": "https://docs.python.org/3/library/pathlib.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Backups, hashes y provenance"
+          ]
+        },
+        {
+          "source": "csv — CSV File Reading and Writing",
+          "url": "https://docs.python.org/3/library/csv.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Backups, hashes y provenance"
+          ]
+        },
+        {
+          "source": "json — JSON encoder and decoder",
+          "url": "https://docs.python.org/3/library/json.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Backups, hashes y provenance"
+          ]
+        },
+        {
+          "source": "hashlib — Secure hashes",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Backups, hashes y provenance"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Analizar']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: sha256 de input CSV + backup .bak",
+          "must_cover": [
+            "hashlib.sha256",
+            "copy backup",
+            "timestamp",
+            "source path",
+            "no secretos en logs"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: sha256 de input CSV + backup .bak",
+        "E1: hash file",
+        "E2: backup copy",
+        "E3: record provenance dict"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Backups, hashes y provenance",
+        "Contexto capstone: CP-N1-B",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S08-T4-B": {
+      "title": "Reconciliación input/output y manifest",
+      "slug": "reconciliation-manifest",
+      "v3_text": "reconciliación input/output y manifest",
+      "exam_skill": "El estudiante emite manifest de corrida con conteos in/out/quarantine y reconcilia totales.",
+      "round_1_primary": [
+        {
+          "source": "pathlib — Object-oriented filesystem paths",
+          "url": "https://docs.python.org/3/library/pathlib.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Reconciliación input/output y manifest"
+          ]
+        },
+        {
+          "source": "csv — CSV File Reading and Writing",
+          "url": "https://docs.python.org/3/library/csv.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Reconciliación input/output y manifest"
+          ]
+        },
+        {
+          "source": "json — JSON encoder and decoder",
+          "url": "https://docs.python.org/3/library/json.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Reconciliación input/output y manifest"
+          ]
+        },
+        {
+          "source": "hashlib — Secure hashes",
+          "url": "https://docs.python.org/3/library/hashlib.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Reconciliación input/output y manifest"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Analizar']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: manifest.json de una corrida ETL",
+          "must_cover": [
+            "manifest JSON",
+            "counts",
+            "hashes",
+            "version script",
+            "assert in == good+reject+quarantine",
+            "exit codes conceptuales"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: manifest.json de una corrida ETL",
+        "E1: Campos mínimos manifest",
+        "E2: Reconciliar conteos",
+        "E3: Fallar si no cuadra"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Reconciliación input/output y manifest",
+        "Contexto capstone: CP-N1-B",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    }
+  },
+  "decisions": [
+    {
+      "id": "DEC-S08-R01",
+      "decision": "Retheme pedagógico a V3 'Archivos, CSV, JSON y contratos de ingesta' sin renombrar id 'pandas'"
+    },
+    {
+      "id": "DEC-S08-R02",
+      "decision": "Proyecto TARGET: Client/Transaction ETL Pipeline (cierre CP-N1-B)"
+    },
+    {
+      "id": "DEC-S08-R03",
+      "decision": "Conservar archivo .ts legacy hasta PHASE 4 verified replacement"
+    },
+    {
+      "id": "DEC-S08-R04",
+      "decision": "8 demos browser-pyodide o local-python según environment V3"
+    },
+    {
+      "id": "DEC-S08-R05",
+      "decision": "Entorno declarado: local-python"
+    },
+    {
+      "id": "DEC-S08-R06",
+      "decision": "Español en títulos de ejercicios/demos; slugs en inglés kebab-case"
+    },
+    {
+      "id": "DEC-S08-R07",
+      "decision": "Datos sintéticos latam; no PII real"
+    },
+    {
+      "id": "DEC-S08-R08",
+      "decision": "Exam families = 8 slugs de subtemas; seed legacy reubicable"
+    }
+  ],
+  "phase_2_gate": {
+    "research_complete": true,
+    "min_official_sources": 6,
+    "eight_subtopics_documented": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_3"
+  }
+}

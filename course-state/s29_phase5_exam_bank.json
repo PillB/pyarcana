@@ -1,0 +1,110 @@
+{
+  "version": "3.2",
+  "section": "S29",
+  "section_id": "mlops",
+  "phase": "PHASE_5",
+  "lane": "LANE-S27-S30-CLOSE",
+  "generated_at": "2026-07-20T23:45:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "mlops",
+    "title_v3": "SQL avanzado y modelado relacional"
+  },
+  "retired_from_bank": [
+    "trackear-experimentos-ml-con-m",
+    "versionar-datos-y-modelos-con",
+    "detectar-data-drift-y-model-dr",
+    "construir-un-pipeline-de-retra"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S29 (SQL avanzado y modelado relacional).",
+  "families": [
+    {
+      "family_id": "S29-T1-A-EX",
+      "concept": "keys-constraints-normalization",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S29-T1-B-EX",
+      "concept": "temporality-provenance",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S29-T2-A-EX",
+      "concept": "cte-windows-antijoins",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S29-T2-B-EX",
+      "concept": "cardinality-null-plans",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S29-T3-A-EX",
+      "concept": "acid-isolation",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S29-T3-B-EX",
+      "concept": "upserts-concurrency-recovery",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S29-T4-A-EX",
+      "concept": "indexes-migrations",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S29-T4-B-EX",
+      "concept": "repository-pooling-tests",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (mlops key)",
+    "course-state/s29_phase5_exam_bank.json"
+  ]
+}

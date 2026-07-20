@@ -1,0 +1,127 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-07-20T14:53:43Z",
+  "lane": "LANE-CAPSTONE-FORMAL",
+  "total": 13,
+  "passed": 13,
+  "failed": 0,
+  "capstones": [
+    {
+      "id": "CP-N1-A",
+      "gate_section": "S04",
+      "name": "Client Intake & Data Quality Script",
+      "execution_status": "pass",
+      "exit_code": 0,
+      "path": "course-state/capstones/CP-N1-A/",
+      "formally_ready": true
+    },
+    {
+      "id": "CP-N1-B",
+      "gate_section": "S08",
+      "name": "Client/Transaction ETL Pipeline",
+      "execution_status": "pass",
+      "exit_code": 0,
+      "path": "course-state/capstones/CP-N1-B/",
+      "formally_ready": true
+    },
+    {
+      "id": "CP-N1-C",
+      "gate_section": "S13",
+      "name": "Familiarity Evidence Dashboard",
+      "execution_status": "pass",
+      "exit_code": 0,
+      "path": "course-state/capstones/CP-N1-C/",
+      "formally_ready": true
+    },
+    {
+      "id": "CP-N2-A",
+      "gate_section": "S17",
+      "name": "Executive Data Quality & EDA Portfolio",
+      "execution_status": "pass",
+      "exit_code": 0,
+      "path": "course-state/capstones/CP-N2-A/",
+      "formally_ready": true
+    },
+    {
+      "id": "CP-N2-B",
+      "gate_section": "S21",
+      "name": "Accessible Insights Dashboard & Reporting Factory",
+      "execution_status": "pass",
+      "exit_code": 0,
+      "path": "course-state/capstones/CP-N2-B/",
+      "formally_ready": true
+    },
+    {
+      "id": "CP-N2-C",
+      "gate_section": "S26",
+      "name": "VP RPA + AI Analyst",
+      "execution_status": "pass",
+      "exit_code": 0,
+      "path": "course-state/capstones/CP-N2-C/",
+      "formally_ready": true
+    },
+    {
+      "id": "CP-N3-A",
+      "gate_section": "S30",
+      "name": "Testable Entity Resolution Engine",
+      "execution_status": "pass",
+      "exit_code": 0,
+      "path": "course-state/capstones/CP-N3-A/",
+      "formally_ready": true
+    },
+    {
+      "id": "CP-N3-B",
+      "gate_section": "S34",
+      "name": "Relationship Investigation Workbench",
+      "execution_status": "pass",
+      "exit_code": 0,
+      "path": "course-state/capstones/CP-N3-B/",
+      "formally_ready": true
+    },
+    {
+      "id": "CP-N3-C",
+      "gate_section": "S39",
+      "name": "Responsible ML Case Triage",
+      "execution_status": "pass",
+      "exit_code": 0,
+      "path": "course-state/capstones/CP-N3-C/",
+      "formally_ready": true
+    },
+    {
+      "id": "CP-N4-A",
+      "gate_section": "S43",
+      "name": "Governed Python Service Platform",
+      "execution_status": "pass",
+      "exit_code": 0,
+      "path": "course-state/capstones/CP-N4-A/",
+      "formally_ready": true
+    },
+    {
+      "id": "CP-N4-B",
+      "gate_section": "S47",
+      "name": "Production Data/ML Platform",
+      "execution_status": "pass",
+      "exit_code": 0,
+      "path": "course-state/capstones/CP-N4-B/",
+      "formally_ready": true
+    },
+    {
+      "id": "CP-N4-C",
+      "gate_section": "S51",
+      "name": "Auditable AI Operations Copilot",
+      "execution_status": "pass",
+      "exit_code": 0,
+      "path": "course-state/capstones/CP-N4-C/",
+      "formally_ready": true
+    },
+    {
+      "id": "CP-FINAL",
+      "gate_section": "S52",
+      "name": "Enterprise Relationship & Operations Intelligence Platform",
+      "execution_status": "pass",
+      "exit_code": 0,
+      "path": "course-state/capstones/CP-FINAL/",
+      "formally_ready": true
+    }
+  ]
+}

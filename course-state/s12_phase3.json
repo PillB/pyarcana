@@ -1,0 +1,1030 @@
+{
+  "version": "3.2",
+  "section": "S12",
+  "section_id": "performance",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1B-FACTORY",
+  "prompt_version": "3.2",
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N1B-FACTORY — S09–S13 research blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N1B-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S12 blueprint: 4 topics × 2 subtopics with full artifact specs and canonical counts before PHASE 4 authorship.",
+    "scope_in": [
+      "S12 only (within N1B factory batch)",
+      "Blueprint: outcomes, demos, exercises E1/E2/E3, topic evals, A/B/C slots, capstone notes",
+      "Count validation vs invariant vector",
+      "Platform gap notes (legacy retention)"
+    ],
+    "scope_out": [
+      "Writing full theory paragraphs / complete exercise bodies (PHASE 4)",
+      "Writing full A/B/C item stems (PHASE 5)",
+      "Editing large .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s12-performance.ts",
+      "prisma/seed.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/course_requirements.json",
+      "src/lib/course/index.ts"
+    ]
+  },
+  "section_meta": {
+    "id": "performance",
+    "index": 12,
+    "title_platform": "Performance, Concurrency & Logging",
+    "title_v3": "APIs, SQL y geodatos responsables",
+    "title_decision": "KEEP platform id 'performance' (learning_roadmap.md). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+    "estimatedHours": 12,
+    "level": "Principiante avanzado",
+    "phase": 0,
+    "prerequisites": [
+      "S08",
+      "S09",
+      "S10",
+      "S11"
+    ],
+    "environment": "local/cloud controlado",
+    "project_capstone": "CP-N1-C (adquisición + geoevidencia)"
+  },
+  "learning_outcomes_section": [
+    "El estudiante consume APIs HTTP síncronas, interpreta status codes y parsea JSON con manejo de errores.",
+    "El estudiante implementa timeout obligatorio, paginación simple y retry/backoff solo en errores transitorios respetando rate limits.",
+    "El estudiante autentica con secretos fuera de código, cachea respuestas seguras y registra provenance de cada fetch.",
+    "El estudiante escribe contract tests del adaptador y define fallback degradado cuando el proveedor no responde.",
+    "El estudiante diseña un esquema SQLite mínimo y ejecuta CRUD + join simple entre entidades y evidencias.",
+    "El estudiante usa queries parametrizadas, transacciones, constraints e índices básicos; prohíbe f-string SQL.",
+    "El estudiante normaliza direcciones sintéticas y usa solo geocoder autorizado/mock; no envía PII bancaria a servicios públicos.",
+    "El estudiante evalúa calidad de coordenadas, calcula distancia Haversine y cachea resultados bajo política de proveedor."
+  ],
+  "topics": [
+    {
+      "topic_id": "S12-T1",
+      "title": "HTTP",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S12-T1-A",
+          "slug": "requests-status-json",
+          "title": "requests/responses, status y JSON",
+          "outcome": "El estudiante consume APIs HTTP síncronas, interpreta status codes y parsea JSON con manejo de errores.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "requests/responses, status y JSON",
+              "must_cover": [
+                "GET/POST basics",
+                "status 2xx/4xx/5xx",
+                "response.json()",
+                "headers",
+                "timeouts required"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S12-T1-A-DEMO",
+              "title": "Cliente mock HTTP que devuelve lista de señales sintéticas",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S12-T1-A-E1",
+                "kind": "guided",
+                "title": "Manejar 404 vs 200 en client.get_entity",
+                "skill": "status",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S12-T1-A-E2",
+                "kind": "independent",
+                "title": "Parsear JSON de respuesta a dict tipado",
+                "skill": "JSON",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S12-T1-A-E3",
+                "kind": "transfer",
+                "title": "Tabla de status → acción del adaptador",
+                "skill": "diseño",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S12-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S12-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S12-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S12-T1-B",
+          "slug": "timeout-pagination-retry-ratelimit",
+          "title": "Timeout, paginación, retry/backoff y rate limit",
+          "outcome": "El estudiante implementa timeout obligatorio, paginación simple y retry/backoff solo en errores transitorios respetando rate limits.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Timeout, paginación, retry/backoff y rate limit",
+              "must_cover": [
+                "timeout=",
+                "page/cursor",
+                "backoff",
+                "429 Retry-After",
+                "max retries"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S12-T1-B-DEMO",
+              "title": "Paginar 3 páginas de API mock con sleep de rate limit",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S12-T1-B-E1",
+                "kind": "guided",
+                "title": "Añadir timeout y capturar Timeout",
+                "skill": "timeout",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S12-T1-B-E2",
+                "kind": "independent",
+                "title": "Loop de paginación hasta next=null",
+                "skill": "paginación",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S12-T1-B-E3",
+                "kind": "transfer",
+                "title": "Política retry para 429/503 vs 400",
+                "skill": "resiliencia",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S12-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S12-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S12-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S12-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S12-T1-EVAL-1",
+            "title": "Cliente HTTP con status/JSON/timeout",
+            "authentic": true
+          },
+          {
+            "id": "S12-T1-EVAL-2",
+            "title": "Paginación + política retry documentada",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S12-T2",
+      "title": "APIs",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S12-T2-A",
+          "slug": "auth-secrets-cache-provenance",
+          "title": "Auth, secretos, cache y provenance",
+          "outcome": "El estudiante autentica con secretos fuera de código, cachea respuestas seguras y registra provenance de cada fetch.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Auth, secretos, cache y provenance",
+              "must_cover": [
+                "Bearer/basic auth",
+                "env secrets",
+                "cache file/TTL",
+                "provenance source_url/fetched_at",
+                "no log tokens"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S12-T2-A-DEMO",
+              "title": "Fetch con token de env + manifest de provenance",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S12-T2-A-E1",
+                "kind": "guided",
+                "title": "Leer token de env y fallar si falta",
+                "skill": "secretos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S12-T2-A-E2",
+                "kind": "independent",
+                "title": "Cache GET por URL hash con TTL",
+                "skill": "cache",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S12-T2-A-E3",
+                "kind": "transfer",
+                "title": "Campos mínimos de provenance para auditoría",
+                "skill": "provenance",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S12-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S12-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S12-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S12-T2-B",
+          "slug": "contract-tests-fallback",
+          "title": "Contract tests y fallback",
+          "outcome": "El estudiante escribe contract tests del adaptador y define fallback degradado cuando el proveedor no responde.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Contract tests y fallback",
+              "must_cover": [
+                "schema contract",
+                "fixture responses",
+                "fallback local",
+                "feature flag offline"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S12-T2-B-DEMO",
+              "title": "Contract test del geocoder mock + fallback a coordenadas precalculadas",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S12-T2-B-E1",
+                "kind": "guided",
+                "title": "Assert keys obligatorias en JSON de API",
+                "skill": "contract",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S12-T2-B-E2",
+                "kind": "independent",
+                "title": "Fallback a archivo local si 5xx",
+                "skill": "fallback",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S12-T2-B-E3",
+                "kind": "transfer",
+                "title": "Matriz online/offline de comportamiento",
+                "skill": "operación",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S12-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S12-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S12-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S12-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S12-T2-EVAL-1",
+            "title": "Auth por env + provenance manifest",
+            "authentic": true
+          },
+          {
+            "id": "S12-T2-EVAL-2",
+            "title": "Contract test + fallback offline",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S12-T3",
+      "title": "SQL",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S12-T3-A",
+          "slug": "schema-crud-joins",
+          "title": "Esquema, CRUD y joins",
+          "outcome": "El estudiante diseña un esquema SQLite mínimo y ejecuta CRUD + join simple entre entidades y evidencias.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Esquema, CRUD y joins",
+              "must_cover": [
+                "CREATE TABLE",
+                "INSERT/SELECT/UPDATE",
+                "JOIN",
+                "sqlite3 module",
+                "transactions begin"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S12-T3-A-DEMO",
+              "title": "Tablas clients, transactions, evidence con join de caso",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S12-T3-A-E1",
+                "kind": "guided",
+                "title": "Crear tabla evidence con FKs lógicas",
+                "skill": "schema",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S12-T3-A-E2",
+                "kind": "independent",
+                "title": "CRUD de ClientRecord",
+                "skill": "CRUD",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S12-T3-A-E3",
+                "kind": "transfer",
+                "title": "Query join evidencias por entity_id",
+                "skill": "joins",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S12-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S12-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S12-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S12-T3-B",
+          "slug": "params-transactions-constraints-indexes",
+          "title": "Parámetros, transacciones, constraints e índices",
+          "outcome": "El estudiante usa queries parametrizadas, transacciones, constraints e índices básicos; prohíbe f-string SQL.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Parámetros, transacciones, constraints e índices",
+              "must_cover": [
+                "? placeholders",
+                "executemany",
+                "COMMIT/ROLLBACK",
+                "UNIQUE/NOT NULL",
+                "INDEX"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S12-T3-B-DEMO",
+              "title": "Insert batch atómico; rollback si una fila viola UNIQUE",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S12-T3-B-E1",
+                "kind": "guided",
+                "title": "Reescribir SQL inseguro a parametrizado",
+                "skill": "params",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S12-T3-B-E2",
+                "kind": "independent",
+                "title": "Transacción multi-insert con rollback",
+                "skill": "tx",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S12-T3-B-E3",
+                "kind": "transfer",
+                "title": "Elegir índice para lookup por document_id",
+                "skill": "índices",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S12-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S12-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S12-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S12-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S12-T3-EVAL-1",
+            "title": "Schema SQLite + CRUD",
+            "authentic": true
+          },
+          {
+            "id": "S12-T3-EVAL-2",
+            "title": "Transacción parametrizada con constraint",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S12-T4",
+      "title": "Geodatos",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S12-T4-A",
+          "slug": "normalize-geocode-authorized",
+          "title": "Normalización y geocoding autorizado",
+          "outcome": "El estudiante normaliza direcciones sintéticas y usa solo geocoder autorizado/mock; no envía PII bancaria a servicios públicos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Normalización y geocoding autorizado",
+              "must_cover": [
+                "address normalize light",
+                "authorized provider policy",
+                "mock geocoder",
+                "no bank PII egress",
+                "consent/policy note"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S12-T4-A-DEMO",
+              "title": "MockGeocoder devuelve lat/lon sintéticos para Lima/Arequipa",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S12-T4-A-E1",
+                "kind": "guided",
+                "title": "Normalizar espacios/case de dirección sintética",
+                "skill": "normalize",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S12-T4-A-E2",
+                "kind": "independent",
+                "title": "Interfaz Geocoder + MockGeocoder",
+                "skill": "mock",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S12-T4-A-E3",
+                "kind": "transfer",
+                "title": "Checklist de datos permitidos al proveedor",
+                "skill": "política",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S12-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S12-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S12-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S12-T4-B",
+          "slug": "coord-quality-haversine-cache-policy",
+          "title": "Calidad de coordenada, Haversine, caching y política",
+          "outcome": "El estudiante evalúa calidad de coordenadas, calcula distancia Haversine y cachea resultados bajo política de proveedor.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Calidad de coordenada, Haversine, caching y política",
+              "must_cover": [
+                "lat/lon bounds",
+                "Haversine",
+                "distance as signal not verdict",
+                "cache geocode",
+                "provider policy"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S12-T4-B-DEMO",
+              "title": "Distancia entre dos puntos sintéticos Lima–Callao como geoseñal",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S12-T4-B-E1",
+                "kind": "guided",
+                "title": "Validar lat in [-90,90] lon in [-180,180]",
+                "skill": "calidad",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S12-T4-B-E2",
+                "kind": "independent",
+                "title": "haversine_km(a,b) con test de tolerancia",
+                "skill": "Haversine",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S12-T4-B-E3",
+                "kind": "transfer",
+                "title": "Usar distancia como relationship_signal no como parentesco",
+                "skill": "ética",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S12-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S12-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S12-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S12-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S12-T4-EVAL-1",
+            "title": "Mock geocoder + normalize",
+            "authentic": true
+          },
+          {
+            "id": "S12-T4-EVAL-2",
+            "title": "Haversine + uso ético como señal no veredicto",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S12-PROJ",
+    "title": "Adaptadores de adquisición y geoseñales",
+    "replaces_legacy": "Performance Optimizer — logging/CLI/multiprocessing se reubican a S9/S10; TARGET es HTTP+SQL+geo responsables",
+    "objectives": [
+      "Cliente HTTP síncrono con timeout/retry/paginación",
+      "Persistencia SQLite parametrizada de entidades/evidencias",
+      "Geocoder mock intercambiable + Haversine",
+      "Provenance y cache",
+      "Prohibición documentada de PII bancaria a servicios públicos"
+    ],
+    "requirements": [
+      "Adapters: HttpSignalClient, SqliteStore, Geocoder protocol",
+      "Demo con coordenadas sintéticas/precalculadas",
+      "Contract tests con fixtures (sin red obligatoria)",
+      "Política de proveedor en README"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "Alimenta geoevidencia y store de CP-N1-C en S13"
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'performance' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s12-performance.ts; orphans: []"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N1-C (adquisición + geoevidencia)",
+    "increment_gate": "adaptadores limitados a SQLite, HTTP síncrono, auth básica y un geocoder mock/intercambiable; demo con coordenadas sintéticas o precalculadas; no envía PII bancaria a servicios públicos",
+    "project_id": "S12-PROJ",
+    "section_passed": false,
+    "notes": "S12 contributes to CP-N1-C (adquisición + geoevidencia). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "capstone_increment_specified": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Factory blueprint quality aligned to S03 phase3 pattern. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 topic split gives clear 4×2 ownership for N1 second half",
+    "risk": "Display title still 'Performance, Concurrency & Logging' until product rename; large topic mismatch may confuse learners if tagline not updated in PHASE 4",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S12-T1-A first"
+  }
+}

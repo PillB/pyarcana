@@ -1,0 +1,171 @@
+{
+  "version": "3.2",
+  "section": "S25",
+  "section_id": "streamlit-dashboards",
+  "section_title": "Endpoints de IA, Hugging Face y prompting evaluado",
+  "artifact": "topic_evaluations",
+  "platform_note": "Paquetes TE V3 (4 por sección). Datos estructurados para render TopicEvaluation; CourseSection.topicEvaluations es opcional.",
+  "generated_at": "2026-07-20T14:52:23Z",
+  "rubric_scale": "0-3 per criterion",
+  "language": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_principle": "Coincidir en apellido, teléfono, email, dirección, distancia o transacciones es evidencia para revisión, no prueba de parentesco, colusión o fraude.",
+  "topic_evaluations": [
+    {
+      "id": "S25-T1-TE",
+      "topic_id": "S25-T1",
+      "title": "Evaluación formativa — Selección",
+      "subtopics_covered": [
+        "S25-T1-A",
+        "S25-T1-B"
+      ],
+      "topic_summary": "regla vs modelo especializado vs LLM; model cards, licencias y local/cloud.",
+      "tasks": [
+        {
+          "id": "S25-T1-TE-1",
+          "title": "Tarea auténtica — Selección: regla vs modelo especializado vs LLM",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: regla vs modelo especializado vs LLM. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S25, tema T1. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S25-T1-TE-2",
+          "title": "Tarea auténtica — Selección: model cards, licencias y local/cloud",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: model cards, licencias y local/cloud. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S25, tema T1. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Selección» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S25-T2-TE",
+      "topic_id": "S25-T2",
+      "title": "Evaluación formativa — Inferencia",
+      "subtopics_covered": [
+        "S25-T2-A",
+        "S25-T2-B"
+      ],
+      "topic_summary": "Hugging Face pipelines/endpoints; batching, timeout, cache, costo y fallback.",
+      "tasks": [
+        {
+          "id": "S25-T2-TE-1",
+          "title": "Tarea auténtica — Inferencia: Hugging Face pipelines/endpoints",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: Hugging Face pipelines/endpoints. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S25, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S25-T2-TE-2",
+          "title": "Tarea auténtica — Inferencia: batching, timeout, cache, costo y fallback",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: batching, timeout, cache, costo y fallback. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S25, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Inferencia» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S25-T3-TE",
+      "topic_id": "S25-T3",
+      "title": "Evaluación formativa — Prompting",
+      "subtopics_covered": [
+        "S25-T3-A",
+        "S25-T3-B"
+      ],
+      "topic_summary": "objetivo, contexto, restricciones, ejemplos y salida estructurada; GLM‑5.2 thinking/tools/checkpoints.",
+      "tasks": [
+        {
+          "id": "S25-T3-TE-1",
+          "title": "Tarea auténtica — Prompting: objetivo, contexto, restricciones, ejemplos y salida estructurada",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: objetivo, contexto, restricciones, ejemplos y salida estructurada. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S25, tema T3. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S25-T3-TE-2",
+          "title": "Tarea auténtica — Prompting: GLM‑5.2 thinking/tools/checkpoints",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: GLM‑5.2 thinking/tools/checkpoints. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S25, tema T3. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Prompting» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S25-T4-TE",
+      "topic_id": "S25-T4",
+      "title": "Evaluación formativa — Evals/seguridad",
+      "subtopics_covered": [
+        "S25-T4-A",
+        "S25-T4-B"
+      ],
+      "topic_summary": "golden set, schema y revisión humana; prompt injection, exfiltración, sesgo y minimización de datos.",
+      "tasks": [
+        {
+          "id": "S25-T4-TE-1",
+          "title": "Tarea auténtica — Evals/seguridad: golden set, schema y revisión humana",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: golden set, schema y revisión humana. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S25, tema T4. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S25-T4-TE-2",
+          "title": "Tarea auténtica — Evals/seguridad: prompt injection, exfiltración, sesgo y minimización de datos",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: prompt injection, exfiltración, sesgo y minimización de datos. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S25, tema T4. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Evals/seguridad» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    }
+  ],
+  "counts": {
+    "topic_evaluations": 4,
+    "tasks": 8
+  }
+}

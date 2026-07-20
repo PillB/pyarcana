@@ -1,0 +1,36 @@
+{
+  "id": "CP-N3-B",
+  "gate_section": "S34",
+  "files": [
+    "gate.json",
+    "demo.py",
+    "evidence_manifest.json",
+    "RUN.md",
+    "system_or_data_card.md",
+    "execution.json"
+  ],
+  "commands": [
+    {
+      "cmd": "python3 demo.py",
+      "cwd": "course-state/capstones/CP-N3-B",
+      "expected_exit_code": 0,
+      "expected_stdout_contains": [
+        "METRICS_JSON:",
+        "CP-N3-B",
+        "\"status\": \"pass\""
+      ]
+    }
+  ],
+  "expected_outcomes": [
+    "Proceso termina con exit code 0",
+    "Línea METRICS_JSON con status=pass",
+    "Sin PII real en salida",
+    "Sin red ni dependencias de pago obligatorias"
+  ],
+  "optional_deps": [
+    "numpy",
+    "pandas"
+  ],
+  "optional_deps_policy": "Si faltan, demo usa stdlib; partes opcionales se marcan UNVERIFIED solo si aplica.",
+  "generated_at": "2026-07-20T14:53:43Z"
+}

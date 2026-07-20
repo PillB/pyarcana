@@ -1,0 +1,321 @@
+{
+  "version": "3.2",
+  "section": "S24",
+  "section_id": "rpa-advanced",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S22-S26-P4",
+  "generated_at": "2026-07-20T08:00:46Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget rpa-advanced section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s24-rpa-advanced.ts",
+      "course-state/s24_phase4_progress.json",
+      "course-state/lanes/LANE-S22-S26-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "rpa-advanced",
+    "index": 24,
+    "title": "OCR y Document AI",
+    "shortTitle": "OCR Document AI",
+    "tagline": "extrae campos de documentos sintéticos, conserva bounding boxes/evidencia, abstiene bajo confidence y mide cada campo crítico",
+    "estimatedHours": 12,
+    "learningOutcomes": 8,
+    "youDo": "Intake OCR sintético (document intake CP-N2-C)",
+    "icon": "Bot",
+    "legacy_note": "Advanced RPA orchestration demoted; target is OCR/Document AI intake for CP-N2-C",
+    "capstone": "CP-N2-C (document intake)"
+  },
+  "subtopics_authored": {
+    "S24-T1-A": {
+      "slug": "dpi-deskew-crop-contrast",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S24-T1-A-DEMO",
+      "exercises": [
+        "S24-T1-A-E1",
+        "S24-T1-A-E2",
+        "S24-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S24-T1-B": {
+      "slug": "noise-orientation",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S24-T1-B-DEMO",
+      "exercises": [
+        "S24-T1-B-E1",
+        "S24-T1-B-E2",
+        "S24-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S24-T2-A": {
+      "slug": "langs-layout-confidence",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S24-T2-A-DEMO",
+      "exercises": [
+        "S24-T2-A-E1",
+        "S24-T2-A-E2",
+        "S24-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S24-T2-B": {
+      "slug": "text-tables-kv-pairs",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S24-T2-B-DEMO",
+      "exercises": [
+        "S24-T2-B-E1",
+        "S24-T2-B-E2",
+        "S24-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S24-T3-A": {
+      "slug": "schema-normalization",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S24-T3-A-DEMO",
+      "exercises": [
+        "S24-T3-A-E1",
+        "S24-T3-A-E2",
+        "S24-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S24-T3-B": {
+      "slug": "crossfield-validation-review",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S24-T3-B-DEMO",
+      "exercises": [
+        "S24-T3-B-E1",
+        "S24-T3-B-E2",
+        "S24-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S24-T4-A": {
+      "slug": "golden-field-accuracy-coverage",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S24-T4-A-DEMO",
+      "exercises": [
+        "S24-T4-A-E1",
+        "S24-T4-A-E2",
+        "S24-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S24-T4-B": {
+      "slug": "privacy-hostile-fallback",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S24-T4-B-DEMO",
+      "exercises": [
+        "S24-T4-B-E1",
+        "S24-T4-B-E2",
+        "S24-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Intake OCR sintético (document intake CP-N2-C)",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S24-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S24-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "Matching/resolución de destinatarios o campos no implica fraude, parentesco ni colusión."
+}

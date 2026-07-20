@@ -1,0 +1,1067 @@
+{
+  "version": "3.2",
+  "section": "S49",
+  "section_id": "data-contracts",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S49 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S49 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s49-data-contracts.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "data-contracts",
+    "index": 49,
+    "title_platform": "Data Contracts e Ingeniería de Datos Avanzada",
+    "title_v3": "Agentes, herramientas y context engineering",
+    "title_decision": "KEEP platform id 'data-contracts' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "agente acotado consulta casos/reportes y prepara propuesta; no envía, no modifica prod ni decide riesgo sin aprobación",
+    "estimatedHours": 14,
+    "level": "Experto a máster",
+    "phase": 3,
+    "prerequisites": [
+      "S48"
+    ],
+    "environment": "sandbox",
+    "project_capstone": "CP-N4-C (tools)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "data-contracts",
+    "platform_title": "Data Contracts e Ingeniería de Datos Avanzada",
+    "v3_title": "Agentes, herramientas y context engineering",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante elige workflow vs agente.",
+    "El estudiante diseña routing planner/evaluator.",
+    "El estudiante define tools de responsabilidad única.",
+    "El estudiante esquema, permisos e idempotencia de tools.",
+    "El estudiante minimiza contexto con JIT y checkpoints.",
+    "El estudiante compacta memoria y conserva LKG.",
+    "El estudiante define stops y budgets.",
+    "El estudiante sandbox, aprobación humana y recovery."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S49-T1-A",
+      "slug": "workflow-vs-agent",
+      "title": "workflow vs agente"
+    },
+    {
+      "subtopic_id": "S49-T1-B",
+      "slug": "routing-planner-evaluator",
+      "title": "routing, planner/worker y evaluator–optimizer"
+    },
+    {
+      "subtopic_id": "S49-T2-A",
+      "slug": "single-responsibility-fns",
+      "title": "funciones de responsabilidad única"
+    },
+    {
+      "subtopic_id": "S49-T2-B",
+      "slug": "schema-perms-idempotency-errors",
+      "title": "schema, permisos, idempotencia y errores"
+    },
+    {
+      "subtopic_id": "S49-T3-A",
+      "slug": "min-context-jit-checkpoints",
+      "title": "contexto mínimo, retrieval JIT y checkpoints"
+    },
+    {
+      "subtopic_id": "S49-T3-B",
+      "slug": "memory-compaction-lkg",
+      "title": "memoria, compaction y last-known-good"
+    },
+    {
+      "subtopic_id": "S49-T4-A",
+      "slug": "stopping-budgets",
+      "title": "stopping conditions y budgets"
+    },
+    {
+      "subtopic_id": "S49-T4-B",
+      "slug": "sandbox-human-approval-recovery",
+      "title": "sandbox, human approval y recuperación"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S49-T1",
+      "title": "Arquitectura",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S49-T1-A",
+          "slug": "workflow-vs-agent",
+          "title": "workflow vs agente",
+          "outcome": "El estudiante elige workflow vs agente.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "workflow vs agente",
+              "must_cover": [
+                "workflow",
+                "agent"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S49-T1-A-DEMO",
+              "title": "Demo: workflow vs agente",
+              "environment": "sandbox",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S49-T1-A-E1",
+                "kind": "guided",
+                "title": "workflow vs agente — guided",
+                "skill": "workflow",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S49-T1-A-E2",
+                "kind": "independent",
+                "title": "workflow vs agente — independent",
+                "skill": "workflow",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S49-T1-A-E3",
+                "kind": "transfer",
+                "title": "workflow vs agente — transfer",
+                "skill": "workflow",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S49-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S49-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S49-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S49-T1-B",
+          "slug": "routing-planner-evaluator",
+          "title": "routing, planner/worker y evaluator–optimizer",
+          "outcome": "El estudiante diseña routing planner/evaluator.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "routing, planner/worker y evaluator–optimizer",
+              "must_cover": [
+                "planner",
+                "evaluator"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S49-T1-B-DEMO",
+              "title": "Demo: routing, planner/worker y evaluator–optimizer",
+              "environment": "sandbox",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S49-T1-B-E1",
+                "kind": "guided",
+                "title": "routing, planner/worker y evaluator–optimizer — guided",
+                "skill": "routing",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S49-T1-B-E2",
+                "kind": "independent",
+                "title": "routing, planner/worker y evaluator–optimizer — independent",
+                "skill": "routing",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S49-T1-B-E3",
+                "kind": "transfer",
+                "title": "routing, planner/worker y evaluator–optimizer — transfer",
+                "skill": "routing",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S49-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S49-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S49-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S49-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S49-T1-EVAL-1",
+            "title": "workflow vs agente — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S49-T1-EVAL-2",
+            "title": "routing, planner/worker y evaluator–optimizer — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S49-T2",
+      "title": "Herramientas",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S49-T2-A",
+          "slug": "single-responsibility-fns",
+          "title": "funciones de responsabilidad única",
+          "outcome": "El estudiante define tools de responsabilidad única.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "funciones de responsabilidad única",
+              "must_cover": [
+                "tool design"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S49-T2-A-DEMO",
+              "title": "Demo: funciones de responsabilidad única",
+              "environment": "sandbox",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S49-T2-A-E1",
+                "kind": "guided",
+                "title": "funciones de responsabilidad única — guided",
+                "skill": "single",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S49-T2-A-E2",
+                "kind": "independent",
+                "title": "funciones de responsabilidad única — independent",
+                "skill": "single",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S49-T2-A-E3",
+                "kind": "transfer",
+                "title": "funciones de responsabilidad única — transfer",
+                "skill": "single",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S49-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S49-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S49-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S49-T2-B",
+          "slug": "schema-perms-idempotency-errors",
+          "title": "schema, permisos, idempotencia y errores",
+          "outcome": "El estudiante esquema, permisos e idempotencia de tools.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "schema, permisos, idempotencia y errores",
+              "must_cover": [
+                "tool schema",
+                "permissions"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S49-T2-B-DEMO",
+              "title": "Demo: schema, permisos, idempotencia y errores",
+              "environment": "sandbox",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S49-T2-B-E1",
+                "kind": "guided",
+                "title": "schema, permisos, idempotencia y errores — guided",
+                "skill": "schema",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S49-T2-B-E2",
+                "kind": "independent",
+                "title": "schema, permisos, idempotencia y errores — independent",
+                "skill": "schema",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S49-T2-B-E3",
+                "kind": "transfer",
+                "title": "schema, permisos, idempotencia y errores — transfer",
+                "skill": "schema",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S49-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S49-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S49-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S49-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S49-T2-EVAL-1",
+            "title": "funciones de responsabilidad única — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S49-T2-EVAL-2",
+            "title": "schema, permisos, idempotencia y errores — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S49-T3",
+      "title": "Estado",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S49-T3-A",
+          "slug": "min-context-jit-checkpoints",
+          "title": "contexto mínimo, retrieval JIT y checkpoints",
+          "outcome": "El estudiante minimiza contexto con JIT y checkpoints.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "contexto mínimo, retrieval JIT y checkpoints",
+              "must_cover": [
+                "context window",
+                "checkpoint"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S49-T3-A-DEMO",
+              "title": "Demo: contexto mínimo, retrieval JIT y checkpoints",
+              "environment": "sandbox",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S49-T3-A-E1",
+                "kind": "guided",
+                "title": "contexto mínimo, retrieval JIT y checkpoints — guided",
+                "skill": "min",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S49-T3-A-E2",
+                "kind": "independent",
+                "title": "contexto mínimo, retrieval JIT y checkpoints — independent",
+                "skill": "min",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S49-T3-A-E3",
+                "kind": "transfer",
+                "title": "contexto mínimo, retrieval JIT y checkpoints — transfer",
+                "skill": "min",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S49-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S49-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S49-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S49-T3-B",
+          "slug": "memory-compaction-lkg",
+          "title": "memoria, compaction y last-known-good",
+          "outcome": "El estudiante compacta memoria y conserva LKG.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "memoria, compaction y last-known-good",
+              "must_cover": [
+                "memory",
+                "compaction"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S49-T3-B-DEMO",
+              "title": "Demo: memoria, compaction y last-known-good",
+              "environment": "sandbox",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S49-T3-B-E1",
+                "kind": "guided",
+                "title": "memoria, compaction y last-known-good — guided",
+                "skill": "memory",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S49-T3-B-E2",
+                "kind": "independent",
+                "title": "memoria, compaction y last-known-good — independent",
+                "skill": "memory",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S49-T3-B-E3",
+                "kind": "transfer",
+                "title": "memoria, compaction y last-known-good — transfer",
+                "skill": "memory",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S49-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S49-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S49-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S49-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S49-T3-EVAL-1",
+            "title": "contexto mínimo, retrieval JIT y checkpoints — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S49-T3-EVAL-2",
+            "title": "memoria, compaction y last-known-good — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S49-T4",
+      "title": "Control",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S49-T4-A",
+          "slug": "stopping-budgets",
+          "title": "stopping conditions y budgets",
+          "outcome": "El estudiante define stops y budgets.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "stopping conditions y budgets",
+              "must_cover": [
+                "stop",
+                "token budget"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S49-T4-A-DEMO",
+              "title": "Demo: stopping conditions y budgets",
+              "environment": "sandbox",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S49-T4-A-E1",
+                "kind": "guided",
+                "title": "stopping conditions y budgets — guided",
+                "skill": "stopping",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S49-T4-A-E2",
+                "kind": "independent",
+                "title": "stopping conditions y budgets — independent",
+                "skill": "stopping",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S49-T4-A-E3",
+                "kind": "transfer",
+                "title": "stopping conditions y budgets — transfer",
+                "skill": "stopping",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S49-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S49-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S49-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S49-T4-B",
+          "slug": "sandbox-human-approval-recovery",
+          "title": "sandbox, human approval y recuperación",
+          "outcome": "El estudiante sandbox, aprobación humana y recovery.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "sandbox, human approval y recuperación",
+              "must_cover": [
+                "sandbox",
+                "HITL"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S49-T4-B-DEMO",
+              "title": "Demo: sandbox, human approval y recuperación",
+              "environment": "sandbox",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S49-T4-B-E1",
+                "kind": "guided",
+                "title": "sandbox, human approval y recuperación — guided",
+                "skill": "sandbox",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S49-T4-B-E2",
+                "kind": "independent",
+                "title": "sandbox, human approval y recuperación — independent",
+                "skill": "sandbox",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S49-T4-B-E3",
+                "kind": "transfer",
+                "title": "sandbox, human approval y recuperación — transfer",
+                "skill": "sandbox",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S49-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S49-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S49-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S49-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S49-T4-EVAL-1",
+            "title": "stopping conditions y budgets — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S49-T4-EVAL-2",
+            "title": "sandbox, human approval y recuperación — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S49-PROJ",
+    "title": "Agentes, herramientas y context engineering",
+    "replaces_legacy": "Legacy You Do de 'Data Contracts e Ingeniería de Datos Avanzada' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "agente acotado puede consultar casos/reportes y preparar una propuesta, pero no enviar, modificar producción ni decidir riesgo sin aprobación.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-C (tools)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N4-C (tools)",
+    "increment_gate": "agente acotado puede consultar casos/reportes y preparar una propuesta, pero no enviar, modificar producción ni decidir riesgo sin aprobación."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'data-contracts' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s49-data-contracts.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Data Contracts e Ingeniería de Datos Avanzada' vs 'Agentes, herramientas y context engineering'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N4-C (tools)",
+    "increment_gate": "agente acotado puede consultar casos/reportes y preparar una propuesta, pero no enviar, modificar producción ni decidir riesgo sin aprobación.",
+    "project_id": "S49-PROJ",
+    "section_passed": false,
+    "notes": "S49 contributes to CP-N4-C (tools). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S49",
+    "risk": "Display title still 'Data Contracts e Ingeniería de Datos Avanzada' until product rename; topic mismatch vs V3 'Agentes, herramientas y context engineering'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S49-T1-A first"
+  }
+}

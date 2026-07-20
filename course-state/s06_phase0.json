@@ -1,0 +1,258 @@
+{
+  "version": "3.2",
+  "section": "S06",
+  "section_id": "numpy",
+  "phase": "PHASE_0_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1-FACTORY",
+  "prompt_version": "3.2",
+  "requirement_matrix": {
+    "global_requirements": [
+      {
+        "id": "REQ-GLOBAL-001",
+        "requirement": "Cada sección tiene exactamente 4 temas evaluables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Cada sección tiene exactamente 4 temas evaluables",
+        "status": "pass",
+        "evidence": "V3 S06 define T1–T4"
+      },
+      {
+        "id": "REQ-GLOBAL-002",
+        "requirement": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "status": "blocked",
+        "evidence": "Contenido plataforma no estructurado 4×2 V3; blueprint lo planifica"
+      },
+      {
+        "id": "REQ-GLOBAL-003",
+        "requirement": "Cada subtema tiene 1 demo I Do y 3 ejercicios",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Cada subtema tiene 1 demo I Do y 3 ejercicios",
+        "status": "blocked",
+        "evidence": "Plataforma: demos/ejercicios legacy insuficientes vs 8+24"
+      },
+      {
+        "id": "REQ-GLOBAL-004",
+        "requirement": "Cada subtema tiene 3 variantes A/B/C",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Cada subtema tiene 3 variantes A/B/C",
+        "status": "blocked",
+        "evidence": "seed numpy: 4 conceptos × 3 = 12; target 24"
+      },
+      {
+        "id": "REQ-GLOBAL-005",
+        "requirement": "Evaluación por tema + examen + proyecto",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Evaluación por tema + examen + proyecto",
+        "status": "partial",
+        "evidence": "selfCheck + youDo legacy; faltan 4 topic evals V3"
+      },
+      {
+        "id": "REQ-GLOBAL-006",
+        "requirement": "Idioma español peruano profesional",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Idioma español peruano profesional",
+        "status": "pass",
+        "evidence": "Contenido usa español profesional; V3 refuerza tono PE"
+      },
+      {
+        "id": "REQ-GLOBAL-007",
+        "requirement": "No equiparar coincidencia con parentesco/fraude",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "No equiparar coincidencia con parentesco/fraude",
+        "status": "pass",
+        "evidence": "S07 introduce similaridad textual — debe explicitar no-parentesco"
+      },
+      {
+        "id": "REQ-GLOBAL-008",
+        "requirement": "Código ejecutable o UNVERIFIED",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Código ejecutable o UNVERIFIED",
+        "status": "partial",
+        "evidence": "Código legacy embebido; re-verificación PHASE 7"
+      },
+      {
+        "id": "REQ-GLOBAL-009",
+        "requirement": "Datos sintéticos o legalmente reutilizables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Datos sintéticos o legalmente reutilizables",
+        "status": "pass",
+        "evidence": "Preferir sintético; You Do legacy puede mencionar datasets públicos"
+      }
+    ],
+    "section_requirements": [
+      {
+        "id": "REQ-S06-001",
+        "requirement": "S06 cubre Secuencias: Listas, tuplas y slicing; Unpacking, aliasing y copia",
+        "source": "V3 roadmap S06 T1",
+        "acceptance_test": "Contenido de S06 incluye subtemas de Secuencias",
+        "status": "fail",
+        "evidence": "Archivo src/lib/course/sections/s06-numpy.ts enseña 'NumPy: Vectorized Computing', no V3 'Colecciones y estructuras de datos'."
+      },
+      {
+        "id": "REQ-S06-002",
+        "requirement": "S06 cubre Mapeos y conjuntos: Diccionarios y pertenencia; Deduplicación y operaciones de set",
+        "source": "V3 roadmap S06 T2",
+        "acceptance_test": "Contenido de S06 incluye subtemas de Mapeos y conjuntos",
+        "status": "fail",
+        "evidence": "Archivo src/lib/course/sections/s06-numpy.ts enseña 'NumPy: Vectorized Computing', no V3 'Colecciones y estructuras de datos'."
+      },
+      {
+        "id": "REQ-S06-003",
+        "requirement": "S06 cubre Composición: Estructuras anidadas y recorridos; Acceso seguro y valores faltantes",
+        "source": "V3 roadmap S06 T3",
+        "acceptance_test": "Contenido de S06 incluye subtemas de Composición",
+        "status": "fail",
+        "evidence": "Archivo src/lib/course/sections/s06-numpy.ts enseña 'NumPy: Vectorized Computing', no V3 'Colecciones y estructuras de datos'."
+      },
+      {
+        "id": "REQ-S06-004",
+        "requirement": "S06 cubre Elección: Ordenamiento y key; Estructura adecuada, complejidad y determinismo",
+        "source": "V3 roadmap S06 T4",
+        "acceptance_test": "Contenido de S06 incluye subtemas de Elección",
+        "status": "fail",
+        "evidence": "Archivo src/lib/course/sections/s06-numpy.ts enseña 'NumPy: Vectorized Computing', no V3 'Colecciones y estructuras de datos'."
+      },
+      {
+        "id": "REQ-S06-005",
+        "requirement": "Incremento/gate: representar clientes, contactos y transacciones; deduplicar sin eliminar conflictos y producir resultados estables.",
+        "source": "V3 roadmap S06 Incremento/gate",
+        "acceptance_test": "You Do / project alinea con incremento V3",
+        "status": "fail",
+        "evidence": "You Do actual: Student Exam Score Analyzer — Análisis vectorizado completo"
+      },
+      {
+        "id": "REQ-S06-006",
+        "requirement": "Proyecto: modelo tabular en memoria",
+        "source": "V3 + capstone_ledger",
+        "acceptance_test": "Proyecto documentado hacia capstone activo",
+        "status": "fail",
+        "evidence": "Legacy project no es incremento V3"
+      },
+      {
+        "id": "REQ-S06-007",
+        "requirement": "Entorno: browser/local",
+        "source": "V3 roadmap S06",
+        "acceptance_test": "Demos declaran entorno",
+        "status": "pass",
+        "evidence": "Target entorno browser/local; plataforma actual es browser-friendly en general"
+      },
+      {
+        "id": "REQ-S06-008",
+        "requirement": "Prerrequisito: S5",
+        "source": "V3 roadmap S06",
+        "acceptance_test": "Sección asume S5 cerrado",
+        "status": "pass",
+        "evidence": "index 6 después de prerrequisito en catálogo"
+      },
+      {
+        "id": "REQ-S06-009",
+        "requirement": "Contenido legado no se elimina; se inventaría y reubica (Todo NumPy de plataforma → V3 S14 (NumPy y cómputo vectorizado). Contenido list/dict de s03-data-structures.ts también alimenta este slot V3.)",
+        "source": "LANE-N1-FACTORY + course_requirements authority",
+        "acceptance_test": "src/lib/course/sections/s06-numpy.ts intacto en PHASE 0–3",
+        "status": "pass",
+        "evidence": "Factory solo escribe course-state JSON"
+      }
+    ],
+    "platform_requirements": [
+      {
+        "id": "REQ-PLATFORM-001",
+        "requirement": "S06 carga con id estable 'numpy'",
+        "source": "src/lib/course/index.ts + learning_roadmap.md",
+        "acceptance_test": "id 'numpy' en COURSE_SECTIONS",
+        "status": "pass",
+        "evidence": "src/lib/course/sections/s06-numpy.ts export section06; id: 'numpy'"
+      },
+      {
+        "id": "REQ-PLATFORM-002",
+        "requirement": "Exam bank seed para 'numpy'",
+        "source": "prisma/seed.ts",
+        "acceptance_test": "≥ conceptos seed",
+        "status": "partial",
+        "evidence": "4 conceptos: ['vectorization-speed', 'boolean-masking', 'broadcasting-shape', 'axis-arg'] (12 variantes); target 24 V3"
+      },
+      {
+        "id": "REQ-PLATFORM-003",
+        "requirement": "Tabs theory/ido/wedo/youdo/quiz presentes",
+        "source": "CourseSection shape",
+        "acceptance_test": "Campos presentes en archivo",
+        "status": "pass",
+        "evidence": "646 líneas con shape completo legacy"
+      }
+    ]
+  },
+  "contradictions_detected": [
+    {
+      "id": "CONTRADICTION-S06-001",
+      "issue": "V3 define S6 — Colecciones y estructuras de datos (T1–T4 pedagógicos). Plataforma src/lib/course/sections/s06-numpy.ts y learning_roadmap.md se titulan 'NumPy: Vectorized Computing'.",
+      "resolution": "Mantener section_id 'numpy'. TARGET de producción: topics V3 4×2. Contenido legado inventariado → Todo NumPy de plataforma → V3 S14 (NumPy y cómputo vectorizado). Contenido list/dict de s03-data-structures.ts también alimenta este slot V3.. NO eliminar en research/factory.",
+      "authority": "learning_roadmap.md = primary IDs; V3 = counting + topics target + capstone gates",
+      "impact": "No bloquea PHASE 0–3. Bloquea claim 'section passed'.",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S06-002",
+      "issue": "You Do legacy 'Student Exam Score Analyzer — Análisis vectorizado completo' ≠ proyecto V3 'Modelo tabular en memoria (CP-N1-B)'.",
+      "resolution": "Mapear legacy como inventario; TARGET = project_increment V3 en blueprint.",
+      "authority": "V3 Incremento/gate S06",
+      "impact": "You Do reescritura en PHASE 4",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S06-003",
+      "issue": "Exam seed 12 variantes (['vectorization-speed', 'boolean-masking', 'broadcasting-shape', 'axis-arg']) vs 24 V3; skills no alinean con Colecciones y estructuras de datos.",
+      "resolution": "Banco provisional; PHASE 5 nuevas 8 familias A/B/C; legacy reasignado a sección destino.",
+      "authority": "V3 counting contract",
+      "impact": "0 cobertura de skills V3 en bank actual",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S06-004",
+      "issue": "Platform S06 is NumPy; V3 S6 is collections. V3 NumPy is S14. Also s03 legacy structures map here.",
+      "resolution": "Target collections for index 6; NumPy deferred to S14 production.",
+      "authority": "V3 S6/S14",
+      "impact": "Major rewrite; coordinate legacy from s03-data-structures",
+      "status": "recorded"
+    }
+  ],
+  "v3_section_snapshot": {
+    "v3_label": "S6 — Colecciones y estructuras de datos",
+    "prerequisite": "S5",
+    "environment": "browser/local",
+    "project": "modelo tabular en memoria",
+    "topics": {
+      "T1": "Secuencias: listas y tuplas; slicing; unpacking, aliasing y copia",
+      "T2": "Mapeos y conjuntos: diccionarios; pertenencia; deduplicación, pertenencia y operaciones de set",
+      "T3": "Composición: estructuras anidadas; recorridos; acceso seguro y valores faltantes",
+      "T4": "Elección: ordenamiento y key; estructura adecuada, complejidad intuitiva y determinismo"
+    },
+    "increment_gate": "representar clientes, contactos y transacciones; deduplicar sin eliminar conflictos y producir resultados estables.",
+    "capstone_gate": null
+  },
+  "platform_section_snapshot": {
+    "section_id": "numpy",
+    "index": 6,
+    "title": "NumPy: Vectorized Computing",
+    "shortTitle": "NumPy",
+    "file": "src/lib/course/sections/s06-numpy.ts",
+    "lines": 646,
+    "youDo": "Student Exam Score Analyzer — Análisis vectorizado completo",
+    "exam_concepts_seed": [
+      "vectorization-speed",
+      "boolean-masking",
+      "broadcasting-shape",
+      "axis-arg"
+    ],
+    "alt_files": []
+  },
+  "phase_0_gate": {
+    "all_requirements_extracted": true,
+    "all_contradictions_recorded": true,
+    "requirement_matrix_complete": true,
+    "content_not_deleted": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_1"
+  }
+}

@@ -1,0 +1,1083 @@
+{
+  "version": "3.2",
+  "section": "S52",
+  "section_id": "career-strategy",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S52 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S52 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s52-career-strategy.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "career-strategy",
+    "index": 52,
+    "title_platform": "Perfil Global y Estrategia de Carrera",
+    "title_v3": "Enterprise Relationship & Operations Intelligence Platform: capstone final",
+    "title_decision": "KEEP platform id 'career-strategy' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "CP-FINAL: integración de 12 capstones, demo reproducible, system card y caso de impacto para CV",
+    "estimatedHours": 20,
+    "level": "Máster",
+    "phase": 3,
+    "prerequisites": [
+      "S1–S51",
+      "CP-N4-C aprobado"
+    ],
+    "environment": "reproducible local + despliegue demostrable",
+    "project_capstone": "CP-FINAL exclusivamente"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "career-strategy",
+    "platform_title": "Perfil Global y Estrategia de Carrera",
+    "v3_title": "Enterprise Relationship & Operations Intelligence Platform: capstone final",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante revalida stakeholders y métricas de CF-1.",
+    "El estudiante actualiza constraints, riesgos y no-go.",
+    "El estudiante integra contexts vía APIs y eventos.",
+    "El estudiante ensambla datos/modelos/RPA/RAG/HITL.",
+    "El estudiante ejecuta tests, evals y red team.",
+    "El estudiante demuestra SLO, backup y disaster exercise.",
+    "El estudiante prepara demo y narrativa de CV.",
+    "El estudiante publica artefactos y defiende técnicamente."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S52-T1-A",
+      "slug": "stakeholders-jobs-success-cf1",
+      "title": "stakeholders, jobs y success metrics de CF-1"
+    },
+    {
+      "subtopic_id": "S52-T1-B",
+      "slug": "changes-constraints-risks-nogo",
+      "title": "cambios, constraints, riesgos y no-go"
+    },
+    {
+      "subtopic_id": "S52-T2-A",
+      "slug": "bounded-apis-events",
+      "title": "bounded contexts, APIs y eventos"
+    },
+    {
+      "subtopic_id": "S52-T2-B",
+      "slug": "data-models-rpa-rag-human",
+      "title": "datos, modelos, RPA, RAG y human workflow"
+    },
+    {
+      "subtopic_id": "S52-T3-A",
+      "slug": "tests-evals-redteam-perf",
+      "title": "tests/evals/red team y performance"
+    },
+    {
+      "subtopic_id": "S52-T3-B",
+      "slug": "slo-backup-rollback-disaster",
+      "title": "SLO, backup, rollback y disaster exercise"
+    },
+    {
+      "subtopic_id": "S52-T4-A",
+      "slug": "demo-cv-narrative",
+      "title": "demo y narrativa CV"
+    },
+    {
+      "subtopic_id": "S52-T4-B",
+      "slug": "arch-readme-cards-license-video-defense",
+      "title": "arquitectura, READMEs, cards, licencia, video y defensa"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S52-T1",
+      "title": "Revalidación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S52-T1-A",
+          "slug": "stakeholders-jobs-success-cf1",
+          "title": "stakeholders, jobs y success metrics de CF-1",
+          "outcome": "El estudiante revalida stakeholders y métricas de CF-1.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "stakeholders, jobs y success metrics de CF-1",
+              "must_cover": [
+                "stakeholders",
+                "JTBD",
+                "success metrics"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S52-T1-A-DEMO",
+              "title": "Demo: stakeholders, jobs y success metrics de CF-1",
+              "environment": "reproducible local + despliegue demostrable",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S52-T1-A-E1",
+                "kind": "guided",
+                "title": "stakeholders, jobs y success metrics de CF-1 — guided",
+                "skill": "stakeholders",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S52-T1-A-E2",
+                "kind": "independent",
+                "title": "stakeholders, jobs y success metrics de CF-1 — independent",
+                "skill": "stakeholders",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S52-T1-A-E3",
+                "kind": "transfer",
+                "title": "stakeholders, jobs y success metrics de CF-1 — transfer",
+                "skill": "stakeholders",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S52-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S52-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S52-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S52-T1-B",
+          "slug": "changes-constraints-risks-nogo",
+          "title": "cambios, constraints, riesgos y no-go",
+          "outcome": "El estudiante actualiza constraints, riesgos y no-go.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "cambios, constraints, riesgos y no-go",
+              "must_cover": [
+                "constraints",
+                "no-go"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S52-T1-B-DEMO",
+              "title": "Demo: cambios, constraints, riesgos y no-go",
+              "environment": "reproducible local + despliegue demostrable",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S52-T1-B-E1",
+                "kind": "guided",
+                "title": "cambios, constraints, riesgos y no-go — guided",
+                "skill": "changes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S52-T1-B-E2",
+                "kind": "independent",
+                "title": "cambios, constraints, riesgos y no-go — independent",
+                "skill": "changes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S52-T1-B-E3",
+                "kind": "transfer",
+                "title": "cambios, constraints, riesgos y no-go — transfer",
+                "skill": "changes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S52-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S52-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S52-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S52-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S52-T1-EVAL-1",
+            "title": "stakeholders, jobs y success metrics de CF-1 — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S52-T1-EVAL-2",
+            "title": "cambios, constraints, riesgos y no-go — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S52-T2",
+      "title": "Integración",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S52-T2-A",
+          "slug": "bounded-apis-events",
+          "title": "bounded contexts, APIs y eventos",
+          "outcome": "El estudiante integra contexts vía APIs y eventos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "bounded contexts, APIs y eventos",
+              "must_cover": [
+                "integration",
+                "events"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S52-T2-A-DEMO",
+              "title": "Demo: bounded contexts, APIs y eventos",
+              "environment": "reproducible local + despliegue demostrable",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S52-T2-A-E1",
+                "kind": "guided",
+                "title": "bounded contexts, APIs y eventos — guided",
+                "skill": "bounded",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S52-T2-A-E2",
+                "kind": "independent",
+                "title": "bounded contexts, APIs y eventos — independent",
+                "skill": "bounded",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S52-T2-A-E3",
+                "kind": "transfer",
+                "title": "bounded contexts, APIs y eventos — transfer",
+                "skill": "bounded",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S52-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S52-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S52-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S52-T2-B",
+          "slug": "data-models-rpa-rag-human",
+          "title": "datos, modelos, RPA, RAG y human workflow",
+          "outcome": "El estudiante ensambla datos/modelos/RPA/RAG/HITL.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "datos, modelos, RPA, RAG y human workflow",
+              "must_cover": [
+                "end-to-end",
+                "HITL"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S52-T2-B-DEMO",
+              "title": "Demo: datos, modelos, RPA, RAG y human workflow",
+              "environment": "reproducible local + despliegue demostrable",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S52-T2-B-E1",
+                "kind": "guided",
+                "title": "datos, modelos, RPA, RAG y human workflow — guided",
+                "skill": "data",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S52-T2-B-E2",
+                "kind": "independent",
+                "title": "datos, modelos, RPA, RAG y human workflow — independent",
+                "skill": "data",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S52-T2-B-E3",
+                "kind": "transfer",
+                "title": "datos, modelos, RPA, RAG y human workflow — transfer",
+                "skill": "data",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S52-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S52-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S52-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S52-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S52-T2-EVAL-1",
+            "title": "bounded contexts, APIs y eventos — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S52-T2-EVAL-2",
+            "title": "datos, modelos, RPA, RAG y human workflow — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S52-T3",
+      "title": "Verificación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S52-T3-A",
+          "slug": "tests-evals-redteam-perf",
+          "title": "tests/evals/red team y performance",
+          "outcome": "El estudiante ejecuta tests, evals y red team.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "tests/evals/red team y performance",
+              "must_cover": [
+                "E2E tests",
+                "red team"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S52-T3-A-DEMO",
+              "title": "Demo: tests/evals/red team y performance",
+              "environment": "reproducible local + despliegue demostrable",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S52-T3-A-E1",
+                "kind": "guided",
+                "title": "tests/evals/red team y performance — guided",
+                "skill": "tests",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S52-T3-A-E2",
+                "kind": "independent",
+                "title": "tests/evals/red team y performance — independent",
+                "skill": "tests",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S52-T3-A-E3",
+                "kind": "transfer",
+                "title": "tests/evals/red team y performance — transfer",
+                "skill": "tests",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S52-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S52-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S52-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S52-T3-B",
+          "slug": "slo-backup-rollback-disaster",
+          "title": "SLO, backup, rollback y disaster exercise",
+          "outcome": "El estudiante demuestra SLO, backup y disaster exercise.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "SLO, backup, rollback y disaster exercise",
+              "must_cover": [
+                "DR",
+                "rollback"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S52-T3-B-DEMO",
+              "title": "Demo: SLO, backup, rollback y disaster exercise",
+              "environment": "reproducible local + despliegue demostrable",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S52-T3-B-E1",
+                "kind": "guided",
+                "title": "SLO, backup, rollback y disaster exercise — guided",
+                "skill": "slo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S52-T3-B-E2",
+                "kind": "independent",
+                "title": "SLO, backup, rollback y disaster exercise — independent",
+                "skill": "slo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S52-T3-B-E3",
+                "kind": "transfer",
+                "title": "SLO, backup, rollback y disaster exercise — transfer",
+                "skill": "slo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S52-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S52-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S52-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S52-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S52-T3-EVAL-1",
+            "title": "tests/evals/red team y performance — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S52-T3-EVAL-2",
+            "title": "SLO, backup, rollback y disaster exercise — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S52-T4",
+      "title": "Publicación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S52-T4-A",
+          "slug": "demo-cv-narrative",
+          "title": "demo y narrativa CV",
+          "outcome": "El estudiante prepara demo y narrativa de CV.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "demo y narrativa CV",
+              "must_cover": [
+                "demo",
+                "portfolio"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S52-T4-A-DEMO",
+              "title": "Demo: demo y narrativa CV",
+              "environment": "reproducible local + despliegue demostrable",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S52-T4-A-E1",
+                "kind": "guided",
+                "title": "demo y narrativa CV — guided",
+                "skill": "demo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S52-T4-A-E2",
+                "kind": "independent",
+                "title": "demo y narrativa CV — independent",
+                "skill": "demo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S52-T4-A-E3",
+                "kind": "transfer",
+                "title": "demo y narrativa CV — transfer",
+                "skill": "demo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S52-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S52-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S52-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S52-T4-B",
+          "slug": "arch-readme-cards-license-video-defense",
+          "title": "arquitectura, READMEs, cards, licencia, video y defensa",
+          "outcome": "El estudiante publica artefactos y defiende técnicamente.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "arquitectura, READMEs, cards, licencia, video y defensa",
+              "must_cover": [
+                "system card",
+                "defense"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S52-T4-B-DEMO",
+              "title": "Demo: arquitectura, READMEs, cards, licencia, video y defensa",
+              "environment": "reproducible local + despliegue demostrable",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S52-T4-B-E1",
+                "kind": "guided",
+                "title": "arquitectura, READMEs, cards, licencia, video y defensa — guided",
+                "skill": "arch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S52-T4-B-E2",
+                "kind": "independent",
+                "title": "arquitectura, READMEs, cards, licencia, video y defensa — independent",
+                "skill": "arch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S52-T4-B-E3",
+                "kind": "transfer",
+                "title": "arquitectura, READMEs, cards, licencia, video y defensa — transfer",
+                "skill": "arch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S52-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S52-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S52-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S52-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S52-T4-EVAL-1",
+            "title": "demo y narrativa CV — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S52-T4-EVAL-2",
+            "title": "arquitectura, READMEs, cards, licencia, video y defensa — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S52-PROJ",
+    "title": "Enterprise Relationship & Operations Intelligence Platform: capstone final (CP-FINAL exclusivamente)",
+    "replaces_legacy": "Legacy You Do de 'Perfil Global y Estrategia de Carrera' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Enterprise Relationship & Operations Intelligence Platform integra, con contratos y datos sintéticos, Familiarity Dashboard, VP RPA/AI, ER/grafos/triage, reporting y copiloto. Rúbrica independiente de",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-FINAL exclusivamente"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-FINAL exclusivamente",
+    "increment_gate": "Enterprise Relationship & Operations Intelligence Platform integra, con contratos y datos sintéticos, Familiarity Dashboard, VP RPA/AI, ER/grafos/triage, reporting y copiloto. Rúbrica independiente de CP-N4-C. Promoción a máster: 52/52 secciones, 12/12 capstones, CP-FINAL y regresión S1–S52, cero P0/P1."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'career-strategy' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s52-career-strategy.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Perfil Global y Estrategia de Carrera' vs 'Enterprise Relationship & Operations Intelligence Platform: capstone final'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-FINAL exclusivamente",
+    "increment_gate": "Enterprise Relationship & Operations Intelligence Platform integra, con contratos y datos sintéticos, Familiarity Dashboard, VP RPA/AI, ER/grafos/triage, reporting y copiloto. Rúbrica independiente de CP-N4-C. Promoción a máster: 52/52 secciones, 12/12 capstones, CP-FINAL y regresión S1–S52, cero P0/P1.",
+    "project_id": "S52-PROJ",
+    "section_passed": false,
+    "notes": "S52 contributes to CP-FINAL exclusivamente. No passed states written by factory lane.",
+    "capstone_gate": "CP-FINAL",
+    "gate_role": "FINAL — independent of CP-N4-C; neither compensates the other",
+    "promotion_requires": [
+      "52/52 sections",
+      "12/12 level capstones",
+      "CP-FINAL",
+      "regression S1–S52",
+      "CF-1…CF-5 PASS",
+      "zero P0/P1"
+    ],
+    "blocks": "Master promotion until all pass",
+    "cp_final": "PLANNED_NOT_PASSED",
+    "total_regression": "PLANNED_NOT_PASSED"
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S52",
+    "risk": "Display title still 'Perfil Global y Estrategia de Carrera' until product rename; topic mismatch vs V3 'Enterprise Relationship & Operations Intelligence Platform: capstone final'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S52-T1-A first"
+  }
+}

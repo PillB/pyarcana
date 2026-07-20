@@ -1,0 +1,111 @@
+{
+  "version": "3.2",
+  "section": "S45",
+  "section_id": "iac",
+  "phase": "PHASE_5",
+  "lane": "LANE-S40-S52-CLOSE",
+  "generated_at": "2026-07-20T23:59:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "iac",
+    "title_v3": "Cloud, almacenamiento, colas e infraestructura",
+    "privacy_note": "matching/resolución de entidades no implica fraude, parentesco ni colusión"
+  },
+  "retired_from_bank": [
+    "gestionar-infraestructura-aws-",
+    "desplegar-stacks-ml-completos",
+    "usar-helm-charts-para-aplicaci",
+    "implementar-gitops-con-argocd:"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S45 (Cloud, almacenamiento, colas e infraestructura).",
+  "families": [
+    {
+      "family_id": "S45-T1-A-EX",
+      "concept": "object-relational-cache",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S45-T1-B-EX",
+      "concept": "consistency-lifecycle-backups",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S45-T2-A-EX",
+      "concept": "queue-event-delivery",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S45-T2-B-EX",
+      "concept": "dedup-ordering-dlq",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S45-T3-A-EX",
+      "concept": "compute-autoscale-net",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S45-T3-B-EX",
+      "concept": "iam-private-egress",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S45-T4-A-EX",
+      "concept": "declarative-config-envs",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S45-T4-B-EX",
+      "concept": "cost-quotas-recovery-portability",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (iac key)",
+    "course-state/s45_phase5_exam_bank.json"
+  ]
+}

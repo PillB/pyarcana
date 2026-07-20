@@ -1,0 +1,121 @@
+{
+  "lane_id": "LANE-S27-S30-P4",
+  "parent_lane": null,
+  "sections": [
+    "S27",
+    "S28",
+    "S29",
+    "S30"
+  ],
+  "mode": "PARALLEL_PRODUCTION",
+  "role": "Author Agent PHASE 4",
+  "status": "PHASE_4_COMPLETE",
+  "section_passed": false,
+  "updated_at": "2026-07-20T08:10:36Z",
+  "S27": {
+    "section_id": "async-concurrency",
+    "title_v3": "Estrategia de pruebas con pytest",
+    "subtopics_done": [
+      "S27-T1-A",
+      "S27-T1-B",
+      "S27-T2-A",
+      "S27-T2-B",
+      "S27-T3-A",
+      "S27-T3-B",
+      "S27-T4-A",
+      "S27-T4-B"
+    ],
+    "subtopics_remaining": [],
+    "exercises_done": 24,
+    "demos_done": 8,
+    "gate": "CP-N3-A (inicio)"
+  },
+  "S28": {
+    "section_id": "llm-agents",
+    "title_v3": "Pruebas de datos, propiedades e integración",
+    "subtopics_done": [
+      "S28-T1-A",
+      "S28-T1-B",
+      "S28-T2-A",
+      "S28-T2-B",
+      "S28-T3-A",
+      "S28-T3-B",
+      "S28-T4-A",
+      "S28-T4-B"
+    ],
+    "subtopics_remaining": [],
+    "exercises_done": 24,
+    "demos_done": 8,
+    "gate": "CP-N3-A (QA ER)"
+  },
+  "S29": {
+    "section_id": "mlops",
+    "title_v3": "SQL avanzado y modelado relacional",
+    "subtopics_done": [
+      "S29-T1-A",
+      "S29-T1-B",
+      "S29-T2-A",
+      "S29-T2-B",
+      "S29-T3-A",
+      "S29-T3-B",
+      "S29-T4-A",
+      "S29-T4-B"
+    ],
+    "subtopics_remaining": [],
+    "exercises_done": 24,
+    "demos_done": 8,
+    "gate": "CP-N3-A (almacén ER)"
+  },
+  "S30": {
+    "section_id": "security-infra",
+    "title_v3": "Entity resolution probabilístico",
+    "subtopics_done": [
+      "S30-T1-A",
+      "S30-T1-B",
+      "S30-T2-A",
+      "S30-T2-B",
+      "S30-T3-A",
+      "S30-T3-B",
+      "S30-T4-A",
+      "S30-T4-B"
+    ],
+    "subtopics_remaining": [],
+    "exercises_done": 24,
+    "demos_done": 8,
+    "gate": "CP-N3-A (cierre / gate)"
+  },
+  "exercises_done": 96,
+  "exercises_target": 96,
+  "demos_done": 32,
+  "demos_target": 32,
+  "files_changed": [
+    "src/lib/course/sections/s27-async-concurrency.ts",
+    "src/lib/course/sections/s28-llm-agents.ts",
+    "src/lib/course/sections/s29-mlops.ts",
+    "src/lib/course/sections/s30-security-infra.ts",
+    "course-state/s27_phase4_progress.json",
+    "course-state/s28_phase4_progress.json",
+    "course-state/s29_phase4_progress.json",
+    "course-state/s30_phase4_progress.json",
+    "course-state/lanes/LANE-S27-S30-P4.status.json",
+    "scripts/_gen_s27_s30_p4.py"
+  ],
+  "execution_summary": "Retargeted S27→pytest strategy (CP-N3-A inicio), S28→data/property/integration QA ER, S29→SQL advanced ER store, S30→probabilistic ER (cierre gate CP-N3-A). Full packages 8 subtopics each (theory+demo+E1/E2/E3, 2 hints) = 8 demos + 24 exercises each. Platform ids async-concurrency / llm-agents / mlops / security-infra preserved. All demos/solutions executed with python3; UNVERIFIED=[]. Español peruano; synthetic data only. Privacy: ER/matching no implica fraude ni parentesco. No seed/checkpoint/ledger edits.",
+  "blockers": [],
+  "do_not_edit": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json",
+    "course-state/parallel_orchestration.json",
+    "prisma/seed.ts"
+  ],
+  "privacy_note": "ER only same-entity; no fraud/parentesco/collusion inference from matching or scores.",
+  "next_action": "PHASE 5 exam banks for async-concurrency, llm-agents, mlops, security-infra V3 slugs. Do not mark S27–S30 passed from this lane. Gate CP-N3-A qualification is a separate lane.",
+  "verified_counts": {
+    "S27": 32,
+    "S28": 32,
+    "S29": 32,
+    "S30": 32,
+    "UNVERIFIED": []
+  }
+}

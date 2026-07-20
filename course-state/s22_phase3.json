@@ -1,0 +1,1075 @@
+{
+  "version": "3.2",
+  "section": "S22",
+  "section_id": "rapidfuzz-entity",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T17:30:00Z",
+  "lane": "LANE-N2-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N2-FACTORY — S14–S26 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N2-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S22 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S22 only (within N2 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s22-rapidfuzz-entity.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "rapidfuzz-entity",
+    "index": 22,
+    "title_platform": "RapidFuzz y Resolución de Entidades a Escala",
+    "title_v3": "Email, identidad y aprobación humana",
+    "title_decision": "KEEP platform id 'rapidfuzz-entity' (learning_roadmap.md). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "crea borradores en sandbox o archivos .eml; ningún correo real se envía automáticamente y todo destinatario requiere con",
+    "estimatedHours": 12,
+    "level": "Competente",
+    "phase": 1,
+    "prerequisites": [
+      "S21"
+    ],
+    "environment": "local/sandbox proveedor",
+    "project_capstone": "CP-N2-C (inicio)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "rapidfuzz-entity",
+    "platform_title": "RapidFuzz y Resolución de Entidades a Escala",
+    "v3_title": "Email, identidad y aprobación humana",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "learning_roadmap.md for stable id; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante construye mensajes MIME con encoding y attachments.",
+    "El estudiante sanitiza templates HTML de correo.",
+    "El estudiante configura OAuth/service account con scopes mínimos.",
+    "El estudiante crea drafts vía adaptadores con expiración.",
+    "El estudiante resuelve y verifica destinatarios.",
+    "El estudiante aplica privacidad y mínima divulgación en listas.",
+    "El estudiante implementa approval queue y state machine.",
+    "El estudiante garantiza idempotencia, audit log y reintentos seguros."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S22-T1-A",
+      "slug": "mime-encoding-html-attachments",
+      "title": "MIME, encoding, HTML/text y attachments"
+    },
+    {
+      "subtopic_id": "S22-T1-B",
+      "slug": "templates-sanitization",
+      "title": "templates y sanitización"
+    },
+    {
+      "subtopic_id": "S22-T2-A",
+      "slug": "oauth-service-account-scopes",
+      "title": "OAuth/service account y scopes"
+    },
+    {
+      "subtopic_id": "S22-T2-B",
+      "slug": "drafts-expiry-adapters",
+      "title": "drafts, expiración y adaptadores"
+    },
+    {
+      "subtopic_id": "S22-T3-A",
+      "slug": "resolve-verify-recipients",
+      "title": "resolución y verificación"
+    },
+    {
+      "subtopic_id": "S22-T3-B",
+      "slug": "lists-cc-bcc-privacy-min",
+      "title": "listas, CC/BCC, privacidad y mínima divulgación"
+    },
+    {
+      "subtopic_id": "S22-T4-A",
+      "slug": "approval-queue-state-machine",
+      "title": "approval queue y state machine"
+    },
+    {
+      "subtopic_id": "S22-T4-B",
+      "slug": "idempotency-audit-retry",
+      "title": "idempotencia, audit log y reintento sin duplicar"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S22-T1",
+      "title": "Mensaje",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S22-T1-A",
+          "slug": "mime-encoding-html-attachments",
+          "title": "MIME, encoding, HTML/text y attachments",
+          "outcome": "El estudiante construye mensajes MIME con encoding y attachments.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "MIME, encoding, HTML/text y attachments",
+              "must_cover": [
+                "MIMEMultipart",
+                "charset",
+                "attachments"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S22-T1-A-DEMO",
+              "title": "Construir mensaje MIME multi-parte seguro",
+              "environment": "local/sandbox proveedor",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S22-T1-A-E1",
+                "kind": "guided",
+                "title": "MIME, encoding, HTML/text y attachments — guided",
+                "skill": "mime",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S22-T1-A-E2",
+                "kind": "independent",
+                "title": "MIME, encoding, HTML/text y attachments — independent",
+                "skill": "mime",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S22-T1-A-E3",
+                "kind": "transfer",
+                "title": "MIME, encoding, HTML/text y attachments — transfer",
+                "skill": "mime",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S22-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S22-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S22-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S22-T1-B",
+          "slug": "templates-sanitization",
+          "title": "templates y sanitización",
+          "outcome": "El estudiante sanitiza templates HTML de correo.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "templates y sanitización",
+              "must_cover": [
+                "email templates",
+                "HTML sanitize",
+                "link policy"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S22-T1-B-DEMO",
+              "title": "Sanitizar HTML de templates de correo",
+              "environment": "local/sandbox proveedor",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S22-T1-B-E1",
+                "kind": "guided",
+                "title": "templates y sanitización — guided",
+                "skill": "templates",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S22-T1-B-E2",
+                "kind": "independent",
+                "title": "templates y sanitización — independent",
+                "skill": "templates",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S22-T1-B-E3",
+                "kind": "transfer",
+                "title": "templates y sanitización — transfer",
+                "skill": "templates",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S22-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S22-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S22-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S22-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S22-T1-EVAL-1",
+            "title": "MIME, encoding, HTML/text y attachments — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S22-T1-EVAL-2",
+            "title": "templates y sanitización — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S22-T2",
+      "title": "Proveedor",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S22-T2-A",
+          "slug": "oauth-service-account-scopes",
+          "title": "OAuth/service account y scopes",
+          "outcome": "El estudiante configura OAuth/service account con scopes mínimos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "OAuth/service account y scopes",
+              "must_cover": [
+                "OAuth scopes",
+                "service account",
+                "least privilege"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S22-T2-A-DEMO",
+              "title": "Configurar scopes mínimos en sandbox",
+              "environment": "local/sandbox proveedor",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S22-T2-A-E1",
+                "kind": "guided",
+                "title": "OAuth/service account y scopes — guided",
+                "skill": "oauth",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S22-T2-A-E2",
+                "kind": "independent",
+                "title": "OAuth/service account y scopes — independent",
+                "skill": "oauth",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S22-T2-A-E3",
+                "kind": "transfer",
+                "title": "OAuth/service account y scopes — transfer",
+                "skill": "oauth",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S22-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S22-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S22-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S22-T2-B",
+          "slug": "drafts-expiry-adapters",
+          "title": "drafts, expiración y adaptadores",
+          "outcome": "El estudiante crea drafts vía adaptadores con expiración.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "drafts, expiración y adaptadores",
+              "must_cover": [
+                "draft API",
+                "adapter pattern",
+                "token expiry"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S22-T2-B-DEMO",
+              "title": "Crear drafts vía adaptador con expiración",
+              "environment": "local/sandbox proveedor",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S22-T2-B-E1",
+                "kind": "guided",
+                "title": "drafts, expiración y adaptadores — guided",
+                "skill": "drafts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S22-T2-B-E2",
+                "kind": "independent",
+                "title": "drafts, expiración y adaptadores — independent",
+                "skill": "drafts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S22-T2-B-E3",
+                "kind": "transfer",
+                "title": "drafts, expiración y adaptadores — transfer",
+                "skill": "drafts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S22-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S22-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S22-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S22-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S22-T2-EVAL-1",
+            "title": "OAuth/service account y scopes — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S22-T2-EVAL-2",
+            "title": "drafts, expiración y adaptadores — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S22-T3",
+      "title": "Destinatario",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S22-T3-A",
+          "slug": "resolve-verify-recipients",
+          "title": "resolución y verificación",
+          "outcome": "El estudiante resuelve y verifica destinatarios.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "resolución y verificación",
+              "must_cover": [
+                "resolve contacts",
+                "verify email",
+                "bounce risk"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S22-T3-A-DEMO",
+              "title": "Resolver y verificar destinatarios",
+              "environment": "local/sandbox proveedor",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S22-T3-A-E1",
+                "kind": "guided",
+                "title": "resolución y verificación — guided",
+                "skill": "resolve",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S22-T3-A-E2",
+                "kind": "independent",
+                "title": "resolución y verificación — independent",
+                "skill": "resolve",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S22-T3-A-E3",
+                "kind": "transfer",
+                "title": "resolución y verificación — transfer",
+                "skill": "resolve",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S22-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S22-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S22-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S22-T3-B",
+          "slug": "lists-cc-bcc-privacy-min",
+          "title": "listas, CC/BCC, privacidad y mínima divulgación",
+          "outcome": "El estudiante aplica privacidad y mínima divulgación en listas.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "listas, CC/BCC, privacidad y mínima divulgación",
+              "must_cover": [
+                "CC/BCC",
+                "list hygiene",
+                "min disclosure"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S22-T3-B-DEMO",
+              "title": "Aplicar mínima divulgación en listas",
+              "environment": "local/sandbox proveedor",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S22-T3-B-E1",
+                "kind": "guided",
+                "title": "listas, CC/BCC, privacidad y mínima divulgación — guided",
+                "skill": "lists",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S22-T3-B-E2",
+                "kind": "independent",
+                "title": "listas, CC/BCC, privacidad y mínima divulgación — independent",
+                "skill": "lists",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S22-T3-B-E3",
+                "kind": "transfer",
+                "title": "listas, CC/BCC, privacidad y mínima divulgación — transfer",
+                "skill": "lists",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S22-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S22-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S22-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S22-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S22-T3-EVAL-1",
+            "title": "resolución y verificación — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S22-T3-EVAL-2",
+            "title": "listas, CC/BCC, privacidad y mínima divulgación — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S22-T4",
+      "title": "Workflow",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S22-T4-A",
+          "slug": "approval-queue-state-machine",
+          "title": "approval queue y state machine",
+          "outcome": "El estudiante implementa approval queue y state machine.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "approval queue y state machine",
+              "must_cover": [
+                "states",
+                "approve/reject",
+                "queue"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S22-T4-A-DEMO",
+              "title": "Modelar cola de aprobación con estados",
+              "environment": "local/sandbox proveedor",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S22-T4-A-E1",
+                "kind": "guided",
+                "title": "approval queue y state machine — guided",
+                "skill": "approval",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S22-T4-A-E2",
+                "kind": "independent",
+                "title": "approval queue y state machine — independent",
+                "skill": "approval",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S22-T4-A-E3",
+                "kind": "transfer",
+                "title": "approval queue y state machine — transfer",
+                "skill": "approval",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S22-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S22-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S22-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S22-T4-B",
+          "slug": "idempotency-audit-retry",
+          "title": "idempotencia, audit log y reintento sin duplicar",
+          "outcome": "El estudiante garantiza idempotencia, audit log y reintentos seguros.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "idempotencia, audit log y reintento sin duplicar",
+              "must_cover": [
+                "idempotency key",
+                "audit log",
+                "safe retry"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S22-T4-B-DEMO",
+              "title": "Reintentar sin duplicar envíos/drafts",
+              "environment": "local/sandbox proveedor",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S22-T4-B-E1",
+                "kind": "guided",
+                "title": "idempotencia, audit log y reintento sin duplicar — guided",
+                "skill": "idempotency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S22-T4-B-E2",
+                "kind": "independent",
+                "title": "idempotencia, audit log y reintento sin duplicar — independent",
+                "skill": "idempotency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S22-T4-B-E3",
+                "kind": "transfer",
+                "title": "idempotencia, audit log y reintento sin duplicar — transfer",
+                "skill": "idempotency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S22-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S22-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S22-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S22-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S22-T4-EVAL-1",
+            "title": "approval queue y state machine — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S22-T4-EVAL-2",
+            "title": "idempotencia, audit log y reintento sin duplicar — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S22-PROJ",
+    "title": "Drafts sandbox/.eml con aprobación humana (inicio CP-N2-C)",
+    "replaces_legacy": "Legacy You Do de 'RapidFuzz y Resolución de Entidades a Escala' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Solo drafts sandbox o .eml — sin envío real automático",
+      "Confirmación de destinatario obligatoria",
+      "State machine de aprobación",
+      "Audit log + idempotencia"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N2-C (inicio)",
+    "increment_gate": "crea borradores en sandbox o archivos .eml; ningún correo real se envía automáticamente y todo destinatario requiere confirmación"
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'rapidfuzz-entity' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s22-rapidfuzz-entity.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'RapidFuzz y Resolución de Entidades a Escala' vs 'Email, identidad y aprobación humana'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N2-C (inicio)",
+    "increment_gate": "crea borradores en sandbox o archivos .eml; ningún correo real se envía automáticamente y todo destinatario requiere confirmación",
+    "project_id": "S22-PROJ",
+    "section_passed": false,
+    "notes": "S22 contributes to CP-N2-C (inicio). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N2 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for N2",
+    "risk": "Display title still 'RapidFuzz y Resolución de Entidades a Escala' until product rename; large topic mismatch vs V3 'Email, identidad y aprobación humana'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S22-T1-A first"
+  }
+}

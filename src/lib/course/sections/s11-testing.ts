@@ -1,819 +1,1856 @@
 import type { CourseSection } from '../../types'
 
 export const section11: CourseSection = {
-  id: 'testing',
+  id: "testing",
   index: 11,
-  title: 'Testing Your Python Code',
-  shortTitle: 'Testing',
-  tagline: 'pytest, fixtures, coverage y CI con GitHub Actions — el diferenciador senior',
-  estimatedHours: 6,
-  level: 'Avanzado',
+  title: "OOP y modelo de dominio",
+  shortTitle: "OOP dominio",
+  tagline: "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+  estimatedHours: 10,
+  level: "Intermedio",
   phase: 0,
-  icon: 'ShieldCheck',
-  accentColor: 'bg-gradient-to-br from-cyan-500 to-blue-600',
+  icon: "Boxes",
+  accentColor: "bg-gradient-to-br from-cyan-500 to-blue-600",
   jobRelevance:
-    'Testing es lo que diferencia un junior de un senior a ojos de hiring managers. Un repo con tests + badge verde de CI dice "este developer es serio". En LATAM, donde la mayoría no hace tests, tener GitHub Actions con pytest-cov te posiciona como US-trained. Las empresas serias (Rimac, Interbank, Mercado Libre) exigen tests para merges a main. Sin tests, tu código no es production-ready.',
+    "Un modelo de dominio claro es la base de productos de matching/familiaridad sin inventar veredictos legales. Esta sección (id `testing` conservado) retematiza S11 a **OOP y dominio**: núcleo de **CP-N1-C**. pytest/CI se reubican como soporte de calidad alrededor del dominio.",
   learningOutcomes: [
-    { text: 'Escribir tests con pytest: assert, funciones test_, archivos test_*.py' },
-    { text: 'Usar fixtures (@pytest.fixture) para setup/teardown reutilizable' },
-    { text: 'Parametrizar tests con @pytest.mark.parametrize' },
-    { text: 'Testear DataFrames: shape, dtypes, nulls, rangos' },
-    { text: 'Testear ML pipelines: output shape, no NaN, valid ranges' },
-    { text: 'Medir cobertura con pytest-cov' },
-    { text: 'Configurar GitHub Actions CI con badge en README' },
+    { text: "Modelar entidades con class/dataclass e instancias válidas" },
+    { text: "Imponer invariantes en construcción sin side-effects externos" },
+    { text: "Encapsular con properties y métodos de consulta seguros" },
+    { text: "Definir igualdad/hash y mutabilidad (frozen) consciente" },
+    { text: "Preferir composición a herencia frágil" },
+    { text: "Usar Protocol/duck typing para puertos del dominio" },
+    { text: "Separar dominio de I/O con repo/service y to_dict" },
+    { text: "Probar dominio puro y evitar APIs de fraude/parentesco" },
   ],
   theory: [
     {
-      heading: 'Filosofía de testing — por qué y qué testear',
+      heading: "De “Testing pytest/CI” a OOP y modelo de dominio (mapa)",
       paragraphs: [
-        'El testing automático es la red de seguridad que te permite refactorizar y agregar features sin miedo. Sin tests, cada cambio es una lotería: "¿rompí algo?". Con tests, corres `pytest` antes de cada commit y sabes en 30 segundos si algo se rompió. El miedo a modificar código legacy (que paraliza equipos) viene de falta de tests.',
-        'La pirámide de tests: (1) Unit tests (muchos, rápidos, aislados), (2) Integration tests (algunos, medianos, prueban combinaciones), (3) E2E tests (pocos, lentos, prueban flujos completos). Para data science, los unit tests son sobre funciones de transformación, los integration tests sobre pipelines completos. E2E casi no se usa salvo en productos con UI.',
-        'Qué testear: (1) funciones puras (entradas → salidas sin side effects), (2) edge cases (input vacío, null, valores extremos), (3) invariantes (propiedades que siempre deben cumplirse, como "predicciones entre 0 y 1"). Qué NO testear: (1) librerías externas (confía en sus tests), (2) output exacto de números aleatorios (usa seed), (3) implementación interna (testea comportamiento, no código).',
+        "En V3, **S11 no es el path principal de pytest fixtures/coverage/CI** (ese material se reubica como soporte de calidad). Aquí modelas el **dominio de familiaridad**: `ClientRecord`, `ResolvedEntity`, `Transaction`, `RelationshipEvidence`.",
+        "Ninguna clase emite veredicto de **fraude** ni **parentesco**. Los scores son **datos**, no decisiones legales. Entorno **local-python**. Id de plataforma `testing` se conserva.",
+        "Orden: **T1 Objetos** → **T2 Encapsulación** → **T3 Diseño** → **T4 Límites** (repos/tests).",
       ],
       callout: {
-        type: 'info',
-        title: 'TDD vs Test-After',
+        type: "info",
+        title: "CP-N1-C modelo de dominio",
         content:
-          'TDD (Test-Driven Development): escribes el test primero, luego el código. Ideal para bugs conocidos y algoritmos complejos. Test-After: escribes código, luego tests. Más común en data science. Ambos son válidos — lo importante es que EXISTAN tests. No dogmatizes sobre TDD.',
+          "Gate: cuatro tipos explícitos, invariantes, tests sin red/DB, README de límites éticos del modelo.",
       },
     },
     {
-      heading: 'pytest — el estándar de testing en Python',
+      heading: "Clases, instancias y dataclass",
+      subtopicId: "S11-T1-A",
       paragraphs: [
-        'pytest es el framework de testing más usado en Python. Más simple que unittest (built-in), más poderoso, con mejor output. Instalación: `pip install pytest pytest-cov`. Para correr tests: `pytest` (corre todos los test_*.py), `pytest test_file.py::test_function` (uno específico), `pytest -v` (verbose), `pytest --cov=mi_modulo` (cobertura).',
-        'Convenciones obligatorias: (1) archivos de test se llaman `test_*.py` o `*_test.py`, (2) funciones de test se llaman `test_*`, (3) clases de test se llaman `Test*` (sin __init__). pytest automáticamente descubre estos nombres. Si no los respetas, tus tests no corren.',
-        'El assert de pytest es mágico: si fallas, te muestra el diff exacto. `assert resultado == esperado` muestra "5 != 7" con colores. No necesitas self.assertEqual como en unittest. Para chequear excepciones: `with pytest.raises(ValueError): mi_funcion()`. Para warnings: `pytest.warns(UserWarning)`.',
+        "Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__init__`, `__repr__` y opcionalmente comparación.",
+        "Campos con **type hints** y `default_factory` para mutables (listas/dicts) evitan el clásico bug del default compartido.",
+        "Migrar dicts anónimos a tipos nombra el dominio y habilita invariantes en T1-B.",
       ],
       code: {
         language: 'python',
-        title: 'test_calculadora.py',
-        code: `# Archivo: calculadora.py
-def sumar(a, b):
-    return a + b
+        title: "client_dataclass.py",
+        code: `from dataclasses import dataclass, field
 
-def dividir(a, b):
-    if b == 0:
-        raise ValueError("No se puede dividir por cero")
-    return a / b
+@dataclass
+class ClientRecord:
+    client_id: str
+    full_name: str
+    emails: list[str] = field(default_factory=list)
 
-def es_par(n):
-    return n % 2 == 0
-
-# Archivo: test_calculadora.py
-import pytest
-from calculadora import sumar, dividir, es_par
-
-# Test básico
-def test_sumar():
-    assert sumar(2, 3) == 5
-    assert sumar(-1, 1) == 0
-    assert sumar(0, 0) == 0
-
-# Test con excepciones
-def test_dividir_por_cero():
-    with pytest.raises(ValueError, match="No se puede dividir por cero"):
-        dividir(10, 0)
-
-def test_dividir_normal():
-    assert dividir(10, 2) == 5
-    assert dividir(9, 3) == 3
-
-# Test parametrizado (corre el mismo test con múltiples inputs)
-@pytest.mark.parametrize("input, esperado", [
-    (2, True),
-    (4, True),
-    (3, False),
-    (0, True),    # 0 es par
-    (-2, True),   # negativos también
-    (-3, False),
-])
-def test_es_par(input, esperado):
-    assert es_par(input) == esperado
-
-# Test de edge cases
-def test_sumar_tipos():
-    # pytest te dice exactamente qué falló
-    assert sumar(2.5, 1.5) == 4.0
-    assert sumar("hola, ", "mundo") == "hola, mundo"
-
-# Correr: pytest test_calculadora.py -v
-# Output:
-# test_calculadora.py::test_sumar PASSED
-# test_calculadora.py::test_dividir_por_cero PASSED
-# test_calculadora.py::test_es_par[2-True] PASSED
-# test_calculadora.py::test_es_par[3-False] PASSED
-# ...`,
+c = ClientRecord("C001", "Ana Perez", ["ana@ejemplo.pe"])
+print(c)
+print(type(c).__name__, c.client_id)`,
+        output: `ClientRecord(client_id='C001', full_name='Ana Perez', emails=['ana@ejemplo.pe'])
+ClientRecord C001`,
+      },
+      callout: {
+        type: "tip",
+        title: "Datos sintéticos",
+        content:
+          "Usa ids C00x y dominios ejemplo.pe en demos; nunca PII real de clientes.",
       },
     },
     {
-      heading: 'Fixtures — setup/teardown reutilizable',
+      heading: "Invariantes y estados válidos",
+      subtopicId: "S11-T1-B",
       paragraphs: [
-        'Las fixtures son funciones que preparan datos o estado para tus tests. Se definen con `@pytest.fixture` y se inyectan como parámetros. Ejemplo: si 5 tests necesitan un DataFrame de prueba, en vez de crearlo en cada uno, defines una fixture `df_prueba` que lo crea una vez (por defecto, scope=function). Esto reduce duplicación y hace tests más legibles.',
-        'Los scopes controlan cuándo se crea la fixture: `function` (default, una vez por test), `class` (una vez por clase), `module` (una vez por archivo), `session` (una vez por toda la sesión). Para datos costosos de crear (conexiones DB, modelos ML), usa scope="session" para reutilizar. Para datos mutables, usa function para evitar side effects entre tests.',
-        'Para cleanup (teardown), usa `yield` en vez de `return`. El código antes de yield es el setup, el código después es el teardown (se ejecuta siempre, incluso si el test falla). Útil para cerrar conexiones, borrar archivos temporales, restaurar estado global.',
+        "`__post_init__` en dataclasses valida justo después de construir. Si el estado es inválido, **falla al crear** — no dejes objetos a medias.",
+        "Método `validate()` reutilizable ayuda en factories `from_dict`. Sin side-effects de negocio externos (no llama APIs al validar).",
+        "Ejemplo: `document_id` no vacío; fechas de transacción coherentes.",
       ],
       code: {
         language: 'python',
-        title: 'test_con_fixtures.py',
-        code: `import pytest
-import pandas as pd
-import numpy as np
-from pathlib import Path
-import tempfile
+        title: "invariants.py",
+        code: `from dataclasses import dataclass
 
-# === FIXTURES ===
+@dataclass
+class ClientRecord:
+    client_id: str
+    document_id: str
 
-@pytest.fixture
-def df_ventas():
-    """DataFrame de muestra para tests."""
-    return pd.DataFrame({
-        "producto": ["arroz", "aceite", "azucar"],
-        "cantidad": [10, 5, 8],
-        "precio": [4.5, 12.0, 3.8],
-        "region": ["Lima", "Lima", "Arequipa"]
-    })
+    def __post_init__(self) -> None:
+        if not self.client_id:
+            raise ValueError("client_id vacío")
+        if not self.document_id.strip():
+            raise ValueError("document_id vacío")
 
-@pytest.fixture
-def df_con_nulos():
-    """DataFrame con valores nulos para tests de limpieza."""
-    return pd.DataFrame({
-        "a": [1, 2, np.nan, 4],
-        "b": ["x", np.nan, "z", "w"],
-        "c": [1.5, np.nan, np.nan, 4.5]
-    })
-
-@pytest.fixture(scope="session")
-def temp_dir():
-    """Directorio temporal persistente para toda la sesión."""
-    with tempfile.TemporaryDirectory() as tmpdir:
-        yield Path(tmpdir)
-
-# === TESTS que usan fixtures ===
-
-def test_df_ventas_tiene_3_filas(df_ventas):
-    assert len(df_ventas) == 3
-
-def test_df_ventas_columnas(df_ventas):
-    expected_cols = {"producto", "cantidad", "precio", "region"}
-    assert set(df_ventas.columns) == expected_cols
-
-def test_df_ventas_tipos(df_ventas):
-    assert df_ventas["cantidad"].dtype in [int, np.int64]
-    assert df_ventas["precio"].dtype in [float, np.float64]
-    assert df_ventas["producto"].dtype == object
-
-def test_no_nulos_despues_de_limpieza(df_con_nulos):
-    """Test que verifica que la limpieza elimina nulos."""
-    # Simular función de limpieza
-    df_limpio = df_con_nulos.dropna()
-    assert df_limpio.isnull().sum().sum() == 0
-    assert len(df_limpio) == 1  # solo la última fila no tiene nulos
-
-def test_calculo_total(df_ventas):
-    """Verifica que el cálculo de total es correcto."""
-    df_ventas["total"] = df_ventas["cantidad"] * df_ventas["precio"]
-    expected_totals = [45.0, 60.0, 30.4]
-    assert df_ventas["total"].tolist() == expected_totals
-
-# === FIXTURE con yield (teardown) ===
-@pytest.fixture
-def archivo_temporal():
-    """Crea archivo temporal y lo elimina después."""
-    p = Path("temp_test.csv")
-    p.write_text("a,b\\n1,2\\n3,4")
-    yield p  # el test recibe el path
-    # Teardown: se ejecuta siempre
-    if p.exists():
-        p.unlink()
-
-def test_leer_archivo(archivo_temporal):
-    import pandas as pd
-    df = pd.read_csv(archivo_temporal)
-    assert len(df) == 2
-    assert list(df.columns) == ["a", "b"]`,
+print(ClientRecord("C001", "DNI-1"))
+try:
+    ClientRecord("C002", "  ")
+except ValueError as e:
+    print("reject", e)`,
+        output: `ClientRecord(client_id='C001', document_id='DNI-1')
+reject document_id vacío`,
+      },
+      callout: {
+        type: "warning",
+        title: "Fail on construct",
+        content:
+          "Un objeto inválido en memoria es peor que una excepción temprana.",
       },
     },
     {
-      heading: 'Testing DataFrames y ML pipelines — el caso de data science',
+      heading: "Propiedades y métodos",
+      subtopicId: "S11-T2-A",
       paragraphs: [
-        'En data science, los tests verifican propiedades de los datos y del pipeline, no outputs exactos. Patrones útiles: (1) **Shape**: `assert df.shape == (100, 5)`, (2) **No nulos después de limpieza**: `assert df.isnull().sum().sum() == 0`, (3) **Tipos correctos**: `assert df["col"].dtype == int`, (4) **Rangos válidos**: `assert df["edad"].between(0, 120).all()`, (5) **No duplicados**: `assert df.duplicated().sum() == 0`.',
-        'Para ML pipelines, los tests críticos: (1) **Output shape**: `assert predictions.shape[0] == X_test.shape[0]`, (2) **No NaN en predicciones**: `assert not np.isnan(predictions).any()`, (3) **Rangos válidos**: `assert (predictions >= 0).all() and (predictions <= 1).all()` para clasificación, (4) **No data leakage**: `assert len(set(train_idx) & set(test_idx)) == 0`, (5) **Determinismo con seed**: correr 2 veces y verificar same output.',
-        'Para testear funciones que dependen de APIs externas o DBs, usa `monkeypatch` (pytest built-in) para mock. `monkeypatch.setattr(mi_modulo, "fetch_data", mock_fetch)`. Esto reemplaza la función real por un mock durante el test. Para datos, guarda archivos de muestra en `tests/fixtures/` y cárgalos en tus fixtures.',
+        "`@property` expone campos calculados (`display_name`, `masked_email`) sin mutación peligrosa desde afuera.",
+        "Métodos de instancia encapsulan consultas (`age_days_since`). Evita exponer PII raw en la superficie pública si puedes ofrecer máscaras.",
+        "Setters validados solo cuando la mutación es parte del modelo; si no, prefiere frozen/nuevas instancias.",
       ],
       code: {
         language: 'python',
-        title: 'test_pipeline.py',
-        code: `import pytest
-import pandas as pd
-import numpy as np
-from sklearn.pipeline import Pipeline
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
+        title: "properties.py",
+        code: `from dataclasses import dataclass
 
-# === DATOS DE TEST ===
-@pytest.fixture
-def X_y():
-    """Dataset pequeño y determinístico para tests."""
-    np.random.seed(42)
-    X = np.random.randn(100, 5)
-    y = (X[:, 0] > 0).astype(int)  # y depende de primera feature
-    return X, y
+@dataclass
+class ClientRecord:
+    first_name: str
+    last_name: str
+    email: str
 
-@pytest.fixture
-def df_clientes():
-    """DataFrame con propiedades conocidas para tests."""
-    return pd.DataFrame({
-        "cliente_id": range(1, 101),
-        "edad": np.random.randint(18, 80, 100),
-        "ingreso": np.random.randint(1500, 8000, 100),
-        "churn": np.random.choice([0, 1], 100, p=[0.8, 0.2])
-    })
+    @property
+    def display_name(self) -> str:
+        return f"{self.first_name} {self.last_name}"
 
-# === TESTS DE DATAFRAME ===
+    @property
+    def masked_email(self) -> str:
+        local, _, domain = self.email.partition("@")
+        return f"{local[:1]}***@{domain}"
 
-def test_df_shape(df_clientes):
-    assert df_clientes.shape == (100, 4)
-
-def test_df_no_duplicados(df_clientes):
-    assert df_clientes["cliente_id"].duplicated().sum() == 0
-
-def test_df_rangos(df_clientes):
-    assert df_clientes["edad"].between(18, 80).all()
-    assert df_clientes["ingreso"].between(1500, 8000).all()
-
-def test_df_no_nulos(df_clientes):
-    assert df_clientes.isnull().sum().sum() == 0
-
-def test_df_tipos(df_clientes):
-    assert df_clientes["cliente_id"].dtype in [int, np.int64]
-    assert df_clientes["churn"].dtype in [int, np.int64]
-    assert set(df_clientes["churn"].unique()) == {0, 1}
-
-# === TESTS DE ML PIPELINE ===
-
-def test_modelo_aprende(X_y):
-    """El modelo debe predecir mejor que azar."""
-    X, y = X_y
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    model = LogisticRegression(random_state=42)
-    model.fit(X_train, y_train)
-    accuracy = model.score(X_test, y_test)
-    # Debe ser significativamente mejor que 0.5 (azar)
-    assert accuracy > 0.7, f"Accuracy {accuracy} no supera 0.7"
-
-def test_predicciones_shape(X_y):
-    """Las predicciones deben tener el shape correcto."""
-    X, y = X_y
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    model = LogisticRegression(random_state=42)
-    model.fit(X_train, y_train)
-    preds = model.predict(X_test)
-    assert preds.shape[0] == X_test.shape[0]
-    assert preds.shape[1] == 1 if preds.ndim > 1 else True
-
-def test_probabilidades_en_rango(X_y):
-    """Las probabilidades deben estar entre 0 y 1."""
-    X, y = X_y
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    model = LogisticRegression(random_state=42)
-    model.fit(X_train, y_train)
-    probas = model.predict_proba(X_test)
-    assert (probas >= 0).all() and (probas <= 1).all()
-    assert np.allclose(probas.sum(axis=1), 1.0)  # suman 1
-
-def test_no_data_leakage(X_y):
-    """Train y test no deben tener índices en común."""
-    X, y = X_y
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    train_idx = set(range(len(X_train)))
-    test_idx = set(range(len(X_train), len(X)))
-    # Como sklearn usa índices, no hay superposición
-    assert len(train_idx & test_idx) == 0
-
-def test_modelo_determinista(X_y):
-    """Con mismo seed, el modelo debe dar mismos resultados."""
-    X, y = X_y
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-    model1 = LogisticRegression(random_state=42)
-    model1.fit(X_train, y_train)
-
-    model2 = LogisticRegression(random_state=42)
-    model2.fit(X_train, y_train)
-
-    np.testing.assert_array_almost_equal(
-        model1.predict_proba(X_test),
-        model2.predict_proba(X_test)
-    )`,
+c = ClientRecord("Ana", "Perez", "ana@ejemplo.pe")
+print(c.display_name, c.masked_email)`,
+        output: `Ana Perez a***@ejemplo.pe`,
+      },
+      callout: {
+        type: "tip",
+        title: "Consulta vs comando",
+        content:
+          "Properties no deberían enviar emails ni escribir a disco.",
       },
     },
     {
-      heading: 'Coverage y GitHub Actions — CI/CD profesional',
+      heading: "Igualdad, hash y mutabilidad consciente",
+      subtopicId: "S11-T2-B",
       paragraphs: [
-        'Coverage mide qué porcentaje de tu código está cubierto por tests. `pip install pytest-cov` y corres `pytest --cov=mi_modulo --cov-report=term-missing`. El reporte muestra por archivo: total de statements, cubiertos, no cubiertos, y % cobertura. Idealmente buscas >80% en código crítico. No persigas 100% — algunos paths (error handling de errores irreproducibles) no vale la pena testear.',
-        'GitHub Actions es el CI más usado. Creas `.github/workflows/tests.yml` y en cada push/PR, GitHub corre tus tests en un entorno limpio. Si pasan, badge verde en tu README. Si fallan, badge rojo y no se permite merge (si configuras branch protection). Esto es lo que más posiciona a un LATAM dev como senior — un repo con badge verde dice "esto funciona, está probado".',
-        'El workflow mínimo: checkout del código, setup Python, instalar requirements, correr pytest con coverage. Configuración típica: matrix de Python 3.10, 3.11, 3.12; cache de pip para acelerar; upload de coverage report como artefacto. Con 30 líneas de YAML tienes CI profesional.',
+        "`__eq__` por **business key** (document_id / entity_id) evita comparar basura de campos opcionales. **`frozen=True`** habilita hash seguro para sets/dicts.",
+        "Entidades mutables como keys de dict son una fuente clásica de bugs: el hash cambia si mutas campos del eq.",
+        "Value objects (Evidence) suelen ser frozen; agregados con listas pueden ser mutables con cuidado.",
       ],
       code: {
-        language: 'yaml',
-        title: '.github/workflows/tests.yml',
-        code: `name: Tests
+        language: 'python',
+        title: "frozen_entity.py",
+        code: `from dataclasses import dataclass
 
-on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [main]
+@dataclass(frozen=True)
+class ResolvedEntity:
+    entity_id: str
+    display_name: str
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ['3.11', '3.12']
+a = ResolvedEntity("E1", "Ana")
+b = ResolvedEntity("E1", "Ana Perez")
+s = {a, ResolvedEntity("E2", "Luis")}
+print("same id eq?", a == ResolvedEntity("E1", "otra"))
+# eq por defecto usa todos los campos; demo de set por identidad de valor completo
+print("set size", len(s))
+print("E1 in set", a in s)`,
+        output: `same id eq? False
+set size 2
+E1 in set True`,
+      },
+      callout: {
+        type: "info",
+        title: "eq custom",
+        content:
+          "Si eq es solo por entity_id, implementa __eq__/__hash__ a mano o usa field compare.",
+      },
+    },
+    {
+      heading: "Composición antes que herencia",
+      subtopicId: "S11-T3-A",
+      paragraphs: [
+        "**has-a** (composición) suele modelar mejor casos: `CaseFile` tiene lista de `RelationshipEvidence` y una `ResolvedEntity`.",
+        "Herencia solo si hay **subtipo real** (is-a). Evita jerarquías frágiles `Client(Person(BaseEntity...))` solo para reutilizar un campo.",
+        "Mixins con cautela: complejidad invisible. Prefiere funciones o colaboración entre objetos.",
+      ],
+      code: {
+        language: 'python',
+        title: "composition.py",
+        code: `from dataclasses import dataclass, field
 
-    steps:
-    - uses: actions/checkout@v4
+@dataclass(frozen=True)
+class RelationshipEvidence:
+    left_id: str
+    right_id: str
+    signal_score: float  # dato, no veredicto
 
-    - name: Set up Python \${{ matrix.python-version }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: \${{ matrix.python-version }}
+@dataclass
+class CaseFile:
+    entity: object
+    evidences: list[RelationshipEvidence] = field(default_factory=list)
 
-    - name: Cache pip
-      uses: actions/cache@v4
-      with:
-        path: ~/.cache/pip
-        key: \${{ runner.os }}-pip-\${{ hashFiles('requirements.txt') }}
+    def add(self, ev: RelationshipEvidence) -> None:
+        self.evidences.append(ev)
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install pytest pytest-cov
+cf = CaseFile(entity={"entity_id": "E1"})
+cf.add(RelationshipEvidence("E1", "E2", 0.42))
+print(len(cf.evidences), cf.evidences[0].signal_score)`,
+        output: `1 0.42`,
+      },
+      callout: {
+        type: "danger",
+        title: "Sin veredictos",
+        content:
+          "RelationshipEvidence guarda señales; no implementes is_family() automático.",
+      },
+    },
+    {
+      heading: "Protocolos y polimorfismo con propósito",
+      subtopicId: "S11-T3-B",
+      paragraphs: [
+        "`typing.Protocol` describe un **puerto** (EntityStore con get/save) sin forzar herencia. Duck typing estructural.",
+        "Útil para fakes en tests y para no acoplar dominio a una DB. Evita ABC pesados si Protocol basta.",
+        "No introduzcas Protocol 'por si acaso' con una sola implementación y sin tests — YAGNI.",
+      ],
+      code: {
+        language: 'python',
+        title: "protocol_store.py",
+        code: `from typing import Protocol, runtime_checkable
 
-    - name: Run tests with coverage
-      run: |
-        pytest --cov=src --cov-report=xml --cov-report=term-missing
+@runtime_checkable
+class EntityStore(Protocol):
+    def get(self, entity_id: str) -> dict | None: ...
+    def save(self, entity: dict) -> None: ...
 
-    - name: Upload coverage
-      uses: codecov/codecov-action@v4
-      with:
-        file: ./coverage.xml
-        fail_ci_if_error: false
+class FakeStore:
+    def __init__(self):
+        self._d: dict[str, dict] = {}
+    def get(self, entity_id: str):
+        return self._d.get(entity_id)
+    def save(self, entity: dict) -> None:
+        self._d[entity["entity_id"]] = entity
 
-# === BADGE en README.md ===
-# Agrega esta línea al inicio del README:
-# ![Tests](https://github.com/USUARIO/REPO/actions/workflows/tests.yml/badge.svg)
-# Esto muestra un badge verde (passing) o rojo (failing) que se actualiza solo.`,
+store: EntityStore = FakeStore()
+store.save({"entity_id": "E1", "name": "Ana"})
+print(store.get("E1"))
+print(isinstance(store, EntityStore))`,
+        output: `{'entity_id': 'E1', 'name': 'Ana'}
+True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Puertos",
+        content:
+          "El dominio habla con Protocol; el adapter SQL llega después sin reescribir reglas.",
+      },
+    },
+    {
+      heading: "Repositorios, servicios y serialización",
+      subtopicId: "S11-T4-A",
+      paragraphs: [
+        "**Repository** light: get/save. **Service** light: orquesta dominio sin conocer CLI ni HTTP. `to_dict`/`from_dict` en el borde.",
+        "Serializa sin password fields ni PII innecesaria. DTOs de borde no tienen que ser las entidades internas.",
+        "CLI (S10) llama al service; el service no imprime ni parsea argparse.",
+      ],
+      code: {
+        language: 'python',
+        title: "repo_service.py",
+        code: `from dataclasses import dataclass, asdict
+
+@dataclass
+class ClientRecord:
+    client_id: str
+    email: str
+
+    def to_dict(self) -> dict:
+        return {"client_id": self.client_id, "email": self.email}
+
+class InMemoryClientRepository:
+    def __init__(self):
+        self._d: dict[str, ClientRecord] = {}
+    def save(self, c: ClientRecord) -> None:
+        self._d[c.client_id] = c
+    def get(self, client_id: str) -> ClientRecord | None:
+        return self._d.get(client_id)
+
+class ClientService:
+    def __init__(self, repo: InMemoryClientRepository):
+        self.repo = repo
+    def register(self, client_id: str, email: str) -> dict:
+        c = ClientRecord(client_id, email)
+        self.repo.save(c)
+        return c.to_dict()  # no decide fraude
+
+svc = ClientService(InMemoryClientRepository())
+print(svc.register("C001", "a@ejemplo.pe"))`,
+        output: `{'client_id': 'C001', 'email': 'a@ejemplo.pe'}`,
+      },
+      callout: {
+        type: "info",
+        title: "Frontera",
+        content:
+          "I/O y formato de archivos quedan fuera del núcleo del dominio.",
+      },
+    },
+    {
+      heading: "Dependencias y pruebas del dominio",
+      subtopicId: "S11-T4-B",
+      paragraphs: [
+        "Tests del dominio son **puros**: sin red, sin DB real. Fakes del Protocol bastan.",
+        "Assert de invariantes y de **ausencia** de APIs peligrosas (`is_fraud`, `is_related_family`).",
+        "Scores de resolución/relación son campos; un test puede verificar que existen como float y que no hay método de veredicto.",
+      ],
+      code: {
+        language: 'python',
+        title: "domain_tests.py",
+        code: `from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class RelationshipEvidence:
+    left_id: str
+    right_id: str
+    signal_score: float
+
+def test_no_fraud_api():
+    assert not hasattr(RelationshipEvidence, "is_fraud")
+    assert not hasattr(RelationshipEvidence, "is_related_family")
+    ev = RelationshipEvidence("E1", "E2", 0.5)
+    assert 0.0 <= ev.signal_score <= 1.0
+    return "pass"
+
+print(test_no_fraud_api())`,
+        output: `pass`,
+      },
+      callout: {
+        type: "danger",
+        title: "Ética de producto",
+        content:
+          "El software de familiaridad no declara parentesco legal ni fraude; solo organiza evidencia.",
       },
     },
   ],
   iDo: {
-    intro:
-      'Vamos a construir juntos una suite de tests completa para el pipeline de churn de la sección 9. Tests de datos, tests de modelo, tests de edge cases. Es exactamente el tipo de suite de tests que esperarían en un proyecto de producción.',
+    intro: "Ocho demos I Do (uno por subtema). Orden T1→T4. Modelo de dominio de familiaridad sin veredictos de fraude/parentesco. local-python.",
     steps: [
       {
-        description: 'Crear tests para carga y validación de datos',
+        demoId: "S11-T1-A-DEMO",
+        subtopicId: "S11-T1-A",
+        environment: "local-python",
+        description: "ClientRecord dataclass desde dict sintético.",
         code: {
           language: 'python',
-          title: 'tests/test_data.py',
-          code: `# tests/test_data.py
-import pytest
-import pandas as pd
-import numpy as np
-from pathlib import Path
+          title: "client_from_dict.py",
+          code: `from dataclasses import dataclass, field
 
-@pytest.fixture
-def df_churn():
-    """Dataset churn de muestra."""
-    np.random.seed(42)
-    return pd.DataFrame({
-        "cliente_id": range(1, 101),
-        "edad": np.random.randint(18, 80, 100),
-        "ingreso_mensual": np.random.randint(1500, 8000, 100),
-        "meses_antiguedad": np.random.randint(1, 72, 100),
-        "region": np.random.choice(["Lima", "Arequipa", "Cusco"], 100),
-        "churn": np.random.choice([0, 1], 100, p=[0.7, 0.3])
-    })
+@dataclass
+class ClientRecord:
+    client_id: str
+    full_name: str
+    emails: list[str] = field(default_factory=list)
 
-# === TESTS DE ESTRUCTURA ===
+    @classmethod
+    def from_dict(cls, d: dict) -> "ClientRecord":
+        return cls(d["client_id"], d["full_name"], list(d.get("emails", [])))
 
-def test_shape_correcto(df_churn):
-    """El dataset debe tener 100 filas y 6 columnas."""
-    assert df_churn.shape == (100, 6)
-
-def test_columnas_esperadas(df_churn):
-    """Todas las columnas requeridas deben estar presentes."""
-    expected = {"cliente_id", "edad", "ingreso_mensual",
-                "meses_antiguedad", "region", "churn"}
-    assert set(df_churn.columns) == expected
-
-def test_no_nulos(df_churn):
-    """No debe haber valores nulos."""
-    assert df_churn.isnull().sum().sum() == 0
-
-def test_no_duplicados(df_churn):
-    """cliente_id debe ser único."""
-    assert df_churn["cliente_id"].duplicated().sum() == 0
-
-# === TESTS DE RANGOS Y DOMINIOS ===
-
-def test_edad_rango_valido(df_churn):
-    """Edad debe estar entre 18 y 80."""
-    assert df_churn["edad"].between(18, 80).all()
-
-def test_ingreso_positivo(df_churn):
-    """Ingreso debe ser positivo."""
-    assert (df_churn["ingreso_mensual"] > 0).all()
-
-def test_antiguedad_positiva(df_churn):
-    """Meses de antiguedad deben ser positivos."""
-    assert (df_churn["meses_antiguedad"] > 0).all()
-
-def test_churn_binario(df_churn):
-    """Churn debe ser 0 o 1."""
-    assert set(df_churn["churn"].unique()).issubset({0, 1})
-
-def test_regiones_validas(df_churn):
-    """Las regiones deben ser del conjunto esperado."""
-    valid_regions = {"Lima", "Arequipa", "Cusco"}
-    assert set(df_churn["region"].unique()).issubset(valid_regions)
-
-# === TESTS DE TIPOS ===
-
-def test_tipos_numericos(df_churn):
-    """Columnas numéricas deben tener tipo correcto."""
-    assert df_churn["cliente_id"].dtype in [int, np.int64]
-    assert df_churn["edad"].dtype in [int, np.int64]
-    assert df_churn["ingreso_mensual"].dtype in [int, np.int64]
-
-def test_tipo_churn(df_churn):
-    assert df_churn["churn"].dtype in [int, np.int64]`,
+raw = {"client_id": "C001", "full_name": "Ana Perez", "emails": ["ana@ejemplo.pe"]}
+c = ClientRecord.from_dict(raw)
+print(c)`,
+          output: `ClientRecord(client_id='C001', full_name='Ana Perez', emails=['ana@ejemplo.pe'])`,
         },
-        why: 'Tests de datos son la primera línea de defensa. Si los datos de entrada están mal, todo lo demás falla. Los tests de estructura (shape, columnas, tipos) son rápidos y detectan problemas obvios. Los tests de rango y dominio detectan datos imposibles (edad 200, ingreso negativo) que arruinan modelos.',
+        why: "from_dict nombra el borde dict→dominio.",
       },
       {
-        description: 'Crear tests para el pipeline de ML',
+        demoId: "S11-T1-B-DEMO",
+        subtopicId: "S11-T1-B",
+        environment: "local-python",
+        description: "ClientRecord rechaza document_id vacío.",
         code: {
           language: 'python',
-          title: 'tests/test_pipeline.py',
-          code: `# tests/test_pipeline.py
-import pytest
-import pandas as pd
-import numpy as np
-from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import roc_auc_score
+          title: "reject_empty_doc.py",
+          code: `from dataclasses import dataclass
 
-@pytest.fixture
-def pipeline_churn():
-    """Pipeline completo de churn."""
-    numeric_features = ["edad", "ingreso_mensual", "meses_antiguedad"]
-    categorical_features = ["region"]
+@dataclass
+class ClientRecord:
+    client_id: str
+    document_id: str
 
-    preprocessor = ColumnTransformer([
-        ("num", Pipeline([
-            ("imputer", SimpleImputer(strategy="median")),
-            ("scaler", StandardScaler())
-        ]), numeric_features),
-        ("cat", Pipeline([
-            ("imputer", SimpleImputer(strategy="most_frequent")),
-            ("onehot", OneHotEncoder(handle_unknown="ignore"))
-        ]), categorical_features)
-    ])
+    def __post_init__(self) -> None:
+        if not str(self.document_id).strip():
+            raise ValueError("document_id vacío")
 
-    return Pipeline([
-        ("preprocessor", preprocessor),
-        ("classifier", LogisticRegression(random_state=42, max_iter=1000))
-    ])
-
-@pytest.fixture
-def datos_churn():
-    """Datos de test sintéticos."""
-    np.random.seed(42)
-    n = 200
-    X = pd.DataFrame({
-        "edad": np.random.randint(18, 80, n),
-        "ingreso_mensual": np.random.randint(1500, 8000, n),
-        "meses_antiguedad": np.random.randint(1, 72, n),
-        "region": np.random.choice(["Lima", "Arequipa", "Cusco"], n)
-    })
-    y = np.random.choice([0, 1], n, p=[0.7, 0.3])
-    return X, y
-
-# === TESTS DE PIPELINE ===
-
-def test_pipeline_fit_predict(pipeline_churn, datos_churn):
-    """Pipeline debe poder fittear y predecir."""
-    X, y = datos_churn
-    pipeline_churn.fit(X, y)
-    preds = pipeline_churn.predict(X)
-    assert len(preds) == len(y)
-
-def test_predict_proba_rango(pipeline_churn, datos_churn):
-    """Probabilidades deben estar entre 0 y 1."""
-    X, y = datos_churn
-    pipeline_churn.fit(X, y)
-    probas = pipeline_churn.predict_proba(X)
-    assert (probas >= 0).all() and (probas <= 1).all()
-    assert np.allclose(probas.sum(axis=1), 1.0)
-
-def test_no_nan_predicciones(pipeline_churn, datos_churn):
-    """Predicciones no deben tener NaN."""
-    X, y = datos_churn
-    pipeline_churn.fit(X, y)
-    preds = pipeline_churn.predict(X)
-    probas = pipeline_churn.predict_proba(X)
-    assert not np.isnan(preds).any()
-    assert not np.isnan(probas).any()
-
-def test_no_data_leakage(datos_churn):
-    """Train y test no deben compartir índices."""
-    X, y = datos_churn
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42, stratify=y
-    )
-    train_indices = set(X_train.index)
-    test_indices = set(X_test.index)
-    assert len(train_indices & test_indices) == 0
-
-def test_pipeline_determinista(pipeline_churn, datos_churn):
-    """Con mismo seed, mismo resultado."""
-    X, y = datos_churn
-    pipeline_churn.fit(X, y)
-    preds1 = pipeline_churn.predict(X)
-
-    # Crear nuevo pipeline con mismo seed
-    numeric_features = ["edad", "ingreso_mensual", "meses_antiguedad"]
-    categorical_features = ["region"]
-    preprocessor = ColumnTransformer([
-        ("num", Pipeline([
-            ("imputer", SimpleImputer(strategy="median")),
-            ("scaler", StandardScaler())
-        ]), numeric_features),
-        ("cat", Pipeline([
-            ("imputer", SimpleImputer(strategy="most_frequent")),
-            ("onehot", OneHotEncoder(handle_unknown="ignore"))
-        ]), categorical_features)
-    ])
-    pipeline2 = Pipeline([
-        ("preprocessor", preprocessor),
-        ("classifier", LogisticRegression(random_state=42, max_iter=1000))
-    ])
-    pipeline2.fit(X, y)
-    preds2 = pipeline2.predict(X)
-
-    np.testing.assert_array_equal(preds1, preds2)
-
-def test_pipeline_maneja_nuevas_categorias(pipeline_churn, datos_churn):
-    """Pipeline debe manejar categorías no vistas en training."""
-    X, y = datos_churn
-    pipeline_churn.fit(X, y)
-    # Crear dato con región no vista
-    nuevo = pd.DataFrame({
-        "edad": [35],
-        "ingreso_mensual": [3500],
-        "meses_antiguedad": [12],
-        "region": ["Piura"]  # nueva región
-    })
-    # No debe fallar
-    pred = pipeline_churn.predict(nuevo)
-    assert len(pred) == 1
-
-def test_auc_mejor_que_azar(pipeline_churn, datos_churn):
-    """El modelo debe predecir mejor que azar (AUC > 0.5)."""
-    X, y = datos_churn
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.3, random_state=42, stratify=y
-    )
-    pipeline_churn.fit(X_train, y_train)
-    probas = pipeline_churn.predict_proba(X_test)[:, 1]
-    auc = roc_auc_score(y_test, probas)
-    # En datos aleatorios, AUC ~0.5. Permitimos >= 0.4 (margen)
-    assert auc >= 0.4, f"AUC {auc} muy bajo"`,
+print(ClientRecord("C001", "DNI-100"))
+try:
+    ClientRecord("C002", "")
+except ValueError as e:
+    print("rejected", e)`,
+          output: `ClientRecord(client_id='C001', document_id='DNI-100')
+rejected document_id vacío`,
         },
-        why: 'Estos tests validan invariantes del ML pipeline: output shape correcto, no NaN, rangos válidos, no leakage, determinismo, robustez a categorías nuevas. Si tu pipeline pasa estos tests, tienes alta confianza de que está bien construido. En producción, tests como estos detectan regresiones cuando actualizas scikit-learn o cambias el preprocesamiento.',
+        why: "Invariante en construcción: no hay instancia inválida.",
+      },
+      {
+        demoId: "S11-T2-A-DEMO",
+        subtopicId: "S11-T2-A",
+        environment: "local-python",
+        description: "display_name y masked_email como properties.",
+        code: {
+          language: 'python',
+          title: "display_props.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class ClientRecord:
+    first_name: str
+    last_name: str
+    email: str
+
+    @property
+    def display_name(self) -> str:
+        return f"{self.first_name} {self.last_name}"
+
+    @property
+    def masked_email(self) -> str:
+        local, _, domain = self.email.partition("@")
+        return f"{local[:1]}***@{domain}"
+
+c = ClientRecord("Lucía", "Méndez", "lucia@ejemplo.pe")
+print(c.display_name)
+print(c.masked_email)`,
+          output: `Lucía Méndez
+l***@ejemplo.pe`,
+        },
+        why: "La superficie pública no necesita el email completo para mostrar.",
+      },
+      {
+        demoId: "S11-T2-B-DEMO",
+        subtopicId: "S11-T2-B",
+        environment: "local-python",
+        description: "ResolvedEntity frozen por valor; set de entidades.",
+        code: {
+          language: 'python',
+          title: "frozen_set.py",
+          code: `from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class ResolvedEntity:
+    entity_id: str
+    display_name: str
+
+e1 = ResolvedEntity("E1", "Ana")
+e1b = ResolvedEntity("E1", "Ana")
+e2 = ResolvedEntity("E2", "Luis")
+s = {e1, e1b, e2}
+print("size", len(s))
+print("e1==e1b", e1 == e1b)`,
+          output: `size 2
+e1==e1b True`,
+        },
+        why: "frozen permite usar entidades en sets sin sorpresas de mutación.",
+      },
+      {
+        demoId: "S11-T3-A-DEMO",
+        subtopicId: "S11-T3-A",
+        environment: "local-python",
+        description: "CaseFile compone list[RelationshipEvidence] + entidad resuelta.",
+        code: {
+          language: 'python',
+          title: "casefile_compose.py",
+          code: `from dataclasses import dataclass, field
+
+@dataclass(frozen=True)
+class ResolvedEntity:
+    entity_id: str
+
+@dataclass(frozen=True)
+class RelationshipEvidence:
+    left_id: str
+    right_id: str
+    signal_score: float
+
+@dataclass
+class CaseFile:
+    entity: ResolvedEntity
+    evidences: list[RelationshipEvidence] = field(default_factory=list)
+
+cf = CaseFile(ResolvedEntity("E1"))
+cf.evidences.append(RelationshipEvidence("E1", "E2", 0.31))
+cf.evidences.append(RelationshipEvidence("E1", "E3", 0.12))
+print(cf.entity.entity_id, "n_ev", len(cf.evidences))
+print("scores", [e.signal_score for e in cf.evidences])`,
+          output: `E1 n_ev 2
+scores [0.31, 0.12]`,
+        },
+        why: "Composición ensambla el caso sin herencia artificial.",
+      },
+      {
+        demoId: "S11-T3-B-DEMO",
+        subtopicId: "S11-T3-B",
+        environment: "local-python",
+        description: "Protocol EntityStore con get/save; FakeStore en memoria.",
+        code: {
+          language: 'python',
+          title: "fake_store.py",
+          code: `from typing import Protocol
+
+class EntityStore(Protocol):
+    def get(self, entity_id: str): ...
+    def save(self, entity: dict) -> None: ...
+
+class FakeStore:
+    def __init__(self):
+        self.data = {}
+    def get(self, entity_id: str):
+        return self.data.get(entity_id)
+    def save(self, entity: dict) -> None:
+        self.data[entity["entity_id"]] = entity
+
+def upsert(store: EntityStore, entity: dict) -> dict:
+    store.save(entity)
+    return store.get(entity["entity_id"])
+
+print(upsert(FakeStore(), {"entity_id": "E9", "name": "Demo"}))`,
+          output: `{'entity_id': 'E9', 'name': 'Demo'}`,
+        },
+        why: "El service depende del Protocol, no de una clase base pesada.",
+      },
+      {
+        demoId: "S11-T4-A-DEMO",
+        subtopicId: "S11-T4-A",
+        environment: "local-python",
+        description: "InMemoryClientRepository + service que no decide fraude.",
+        code: {
+          language: 'python',
+          title: "client_service.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class ClientRecord:
+    client_id: str
+    email: str
+    def to_dict(self):
+        return {"client_id": self.client_id, "email": self.email}
+
+class InMemoryClientRepository:
+    def __init__(self):
+        self._d = {}
+    def save(self, c: ClientRecord):
+        self._d[c.client_id] = c
+    def get(self, cid: str):
+        return self._d.get(cid)
+
+class ClientService:
+    def __init__(self, repo):
+        self.repo = repo
+    def register(self, client_id, email):
+        c = ClientRecord(client_id, email)
+        self.repo.save(c)
+        # deliberadamente no hay is_fraud
+        return c.to_dict()
+
+print(ClientService(InMemoryClientRepository()).register("C001", "a@ejemplo.pe"))
+print("has_is_fraud", hasattr(ClientService, "is_fraud"))`,
+          output: `{'client_id': 'C001', 'email': 'a@ejemplo.pe'}
+has_is_fraud False`,
+        },
+        why: "Service orquesta persistencia; no emite veredictos de fraude.",
+      },
+      {
+        demoId: "S11-T4-B-DEMO",
+        subtopicId: "S11-T4-B",
+        environment: "local-python",
+        description: "Tests de RelationshipEvidence: solo señales; sin is_fraud().",
+        code: {
+          language: 'python',
+          title: "evidence_tests.py",
+          code: `from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class RelationshipEvidence:
+    left_id: str
+    right_id: str
+    signal_score: float
+
+def test_signal_bounds():
+    ev = RelationshipEvidence("E1", "E2", 0.7)
+    assert 0 <= ev.signal_score <= 1
+    assert not hasattr(ev, "is_fraud")
+    return "pass"
+
+def test_no_family_verdict():
+    assert not hasattr(RelationshipEvidence, "is_related_family")
+    return "pass"
+
+print(test_signal_bounds())
+print(test_no_family_verdict())`,
+          output: `pass
+pass`,
+        },
+        why: "La suite protege el límite ético del modelo.",
       },
     ],
   },
   weDo: {
-    intro:
-      'Te toca a ti escribir tests para una función simple de limpieza de datos. La función debe eliminar duplicados, imputar nulos con la mediana, y filtrar outliers.',
+    intro: "Andamiaje: **E1 guiado → E2 independiente → E3 transferencia** × 8 subtemas (24 ejercicios, 2 hints c/u). Tests del dominio; sin red/DB. Datos sintéticos.",
     steps: [
       {
-        instruction: 'Escribe tests para una función limpiar_df() que limpia un DataFrame',
-        hint: 'Test: no nulos después, no duplicados, rangos válidos, no falla con df vacío.',
+        id: "S11-T1-A-E1",
+        subtopicId: "S11-T1-A",
+        kind: "guided",
+        instruction:
+          "Completa la dataclass ClientRecord con client_id, full_name y phones: list[str].",
+        hint: "Usa field(default_factory=list).",
+        hints: [
+          "Usa field(default_factory=list).",
+          "Instancia y print.",
+        ],
+        edgeCases: ["default=[] sería mutable compartido"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'tests/test_limpieza.py',
-          code: `import pytest
-import pandas as pd
-import numpy as np
-
-# Función a testear (asume que existe)
-def limpiar_df(df):
-    """Limpia un DataFrame: dedup, fillna mediana, sin outliers."""
-    df = df.drop_duplicates()
-    df = df.fillna(df.median(numeric_only=True))
-    # filtrar outliers con IQR
-    for col in df.select_dtypes(include=np.number).columns:
-        q1, q3 = df[col].quantile([0.25, 0.75])
-        iqr = q3 - q1
-        df = df[(df[col] >= q1 - 1.5*iqr) & (df[col] <= q3 + 1.5*iqr)]
-    return df
-
-# TODO: escribe al menos 4 tests
-# 1. test_no_nulos_despues_de_limpieza
-# 2. test_no_duplicados
-# 3. test_df_vacio_no_falla
-# 4. test_preserva_columnas`,
+          title: "complete_client.py",
+          code: `from dataclasses import dataclass, field
+# TODO`,
         },
         solutionCode: {
           language: 'python',
-          title: 'tests/test_limpieza.py',
-          code: `import pytest
-import pandas as pd
-import numpy as np
+          title: "complete_client.py",
+          code: `from dataclasses import dataclass, field
 
-def limpiar_df(df):
-    """Limpia un DataFrame: dedup, fillna mediana, sin outliers."""
-    if df.empty:
-        return df
-    df = df.drop_duplicates()
-    df = df.fillna(df.median(numeric_only=True))
-    for col in df.select_dtypes(include=np.number).columns:
-        q1, q3 = df[col].quantile([0.25, 0.75])
-        iqr = q3 - q1
-        df = df[(df[col] >= q1 - 1.5*iqr) & (df[col] <= q3 + 1.5*iqr)]
-    return df
+@dataclass
+class ClientRecord:
+    client_id: str
+    full_name: str
+    phones: list[str] = field(default_factory=list)
 
-@pytest.fixture
-def df_sucio():
-    return pd.DataFrame({
-        "edad": [25, 30, 25, np.nan, 35, 1000],  # dup, nan, outlier
-        "ingreso": [3000, 3500, 3000, 4000, np.nan, 5000]
-    })
+print(ClientRecord("C001", "Ana Perez", ["999111222"]))`,
+          output: `ClientRecord(client_id='C001', full_name='Ana Perez', phones=['999111222'])`,
+        },
+      },
+      {
+        id: "S11-T1-A-E2",
+        subtopicId: "S11-T1-A",
+        kind: "independent",
+        instruction:
+          "Define Transaction con tx_id, client_id, amount: float, currency: str obligatorios.",
+        hint: "Sin defaults en campos obligatorios.",
+        hints: [
+          "Sin defaults en campos obligatorios.",
+          "Crea una instancia sintética.",
+        ],
+        edgeCases: ["currency ISO como str en N1"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "transaction.py",
+          code: `from dataclasses import dataclass
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "transaction.py",
+          code: `from dataclasses import dataclass
 
-def test_no_nulos_despues_de_limpieza(df_sucio):
-    df_limpio = limpiar_df(df_sucio)
-    assert df_limpio.isnull().sum().sum() == 0
+@dataclass
+class Transaction:
+    tx_id: str
+    client_id: str
+    amount: float
+    currency: str
 
-def test_no_duplicados(df_sucio):
-    df_limpio = limpiar_df(df_sucio)
-    assert df_limpio.duplicated().sum() == 0
+print(Transaction("T1", "C001", 150.5, "PEN"))`,
+          output: `Transaction(tx_id='T1', client_id='C001', amount=150.5, currency='PEN')`,
+        },
+      },
+      {
+        id: "S11-T1-A-E3",
+        subtopicId: "S11-T1-A",
+        kind: "transfer",
+        instruction:
+          "Migra un dict anónimo a ClientRecord vía from_dict.",
+        hint: "classmethod from_dict.",
+        hints: [
+          "classmethod from_dict.",
+          "Imprime el tipo y el id.",
+        ],
+        edgeCases: ["KeyError si falta campo — aceptable o validar en T1-B"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "migrate_dict.py",
+          code: `from dataclasses import dataclass
 
-def test_df_vacio_no_falla():
-    df_vacio = pd.DataFrame()
-    df_limpio = limpiar_df(df_vacio)
-    assert df_limpio.empty
+raw = {"client_id": "C007", "full_name": "Luis Ramos"}
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "migrate_dict.py",
+          code: `from dataclasses import dataclass
 
-def test_preserva_columnas(df_sucio):
-    df_limpio = limpiar_df(df_sucio)
-    assert set(df_limpio.columns) == set(df_sucio.columns)
+@dataclass
+class ClientRecord:
+    client_id: str
+    full_name: str
 
-def test_outlier_removido(df_sucio):
-    """El valor 1000 debe ser removido como outlier."""
-    df_limpio = limpiar_df(df_sucio)
-    assert 1000 not in df_limpio["edad"].values`,
+    @classmethod
+    def from_dict(cls, d: dict) -> "ClientRecord":
+        return cls(d["client_id"], d["full_name"])
+
+raw = {"client_id": "C007", "full_name": "Luis Ramos"}
+c = ClientRecord.from_dict(raw)
+print(type(c).__name__, c.client_id)`,
+          output: `ClientRecord C007`,
+        },
+      },
+      {
+        id: "S11-T1-B-E1",
+        subtopicId: "S11-T1-B",
+        kind: "guided",
+        instruction:
+          "Añade invariante: amount de Transaction debe ser > 0.",
+        hint: "__post_init__ raise ValueError.",
+        hints: [
+          "__post_init__ raise ValueError.",
+          "Muestra ok y reject.",
+        ],
+        edgeCases: ["amount negativo también inválido"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "tx_invariant.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class Transaction:
+    tx_id: str
+    amount: float
+    # TODO post_init`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "tx_invariant.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class Transaction:
+    tx_id: str
+    amount: float
+
+    def __post_init__(self):
+        if self.amount <= 0:
+            raise ValueError("amount debe ser > 0")
+
+print(Transaction("T1", 10))
+try:
+    Transaction("T2", 0)
+except ValueError as e:
+    print("reject", e)`,
+          output: `Transaction(tx_id='T1', amount=10)
+reject amount debe ser > 0`,
+        },
+      },
+      {
+        id: "S11-T1-B-E2",
+        subtopicId: "S11-T1-B",
+        kind: "independent",
+        instruction:
+          "Factory from_dict con validación de client_id y document_id no vacíos.",
+        hint: "Raise ValueError con mensaje claro.",
+        hints: [
+          "Raise ValueError con mensaje claro.",
+          "Prueba ok y fail.",
+        ],
+        edgeCases: ["strip evita espacios como id válido"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "from_dict_validate.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class ClientRecord:
+    client_id: str
+    document_id: str
+
+    @classmethod
+    def from_dict(cls, d: dict) -> "ClientRecord":
+        # TODO
+        ...`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "from_dict_validate.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class ClientRecord:
+    client_id: str
+    document_id: str
+
+    @classmethod
+    def from_dict(cls, d: dict) -> "ClientRecord":
+        cid = str(d.get("client_id", "")).strip()
+        doc = str(d.get("document_id", "")).strip()
+        if not cid:
+            raise ValueError("client_id vacío")
+        if not doc:
+            raise ValueError("document_id vacío")
+        return cls(cid, doc)
+
+print(ClientRecord.from_dict({"client_id": "C1", "document_id": "D1"}))
+try:
+    ClientRecord.from_dict({"client_id": "C2", "document_id": " "})
+except ValueError as e:
+    print(e)`,
+          output: `ClientRecord(client_id='C1', document_id='D1')
+document_id vacío`,
+        },
+      },
+      {
+        id: "S11-T1-B-E3",
+        subtopicId: "S11-T1-B",
+        kind: "transfer",
+        instruction:
+          "Lista en español 4 invariantes del dominio e imprímelas.",
+        hint: "ClientRecord, Transaction, Evidence, Entity.",
+        hints: [
+          "ClientRecord, Transaction, Evidence, Entity.",
+          "Formato INV: ...",
+        ],
+        edgeCases: ["Invariantes de negocio ≠ veredictos de fraude"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "invariants_list.py",
+          code: `# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "invariants_list.py",
+          code: `for inv in [
+    "INV: ClientRecord.document_id no vacío",
+    "INV: Transaction.amount > 0 y currency no vacía",
+    "INV: RelationshipEvidence.signal_score entre 0 y 1",
+    "INV: ResolvedEntity.entity_id único y no vacío",
+]:
+    print(inv)`,
+          output: `INV: ClientRecord.document_id no vacío
+INV: Transaction.amount > 0 y currency no vacía
+INV: RelationshipEvidence.signal_score entre 0 y 1
+INV: ResolvedEntity.entity_id único y no vacío`,
+        },
+      },
+      {
+        id: "S11-T2-A-E1",
+        subtopicId: "S11-T2-A",
+        kind: "guided",
+        instruction:
+          "Property full_name desde first_name y last_name.",
+        hint: "@property sin setter.",
+        hints: [
+          "@property sin setter.",
+          "Print full_name.",
+        ],
+        edgeCases: ["No guardar full_name duplicado si se puede calcular"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "full_name_prop.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class Person:
+    first_name: str
+    last_name: str
+    # TODO property`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "full_name_prop.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class Person:
+    first_name: str
+    last_name: str
+
+    @property
+    def full_name(self) -> str:
+        return f"{self.first_name} {self.last_name}"
+
+print(Person("Ana", "Perez").full_name)`,
+          output: `Ana Perez`,
+        },
+      },
+      {
+        id: "S11-T2-A-E2",
+        subtopicId: "S11-T2-A",
+        kind: "independent",
+        instruction:
+          "Método age_days_since(day: int) en Transaction con campo day_created: int (demo sin datetime).",
+        hint: "Retorna day - day_created.",
+        hints: [
+          "Retorna day - day_created.",
+          "Prueba con números sintéticos.",
+        ],
+        edgeCases: ["En prod usa date/datetime; aquí simplificamos"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "age_days.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class Transaction:
+    tx_id: str
+    day_created: int
+    # TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "age_days.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class Transaction:
+    tx_id: str
+    day_created: int
+
+    def age_days_since(self, day: int) -> int:
+        return day - self.day_created
+
+print(Transaction("T1", 10).age_days_since(25))`,
+          output: `15`,
+        },
+      },
+      {
+        id: "S11-T2-A-E3",
+        subtopicId: "S11-T2-A",
+        kind: "transfer",
+        instruction:
+          "Encapsula mutación de score con setter que solo acepta 0..1.",
+        hint: "Property score con setter validado.",
+        hints: [
+          "Property score con setter validado.",
+          "Muestra ok y reject.",
+        ],
+        edgeCases: ["score es señal, no veredicto"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "score_setter.py",
+          code: `class Signal:
+    def __init__(self):
+        self._score = 0.0
+    # TODO property score`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "score_setter.py",
+          code: `class Signal:
+    def __init__(self):
+        self._score = 0.0
+
+    @property
+    def score(self) -> float:
+        return self._score
+
+    @score.setter
+    def score(self, value: float) -> None:
+        v = float(value)
+        if not 0.0 <= v <= 1.0:
+            raise ValueError("score fuera de rango")
+        self._score = v
+
+s = Signal()
+s.score = 0.4
+print("ok", s.score)
+try:
+    s.score = 1.5
+except ValueError as e:
+    print("reject", e)`,
+          output: `ok 0.4
+reject score fuera de rango`,
+        },
+      },
+      {
+        id: "S11-T2-B-E1",
+        subtopicId: "S11-T2-B",
+        kind: "guided",
+        instruction:
+          "Implementa eq por business key document_id (dos clientes iguales si mismo doc).",
+        hint: "__eq__ custom; no hace falta hash si no frozen.",
+        hints: [
+          "__eq__ custom; no hace falta hash si no frozen.",
+          "Print comparaciones.",
+        ],
+        edgeCases: ["Si defines eq sin hash, la clase no es hasheable (OK)"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "eq_document.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class ClientRecord:
+    client_id: str
+    document_id: str
+    # TODO eq`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "eq_document.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class ClientRecord:
+    client_id: str
+    document_id: str
+
+    def __eq__(self, other):
+        if not isinstance(other, ClientRecord):
+            return NotImplemented
+        return self.document_id == other.document_id
+
+a = ClientRecord("C1", "DNI-9")
+b = ClientRecord("C2", "DNI-9")
+c = ClientRecord("C3", "DNI-1")
+print(a == b, a == c)`,
+          output: `True False`,
+        },
+      },
+      {
+        id: "S11-T2-B-E2",
+        subtopicId: "S11-T2-B",
+        kind: "independent",
+        instruction:
+          "Crea Evidence frozen value object y úsalo en un set.",
+        hint: "frozen=True dataclass.",
+        hints: [
+          "frozen=True dataclass.",
+          "Imprime len del set con duplicado.",
+        ],
+        edgeCases: ["Duplicado exacto colapsa en set"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "frozen_evidence.py",
+          code: `from dataclasses import dataclass
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "frozen_evidence.py",
+          code: `from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class Evidence:
+    left_id: str
+    right_id: str
+    signal_score: float
+
+s = {
+    Evidence("E1", "E2", 0.2),
+    Evidence("E1", "E2", 0.2),
+    Evidence("E1", "E3", 0.1),
+}
+print(len(s))`,
+          output: `2`,
+        },
+      },
+      {
+        id: "S11-T2-B-E3",
+        subtopicId: "S11-T2-B",
+        kind: "transfer",
+        instruction:
+          "Demuestra el bug de entidad mutable como key de dict y la versión frozen segura.",
+        hint: "Imprime BUG y SAFE.",
+        hints: [
+          "Imprime BUG y SAFE.",
+          "Con mutable: cambiar campo rompe lookup.",
+        ],
+        edgeCases: ["No implementes __hash__ en mutables"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "mutable_key_bug.py",
+          code: `# TODO demo bug + safe`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "mutable_key_bug.py",
+          code: `class MutableEntity:
+    def __init__(self, eid, name):
+        self.eid = eid
+        self.name = name
+    def __hash__(self):
+        return hash((self.eid, self.name))
+    def __eq__(self, o):
+        return isinstance(o, MutableEntity) and (self.eid, self.name) == (o.eid, o.name)
+
+m = MutableEntity("E1", "Ana")
+d = {m: "row"}
+m.name = "Ana P"  # mutó la key
+print("BUG lookup_after_mutate", d.get(m))
+
+from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class FrozenEntity:
+    eid: str
+    name: str
+
+f = FrozenEntity("E1", "Ana")
+d2 = {f: "row"}
+print("SAFE", d2.get(FrozenEntity("E1", "Ana")))`,
+          output: `BUG lookup_after_mutate None
+SAFE row`,
+        },
+      },
+      {
+        id: "S11-T3-A-E1",
+        subtopicId: "S11-T3-A",
+        kind: "guided",
+        instruction:
+          "Reemplaza herencia innecesaria Client(Person) por composición Client tiene person_info dict/objeto.",
+        hint: "Imprime el diseño final simple.",
+        hints: [
+          "Imprime el diseño final simple.",
+          "Sin class Person base.",
+        ],
+        edgeCases: ["Composición permite cambiar PersonInfo sin romper Client"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "replace_inheritance.py",
+          code: `# malo: class Client(Person): ...
+# TODO composición`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "replace_inheritance.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class PersonInfo:
+    first_name: str
+    last_name: str
+
+@dataclass
+class Client:
+    client_id: str
+    person: PersonInfo
+
+c = Client("C001", PersonInfo("Ana", "Perez"))
+print(c.client_id, c.person.first_name)
+print("design=composition")`,
+          output: `C001 Ana
+design=composition`,
+        },
+      },
+      {
+        id: "S11-T3-A-E2",
+        subtopicId: "S11-T3-A",
+        kind: "independent",
+        instruction:
+          "CaseFile agrega evidencias con add_evidence y cuenta.",
+        hint: "Lista interna.",
+        hints: [
+          "Lista interna.",
+          "Print n=2.",
+        ],
+        edgeCases: ["Validar score en el value object, no solo en CaseFile"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "casefile_add.py",
+          code: `from dataclasses import dataclass, field
+
+@dataclass
+class CaseFile:
+    case_id: str
+    evidences: list = field(default_factory=list)
+    # TODO add_evidence`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "casefile_add.py",
+          code: `from dataclasses import dataclass, field
+
+@dataclass
+class CaseFile:
+    case_id: str
+    evidences: list = field(default_factory=list)
+
+    def add_evidence(self, ev: dict) -> None:
+        self.evidences.append(ev)
+
+cf = CaseFile("CF1")
+cf.add_evidence({"score": 0.1})
+cf.add_evidence({"score": 0.2})
+print("n=", len(cf.evidences))`,
+          output: `n= 2`,
+        },
+      },
+      {
+        id: "S11-T3-A-E3",
+        subtopicId: "S11-T3-A",
+        kind: "transfer",
+        instruction:
+          "Justifica en 2 líneas por qué no heredar Client de Person; imprime JUST: ...",
+        hint: "Piensa en roles y evolución del modelo.",
+        hints: [
+          "Piensa en roles y evolución del modelo.",
+          "Español profesional.",
+        ],
+        edgeCases: ["is-a real: SavingsAccount is-a Account tal vez; Client is-a Person rara vez aporta"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "why_not_inherit.py",
+          code: `# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "why_not_inherit.py",
+          code: `print("JUST: un cliente tiene datos de persona, pero también roles, cuentas y evidencias que no son subtipo de Person")
+print("JUST: la composición evita jerarquías frágiles cuando Person cambia sin ser Client")`,
+          output: `JUST: un cliente tiene datos de persona, pero también roles, cuentas y evidencias que no son subtipo de Person
+JUST: la composición evita jerarquías frágiles cuando Person cambia sin ser Client`,
+        },
+      },
+      {
+        id: "S11-T3-B-E1",
+        subtopicId: "S11-T3-B",
+        kind: "guided",
+        instruction:
+          "Define Protocol Scorer con score(pair: tuple[str,str]) -> float y un FakeScorer.",
+        hint: "Imprime el score de un par sintético.",
+        hints: [
+          "Imprime el score de un par sintético.",
+          "typing.Protocol.",
+        ],
+        edgeCases: ["El Protocol no se instancia"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "scorer_protocol.py",
+          code: `from typing import Protocol
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "scorer_protocol.py",
+          code: `from typing import Protocol
+
+class Scorer(Protocol):
+    def score(self, pair: tuple[str, str]) -> float: ...
+
+class FakeScorer:
+    def score(self, pair: tuple[str, str]) -> float:
+        return 0.5 if pair[0] != pair[1] else 1.0
+
+s: Scorer = FakeScorer()
+print(s.score(("E1", "E2")))`,
+          output: `0.5`,
+        },
+      },
+      {
+        id: "S11-T3-B-E2",
+        subtopicId: "S11-T3-B",
+        kind: "independent",
+        instruction:
+          "Dos implementaciones de normalizer (strip vs casefold) usables por la misma función apply.",
+        hint: "apply(norm, text) llama norm(text).",
+        hints: [
+          "apply(norm, text) llama norm(text).",
+          "Imprime ambos resultados.",
+        ],
+        edgeCases: ["Duck typing: cualquier callable sirve"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "two_normalizers.py",
+          code: `def apply(norm, text):
+    return norm(text)
+
+# TODO dos normalizers`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "two_normalizers.py",
+          code: `def apply(norm, text):
+    return norm(text)
+
+def strip_norm(s: str) -> str:
+    return s.strip()
+
+def casefold_norm(s: str) -> str:
+    return s.strip().casefold()
+
+print(apply(strip_norm, " Ana "))
+print(apply(casefold_norm, " Ana "))`,
+          output: `Ana
+ana`,
+        },
+      },
+      {
+        id: "S11-T3-B-E3",
+        subtopicId: "S11-T3-B",
+        kind: "transfer",
+        instruction:
+          "Escribe 2 razones para NO introducir Protocol aún e imprime WHEN_NOT.",
+        hint: "YAGNI / una sola implementación.",
+        hints: [
+          "YAGNI / una sola implementación.",
+          "Español claro.",
+        ],
+        edgeCases: ["Cuando aparece el segundo adapter, el Protocol suele justificar"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "when_not_protocol.py",
+          code: `# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "when_not_protocol.py",
+          code: `print("WHEN_NOT: solo hay una implementación y no hay tests con fake")
+print("WHEN_NOT: el puerto aún no es estable y crear Protocol congela una API prematura")`,
+          output: `WHEN_NOT: solo hay una implementación y no hay tests con fake
+WHEN_NOT: el puerto aún no es estable y crear Protocol congela una API prematura`,
+        },
+      },
+      {
+        id: "S11-T4-A-E1",
+        subtopicId: "S11-T4-A",
+        kind: "guided",
+        instruction:
+          "to_dict de ClientRecord sin campos password/secret.",
+        hint: "Aunque existan en el objeto, no serializarlos.",
+        hints: [
+          "Aunque existan en el objeto, no serializarlos.",
+          "Print dict.",
+        ],
+        edgeCases: ["password no debería vivir en el dominio de familiaridad idealmente"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "to_dict_safe.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class ClientRecord:
+    client_id: str
+    email: str
+    password: str = ""
+    # TODO to_dict`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "to_dict_safe.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class ClientRecord:
+    client_id: str
+    email: str
+    password: str = ""
+
+    def to_dict(self) -> dict:
+        return {"client_id": self.client_id, "email": self.email}
+
+print(ClientRecord("C1", "a@ejemplo.pe", "secret").to_dict())`,
+          output: `{'client_id': 'C1', 'email': 'a@ejemplo.pe'}`,
+        },
+      },
+      {
+        id: "S11-T4-A-E2",
+        subtopicId: "S11-T4-A",
+        kind: "independent",
+        instruction:
+          "Repository save/get con dict store en memoria.",
+        hint: "Clase con save y get.",
+        hints: [
+          "Clase con save y get.",
+          "Roundtrip de un client dict.",
+        ],
+        edgeCases: ["get retorna None si no existe"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "mem_repo.py",
+          code: `class Repo:
+    # TODO
+    ...`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "mem_repo.py",
+          code: `class Repo:
+    def __init__(self):
+        self._d = {}
+    def save(self, row: dict) -> None:
+        self._d[row["client_id"]] = row
+    def get(self, client_id: str):
+        return self._d.get(client_id)
+
+r = Repo()
+r.save({"client_id": "C001", "email": "a@ejemplo.pe"})
+print(r.get("C001"))`,
+          output: `{'client_id': 'C001', 'email': 'a@ejemplo.pe'}`,
+        },
+      },
+      {
+        id: "S11-T4-A-E3",
+        subtopicId: "S11-T4-A",
+        kind: "transfer",
+        instruction:
+          "Dibuja en texto la frontera dominio vs CLI I/O (3 capas).",
+        hint: "cli → service → domain/repo.",
+        hints: [
+          "cli → service → domain/repo.",
+          "Imprime LAYER líneas.",
+        ],
+        edgeCases: ["Logging puede colgarse del service con correlation_id"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "boundary_layers.py",
+          code: `# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "boundary_layers.py",
+          code: `for line in [
+    "LAYER: cli — argparse, stdin/stdout, exit codes",
+    "LAYER: service — casos de uso, sin print",
+    "LAYER: domain/repo — entidades, invariantes, persistencia abstracta",
+]:
+    print(line)`,
+          output: `LAYER: cli — argparse, stdin/stdout, exit codes
+LAYER: service — casos de uso, sin print
+LAYER: domain/repo — entidades, invariantes, persistencia abstracta`,
+        },
+      },
+      {
+        id: "S11-T4-B-E1",
+        subtopicId: "S11-T4-B",
+        kind: "guided",
+        instruction:
+          "Test de invariante ClientRecord: document_id vacío lanza ValueError; imprime pass.",
+        hint: "Usa assert en un try o pytest-style manual.",
+        hints: [
+          "Usa assert en un try o pytest-style manual.",
+          "print('pass') al final.",
+        ],
+        edgeCases: ["Tests puros: sin I/O"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "test_invariant.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class ClientRecord:
+    client_id: str
+    document_id: str
+    def __post_init__(self):
+        if not self.document_id.strip():
+            raise ValueError("document_id vacío")
+
+# TODO test`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "test_invariant.py",
+          code: `from dataclasses import dataclass
+
+@dataclass
+class ClientRecord:
+    client_id: str
+    document_id: str
+    def __post_init__(self):
+        if not self.document_id.strip():
+            raise ValueError("document_id vacío")
+
+def test_empty_document_rejected():
+    try:
+        ClientRecord("C1", " ")
+        assert False, "debía fallar"
+    except ValueError:
+        return "pass"
+
+print(test_empty_document_rejected())`,
+          output: `pass`,
+        },
+      },
+      {
+        id: "S11-T4-B-E2",
+        subtopicId: "S11-T4-B",
+        kind: "independent",
+        instruction:
+          "Fake repo en 3 tests de servicio (register, get, missing).",
+        hint: "Imprime pass x3.",
+        hints: [
+          "Imprime pass x3.",
+          "Service simple con repo inyectado.",
+        ],
+        edgeCases: ["Fake no es mock mágico: es implementación en memoria"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "fake_repo_tests.py",
+          code: `class FakeRepo:
+    def __init__(self):
+        self.d = {}
+    def save(self, row):
+        self.d[row["id"]] = row
+    def get(self, id):
+        return self.d.get(id)
+
+class Service:
+    def __init__(self, repo):
+        self.repo = repo
+    def register(self, id, name):
+        self.repo.save({"id": id, "name": name})
+        return self.repo.get(id)
+
+# TODO 3 tests`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "fake_repo_tests.py",
+          code: `class FakeRepo:
+    def __init__(self):
+        self.d = {}
+    def save(self, row):
+        self.d[row["id"]] = row
+    def get(self, id):
+        return self.d.get(id)
+
+class Service:
+    def __init__(self, repo):
+        self.repo = repo
+    def register(self, id, name):
+        self.repo.save({"id": id, "name": name})
+        return self.repo.get(id)
+
+def test_register():
+    s = Service(FakeRepo())
+    assert s.register("C1", "Ana")["name"] == "Ana"
+    print("pass")
+
+def test_get():
+    repo = FakeRepo()
+    Service(repo).register("C1", "Ana")
+    assert repo.get("C1")["id"] == "C1"
+    print("pass")
+
+def test_missing():
+    assert Service(FakeRepo()).repo.get("X") is None
+    print("pass")
+
+test_register(); test_get(); test_missing()`,
+          output: `pass
+pass
+pass`,
+        },
+      },
+      {
+        id: "S11-T4-B-E3",
+        subtopicId: "S11-T4-B",
+        kind: "transfer",
+        instruction:
+          "Revisa una clase con decide_fraud y propón extracción: imprime ANTES/DESPUÉS conceptual.",
+        hint: "Mueve el score a Evidence; elimina el veredicto.",
+        hints: [
+          "Mueve el score a Evidence; elimina el veredicto.",
+          "Dos líneas.",
+        ],
+        edgeCases: ["Umbrales de producto no son invariantes de entidad"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "extract_fraud.py",
+          code: `class BadClient:
+    def decide_fraud(self, score):
+        return score > 0.9
+# TODO propuesta`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "extract_fraud.py",
+          code: `print("ANTES: Client.decide_fraud(score)->bool veredicto en el dominio")
+print("DESPUES: RelationshipEvidence.signal_score: float + revisión humana fuera del modelo")`,
+          output: `ANTES: Client.decide_fraud(score)->bool veredicto en el dominio
+DESPUES: RelationshipEvidence.signal_score: float + revisión humana fuera del modelo`,
         },
       },
     ],
   },
   youDo: {
-    title: 'Test Suite for Your Churn Project — El diferenciador senior',
+    title: "Modelo de dominio Cliente–Transacción–Evidencia",
     context:
-      'Vas a agregar tests al proyecto capstone de churn (sección 9). Es lo que hace que tu repo pase de "proyecto de curso" a "proyecto production-ready". Un repo con tests + GitHub Actions con badge verde te posiciona como US-trained engineer a ojos de hiring managers peruanos e internacionales.',
+      "Implementas el núcleo de **CP-N1-C**: ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence con invariantes, serialización y repo en memoria. **Ninguna clase decide fraude o parentesco.** Reemplaza el legado de test suite churn.",
     objectives: [
-      'Crear tests/test_data.py con validaciones del dataset',
-      'Crear tests/test_pipeline.py con tests del modelo',
-      'Configurar GitHub Actions workflow para CI',
-      'Agregar badge de tests al README',
-      'Lograr coverage > 70% en código crítico',
+      "Implementar ClientRecord, ResolvedEntity, Transaction, RelationshipEvidence",
+      "Invariantes en construcción y equality consciente",
+      "Ningún método is_fraud / is_related_family: scores no son veredicto de fraude ni parentesco",
+      "Serialización + repositorio en memoria",
+      "Tests unitarios del dominio con datos sintéticos",
     ],
     requirements: [
-      'tests/test_data.py: shape, nulos, duplicados, rangos, tipos',
-      'tests/test_pipeline.py: fit/predict, no NaN, no leakage, determinismo',
-      'tests/test_model.py: AUC > azar, predicciones en rango',
-      'GitHub Actions .github/workflows/tests.yml',
-      'pytest --cov reportando cobertura',
-      'Badge en README: ![Tests](https://github.com/...) .../badge.svg',
-      'Al menos 15 tests en total',
+      "Cuatro tipos explícitos con type hints",
+      "Scores solo como campos de datos si existen — no veredictos",
+      "README de límites del modelo",
+      "Tests del dominio puros (sin red/DB)",
+      "Datos sintéticos ejemplo.pe / C00x",
+      "Service sin side-effects de CLI",
     ],
-    starterCode: `# tests/test_data.py
-import pytest
-import pandas as pd
+    starterCode: `"""Modelo de dominio Cliente–Transacción–Evidencia (CP-N1-C).
+Ningún método decide fraude ni parentesco. Datos sintéticos.
+"""
+from __future__ import annotations
+from dataclasses import dataclass, field
+from typing import Protocol
 
-def test_shape(df_churn):
-    # TODO
-    pass
+@dataclass
+class ClientRecord:
+    client_id: str
+    document_id: str
+    full_name: str
+    emails: list[str] = field(default_factory=list)
 
-def test_no_nulos(df_churn):
-    # TODO
-    pass
+    def __post_init__(self) -> None:
+        if not self.client_id or not self.document_id.strip():
+            raise ValueError("client_id/document_id inválidos")
 
-# ... al menos 5 tests más
+    def to_dict(self) -> dict:
+        return {
+            "client_id": self.client_id,
+            "document_id": self.document_id,
+            "full_name": self.full_name,
+            "emails": list(self.emails),
+        }
 
-# tests/test_pipeline.py
-def test_pipeline_fit(pipeline_churn, datos):
-    # TODO
-    pass
+@dataclass(frozen=True)
+class ResolvedEntity:
+    entity_id: str
+    display_name: str
 
-# ... al menos 5 tests más
+@dataclass
+class Transaction:
+    tx_id: str
+    client_id: str
+    amount: float
+    currency: str
 
-# .github/workflows/tests.yml
-# Workflow que corre pytest en cada push`,
+    def __post_init__(self) -> None:
+        if self.amount <= 0:
+            raise ValueError("amount debe ser > 0")
+
+@dataclass(frozen=True)
+class RelationshipEvidence:
+    left_id: str
+    right_id: str
+    signal_score: float  # dato, no veredicto
+
+    def __post_init__(self) -> None:
+        if not 0.0 <= self.signal_score <= 1.0:
+            raise ValueError("signal_score fuera de rango")
+
+class ClientRepository(Protocol):
+    def save(self, client: ClientRecord) -> None: ...
+    def get(self, client_id: str) -> ClientRecord | None: ...
+
+class InMemoryClientRepository:
+    def __init__(self) -> None:
+        self._d: dict[str, ClientRecord] = {}
+
+    def save(self, client: ClientRecord) -> None:
+        self._d[client.client_id] = client
+
+    def get(self, client_id: str) -> ClientRecord | None:
+        return self._d.get(client_id)
+
+def test_domain() -> None:
+    repo = InMemoryClientRepository()
+    c = ClientRecord("C001", "DNI-1", "Ana Perez", ["ana@ejemplo.pe"])
+    repo.save(c)
+    assert repo.get("C001") is not None
+    assert not hasattr(RelationshipEvidence, "is_fraud")
+    ev = RelationshipEvidence("E1", "E2", 0.4)
+    assert ev.signal_score == 0.4
+    print("tests_pass")
+
+if __name__ == "__main__":
+    test_domain()
+    print(ClientRecord("C002", "DNI-2", "Luis").to_dict())`,
     portfolioNote:
-      'En el README, junto al badge de tests, menciona el coverage %. "98% test coverage" es un statement poderoso que pocos candidatos pueden hacer. Los hiring managers saben que escribir tests requiere disciplina y pensamiento crítico sobre edge cases — exactamente lo que buscan en senior developers.',
+      "Diagrama textual de entidades + lista de invariantes + badge mental 'sin is_fraud'. Muestra 3 tests pasando sobre FakeStore.",
     rubric: [
-      { criterion: 'Tests de datos (shape, nulos, tipos, rangos)', weight: '25%' },
-      { criterion: 'Tests de pipeline (fit, predict, no NaN, no leakage)', weight: '25%' },
-      { criterion: 'GitHub Actions workflow funcionando', weight: '20%' },
-      { criterion: 'Badge de tests visible en README', weight: '10%' },
-      { criterion: 'Coverage reportado y > 70%', weight: '10%' },
-      { criterion: 'Al menos 15 tests en total', weight: '10%' },
+      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
+      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
+      { criterion: "Privacidad / sin PII real / sin secretos", weight: "20%" },
+      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
+      { criterion: "Código legible y límites claros", weight: "10%" },
+      { criterion: "Documentación en español profesional", weight: "10%" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: '¿Cuál es la convención de nombres para que pytest descubra tus tests?',
+        question: "¿Por qué `field(default_factory=list)` y no `= []`?",
         options: [
-          'Cualquier archivo .py',
-          'Archivos test_*.py con funciones test_*',
-          'Solo en carpeta tests/',
-          'Clases Test* con métodos test_*',
+          "Es más corto",
+          "Evita el default mutable compartido entre instancias",
+          "Obliga a usar Protocol",
+          "Activa el garbage collector",
         ],
         correctIndex: 1,
         explanation:
-          'pytest busca archivos que empiecen con test_ o terminen con _test.py, y dentro de ellos funciones que empiecen con test_. Las clases Test* (sin __init__) también se descubren. Respetar esta convención es obligatorio para que tus tests corran.',
+          "Un [] compartido muta todas las instancias.",
       },
       {
-        question: '¿Para qué sirve una fixture en pytest?',
+        question: "RelationshipEvidence.signal_score representa…",
         options: [
-          'Para hacer tests más lentos',
-          'Para preparar datos/estado reutilizable entre tests',
-          'Para documentar tests',
-          'Es lo mismo que un mock',
+          "Veredicto legal de parentesco",
+          "Una señal/dato numérico, no un veredicto de fraude o familia",
+          "Password hasheado",
+          "Exit code del CLI",
         ],
         correctIndex: 1,
         explanation:
-          'Una fixture es una función decorada con @pytest.fixture que prepara datos o estado. Se inyecta en los tests como parámetro. Evita duplicación: si 5 tests necesitan el mismo DataFrame, defines una fixture en vez de copiar el código 5 veces.',
+          "El dominio almacena evidencia; no decide fraude/parentesco.",
       },
       {
-        question: '¿Qué hace `@pytest.mark.parametrize`?',
+        question: "Un Protocol EntityStore sirve para…",
         options: [
-          'Marca el test como lento',
-          'Corre el mismo test con múltiples combinaciones de inputs',
-          'Para el test si falla',
-          'Es lo mismo que una fixture',
+          "Conectarse solo a Postgres",
+          "Definir un puerto get/save implementable por fakes y adapters",
+          "Reemplazar dataclass",
+          "Serializar a PDF",
         ],
         correctIndex: 1,
         explanation:
-          'parametrize recibe una lista de tuplas (inputs, esperado) y corre el test una vez por cada tupla. Ideal para testear la misma función con múltiples casos. Si uno falla, pytest te dice exactamente cuál input falló.',
+          "Puertos estructurales sin herencia forzada.",
       },
       {
-        question: '¿Qué mide `pytest --cov=mi_modulo`?',
+        question: "Objeto inválido: ¿cuándo fallar?",
         options: [
-          'El tiempo de ejecución',
-          'El porcentaje de líneas de código cubiertas por tests',
-          'El número de tests',
-          'La calidad de los tests',
+          "Al final del mes",
+          "En la construcción (__post_init__/validate)",
+          "Nunca",
+          "Solo en producción",
         ],
         correctIndex: 1,
         explanation:
-          'Coverage mide qué líneas de tu código se ejecutaron durante los tests. 80%+ es bueno. 100% es difícil y a veces innecesario (paths de error irreproducibles). El flag --cov-report=term-missing muestra qué líneas NO se cubrieron.',
+          "Fail on invalid construct evita estados corruptos.",
       },
       {
-        question: '¿Para qué sirve GitHub Actions en testing?',
+        question: "Client hereda de Person…",
         options: [
-          'Para desplegar a producción',
-          'Para correr tests automáticamente en cada push/PR',
-          'Para escribir tests',
-          'Para documentar el repositorio',
+          "Siempre es la mejor opción",
+          "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar",
+          "Es obligatoria en Python",
+          "Impide tests",
         ],
         correctIndex: 1,
         explanation:
-          'GitHub Actions es CI/CD integrado a GitHub. Define workflows en .github/workflows/ que se ejecutan en eventos (push, PR). Para testing, corre pytest en un entorno limpio. Si falla, el badge del repo se pone rojo y (con branch protection) bloquea el merge.',
+          "has-a > is-a forzado sin subtipo real.",
+      },
+      {
+        question: "¿Qué no debe tener el dominio de familiaridad?",
+        options: [
+          "to_dict",
+          "is_fraud() automático",
+          "Invariantes",
+          "Tests unitarios",
+        ],
+        correctIndex: 1,
+        explanation:
+          "Sin veredictos de fraude en el modelo del curso.",
       },
     ],
   },
   resources: {
     docs: [
-      { label: 'pytest — Official docs', url: 'https://docs.pytest.org/', note: 'Documentación completa de pytest' },
-      { label: 'pytest — Fixtures', url: 'https://docs.pytest.org/en/stable/explanation/fixtures.html', note: 'Guía detallada de fixtures' },
-      { label: 'pytest-cov', url: 'https://pytest-cov.readthedocs.io/', note: 'Plugin de cobertura' },
-      { label: 'GitHub Actions — Python', url: 'https://docs.github.com/es/actions/automating-builds-and-tests/building-and-testing-python', note: 'Guía oficial de CI para Python' },
+      {
+        label: "dataclasses — Data Classes",
+        url: "https://docs.python.org/3/library/dataclasses.html",
+        note: "frozen, field, post_init",
+      },
+      {
+        label: "typing.Protocol",
+        url: "https://docs.python.org/3/library/typing.html#typing.Protocol",
+        note: "puertos estructurales",
+      },
+      {
+        label: "unittest — Unit testing framework",
+        url: "https://docs.python.org/3/library/unittest.html",
+        note: "alternativa stdlib a pytest para dominio puro",
+      },
     ],
     books: [
-      { label: 'Python Apprentice to Master', note: 'Capítulo sobre testing y buenas prácticas.' },
+      {
+        label: "Architecture Patterns with Python (Percival & Gregory)",
+        note: "Repo/service/protocol — leer selectivamente.",
+      },
+      {
+        label: "Fluent Python — object model",
+        note: "eq/hash y data model.",
+      },
     ],
     courses: [
-      { label: 'Real Python — Testing', url: 'https://realpython.com/pytest-python-testing/', note: 'Tutorial completo de pytest' },
+      {
+        label: "pytest docs (soporte de calidad)",
+        url: "https://docs.pytest.org/",
+        note: "Testing se reubica como soporte; el target V3 de S11 es el dominio.",
+      },
     ],
   },
 }

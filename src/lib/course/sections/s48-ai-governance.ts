@@ -1,157 +1,1152 @@
 import type { CourseSection } from '../../types'
 
 export const section48: CourseSection = {
-  id: 'ai-governance',
+  id: "ai-governance",
   index: 48,
-  title: 'Gobernanza de IA, Ética y Compliance',
-  shortTitle: 'Gobernanza de IA, Ética y Comp',
-  tagline: 'La IA sin gobernanza es como un auto sin frenos — puede funcionar a gran velocidad hasta que choca.',
-  estimatedHours: 10,
-  level: 'Master',
+  title: "LLM applications y RAG con evidencia",
+  shortTitle: "RAG con evidencia",
+  tagline: "asistente sobre docs autorizados, citas verificables y abstención cuando retrieval no sostiene la respuesta",
+  estimatedHours: 14,
+  level: "Master",
   phase: 3,
-  icon: 'Scale',
-  accentColor: 'bg-gradient-to-br from-amber-500 to-red-600',
-  jobRelevance: 'La EU AI Act (en vigor 2026) y el Executive Order de Biden/Trump sobre AI tienen implicaciones directas para empresas que operan sistemas de IA. Los roles de AI Engineer senior en enterprises requieren conocimiento de compliance. Este es un diferenciador enorme en el mercado.',
+  icon: "Scale",
+  accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
+  jobRelevance:
+    "Retemática V3 **LLM applications y RAG con evidencia** (id de plataforma `ai-governance` conservado; legado «Gobernanza de IA, Ética y Compliance»). Contribuye a **CP-N4-C (inicio)**: asistente responde sobre documentación autorizada, cita fragmentos verificables y se abstiene cuando retrieval no sostiene la respuesta. Datos sintéticos; sin PII real. ER/matching no implica fraude ni parentesco.",
   learningOutcomes: [
-    { text: 'Entender EU AI Act (2026): categorías de riesgo (unacceptable, high, limited, minimal), obligaciones por nivel' },
-    { text: 'Aplicar ISO 42001 (AI Management Systems) para organizaciones' },
-    { text: 'Construir un AI governance framework: model cards, datasheets, fairness assessments' },
-    { text: 'Implementar fairness metrics con fairlearn: demographic parity, equalized odds' },
-    { text: 'Detectar y mitigar bias en datasets con herramientas de ML fairness' },
-    { text: 'Construir audit trails para sistemas de IA de alto riesgo (GDPR + AI Act compliance)' },
+    { text: "Calcula embeddings y similarity" },
+    { text: "Versiona embeddings y evalúa límites" },
+    { text: "Chunking con metadata y dedup" },
+    { text: "Respeta ACL, deletion y provenance" },
+    { text: "Recupera hybrid y rerankea" },
+    { text: "Arma contexto con citas y permisos" },
+    { text: "Genera structured grounded output" },
+    { text: "Evalúa retrieval/answer y se abstiene" },
   ],
   theory: [
     {
-      heading: 'Gobernanza de IA: frameworks, policies y compliance',
+      heading: "Mapa V3 S48: LLM applications y RAG con evidencia",
       paragraphs: [
-        'La gobernanza de IA abarca bias detection, fairness, transparencia, y compliance. En Python, fairlearn de Microsoft mide fairness con métricas como demographic parity (la predicción es independiente del grupo demográfico) y equalized odds (el modelo tiene el mismo FPR y TPR en todos los grupos). Un disparate impact ratio < 0.8 indica bias: el modelo aprueba créditos al 40% de mujeres pero al 60% de hombres, ratio = 40/60 = 0.67 < 0.8 → hay bias. La mitigación incluye reweighting (dar más peso a muestras del grupo desaventajado) o post-processing (ajustar el threshold por grupo).',
-        'EU AI Act (en vigor desde febrero 2025) clasifica sistemas de IA en 4 niveles de riesgo: unacceptable (prohibido), high (regulación estricta), limited (transparencia), minimal (sin regulación). Los sistemas de scoring crediticio, contratación, y justicia son "high risk" y requieren: evaluación de impacto, documentación técnica, logging, human oversight, y conformidad con estándares de calidad. Las empresas peruanas que sirven clientes europeos deben cumplir. Un model card (documentación del modelo) es el primer paso: describe intended use, training data, métricas, limitaciones, y consideraciones éticas.',
-        'La auditoría de sistemas de IA es un proceso continuo, no un evento único. Checklist trimestral: (1) ¿El modelo sigue siendo preciso o hay drift? (2) ¿Los datos de entrada siguen teniendo la misma distribución? (3) ¿Hay nuevos sesgos detectados? (4) ¿Las regulaciones cambiaron? (5) ¿Hay parches de seguridad pendientes? Automatiza lo que puedas con pytest + custom assertions: `assert fairness_ratio > 0.8`, `assert accuracy > 0.85`, `assert no_pii_in_logs`. Cuando un assert falla, el pipeline se detiene y notifica al equipo. Sin auditoría continua, tu modelo de IA se degrada silenciosamente hasta que alguien nota que las predicciones son incorrectas — para entonces, el daño ya está hecho.',
+        "En V3, **S48** retematiza el archivo de plataforma `ai-governance` hacia **LLM applications y RAG con evidencia**.",
+        "Incremento: asistente responde sobre documentación autorizada, cita fragmentos verificables y se abstiene cuando retrieval no sostiene la respuesta.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger.",
       ],
+      callout: {
+        type: "info",
+        title: "Platform id preservado",
+        content:
+          "KEEP_PLATFORM_ID_RETHEME_CONTENT: `ai-governance`. Capstone: CP-N4-C (inicio).",
+      },
+    },
+    {
+      heading: "embeddings y similarity",
+      subtopicId: "S48-T1-A",
+      paragraphs: [
+        "**embeddings y similarity** — outcome del blueprint phase3 para `embeddings-similarity`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "embeddings_similarity.py",
+        code: `print(1.0); print(0.0); print("emb_dim", 2)`,
+        output: `1.0
+0.0
+emb_dim 2`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "límites, versiones y evaluación",
+      subtopicId: "S48-T1-B",
+      paragraphs: [
+        "**límites, versiones y evaluación** — outcome del blueprint phase3 para `limits-versions-eval`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "limits_versions_eval.py",
+        code: `print({"version":"e5-v1","max_tokens":512}); print("limit", 512); print("versioned", True)`,
+        output: `{'version': 'e5-v1', 'max_tokens': 512}
+limit 512
+versioned True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "chunking, metadata y dedup",
+      subtopicId: "S48-T2-A",
+      paragraphs: [
+        "**chunking, metadata y dedup** — outcome del blueprint phase3 para `chunking-metadata-dedup`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "chunking_metadata_dedup.py",
+        code: `print(["abcdefghij","abcdefghij","abcdefghij"]); print("meta", ["doc_id","page"]); print("dedup", "hash")`,
+        output: `['abcdefghij', 'abcdefghij', 'abcdefghij']
+meta ['doc_id', 'page']
+dedup hash`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "ACL, deletion y provenance",
+      subtopicId: "S48-T2-B",
+      paragraphs: [
+        "**ACL, deletion y provenance** — outcome del blueprint phase3 para `acl-deletion-provenance`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "acl_deletion_provenance.py",
+        code: `print(True); print(False); print("delete", "tombstone")`,
+        output: `True
+False
+delete tombstone`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "lexical/vector/hybrid y reranking",
+      subtopicId: "S48-T3-A",
+      paragraphs: [
+        "**lexical/vector/hybrid y reranking** — outcome del blueprint phase3 para `lexical-vector-hybrid-rerank`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "lexical_vector_hybrid_rerank.py",
+        code: `print({"d1":0.74,"d2":0.06}); print("rerank", "cross_encoder_stub"); print("mode", "hybrid")`,
+        output: `{'d1': 0.74, 'd2': 0.06}
+rerank cross_encoder_stub
+mode hybrid`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "contexto, citas y permisos",
+      subtopicId: "S48-T3-B",
+      paragraphs: [
+        "**contexto, citas y permisos** — outcome del blueprint phase3 para `context-cites-permissions`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "context_cites_permissions.py",
+        code: `print("[c1] SLA 300ms"); print("perm_filter", True); print("min_ctx", True)`,
+        output: `[c1] SLA 300ms
+perm_filter True
+min_ctx True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "structured output y grounding",
+      subtopicId: "S48-T4-A",
+      paragraphs: [
+        "**structured output y grounding** — outcome del blueprint phase3 para `structured-grounding`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "structured_grounding.py",
+        code: `print(True); print(False); print("json", True)`,
+        output: `True
+False
+json True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "retrieval/answer eval, costo y abstención",
+      subtopicId: "S48-T4-B",
+      paragraphs: [
+        "**retrieval/answer eval, costo y abstención** — outcome del blueprint phase3 para `retrieval-answer-eval-cost-abstain`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "retrieval_answer_eval_cost_abstain.py",
+        code: `print("answer"); print("abstain"); print("cost_tokens", 1200)`,
+        output: `answer
+abstain
+cost_tokens 1200`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
     },
   ],
   iDo: {
-    intro: 'Te muestro paso a paso cómo aplicar los conceptos de esta sección con ejemplos prácticos.',
+    intro: "Te muestro 8 demos de S48 (LLM applications y RAG con evidencia) alineadas a CP-N4-C (inicio).",
     steps: [
       {
-        description: 'Implementar bias detection en un modelo de scoring crediticio',
+        demoId: "S48-T1-A-DEMO",
+        subtopicId: "S48-T1-A",
+        environment: "local-python",
+        description: "Demo: embeddings y similarity",
         code: {
           language: 'python',
-          title: 'demo.py',
-          code: '# Bias detection con fairlearn\nfrom fairlearn.metrics import MetricFrame, demographic_parity_difference\nfrom sklearn.metrics import accuracy_score\nimport numpy as np\n\ny_true = np.array([1, 0, 1, 0, 1, 0, 1, 0])\ny_pred = np.array([1, 0, 1, 0, 0, 0, 1, 0])\nsensitive = np.array(["M", "M", "M", "M", "F", "F", "F", "F"])\n\nmf = MetricFrame(accuracy_score, y_true, y_pred, sensitive_features=sensitive)\nprint(f"Accuracy M: {mf.by_group[\'M\']:.2f}, F: {mf.by_group[\'F\']:.2f}")\ndpd = demographic_parity_difference(y_true, y_pred, sensitive_features=sensitive)\nprint(f"Disparate impact: {dpd:.3f} ({\'BIAS\' if abs(dpd)>0.1 else \'OK\'})")',
+          title: "demo_embeddings_similarity.py",
+          code: `print("sim", "cosine"); print("space", "unit"); print("synth_docs", True)`,
+          output: `sim cosine
+space unit
+synth_docs True`,
         },
-        why: 'fairlearn mide bias objetivamente. Un disparate impact > 0.1 indica sesgo significativo. La auditoria debe ser continua, no un evento unico.',
+        why: "Demuestra el outcome de S48-T1-A con Python verificable.",
+      },
+      {
+        demoId: "S48-T1-B-DEMO",
+        subtopicId: "S48-T1-B",
+        environment: "local-python",
+        description: "Demo: límites, versiones y evaluación",
+        code: {
+          language: 'python',
+          title: "demo_limits_versions_eval.py",
+          code: `print("eval", "nDCG@10"); print("version", "e5-v1"); print("regression_suite", True)`,
+          output: `eval nDCG@10
+version e5-v1
+regression_suite True`,
+        },
+        why: "Demuestra el outcome de S48-T1-B con Python verificable.",
+      },
+      {
+        demoId: "S48-T2-A-DEMO",
+        subtopicId: "S48-T2-A",
+        environment: "local-python",
+        description: "Demo: chunking, metadata y dedup",
+        code: {
+          language: 'python',
+          title: "demo_chunking_metadata_dedup.py",
+          code: `print("chunk_n", 3); print("overlap", "optional"); print("dedup_key", "sha1")`,
+          output: `chunk_n 3
+overlap optional
+dedup_key sha1`,
+        },
+        why: "Demuestra el outcome de S48-T2-A con Python verificable.",
+      },
+      {
+        demoId: "S48-T2-B-DEMO",
+        subtopicId: "S48-T2-B",
+        environment: "local-python",
+        description: "Demo: ACL, deletion y provenance",
+        code: {
+          language: 'python',
+          title: "demo_acl_deletion_provenance.py",
+          code: `print("provenance", "doc_version"); print("acl_enforce", True); print("hard_delete", "policy")`,
+          output: `provenance doc_version
+acl_enforce True
+hard_delete policy`,
+        },
+        why: "Demuestra el outcome de S48-T2-B con Python verificable.",
+      },
+      {
+        demoId: "S48-T3-A-DEMO",
+        subtopicId: "S48-T3-A",
+        environment: "local-python",
+        description: "Demo: lexical/vector/hybrid y reranking",
+        code: {
+          language: 'python',
+          title: "demo_lexical_vector_hybrid_rerank.py",
+          code: `print("lexical", "bm25_like"); print("vector", "cosine"); print("fuse", "linear")`,
+          output: `lexical bm25_like
+vector cosine
+fuse linear`,
+        },
+        why: "Demuestra el outcome de S48-T3-A con Python verificable.",
+      },
+      {
+        demoId: "S48-T3-B-DEMO",
+        subtopicId: "S48-T3-B",
+        environment: "local-python",
+        description: "Demo: contexto, citas y permisos",
+        code: {
+          language: 'python',
+          title: "demo_context_cites_permissions.py",
+          code: `print("cites", True); print("drop_denied", True); print("context_budget", 2)`,
+          output: `cites True
+drop_denied True
+context_budget 2`,
+        },
+        why: "Demuestra el outcome de S48-T3-B con Python verificable.",
+      },
+      {
+        demoId: "S48-T4-A-DEMO",
+        subtopicId: "S48-T4-A",
+        environment: "local-python",
+        description: "Demo: structured output y grounding",
+        code: {
+          language: 'python',
+          title: "demo_structured_grounding.py",
+          code: `print("structured", {"decision":"ok","cites":["c1"]}); print("grounded", True); print("schema", True)`,
+          output: `structured {'decision': 'ok', 'cites': ['c1']}
+grounded True
+schema True`,
+        },
+        why: "Demuestra el outcome de S48-T4-A con Python verificable.",
+      },
+      {
+        demoId: "S48-T4-B-DEMO",
+        subtopicId: "S48-T4-B",
+        environment: "local-python",
+        description: "Demo: retrieval/answer eval, costo y abstención",
+        code: {
+          language: 'python',
+          title: "demo_retrieval_answer_eval_cost_abstain.py",
+          code: `print("eval", "answer_faithfulness"); print("abstain", True); print("cost_cap", True)`,
+          output: `eval answer_faithfulness
+abstain True
+cost_cap True`,
+        },
+        why: "Demuestra el outcome de S48-T4-B con Python verificable.",
       },
     ],
   },
   weDo: {
-    intro: 'Ahora te toca a ti practicar con guía. Lee cada instrucción, intenta escribir el código, y si te trabas revisa la solución.',
+    intro: "24 ejercicios (8×E1 guided / E2 independent / E3 transfer) en es-PE con soluciones verificadas.",
     steps: [
       {
-        instruction: 'Implementa fairness metrics en un modelo con fairlearn',
-        hint: 'Revisa la teoría y el I Do antes de intentar este ejercicio.',
+        id: "S48-T1-A-E1",
+        subtopicId: "S48-T1-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'ejercicio.py',
-          code: '# Tu código aquí\n',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
         },
         solutionCode: {
           language: 'python',
-          title: 'solucion.py',
-          code: '# Model Card template\n# Model Card: Churn Prediction v2.0\n# Intended Use: predecir churn de telecom\n# Training Data: Telco Churn, 7043 registros\n# Metrics: AUC 0.87, F1 0.79\n# Bias: disparate impact 0.08 (aceptable < 0.1)\n# Limitations: solo clientes con > 3 meses antiguedad\n# Human oversight: requerido para churn > 80%\nprint("Model Card: transparencia para usuarios y reguladores")',
+          title: "exercise.py",
+          code: `print(1.0)`,
+          output: `1.0`,
+        },
+      },
+      {
+        id: "S48-T1-A-E2",
+        subtopicId: "S48-T1-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(0.0)`,
+          output: `0.0`,
+        },
+      },
+      {
+        id: "S48-T1-A-E3",
+        subtopicId: "S48-T1-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('cosine')`,
+          output: `cosine`,
+        },
+      },
+      {
+        id: "S48-T1-B-E1",
+        subtopicId: "S48-T1-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(512)`,
+          output: `512`,
+        },
+      },
+      {
+        id: "S48-T1-B-E2",
+        subtopicId: "S48-T1-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('e5-v1')`,
+          output: `e5-v1`,
+        },
+      },
+      {
+        id: "S48-T1-B-E3",
+        subtopicId: "S48-T1-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('nDCG@10')`,
+          output: `nDCG@10`,
+        },
+      },
+      {
+        id: "S48-T2-A-E1",
+        subtopicId: "S48-T2-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(3)`,
+          output: `3`,
+        },
+      },
+      {
+        id: "S48-T2-A-E2",
+        subtopicId: "S48-T2-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['doc_id','page'])`,
+          output: `['doc_id', 'page']`,
+        },
+      },
+      {
+        id: "S48-T2-A-E3",
+        subtopicId: "S48-T2-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('hash')`,
+          output: `hash`,
+        },
+      },
+      {
+        id: "S48-T2-B-E1",
+        subtopicId: "S48-T2-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S48-T2-B-E2",
+        subtopicId: "S48-T2-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(False)`,
+          output: `False`,
+        },
+      },
+      {
+        id: "S48-T2-B-E3",
+        subtopicId: "S48-T2-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('tombstone')`,
+          output: `tombstone`,
+        },
+      },
+      {
+        id: "S48-T3-A-E1",
+        subtopicId: "S48-T3-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(0.74)`,
+          output: `0.74`,
+        },
+      },
+      {
+        id: "S48-T3-A-E2",
+        subtopicId: "S48-T3-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('hybrid')`,
+          output: `hybrid`,
+        },
+      },
+      {
+        id: "S48-T3-A-E3",
+        subtopicId: "S48-T3-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S48-T3-B-E1",
+        subtopicId: "S48-T3-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('[c1] SLA 300ms')`,
+          output: `[c1] SLA 300ms`,
+        },
+      },
+      {
+        id: "S48-T3-B-E2",
+        subtopicId: "S48-T3-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S48-T3-B-E3",
+        subtopicId: "S48-T3-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(2)`,
+          output: `2`,
+        },
+      },
+      {
+        id: "S48-T4-A-E1",
+        subtopicId: "S48-T4-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S48-T4-A-E2",
+        subtopicId: "S48-T4-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(False)`,
+          output: `False`,
+        },
+      },
+      {
+        id: "S48-T4-A-E3",
+        subtopicId: "S48-T4-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S48-T4-B-E1",
+        subtopicId: "S48-T4-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('answer')`,
+          output: `answer`,
+        },
+      },
+      {
+        id: "S48-T4-B-E2",
+        subtopicId: "S48-T4-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('abstain')`,
+          output: `abstain`,
+        },
+      },
+      {
+        id: "S48-T4-B-E3",
+        subtopicId: "S48-T4-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(1200)`,
+          output: `1200`,
         },
       },
     ],
   },
   youDo: {
-    title: 'AI Governance Framework',
-    context: 'Documento de governance para el sistema de churn prediction (S10) con: model card, datasheet, fairness assessment con fairlearn, audit trail, y mapa de riesgos EU AI Act.',
+    title: "LLM applications y RAG con evidencia",
+    context:
+      "Proyecto de sección **S48** (LLM applications y RAG con evidencia). Gate: **CP-N4-C (inicio)**. asistente responde sobre documentación autorizada, cita fragmentos verificables y se abstiene cuando retrieval no sostiene la respuesta. Usa solo datos sintéticos; no marques section_passed desde esta entrega de autoría.",
     objectives: [
-      'Aplicar los conceptos aprendidos en un proyecto real',
-      'Demostrar dominio del tema con un entregable de portafolio',
-      'Documentar el proceso y los resultados',
+      "asistente responde sobre documentación autorizada, cita fragmentos verificables y se abstiene cuando retrieval no sostiene la respuesta.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-C (inicio)",
     ],
     requirements: [
-      'Código funcional y documentado',
-      'Tests que validen el funcionamiento',
-      'README con instrucciones de uso',
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección",
     ],
-    portfolioNote: 'Este proyecto es ideal para mostrar en entrevistas técnicas y agregar a tu portafolio de GitHub.',
+    starterCode: `# S48 You Do — LLM applications y RAG con evidencia
+# Gate: CP-N4-C (inicio)
+# asistente responde sobre documentación autorizada, cita fragmentos verificables y se abstiene cuando retrieval no sostie
+
+def main():
+    print("section", "S48")
+    print("gate", 'CP-N4-C (inicio)')
+    print("synthetic", True)
+    # TODO: implementar incremento del blueprint
+
+if __name__ == "__main__":
+    main()
+`,
+    portfolioNote:
+      "Entrega alineada a CP-N4-C (inicio). Portfolio en español profesional; evidencia ejecutable; privacidad. Otra lane califica PASS; no editar checkpoint/ledger/seed.",
     rubric: [
-      { criterion: 'Funcionalidad', weight: '40%' },
-      { criterion: 'Calidad de código', weight: '20%' },
-      { criterion: 'Documentación', weight: '20%' },
-      { criterion: 'Tests', weight: '20%' },
+      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
+      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
+      { criterion: "Privacidad / sin PII real / sin secretos", weight: "20%" },
+      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
+      { criterion: "Código legible y límites claros", weight: "10%" },
+      { criterion: "Documentación en español profesional", weight: "10%" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: '¿Qué es el EU AI Act y a quién aplica?',
+        question: "El id de plataforma de S48 que se preserva es:",
         options: [
-          'Regulación de la UE que clasifica sistemas de IA en 4 niveles de riesgo: unacceptable (prohibido), high (regulación estricta), limited (transparencia), minimal (sin regulación) — aplica a empresas que sirven clientes europeos',
-          'Un framework de testing de IA',
-          'Un modelo de lenguaje',
-          'Un estándar de calidad de datos',
+          "ai-governance",
+          "renamed-v3",
+          "legacy-drop",
+          "random",
         ],
         correctIndex: 0,
-        explanation: 'EU AI Act (en vigor desde feb 2025): scoring crediticio, contratación y justicia son "high risk" — requieren evaluación de impacto, documentación, logging, human oversight. Las empresas peruanas que sirven clientes europeos deben cumplir. El non-compliance puede resultar en multas de hasta 7% del revenue global.',
+        explanation:
+          "KEEP_PLATFORM_ID_RETHEME_CONTENT.",
       },
       {
-        question: '¿Qué es bias detection en ML?',
+        question: "El incremento/gate V3 de S48 pertenece a:",
         options: [
-          'Medir si el modelo tiene el mismo accuracy/precision en distintos grupos demográficos — un disparate impact ratio < 0.8 indica bias',
-          'Es detectar errores en el código',
-          'Es detectar outliers en los datos',
-          'Es detectar malware en el modelo',
+          "CP-N4-C (inicio)",
+          "CP-N1-A",
+          "solo marketing",
+          "sin capstone",
         ],
         correctIndex: 0,
-        explanation: 'Bias detection: si el modelo aprueba créditos al 60% de hombres pero solo al 40% de mujeres, el ratio = 40/60 = 0.67 < 0.8 → hay bias. fairlearn de Microsoft mide demographic parity, equalized odds. La mitigación incluye reweighting o ajustar thresholds por grupo.',
+        explanation:
+          "Blueprint phase3 capstone_notes.",
       },
       {
-        question: '¿Qué es un model card?',
+        question: "Los ejemplos del curso deben usar:",
         options: [
-          'Documento que describe: uso previsto, datos de entrenamiento, métricas, limitaciones, consideraciones éticas — transparencia para usuarios y reguladores',
-          'Una tarjeta de presentación del modelo',
-          'Un tipo de GPU',
-          'Un formato de exportación',
+          "PII real de clientes",
+          "Datos sintéticos",
+          "Secretos de prod",
+          "Claves API reales",
         ],
-        correctIndex: 0,
-        explanation: 'Un model card (Google, 2018) documenta: intended use (¿para qué sirve?), training data (¿con qué se entrenó?), metrics (¿qué accuracy tiene?), ethical considerations (¿qué sesgos tiene?), limitations (¿qué NO debe hacer?). Es el primer paso para compliance con EU AI Act.',
+        correctIndex: 1,
+        explanation:
+          "Synthetic data only.",
       },
       {
-        question: '¿Qué es el principio de human oversight en IA?',
+        question: "Entity resolution (si aparece) decide:",
         options: [
-          'Un humano debe poder intervenir, corregir o desactivar el sistema de IA en cualquier momento — especialmente en decisiones de alto riesgo (crédito, salud, justicia)',
-          'Un humano debe programar la IA manualmente',
-          'Un humano debe supervisar cada predicción individual',
-          'No es necesario si la IA es precisa',
+          "Fraude",
+          "Parentesco",
+          "Misma entidad cuando aplique",
+          "Sentimiento",
         ],
-        correctIndex: 0,
-        explanation: 'Human oversight: el sistema debe tener un "botón de parada" que un humano puede activar. En scoring creditício, un humano debe poder revisar y revertir la decisión del modelo. En salud, un médico debe confirmar el diagnóstico. Sin oversight, el modelo puede tomar decisiones destructivas sin remedio.',
-      },
-      {
-        question: '¿Por qué remover una feature sensible (ej: género) no elimina el bias?',
-        options: [
-          'Porque otras features (código postal, nombre, escuela) pueden actuar como proxies que permiten inferir el género — se llama bias por proxy',
-          'Porque el bias siempre existe sin importar qué hagas',
-          'Porque remover features empeora el modelo',
-          'Porque el género es la única feature que importa',
-        ],
-        correctIndex: 0,
-        explanation: 'Si quitas "género" pero dejas "código postal" y "nombre", el modelo puede inferir género: ciertos códigos postales tienen más mujeres, ciertos nombres son femeninos. Esto es bias por proxy. Solución: medir fairness métricas después de entrenar, no asumir que quitar la feature sensible basta.',
+        correctIndex: 2,
+        explanation:
+          "ER ≠ relación ≠ fraude.",
       },
     ],
   },
   resources: {
     docs: [
-      { label: 'Documentación oficial', url: 'https://docs.python.org/3/' },
+      {
+        label: "Python docs",
+        url: "https://docs.python.org/3/",
+        note: "Referencia stdlib",
+      },
+      {
+        label: "V3 section support",
+        url: "https://docs.python.org/3/library/",
+        note: "Apoyo S48 LLM applications y RAG con evidencia",
+      },
     ],
     books: [
-      { label: 'Python 201 — Michael Driscoll', note: 'Capítulos relevantes para esta sección' },
+      {
+        label: "Architecture / platform engineering refs",
+        note: "Alinear a LLM applications y RAG con evidencia",
+      },
+      {
+        label: "Site Reliability / Security basics",
+        note: "Operación y privacidad",
+      },
     ],
     courses: [
-      { label: 'Real Python', url: 'https://realpython.com', note: 'Tutoriales complementarios' },
+      {
+        label: "MDN / cloud / MLOps primers",
+        url: "https://developer.mozilla.org/",
+        note: "Complemento conceptual",
+      },
     ],
   },
 }

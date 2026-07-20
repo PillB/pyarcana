@@ -1,0 +1,216 @@
+{
+  "version": "3.2",
+  "section": "S18",
+  "section_id": "data-engineering",
+  "phase": "PHASE_6",
+  "lane": "LANE-S18-S21-CLOSE",
+  "role": "Isolated Validator (lightweight)",
+  "generated_at": "2026-07-20T22:00:00Z",
+  "prompt_version": "3.2",
+  "student_visible_sources": [
+    "src/lib/course/sections/s18-data-engineering.ts",
+    "prisma/seed.ts (data-engineering)"
+  ],
+  "status": "passed",
+  "summary": "S18 sub=8 demos=8 ex=24 exam=24; fields=24/24; snippets=3; authorized_to_close_section=True",
+  "inventory": {
+    "subtopics": {
+      "expected": 8,
+      "observed": 8,
+      "ids": [
+        "S18-T1-A",
+        "S18-T1-B",
+        "S18-T2-A",
+        "S18-T2-B",
+        "S18-T3-A",
+        "S18-T3-B",
+        "S18-T4-A",
+        "S18-T4-B"
+      ]
+    },
+    "demos": {
+      "expected": 8,
+      "observed_with_demoId": 8,
+      "ids": [
+        "S18-T1-A-DEMO",
+        "S18-T1-B-DEMO",
+        "S18-T2-A-DEMO",
+        "S18-T2-B-DEMO",
+        "S18-T3-A-DEMO",
+        "S18-T3-B-DEMO",
+        "S18-T4-A-DEMO",
+        "S18-T4-B-DEMO"
+      ]
+    },
+    "exercises": {
+      "expected": 24,
+      "observed": 24,
+      "ids": [
+        "S18-T1-A-E1",
+        "S18-T1-A-E2",
+        "S18-T1-A-E3",
+        "S18-T1-B-E1",
+        "S18-T1-B-E2",
+        "S18-T1-B-E3",
+        "S18-T2-A-E1",
+        "S18-T2-A-E2",
+        "S18-T2-A-E3",
+        "S18-T2-B-E1",
+        "S18-T2-B-E2",
+        "S18-T2-B-E3",
+        "S18-T3-A-E1",
+        "S18-T3-A-E2",
+        "S18-T3-A-E3",
+        "S18-T3-B-E1",
+        "S18-T3-B-E2",
+        "S18-T3-B-E3",
+        "S18-T4-A-E1",
+        "S18-T4-A-E2",
+        "S18-T4-A-E3",
+        "S18-T4-B-E1",
+        "S18-T4-B-E2",
+        "S18-T4-B-E3"
+      ],
+      "fields_required": [
+        "id",
+        "hints (≥2)",
+        "solutionCode",
+        "edgeCases",
+        "tests",
+        "feedback",
+        "starterCode"
+      ],
+      "field_counts": {
+        "solutionCode": 24,
+        "starterCode": 25,
+        "hints": 24,
+        "edgeCases": 24,
+        "tests": 24,
+        "feedback": 24,
+        "per_exercise_complete": 24
+      },
+      "fields_complete": true
+    },
+    "exam_bank": {
+      "source": "prisma/seed.ts → QUESTION_BANK['data-engineering']",
+      "concepts": 8,
+      "variants_per_concept": 3,
+      "total": 24,
+      "concept_slugs": [
+        "center-spread-quantiles",
+        "robust-metrics-scales",
+        "population-sample-bias",
+        "intervals-effect-size",
+        "correlation-confounds",
+        "segments-anomalies-no-causal",
+        "questions-hypotheses-evidence",
+        "repro-notebook-data-notes"
+      ]
+    },
+    "youDo": {
+      "title_present": true,
+      "cp_mentions": 9,
+      "has_objectives": true,
+      "has_requirements": true,
+      "has_rubric": true,
+      "has_starterCode": true
+    },
+    "selfCheck_present": true
+  },
+  "checks": [
+    {
+      "id": "INV-SUBTOPICS-8",
+      "pass": true,
+      "evidence": "['S18-T1-A', 'S18-T1-B', 'S18-T2-A', 'S18-T2-B', 'S18-T3-A', 'S18-T3-B', 'S18-T4-A', 'S18-T4-B']"
+    },
+    {
+      "id": "INV-DEMOS-8",
+      "pass": true,
+      "evidence": "['S18-T1-A-DEMO', 'S18-T1-B-DEMO', 'S18-T2-A-DEMO', 'S18-T2-B-DEMO', 'S18-T3-A-DEMO', 'S18-T3-B-DEMO', 'S18-T4-A-DEMO', 'S18-T4-B-DEMO']"
+    },
+    {
+      "id": "INV-EXERCISES-24",
+      "pass": true,
+      "evidence": "24; solutionCode=24"
+    },
+    {
+      "id": "FIELDS-COMPLETE",
+      "pass": true,
+      "evidence": "sol=24 starter=25 hints=24 edge=24 tests=24 feedback=24"
+    },
+    {
+      "id": "SEED-DATA-ENGINEERING-8x3",
+      "pass": true,
+      "evidence": "24; ['center-spread-quantiles', 'robust-metrics-scales', 'population-sample-bias', 'intervals-effect-size', 'correlation-confounds', 'segments-anomalies-no-causal', 'questions-hypotheses-evidence', 'repro-notebook-data-notes']"
+    },
+    {
+      "id": "EXAM-STRUCTURE-24",
+      "pass": true,
+      "evidence": "8×3 MCQ-4 es-PE"
+    },
+    {
+      "id": "SNIPPET-EXEC",
+      "pass": true,
+      "evidence": "3 snippets OK; failures=0"
+    },
+    {
+      "id": "YOUDO-PRESENT",
+      "pass": true,
+      "evidence": "{'title_present': True, 'cp_mentions': 9, 'has_objectives': True, 'has_requirements': True, 'has_rubric': True, 'has_starterCode': True}"
+    },
+    {
+      "id": "SELFCHECK-PRESENT",
+      "pass": true,
+      "evidence": "True"
+    },
+    {
+      "id": "PRIVACY-NO-REAL-PII",
+      "pass": true,
+      "evidence": "Synthetic data policy OK"
+    },
+    {
+      "id": "SNIPPET-OK-1",
+      "pass": true,
+      "evidence": "SOL-1: import numpy as np → 'n 5\\nmean 30.4\\nmedian 14.0\\n'"
+    },
+    {
+      "id": "SNIPPET-OK-2",
+      "pass": true,
+      "evidence": "SOL-2: import numpy as np → 'Q1 8.5\\nQ3 12.5\\nIQR 4.0\\n'"
+    },
+    {
+      "id": "SNIPPET-OK-3",
+      "pass": true,
+      "evidence": "SOL-3: import numpy as np → \"{'n': 5, 'mean': 3.0, 'median': 3.0, 'std': 1.5811}\\n\""
+    }
+  ],
+  "snippet_execution": {
+    "solutionCode_extracted": 24,
+    "successes": [
+      {
+        "label": "SOL-1",
+        "head": "import numpy as np",
+        "stdout_preview": "n 5\nmean 30.4\nmedian 14.0\n"
+      },
+      {
+        "label": "SOL-2",
+        "head": "import numpy as np",
+        "stdout_preview": "Q1 8.5\nQ3 12.5\nIQR 4.0\n"
+      },
+      {
+        "label": "SOL-3",
+        "head": "import numpy as np",
+        "stdout_preview": "{'n': 5, 'mean': 3.0, 'median': 3.0, 'std': 1.5811}\n"
+      }
+    ],
+    "failures_sample": []
+  },
+  "issues_found": [],
+  "authorized_to_close_section": true,
+  "notes_non_blocking": [
+    "Regex inventory supports single OR double quotes.",
+    "Hints ≥2 counted via hints: [ blocks.",
+    "solutionCode is object with nested code template; executed first 3 solutions with python3.",
+    "Does not edit checkpoint/section_ledger."
+  ]
+}

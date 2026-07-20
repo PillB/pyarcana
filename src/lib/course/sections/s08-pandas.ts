@@ -1,714 +1,1611 @@
 import type { CourseSection } from '../../types'
 
 export const section08: CourseSection = {
-  id: 'pandas',
+  id: "pandas",
   index: 8,
-  title: 'Pandas: Data Cleaning & EDA',
-  shortTitle: 'Pandas & EDA',
-  tagline: 'Tu herramienta principal diaria — groupby, merge, limpieza y EDA profesional',
+  title: "Archivos, CSV, JSON y contratos de ingesta",
+  shortTitle: "Archivos & ETL",
+  tagline: "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
   estimatedHours: 12,
-  level: 'Intermedio',
+  level: "Intermedio",
   phase: 0,
-  icon: 'Table2',
-  accentColor: 'bg-gradient-to-br from-green-500 to-emerald-600',
+  icon: "FileStack",
+  accentColor: "bg-gradient-to-br from-green-500 to-emerald-600",
   jobRelevance:
-    'Pandas es el 80% del día a día de un Data Analyst. Las empresas peruanas (Interbank, BBVA, Caja Arequipa) te van a pedir "limpia este dataset", "hazme un reporte de ventas por región", "cruza estos dos datasets". Todo eso es pandas. Un dominio sólido de groupby, merge y limpieza te hace inmediatamente productivo. Sin pandas, no hay trabajo de Data Analyst.',
+    "El gate **CP-N1-B** se cierra cuando puedes **ingerir archivos reales de negocio** (aunque sean sintéticos en el curso): CSV de clientes, JSON de transacciones, cuarentena con motivo, hashes, backup y **manifest reconciliado**. En junior data/analytics engineering en Perú esto pesa más que un groupby de demo. Id de plataforma `pandas` se conserva; el contenido V3 es stdlib + contratos de ingesta (pandas EDA se difiere al nivel 2).",
   learningOutcomes: [
-    { text: 'Cargar datos con read_csv, read_json, read_excel con opciones (dtype, parse_dates, na_values)' },
-    { text: 'Inspeccionar con .info(), .describe(), .head(), .value_counts(), .nunique()' },
-    { text: 'Manejar nulos con .isnull(), .fillna(), .dropna(), interpolación' },
-    { text: 'Manipular strings con .str accessor: strip, lower, contains, split, replace' },
-    { text: 'Agrupar con .groupby() y agregar con .agg(), .transform(), .apply()' },
-    { text: 'Combinar DataFrames con .merge(), .concat(), .join()' },
-    { text: 'Crear pivot tables y crosstabs' },
-    { text: 'Trabajar con fechas: pd.to_datetime(), .dt accessor, resample()' },
+    { text: "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito" },
+    { text: "Manejar newlines y escritura atómica (temp + replace)" },
+    { text: "Leer/escribir CSV con headers y casts controlados" },
+    { text: "Enviar filas irregulares a cuarentena con motivo" },
+    { text: "Serializar/deserializar JSON (array y JSONL)" },
+    { text: "Validar schema mínimo, nulls y defaults compatibles" },
+    { text: "Calcular hashes, backup y provenance de inputs" },
+    { text: "Emitir manifest con conteos reconciliados in=clean+quarantine" },
   ],
   theory: [
     {
-      heading: 'Series y DataFrame — las dos estructuras de pandas',
+      heading: "De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)",
       paragraphs: [
-        'Pandas tiene dos estructuras: `Series` (1D, como columna de Excel) y `DataFrame` (2D, como tabla de Excel). Un DataFrame es esencialmente un dict de Series donde cada Series es una columna. La diferencia clave con NumPy: pandas permite columnas con tipos distintos (str, int, float, datetime), mientras que NumPy requiere un solo dtype. Esto hace pandas ideal para datos reales que vienen sucios.',
-        'La forma más común de crear un DataFrame es `pd.read_csv("archivo.csv")`. Opciones importantes: `sep` (separador, default ","), `encoding` (utf-8, latin-1 para acentos), `dtype` (forzar tipos por columna), `parse_dates` (columnas a convertir a datetime), `na_values` (valores a tratar como NaN), `index_col` (columna a usar como índice). Leer bien la documentación de read_csv te ahorra horas de limpieza posterior.',
-        'Los atributos clave de un DataFrame: `.shape` (filas, columnas), `.columns` (nombres de columnas), `.dtypes` (tipos), `.index` (índice), `.values` (array NumPy subyacente). Los métodos de inspección: `.head(n)`, `.tail(n)`, `.sample(n)`, `.info()` (tipos + memoria), `.describe()` (estadísticas numéricas), `.value_counts()` (frecuencias), `.nunique()` (valores únicos).',
+        "En V3, **S08 no es el path principal de pandas groupby/merge/EDA**. Ese material se reubica al nivel 2 de data. Aquí cierras el gate **CP-N1-B**: ingesta **CSV + JSON** con **pathlib**, **cuarentena**, **hashes**, **manifest** y reconciliación de conteos — en **stdlib**.",
+        "Integra normalizadores (S05–S07) y el modelo en memoria (S06). Entorno declarado **local-python** (filesystem). Datos sintéticos en `data/`; salidas en `out/`.",
+        "Orden: **T1 Archivos** → **T2 CSV** → **T3 JSON** → **T4 Provenance y manifest**.",
       ],
-      code: {
-        language: 'python',
-        title: 'pandas_intro.py',
-        code: `import pandas as pd
-import numpy as np
-
-# Crear DataFrame desde dict
-df = pd.DataFrame({
-    "nombre": ["Ana", "Luis", "Carlos", "Maria"],
-    "edad": [25, 30, 22, 28],
-    "ciudad": ["Lima", "Arequipa", "Cusco", "Lima"],
-    "salario": [3500, 4200, 2800, 3800]
-})
-
-# Inspección
-print(df.shape)        # (4, 4)
-print(df.columns)      # Index(['nombre', 'edad', 'ciudad', 'salario'], dtype='object')
-print(df.dtypes)
-# nombre      object
-# edad         int64
-# ciudad      object
-# salario      int64
-
-print(df.head(2))      # primeras 2 filas
-print(df.info())       # tipos + memoria
-print(df.describe())   # estadísticas numéricas
-print(df["ciudad"].value_counts())  # frecuencias
-print(df["ciudad"].nunique())       # 3 valores únicos
-
-# Leer CSV (caso típico)
-# df = pd.read_csv("ventas.csv", encoding="utf-8", parse_dates=["fecha"],
-#                  dtype={"producto": "category"}, na_values=["", "NA", "N/A"])
-
-# Selección de columnas
-edades = df["edad"]              # Series (1 columna)
-sub = df[["nombre", "salario"]]  # DataFrame (2 columnas)
-
-# Selección de filas con loc (labels) e iloc (índices)
-print(df.loc[0])              # primera fila por label
-print(df.iloc[0])             # primera fila por posición
-print(df.loc[0:1, "nombre"] ) # filas 0-1, columna nombre
-print(df.iloc[0:2, 0:2])      # filas 0-1, columnas 0-1`,
+      callout: {
+        type: "info",
+        title: "Gate CP-N1-B",
+        content:
+          "Al finalizar S08 debes poder demostrar ETL local con clean/quarantine/manifest. CLI instalable se difiere a S10. Sin PII real ni claims de fraude/parentesco.",
       },
     },
     {
-      heading: 'Limpieza de datos — el 80% del trabajo real',
+      heading: "pathlib, with, modos y encodings",
+      subtopicId: "S08-T1-A",
       paragraphs: [
-        'La limpieza de datos es lo que más tiempo te va a consumir como Data Analyst. Los datasets reales vienen con: valores nulos, tipos incorrectos (números como strings), duplicados, valores atípicos, nombres de columnas inconsistentes, fechas en formatos raros. Pandas tiene herramientas para todo esto.',
-        'Para nulos: `.isnull().sum()` cuenta nulos por columna. `.fillna(valor)` reemplaza con un valor fijo. `.fillna({"col": valor_default})` reemplaza por columna. `.dropna()` elimina filas con nulos (cuidado: puedes perder datos). `.interpolate()` rellena con interpolación lineal. La decisión de cuál usar depende del contexto: a vecesfillna(0) es correcto, a veces dropna, a veces la mediana.',
-        'Para tipos: `df["col"] = df["col"].astype(int)` convierte. `pd.to_numeric(df["col"], errors="coerce")` convierte string a número, poniendo NaN donde no puede. `pd.to_datetime(df["col"])` parsea fechas. Para strings: `df["col"].str.strip()` quita espacios, `.str.lower()` minúsculas, `.str.replace("a", "b")` reemplaza, `.str.contains("pattern")` filtra, `.str.split(",")` divide.',
+        "`pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_text` son convenientes; `with path.open(...) as f` da control de modo.",
+        "Modos: `r` lectura, `w` trunca, `a` append, `x` crea exclusivo. Siempre declara **`encoding='utf-8'`** en texto. `errors=` (`strict` default, `replace`) debe ser decisión documentada.",
+        "`path.exists()` / `is_file()` evitan sorpresas. No asumas el cwd: usa paths relativos al proyecto o `Path(__file__).resolve().parent`.",
       ],
       code: {
         language: 'python',
-        title: 'limpieza.py',
-        code: `import pandas as pd
-import numpy as np
-
-# Dataset sucio (típico)
-df = pd.DataFrame({
-    "nombre": ["  Ana ", "Luis", "Carlos", "Maria", "ana"],  # espacios, duplicado
-    "edad": ["25", "30", "22", "28", "no_disponible"],       # strings
-    "salario": [3500, np.nan, 2800, 3800, 3500],             # nulo
-    "fecha_ingreso": ["2023-01-15", "2022-06-20", "2024-03-10", "2023-11-05", "2023-01-15"]
-})
-
-print("=== ORIGINAL ===")
-print(df)
-
-# 1. Limpiar strings
-df["nombre"] = df["nombre"].str.strip().str.lower()
-print("\\nNombres limpios:", df["nombre"].tolist())
-
-# 2. Eliminar duplicados
-df = df.drop_duplicates(subset=["nombre"])
-print(f"Tras dedup: {len(df)} filas")
-
-# 3. Convertir tipos con coerce (errores -> NaN)
-df["edad"] = pd.to_numeric(df["edad"], errors="coerce")
-print(f"Edades: {df['edad'].tolist()}")  # [25, 30, 22, 28, nan]
-
-# 4. Manejar nulos
-df["salario"] = df["salario"].fillna(df["salario"].median())  # imputar mediana
-df["edad"] = df["edad"].fillna(df["edad"].mean())             # imputar media
-print(f"Salarios tras fillna: {df['salario'].tolist()}")
-
-# 5. Convertir fechas
-df["fecha_ingreso"] = pd.to_datetime(df["fecha_ingreso"])
-print(f"Dtype fecha: {df['fecha_ingreso'].dtype}")
-
-# 6. Extraer componentes de fecha
-df["año_ingreso"] = df["fecha_ingreso"].dt.year
-df["mes_ingreso"] = df["fecha_ingreso"].dt.month
-print(df[["nombre", "año_ingreso", "mes_ingreso"]])
-
-# 7. Renombrar columnas (snake_case)
-df = df.rename(columns={
-    "nombre": "empleado",
-    "fecha_ingreso": "fecha_ing"
-})
-
-# 8. Reset index después de cambios
-df = df.reset_index(drop=True)
-print("\\n=== LIMPIO ===")
-print(df)`,
-        output: `=== LIMPIO ===
-  empleado  edad  salario  fecha_ing  año_ingreso  mes_ingreso
-0      ana  25.0   3500.0 2023-01-15          2023             1
-1     luis  30.0   3150.0 2022-06-20          2022             6
-2   carlos  22.0   2800.0 2024-03-10          2024             3
-3    maria  28.0   3800.0 2023-11-05          2023            11`,
-      },
-    },
-    {
-      heading: 'GroupBy — el corazón del análisis',
-      paragraphs: [
-        'El patrón "split-apply-combine" es el más poderoso de pandas. Divides los datos por una clave (split), aplicas una función a cada grupo (apply), y combinas los resultados (combine). La sintaxis: `df.groupby("columna")["otra_columna"].funcion()`. Por ejemplo, `df.groupby("ciudad")["salario"].mean()` da el salario promedio por ciudad.',
-        'Las funciones de agregación más usadas: `.mean()`, `.median()`, `.sum()`, `.count()`, `.min()`, `.max()`, `.std()`, `.var()`, `.first()`, `.last()`. Para múltiples agregaciones: `.agg(["mean", "median", "std"])` devuelve DataFrame con múltiples columnas. Para agregaciones con nombres custom: `.agg(salario_promedio=("salario", "mean"), cantidad=("id", "count"))`.',
-        '`.transform()` aplica una función pero devuelve un Series del MISMO shape que el original (útil para agregar sin perder filas). `.apply()` aplica cualquier función a cada grupo. `.filter()` filtra grupos enteros según condición. Para datos jerárquicos, usa `groupby(["col1", "col2"])` que crea MultiIndex.',
-      ],
-      code: {
-        language: 'python',
-        title: 'groupby.py',
-        code: `import pandas as pd
-import numpy as np
-
-# Dataset de ventas
-df = pd.DataFrame({
-    "fecha": pd.date_range("2025-01-01", periods=20, freq="D"),
-    "region": np.random.choice(["Lima", "Arequipa", "Cusco"], 20),
-    "producto": np.random.choice(["arroz", "aceite", "azucar"], 20),
-    "cantidad": np.random.randint(1, 50, 20),
-    "precio": np.random.uniform(3, 15, 20).round(2)
-})
-df["total"] = df["cantidad"] * df["precio"]
-
-# GroupBy simple: total por región
-print(df.groupby("region")["total"].sum())
-# region
-# Arequipa    XXX
-# Cusco       YYY
-# Lima        ZZZ
-
-# Múltiples agregaciones
-print(df.groupby("region")["total"].agg(["count", "mean", "sum"]))
-
-# Agregaciones con nombres custom
-resumen = df.groupby("region").agg(
-    n_ventas=("total", "count"),
-    ingreso_total=("total", "sum"),
-    ticket_promedio=("total", "mean"),
-    cantidad_total=("cantidad", "sum")
-).round(2)
-print(resumen)
-
-# GroupBy por múltiples columnas
-print(df.groupby(["region", "producto"])["total"].sum().unstack())
-# .unstack() pivotea el segundo nivel a columnas
-
-# Transform: agregar sin perder filas
-df["total_promedio_region"] = df.groupby("region")["total"].transform("mean")
-print(df[["region", "total", "total_promedio_region"]].head())
-
-# Apply: función custom por grupo
-def top_3_ventas(grupo):
-    return grupo.nlargest(3, "total")
-
-tops = df.groupby("region").apply(top_3_ventas)
-print(tops[["region", "producto", "total"]])
-
-# Filter: quedarse con regiones con >5 ventas
-regiones_activas = df.groupby("region").filter(lambda g: len(g) > 5)
-print(f"Regiones con >5 ventas: {regiones_activas['region'].unique()}")`,
-      },
-    },
-    {
-      heading: 'Merge, concat y pivot — combinar y reestructurar',
-      paragraphs: [
-        'Merge (join) combina dos DataFrames por una columna común. Tipos: `how="inner"` (intersección, default), `how="left"` (todas las filas del izquierdo), `how="right"`, `how="outer"` (unión completa). Es como SQL JOIN. `pd.merge(df1, df2, on="id", how="left")`. Si las columnas se llaman distinto: `left_on="id_izq", right_on="id_der"`.',
-        'Concat apila DataFrames vertical (`axis=0`) u horizontalmente (`axis=1`). Útil para combinar múltiples archivos CSV con las mismas columnas. `pd.concat([df1, df2, df3], ignore_index=True)`. Para uniones por índice en vez de columna, usa `.join()`.',
-        'Pivot tables reestructuran datos largos a anchos. `df.pivot_table(index="region", columns="producto", values="total", aggfunc="sum")` da una tabla con regiones como filas, productos como columnas, y sumas como valores. `pd.crosstab(df["region"], df["producto"])` cuenta frecuencias. Para melt (inverso de pivot): `df.melt(id_vars=["region"], value_vars=["enero", "febrero"])`.',
-      ],
-      code: {
-        language: 'python',
-        title: 'merge_pivot.py',
-        code: `import pandas as pd
-import numpy as np
-
-# Dataset 1: ventas
-ventas = pd.DataFrame({
-    "venta_id": [1, 2, 3, 4, 5],
-    "cliente_id": [101, 102, 101, 103, 102],
-    "producto": ["arroz", "aceite", "azucar", "arroz", "aceite"],
-    "monto": [50, 80, 30, 60, 75]
-})
-
-# Dataset 2: clientes
-clientes = pd.DataFrame({
-    "cliente_id": [101, 102, 103, 104],
-    "nombre": ["Ana", "Luis", "Carlos", "Maria"],
-    "ciudad": ["Lima", "Arequipa", "Cusco", "Lima"]
-})
-
-# Merge: enriquecer ventas con info de cliente
-ventas_full = pd.merge(ventas, clientes, on="cliente_id", how="left")
-print(ventas_full)
-
-# Tipos de merge
-inner = pd.merge(ventas, clientes, on="cliente_id", how="inner")  # solo coincidentes
-left  = pd.merge(ventas, clientes, on="cliente_id", how="left")   # todas las ventas
-outer = pd.merge(ventas, clientes, on="cliente_id", how="outer")  # todo
-
-# Concat: apilar DataFrames
-ventas_enero = pd.DataFrame({"producto": ["a", "b"], "monto": [100, 200]})
-ventas_febrero = pd.DataFrame({"producto": ["a", "c"], "monto": [150, 80]})
-todas = pd.concat([ventas_enero, ventas_febrero], ignore_index=True)
-print(todas)
-
-# Pivot table: tabla resumen
-ventas_full["mes"] = ["ene", "ene", "feb", "feb", "feb"]
-pivot = ventas_full.pivot_table(
-    index="nombre",
-    columns="mes",
-    values="monto",
-    aggfunc="sum",
-    fill_value=0
-)
-print(pivot)
-
-# Crosstab: conteo de frecuencias
-cross = pd.crosstab(ventas_full["ciudad"], ventas_full["producto"])
-print(cross)
-
-# Melt: de ancho a largo (inverso de pivot)
-df_ancho = pd.DataFrame({
-    "producto": ["arroz", "aceite"],
-    "ene": [100, 200],
-    "feb": [150, 180],
-    "mar": [120, 190]
-})
-df_largo = df_ancho.melt(
-    id_vars=["producto"],
-    var_name="mes",
-    value_name="monto"
-)
-print(df_largo)`,
-      },
-    },
-    {
-      heading: 'Time series con pandas — fechas, resample, rolling',
-      paragraphs: [
-        'Pandas brilla con series temporales. Si configuras una columna datetime como índice (`df.set_index("fecha")`), desbloqueas operaciones poderosas: `.resample()` para cambiar frecuencia (diario a mensual), `.rolling()` para ventanas móviles (medias móviles), `.shift()` para lag features, `.diff()` para diferencias (variación absoluta). Estas operaciones son el pan de cada día en forecasting y análisis financiero.',
-        '`.resample("M").sum()` agrupa por mes y suma. `"D"` diario, `"W"` semanal, `"M"` mensual, `"Q"` trimestral, `"Y"` anual. Puedes combinar con cualquier agregación. Para ventanas móviles: `df["col"].rolling(window=7).mean()` da la media móvil de 7 días. Para lag: `df["col"].shift(1)` desplaza un período (útil para comparar con el período anterior).',
-        'El accessor `.dt` da acceso a componentes de fecha: `.dt.year`, `.dt.month`, `.dt.day`, `.dt.weekday`, `.dt.quarter`, `.dt.is_month_end`. Para extraer features temporales de una fecha, este accessor es la forma idiomática. En ML, estas features (día de la semana, mes, es fin de semana) son cruciales para modelos de demanda.',
-      ],
-      code: {
-        language: 'python',
-        title: 'timeseries.py',
-        code: `import pandas as pd
-import numpy as np
-
-# Crear serie temporal
-fechas = pd.date_range("2024-01-01", "2024-12-31", freq="D")
-df = pd.DataFrame({
-    "fecha": fechas,
-    "ventas": np.random.normal(100, 20, len(fechas)).cumsum() + 500
-})
-
-# Configurar fecha como índice
-df = df.set_index("fecha")
-
-# Resample: cambiar frecuencia
-ventas_mensuales = df["ventas"].resample("M").mean()
-ventas_semanales = df["ventas"].resample("W").sum()
-print("Ventas mensuales (primeras 3):")
-print(ventas_mensuales.head(3))
-
-# Rolling: media móvil
-df["ma_7"] = df["ventas"].rolling(window=7).mean()
-df["ma_30"] = df["ventas"].rolling(window=30).mean()
-print(df[["ventas", "ma_7", "ma_30"]].head(10))
-
-# Shift: lag features
-df["ventas_anterior"] = df["ventas"].shift(1)
-df["variacion"] = df["ventas"].diff()  # ventas - ventas_anterior
-df["variacion_pct"] = df["ventas"].pct_change() * 100
-print(df[["ventas", "ventas_anterior", "variacion", "variacion_pct"]].head())
-
-# Features temporales con .dt (debes reset index o usar .index.dt)
-df_reset = df.reset_index()
-df_reset["dia_semana"] = df_reset["fecha"].dt.day_name()
-df_reset["mes"] = df_reset["fecha"].dt.month
-df_reset["trimestre"] = df_reset["fecha"].dt.quarter
-df_reset["es_fin_semana"] = df_reset["fecha"].dt.weekday >= 5
-print(df_reset[["fecha", "dia_semana", "mes", "es_fin_semana"]].head())
-
-# Filtrar por fecha
-enero = df.loc["2024-01"]
-primer_semestre = df.loc["2024-01":"2024-06"]
-print(f"\\nEnero: {len(enero)} días, primer sem: {len(primer_semestre)} días")`,
+        title: "path_utf8.py",
+        code: `from pathlib import Path
+import tempfile, os
+td = Path(tempfile.mkdtemp())
+p = td / "intake.txt"
+p.write_text("línea1\\njosé\\n", encoding="utf-8")
+print(p.exists(), p.read_text(encoding="utf-8").splitlines())
+with p.open("a", encoding="utf-8") as f:
+    f.write("extra\\n")
+print(p.read_text(encoding="utf-8"))`,
+        output: `True ['línea1', 'josé']
+línea1
+josé
+extra
+`,
       },
       callout: {
-        type: 'tip',
-        title: 'Siempre configura dtype y parse_dates al leer',
+        type: "tip",
+        title: "UTF-8 explícito",
         content:
-          'El error #1 de principiantes es leer CSV sin `parse_dates` y luego intentar operaciones de fecha que fallan porque las fechas son strings. Lee con `pd.read_csv("file.csv", parse_dates=["fecha_col"])` desde el inicio. Si tienes columnas numéricas como strings, usa `dtype={"id": "category", "monto": "float64"}` para forzar tipos.',
+          "En Windows el default no siempre es UTF-8. Nunca confíes en el locale para intake.",
+      },
+    },
+    {
+      heading: "Newlines y escritura atómica",
+      subtopicId: "S08-T1-B",
+      paragraphs: [
+        "CSV en Python: abre con `newline=''` para que el módulo csv controle terminadores. Texto universal: prefiere `\\n` en salidas del pipeline.",
+        "**Escritura atómica**: escribe a un archivo temporal en el mismo directorio y luego `os.replace(tmp, dest)`. Si el proceso muere a medias, no dejas el destino truncado.",
+        "Detectar `\\r\\n` en inputs ayuda a documentar provenance de origen Windows vs Unix.",
+      ],
+      code: {
+        language: 'python',
+        title: "atomic_write.py",
+        code: `from pathlib import Path
+import os, tempfile
+td = Path(tempfile.mkdtemp())
+dest = td / "out.txt"
+
+def write_atomic(path: Path, text: str) -> None:
+    path = Path(path)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(text, encoding="utf-8")
+    os.replace(tmp, path)
+
+write_atomic(dest, "hola\\n")
+print(dest.read_text(encoding="utf-8"))
+sample = b"a\\r\\nb\\n"
+print("tiene CRLF", b"\\r\\n" in sample)`,
+        output: `hola
+
+tiene CRLF True`,
+      },
+      callout: {
+        type: "warning",
+        title: "No truncate a medias",
+        content:
+          "Evita open(dest,'w') largos sin temp si un crash deja basura a consumidores.",
+      },
+    },
+    {
+      heading: "Dialectos, headers y tipos",
+      subtopicId: "S08-T2-A",
+      paragraphs: [
+        "`csv.DictReader` / `DictWriter` trabajan con headers. Declara `fieldnames`. Cast de tipos (`int`, `float`) es **explícito** y fallos van a reject/cuarentena — no silencies con 0 mágico sin traza.",
+        "Fechas pueden quedarse como string ISO en N1-B si no hay parser de calendario aún; lo importante es el **contrato de columnas** documentado.",
+        "Dialectos (delimitador `;` vs `,`) se configuran; no asumas Excel latam sin mirar el archivo.",
+      ],
+      code: {
+        language: 'python',
+        title: "csv_dict.py",
+        code: `import csv, io
+raw = "id,nombre,monto\\nC001,Ana,10.5\\nC002,Luis,20\\n"
+reader = csv.DictReader(io.StringIO(raw))
+for row in reader:
+    row["monto"] = float(row["monto"])
+    print(row)`,
+        output: `{'id': 'C001', 'nombre': 'Ana', 'monto': 10.5}
+{'id': 'C002', 'nombre': 'Luis', 'monto': 20.0}`,
+      },
+      callout: {
+        type: "tip",
+        title: "Cast controlado",
+        content:
+          "try/except ValueError por celda → fila a cuarentena con motivo.",
+      },
+    },
+    {
+      heading: "Filas irregulares y cuarentena",
+      subtopicId: "S08-T2-B",
+      paragraphs: [
+        "Filas con **más/menos columnas** que el header son irregulares. No las “arregles” en silencio: mándalas a `quarantine.csv` con **motivo** y conserva el raw.",
+        "Resumen de motivos (`contador por reason`) alimenta el manifest y el dashboard de calidad.",
+        "Good path escribe solo filas que pasaron schema + casts + normalización.",
+      ],
+      code: {
+        language: 'python',
+        title: "quarantine_rows.py",
+        code: `import csv, io
+text = "id,nombre\\nC001,Ana\\nC002,Luis,EXTRA\\nC003\\n"
+reader = csv.reader(io.StringIO(text))
+header = next(reader)
+good, bad = [], []
+for row in reader:
+    if len(row) != len(header):
+        bad.append({"raw": row, "reason": f"cols {len(row)}!={len(header)}"})
+    else:
+        good.append(dict(zip(header, row)))
+print("good", good)
+print("bad", bad)`,
+        output: `good [{'id': 'C001', 'nombre': 'Ana'}]
+bad [{'raw': ['C002', 'Luis', 'EXTRA'], 'reason': 'cols 3!=2'}, {'raw': ['C003'], 'reason': 'cols 1!=2'}]`,
+      },
+      callout: {
+        type: "danger",
+        title: "Silenciar irregular = deuda",
+        content:
+          "La fila extra se pierde o desalinea columnas y corrompe métricas.",
+      },
+    },
+    {
+      heading: "Objetos/arrays y serialización JSON",
+      subtopicId: "S08-T3-A",
+      paragraphs: [
+        "`json.loads` / `dumps` y `load` / `dump` sobre archivos. JSON objects → dict; arrays → list. **JSONL** (un objeto por línea) es útil para streams de txs.",
+        "`ensure_ascii=False` preserva tildes legibles. `sort_keys=True` ayuda a determinismo en manifests.",
+        "`datetime` no es serializable por defecto: convierte a `isoformat()` o str para evitar TypeError.",
+      ],
+      code: {
+        language: 'python',
+        title: "json_ser.py",
+        code: `import json
+from datetime import date
+data = [{"id": "T1", "día": date(2026, 1, 15).isoformat()}]
+s = json.dumps(data, ensure_ascii=False, sort_keys=True)
+print(s)
+print(json.loads(s)[0]["id"])`,
+        output: `[{"día": "2026-01-15", "id": "T1"}]
+T1`,
+      },
+      callout: {
+        type: "tip",
+        title: "JSONL",
+        content:
+          "Para append-friendly logs de txs: una línea = un json.dumps(row).",
+      },
+    },
+    {
+      heading: "Schema, nulls y evolución compatible",
+      subtopicId: "S08-T3-B",
+      paragraphs: [
+        "Valida **required keys** antes de normalizar. `null` JSON → `None` en Python. Distingue null explícito de clave ausente si la política lo requiere.",
+        "Evolución: añadir campo opcional con **default** no rompe lectores viejos. Quitar required sí es breaking.",
+        "`validate_schema(obj, required)` retorna ok/errors para cuarentena.",
+      ],
+      code: {
+        language: 'python',
+        title: "schema_nulls.py",
+        code: `def validate_schema(obj, required):
+    missing = [k for k in required if k not in obj]
+    return (len(missing) == 0, missing)
+
+print(validate_schema({"id": "C1", "email": None}, ["id", "email"]))
+print(validate_schema({"id": "C1"}, ["id", "email"]))
+obj = {"id": "C1"}
+obj.setdefault("segment", "default")
+print(obj)`,
+        output: `(True, [])
+(False, ['email'])
+{'id': 'C1', 'segment': 'default'}`,
+      },
+      callout: {
+        type: "warning",
+        title: "null ≠ missing siempre",
+        content:
+          "Documenta si null borra valor o significa unknown.",
+      },
+    },
+    {
+      heading: "Backups, hashes y provenance",
+      subtopicId: "S08-T4-A",
+      paragraphs: [
+        "`hashlib.sha256` del contenido del input fija un fingerprint en el manifest. Si el CSV cambia, el hash cambia — detectas reprocesos.",
+        "Backup: copia `input.bak` o a `backups/` **antes** de transformar. No mutes el original in place.",
+        "Provenance mínima: `{path, sha256, bytes, received_at}` por fuente.",
+      ],
+      code: {
+        language: 'python',
+        title: "hash_backup.py",
+        code: `from pathlib import Path
+import hashlib, tempfile, shutil
+td = Path(tempfile.mkdtemp())
+src = td / "clients.csv"
+src.write_text("id,nombre\\nC001,Ana\\n", encoding="utf-8")
+h = hashlib.sha256(src.read_bytes()).hexdigest()
+bak = td / "clients.csv.bak"
+shutil.copy2(src, bak)
+print("sha256", h[:16] + "...")
+print("bak exists", bak.exists())
+print("provenance", {"path": str(src.name), "sha256": h, "bytes": src.stat().st_size})`,
+        output: `sha256 206bcfbde4f213a5...
+bak exists True
+provenance {'path': 'clients.csv', 'sha256': '206bcfbde4f213a5b89c4d88b9a63d7b9c436b3b7c13db84e63445d1574f7eba', 'bytes': 19}`,
+      },
+      callout: {
+        type: "tip",
+        title: "Hash del input",
+        content:
+          "El manifest referencia el hash del archivo crudo, no del clean.",
+      },
+    },
+    {
+      heading: "Reconciliación y manifest de corrida",
+      subtopicId: "S08-T4-B",
+      paragraphs: [
+        "Manifest JSON de la corrida: timestamps, hashes de inputs, conteos `n_in`, `n_clean`, `n_quarantine`, razones, versión de script.",
+        "**Reconciliación**: `n_in == n_clean + n_quarantine` (para un stream). Si no cuadra, **falla la corrida** — no publiques clean a medias.",
+        "Evidencia del gate CP-N1-B: scripts + fixtures + manifest de demo + tests + README.",
+      ],
+      code: {
+        language: 'python',
+        title: "manifest.py",
+        code: `import json
+manifest = {
+    "n_in": 10,
+    "n_clean": 8,
+    "n_quarantine": 2,
+    "inputs": [{"name": "clients.csv", "sha256": "abc"}],
+}
+ok = manifest["n_in"] == manifest["n_clean"] + manifest["n_quarantine"]
+print("reconcile_ok", ok)
+print(json.dumps(manifest, sort_keys=True))`,
+        output: `reconcile_ok True
+{"inputs": [{"name": "clients.csv", "sha256": "abc"}], "n_clean": 8, "n_in": 10, "n_quarantine": 2}`,
+      },
+      callout: {
+        type: "success",
+        title: "Cierre CP-N1-B",
+        content:
+          "Si reconcile falla, el pipeline debe exit non-zero. Clean y quarantine siempre explicables.",
       },
     },
   ],
   iDo: {
-    intro:
-      'Vamos a hacer un EDA completo de un dataset público real: Netflix Movies and TV Shows (disponible en Kaggle). Este dataset tiene ~8800 títulos con director, cast, país, fecha de adición, rating, duración, etc. Es exactamente el formato de "take-home project" que mandan empresas US: te dan un dataset crudo, te piden 5 insights de negocio. Vamos a limpiar y responder preguntas reales.',
+    intro: "Ocho demos I Do T1→T4 en **local-python** (filesystem/temp). Cierran piezas del ETL gate CP-N1-B. Datos sintéticos únicamente.",
     steps: [
       {
-        description: 'Cargar dataset y hacer inspección inicial',
+        demoId: "S08-T1-A-DEMO",
+        subtopicId: "S08-T1-A",
+        environment: "local-python",
+        description: "Leer y escribir intake UTF-8 con Path",
         code: {
           language: 'python',
-          title: 'netflix_eda.py',
-          code: `import pandas as pd
-import numpy as np
-
-# Cargar dataset (asumiendo que descargaste netflix_titles.csv de Kaggle)
-# Para demo, creamos dataset sintético similar
-np.random.seed(42)
-n = 8800
-paises = ["United States", "India", "United Kingdom", "Japan", "South Korea",
-          "Canada", "Spain", "France", "Mexico", "Brazil"] + [np.nan]*500
-tipos = ["Movie", "TV Show"]
-ratings = ["TV-MA", "TV-14", "TV-PG", "R", "PG-13", "PG"] + [np.nan]*200
-
-df = pd.DataFrame({
-    "show_id": range(1, n+1),
-    "type": np.random.choice(tipos, n, p=[0.7, 0.3]),
-    "title": [f"Title {i}" for i in range(n)],
-    "director": [f"Director {i}" if np.random.rand() > 0.3 else np.nan for i in range(n)],
-    "cast": [f"Actor {i}, Actor {i+1}" if np.random.rand() > 0.1 else np.nan for i in range(n)],
-    "country": np.random.choice(paises, n),
-    "date_added": pd.date_range("2010-01-01", periods=n, freq="3D"),
-    "release_year": np.random.randint(1940, 2024, n),
-    "rating": np.random.choice(ratings, n),
-    "duration": [f"{np.random.randint(60, 180)} min" if t == "Movie"
-                 else f"{np.random.randint(1, 8)} Season{'s' if np.random.rand() > 0.5 else ''}"
-                 for t in np.random.choice(tipos, n, p=[0.7, 0.3])],
-    "listed_in": np.random.choice(
-        ["Dramas, International Movies", "Comedies", "Documentaries",
-         "Action, Adventure", "Kids' TV"], n)
-})
-
-# === INSPECCIÓN INICIAL ===
-print("=== INFO ===")
-print(df.info())
-
-print("\\n=== SHAPE ===")
-print(f"Filas: {df.shape[0]}, Columnas: {df.shape[1]}")
-
-print("\\n=== NULOS POR COLUMNA ===")
-print(df.isnull().sum())
-print(f"\\nTotal nulos: {df.isnull().sum().sum()}")
-
-print("\\n=== DESCRIBE ===")
-print(df.describe(include='all'))`,
-          output: `=== INFO ===
-<class 'pandas.core.frame.DataFrame'>
-RangeIndex: 8800 entries, 0 to 8799
-Data columns (total 11 columns):
- #   Column        Non-Null Count  Dtype
----  ------        --------------  -----
- 0   show_id       8800 non-null   int64
- 1   type          8800 non-null   object
- 2   title         8800 non-null   object
- 3   director      6160 non-null   object
- 4   cast          7920 non-null   object
- 5   country       8300 non-null   object
- 6   date_added    8800 non-null   datetime64[ns]
- 7   release_year  8800 non-null   int64
- 8   rating        8600 non-null   object
- 9   duration      8800 non-null   object
- 10  listed_in     8800 non-null   object
-dtypes: datetime64[ns](1), int64(2), object(8)
-
-=== NULOS POR COLUMNA ===
-director      2640
-cast           880
-country        500
-rating         200
-...`,
+          title: "S08-T1-A-DEMO — path",
+          code: `from pathlib import Path
+import tempfile
+td = Path(tempfile.mkdtemp())
+p = td / "intake.txt"
+p.write_text("cliente;José Quispe\\n", encoding="utf-8")
+text = p.read_text(encoding="utf-8")
+print(text.strip())
+print("exists", p.exists(), "size", p.stat().st_size)`,
+          output: `cliente;José Quispe
+exists True size 21`,
         },
-        why: 'La inspección inicial es obligatoria. `.info()` te dice tipos y nulos. `.isnull().sum()` te muestra dónde está el problema. `.describe()` te da distribución estadística. NUNCA empieces a modelar sin antes entender el dataset — esto evita bugs absurdos como intentar agrupar por una columna con 90% de nulos.',
+        why: "Path + UTF-8 explícito es la base de toda ingesta local del gate.",
       },
       {
-        description: 'Limpiar y responder 5 preguntas de negocio',
+        demoId: "S08-T1-B-DEMO",
+        subtopicId: "S08-T1-B",
+        environment: "local-python",
+        description: "write_atomic(path, text)",
         code: {
           language: 'python',
-          title: 'netflix_eda.py',
-          code: `# === LIMPIEZA ===
-# Imputar nulos
-df["director"] = df["director"].fillna("No disponible")
-df["cast"] = df["cast"].fillna("No disponible")
-df["country"] = df["country"].fillna("Desconocido")
-df["rating"] = df["rating"].fillna(df["rating"].mode()[0])
+          title: "S08-T1-B-DEMO — atomic",
+          code: `from pathlib import Path
+import os, tempfile
 
-# Extraer género principal (primero de la lista)
-df["genero_principal"] = df["listed_in"].str.split(",").str[0].str.strip()
+def write_atomic(path: Path, text: str) -> None:
+    path = Path(path)
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(text, encoding="utf-8")
+    os.replace(tmp, path)
 
-# Extraer número de temporadas o minutos
-df["duracion_min"] = df["duration"].str.extract(r'(\\d+)\\s*min').astype(float)
-df["n_temporadas"] = df["duration"].str.extract(r'(\\d+)\\s*Season').astype(float)
+td = Path(tempfile.mkdtemp())
+dest = td / "clean.csv"
+write_atomic(dest, "id,nombre\\nC001,Ana\\n")
+print(dest.read_text(encoding="utf-8"))
+print("tmp gone", not (td / "clean.csv.tmp").exists())`,
+          output: `id,nombre
+C001,Ana
 
-# Extraer año y mes de date_added
-df["año_added"] = df["date_added"].dt.year
-df["mes_added"] = df["date_added"].dt.month
-
-# === PREGUNTA 1: ¿Qué % del contenido es Movies vs TV Shows? ===
-print("\\n=== P1: Distribución por tipo ===")
-print(df["type"].value_counts(normalize=True).mul(100).round(1))
-
-# === PREGUNTA 2: Top 10 países por volumen de contenido ===
-print("\\n=== P2: Top 10 países ===")
-top_paises = df["country"].value_counts().head(10)
-print(top_paises)
-
-# === PREGUNTA 3: Evolución de contenido por año ===
-print("\\n=== P3: Contenido agregado por año ===")
-por_año = df.groupby("año_added").size().sort_index()
-print(por_año.tail(10))
-
-# === PREGUNTA 4: Duración promedio de películas por país ===
-print("\\n=== P4: Top 5 países con películas más largas ===")
-peliculas = df[df["type"] == "Movie"]
-dur_por_pais = peliculas.groupby("country")["duracion_min"].agg(
-    ["mean", "count"]).query("count >= 10").sort_values("mean", ascending=False).head(5)
-print(dur_por_pais.round(1))
-
-# === PREGUNTA 5: Top 5 directores por cantidad de títulos ===
-print("\\n=== P5: Top 5 directores ===")
-directores = df[df["director"] != "No disponible"]
-top_directores = directores["director"].value_counts().head(5)
-print(top_directores)
-
-# === EXPORTAR DATASET LIMPIO ===
-df.to_csv("netflix_clean.csv", index=False)
-print("\\n✓ Dataset limpio exportado a netflix_clean.csv")
-print(f"  Filas: {len(df)}, Columnas: {len(df.columns)}")`,
-          output: `=== P1: Distribución por tipo ===
-type
-Movie      70.0
-TV Show    30.0
-
-=== P2: Top 10 países ===
-United States     880
-India             880
-United Kingdom    880
-... (10 países)
-
-=== P5: Top 5 directores ===
-Director 0    3
-Director 1    3
-...`,
+tmp gone True`,
         },
-        why: 'Este EDA responde 5 preguntas de negocio reales que un stakeholder te haría. Cada una usa un patrón distinto: value_counts (frecuencia), groupby (agregación), groupby con query (filtro post-agregación), str accessor (limpieza de strings), dt accessor (fechas). Combinados, estos patrones resuelven el 90% de EDAs que harás en tu carrera.',
+        why: "os.replace hace el swap atómico del artefacto de salida.",
+      },
+      {
+        demoId: "S08-T2-A-DEMO",
+        subtopicId: "S08-T2-A",
+        environment: "local-python",
+        description: "Ingesta CSV de clientes con tipos monto/fecha string",
+        code: {
+          language: 'python',
+          title: "S08-T2-A-DEMO — csv",
+          code: `import csv, io
+raw = "id,nombre,monto,fecha\\nC001,Ana,10.5,2026-01-10\\nC002,Luis,20,2026-01-11\\n"
+rows = []
+for row in csv.DictReader(io.StringIO(raw)):
+    row["monto"] = float(row["monto"])
+    # fecha queda ISO string (contrato N1-B)
+    rows.append(row)
+for r in rows:
+    print(r["id"], r["monto"], type(r["monto"]).__name__, r["fecha"])`,
+          output: `C001 10.5 float 2026-01-10
+C002 20.0 float 2026-01-11`,
+        },
+        why: "DictReader + cast explícito de monto; fecha como string ISO documentado.",
+      },
+      {
+        demoId: "S08-T2-B-DEMO",
+        subtopicId: "S08-T2-B",
+        environment: "local-python",
+        description: "Separar good.csv vs quarantine.csv",
+        code: {
+          language: 'python',
+          title: "S08-T2-B-DEMO — quar",
+          code: `import csv, io
+from pathlib import Path
+import tempfile
+
+text = "id,nombre\\nC001,Ana\\nC002,Luis,EXTRA\\nbadonly\\n"
+reader = csv.reader(io.StringIO(text))
+header = next(reader)
+good, quar = [], []
+for row in reader:
+    if len(row) != len(header):
+        quar.append({"raw": ",".join(row), "reason": "col_count"})
+    else:
+        good.append(dict(zip(header, row)))
+td = Path(tempfile.mkdtemp())
+with (td / "good.csv").open("w", newline="", encoding="utf-8") as f:
+    w = csv.DictWriter(f, fieldnames=header)
+    w.writeheader()
+    w.writerows(good)
+with (td / "quarantine.csv").open("w", newline="", encoding="utf-8") as f:
+    w = csv.DictWriter(f, fieldnames=["raw", "reason"])
+    w.writeheader()
+    w.writerows(quar)
+print("good", good)
+print("quarantine", quar)
+print((td / "good.csv").read_text(encoding="utf-8"))`,
+          output: `good [{'id': 'C001', 'nombre': 'Ana'}]
+quarantine [{'raw': 'C002,Luis,EXTRA', 'reason': 'col_count'}, {'raw': 'badonly', 'reason': 'col_count'}]
+id,nombre
+C001,Ana
+`,
+        },
+        why: "Cuarentena con motivo deja audit trail; good solo tiene filas sanas.",
+      },
+      {
+        demoId: "S08-T3-A-DEMO",
+        subtopicId: "S08-T3-A",
+        environment: "local-python",
+        description: "Exportar results a JSON array + JSONL",
+        code: {
+          language: 'python',
+          title: "S08-T3-A-DEMO — json",
+          code: `import json
+from pathlib import Path
+import tempfile
+rows = [{"id": "T1", "monto": 10}, {"id": "T2", "monto": 5}]
+td = Path(tempfile.mkdtemp())
+(td / "txs.json").write_text(
+    json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8"
+)
+with (td / "txs.jsonl").open("w", encoding="utf-8") as f:
+    for r in rows:
+        f.write(json.dumps(r, ensure_ascii=False) + "\\n")
+print((td / "txs.json").read_text(encoding="utf-8"))
+print("jsonl lines", (td / "txs.jsonl").read_text(encoding="utf-8").splitlines())`,
+          output: `[
+  {
+    "id": "T1",
+    "monto": 10
+  },
+  {
+    "id": "T2",
+    "monto": 5
+  }
+]
+jsonl lines ['{"id": "T1", "monto": 10}', '{"id": "T2", "monto": 5}']`,
+        },
+        why: "Array JSON para batch pequeño; JSONL para append y streaming de txs.",
+      },
+      {
+        demoId: "S08-T3-B-DEMO",
+        subtopicId: "S08-T3-B",
+        environment: "local-python",
+        description: "validate_schema(obj, required) + campo opcional nuevo",
+        code: {
+          language: 'python',
+          title: "S08-T3-B-DEMO — schema",
+          code: `def validate_schema(obj, required):
+    missing = [k for k in required if k not in obj]
+    return len(missing) == 0, missing
+
+required = ["id", "email"]
+print(validate_schema({"id": "C1", "email": None}, required))
+print(validate_schema({"id": "C1"}, required))
+# evolución: campo opcional con default
+obj = {"id": "C1", "email": "a@ex.com"}
+obj.setdefault("segment", "standard")
+print(obj)`,
+          output: `(True, [])
+(False, ['email'])
+{'id': 'C1', 'email': 'a@ex.com', 'segment': 'standard'}`,
+        },
+        why: "Required estricto + defaults opcionales permiten evolucionar el contrato.",
+      },
+      {
+        demoId: "S08-T4-A-DEMO",
+        subtopicId: "S08-T4-A",
+        environment: "local-python",
+        description: "sha256 de input CSV + backup .bak",
+        code: {
+          language: 'python',
+          title: "S08-T4-A-DEMO — hash",
+          code: `from pathlib import Path
+import hashlib, shutil, tempfile
+td = Path(tempfile.mkdtemp())
+src = td / "clients.csv"
+src.write_text("id,nombre\\nC001,Ana\\n", encoding="utf-8")
+digest = hashlib.sha256(src.read_bytes()).hexdigest()
+bak = Path(str(src) + ".bak")
+shutil.copy2(src, bak)
+print(digest)
+print("backup_ok", bak.exists() and bak.read_bytes() == src.read_bytes())`,
+          output: `206bcfbde4f213a5b89c4d88b9a63d7b9c436b3b7c13db84e63445d1574f7eba
+backup_ok True`,
+        },
+        why: "Hash + backup del crudo son la provenance mínima del gate.",
+      },
+      {
+        demoId: "S08-T4-B-DEMO",
+        subtopicId: "S08-T4-B",
+        environment: "local-python",
+        description: "manifest.json de una corrida ETL",
+        code: {
+          language: 'python',
+          title: "S08-T4-B-DEMO — manifest",
+          code: `import json
+from pathlib import Path
+import tempfile
+manifest = {
+    "run_id": "demo-001",
+    "n_in": 5,
+    "n_clean": 4,
+    "n_quarantine": 1,
+    "inputs": [{"name": "clients.csv", "sha256": "deadbeef"}],
+    "reconcile_ok": True,
+}
+manifest["reconcile_ok"] = (
+    manifest["n_in"] == manifest["n_clean"] + manifest["n_quarantine"]
+)
+td = Path(tempfile.mkdtemp())
+path = td / "manifest.json"
+path.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
+print(path.read_text(encoding="utf-8"))`,
+          output: `{
+  "inputs": [
+    {
+      "name": "clients.csv",
+      "sha256": "deadbeef"
+    }
+  ],
+  "n_clean": 4,
+  "n_in": 5,
+  "n_quarantine": 1,
+  "reconcile_ok": true,
+  "run_id": "demo-001"
+}`,
+        },
+        why: "El manifest es la evidencia publicable de la corrida CP-N1-B.",
       },
     ],
   },
   weDo: {
-    intro:
-      'Te toca a ti hacer un EDA similar con un dataset más simple. Vamos a usar un dataset de empleados y responder 3 preguntas de negocio.',
+    intro: "Andamiaje E1→E2→E3 × 8 (24 ejercicios, 2 hints). pathlib/csv/json/hashlib stdlib. Fail closed en reconcile. Sin pandas obligatorio.",
     steps: [
       {
-        instruction: 'Calcula salario promedio por departamento y identifica el top 3 de cada uno',
-        hint: 'Usa groupby con agg, luego sort_values y groupby.head(3).',
+        id: "S08-T1-A-E1",
+        subtopicId: "S08-T1-A",
+        kind: "guided",
+        instruction:
+          "E1 (guiado) — En un temp dir, crea `Path` a `demo.txt`, escribe 'hola', comprueba `exists` e imprime True/False.",
+        hint: "write_text + exists",
+        hints: [
+          "write_text + exists",
+          "encoding utf-8",
+        ],
+        edgeCases: ["exists"],
+        tests: "True",
+        feedback: "exists evita abrir a ciegas.",
         starterCode: {
           language: 'python',
-          title: 'empleados_eda.py',
-          code: `import pandas as pd
-import numpy as np
-
-# Dataset sintético
-np.random.seed(42)
-empleados = pd.DataFrame({
-    "nombre": [f"Emp{i}" for i in range(200)],
-    "departamento": np.random.choice(["IT", "Sales", "Marketing", "Finanzas", "RRHH"], 200),
-    "salario": np.random.randint(2000, 8000, 200),
-    "años_experiencia": np.random.randint(0, 20, 200)
-})
-
-# TODO: salario promedio por departamento
-# TODO: top 3 empleados por salario en cada departamento
-# TODO: correlación entre años de experiencia y salario`,
+          title: "path_exists.py",
+          code: `from pathlib import Path
+import tempfile
+td = Path(tempfile.mkdtemp())
+# TODO`,
         },
         solutionCode: {
           language: 'python',
-          title: 'empleados_eda.py',
-          code: `import pandas as pd
-import numpy as np
+          title: "path_exists.py",
+          code: `from pathlib import Path
+import tempfile
+td = Path(tempfile.mkdtemp())
+p = td / 'demo.txt'
+p.write_text('hola', encoding='utf-8')
+print(p.exists())`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S08-T1-A-E2",
+        subtopicId: "S08-T1-A",
+        kind: "independent",
+        instruction:
+          "E2 (independiente) — Escribe 3 líneas con with open, luego lee con readlines strip e imprime la lista.",
+        hint: "with path.open('w', encoding='utf-8')",
+        hints: [
+          "with path.open('w', encoding='utf-8')",
+          "newline natural \\n",
+        ],
+        edgeCases: ["with read"],
+        tests: "['a','b','c']",
+        feedback: "with cierra el handle aunque falle el cuerpo.",
+        starterCode: {
+          language: 'python',
+          title: "with_lines.py",
+          code: `from pathlib import Path
+import tempfile
+td = Path(tempfile.mkdtemp())
+p = td / 'lines.txt'
+# TODO write 3 lines y leer`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "with_lines.py",
+          code: `from pathlib import Path
+import tempfile
+td = Path(tempfile.mkdtemp())
+p = td / 'lines.txt'
+with p.open('w', encoding='utf-8') as f:
+    f.write('a\\nb\\nc\\n')
+with p.open('r', encoding='utf-8') as f:
+    lines = [ln.strip() for ln in f]
+print(lines)`,
+          output: `['a', 'b', 'c']`,
+        },
+      },
+      {
+        id: "S08-T1-A-E3",
+        subtopicId: "S08-T1-A",
+        kind: "transfer",
+        instruction:
+          "E3 (transferencia) — Simula UnicodeDecodeError leyendo bytes latinos como utf-8 strict si es latin-1 content… Mejor: escribe bytes no-UTF8 y captura UnicodeDecodeError al read_text utf-8. Imprime tipo de error y sugiere encoding o quarantine.",
+        hint: "path.write_bytes(b'\\xff\\xfe') o latin1 bytes inválidos en utf-8",
+        hints: [
+          "path.write_bytes(b'\\xff\\xfe') o latin1 bytes inválidos en utf-8",
+          "try/except UnicodeDecodeError",
+        ],
+        edgeCases: ["diagnóstico encoding"],
+        tests: "UnicodeDecodeError",
+        feedback: "Encoding roto → cuarentena de archivo, no crash silencioso a medias.",
+        starterCode: {
+          language: 'python',
+          title: "diag_decode.py",
+          code: `from pathlib import Path
+import tempfile
+td = Path(tempfile.mkdtemp())
+p = td / 'bad.txt'
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "diag_decode.py",
+          code: `from pathlib import Path
+import tempfile
+td = Path(tempfile.mkdtemp())
+p = td / 'bad.txt'
+p.write_bytes(b'\\xff\\xfe\\xfa')
+try:
+    p.read_text(encoding='utf-8')
+except UnicodeDecodeError as e:
+    print(type(e).__name__)
+    print('acción: cuarentenar archivo o reintentar con encoding documentado')`,
+          output: `UnicodeDecodeError
+acción: cuarentenar archivo o reintentar con encoding documentado`,
+        },
+      },
+      {
+        id: "S08-T1-B-E1",
+        subtopicId: "S08-T1-B",
+        kind: "guided",
+        instruction:
+          "E1 (guiado) — Detecta si un `bytes` sample contiene CRLF `\\r\\n`. Imprime True para sample Windows y False para solo `\\n`.",
+        hint: "b'\\r\\n' in data",
+        hints: [
+          "b'\\r\\n' in data",
+          "Dos samples.",
+        ],
+        edgeCases: ["CRLF"],
+        tests: "True False",
+        feedback: "Detectar newlines documenta origen del archivo.",
+        starterCode: {
+          language: 'python',
+          title: "detect_crlf.py",
+          code: `win = b'a\\r\\nb\\r\\n'
+unix = b'a\\nb\\n'
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "detect_crlf.py",
+          code: `win = b'a\\r\\nb\\r\\n'
+unix = b'a\\nb\\n'
+print(b'\\r\\n' in win)
+print(b'\\r\\n' in unix)`,
+          output: `True
+False`,
+        },
+      },
+      {
+        id: "S08-T1-B-E2",
+        subtopicId: "S08-T1-B",
+        kind: "independent",
+        instruction:
+          "E2 (independiente) — Implementa `write_atomic` y verifica contenido final.",
+        hint: "tmp + os.replace",
+        hints: [
+          "tmp + os.replace",
+          "mismo directorio que dest",
+        ],
+        edgeCases: ["atomic"],
+        tests: "ok",
+        feedback: "Pieza reutilizable del ETL de salida.",
+        starterCode: {
+          language: 'python',
+          title: "atomic_impl.py",
+          code: `from pathlib import Path
+import os, tempfile
 
-np.random.seed(42)
-empleados = pd.DataFrame({
-    "nombre": [f"Emp{i}" for i in range(200)],
-    "departamento": np.random.choice(["IT", "Sales", "Marketing", "Finanzas", "RRHH"], 200),
-    "salario": np.random.randint(2000, 8000, 200),
-    "años_experiencia": np.random.randint(0, 20, 200)
-})
+def write_atomic(path, text):
+    # TODO
+    ...
+td = Path(tempfile.mkdtemp())
+p = td / 'out.txt'
+write_atomic(p, 'ok\\n')
+print(p.read_text(encoding='utf-8'))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "atomic_impl.py",
+          code: `from pathlib import Path
+import os, tempfile
 
-# 1. Salario promedio por departamento
-print("=== Salario promedio por departamento ===")
-salario_por_dept = empleados.groupby("departamento")["salario"].agg(["mean", "count", "std"]).round(2)
-print(salario_por_dept.sort_values("mean", ascending=False))
-
-# 2. Top 3 por departamento
-print("\\n=== Top 3 por departamento ===")
-tops = empleados.sort_values("salario", ascending=False).groupby("departamento").head(3)
-for dept, grupo in tops.groupby("departamento"):
-    print(f"\\n{dept}:")
-    print(grupo[["nombre", "salario", "años_experiencia"]].to_string(index=False))
-
-# 3. Correlación
-print("\\n=== Correlación ===")
-corr = empleados[["años_experiencia", "salario"]].corr()
-print(corr)
-# Si correlación > 0.5, hay relación positiva fuerte
-
-# Bonus: salario promedio por departamento Y años de experiencia (bins)
-empleados["exp_cat"] = pd.cut(empleados["años_experiencia"],
-                               bins=[0, 5, 10, 15, 20],
-                               labels=["Junior", "Mid", "Senior", "Lead"])
-pivot = empleados.pivot_table(
-    index="exp_cat",
-    columns="departamento",
-    values="salario",
-    aggfunc="mean"
-).round(0)
-print("\\n=== Salario por experiencia y dept ===")
-print(pivot)`,
-          output: `=== Salario promedio por departamento ===
-                  mean  count    std
-departamento
-IT           5074.32     43   1756
-Finanzas     4987.65     38   1820
-...`,
+def write_atomic(path, text):
+    path = Path(path)
+    tmp = path.with_name(path.name + '.tmp')
+    tmp.write_text(text, encoding='utf-8')
+    os.replace(tmp, path)
+td = Path(tempfile.mkdtemp())
+p = td / 'out.txt'
+write_atomic(p, 'ok\\n')
+print(p.read_text(encoding='utf-8'))`,
+          output: `ok
+`,
+        },
+      },
+      {
+        id: "S08-T1-B-E3",
+        subtopicId: "S08-T1-B",
+        kind: "transfer",
+        instruction:
+          "E3 (transferencia) — Simula fallo mid-write: escribe dest parcial 'PARCIAL' y muestra que un atomic replace posterior deja 'COMPLETO'. Imprime ambos estados.",
+        hint: "Primero write no atómico parcial; luego write_atomic",
+        hints: [
+          "Primero write no atómico parcial; luego write_atomic",
+          "Contrasta riesgos.",
+        ],
+        edgeCases: ["mid-write vs atomic"],
+        tests: "PARCIAL luego COMPLETO",
+        feedback: "Atomic no arregla el pasado parcial; evita el estado intermedio al consumidor.",
+        starterCode: {
+          language: 'python',
+          title: "midwrite.py",
+          code: `from pathlib import Path
+import os, tempfile
+td = Path(tempfile.mkdtemp())
+dest = td / 'f.txt'
+# TODO parcial luego atomic`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "midwrite.py",
+          code: `from pathlib import Path
+import os, tempfile
+td = Path(tempfile.mkdtemp())
+dest = td / 'f.txt'
+dest.write_text('PARCIAL', encoding='utf-8')
+print('mid', dest.read_text(encoding='utf-8'))
+tmp = dest.with_name(dest.name + '.tmp')
+tmp.write_text('COMPLETO', encoding='utf-8')
+os.replace(tmp, dest)
+print('final', dest.read_text(encoding='utf-8'))`,
+          output: `mid PARCIAL
+final COMPLETO`,
+        },
+      },
+      {
+        id: "S08-T2-A-E1",
+        subtopicId: "S08-T2-A",
+        kind: "guided",
+        instruction:
+          "E1 (guiado) — DictReader sobre StringIO con header id,nombre; imprime filas dict.",
+        hint: "csv.DictReader",
+        hints: [
+          "csv.DictReader",
+          "io.StringIO",
+        ],
+        edgeCases: ["header"],
+        tests: "C001 Ana",
+        feedback: "DictReader mapea columnas por nombre.",
+        starterCode: {
+          language: 'python',
+          title: "dictreader.py",
+          code: `import csv, io
+raw = 'id,nombre\\nC001,Ana\\n'
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "dictreader.py",
+          code: `import csv, io
+raw = 'id,nombre\\nC001,Ana\\n'
+for row in csv.DictReader(io.StringIO(raw)):
+    print(row)`,
+          output: `{'id': 'C001', 'nombre': 'Ana'}`,
+        },
+      },
+      {
+        id: "S08-T2-A-E2",
+        subtopicId: "S08-T2-A",
+        kind: "independent",
+        instruction:
+          "E2 (independiente) — Escribe CSV con DictWriter (header id,nombre) a StringIO o temp y relee contando filas de datos = 1.",
+        hint: "writeheader + writerow",
+        hints: [
+          "writeheader + writerow",
+          "newline='' si usas open file",
+        ],
+        edgeCases: ["writer header"],
+        tests: "1 fila",
+        feedback: "Writer con header estable es contrato de salida clean.",
+        starterCode: {
+          language: 'python',
+          title: "dictwriter.py",
+          code: `import csv, io
+buf = io.StringIO()
+# TODO write y read
+print(n)`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "dictwriter.py",
+          code: `import csv, io
+buf = io.StringIO()
+w = csv.DictWriter(buf, fieldnames=['id', 'nombre'])
+w.writeheader()
+w.writerow({'id': 'C001', 'nombre': 'Ana'})
+buf.seek(0)
+rows = list(csv.DictReader(buf))
+n = len(rows)
+print(n)
+print(rows[0])`,
+          output: `1
+{'id': 'C001', 'nombre': 'Ana'}`,
+        },
+      },
+      {
+        id: "S08-T2-A-E3",
+        subtopicId: "S08-T2-A",
+        kind: "transfer",
+        instruction:
+          "E3 (transferencia) — Cast de monto: si float() falla → reject con motivo. Procesa `['10', 'x', '3.5']` e imprime ok/reject.",
+        hint: "try float except ValueError",
+        hints: [
+          "try float except ValueError",
+          "No uses 0 silencioso.",
+        ],
+        edgeCases: ["cast fallido"],
+        tests: "ok/reject/ok",
+        feedback: "Cast fallido alimenta cuarentena con motivo.",
+        starterCode: {
+          language: 'python',
+          title: "cast_reject.py",
+          code: `vals = ['10', 'x', '3.5']
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "cast_reject.py",
+          code: `vals = ['10', 'x', '3.5']
+for v in vals:
+    try:
+        m = float(v)
+        print('ok', m)
+    except ValueError:
+        print('reject', v, 'motivo=cast_monto')`,
+          output: `ok 10.0
+reject x motivo=cast_monto
+ok 3.5`,
+        },
+      },
+      {
+        id: "S08-T2-B-E1",
+        subtopicId: "S08-T2-B",
+        kind: "guided",
+        instruction:
+          "E1 (guiado) — Detecta fila irregular: header len 2, row `['C1','Ana','x']` → irregular True.",
+        hint: "len(row) != len(header)",
+        hints: [
+          "len(row) != len(header)",
+          "print bool",
+        ],
+        edgeCases: ["col count"],
+        tests: "True",
+        feedback: "Chequeo barato antes de Dict zip.",
+        starterCode: {
+          language: 'python',
+          title: "irregular.py",
+          code: `header = ['id', 'nombre']
+row = ['C1', 'Ana', 'x']
+# TODO
+print(irregular)`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "irregular.py",
+          code: `header = ['id', 'nombre']
+row = ['C1', 'Ana', 'x']
+irregular = len(row) != len(header)
+print(irregular)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S08-T2-B-E2",
+        subtopicId: "S08-T2-B",
+        kind: "independent",
+        instruction:
+          "E2 (independiente) — Escribe una fila de cuarentena `{raw, reason}` a CSV en temp y relee imprimiendo reason.",
+        hint: "DictWriter fieldnames raw,reason",
+        hints: [
+          "DictWriter fieldnames raw,reason",
+          "newline=''",
+        ],
+        edgeCases: ["escribir cuarentena"],
+        tests: "col_count",
+        feedback: "Cuarentena es archivo de primera clase del gate.",
+        starterCode: {
+          language: 'python',
+          title: "write_quar.py",
+          code: `from pathlib import Path
+import csv, tempfile
+td = Path(tempfile.mkdtemp())
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "write_quar.py",
+          code: `from pathlib import Path
+import csv, tempfile
+td = Path(tempfile.mkdtemp())
+p = td / 'quarantine.csv'
+with p.open('w', newline='', encoding='utf-8') as f:
+    w = csv.DictWriter(f, fieldnames=['raw', 'reason'])
+    w.writeheader()
+    w.writerow({'raw': 'C2,Luis,EXTRA', 'reason': 'col_count'})
+with p.open(encoding='utf-8') as f:
+    rows = list(csv.DictReader(f))
+print(rows[0]['reason'])`,
+          output: `col_count`,
+        },
+      },
+      {
+        id: "S08-T2-B-E3",
+        subtopicId: "S08-T2-B",
+        kind: "transfer",
+        instruction:
+          "E3 (transferencia) — Dada lista de reasons, imprime resumen contador sorted por reason.",
+        hint: "collections.Counter o dict",
+        hints: [
+          "collections.Counter o dict",
+          "sorted items",
+        ],
+        edgeCases: ["resumen motivos"],
+        tests: "conteos por reason",
+        feedback: "Resumen de motivos entra al manifest.",
+        starterCode: {
+          language: 'python',
+          title: "reason_summary.py",
+          code: `reasons = ['col_count', 'cast_monto', 'col_count', 'schema']
+# TODO resumen`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "reason_summary.py",
+          code: `from collections import Counter
+reasons = ['col_count', 'cast_monto', 'col_count', 'schema']
+for k, v in sorted(Counter(reasons).items()):
+    print(k, v)`,
+          output: `cast_monto 1
+col_count 2
+schema 1`,
+        },
+      },
+      {
+        id: "S08-T3-A-E1",
+        subtopicId: "S08-T3-A",
+        kind: "guided",
+        instruction:
+          "E1 (guiado) — `json.loads` de fixture `'{\"id\":\"C001\"}'` e imprime id.",
+        hint: "json.loads",
+        hints: [
+          "json.loads",
+          "dict access",
+        ],
+        edgeCases: ["loads"],
+        tests: "C001",
+        feedback: "loads parsea string; load parsea file.",
+        starterCode: {
+          language: 'python',
+          title: "loads_fix.py",
+          code: `import json
+# TODO
+print(obj['id'])`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "loads_fix.py",
+          code: `import json
+obj = json.loads('{"id":"C001"}')
+print(obj['id'])`,
+          output: `C001`,
+        },
+      },
+      {
+        id: "S08-T3-A-E2",
+        subtopicId: "S08-T3-A",
+        kind: "independent",
+        instruction:
+          "E2 (independiente) — `dumps` de `{'nombre':'José'}` con ensure_ascii=False e imprime (debe verse José, no \\u).",
+        hint: "ensure_ascii=False",
+        hints: [
+          "ensure_ascii=False",
+          "print string",
+        ],
+        edgeCases: ["tildes"],
+        tests: "José legible",
+        feedback: "ensure_ascii=False para logs latam legibles.",
+        starterCode: {
+          language: 'python',
+          title: "dumps_utf8.py",
+          code: `import json
+# TODO
+print(s)`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "dumps_utf8.py",
+          code: `import json
+s = json.dumps({'nombre': 'José'}, ensure_ascii=False)
+print(s)`,
+          output: `{"nombre": "José"}`,
+        },
+      },
+      {
+        id: "S08-T3-A-E3",
+        subtopicId: "S08-T3-A",
+        kind: "transfer",
+        instruction:
+          "E3 (transferencia) — Intenta dumps de dict con datetime y captura TypeError; reintenta con isoformat str.",
+        hint: "datetime no serializable",
+        hints: [
+          "datetime no serializable",
+          "convierte a .isoformat()",
+        ],
+        edgeCases: ["TypeError datetime"],
+        tests: "TypeError luego ISO",
+        feedback: "Serializa tipos no-JSON de forma explícita.",
+        starterCode: {
+          language: 'python',
+          title: "json_datetime.py",
+          code: `import json
+from datetime import datetime
+obj = {'ts': datetime(2026, 1, 15, 10, 0, 0)}
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "json_datetime.py",
+          code: `import json
+from datetime import datetime
+obj = {'ts': datetime(2026, 1, 15, 10, 0, 0)}
+try:
+    json.dumps(obj)
+except TypeError as e:
+    print(type(e).__name__)
+fixed = {'ts': obj['ts'].isoformat()}
+print(json.dumps(fixed))`,
+          output: `TypeError
+{"ts": "2026-01-15T10:00:00"}`,
+        },
+      },
+      {
+        id: "S08-T3-B-E1",
+        subtopicId: "S08-T3-B",
+        kind: "guided",
+        instruction:
+          "E1 (guiado) — Rechaza missing required: obj sin email con required [id,email] → ok False.",
+        hint: "list comprehension missing",
+        hints: [
+          "list comprehension missing",
+          "print ok, missing",
+        ],
+        edgeCases: ["required"],
+        tests: "False, ['email']",
+        feedback: "Schema mínimo del contrato de ingesta.",
+        starterCode: {
+          language: 'python',
+          title: "schema_required.py",
+          code: `def validate_schema(obj, required):
+    # TODO
+    ...
+print(validate_schema({'id': 'C1'}, ['id', 'email']))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "schema_required.py",
+          code: `def validate_schema(obj, required):
+    missing = [k for k in required if k not in obj]
+    return len(missing) == 0, missing
+print(validate_schema({'id': 'C1'}, ['id', 'email']))`,
+          output: `(False, ['email'])`,
+        },
+      },
+      {
+        id: "S08-T3-B-E2",
+        subtopicId: "S08-T3-B",
+        kind: "independent",
+        instruction:
+          "E2 (independiente) — null explícito: `{'id':'C1','email': None}` tiene clave email (presente) con valor None. Imprime 'in' y valor.",
+        hint: "'email' in obj",
+        hints: [
+          "'email' in obj",
+          "None is not missing key",
+        ],
+        edgeCases: ["null explícito"],
+        tests: "True / None",
+        feedback: "null JSON llega como None con clave presente.",
+        starterCode: {
+          language: 'python',
+          title: "null_explicit.py",
+          code: `obj = {'id': 'C1', 'email': None}
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "null_explicit.py",
+          code: `obj = {'id': 'C1', 'email': None}
+print('email' in obj)
+print(obj['email'])`,
+          output: `True
+None`,
+        },
+      },
+      {
+        id: "S08-T3-B-E3",
+        subtopicId: "S08-T3-B",
+        kind: "transfer",
+        instruction:
+          "E3 (transferencia) — Añade campo opcional `segment` con default `'standard'` vía setdefault sin pisar si ya existe. Dos objs.",
+        hint: "setdefault",
+        hints: [
+          "setdefault",
+          "No uses overwrite ciego",
+        ],
+        edgeCases: ["evolución compatible"],
+        tests: "standard vs vip",
+        feedback: "Defaults compatibles no rompen productores viejos.",
+        starterCode: {
+          language: 'python',
+          title: "default_field.py",
+          code: `a = {'id': 'C1'}
+b = {'id': 'C2', 'segment': 'vip'}
+# TODO setdefault ambos
+print(a)
+print(b)`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "default_field.py",
+          code: `a = {'id': 'C1'}
+b = {'id': 'C2', 'segment': 'vip'}
+a.setdefault('segment', 'standard')
+b.setdefault('segment', 'standard')
+print(a)
+print(b)`,
+          output: `{'id': 'C1', 'segment': 'standard'}
+{'id': 'C2', 'segment': 'vip'}`,
+        },
+      },
+      {
+        id: "S08-T4-A-E1",
+        subtopicId: "S08-T4-A",
+        kind: "guided",
+        instruction:
+          "E1 (guiado) — Calcula sha256 hex de un archivo temp con contenido conocido e imprime los primeros 8 chars + len digest 64.",
+        hint: "hashlib.sha256(path.read_bytes()).hexdigest()",
+        hints: [
+          "hashlib.sha256(path.read_bytes()).hexdigest()",
+          "temp file",
+        ],
+        edgeCases: ["hash file"],
+        tests: "len 64",
+        feedback: "Fingerprint del input para el manifest.",
+        starterCode: {
+          language: 'python',
+          title: "hash_file.py",
+          code: `from pathlib import Path
+import hashlib, tempfile
+td = Path(tempfile.mkdtemp())
+p = td / 'f.bin'
+p.write_bytes(b'abc')
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "hash_file.py",
+          code: `from pathlib import Path
+import hashlib, tempfile
+td = Path(tempfile.mkdtemp())
+p = td / 'f.bin'
+p.write_bytes(b'abc')
+dig = hashlib.sha256(p.read_bytes()).hexdigest()
+print(dig[:8], len(dig))`,
+          output: `ba7816bf 64`,
+        },
+      },
+      {
+        id: "S08-T4-A-E2",
+        subtopicId: "S08-T4-A",
+        kind: "independent",
+        instruction:
+          "E2 (independiente) — Copia backup con shutil.copy2 y verifica igualdad de bytes.",
+        hint: "shutil.copy2",
+        hints: [
+          "shutil.copy2",
+          "read_bytes compare",
+        ],
+        edgeCases: ["backup"],
+        tests: "True",
+        feedback: "Backup antes de cualquier mutación del workspace de entrada.",
+        starterCode: {
+          language: 'python',
+          title: "backup_copy.py",
+          code: `from pathlib import Path
+import shutil, tempfile
+td = Path(tempfile.mkdtemp())
+src = td / 'in.csv'
+src.write_text('a\\n', encoding='utf-8')
+# TODO bak`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "backup_copy.py",
+          code: `from pathlib import Path
+import shutil, tempfile
+td = Path(tempfile.mkdtemp())
+src = td / 'in.csv'
+src.write_text('a\\n', encoding='utf-8')
+bak = td / 'in.csv.bak'
+shutil.copy2(src, bak)
+print(bak.read_bytes() == src.read_bytes())`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S08-T4-A-E3",
+        subtopicId: "S08-T4-A",
+        kind: "transfer",
+        instruction:
+          "E3 (transferencia) — Arma dict de provenance `{path, sha256, bytes}` para un temp file e imprímelo (path solo name).",
+        hint: "stat().st_size",
+        hints: [
+          "stat().st_size",
+          "sha256 completo ok",
+        ],
+        edgeCases: ["provenance dict"],
+        tests: "3 keys",
+        feedback: "Provenance mínima por fuente del gate.",
+        starterCode: {
+          language: 'python',
+          title: "provenance_dict.py",
+          code: `from pathlib import Path
+import hashlib, tempfile
+td = Path(tempfile.mkdtemp())
+p = td / 'clients.csv'
+p.write_text('id\\nC1\\n', encoding='utf-8')
+# TODO provenance`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "provenance_dict.py",
+          code: `from pathlib import Path
+import hashlib, tempfile
+td = Path(tempfile.mkdtemp())
+p = td / 'clients.csv'
+p.write_text('id\\nC1\\n', encoding='utf-8')
+prov = {
+    'path': p.name,
+    'sha256': hashlib.sha256(p.read_bytes()).hexdigest(),
+    'bytes': p.stat().st_size,
+}
+print(prov)`,
+          output: `{'path': 'clients.csv', 'sha256': 'b776a3a3926835c70a8b32f595320ba866cf1c5c8d9106d2e50f36b5a9548fc9', 'bytes': 6}`,
+        },
+      },
+      {
+        id: "S08-T4-B-E1",
+        subtopicId: "S08-T4-B",
+        kind: "guided",
+        instruction:
+          "E1 (guiado) — Campos mínimos del manifest: imprime un dict con run_id, n_in, n_clean, n_quarantine, inputs.",
+        hint: "5 claves mínimas",
+        hints: [
+          "5 claves mínimas",
+          "inputs es lista",
+        ],
+        edgeCases: ["campos mínimos"],
+        tests: "5 keys sorted",
+        feedback: "Contrato del artefacto de evidencia.",
+        starterCode: {
+          language: 'python',
+          title: "manifest_min.py",
+          code: `manifest = {
+    # TODO
+}
+print(sorted(manifest))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "manifest_min.py",
+          code: `manifest = {
+    'run_id': 'r1',
+    'n_in': 3,
+    'n_clean': 2,
+    'n_quarantine': 1,
+    'inputs': [{'name': 'clients.csv'}],
+}
+print(sorted(manifest))`,
+          output: `['inputs', 'n_clean', 'n_in', 'n_quarantine', 'run_id']`,
+        },
+      },
+      {
+        id: "S08-T4-B-E2",
+        subtopicId: "S08-T4-B",
+        kind: "independent",
+        instruction:
+          "E2 (independiente) — Reconcilia conteos: función `reconcile(n_in, n_clean, n_quar) -> bool`.",
+        hint: "n_in == n_clean + n_quar",
+        hints: [
+          "n_in == n_clean + n_quar",
+          "Prueba 5=3+2 y 5=3+1",
+        ],
+        edgeCases: ["reconciliación"],
+        tests: "True False",
+        feedback: "Igualdad contable es el corazón del gate.",
+        starterCode: {
+          language: 'python',
+          title: "reconcile.py",
+          code: `def reconcile(n_in, n_clean, n_quar):
+    # TODO
+    ...
+print(reconcile(5, 3, 2))
+print(reconcile(5, 3, 1))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "reconcile.py",
+          code: `def reconcile(n_in, n_clean, n_quar):
+    return n_in == n_clean + n_quar
+print(reconcile(5, 3, 2))
+print(reconcile(5, 3, 1))`,
+          output: `True
+False`,
+        },
+      },
+      {
+        id: "S08-T4-B-E3",
+        subtopicId: "S08-T4-B",
+        kind: "transfer",
+        instruction:
+          "E3 (transferencia) — Si reconcile falla, imprime error y usa `raise SystemExit(1)` o simula con print de exit code 1. Si ok, print OK.",
+        hint: "No publiques clean si no cuadra",
+        hints: [
+          "No publiques clean si no cuadra",
+          "Dos escenarios.",
+        ],
+        edgeCases: ["fail closed"],
+        tests: "OK luego ERROR",
+        feedback: "Fail closed protege consumidores del clean.",
+        starterCode: {
+          language: 'python',
+          title: "fail_reconcile.py",
+          code: `def run(n_in, n_clean, n_quar):
+    # TODO
+    ...
+run(4, 2, 2)
+run(4, 2, 1)`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "fail_reconcile.py",
+          code: `def run(n_in, n_clean, n_quar):
+    if n_in != n_clean + n_quar:
+        print('ERROR reconcile', n_in, n_clean, n_quar)
+        print('exit_code', 1)
+        return 1
+    print('OK')
+    print('exit_code', 0)
+    return 0
+run(4, 2, 2)
+run(4, 2, 1)`,
+          output: `OK
+exit_code 0
+ERROR reconcile 4 2 1
+exit_code 1`,
         },
       },
     ],
   },
   youDo: {
-    title: 'Real-World EDA Report — Tu primer proyecto de portafolio',
+    title: "Client/Transaction ETL Pipeline (cierre CP-N1-B)",
     context:
-      'Tu primer proyecto completo de EDA. Descarga el dataset Netflix Movies and TV Shows de Kaggle (gratis, solo necesitas cuenta). Haz un EDA completo respondiendo 5+ preguntas de negocio, limpia los datos, y exporta un dataset limpio. Este es EXACTAMENTE el formato de take-home project que mandan empresas US para puestos de Data Analyst.',
+      "Cierras el gate **CP-N1-B**. Integras normalizadores (S05–S07) y el modelo en memoria (S06) en un ETL **local-python**: `data/clients.csv` + `data/transactions.json` (sintéticos) → `out/clean/`, `out/quarantine/`, `out/manifest.json` con hashes y reconciliación. CLI instalable se difiere a S10. Sin PII real; sin claims de fraude/parentesco.",
     objectives: [
-      'Descargar dataset Netflix de Kaggle (~8800 filas)',
-      'Limpiar ~2800 nulos en director, cast, country',
-      'Responder 5 preguntas de negocio con groupby, agg, str methods',
-      'Usar pd.to_datetime y extraer features temporales',
-      'Exportar dataset limpio a netflix_clean.csv',
+      "Ingesta CSV y JSON con contratos documentados",
+      "Validar/normalizar y cuarentenar rejects con motivo",
+      "Manifest con hashes, conteos y provenance",
+      "Pruebas normal / borde / error",
+      "Fail closed si reconcile no cuadra",
     ],
     requirements: [
-      'Leer CSV con parse_dates y dtype',
-      'Imputar nulos con estrategia apropiada (fill con "No disponible", mode, etc.)',
-      'Usar .str.split() para separar columnas multi-valor (genres)',
-      'Al menos 2 análisis con .groupby().agg()',
-      'Al menos 1 análisis con pivot_table o crosstab',
-      'Exportar a CSV con encoding utf-8',
-      'README con 5 insights y los comandos para reproducir',
+      "Entradas sintéticas clients.csv + transactions.json",
+      "Salidas out/clean/, out/quarantine/, out/manifest.json",
+      "Integrar normalizadores y modelo en memoria",
+      "README + demo local-python reproducible",
+      "n_in == n_clean + n_quarantine o exit != 0",
+      "Empaquetado CLI diferido a S10",
     ],
-    starterCode: `import pandas as pd
-import numpy as np
+    starterCode: `"""etl_cp_n1_b.py — Client/Transaction ETL Pipeline (cierre CP-N1-B / S08)
+Ingesta CSV+JSON sintéticos → clean/quarantine/manifest.
+stdlib only. Local-python.
+"""
 
-def cargar_datos(ruta="netflix_titles.csv"):
-    """Carga y parsea el dataset."""
+from __future__ import annotations
+
+import csv
+import hashlib
+import json
+import os
+import shutil
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+# Estructura esperada:
+# data/clients.csv
+# data/transactions.json
+# out/clean/
+# out/quarantine/
+# out/manifest.json
+
+
+def sha256_file(path: Path) -> str:
     # TODO
-    pass
+    raise NotImplementedError
 
-def limpiar(df):
-    """Limpia nulos, tipos, strings."""
+
+def write_atomic(path: Path, text: str) -> None:
     # TODO
-    pass
+    raise NotImplementedError
 
-def analizar(df):
-    """Responde 5 preguntas de negocio."""
-    # TODO: P1, P2, P3, P4, P5
-    pass
 
-def exportar(df, ruta="netflix_clean.csv"):
-    """Exporta dataset limpio."""
-    # TODO
-    pass
+def load_clients_csv(path: Path) -> tuple[list[dict], list[dict]]:
+    """→ (good_rows, quarantine_rows with reason)."""
+    # TODO irregular rows + casts
+    raise NotImplementedError
 
-def main():
-    # Pipeline
-    pass
+
+def load_transactions_json(path: Path) -> tuple[list[dict], list[dict]]:
+    # TODO schema mínimo id, client_id, monto
+    raise NotImplementedError
+
+
+def build_manifest(
+    *,
+    n_in: int,
+    n_clean: int,
+    n_quarantine: int,
+    inputs: list[dict],
+) -> dict[str, Any]:
+    # TODO reconcile_ok
+    raise NotImplementedError
+
+
+def run(data_dir: Path, out_dir: Path) -> int:
+    """Retorna exit code 0/1."""
+    # TODO backup, load, write clean/quar, manifest, fail if not reconcile
+    raise NotImplementedError
+
+
+def main() -> None:
+    root = Path(__file__).resolve().parent
+    code = run(root / "data", root / "out")
+    raise SystemExit(code)
+
 
 if __name__ == "__main__":
-    main()`,
+    main()
+`,
     portfolioNote:
-      'Este proyecto es el caballito de batalla de tu portafolio. En entrevistas, muéstralo, abre el notebook, y explica tus decisiones de limpieza. Las empresas valoran la capacidad de tomar decisiones con datos sucios más que el análisis perfecto sobre datos limpios. Sube el CSV limpio también para que puedan verificar.',
+      "Adjunta manifest de demo, 1 fila de cuarentena con motivo, hashes de inputs y un test de reconciliación fallida (exit 1). Esa carpeta es evidencia del gate CP-N1-B.",
     rubric: [
-      { criterion: 'Limpieza correcta y justificada de los ~2800 nulos', weight: '25%' },
-      { criterion: '5 preguntas de negocio respondidas con groupby', weight: '25%' },
-      { criterion: 'Uso de .str accessor para columnas multi-valor', weight: '15%' },
-      { criterion: 'Features temporales extraídas con .dt', weight: '15%' },
-      { criterion: 'Export a CSV limpio + README con insights', weight: '10%' },
-      { criterion: 'Código modular con funciones', weight: '10%' },
+      { criterion: "Ingesta CSV+JSON correcta", weight: "20%" },
+      { criterion: "Validación + cuarentena", weight: "20%" },
+      { criterion: "Manifest y reconciliación", weight: "20%" },
+      { criterion: "Hashes/backups/provenance", weight: "15%" },
+      { criterion: "Pruebas normal/borde/error", weight: "15%" },
+      { criterion: "README y reproducibilidad local", weight: "10%" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: '¿Qué hace `df.groupby("region")["salario"].mean()`?',
+        question: "¿Por qué declarar encoding='utf-8' al abrir texto?",
         options: [
-          'Devuelve un DataFrame con la media de salario por región',
-          'Devuelve un Series con la media de salario por región',
-          'Filtra filas donde salario es la media',
-          'Agrega una columna con la media',
+          "Es más rápido",
+          "Evita depender del locale del SO (p. ej. Windows)",
+          "Comprime el archivo",
+          "Activa pathlib",
         ],
         correctIndex: 1,
         explanation:
-          'groupby devuelve un Series si seleccionas una columna. La región se convierte en el índice del Series. Si quieres DataFrame, usa `.reset_index()` o `.to_frame()`.',
+          "El default de texto no es portátil; UTF-8 explícito evita mojibake y DecodeError sorpresa.",
       },
       {
-        question: '¿Cuál es la diferencia entre .loc y .iloc?',
+        question: "Escritura atómica típica es…",
         options: [
-          'Son lo mismo',
-          '.loc usa labels (nombres), .iloc usa posiciones (enteros)',
-          '.loc es más rápido',
-          '.iloc solo funciona con números',
+          "open(dest,'w') y escribir directo siempre",
+          "escribir temp y os.replace al destino",
+          "solo print al stdout",
+          "append eterno al mismo file",
         ],
         correctIndex: 1,
         explanation:
-          '.loc usa labels del índice y nombres de columnas. .iloc usa posiciones enteras (0-based). Si tu índice es [10, 20, 30], df.loc[10] devuelve la primera fila, df.iloc[0] también. Pero df.loc[0] daría KeyError.',
+          "temp + replace evita dejar dest truncado si hay crash mid-write.",
       },
       {
-        question: '¿Cómo manejas valores nulos en una columna numérica?',
+        question: "Una fila CSV con columnas de más debe…",
         options: [
-          'Eliminar todas las filas con cualquier nulo',
-          'Imputar con media, mediana, o un valor específico según contexto',
-          'Convertir a 0 siempre',
-          'Dejarlos, pandas los maneja automáticamente',
+          "Ignorarse en silencio",
+          "Rellenarse con None sin traza",
+          "Ir a cuarentena con motivo",
+          "Pisar el header",
         ],
-        correctIndex: 1,
+        correctIndex: 2,
         explanation:
-          'Depende del contexto: dropna si los nulos son pocos y aleatorios, fillna(media) si la distribución es simétrica, fillna(mediana) si hay outliers, fillna(0) si el nulo realmente significa cero. No hay respuesta universal.',
+          "Irregular → quarantine + reason; no desalinear en silencio.",
       },
       {
-        question: '¿Qué hace `pd.merge(df1, df2, on="id", how="left")`?',
+        question: "Reconciliación del manifest exige…",
         options: [
-          'Devuelve solo filas con id presente en ambos',
-          'Devuelve todas las filas de df1, con NaN donde no hay match en df2',
-          'Devuelve todas las filas de df2',
-          'Devuelve la unión de ambos',
+          "n_clean > n_in",
+          "n_in == n_clean + n_quarantine",
+          "solo n_quarantine == 0",
+          "hash del clean == hash del input",
         ],
         correctIndex: 1,
         explanation:
-          'LEFT JOIN: todas las filas del DataFrame izquierdo (df1), y donde no hay coincidencia en df2, los valores de df2 quedan como NaN. Es el JOIN más común cuando quieres "enriquecer" un dataset.',
+          "Toda fila de entrada termina en clean o quarantine (para ese stream).",
       },
       {
-        question: '¿Para qué sirve `.resample("M").sum()` en un DataFrame con índice datetime?',
+        question: "Si reconcile falla, el pipeline debe…",
         options: [
-          'Eliminar valores nulos mensuales',
-          'Agrupar por mes y sumar los valores',
-          'Resetear el índice a mensual',
-          'Crear una columna de mes',
+          "Publicar clean igual",
+          "Fallar (exit non-zero) / fail closed",
+          "Borrar el manifest",
+          "Convertir a pandas automáticamente",
         ],
         correctIndex: 1,
         explanation:
-          'resample("M") agrupa los datos por mes. .sum() aplica la suma a cada grupo. Es la forma pandas de hacer agregación temporal. Equivalente a groupby por mes, pero optimizado para datetime.',
+          "Fail closed protege a consumidores; el gate exige conteos cuadrados.",
       },
     ],
   },
   resources: {
     docs: [
-      { label: 'Pandas — Official docs', url: 'https://pandas.pydata.org/docs/', note: 'Documentación oficial con user guide' },
-      { label: 'Pandas — Cookbook', url: 'https://pandas.pydata.org/docs/user_guide/cookbook.html', note: 'Recetas para casos comunes' },
-      { label: 'Kaggle Learn — Pandas', url: 'https://www.kaggle.com/learn/pandas', note: 'Micro-curso gratuito interactivo' },
-      { label: 'Real Python — Pandas', url: 'https://realpython.com/learning-paths/pandas-data-science/', note: 'Learning path completo' },
+      {
+        label: "pathlib — Object-oriented filesystem paths",
+        url: "https://docs.python.org/3/library/pathlib.html",
+        note: "Path, read_text, write_text",
+      },
+      {
+        label: "csv — CSV File Reading and Writing",
+        url: "https://docs.python.org/3/library/csv.html",
+        note: "DictReader/Writer, newline=''",
+      },
+      {
+        label: "json — JSON encoder and decoder",
+        url: "https://docs.python.org/3/library/json.html",
+        note: "load/dump, ensure_ascii",
+      },
+      {
+        label: "hashlib — Secure hashes",
+        url: "https://docs.python.org/3/library/hashlib.html",
+        note: "sha256 de inputs",
+      },
     ],
     books: [
-      { label: 'Python Apprentice to Master', note: 'Capítulo extenso sobre pandas y EDA.' },
+      {
+        label: "Python Cookbook (Beazley/Jones) — files/csv",
+        note: "Patrones de archivos; adaptar a cuarentena/manifest del curso.",
+      },
+      {
+        label: "Data Engineering practices (genérico)",
+        note: "Idempotencia, lineage y fail closed — alinear con CP-N1-B.",
+      },
     ],
     courses: [
-      { label: 'Kaggle Learn — Data Cleaning', url: 'https://www.kaggle.com/learn/data-cleaning', note: 'Limpieza avanzada con pandas' },
+      {
+        label: "Real Python — Working with files",
+        url: "https://realpython.com/working-with-files-in-python/",
+        note: "pathlib y contextos; practicar en local-python.",
+      },
     ],
   },
 }

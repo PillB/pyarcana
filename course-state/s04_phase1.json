@@ -1,0 +1,157 @@
+{
+  "version": "3.2",
+  "section": "S04",
+  "section_id": "functions-modules",
+  "phase": "PHASE_1_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1-FACTORY",
+  "content_inventory": {
+    "section_file": "src/lib/course/sections/s04-functions-modules.ts",
+    "total_lines": 650,
+    "structure": {
+      "id": "functions-modules",
+      "index": 4,
+      "title": "Functions, Modules & Packaging",
+      "shortTitle": "Funciones & Módulos",
+      "estimatedHours": 8,
+      "level": "Principiante"
+    },
+    "theory_blocks": [
+      {
+        "block": 1,
+        "heading": "Funciones avanzadas",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — maps V3 S5"
+      },
+      {
+        "block": 2,
+        "heading": "Módulos e imports",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — maps V3 S10"
+      },
+      {
+        "block": 3,
+        "heading": "Decorators",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — later"
+      },
+      {
+        "block": 4,
+        "heading": "pathlib",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "partial — V3 S8 T1"
+      },
+      {
+        "block": 5,
+        "heading": "datetime",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — later"
+      }
+    ],
+    "learningOutcomes_count": 6,
+    "learningOutcomes_summary": [
+      "funciones avanzadas *args/**kwargs",
+      "lambda",
+      "módulos import",
+      "decorators @functools.wraps",
+      "pathlib",
+      "datetime/timedelta"
+    ],
+    "iDo_note": "Legacy multi-step demo blocks present; not 8 I Do demos V3",
+    "weDo_note": "Legacy guided exercises present; not 24 student exercises",
+    "youDo_project": {
+      "title": "File Organizer Automation Script — Tu primera herramienta de productividad",
+      "maps_to_capstone_current": "none explicit V3",
+      "maps_to_capstone_v3_target": "Client Intake & Data Quality Script (cierre CP-N1-A)"
+    },
+    "selfCheck_questions": {
+      "total": 5,
+      "seed_exam_variants": 12,
+      "seed_concepts": [
+        "functools-wraps",
+        "pathlib-vs-os",
+        "name-main",
+        "keyword-only-args"
+      ],
+      "v3_coverage": "0/8 subtopics"
+    }
+  },
+  "gap_analysis": {
+    "subtopics": "0 structured V3 → 8",
+    "demos": "legacy few → 8",
+    "exercises": "legacy few → 24",
+    "exam_variants": "12 → 24",
+    "topic_evaluations": "0 → 4",
+    "project_retheme": "File Organizer Automation Script — Tu primera herramienta de productividad → Client Intake & Data Quality Script (cierre CP-N1-A)",
+    "title_retheme": "Functions, Modules & Packaging → Iteración y resúmenes transaccionales (id 'functions-modules' stable)"
+  },
+  "canonical_subtopic_inventory_preview": [
+    {
+      "subtopic_id": "S04-T1-A",
+      "slug": "for-range-sequences",
+      "title": "for, range y secuencias",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S04-T1-B",
+      "slug": "enumerate-zip",
+      "title": "enumerate y zip",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S04-T2-A",
+      "slug": "while-sentinels",
+      "title": "while, centinelas y terminación",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S04-T2-B",
+      "slug": "break-continue",
+      "title": "break, continue y prevención de infinitos",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S04-T3-A",
+      "slug": "counters-accumulators",
+      "title": "Contadores, acumuladores y búsqueda",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S04-T3-B",
+      "slug": "comprehensions-readable",
+      "title": "Comprehensions legibles",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S04-T4-A",
+      "slug": "state-tracing",
+      "title": "Trazado de estado",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S04-T4-B",
+      "slug": "cost-off-by-one",
+      "title": "Costo lineal/cuadrático y off-by-one",
+      "exists_in_content": false
+    }
+  ],
+  "do_not_delete": [
+    "src/lib/course/sections/s04-functions-modules.ts",
+    "prisma/seed.ts",
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json"
+  ],
+  "phase_1_gate": {
+    "inventory_complete": true,
+    "gaps_quantified": true,
+    "content_not_deleted": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_2"
+  }
+}

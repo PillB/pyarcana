@@ -1,159 +1,1325 @@
 import type { CourseSection } from '../../types'
 
 export const section39: CourseSection = {
-  id: 'integrator-phase2',
+  id: "integrator-phase2",
   index: 39,
-  title: 'Proyecto Integrador Fase 2',
-  shortTitle: 'Proyecto Integrador Fase 2',
-  tagline: 'Un sistema de IA Senior que cualquier startup querría contratar para construir.',
-  estimatedHours: 18,
-  level: 'Senior',
+  title: "Responsible ML Case Triage y cierre de nivel",
+  shortTitle: "Case Triage N3",
+  tagline: "Responsible ML Case Triage con baseline, calibración, abstención, monitoreo y revisión; promoción N3 con regresión S27–S39 y CF-3",
+  estimatedHours: 16,
+  level: "Competente a experto",
   phase: 2,
-  icon: 'Trophy',
-  accentColor: 'bg-gradient-to-br from-purple-500 to-fuchsia-600',
-  jobRelevance: 'Capstone Senior que demuestra capacidad de diseñar y operar sistemas AI end-to-end a nivel Senior. Diferenciador claro para roles Senior AI Engineer ($130K-$180K). Es el proyecto que se presenta como caso de estudio principal en entrevistas de sistema.',
+  icon: "Award",
+  accentColor: "bg-gradient-to-br from-violet-500 to-fuchsia-900",
+  jobRelevance:
+    "Cierras **CP-N3-C** con **Responsible ML Case Triage**: intake→ER→relación→features→modelo→cola humana, con cards, monitoreo y control humano. Id `integrator-phase2` conservado. Promoción de nivel requiere CP-N3-A/B/C, **regresión S27–S39** y **CF-3** (otra lane califica PASS). ER≠fraude≠parentesco.",
   learningOutcomes: [
-    { text: 'Integrar multi-agent LangGraph (S28) coordinando tareas automáticamente' },
-    { text: 'Construir MLOps pipeline (S29) con monitoreo de drift y retraining automático' },
-    { text: 'Desplegar en Kubernetes (S32) con CI/CD y observabilidad' },
-    { text: 'Implementar streaming Kafka (S31) para eventos en tiempo real' },
-    { text: 'Integrar Smart CV module (S34) con análisis LLM de imágenes' },
-    { text: 'Documentar ADR (S35) para las principales decisiones arquitecturales' },
-    { text: 'Desplegar sistema completamente en la nube (GCP/AWS free tier)' },
-    { text: 'Comunicar arquitectura a stakeholders de negocio con presentation deck de 10 slides' },
+    { text: "Ensamblar el flujo intake→modelo" },
+    { text: "Versionar contratos y ownership" },
+    { text: "Armar cola y evidence packet" },
+    { text: "Operar decisión, override y apelación" },
+    { text: "Mitigar privacidad/fairness/seguridad" },
+    { text: "Monitoreo, incidentes y control humano" },
+    { text: "Cumplir aceptación y demo" },
+    { text: "Publicar cards, valor y postmortem" },
   ],
   theory: [
     {
-      heading: 'Arquitectura del proyecto integrador Senior',
+      heading: "Cierre CP-N3-C + regresión N3 + CF-3",
       paragraphs: [
-        'El proyecto integrador de Fase 2 consolida todas las skills Senior en un sistema end-to-end: ingesta de datos con Kafka, microservicio de inferencia con FastAPI + Docker + Kubernetes, modelo XGBoost con SHAP para interpretabilidad, y dashboard de monitoreo con Streamlit + Prometheus + Grafana. El objetivo es construir un sistema que cualquier startup peruana querría contratar para construir: un pipeline de scoring crediticio en tiempo real que procesa transacciones, calcula riesgo, y muestra resultados en un dashboard.',
-        'La arquitectura del sistema tiene 5 componentes: (1) Kafka producer que envía eventos de transacciones, (2) FastAPI microservicio que consume eventos, extrae features del feature store, y llama al modelo XGBoost para scoring, (3) MLflow model registry para versionar y servir el modelo, (4) Prometheus + Grafana para monitorear latency, throughput, error rate, y model drift, (5) Streamlit dashboard para visualizar predicciones en tiempo real y alertas. Cada componente se despliega independientemente en Kubernetes con rolling updates zero-downtime.',
-        'El CI/CD pipeline usa GitHub Actions: en cada push a main, se ejecutan tests con pytest (>85% cobertura), se construye la imagen Docker, se publica en GitHub Container Registry, y se despliega a Kubernetes con `kubectl apply`. El despliegue es canary: 10% del tráfico va a la nueva versión, 90% a la antigua. Si no hay errores en 30 minutos, el canary sube a 100%. Si hay errores, rollback automático. Este patrón es estándar en empresas US y es lo que diferencia a un Senior de un Mid-level.',
+        "En V3, **S39 cierra el nivel 3** con **Responsible ML Case Triage**. Integra S27–S38 en un sistema demoable.",
+        "**Promoción (conceptual):** CP-N3-A, CP-N3-B, CP-N3-C, **regresión S27–S39**, **CF-3**. CF-3 integra contratos ER/grafo/triage y regresión cruzada. **Esta lane de autoría no marca PASS** ni edita ledger/checkpoint/seed.",
+        "Orden: **T1 Arquitectura** → **T2 Revisor** → **T3 Riesgo** → **T4 Producto**.",
       ],
+      callout: {
+        type: "info",
+        title: "Gate CP-N3-C + regresión",
+        content:
+          "Entregable: triage responsable. Calificación de promoción y CF-3 es lane separada.",
+      },
+    },
+    {
+      heading: "intake → ER → relación → features → modelo",
+      subtopicId: "S39-T1-A",
+      paragraphs: [
+        "Flujo canónico N3: intake de registros → ER (misma entidad) → grafo relacional → features sin leakage → score de prioridad.",
+        "Cada etapa tiene contrato de I/O y version. Fallas se aíslan.",
+        "ER no infiere relación familiar ni fraude; grafo no culpa; score no es veredicto legal.",
+      ],
+      code: {
+        language: 'python',
+        title: "pipeline.py",
+        code: `stages = ["intake", "er", "relation_graph", "features", "model_score", "queue"]
+payload = {"run_id": "n3-reg-001", "stage": "model_score", "score": 0.66, "label_space": "needs_review"}
+print("pipeline", " > ".join(stages))
+print("label_space", payload["label_space"])
+print("auto_fraud", False)`,
+        output: `pipeline intake > er > relation_graph > features > model_score > queue
+label_space needs_review
+auto_fraud False`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contratos por etapa",
+        content:
+          "Schema in/out versionado.",
+      },
+    },
+    {
+      heading: "contratos, versiones y ownership",
+      subtopicId: "S39-T1-B",
+      paragraphs: [
+        "Cada artefacto: owner, version, compatibility policy. feature_set, model, thr, graph_schema.",
+        "Breaking change → bump major y plan de migración.",
+        "Ownership claro evita 'nadie on-call'.",
+      ],
+      code: {
+        language: 'python',
+        title: "registry.py",
+        code: `registry = {
+    "er_engine": {"ver": "1.2.0", "owner": "data-quality"},
+    "graph_schema": {"ver": "3.0.0", "owner": "investigations"},
+    "feature_set": {"ver": "fs-v3", "owner": "ml-platform"},
+    "ranker": {"ver": "2.1.0", "owner": "ml-risk"},
+}
+print(sorted(registry))
+print("owners", len({v["owner"] for v in registry.values()}))
+print("compat", "semver")`,
+        output: `['er_engine', 'feature_set', 'graph_schema', 'ranker']
+owners 4
+compat semver`,
+      },
+      callout: {
+        type: "warning",
+        title: "Sin owner",
+        content:
+          "No hay escalamiento de incidentes.",
+      },
+    },
+    {
+      heading: "queue, evidence packet y explicación",
+      subtopicId: "S39-T2-A",
+      paragraphs: [
+        "Cola ordenada por score calibrado/capacidad. Evidence packet: hechos, path de grafo, features top, incertidumbre.",
+        "Explicación en 4 capas (S35). UI/CLI didáctica en dicts.",
+        "El revisor ve evidencia, no solo un número.",
+      ],
+      code: {
+        language: 'python',
+        title: "evidence_packet.py",
+        code: `packet = {
+    "case_id": "case-77",
+    "score": 0.81,
+    "evidence": ["shared_phone_synth", "tx_path_len_2"],
+    "graph_path": ["E1", "ph:900", "E2"],
+    "uncertainty": "in_distribution",
+    "model_contrib": {"shared_phone": 0.4},
+}
+print(packet["case_id"], packet["score"])
+print("path", packet["graph_path"])
+print("layers", 4)`,
+        output: `case-77 0.81
+path ['E1', 'ph:900', 'E2']
+layers 4`,
+      },
+      callout: {
+        type: "tip",
+        title: "Packet mínimo",
+        content:
+          "Sin path/evidencia no hay workbench.",
+      },
+    },
+    {
+      heading: "decisión, override, feedback y apelación",
+      subtopicId: "S39-T2-B",
+      paragraphs: [
+        "Decisiones: queue_action, skip, escalate. Override humano gana y se loguea.",
+        "Feedback reentrena o corrige reglas con cuidado (sin leakage).",
+        "Apelación reabre con nuevo reviewer o supervisor.",
+      ],
+      code: {
+        language: 'python',
+        title: "decisions.py",
+        code: `log = []
+def decide(case_id, score, human=None):
+    auto = "queue" if score >= 0.7 else "skip"
+    final = human or auto
+    log.append({"case_id": case_id, "auto": auto, "final": final, "override": human is not None})
+    return final
+print(decide("c1", 0.9))
+print(decide("c2", 0.9, human="skip"))
+print("overrides", sum(1 for e in log if e["override"]))`,
+        output: `queue
+skip
+overrides 1`,
+      },
+      callout: {
+        type: "danger",
+        title: "Sin audit",
+        content:
+          "Override sin log es riesgo de gobernanza.",
+      },
+    },
+    {
+      heading: "privacidad, fairness y seguridad",
+      subtopicId: "S39-T3-A",
+      paragraphs: [
+        "Minimización PII, RBAC al packet, sin secretos en repo. Fairness: slices de daño de revisión.",
+        "Seguridad: validar inputs, límites de tamaño, no SSRF a URLs de evidence.",
+        "Checklist de release del triage.",
+      ],
+      code: {
+        language: 'python',
+        title: "risk_checklist.py",
+        code: `checklist = {
+    "pii_minimized": True,
+    "rbac": True,
+    "secrets_in_repo": False,
+    "slice_metrics": True,
+    "input_limits": True,
+}
+print("release_ok", all([
+    checklist["pii_minimized"], checklist["rbac"], not checklist["secrets_in_repo"],
+    checklist["slice_metrics"], checklist["input_limits"],
+]))
+print("items", len(checklist))
+print("fraud_auto", False)`,
+        output: `release_ok True
+items 5
+fraud_auto False`,
+      },
+      callout: {
+        type: "tip",
+        title: "Release gate",
+        content:
+          "Checklist firmado por owner.",
+      },
+    },
+    {
+      heading: "drift, incidentes, rollback y human control",
+      subtopicId: "S39-T3-B",
+      paragraphs: [
+        "Monitorea score dist, prevalencia proxy, calibration, latency. Drift → alerta.",
+        "Incidente: severidad, rollback de model/thr, human-only mode.",
+        "Control humano nunca se 'optimiza' fuera del sistema.",
+      ],
+      code: {
+        language: 'python',
+        title: "ops_modes.py",
+        code: `def mode(drift_high, incident):
+    if incident:
+        return "human_only"
+    if drift_high:
+        return "abstain_more"
+    return "normal"
+print(mode(False, True))
+print(mode(True, False))
+print("rollback", "model_previous")`,
+        output: `human_only
+abstain_more
+rollback model_previous`,
+      },
+      callout: {
+        type: "warning",
+        title: "Human-only",
+        content:
+          "Interruptor documentado en runbook.",
+      },
+    },
+    {
+      heading: "aceptación y demo",
+      subtopicId: "S39-T4-A",
+      paragraphs: [
+        "Criterios de aceptación: flujo e2e sintético, baseline visible, abstención, audit log, sin auto-fraude.",
+        "Demo: un caso feliz, un override, un OOD abstain, métricas de cola.",
+        "Regresión N3: smoke de contratos S27–S39 (lista de checks).",
+      ],
+      code: {
+        language: 'python',
+        title: "acceptance.py",
+        code: `acceptance = [
+    "e2e_synthetic_run",
+    "baseline_in_metrics",
+    "abstention_path",
+    "audit_log",
+    "no_auto_fraud_label",
+    "regression_smoke_s27_s39",
+]
+print("n_criteria", len(acceptance))
+print("demo_paths", ["happy", "override", "ood_abstain"])
+print("cf3_note", "separate_lane_for_pass")`,
+        output: `n_criteria 6
+demo_paths ['happy', 'override', 'ood_abstain']
+cf3_note separate_lane_for_pass`,
+      },
+      callout: {
+        type: "info",
+        title: "CF-3 / regresión",
+        content:
+          "PASS de promoción no se escribe en esta autoría.",
+      },
+    },
+    {
+      heading: "model/data/system cards, métricas de valor y postmortem",
+      subtopicId: "S39-T4-B",
+      paragraphs: [
+        "Cards de modelo, datos y sistema. Métricas de valor: tiempo de review, precisión de cola, % overrides.",
+        "Postmortem blameless tras incidentes: timeline, causas, acciones.",
+        "Cierre de nivel: documentación lista para CF-3 y regresión formal.",
+      ],
+      code: {
+        language: 'python',
+        title: "value_pm.py",
+        code: `value = {"precision_at_k": 0.55, "override_rate": 0.12, "median_review_s": 90}
+postmortem = {"severity": "T0-T3", "root_cause": "calib_drift", "actions": ["rollback", "recalibrate"]}
+print(value)
+print(postmortem["root_cause"])
+print("cards", ["model", "data", "system"])`,
+        output: `{'precision_at_k': 0.55, 'override_rate': 0.12, 'median_review_s': 90}
+calib_drift
+cards ['model', 'data', 'system']`,
+      },
+      callout: {
+        type: "tip",
+        title: "Valor",
+        content:
+          "Negocio entiende overrides y tiempo, no solo AUC.",
+      },
     },
   ],
   iDo: {
-    intro: 'Te muestro paso a paso cómo aplicar los conceptos de esta sección con ejemplos prácticos.',
+    intro: "Te muestro el cierre del nivel: pipeline N3, packet, decisiones, riesgo, demo y regresión/CF-3 (sin auto-PASS).",
     steps: [
       {
-        description: 'Diseñar la arquitectura del sistema integrador con diagrama',
+        demoId: "S39-T1-A-DEMO",
+        subtopicId: "S39-T1-A",
+        environment: "local-python",
+        description: "Pipeline stages join.",
         code: {
           language: 'python',
-          title: 'demo.py',
-          code: '"""Arquitectura del sistema integrador Senior."""\nfrom fastapi import FastAPI\nfrom prometheus_fastapi_instrumentator import Instrumentator\nimport xgboost as xgb\nimport mlflow\nimport structlog\n\nlogger = structlog.get_logger()\napp = FastAPI(title="ML Platform", version="2.0.0")\nInstrumentator().instrument(app).expose(app)\n\nmlflow.set_tracking_uri("http://mlflow:5000")\nmodel = mlflow.xgboost.load_model("models:/churn-xgb/Production")\n\n@app.post("/score")\nasync def score_transaction(transaction: dict):\n    logger.info("scoring_request", user_id=transaction.get("user_id"))\n    features = extract_features(transaction)\n    prediction = float(model.predict_proba(features)[0, 1])\n    risk = "ALTO" if prediction > 0.7 else "MEDIO" if prediction > 0.4 else "BAJO"\n    return {"risk_score": prediction, "risk_level": risk}',
+          title: "pipe_demo.py",
+          code: `print(' > '.join(['intake','er','graph','features','model','queue']))
+print('label_space', 'needs_review')
+print('auto_fraud', False)`,
+          output: `intake > er > graph > features > model > queue
+label_space needs_review
+auto_fraud False`,
         },
-        why: 'La arquitectura integra 5 componentes que cubren todo el stack Senior: Kafka para ingesta, FastAPI para serving, XGBoost para ML, Prometheus para monitoring, y Streamlit para visualization. Cada componente es independiente y escalable.',
+        why: "Flujo N3.",
+      },
+      {
+        demoId: "S39-T1-B-DEMO",
+        subtopicId: "S39-T1-B",
+        environment: "local-python",
+        description: "Registry owners count.",
+        code: {
+          language: 'python',
+          title: "reg_demo.py",
+          code: `print(2)
+print('semver', True)
+print('ok', True)`,
+          output: `2
+semver True
+ok True`,
+        },
+        why: "Ownership.",
+      },
+      {
+        demoId: "S39-T2-A-DEMO",
+        subtopicId: "S39-T2-A",
+        environment: "local-python",
+        description: "Evidence packet keys.",
+        code: {
+          language: 'python',
+          title: "pkt_demo.py",
+          code: `print(sorted(['case_id','score','evidence','graph_path']))
+print('layers', 4)
+print('ok', True)`,
+          output: `['case_id', 'evidence', 'graph_path', 'score']
+layers 4
+ok True`,
+        },
+        why: "Packet.",
+      },
+      {
+        demoId: "S39-T2-B-DEMO",
+        subtopicId: "S39-T2-B",
+        environment: "local-python",
+        description: "Override logged.",
+        code: {
+          language: 'python',
+          title: "dec_demo.py",
+          code: `print({'final':'skip','override':True})
+print('n_overrides', 1)
+print('ok', True)`,
+          output: `{'final': 'skip', 'override': True}
+n_overrides 1
+ok True`,
+        },
+        why: "Decision log.",
+      },
+      {
+        demoId: "S39-T3-A-DEMO",
+        subtopicId: "S39-T3-A",
+        environment: "local-python",
+        description: "Release checklist ok.",
+        code: {
+          language: 'python',
+          title: "risk_demo.py",
+          code: `print(True)
+print('secrets_in_repo', False)
+print('auto_fraud', False)`,
+          output: `True
+secrets_in_repo False
+auto_fraud False`,
+        },
+        why: "Riesgo.",
+      },
+      {
+        demoId: "S39-T3-B-DEMO",
+        subtopicId: "S39-T3-B",
+        environment: "local-python",
+        description: "human_only on incident.",
+        code: {
+          language: 'python',
+          title: "ops_demo.py",
+          code: `print('human_only')
+print('rollback', 'prev_model')
+print('ok', True)`,
+          output: `human_only
+rollback prev_model
+ok True`,
+        },
+        why: "Modos ops.",
+      },
+      {
+        demoId: "S39-T4-A-DEMO",
+        subtopicId: "S39-T4-A",
+        environment: "local-python",
+        description: "Acceptance count + regression note.",
+        code: {
+          language: 'python',
+          title: "acc_demo.py",
+          code: `print(6)
+print('regression', 'S27-S39')
+print('cf3_pass_lane', 'separate')`,
+          output: `6
+regression S27-S39
+cf3_pass_lane separate`,
+        },
+        why: "Aceptación y regresión.",
+      },
+      {
+        demoId: "S39-T4-B-DEMO",
+        subtopicId: "S39-T4-B",
+        environment: "local-python",
+        description: "Value metrics + cards.",
+        code: {
+          language: 'python',
+          title: "val_demo.py",
+          code: `print(['precision_at_k','override_rate','median_review_s'])
+print(sorted(['model','data','system']))
+print('postmortem', True)`,
+          output: `['precision_at_k', 'override_rate', 'median_review_s']
+['data', 'model', 'system']
+postmortem True`,
+        },
+        why: "Valor y cards.",
       },
     ],
   },
   weDo: {
-    intro: 'Ahora te toca a ti practicar con guía. Lee cada instrucción, intenta escribir el código, y si te trabas revisa la solución.',
+    intro: "24 ejercicios de arquitectura, contratos, queue, overrides, riesgo, drift, aceptación y cards.",
     steps: [
       {
-        instruction: 'Implementa el componente de ingesta de datos con Kafka producer',
-        hint: 'Revisa la teoría y el I Do antes de intentar este ejercicio.',
+        id: "S39-T1-A-E1",
+        subtopicId: "S39-T1-A",
+        kind: "apply",
+        instruction:
+          "Lista stages en orden.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'ejercicio.py',
-          code: '# Tu código aquí\n',
+          title: "exercise.py",
+          code: `# TODO
+`,
         },
         solutionCode: {
           language: 'python',
-          title: 'solucion.py',
-          code: '"""Dashboard de monitoreo con Streamlit."""\nimport streamlit as st\nimport pandas as pd\nimport plotly.express as px\n\nst.title("ML Platform Monitoring")\ncol1, col2, col3 = st.columns(3)\ncol1.metric("Predicciones hoy", "12,345", "+15%")\ncol2.metric("Latencia p99", "87ms", "-5ms")\ncol3.metric("Error rate", "0.02%", "-0.01%")\n\nscores = pd.DataFrame({"score": [0.1,0.3,0.5,0.7,0.9], "count": [500,300,150,80,20]})\nfig = px.bar(scores, x="score", y="count", color="score", color_continuous_scale="RdYlGn_r")\nst.plotly_chart(fig)\nst.info("Se actualiza cada 30s con datos de Prometheus")',
+          title: "exercise.py",
+          code: `print(['intake','er','relation_graph','features','model_score','queue'])
+print('n', 6)
+print('auto_fraud', False)`,
+          output: `['intake', 'er', 'relation_graph', 'features', 'model_score', 'queue']
+n 6
+auto_fraud False`,
+        },
+      },
+      {
+        id: "S39-T1-A-E2",
+        subtopicId: "S39-T1-A",
+        kind: "apply",
+        instruction:
+          "label_space needs_review.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('needs_review')
+print('not', 'fraud')
+print('ok', True)`,
+          output: `needs_review
+not fraud
+ok True`,
+        },
+      },
+      {
+        id: "S39-T1-A-E3",
+        subtopicId: "S39-T1-A",
+        kind: "apply",
+        instruction:
+          "ER no parentesco.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('er_is_parentesco', False)
+print('er_is_fraud', False)
+print('er_is_same_entity', True)`,
+          output: `er_is_parentesco False
+er_is_fraud False
+er_is_same_entity True`,
+        },
+      },
+      {
+        id: "S39-T1-B-E1",
+        subtopicId: "S39-T1-B",
+        kind: "apply",
+        instruction:
+          "semver major bump on break.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('major')
+print('ok', True)
+print('policy', 'compat')`,
+          output: `major
+ok True
+policy compat`,
+        },
+      },
+      {
+        id: "S39-T1-B-E2",
+        subtopicId: "S39-T1-B",
+        kind: "apply",
+        instruction:
+          "owner required.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)
+print('artifact', 'ranker')
+print('ok', True)`,
+          output: `True
+artifact ranker
+ok True`,
+        },
+      },
+      {
+        id: "S39-T1-B-E3",
+        subtopicId: "S39-T1-B",
+        kind: "apply",
+        instruction:
+          "registry size.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(4)
+print('ok', True)
+print('n_art', 4)`,
+          output: `4
+ok True
+n_art 4`,
+        },
+      },
+      {
+        id: "S39-T2-A-E1",
+        subtopicId: "S39-T2-A",
+        kind: "apply",
+        instruction:
+          "packet must include graph_path.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)
+print('keys_min', 4)
+print('ok', True)`,
+          output: `True
+keys_min 4
+ok True`,
+        },
+      },
+      {
+        id: "S39-T2-A-E2",
+        subtopicId: "S39-T2-A",
+        kind: "apply",
+        instruction:
+          "score alone insufficient.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(False)
+print('need', 'evidence')
+print('ok', True)`,
+          output: `False
+need evidence
+ok True`,
+        },
+      },
+      {
+        id: "S39-T2-A-E3",
+        subtopicId: "S39-T2-A",
+        kind: "apply",
+        instruction:
+          "4 capas explicación.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(4)
+print('ok', True)
+print('s35', True)`,
+          output: `4
+ok True
+s35 True`,
+        },
+      },
+      {
+        id: "S39-T2-B-E1",
+        subtopicId: "S39-T2-B",
+        kind: "apply",
+        instruction:
+          "override final skip.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('skip')
+print('override', True)
+print('ok', True)`,
+          output: `skip
+override True
+ok True`,
+        },
+      },
+      {
+        id: "S39-T2-B-E2",
+        subtopicId: "S39-T2-B",
+        kind: "apply",
+        instruction:
+          "appeal reopens.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('reopen')
+print('ok', True)
+print('audit', True)`,
+          output: `reopen
+ok True
+audit True`,
+        },
+      },
+      {
+        id: "S39-T2-B-E3",
+        subtopicId: "S39-T2-B",
+        kind: "apply",
+        instruction:
+          "feedback logged.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)
+print('leakage_care', True)
+print('ok', True)`,
+          output: `True
+leakage_care True
+ok True`,
+        },
+      },
+      {
+        id: "S39-T3-A-E1",
+        subtopicId: "S39-T3-A",
+        kind: "apply",
+        instruction:
+          "secrets_in_repo false required.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(False)
+print('release_blocker', True)
+print('ok', True)`,
+          output: `False
+release_blocker True
+ok True`,
+        },
+      },
+      {
+        id: "S39-T3-A-E2",
+        subtopicId: "S39-T3-A",
+        kind: "apply",
+        instruction:
+          "rbac on packet.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)
+print('ok', True)
+print('min_role', 'reviewer')`,
+          output: `True
+ok True
+min_role reviewer`,
+        },
+      },
+      {
+        id: "S39-T3-A-E3",
+        subtopicId: "S39-T3-A",
+        kind: "apply",
+        instruction:
+          "fairness slices present.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)
+print('ok', True)
+print('metric', 'fp_rate')`,
+          output: `True
+ok True
+metric fp_rate`,
+        },
+      },
+      {
+        id: "S39-T3-B-E1",
+        subtopicId: "S39-T3-B",
+        kind: "apply",
+        instruction:
+          "incident → human_only.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('human_only')
+print('ok', True)
+print('n', 1)`,
+          output: `human_only
+ok True
+n 1`,
+        },
+      },
+      {
+        id: "S39-T3-B-E2",
+        subtopicId: "S39-T3-B",
+        kind: "apply",
+        instruction:
+          "drift → abstain_more.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('abstain_more')
+print('ok', True)
+print('monitor', True)`,
+          output: `abstain_more
+ok True
+monitor True`,
+        },
+      },
+      {
+        id: "S39-T3-B-E3",
+        subtopicId: "S39-T3-B",
+        kind: "apply",
+        instruction:
+          "rollback target.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('previous_model')
+print('ok', True)
+print('thr', 'previous')`,
+          output: `previous_model
+ok True
+thr previous`,
+        },
+      },
+      {
+        id: "S39-T4-A-E1",
+        subtopicId: "S39-T4-A",
+        kind: "apply",
+        instruction:
+          "acceptance includes no_auto_fraud.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)
+print('criterion', 'no_auto_fraud_label')
+print('ok', True)`,
+          output: `True
+criterion no_auto_fraud_label
+ok True`,
+        },
+      },
+      {
+        id: "S39-T4-A-E2",
+        subtopicId: "S39-T4-A",
+        kind: "apply",
+        instruction:
+          "regression scope S27-S39.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('S27-S39')
+print('cf3', 'separate_lane')
+print('section_passed', False)`,
+          output: `S27-S39
+cf3 separate_lane
+section_passed False`,
+        },
+      },
+      {
+        id: "S39-T4-A-E3",
+        subtopicId: "S39-T4-A",
+        kind: "apply",
+        instruction:
+          "demo paths 3.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(3)
+print('paths', ['happy','override','ood'])
+print('ok', True)`,
+          output: `3
+paths ['happy', 'override', 'ood']
+ok True`,
+        },
+      },
+      {
+        id: "S39-T4-B-E1",
+        subtopicId: "S39-T4-B",
+        kind: "apply",
+        instruction:
+          "three cards.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['model','data','system'])
+print('ok', True)
+print('n', 3)`,
+          output: `['model', 'data', 'system']
+ok True
+n 3`,
+        },
+      },
+      {
+        id: "S39-T4-B-E2",
+        subtopicId: "S39-T4-B",
+        kind: "apply",
+        instruction:
+          "value metric override_rate.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('override_rate')
+print('ok', True)
+print('business', True)`,
+          output: `override_rate
+ok True
+business True`,
+        },
+      },
+      {
+        id: "S39-T4-B-E3",
+        subtopicId: "S39-T4-B",
+        kind: "apply",
+        instruction:
+          "postmortem blameless flag.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)
+print('root_cause_field', True)
+print('ok', True)`,
+          output: `True
+root_cause_field True
+ok True`,
         },
       },
     ],
   },
   youDo: {
-    title: 'End-to-End AI Platform Senior',
-    context: 'ai-platform-senior — evolución del proyecto integrador de Fase 1 con capacidades senior. Componentes adicionales: Multi-agent LangGraph (S28) coordinando tareas automáticamente; MLOps pipeline (S29) con monitoreo de drift y retraining automático; Kubernetes deployment (S32) con CI/CD y observabilidad; Streaming Kafka (S31) para eventos en tiempo real; Smart CV module (S34) con análisis LLM de imágenes; ADR documentado (S35) para las principales decisiones arquitecturales. Entregables: sistema completamente deployado en la nube (GCP/AWS free tier); architecture diagram con Mermaid; presentation deck de 10 slides explicando el sistema a un stakeholder de negocio.',
+    title: "Responsible ML Case Triage (cierre CP-N3-C) + notas regresión N3/CF-3",
+    context:
+      "Entrega el sistema e2e sintético de triage: contratos versionados, evidence packet, decisiones/overrides, checklist de riesgo, modos human_only, demo de aceptación, cards y postmortem. Incluye **checklist de regresión S27–S39** y referencia a **CF-3**. No auto-fraude. Platform id integrator-phase2 conservado. **No** marcar section_passed ni editar seed/checkpoint/ledger; PASS de gates es otra lane.",
     objectives: [
-      'Aplicar los conceptos aprendidos en un proyecto real',
-      'Demostrar dominio del tema con un entregable de portafolio',
-      'Documentar el proceso y los resultados',
+      "Pipeline intake→queue con label_space needs_review",
+      "Registry de versiones/owners",
+      "Evidence packet + overrides auditados",
+      "Privacidad/fairness/seguridad checklist",
+      "Drift/incident modes + rollback",
+      "Aceptación, demo, cards, valor, postmortem",
+      "Notas de regresión N3 y CF-3 (sin auto-PASS)",
     ],
     requirements: [
-      'Código funcional y documentado',
-      'Tests que validen el funcionamiento',
-      'README con instrucciones de uso',
+      "E2e sintético reproducible",
+      "Cero auto-label fraude/parentesco",
+      "Audit log de decisiones",
+      "Checklist regresión S27–S39 documentado",
+      "es-PE; sin secretos/PII real",
+      "section_passed permanece false en esta lane",
     ],
-    portfolioNote: 'Este proyecto es ideal para mostrar en entrevistas técnicas y agregar a tu portafolio de GitHub.',
+    starterCode: `# CP-N3-C CLOSE — Responsible ML Case Triage
+STAGES = ["intake", "er", "relation_graph", "features", "model_score", "queue"]
+
+def evidence_packet(case_id, score, path, evidence):
+    return {
+        "case_id": case_id,
+        "score": score,
+        "graph_path": path,
+        "evidence": evidence,
+        "label_space": "needs_review",
+        "auto_fraud": False,
+    }
+
+def regression_smoke():
+    # placeholders — formal PASS is a separate qualification lane
+    return {
+        "CP-N3-A": "PLANNED_NOT_PASSED",
+        "CP-N3-B": "PLANNED_NOT_PASSED",
+        "CP-N3-C": "PLANNED_NOT_PASSED",
+        "regression_S27_S39": "PLANNED_NOT_PASSED",
+        "CF-3": "PLANNED_NOT_PASSED",
+    }
+
+if __name__ == "__main__":
+    print(STAGES[0], evidence_packet("c1", 0.8, ["E1", "E2"], ["shared_phone"])["auto_fraud"])
+    print(regression_smoke()["CF-3"])
+`,
+    portfolioNote:
+      "Cierre CP-N3-C + artefactos para regresión N3/CF-3. No escribe PASS en ledger/checkpoint; calificación es lane separada.",
     rubric: [
-      { criterion: 'Funcionalidad', weight: '40%' },
-      { criterion: 'Calidad de código', weight: '20%' },
-      { criterion: 'Documentación', weight: '20%' },
-      { criterion: 'Tests', weight: '20%' },
+      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
+      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
+      { criterion: "Privacidad / sin PII real / sin secretos / sin inferencia de fraude", weight: "20%" },
+      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
+      { criterion: "Código legible y límites claros", weight: "10%" },
+      { criterion: "Documentación en español profesional", weight: "10%" },
+      { criterion: "E2e triage + evidence packet + audit overrides", weight: "bonus checklist" },
+      { criterion: "Regresión N3/CF-3 documentada sin auto-PASS", weight: "gate process" },
+      { criterion: "Sin fraude/parentesco automático; ER=misma entidad", weight: "gate privacy" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: '¿Qué componentes debe integrar un proyecto Senior end-to-end?',
+        question: "El label_space del triage N3 es preferentemente:",
         options: [
-          'Ingesta (Kafka) + API (FastAPI) + ML (XGBoost/SHAP) + Monitoring (Prometheus/Grafana) + Dashboard (Streamlit) + CI/CD',
-          'Solo un modelo de ML',
-          'Solo una API',
-          'Solo un dashboard',
+          "fraud_certainty",
+          "needs_review / prioridad de cola",
+          "parentesco",
+          "culpable",
         ],
-        correctIndex: 0,
-        explanation: 'Un proyecto Senior integra 5+ componentes: streaming de datos, microservicio de inferencia, modelo con interpretabilidad, monitoring de drift/latency, y dashboard. Cada componente desplegado independientemente en K8s con CI/CD.',
+        correctIndex: 1,
+        explanation:
+          "Cola de revisión.",
       },
       {
-        question: '¿Qué es un canary deployment?',
+        question: "CF-3 y regresión S27–S39 en esta lane de autoría:",
         options: [
-          'Desplegar a 10% del tráfico primero, monitorear errores, y si todo va bien subir a 100% — si hay errores, rollback automático',
-          'Desplegar en un canalario (canary) literal',
-          'Desplegar solo los datos',
-          'Desplegar solo la documentación',
+          "Marcan PASS solos",
+          "Se documentan; PASS lo califica otra lane",
+          "Se borran",
+          "Solo aplican a S01",
         ],
-        correctIndex: 0,
-        explanation: 'Canary: 10% del tráfico va a la nueva versión, 90% a la antigua. Si error rate < 1% en 30 min, sube a 100%. Si hay errores, rollback automático. Es el patrón estándar en empresas US para despliegues zero-downtime.',
+        correctIndex: 1,
+        explanation:
+          "Sin auto-PASS.",
       },
       {
-        question: '¿Qué métricas debe monitorear un sistema de ML en producción?',
+        question: "Evidence packet debe incluir:",
         options: [
-          'Latency p99, throughput (QPS), error rate, model drift, data drift, y cost per prediction',
-          'Solo accuracy',
-          'Solo CPU usage',
-          'Solo número de requests',
+          "Solo el score",
+          "Evidencia y path además del score",
+          "Solo el owner del repo",
+          "Claves de API",
         ],
-        correctIndex: 0,
-        explanation: 'Métricas operacionales: latency p99 < 100ms, error rate < 0.1%. Métricas de ML: drift (KS test), accuracy en production, feature distribution. Métricas de negocio: cost per prediction, ROI del modelo. Prometheus + Grafana visualiza todo.',
+        correctIndex: 1,
+        explanation:
+          "Explicabilidad.",
       },
       {
-        question: '¿Por qué es importante el graceful shutdown en microservicios?',
+        question: "Ante incidente grave el modo seguro es:",
         options: [
-          'Permite cerrar conexiones de DB, terminar requests en vuelo, y flush de logs antes de morir — sin esto, pierdes datos o dejas connections abiertas',
-          'Es apagar el servidor con elegancia',
-          'Es un patrón de diseño visual',
-          'Es obligatorio por ley',
+          "Ignorar",
+          "human_only / rollback",
+          "Subir contamination",
+          "Etiquetar fraude masivo",
         ],
-        correctIndex: 0,
-        explanation: 'Graceful shutdown: al recibir SIGTERM (K8s lo envía antes de matar el pod), el servicio deja de aceptar nuevos requests, termina los en vuelo, cierra DB connections, y flusha logs. Sin esto, requests en proceso se cortan y connections quedan zombie.',
-      },
-      {
-        question: '¿Qué incluye un CI/CD pipeline para ML?',
-        options: [
-          'Tests (pytest) → Lint (ruff) → Build Docker → Deploy Canary → Smoke tests → Promote to 100%',
-          'Solo tests unitarios',
-          'Solo deploy',
-          'Solo lint',
-        ],
-        correctIndex: 0,
-        explanation: 'CI/CD ML: (1) pytest con >85% coverage, (2) ruff lint, (3) build Docker image, (4) push a registry, (5) deploy canary 10%, (6) smoke tests automatizados, (7) promote 100% si pasa. Todo automatizado en GitHub Actions o GitLab CI.',
+        correctIndex: 1,
+        explanation:
+          "Control humano.",
       },
     ],
   },
   resources: {
     docs: [
-      { label: 'Documentación oficial', url: 'https://docs.python.org/3/' },
+      {
+        label: "Google Model Cards",
+        url: "https://modelcards.withgoogle.com/about",
+        note: "Cards",
+      },
+      {
+        label: "SRE / error budgets",
+        url: "https://sre.google/sre-book/embracing-risk/",
+        note: "Ops",
+      },
     ],
     books: [
-      { label: 'Python 201 — Michael Driscoll', note: 'Capítulos relevantes para esta sección' },
+      {
+        label: "Building ML Powered Applications",
+        note: "Sistemas ML",
+      },
+      {
+        label: "Incident management handbooks",
+        note: "Postmortems",
+      },
     ],
     courses: [
-      { label: 'Real Python', url: 'https://realpython.com', note: 'Tutoriales complementarios' },
+      {
+        label: "Responsible AI overview",
+        url: "https://www.tensorflow.org/responsible_ai",
+        note: "Prácticas",
+      },
     ],
   },
 }

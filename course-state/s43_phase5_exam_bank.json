@@ -1,0 +1,111 @@
+{
+  "version": "3.2",
+  "section": "S43",
+  "section_id": "llmops",
+  "phase": "PHASE_5",
+  "lane": "LANE-S40-S52-CLOSE",
+  "generated_at": "2026-07-20T23:59:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "llmops",
+    "title_v3": "Contenedores y reproducibilidad operativa",
+    "privacy_note": "matching/resolución de entidades no implica fraude, parentesco ni colusión"
+  },
+  "retired_from_bank": [
+    "implementar-tracing-completo-c",
+    "construir-evaluación-continua:",
+    "implementar-prompt-versioning:",
+    "a-b-testing-de-modelos-y-promp"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S43 (Contenedores y reproducibilidad operativa).",
+  "families": [
+    {
+      "family_id": "S43-T1-A-EX",
+      "concept": "dockerfile-layers-cache",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S43-T1-B-EX",
+      "concept": "bases-nonroot-size",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S43-T2-A-EX",
+      "concept": "config-secrets-volumes",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S43-T2-B-EX",
+      "concept": "net-health-signals",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S43-T3-A-EX",
+      "concept": "api-worker-db-cache",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S43-T3-B-EX",
+      "concept": "deps-migrations-ephemeral",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S43-T4-A-EX",
+      "concept": "locks-multistage",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S43-T4-B-EX",
+      "concept": "scan-limits-debug",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (llmops key)",
+    "course-state/s43_phase5_exam_bank.json"
+  ]
+}

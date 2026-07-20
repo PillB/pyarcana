@@ -1,0 +1,1068 @@
+{
+  "version": "3.2",
+  "section": "S36",
+  "section_id": "ai-apis-advanced",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S36 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S36 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s36-ai-apis-advanced.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "ai-apis-advanced",
+    "index": 36,
+    "title_platform": "APIs de IA Avanzadas — Tool Use, Structured Outputs, Batch API",
+    "title_v3": "Clustering, anomalías y validación temporal",
+    "title_decision": "KEEP platform id 'ai-apis-advanced' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "señales auxiliares evaluadas por utilidad de revisión; una anomalía nunca es conclusión de conducta indebida",
+    "estimatedHours": 12,
+    "level": "Competente a experto",
+    "phase": 2,
+    "prerequisites": [
+      "S35"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N3-C (señales)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "ai-apis-advanced",
+    "platform_title": "APIs de IA Avanzadas — Tool Use, Structured Outputs, Batch API",
+    "v3_title": "Clustering, anomalías y validación temporal",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante aplica clustering con escalamiento.",
+    "El estudiante elige k y reporta límites de métricas.",
+    "El estudiante proyecta con PCA para explorar.",
+    "El estudiante interpreta proyecciones con prudencia.",
+    "El estudiante detecta anomalías con IF/LOF/reglas.",
+    "El estudiante distingue novelty vs outlier.",
+    "El estudiante valida con backtests temporales.",
+    "El estudiante evalúa con labels escasos y review."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S36-T1-A",
+      "slug": "scale-kmeans-density",
+      "title": "escalamiento y k-means/density"
+    },
+    {
+      "subtopic_id": "S36-T1-B",
+      "slug": "choice-stability-metrics",
+      "title": "elección, estabilidad y métricas limitadas"
+    },
+    {
+      "subtopic_id": "S36-T2-A",
+      "slug": "pca-visualization",
+      "title": "PCA y visualización"
+    },
+    {
+      "subtopic_id": "S36-T2-B",
+      "slug": "prudent-projection-interp",
+      "title": "interpretación prudente de proyecciones"
+    },
+    {
+      "subtopic_id": "S36-T3-A",
+      "slug": "iforest-lof-rules",
+      "title": "Isolation Forest/LOF y reglas"
+    },
+    {
+      "subtopic_id": "S36-T3-B",
+      "slug": "novelty-vs-outlier-contam",
+      "title": "novelty vs outlier y contamination"
+    },
+    {
+      "subtopic_id": "S36-T4-A",
+      "slug": "splits-backtests-windows",
+      "title": "splits/backtests y ventanas"
+    },
+    {
+      "subtopic_id": "S36-T4-B",
+      "slug": "scarce-labels-pk-human",
+      "title": "labels escasos, precision@k y revisión humana"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S36-T1",
+      "title": "Clustering",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S36-T1-A",
+          "slug": "scale-kmeans-density",
+          "title": "escalamiento y k-means/density",
+          "outcome": "El estudiante aplica clustering con escalamiento.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "escalamiento y k-means/density",
+              "must_cover": [
+                "StandardScaler",
+                "k-means",
+                "DBSCAN"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S36-T1-A-DEMO",
+              "title": "Demo: escalamiento y k-means/density",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S36-T1-A-E1",
+                "kind": "guided",
+                "title": "escalamiento y k-means/density — guided",
+                "skill": "scale",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S36-T1-A-E2",
+                "kind": "independent",
+                "title": "escalamiento y k-means/density — independent",
+                "skill": "scale",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S36-T1-A-E3",
+                "kind": "transfer",
+                "title": "escalamiento y k-means/density — transfer",
+                "skill": "scale",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S36-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S36-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S36-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S36-T1-B",
+          "slug": "choice-stability-metrics",
+          "title": "elección, estabilidad y métricas limitadas",
+          "outcome": "El estudiante elige k y reporta límites de métricas.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "elección, estabilidad y métricas limitadas",
+              "must_cover": [
+                "silhouette",
+                "stability"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S36-T1-B-DEMO",
+              "title": "Demo: elección, estabilidad y métricas limitadas",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S36-T1-B-E1",
+                "kind": "guided",
+                "title": "elección, estabilidad y métricas limitadas — guided",
+                "skill": "choice",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S36-T1-B-E2",
+                "kind": "independent",
+                "title": "elección, estabilidad y métricas limitadas — independent",
+                "skill": "choice",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S36-T1-B-E3",
+                "kind": "transfer",
+                "title": "elección, estabilidad y métricas limitadas — transfer",
+                "skill": "choice",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S36-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S36-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S36-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S36-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S36-T1-EVAL-1",
+            "title": "escalamiento y k-means/density — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S36-T1-EVAL-2",
+            "title": "elección, estabilidad y métricas limitadas — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S36-T2",
+      "title": "Dimensión",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S36-T2-A",
+          "slug": "pca-visualization",
+          "title": "PCA y visualización",
+          "outcome": "El estudiante proyecta con PCA para explorar.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "PCA y visualización",
+              "must_cover": [
+                "PCA",
+                "projection"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S36-T2-A-DEMO",
+              "title": "Demo: PCA y visualización",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S36-T2-A-E1",
+                "kind": "guided",
+                "title": "PCA y visualización — guided",
+                "skill": "pca",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S36-T2-A-E2",
+                "kind": "independent",
+                "title": "PCA y visualización — independent",
+                "skill": "pca",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S36-T2-A-E3",
+                "kind": "transfer",
+                "title": "PCA y visualización — transfer",
+                "skill": "pca",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S36-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S36-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S36-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S36-T2-B",
+          "slug": "prudent-projection-interp",
+          "title": "interpretación prudente de proyecciones",
+          "outcome": "El estudiante interpreta proyecciones con prudencia.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "interpretación prudente de proyecciones",
+              "must_cover": [
+                "projection limits"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S36-T2-B-DEMO",
+              "title": "Demo: interpretación prudente de proyecciones",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S36-T2-B-E1",
+                "kind": "guided",
+                "title": "interpretación prudente de proyecciones — guided",
+                "skill": "prudent",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S36-T2-B-E2",
+                "kind": "independent",
+                "title": "interpretación prudente de proyecciones — independent",
+                "skill": "prudent",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S36-T2-B-E3",
+                "kind": "transfer",
+                "title": "interpretación prudente de proyecciones — transfer",
+                "skill": "prudent",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S36-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S36-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S36-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S36-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S36-T2-EVAL-1",
+            "title": "PCA y visualización — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S36-T2-EVAL-2",
+            "title": "interpretación prudente de proyecciones — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S36-T3",
+      "title": "Anomalías",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S36-T3-A",
+          "slug": "iforest-lof-rules",
+          "title": "Isolation Forest/LOF y reglas",
+          "outcome": "El estudiante detecta anomalías con IF/LOF/reglas.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Isolation Forest/LOF y reglas",
+              "must_cover": [
+                "IsolationForest",
+                "LOF"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S36-T3-A-DEMO",
+              "title": "Demo: Isolation Forest/LOF y reglas",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S36-T3-A-E1",
+                "kind": "guided",
+                "title": "Isolation Forest/LOF y reglas — guided",
+                "skill": "iforest",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S36-T3-A-E2",
+                "kind": "independent",
+                "title": "Isolation Forest/LOF y reglas — independent",
+                "skill": "iforest",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S36-T3-A-E3",
+                "kind": "transfer",
+                "title": "Isolation Forest/LOF y reglas — transfer",
+                "skill": "iforest",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S36-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S36-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S36-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S36-T3-B",
+          "slug": "novelty-vs-outlier-contam",
+          "title": "novelty vs outlier y contamination",
+          "outcome": "El estudiante distingue novelty vs outlier.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "novelty vs outlier y contamination",
+              "must_cover": [
+                "novelty",
+                "contamination"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S36-T3-B-DEMO",
+              "title": "Demo: novelty vs outlier y contamination",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S36-T3-B-E1",
+                "kind": "guided",
+                "title": "novelty vs outlier y contamination — guided",
+                "skill": "novelty",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S36-T3-B-E2",
+                "kind": "independent",
+                "title": "novelty vs outlier y contamination — independent",
+                "skill": "novelty",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S36-T3-B-E3",
+                "kind": "transfer",
+                "title": "novelty vs outlier y contamination — transfer",
+                "skill": "novelty",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S36-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S36-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S36-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S36-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S36-T3-EVAL-1",
+            "title": "Isolation Forest/LOF y reglas — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S36-T3-EVAL-2",
+            "title": "novelty vs outlier y contamination — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S36-T4",
+      "title": "Tiempo",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S36-T4-A",
+          "slug": "splits-backtests-windows",
+          "title": "splits/backtests y ventanas",
+          "outcome": "El estudiante valida con backtests temporales.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "splits/backtests y ventanas",
+              "must_cover": [
+                "backtest",
+                "rolling window"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S36-T4-A-DEMO",
+              "title": "Demo: splits/backtests y ventanas",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S36-T4-A-E1",
+                "kind": "guided",
+                "title": "splits/backtests y ventanas — guided",
+                "skill": "splits",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S36-T4-A-E2",
+                "kind": "independent",
+                "title": "splits/backtests y ventanas — independent",
+                "skill": "splits",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S36-T4-A-E3",
+                "kind": "transfer",
+                "title": "splits/backtests y ventanas — transfer",
+                "skill": "splits",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S36-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S36-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S36-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S36-T4-B",
+          "slug": "scarce-labels-pk-human",
+          "title": "labels escasos, precision@k y revisión humana",
+          "outcome": "El estudiante evalúa con labels escasos y review.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "labels escasos, precision@k y revisión humana",
+              "must_cover": [
+                "precision@k",
+                "human review"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S36-T4-B-DEMO",
+              "title": "Demo: labels escasos, precision@k y revisión humana",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S36-T4-B-E1",
+                "kind": "guided",
+                "title": "labels escasos, precision@k y revisión humana — guided",
+                "skill": "scarce",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S36-T4-B-E2",
+                "kind": "independent",
+                "title": "labels escasos, precision@k y revisión humana — independent",
+                "skill": "scarce",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S36-T4-B-E3",
+                "kind": "transfer",
+                "title": "labels escasos, precision@k y revisión humana — transfer",
+                "skill": "scarce",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S36-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S36-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S36-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S36-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S36-T4-EVAL-1",
+            "title": "splits/backtests y ventanas — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S36-T4-EVAL-2",
+            "title": "labels escasos, precision@k y revisión humana — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S36-PROJ",
+    "title": "Clustering, anomalías y validación temporal",
+    "replaces_legacy": "Legacy You Do de 'APIs de IA Avanzadas — Tool Use, Structured Outputs, Batch API' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "señales auxiliares evaluadas por utilidad de revisión; una anomalía nunca es conclusión de conducta indebida.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N3-C (señales)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N3-C (señales)",
+    "increment_gate": "señales auxiliares evaluadas por utilidad de revisión; una anomalía nunca es conclusión de conducta indebida."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'ai-apis-advanced' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s36-ai-apis-advanced.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'APIs de IA Avanzadas — Tool Use, Structured Outputs, Batch API' vs 'Clustering, anomalías y validación temporal'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N3-C (señales)",
+    "increment_gate": "señales auxiliares evaluadas por utilidad de revisión; una anomalía nunca es conclusión de conducta indebida.",
+    "project_id": "S36-PROJ",
+    "section_passed": false,
+    "notes": "S36 contributes to CP-N3-C (señales). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S36",
+    "risk": "Display title still 'APIs de IA Avanzadas — Tool Use, Structured Outputs, Batch API' until product rename; topic mismatch vs V3 'Clustering, anomalías y validación temporal'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S36-T1-A first"
+  }
+}

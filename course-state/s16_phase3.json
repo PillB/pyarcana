@@ -1,0 +1,1076 @@
+{
+  "version": "3.2",
+  "section": "S16",
+  "section_id": "wxpython-gui",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T17:30:00Z",
+  "lane": "LANE-N2-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N2-FACTORY — S14–S26 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N2-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S16 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S16 only (within N2 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s16-wxpython-gui.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "wxpython-gui",
+    "index": 16,
+    "title_platform": "GUI de Escritorio con wxPython",
+    "title_v3": "Calidad, limpieza y contratos de datos",
+    "title_decision": "KEEP platform id 'wxpython-gui' (learning_roadmap.md). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca “arregla” silenciosamente u",
+    "estimatedHours": 12,
+    "level": "Principiante avanzado a competente",
+    "phase": 1,
+    "prerequisites": [
+      "S15"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N2-A (quality)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "wxpython-gui",
+    "platform_title": "GUI de Escritorio con wxPython",
+    "v3_title": "Calidad, limpieza y contratos de datos",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "learning_roadmap.md for stable id; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante define políticas de null por campo.",
+    "El estudiante limita imputación y usa indicadores de ausencia.",
+    "El estudiante distingue duplicados exactos de conflictos.",
+    "El estudiante conserva evidencia al resolver claves/cardinalidad.",
+    "El estudiante normaliza strings/números/fechas/categorías.",
+    "El estudiante clasifica outliers plausibles vs errores.",
+    "El estudiante implementa contratos de schema y cross-field.",
+    "El estudiante cuarentena fallos con métricas y audit trail."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S16-T1-A",
+      "slug": "nulls-field-policies",
+      "title": "nulls y políticas por campo"
+    },
+    {
+      "subtopic_id": "S16-T1-B",
+      "slug": "indicators-imputation-limits",
+      "title": "indicadores y límites de imputación"
+    },
+    {
+      "subtopic_id": "S16-T2-A",
+      "slug": "exact-vs-conflict-dups",
+      "title": "exactos y conflictos"
+    },
+    {
+      "subtopic_id": "S16-T2-B",
+      "slug": "keys-cardinality-evidence",
+      "title": "claves, cardinalidad y conservación de evidencia"
+    },
+    {
+      "subtopic_id": "S16-T3-A",
+      "slug": "normalize-strings-nums-dates-cats",
+      "title": "strings, números, fechas y categorías"
+    },
+    {
+      "subtopic_id": "S16-T3-B",
+      "slug": "outliers-plausible-vs-error",
+      "title": "outliers plausibles vs errores"
+    },
+    {
+      "subtopic_id": "S16-T4-A",
+      "slug": "schema-crossfield-rules",
+      "title": "reglas de schema y cross-field"
+    },
+    {
+      "subtopic_id": "S16-T4-B",
+      "slug": "metrics-quarantine-audit",
+      "title": "métricas, cuarentena y audit trail"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S16-T1",
+      "title": "Ausencia",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S16-T1-A",
+          "slug": "nulls-field-policies",
+          "title": "nulls y políticas por campo",
+          "outcome": "El estudiante define políticas de null por campo.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "nulls y políticas por campo",
+              "must_cover": [
+                "isna",
+                "policy per field",
+                "required vs optional"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S16-T1-A-DEMO",
+              "title": "Aplicar políticas de null por campo documentadas",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S16-T1-A-E1",
+                "kind": "guided",
+                "title": "nulls y políticas por campo — guided",
+                "skill": "nulls",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S16-T1-A-E2",
+                "kind": "independent",
+                "title": "nulls y políticas por campo — independent",
+                "skill": "nulls",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S16-T1-A-E3",
+                "kind": "transfer",
+                "title": "nulls y políticas por campo — transfer",
+                "skill": "nulls",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S16-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S16-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S16-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S16-T1-B",
+          "slug": "indicators-imputation-limits",
+          "title": "indicadores y límites de imputación",
+          "outcome": "El estudiante limita imputación y usa indicadores de ausencia.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "indicadores y límites de imputación",
+              "must_cover": [
+                "missing indicators",
+                "impute caps",
+                "no silent fill"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S16-T1-B-DEMO",
+              "title": "Imputar solo dentro de límites; marcar indicadores",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S16-T1-B-E1",
+                "kind": "guided",
+                "title": "indicadores y límites de imputación — guided",
+                "skill": "indicators",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S16-T1-B-E2",
+                "kind": "independent",
+                "title": "indicadores y límites de imputación — independent",
+                "skill": "indicators",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S16-T1-B-E3",
+                "kind": "transfer",
+                "title": "indicadores y límites de imputación — transfer",
+                "skill": "indicators",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S16-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S16-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S16-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S16-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S16-T1-EVAL-1",
+            "title": "nulls y políticas por campo — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S16-T1-EVAL-2",
+            "title": "indicadores y límites de imputación — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S16-T2",
+      "title": "Duplicados",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S16-T2-A",
+          "slug": "exact-vs-conflict-dups",
+          "title": "exactos y conflictos",
+          "outcome": "El estudiante distingue duplicados exactos de conflictos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "exactos y conflictos",
+              "must_cover": [
+                "duplicated",
+                "conflict rows",
+                "keep policies"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S16-T2-A-DEMO",
+              "title": "Detectar duplicados exactos vs conflictos de valor",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S16-T2-A-E1",
+                "kind": "guided",
+                "title": "exactos y conflictos — guided",
+                "skill": "exact",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S16-T2-A-E2",
+                "kind": "independent",
+                "title": "exactos y conflictos — independent",
+                "skill": "exact",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S16-T2-A-E3",
+                "kind": "transfer",
+                "title": "exactos y conflictos — transfer",
+                "skill": "exact",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S16-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S16-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S16-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S16-T2-B",
+          "slug": "keys-cardinality-evidence",
+          "title": "claves, cardinalidad y conservación de evidencia",
+          "outcome": "El estudiante conserva evidencia al resolver claves/cardinalidad.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "claves, cardinalidad y conservación de evidencia",
+              "must_cover": [
+                "key columns",
+                "cardinality",
+                "quarantine dups"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S16-T2-B-DEMO",
+              "title": "Preservar evidencia al resolver duplicados",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S16-T2-B-E1",
+                "kind": "guided",
+                "title": "claves, cardinalidad y conservación de evidencia — guided",
+                "skill": "keys",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S16-T2-B-E2",
+                "kind": "independent",
+                "title": "claves, cardinalidad y conservación de evidencia — independent",
+                "skill": "keys",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S16-T2-B-E3",
+                "kind": "transfer",
+                "title": "claves, cardinalidad y conservación de evidencia — transfer",
+                "skill": "keys",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S16-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S16-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S16-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S16-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S16-T2-EVAL-1",
+            "title": "exactos y conflictos — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S16-T2-EVAL-2",
+            "title": "claves, cardinalidad y conservación de evidencia — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S16-T3",
+      "title": "Normalización",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S16-T3-A",
+          "slug": "normalize-strings-nums-dates-cats",
+          "title": "strings, números, fechas y categorías",
+          "outcome": "El estudiante normaliza strings/números/fechas/categorías.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "strings, números, fechas y categorías",
+              "must_cover": [
+                "strip/case",
+                "decimal/locale",
+                "date parse",
+                "cat map"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S16-T3-A-DEMO",
+              "title": "Normalizar tipos sin borrar valores originales",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S16-T3-A-E1",
+                "kind": "guided",
+                "title": "strings, números, fechas y categorías — guided",
+                "skill": "normalize",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S16-T3-A-E2",
+                "kind": "independent",
+                "title": "strings, números, fechas y categorías — independent",
+                "skill": "normalize",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S16-T3-A-E3",
+                "kind": "transfer",
+                "title": "strings, números, fechas y categorías — transfer",
+                "skill": "normalize",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S16-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S16-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S16-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S16-T3-B",
+          "slug": "outliers-plausible-vs-error",
+          "title": "outliers plausibles vs errores",
+          "outcome": "El estudiante clasifica outliers plausibles vs errores.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "outliers plausibles vs errores",
+              "must_cover": [
+                "IQR/z",
+                "domain bounds",
+                "flag vs drop"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S16-T3-B-DEMO",
+              "title": "Clasificar outlier plausible vs error de captura",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S16-T3-B-E1",
+                "kind": "guided",
+                "title": "outliers plausibles vs errores — guided",
+                "skill": "outliers",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S16-T3-B-E2",
+                "kind": "independent",
+                "title": "outliers plausibles vs errores — independent",
+                "skill": "outliers",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S16-T3-B-E3",
+                "kind": "transfer",
+                "title": "outliers plausibles vs errores — transfer",
+                "skill": "outliers",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S16-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S16-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S16-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S16-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S16-T3-EVAL-1",
+            "title": "strings, números, fechas y categorías — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S16-T3-EVAL-2",
+            "title": "outliers plausibles vs errores — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S16-T4",
+      "title": "Contratos",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S16-T4-A",
+          "slug": "schema-crossfield-rules",
+          "title": "reglas de schema y cross-field",
+          "outcome": "El estudiante implementa contratos de schema y cross-field.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "reglas de schema y cross-field",
+              "must_cover": [
+                "schema contract",
+                "cross-field rules",
+                "expect"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S16-T4-A-DEMO",
+              "title": "Validar schema + reglas cross-field",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S16-T4-A-E1",
+                "kind": "guided",
+                "title": "reglas de schema y cross-field — guided",
+                "skill": "schema",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S16-T4-A-E2",
+                "kind": "independent",
+                "title": "reglas de schema y cross-field — independent",
+                "skill": "schema",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S16-T4-A-E3",
+                "kind": "transfer",
+                "title": "reglas de schema y cross-field — transfer",
+                "skill": "schema",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S16-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S16-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S16-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S16-T4-B",
+          "slug": "metrics-quarantine-audit",
+          "title": "métricas, cuarentena y audit trail",
+          "outcome": "El estudiante cuarentena fallos con métricas y audit trail.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "métricas, cuarentena y audit trail",
+              "must_cover": [
+                "quality metrics",
+                "quarantine table",
+                "audit log"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S16-T4-B-DEMO",
+              "title": "Cuarentenar fallos con métricas y audit trail",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S16-T4-B-E1",
+                "kind": "guided",
+                "title": "métricas, cuarentena y audit trail — guided",
+                "skill": "metrics",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S16-T4-B-E2",
+                "kind": "independent",
+                "title": "métricas, cuarentena y audit trail — independent",
+                "skill": "metrics",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S16-T4-B-E3",
+                "kind": "transfer",
+                "title": "métricas, cuarentena y audit trail — transfer",
+                "skill": "metrics",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S16-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S16-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S16-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S16-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S16-T4-EVAL-1",
+            "title": "reglas de schema y cross-field — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S16-T4-EVAL-2",
+            "title": "métricas, cuarentena y audit trail — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S16-PROJ",
+    "title": "Quality gate explicable ante schema drift",
+    "replaces_legacy": "Legacy You Do de 'GUI de Escritorio con wxPython' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Suite de checks que falla explicablemente ante drift",
+      "Cuantificar pérdida de filas/campos",
+      "Nunca arreglar silenciosamente un dato",
+      "Cuarentena + audit trail sintético"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N2-A (quality)",
+    "increment_gate": "suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca “arregla” silenciosamente un dato"
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'wxpython-gui' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s16-wxpython-gui.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'GUI de Escritorio con wxPython' vs 'Calidad, limpieza y contratos de datos'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N2-A (quality)",
+    "increment_gate": "suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca “arregla” silenciosamente un dato",
+    "project_id": "S16-PROJ",
+    "section_passed": false,
+    "notes": "S16 contributes to CP-N2-A (quality). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N2 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for N2",
+    "risk": "Display title still 'GUI de Escritorio con wxPython' until product rename; large topic mismatch vs V3 'Calidad, limpieza y contratos de datos'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S16-T1-A first"
+  }
+}

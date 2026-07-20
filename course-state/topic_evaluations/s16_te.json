@@ -1,0 +1,171 @@
+{
+  "version": "3.2",
+  "section": "S16",
+  "section_id": "wxpython-gui",
+  "section_title": "Calidad, limpieza y contratos de datos",
+  "artifact": "topic_evaluations",
+  "platform_note": "Paquetes TE V3 (4 por sección). Datos estructurados para render TopicEvaluation; CourseSection.topicEvaluations es opcional.",
+  "generated_at": "2026-07-20T14:52:23Z",
+  "rubric_scale": "0-3 per criterion",
+  "language": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_principle": "Coincidir en apellido, teléfono, email, dirección, distancia o transacciones es evidencia para revisión, no prueba de parentesco, colusión o fraude.",
+  "topic_evaluations": [
+    {
+      "id": "S16-T1-TE",
+      "topic_id": "S16-T1",
+      "title": "Evaluación formativa — Ausencia",
+      "subtopics_covered": [
+        "S16-T1-A",
+        "S16-T1-B"
+      ],
+      "topic_summary": "nulls y políticas por campo; indicadores y límites de imputación.",
+      "tasks": [
+        {
+          "id": "S16-T1-TE-1",
+          "title": "Tarea auténtica — Ausencia: nulls y políticas por campo",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: nulls y políticas por campo. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S16, tema T1. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S16-T1-TE-2",
+          "title": "Tarea auténtica — Ausencia: indicadores y límites de imputación",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: indicadores y límites de imputación. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S16, tema T1. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Ausencia» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S16-T2-TE",
+      "topic_id": "S16-T2",
+      "title": "Evaluación formativa — Duplicados",
+      "subtopics_covered": [
+        "S16-T2-A",
+        "S16-T2-B"
+      ],
+      "topic_summary": "exactos y conflictos; claves, cardinalidad y conservación de evidencia.",
+      "tasks": [
+        {
+          "id": "S16-T2-TE-1",
+          "title": "Tarea auténtica — Duplicados: exactos y conflictos",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: exactos y conflictos. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S16, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S16-T2-TE-2",
+          "title": "Tarea auténtica — Duplicados: claves, cardinalidad y conservación de evidencia",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: claves, cardinalidad y conservación de evidencia. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S16, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Duplicados» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S16-T3-TE",
+      "topic_id": "S16-T3",
+      "title": "Evaluación formativa — Normalización",
+      "subtopics_covered": [
+        "S16-T3-A",
+        "S16-T3-B"
+      ],
+      "topic_summary": "strings, números, fechas y categorías; outliers plausibles vs errores.",
+      "tasks": [
+        {
+          "id": "S16-T3-TE-1",
+          "title": "Tarea auténtica — Normalización: strings, números, fechas y categorías",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: strings, números, fechas y categorías. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S16, tema T3. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S16-T3-TE-2",
+          "title": "Tarea auténtica — Normalización: outliers plausibles vs errores",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: outliers plausibles vs errores. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S16, tema T3. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Normalización» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S16-T4-TE",
+      "topic_id": "S16-T4",
+      "title": "Evaluación formativa — Contratos",
+      "subtopics_covered": [
+        "S16-T4-A",
+        "S16-T4-B"
+      ],
+      "topic_summary": "reglas de schema y cross-field; métricas, cuarentena y audit trail.",
+      "tasks": [
+        {
+          "id": "S16-T4-TE-1",
+          "title": "Tarea auténtica — Contratos: reglas de schema y cross-field",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: reglas de schema y cross-field. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S16, tema T4. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S16-T4-TE-2",
+          "title": "Tarea auténtica — Contratos: métricas, cuarentena y audit trail",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: métricas, cuarentena y audit trail. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S16, tema T4. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Contratos» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    }
+  ],
+  "counts": {
+    "topic_evaluations": 4,
+    "tasks": 8
+  }
+}

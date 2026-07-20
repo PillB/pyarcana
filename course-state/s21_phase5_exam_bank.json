@@ -1,0 +1,109 @@
+{
+  "version": "3.2",
+  "section": "S21",
+  "section_id": "fastapi",
+  "phase": "PHASE_5",
+  "lane": "LANE-S18-S21-CLOSE",
+  "generated_at": "2026-07-20T22:00:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "fastapi"
+  },
+  "retired_from_bank": [
+    "construir-apis-rest-con-fastap",
+    "implementar-autenticación-jwt",
+    "crear-endpoints-websocket-para",
+    "usar-backgroundtasks-para-tare"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S21 (Documentos, plantillas y reportes trazables).",
+  "families": [
+    {
+      "family_id": "S21-T1-A-EX",
+      "concept": "jinja-data-presentation",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S21-T1-B-EX",
+      "concept": "conditions-tables-safe-format",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S21-T2-A-EX",
+      "concept": "styles-sections-docx-pdf",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S21-T2-B-EX",
+      "concept": "pdf-digital-vs-image-ocr",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S21-T3-A-EX",
+      "concept": "exec-summary-method-findings",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S21-T3-B-EX",
+      "concept": "charts-tables-sources-limits",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S21-T4-A-EX",
+      "concept": "copy-a11y-consistency",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S21-T4-B-EX",
+      "concept": "visual-render-provenance-approval",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (fastapi key)",
+    "course-state/s21_phase5_exam_bank.json"
+  ]
+}

@@ -1,0 +1,159 @@
+{
+  "version": "3.2",
+  "section": "S08",
+  "section_id": "pandas",
+  "phase": "PHASE_1_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1-FACTORY",
+  "content_inventory": {
+    "section_file": "src/lib/course/sections/s08-pandas.ts",
+    "total_lines": 715,
+    "structure": {
+      "id": "pandas",
+      "index": 8,
+      "title": "Pandas: Data Cleaning & EDA",
+      "shortTitle": "Pandas & EDA",
+      "estimatedHours": 12,
+      "level": "Intermedio"
+    },
+    "theory_blocks": [
+      {
+        "block": 1,
+        "heading": "pandas intro",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — Level 2 / later pandas track"
+      },
+      {
+        "block": 2,
+        "heading": "limpieza",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "partial conceptual — cleaning rules, not pandas API"
+      },
+      {
+        "block": 3,
+        "heading": "groupby",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none"
+      },
+      {
+        "block": 4,
+        "heading": "merge/pivot",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none"
+      },
+      {
+        "block": 5,
+        "heading": "timeseries",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none"
+      }
+    ],
+    "learningOutcomes_count": 8,
+    "learningOutcomes_summary": [
+      "read_csv/json/excel",
+      "info/describe",
+      "nulos fillna/dropna",
+      "str accessor",
+      "groupby agg",
+      "merge/concat",
+      "pivot",
+      "timeseries"
+    ],
+    "iDo_note": "Legacy multi-step demo blocks present; not 8 I Do demos V3",
+    "weDo_note": "Legacy guided exercises present; not 24 student exercises",
+    "youDo_project": {
+      "title": "Real-World EDA Report — Tu primer proyecto de portafolio",
+      "maps_to_capstone_current": "none explicit V3",
+      "maps_to_capstone_v3_target": "Client/Transaction ETL Pipeline (cierre CP-N1-B)"
+    },
+    "selfCheck_questions": {
+      "total": 5,
+      "seed_exam_variants": 12,
+      "seed_concepts": [
+        "groupby-output",
+        "loc-vs-iloc",
+        "null-handling",
+        "merge-types"
+      ],
+      "v3_coverage": "0/8 subtopics"
+    }
+  },
+  "gap_analysis": {
+    "subtopics": "0 structured V3 → 8",
+    "demos": "legacy few → 8",
+    "exercises": "legacy few → 24",
+    "exam_variants": "12 → 24",
+    "topic_evaluations": "0 → 4",
+    "project_retheme": "Real-World EDA Report — Tu primer proyecto de portafolio → Client/Transaction ETL Pipeline (cierre CP-N1-B)",
+    "title_retheme": "Pandas: Data Cleaning & EDA → Archivos, CSV, JSON y contratos de ingesta (id 'pandas' stable)"
+  },
+  "canonical_subtopic_inventory_preview": [
+    {
+      "subtopic_id": "S08-T1-A",
+      "slug": "pathlib-with-modes",
+      "title": "pathlib, with, modos y encodings",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S08-T1-B",
+      "slug": "newlines-atomic-write",
+      "title": "Newlines y escritura atómica",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S08-T2-A",
+      "slug": "csv-dialects-headers",
+      "title": "Dialectos, headers y tipos",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S08-T2-B",
+      "slug": "irregular-rows-quarantine",
+      "title": "Filas irregulares y cuarentena",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S08-T3-A",
+      "slug": "json-serialize",
+      "title": "Objetos/arrays y serialización",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S08-T3-B",
+      "slug": "schema-nulls-evolution",
+      "title": "Schema, nulls y evolución compatible",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S08-T4-A",
+      "slug": "backups-hashes-provenance",
+      "title": "Backups, hashes y provenance",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S08-T4-B",
+      "slug": "reconciliation-manifest",
+      "title": "Reconciliación input/output y manifest",
+      "exists_in_content": false
+    }
+  ],
+  "do_not_delete": [
+    "src/lib/course/sections/s08-pandas.ts",
+    "prisma/seed.ts",
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json"
+  ],
+  "phase_1_gate": {
+    "inventory_complete": true,
+    "gaps_quantified": true,
+    "content_not_deleted": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_2"
+  }
+}

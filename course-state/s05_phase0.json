@@ -1,0 +1,258 @@
+{
+  "version": "3.2",
+  "section": "S05",
+  "section_id": "oop",
+  "phase": "PHASE_0_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1-FACTORY",
+  "prompt_version": "3.2",
+  "requirement_matrix": {
+    "global_requirements": [
+      {
+        "id": "REQ-GLOBAL-001",
+        "requirement": "Cada sección tiene exactamente 4 temas evaluables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Cada sección tiene exactamente 4 temas evaluables",
+        "status": "pass",
+        "evidence": "V3 S05 define T1–T4"
+      },
+      {
+        "id": "REQ-GLOBAL-002",
+        "requirement": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "status": "blocked",
+        "evidence": "Contenido plataforma no estructurado 4×2 V3; blueprint lo planifica"
+      },
+      {
+        "id": "REQ-GLOBAL-003",
+        "requirement": "Cada subtema tiene 1 demo I Do y 3 ejercicios",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Cada subtema tiene 1 demo I Do y 3 ejercicios",
+        "status": "blocked",
+        "evidence": "Plataforma: demos/ejercicios legacy insuficientes vs 8+24"
+      },
+      {
+        "id": "REQ-GLOBAL-004",
+        "requirement": "Cada subtema tiene 3 variantes A/B/C",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Cada subtema tiene 3 variantes A/B/C",
+        "status": "blocked",
+        "evidence": "seed oop: 4 conceptos × 3 = 12; target 24"
+      },
+      {
+        "id": "REQ-GLOBAL-005",
+        "requirement": "Evaluación por tema + examen + proyecto",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Evaluación por tema + examen + proyecto",
+        "status": "partial",
+        "evidence": "selfCheck + youDo legacy; faltan 4 topic evals V3"
+      },
+      {
+        "id": "REQ-GLOBAL-006",
+        "requirement": "Idioma español peruano profesional",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Idioma español peruano profesional",
+        "status": "pass",
+        "evidence": "Contenido usa español profesional; V3 refuerza tono PE"
+      },
+      {
+        "id": "REQ-GLOBAL-007",
+        "requirement": "No equiparar coincidencia con parentesco/fraude",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "No equiparar coincidencia con parentesco/fraude",
+        "status": "pass",
+        "evidence": "S07 introduce similaridad textual — debe explicitar no-parentesco"
+      },
+      {
+        "id": "REQ-GLOBAL-008",
+        "requirement": "Código ejecutable o UNVERIFIED",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Código ejecutable o UNVERIFIED",
+        "status": "partial",
+        "evidence": "Código legacy embebido; re-verificación PHASE 7"
+      },
+      {
+        "id": "REQ-GLOBAL-009",
+        "requirement": "Datos sintéticos o legalmente reutilizables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Datos sintéticos o legalmente reutilizables",
+        "status": "pass",
+        "evidence": "Preferir sintético; You Do legacy puede mencionar datasets públicos"
+      }
+    ],
+    "section_requirements": [
+      {
+        "id": "REQ-S05-001",
+        "requirement": "S05 cubre Funciones: Definición, llamada y retorno; Parámetros posicionales, keyword y defaults seguros",
+        "source": "V3 roadmap S05 T1",
+        "acceptance_test": "Contenido de S05 incluye subtemas de Funciones",
+        "status": "fail",
+        "evidence": "Archivo src/lib/course/sections/s05-oop.ts enseña 'Object-Oriented Programming (OOP)', no V3 'Funciones, contratos y descomposición'."
+      },
+      {
+        "id": "REQ-S05-002",
+        "requirement": "S05 cubre Contratos: Pre/postcondiciones y docstrings; Type hints graduales y errores de dominio",
+        "source": "V3 roadmap S05 T2",
+        "acceptance_test": "Contenido de S05 incluye subtemas de Contratos",
+        "status": "fail",
+        "evidence": "Archivo src/lib/course/sections/s05-oop.ts enseña 'Object-Oriented Programming (OOP)', no V3 'Funciones, contratos y descomposición'."
+      },
+      {
+        "id": "REQ-S05-003",
+        "requirement": "S05 cubre Diseño: Funciones pequeñas y composición; Pureza, efectos e inyección de I/O",
+        "source": "V3 roadmap S05 T3",
+        "acceptance_test": "Contenido de S05 incluye subtemas de Diseño",
+        "status": "fail",
+        "evidence": "Archivo src/lib/course/sections/s05-oop.ts enseña 'Object-Oriented Programming (OOP)', no V3 'Funciones, contratos y descomposición'."
+      },
+      {
+        "id": "REQ-S05-004",
+        "requirement": "S05 cubre Alcance: LEGB y closures básicos; Pruebas de ejemplo y refactor sin cambiar conducta",
+        "source": "V3 roadmap S05 T4",
+        "acceptance_test": "Contenido de S05 incluye subtemas de Alcance",
+        "status": "fail",
+        "evidence": "Archivo src/lib/course/sections/s05-oop.ts enseña 'Object-Oriented Programming (OOP)', no V3 'Funciones, contratos y descomposición'."
+      },
+      {
+        "id": "REQ-S05-005",
+        "requirement": "Incremento/gate: normalizadores puros de nombre, email, teléfono y dirección, separados de lectura/escritura y con idempotencia demostrada.",
+        "source": "V3 roadmap S05 Incremento/gate",
+        "acceptance_test": "You Do / project alinea con incremento V3",
+        "status": "fail",
+        "evidence": "You Do actual: Custom ML Pipeline Class — Proyecto OOP de portafolio"
+      },
+      {
+        "id": "REQ-S05-006",
+        "requirement": "Proyecto: inicio CP-N1-B",
+        "source": "V3 + capstone_ledger",
+        "acceptance_test": "Proyecto documentado hacia capstone activo",
+        "status": "fail",
+        "evidence": "Legacy project no es incremento V3"
+      },
+      {
+        "id": "REQ-S05-007",
+        "requirement": "Entorno: browser/local",
+        "source": "V3 roadmap S05",
+        "acceptance_test": "Demos declaran entorno",
+        "status": "pass",
+        "evidence": "Target entorno browser/local; plataforma actual es browser-friendly en general"
+      },
+      {
+        "id": "REQ-S05-008",
+        "requirement": "Prerrequisito: S4",
+        "source": "V3 roadmap S05",
+        "acceptance_test": "Sección asume S4 cerrado",
+        "status": "pass",
+        "evidence": "index 5 después de prerrequisito en catálogo"
+      },
+      {
+        "id": "REQ-S05-009",
+        "requirement": "Contenido legado no se elimina; se inventaría y reubica (Todo el contenido OOP de plataforma → V3 S11 (OOP y modelo de dominio))",
+        "source": "LANE-N1-FACTORY + course_requirements authority",
+        "acceptance_test": "src/lib/course/sections/s05-oop.ts intacto en PHASE 0–3",
+        "status": "pass",
+        "evidence": "Factory solo escribe course-state JSON"
+      }
+    ],
+    "platform_requirements": [
+      {
+        "id": "REQ-PLATFORM-001",
+        "requirement": "S05 carga con id estable 'oop'",
+        "source": "src/lib/course/index.ts + learning_roadmap.md",
+        "acceptance_test": "id 'oop' en COURSE_SECTIONS",
+        "status": "pass",
+        "evidence": "src/lib/course/sections/s05-oop.ts export section05; id: 'oop'"
+      },
+      {
+        "id": "REQ-PLATFORM-002",
+        "requirement": "Exam bank seed para 'oop'",
+        "source": "prisma/seed.ts",
+        "acceptance_test": "≥ conceptos seed",
+        "status": "partial",
+        "evidence": "4 conceptos: ['str-vs-repr', 'super-init', 'underscore-convention', 'composition-vs-inheritance'] (12 variantes); target 24 V3"
+      },
+      {
+        "id": "REQ-PLATFORM-003",
+        "requirement": "Tabs theory/ido/wedo/youdo/quiz presentes",
+        "source": "CourseSection shape",
+        "acceptance_test": "Campos presentes en archivo",
+        "status": "pass",
+        "evidence": "799 líneas con shape completo legacy"
+      }
+    ]
+  },
+  "contradictions_detected": [
+    {
+      "id": "CONTRADICTION-S05-001",
+      "issue": "V3 define S5 — Funciones, contratos y descomposición (T1–T4 pedagógicos). Plataforma src/lib/course/sections/s05-oop.ts y learning_roadmap.md se titulan 'Object-Oriented Programming (OOP)'.",
+      "resolution": "Mantener section_id 'oop'. TARGET de producción: topics V3 4×2. Contenido legado inventariado → Todo el contenido OOP de plataforma → V3 S11 (OOP y modelo de dominio). NO eliminar en research/factory.",
+      "authority": "learning_roadmap.md = primary IDs; V3 = counting + topics target + capstone gates",
+      "impact": "No bloquea PHASE 0–3. Bloquea claim 'section passed'.",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S05-002",
+      "issue": "You Do legacy 'Custom ML Pipeline Class — Proyecto OOP de portafolio' ≠ proyecto V3 'Normalizadores puros (inicio CP-N1-B)'.",
+      "resolution": "Mapear legacy como inventario; TARGET = project_increment V3 en blueprint.",
+      "authority": "V3 Incremento/gate S05",
+      "impact": "You Do reescritura en PHASE 4",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S05-003",
+      "issue": "Exam seed 12 variantes (['str-vs-repr', 'super-init', 'underscore-convention', 'composition-vs-inheritance']) vs 24 V3; skills no alinean con Funciones, contratos y descomposición.",
+      "resolution": "Banco provisional; PHASE 5 nuevas 8 familias A/B/C; legacy reasignado a sección destino.",
+      "authority": "V3 counting contract",
+      "impact": "0 cobertura de skills V3 en bank actual",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S05-004",
+      "issue": "Platform S05 is OOP; V3 S5 is functions. V3 OOP is S11.",
+      "resolution": "Retheme slot oop → funciones V3; migrar OOP content plan to S11 lane later.",
+      "authority": "V3 S5/S11",
+      "impact": "Major content rewrite; seed OOP concepts retire from this slot",
+      "status": "recorded"
+    }
+  ],
+  "v3_section_snapshot": {
+    "v3_label": "S5 — Funciones, contratos y descomposición",
+    "prerequisite": "S4",
+    "environment": "browser/local",
+    "project": "inicio CP-N1-B",
+    "topics": {
+      "T1": "Funciones: definición, llamada y retorno; parámetros posicionales, keyword y defaults seguros",
+      "T2": "Contratos: pre/postcondiciones y docstrings; type hints graduales y errores de dominio",
+      "T3": "Diseño: funciones pequeñas y composición; pureza, efectos e inyección de I/O",
+      "T4": "Alcance: LEGB y closures básicos; pruebas de ejemplo y refactor sin cambiar conducta"
+    },
+    "increment_gate": "normalizadores puros de nombre, email, teléfono y dirección, separados de lectura/escritura y con idempotencia demostrada.",
+    "capstone_gate": null
+  },
+  "platform_section_snapshot": {
+    "section_id": "oop",
+    "index": 5,
+    "title": "Object-Oriented Programming (OOP)",
+    "shortTitle": "OOP",
+    "file": "src/lib/course/sections/s05-oop.ts",
+    "lines": 799,
+    "youDo": "Custom ML Pipeline Class — Proyecto OOP de portafolio",
+    "exam_concepts_seed": [
+      "str-vs-repr",
+      "super-init",
+      "underscore-convention",
+      "composition-vs-inheritance"
+    ],
+    "alt_files": []
+  },
+  "phase_0_gate": {
+    "all_requirements_extracted": true,
+    "all_contradictions_recorded": true,
+    "requirement_matrix_complete": true,
+    "content_not_deleted": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_1"
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "lane_id": "LANE-S12-S13-P4",
+  "parent_lane": null,
+  "sections": [
+    "S12",
+    "S13"
+  ],
+  "mode": "PARALLEL_PRODUCTION",
+  "role": "Author Agent PHASE 4",
+  "status": "PHASE_4_COMPLETE",
+  "section_passed": false,
+  "updated_at": "2026-07-20T07:13:26Z",
+  "S12": {
+    "section_id": "performance",
+    "title_v3": "APIs, SQL y geodatos responsables",
+    "subtopics_done": [
+      "S12-T1-A",
+      "S12-T1-B",
+      "S12-T2-A",
+      "S12-T2-B",
+      "S12-T3-A",
+      "S12-T3-B",
+      "S12-T4-A",
+      "S12-T4-B"
+    ],
+    "subtopics_remaining": [],
+    "exercises_done": 24,
+    "demos_done": 8,
+    "gate": "CP-N1-C (adquisición + geoevidencia)"
+  },
+  "S13": {
+    "section_id": "rpa-automation",
+    "title_v3": "Familiarity Evidence Dashboard y cierre de nivel",
+    "subtopics_done": [
+      "S13-T1-A",
+      "S13-T1-B",
+      "S13-T2-A",
+      "S13-T2-B",
+      "S13-T3-A",
+      "S13-T3-B",
+      "S13-T4-A",
+      "S13-T4-B"
+    ],
+    "subtopics_remaining": [],
+    "exercises_done": 24,
+    "demos_done": 8,
+    "gate": "CP-N1-C (cierre) + CF-1 + Level-1 regression",
+    "youDo_includes": [
+      "Familiarity Evidence Dashboard increment",
+      "Level-1 regression notes S01-S13",
+      "CF-1 privacy/demo/runbook"
+    ]
+  },
+  "exercises_done": 48,
+  "exercises_target": 48,
+  "demos_done": 16,
+  "demos_target": 16,
+  "files_changed": [
+    "src/lib/course/sections/s12-performance.ts",
+    "src/lib/course/sections/s13-rpa-automation.ts",
+    "course-state/s12_phase4_progress.json",
+    "course-state/s13_phase4_progress.json",
+    "course-state/lanes/LANE-S12-S13-P4.status.json",
+    "scripts/_gen_s12_s13_p4.py"
+  ],
+  "execution_summary": "Retargeted S12 to V3 APIs/SQL/geodatos (CP-N1-C acquisition+geo), S13 to V3 Familiarity Evidence Dashboard (CP-N1-C close + CF-1 + level-1 regression notes in You Do). Full packages 8 subtopics each (theory+demo+E1/E2/E3, 2 hints) = 8 demos + 24 exercises each. Platform ids performance / rpa-automation preserved. All demos/solutions executed with python3; UNVERIFIED=[]. Español peruano; synthetic data only. No seed/checkpoint/ledger edits.",
+  "blockers": [],
+  "do_not_edit": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json",
+    "course-state/parallel_orchestration.json",
+    "prisma/seed.ts"
+  ],
+  "next_action": "PHASE 5 exam banks for performance and rpa-automation V3 slugs. Do not mark S12/S13 passed from this lane.",
+  "verified_counts": {
+    "S12": 32,
+    "S13": 32,
+    "UNVERIFIED": []
+  }
+}

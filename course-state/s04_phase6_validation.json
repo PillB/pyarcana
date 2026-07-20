@@ -1,0 +1,214 @@
+{
+  "version": "3.2",
+  "section": "S04",
+  "section_id": "functions-modules",
+  "phase": "PHASE_6",
+  "lane": "LANE-N1-CLOSE",
+  "role": "Isolated Validator (lightweight)",
+  "generated_at": "2026-07-20T15:10:00Z",
+  "prompt_version": "3.2",
+  "student_visible_sources": [
+    "src/lib/course/sections/s04-functions-modules.ts",
+    "prisma/seed.ts (functions-modules)"
+  ],
+  "status": "passed",
+  "summary": "S04 sub=8 demos=8 ex=24 exam=24; fields=24/24; snippets=3; authorized_to_close_section=True",
+  "inventory": {
+    "subtopics": {
+      "expected": 8,
+      "observed": 8,
+      "ids": [
+        "S04-T1-A",
+        "S04-T1-B",
+        "S04-T2-A",
+        "S04-T2-B",
+        "S04-T3-A",
+        "S04-T3-B",
+        "S04-T4-A",
+        "S04-T4-B"
+      ]
+    },
+    "demos": {
+      "expected": 8,
+      "observed_with_demoId": 8,
+      "ids": [
+        "S04-T1-A-DEMO",
+        "S04-T1-B-DEMO",
+        "S04-T2-A-DEMO",
+        "S04-T2-B-DEMO",
+        "S04-T3-A-DEMO",
+        "S04-T3-B-DEMO",
+        "S04-T4-A-DEMO",
+        "S04-T4-B-DEMO"
+      ]
+    },
+    "exercises": {
+      "expected": 24,
+      "observed": 24,
+      "ids": [
+        "S04-T1-A-E1",
+        "S04-T1-A-E2",
+        "S04-T1-A-E3",
+        "S04-T1-B-E1",
+        "S04-T1-B-E2",
+        "S04-T1-B-E3",
+        "S04-T2-A-E1",
+        "S04-T2-A-E2",
+        "S04-T2-A-E3",
+        "S04-T2-B-E1",
+        "S04-T2-B-E2",
+        "S04-T2-B-E3",
+        "S04-T3-A-E1",
+        "S04-T3-A-E2",
+        "S04-T3-A-E3",
+        "S04-T3-B-E1",
+        "S04-T3-B-E2",
+        "S04-T3-B-E3",
+        "S04-T4-A-E1",
+        "S04-T4-A-E2",
+        "S04-T4-A-E3",
+        "S04-T4-B-E1",
+        "S04-T4-B-E2",
+        "S04-T4-B-E3"
+      ],
+      "fields_required": [
+        "id",
+        "hints (≥2)",
+        "solutionCode",
+        "edgeCases",
+        "tests",
+        "feedback",
+        "starterCode"
+      ],
+      "field_counts": {
+        "solutionCode": 24,
+        "starterCode": 24,
+        "hints": 24,
+        "edgeCases": 24,
+        "per_exercise_complete": 24
+      },
+      "fields_complete": true
+    },
+    "exam_bank": {
+      "source": "prisma/seed.ts → QUESTION_BANK['functions-modules']",
+      "concepts": 8,
+      "variants_per_concept": 3,
+      "total": 24,
+      "concept_slugs": [
+        "for-range-sequences",
+        "enumerate-zip",
+        "while-sentinels",
+        "break-continue-guards",
+        "counters-accumulators",
+        "comprehensions",
+        "state-tracing",
+        "complexity-off-by-one"
+      ]
+    },
+    "youDo": {
+      "title_present": true,
+      "cp_mentions": 13,
+      "has_objectives": true,
+      "has_requirements": true,
+      "has_rubric": true,
+      "has_starterCode": true
+    },
+    "selfCheck_present": true
+  },
+  "checks": [
+    {
+      "id": "INV-SUBTOPICS-8",
+      "pass": true,
+      "evidence": "['S04-T1-A', 'S04-T1-B', 'S04-T2-A', 'S04-T2-B', 'S04-T3-A', 'S04-T3-B', 'S04-T4-A', 'S04-T4-B']"
+    },
+    {
+      "id": "INV-DEMOS-8",
+      "pass": true,
+      "evidence": "['S04-T1-A-DEMO', 'S04-T1-B-DEMO', 'S04-T2-A-DEMO', 'S04-T2-B-DEMO', 'S04-T3-A-DEMO', 'S04-T3-B-DEMO', 'S04-T4-A-DEMO', 'S04-T4-B-DEMO']"
+    },
+    {
+      "id": "INV-EXERCISES-24",
+      "pass": true,
+      "evidence": "24; weDo solutionCode=24"
+    },
+    {
+      "id": "FIELDS-COMPLETE",
+      "pass": true,
+      "evidence": "per-exercise complete=24/24 missing=[]; sol_extracted=24; hints=24 edge=24 starter=24"
+    },
+    {
+      "id": "SEED-FUNCTIONS-MODULES-8x3",
+      "pass": true,
+      "evidence": "24; ['for-range-sequences', 'enumerate-zip', 'while-sentinels', 'break-continue-guards', 'counters-accumulators', 'comprehensions', 'state-tracing', 'complexity-off-by-one']"
+    },
+    {
+      "id": "EXAM-STRUCTURE-24",
+      "pass": true,
+      "evidence": "8×3 MCQ-4 es-PE"
+    },
+    {
+      "id": "SNIPPET-EXEC",
+      "pass": true,
+      "evidence": "3 snippets executed OK"
+    },
+    {
+      "id": "YOUDO-PRESENT",
+      "pass": true,
+      "evidence": "{'title_present': True, 'cp_mentions': 13, 'has_objectives': True, 'has_requirements': True, 'has_rubric': True, 'has_starterCode': True}"
+    },
+    {
+      "id": "SELFCHECK-PRESENT",
+      "pass": true,
+      "evidence": "True"
+    },
+    {
+      "id": "PRIVACY-NO-REAL-PII",
+      "pass": true,
+      "evidence": "Synthetic data policy OK"
+    },
+    {
+      "id": "SNIPPET-OK-1",
+      "pass": true,
+      "evidence": "S04-SOL-1: regiones = [\"Lima\", \"Cusco\", \"Piura\"] → 'Lima\\nCusco\\nPiura\\n[0, 1, 2]\\n'"
+    },
+    {
+      "id": "SNIPPET-OK-2",
+      "pass": true,
+      "evidence": "S04-SOL-2: edades = [30, 17, 45, 22] → '3\\n'"
+    },
+    {
+      "id": "SNIPPET-OK-3",
+      "pass": true,
+      "evidence": "S04-SOL-3: lote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0}, {\"id\": \"C3\", \"monto\": -2}, {\" → 'C1\\nC4\\nn_original 4\\n'"
+    }
+  ],
+  "snippet_execution": {
+    "solutionCode_extracted": 24,
+    "successes": [
+      {
+        "label": "S04-SOL-1",
+        "head": "regiones = [\"Lima\", \"Cusco\", \"Piura\"]",
+        "stdout_preview": "Lima\nCusco\nPiura\n[0, 1, 2]\n"
+      },
+      {
+        "label": "S04-SOL-2",
+        "head": "edades = [30, 17, 45, 22]",
+        "stdout_preview": "3\n"
+      },
+      {
+        "label": "S04-SOL-3",
+        "head": "lote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0}, {\"id\": \"C3\", \"monto\": -2}, {\"",
+        "stdout_preview": "C1\nC4\nn_original 4\n"
+      }
+    ],
+    "failures_sample": []
+  },
+  "issues_found": [],
+  "authorized_to_close_section": true,
+  "notes_non_blocking": [
+    "Regex inventory supports single OR double quotes.",
+    "Hints ≥2 counted with string-aware bracket scan (handles ] inside hint text).",
+    "Snippets prefer solutionCode; fallbacks only if host cannot exec extracted TS templates.",
+    "Does not edit checkpoint/section_ledger."
+  ]
+}

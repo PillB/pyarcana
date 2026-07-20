@@ -1,1450 +1,1428 @@
 import type { CourseSection } from '../../types'
 
 export const section27: CourseSection = {
-  id: 'async-concurrency',
+  id: "async-concurrency",
   index: 27,
-  title: 'Concurrencia Avanzada y Arquitecturas Async',
-  shortTitle: 'Concurrencia Avanzada y Arquit',
-  tagline: 'El código que corre en paralelo no es el que más corre — es el que más escala.',
+  title: "Estrategia de pruebas con pytest",
+  shortTitle: "Pytest y contratos",
+  tagline: "convertir supuestos de normalización y matching en contratos ejecutables; cada bug reproducido obtiene test de regresión",
   estimatedHours: 12,
-  level: 'Senior',
+  level: "Competente",
   phase: 2,
-  icon: 'Zap',
-  accentColor: 'bg-gradient-to-br from-purple-500 to-fuchsia-600',
-  jobRelevance: 'Los roles Senior Python/AI Engineer requieren dominar asyncio, threading, y multiprocessing para construir pipelines de alta concurrencia. Python 201 (Ch. 27-30) cubre estos módulos en profundidad. Esta sección lleva ese conocimiento a nivel de producción con patrones de arquitectura reales.',
+  icon: "FlaskConical",
+  accentColor: "bg-gradient-to-br from-violet-500 to-purple-700",
+  jobRelevance:
+    "En banca, BPO y data platforms en Perú, un motor de **entity resolution** solo es confiable si sus supuestos de normalización y matching son **contratos ejecutables**. Esta sección (id de plataforma `async-concurrency` conservado) retematiza a V3 **Estrategia de pruebas con pytest** e **inicia CP-N3-A**: pirámide de riesgo, AAA, fixtures y regresión. Matching no implica fraude ni parentesco.",
   learningOutcomes: [
-    { text: 'Dominar asyncio avanzado: event loops, TaskGroup, asyncio.Queue, semaphores, limitadores de rate' },
-    { text: 'Entender el GIL y cuándo usar threading vs multiprocessing vs asyncio' },
-    { text: 'Implementar el patrón producer-consumer con asyncio.Queue' },
-    { text: 'Usar concurrent.futures para I/O-bound y CPU-bound tasks (Python 201 Ch. 30)' },
-    { text: 'Construir pipelines asíncronos con backpressure control' },
-    { text: 'Optimizar latencia en APIs con connection pooling (aiohttp, asyncpg)' },
-    { text: 'Depurar race conditions con locks, semaphores y asyncio.Event' },
+    { text: "Priorizar pruebas según riesgo y pirámide" },
+    { text: "Escribir tests AAA con oráculos confiables" },
+    { text: "Usar discovery y assertions de pytest" },
+    { text: "Aislar estado con fixtures y scopes" },
+    { text: "Cubrir excepciones, floats, fechas y tmp files" },
+    { text: "Diseñar casos negativos con mensajes útiles" },
+    { text: "Medir cobertura por rama y riesgo" },
+    { text: "Interpretar mutación conceptual y fallas útiles" },
   ],
   theory: [
     {
-      heading: 'asyncio avanzado: async/await profundo, TaskGroup (Python 3.11+), asyncio.Queue, asyncio.Semaphore',
+      heading: "De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A)",
       paragraphs: [
-        'asyncio es el framework de concurrencia cooperativa de Python basado en un event loop single-thread. A diferencia de threading o multiprocessing, asyncio NO crea threads ni procesos del SO: todo corre en un solo thread, y el event loop cambia entre tareas (coroutines) cuando estas ceden control con `await`. Esto es brutalmente eficiente para trabajo I/O-bound porque una coroutine que espera I/O no bloquea a las demás — el event loop la pausa y atiende a la siguiente. En un scraper que descarga 1000 URLs, asyncio con aiohttp puede lograr 10-50x más throughput que requests secuencial, usando un solo core y una fracción de la memoria que usarían 100 threads.',
-        'El patrón moderno (Python 3.11+) es `async with asyncio.TaskGroup() as tg: tg.create_task(coro())`. TaskGroup reemplaza a `asyncio.gather()` para casos nuevos porque maneja cancelación y errores mucho mejor: si una tarea lanza excepción, TaskGroup cancela automáticamente las demás y agrupa todas las excepciones en `ExceptionGroup`. Para orquestación, `asyncio.Queue` es la pieza clave del patrón producer-consumer: producers hacen `await queue.put(item)` y consumers hacen `await queue.get()` — cuando la queue está llena o vacía, las coroutines se pausan elegantemente sin busy-wait. Esto te permite armar pipelines de múltiples etapas (fetch → parse → enrich → store) donde cada etapa corre concurrentemente.',
-        'Para controlar la concurrencia y no saturar recursos externos, `asyncio.Semaphore(N)` es esencial. Imagina que llamas a una API con rate limit de 10 req/seg: si lanzas 1000 coroutines concurrentes sin control, te banearán. Con `async with sem: await fetch(url)`, solo N coroutines pasan a la vez — las demás esperan su turno. Esto se combina con `asyncio.Queue(maxsize=N)` para backpressure: si el producer produce más rápido de lo que el consumer consume, la queue se llena y el producer se pausa automáticamente en `put()`. En producción, sin estos controles, tu scraper se cae por rate limit o tu pipeline se queda sin memoria por una queue infinita.',
+        "En V3, **S27 no es el path principal de asyncio/TaskGroup**. Ese material se reubica. Aquí **inicias CP-N3-A**: convertir supuestos de normalización y matching en **contratos de prueba** con pytest.",
+        "El hilo: un módulo sintético `normalize_name` / `exact_match` sobre contactos fakes (`run_id=cpn3a-01`, `@example.pe`). Cada bug reproducido → test de regresión.",
+        "Orden: **T1 Diseño** → **T2 Pytest** → **T3 Bordes** → **T4 Cobertura**. Privacidad: las pruebas no etiquetan fraude ni parentesco.",
       ],
-      code: {
-        language: 'python',
-        title: 'async_pipeline.py',
-        code: `import asyncio
-import aiohttp
-import time
-from typing import Any
-
-# === 1. Semaphore para limitar concurrencia (rate limit virtual) ===
-async def fetch_url(session: aiohttp.ClientSession, url: str, sem: asyncio.Semaphore) -> dict:
-    """Descarga una URL respetando el rate limit del Semaphore."""
-    async with sem:  # solo N coroutines pasan a la vez
-        async with session.get(url, timeout=10) as resp:
-            return {"url": url, "status": resp.status}
-
-async def scrape_concurrent(urls: list[str], max_concurrent: int = 50) -> list[dict]:
-    """Descarga N URLs en paralelo, limitando concurrencia con Semaphore."""
-    sem = asyncio.Semaphore(max_concurrent)
-    timeout = aiohttp.ClientTimeout(total=60)
-    async with aiohttp.ClientSession(timeout=timeout) as session:
-        async with asyncio.TaskGroup() as tg:  # Python 3.11+
-            tasks = [tg.create_task(fetch_url(session, u, sem)) for u in urls]
-        return [t.result() for t in tasks]
-
-# === 2. Producer-consumer con asyncio.Queue ===
-async def producer(queue: asyncio.Queue, n_items: int):
-    """Produce items y los pone en la queue (backpressure automático)."""
-    for i in range(n_items):
-        await asyncio.sleep(0.01)  # simula trabajo
-        await queue.put({"id": i, "payload": f"data_{i}"})
-        print(f"Producido {i}")
-    await queue.put(None)  # sentinel: fin de stream
-
-async def consumer(queue: asyncio.Queue, name: str):
-    """Consume items de la queue hasta recibir sentinel."""
-    while True:
-        item = await queue.get()
-        if item is None:
-            queue.task_done()
-            break
-        await asyncio.sleep(0.02)  # simula procesamiento
-        print(f"  [{name}] procesado {item['id']}")
-        queue.task_done()
-
-async def run_pipeline(n_items: int = 100, n_consumers: int = 3):
-    queue = asyncio.Queue(maxsize=20)  # backpressure: se llena, producer se pausa
-    # Lanzar producer + N consumers concurrentemente
-    consumers = [asyncio.create_task(consumer(queue, f"c{i}")) for i in range(n_consumers)]
-    await producer(queue, n_items)
-    # Esperar a que todos los items se procesen
-    await queue.join()
-    # Cancelar consumers (reciben None y terminan)
-    for c in consumers:
-        c.cancel()
-
-# === 3. Medición de throughput ===
-async def main():
-    urls = [f"https://httpbin.org/get?i={i}" for i in range(50)]
-    start = time.time()
-    results = await scrape_concurrent(urls, max_concurrent=10)
-    elapsed = time.time() - start
-    print(f"50 URLs en {elapsed:.2f}s ({len(results)/elapsed:.1f} req/s)")
-
-# asyncio.run(main())
-# 50 URLs en 1.85s (27.0 req/s)  (vs ~25s secuencial)`,
-      },
       callout: {
-        type: 'warning',
-        title: 'Nunca mezcles asyncio con llamadas bloqueantes',
+        type: "info",
+        title: "Contenido reubicado conceptualmente",
         content:
-          'Si dentro de una coroutine llamas a `requests.get()` (síncrono), `time.sleep()`, o un query síncrono a PostgreSQL, bloqueas TODO el event loop — ninguna otra coroutine avanza. Para I/O SIEMPRE usa versiones async: aiohttp, httpx.AsyncClient, asyncpg, aiomysql. Para CPU-bound pesado dentro de asyncio, usa `asyncio.to_thread(func)` o `loop.run_in_executor(ProcessPoolExecutor(), func, args)` para no bloquear el loop.',
+          "Material legado de concurrencia async de este archivo **no es el camino V3 del estudiante en S27**. Target: pytest + contratos de normalización/matching (inicio CP-N3-A).",
       },
     },
     {
-      heading: 'threading en profundidad: Locks, RLocks, Conditions, Barriers, thread-safe queues',
+      heading: "riesgos y pirámide de pruebas",
+      subtopicId: "S27-T1-A",
       paragraphs: [
-        'threading sigue siendo la mejor opción para I/O-bound cuando no puedes usar asyncio — por ejemplo, cuando integras librerías síncronas (drivers de DB legacy, SDKs de cloud sin versión async) o cuando necesitas paralelismo fino con shared state. Python expone primitivas de sincronización que son wrappers sobre los del sistema operativo: `Lock` (mutex exclusivo), `RLock` (reentrant — el mismo thread puede adquirlo varias veces), `Condition` (variables de condición para producer-consumer), `Event` (bandera on/off para señalización), `Semaphore` (contador de permisos), y `Barrier` (punto de sincronización donde N threads esperan). Comprender cuándo usar cada una es lo que separa código thread-safe de código con race conditions.',
-        'El antipatrón clásico es compartir estado mutable entre threads sin lock. Imagina un contador `global_counter = 0` que 10 threads incrementan en paralelo: `global_counter += 1` NO es atómico — son 3 operaciones (leer, sumar, escribir). Si dos threads leen al mismo tiempo, ambos leen el mismo valor y el contador pierde increments. La solución es `with lock: global_counter += 1` — el lock garantiza exclusión mutua. Para casos donde un thread produce datos y otros consumen, `queue.Queue` (thread-safe built-in) es la abstracción correcta — internamente usa Condition y Lock, no tienes que manejarlos manualmente. Regla: SIEMPRE que compartas estado entre threads, usa Lock o una estructura thread-safe como queue.Queue.',
-        'El GIL complica el panorama: en CPython, solo un thread ejecuta bytecode a la vez, así que threading NO acelera trabajo CPU-bound (los threads se turnan el GIL). Pero threading SÍ ayuda con I/O porque durante `recv()` o `read()` el GIL se libera. Para trabajo CPU-bound real, multiprocessing es la respuesta. Trampas comunes: (1) deadlocks — dos threads esperando locks que el otro tiene, soluciona con orden consistente de adquisición; (2) race conditions en inicialización lazy — usa `with lock:` alrededor del check-then-create; (3) starvation — un thread nunca consigue el lock, soluciona con `RLock` o fairness. En pipelines de DS, threading se usa para: llamar 50 APIs en paralelo, descargar 100 archivos, integrar librerías síncronas como scikit-learn dentro de un servidor async.',
+        "La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de entidades justifica más tests que un typo de log.",
+        "Clasifica riesgo por impacto (datos incorrectos, regresión silenciosa) y probabilidad. En ER, normalización y comparadores son capa de alto riesgo.",
+        "No inviertas la pirámide: E2E lentas no sustituyen contratos unitarios de `strip`/`casefold`.",
       ],
       code: {
         language: 'python',
-        title: 'threading_demo.py',
-        code: `import threading
-import queue
-import time
-import random
-
-# === 1. Race condition sin lock (BROKEN) vs con lock (CORRECTO) ===
-counter_broken = 0
-counter_safe = 0
-lock = threading.Lock()
-
-def increment_broken(n: int):
-    global counter_broken
-    for _ in range(n):
-        counter_broken += 1  # RACE: leer-modificar-escribir no atómico
-
-def increment_safe(n: int):
-    global counter_safe
-    for _ in range(n):
-        with lock:  # exclusión mutua — solo un thread a la vez
-            counter_safe += 1
-
-# Lanzar 10 threads que incrementan 10000 veces cada uno
-threads = [threading.Thread(target=increment_broken, args=(10000,)) for _ in range(10)]
-for t in threads: t.start()
-for t in threads: t.join()
-print(f"Broken (esperado 100000): {counter_broken}")
-# Salida típica: 47382  (¡perdió más de la mitad!)
-
-threads = [threading.Thread(target=increment_safe, args=(10000,)) for _ in range(10)]
-for t in threads: t.start()
-for t in threads: t.join()
-print(f"Safe (esperado 100000): {counter_safe}")
-# Salida: 100000  (correcto)
-
-# === 2. Producer-consumer con queue.Queue (thread-safe) ===
-q = queue.Queue(maxsize=10)  # backpressure: se llena, producer se bloquea en put()
-
-def producer():
-    for i in range(20):
-        item = f"item_{i}"
-        q.put(item)  # se bloquea si la queue está llena
-        print(f"Producido {item}")
-        time.sleep(0.05)
-    q.put(None)  # sentinel
-
-def consumer(name: str):
-    while True:
-        item = q.get()  # se bloquea si la queue está vacía
-        if item is None:
-            q.put(None)  # pasar sentinel al siguiente consumer
-            break
-        print(f"  [{name}] consumió {item}")
-        time.sleep(0.1)  # simula procesamiento
-        q.task_done()
-
-# Lanzar 1 producer + 3 consumers
-threading.Thread(target=producer, daemon=True).start()
-consumers = [threading.Thread(target=consumer, args=(f"c{i}",)) for i in range(3)]
-for t in consumers: t.start()
-for t in consumers: t.join()
-
-# === 3. Condition para señalizar eventos ===
-cond = threading.Condition()
-data_ready = False
-
-def waiter(name: str):
-    with cond:
-        while not data_ready:
-            cond.wait()  # libera el lock y espera señal
-        print(f"[{name}] procesando dato")
-
-def notifier():
-    global data_ready
-    time.sleep(1)
-    with cond:
-        data_ready = True
-        cond.notify_all()  # despierta a todos los waiters
-
-# threading.Thread(target=waiter, args=("A",)).start()
-# threading.Thread(target=waiter, args=("B",)).start()
-# threading.Thread(target=notifier).start()`,
+        title: "risk_pyramid.py",
+        code: `# priorización sintética de suites por riesgo (CP-N3-A)
+risks = [
+    {"area": "normalize_name", "impact": 5, "likelihood": 4, "layer": "unit"},
+    {"area": "exact_match", "impact": 5, "likelihood": 3, "layer": "unit"},
+    {"area": "sqlite_repo", "impact": 4, "likelihood": 2, "layer": "integration"},
+    {"area": "ui_review_queue", "impact": 3, "likelihood": 2, "layer": "e2e"},
+]
+for r in risks:
+    r["score"] = r["impact"] * r["likelihood"]
+ranked = sorted(risks, key=lambda x: (-x["score"], x["area"]))
+print("top", ranked[0]["area"], ranked[0]["score"])
+print("layers", [r["layer"] for r in ranked])
+print("unit_heavy", sum(1 for r in ranked if r["layer"] == "unit") >= 2)`,
+        output: `top normalize_name 20
+layers ['unit', 'unit', 'integration', 'e2e']
+unit_heavy True`,
       },
       callout: {
-        type: 'tip',
-        title: 'queue.Queue es thread-safe por diseño',
+        type: "tip",
+        title: "Riesgo primero",
         content:
-          'Para producer-consumer entre threads, NO uses listas + Lock manual — usa `queue.Queue`. Internamente maneja el Lock y Condition, así que `put()` se bloquea si la queue está llena (backpressure) y `get()` se bloquea si está vacía. Para asyncio, el equivalente es `asyncio.Queue`. Para multiprocessing, `multiprocessing.Queue` (con pickle serialization). Mismo patrón, 3 contexts distintos.',
+          "Si el tiempo es finito, cubre primero normalize/match; luego DB; al final UI.",
       },
     },
     {
-      heading: 'multiprocessing: Pool, Process, Manager, shared memory, pipes',
+      heading: "Arrange–Act–Assert y oráculos confiables",
+      subtopicId: "S27-T1-B",
       paragraphs: [
-        'multiprocessing es la respuesta de Python al GIL para trabajo CPU-bound: crea procesos del SO separados, cada uno con su propio GIL y su propio espacio de memoria. Así puedes usar todos los cores de tu máquina. En una laptop de 8 cores, una tarea CPU-bound puede correr 6-7x más rápido (no 8x por el overhead de spawn + IPC). La API de alto nivel es `multiprocessing.Pool` (o `concurrent.futures.ProcessPoolExecutor`): `with Pool(8) as p: results = p.map(func, items)` distribuye los items entre 8 procesos workers y recolecta resultados en orden. Para control fino, `Process(target=func, args=(...)).start()` lanza procesos individuales.',
-        'El desafío de multiprocessing es el shared state: cada proceso tiene su propio espacio de memoria, así que variables globales NO se comparten. Para compartir datos entre procesos tienes 3 opciones: (1) `multiprocessing.Queue` y `Pipe` — para pasar mensajes (serializa con pickle); (2) `multiprocessing.Value` y `Array` — memoria compartida C-level para escalares y arrays numéricos; (3) `multiprocessing.Manager` — un proceso servidor que expone dicts, lists, namespaces compartidos vía proxy. Para DS, lo más limpio es diseñar funciones puras (sin estado) y usar `Pool.map()` para distribuir chunks — el resultado se serializa y se une al final. Para arrays numpy grandes, `shared_memory.SharedMemory` (Python 3.8+) permite compartir memoria sin copiar.',
-        'Trampas frecuentes: (1) lambdas no se pueden picklear — define funciones top-level con `def`; (2) en Windows/macOS el spawn es distinto a Linux (fork) y puede romper código que asume shared state global — SIEMPRE protege el entry point con `if __name__ == "__main__":`; (3) memoria — cada proceso copia data, pasa chunks chicos no DataFrames gigantes, o tu RAM explota (un DataFrame de 4GB x 8 workers = 32GB); (4) pickle errors — clases custom deben ser importables (top-level, no locales). En pipelines de DS reales, multiprocessing se usa para: hyperparameter sweeps (correr 100 configs en paralelo), feature engineering por chunks (partir 1M filas en 8 chunks), batch inference (procesar 10k imágenes en paralelo), y cross-validation paralela.',
+        "**AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Evita asserts mezclados con setup.",
+        "Un **oráculo** es la fuente de verdad del assert: valor fijo conocido, propiedad invariante o resultado de un algoritmo de referencia simple.",
+        "Oráculos frágiles (timestamps de reloj real, orden de dicts en JSON sin sort) generan flakes. Prefiere fixtures sintéticas deterministas.",
       ],
       code: {
         language: 'python',
-        title: 'multiprocessing_demo.py',
-        code: `import multiprocessing as mp
-from multiprocessing import Pool, Manager, Value, Array
-import numpy as np
-import time
+        title: "aaa_oracle.py",
+        code: `def normalize_name(s: str) -> str:
+    return " ".join(s.casefold().split())
 
-# === 1. Pool.map: paralelizar feature engineering por chunks ===
-def calcular_features_cliente(cliente_id: int) -> dict:
-    """Función PURA (sin estado) — picklable, top-level."""
-    np.random.seed(cliente_id)
-    historial = np.random.exponential(30, 365)
-    return {
-        "cliente_id": cliente_id,
-        "recencia": int(365 - np.argmax(historial[::-1] > 0)),
-        "frecuencia": int((historial > 0).sum()),
-        "monetario": float(historial.sum()),
-    }
-
-def run_pool_benchmark():
-    n_clientes = 50000
-    # Secuencial (baseline)
-    start = time.time()
-    seq = [calcular_features_cliente(i) for i in range(n_clientes)]
-    print(f"Secuencial: {time.time()-start:.1f}s")
-
-    # Paralelo con Pool de 8 procesos
-    start = time.time()
-    if __name__ == "__main__":  # requerido en Windows
-        with Pool(8) as pool:
-            par = pool.map(calcular_features_cliente, range(n_clientes), chunksize=1000)
-        print(f"Paralelo (8 procs): {time.time()-start:.1f}s")
-    # Salida típica: Secuencial 12.4s, Paralelo 1.9s (6.5x speedup)
-
-# === 2. Manager: compartir dict entre procesos ===
-def worker_shared(contador: dict, lock, item: int):
-    """Incrementa contador compartido con lock para exclusión mutua."""
-    with lock:
-        contador["procesados"] += 1
-
-def run_manager():
-    with Manager() as mgr:
-        contador = mgr.dict({"procesados": 0})
-        lock = mgr.Lock()
-        items = list(range(1000))
-        with Pool(8) as pool:
-            pool.starmap(worker_shared, [(contador, lock, i) for i in items])
-        print(f"Total procesados: {contador['procesados']}")
-        # Salida: 1000
-
-# === 3. shared_memory para arrays numpy grandes (sin copia) ===
-from multiprocessing import shared_memory
-
-def process_shm_chunk(shm_name: str, shape: tuple, offset: int, size: int):
-    """Accede a memoria compartida SIN copiar — clave para arrays grandes."""
-    existing_shm = shared_memory.SharedMemory(name=shm_name)
-    arr = np.ndarray(shape, dtype=np.float64, buffer=existing_shm.buf)
-    chunk = arr[offset:offset+size]
-    result = (chunk * 2).sum()  # procesa sin copiar
-    existing_shm.close()
-    return result
-
-def run_shared_memory():
-    """Comparte un array numpy de 80MB entre 8 procesos sin copiar."""
-    n = 10_000_000  # 10M floats = 80MB
-    shm = shared_memory.SharedMemory(create=True, size=n * 8)
-    arr = np.ndarray((n,), dtype=np.float64, buffer=shm.buf)
-    arr[:] = np.random.rand(n)
-    # Cada proceso ve el array sin copia — solo lectura o con sincronización
-    print(f"Array compartido: {arr.nbytes / 1e6:.0f}MB")
-    shm.close(); shm.unlink()  # limpieza
-
-if __name__ == "__main__":
-    run_pool_benchmark()`,
+# Arrange
+raw = "  JUAN   Pérez "
+expected = "juan pérez"  # oráculo fijo
+# Act
+got = normalize_name(raw)
+# Assert
+assert got == expected, f"oráculo falló: {got!r} != {expected!r}"
+print("aaa_ok", got)
+print("phases", "arrange-act-assert")`,
+        output: `aaa_ok juan pérez
+phases arrange-act-assert`,
       },
       callout: {
-        type: 'info',
-        title: 'Fork vs Spawn en multiprocessing',
+        type: "warning",
+        title: "Oráculo ≠ impresión",
         content:
-          'En Linux, multiprocessing usa `fork` por default — el proceso hijo hereda todo el espacio de memoria del padre (rápido pero puede causar issues con threads). En macOS (Python 3.8+) y Windows, usa `spawn` — lanza un proceso Python nuevo y re-importa todo (más lento pero más seguro). Para code portable, SIEMPRE usa `if __name__ == "__main__":` y evita state global que dependa del método fork.',
+          "print no es assert. El contrato debe fallar ruidosamente si se rompe.",
       },
     },
     {
-      heading: 'concurrent.futures: ThreadPoolExecutor, ProcessPoolExecutor, as_completed, deadlocks',
+      heading: "discovery y assertions",
+      subtopicId: "S27-T2-A",
       paragraphs: [
-        'concurrent.futures es la API moderna y recomendada para paralelismo en Python — unifica threads y processes bajo una interfaz común (`submit`, `map`, `as_completed`). La regla es simple: para I/O-bound usa `ThreadPoolExecutor`, para CPU-bound usa `ProcessPoolExecutor`. La ventaja sobre multiprocessing directo es la API uniforme: `with ThreadPoolExecutor(max_workers=10) as ex: futures = [ex.submit(func, arg) for arg in items]` — mismo patrón para threads y processes. Cambiar de uno a otro es solo cambiar la clase, lo que facilita experimentar con ambos enfoques.',
-        '`as_completed` es la herramienta para procesar resultados en el orden en que terminan (no en el orden de submit). Esto es crucial cuando los tiempos varían: si lanzas 50 tareas y algunas tardan 1s y otras 10s, con `map` esperas a la más lenta para empezar a procesar; con `as_completed` procesas cada resultado en cuanto está listo. Esto maximiza el throughput y permite mostrar progreso: `for future in as_completed(futures): print(f"Completado {future.result()}")`. También permite cancelar tareas pendientes si una falla críticamente, y manejar excepciones por future individual con `try/except` alrededor de `future.result()`.',
-        'Deadlocks son el fantasma de concurrent.futures. Causas comunes: (1) anidar executors — un ProcessPoolExecutor cuyo task internamente crea otro ProcessPoolExecutor agota los workers; (2) callbacks que esperan futures que nunca terminan — `future.add_done_callback(cb)` donde cb hace `other_future.result()` se cuelga si other_future está en la misma pool; (3) PickleError en ProcessPoolExecutor — si tu función o argumentos no son picklable (lambdas, closures, clases locales), el worker muere silenciosamente y la pool se cuelga. Solución general: usa timeouts (`future.result(timeout=30)`) y SIEMPRE envuelve en `try/except` con logging. En DS, concurrent.futures se usa para: scrapear 100 URLs en paralelo (ThreadPool), ejecutar 50 modelos en paralelo (ProcessPool), batch inference (ProcessPool), y parallel hyperparameter search.',
+        "pytest **descubre** funciones `test_*` y clases `Test*` en archivos `test_*.py` / `*_test.py`. Los **node ids** identifican cada caso (`path::name`).",
+        "Las **assertions** reescritas muestran diff útil: `assert a == b` explica ambos lados. Usa `pytest.raises` para excepciones esperadas.",
+        "Parametriza con `@pytest.mark.parametrize` para tablas de casos sin copiar el cuerpo del test.",
       ],
       code: {
         language: 'python',
-        title: 'concurrent_futures.py',
-        code: `import concurrent.futures as cf
-import requests
-import time
-import logging
+        title: "discovery_assert.py",
+        code: `# simulación didáctica de discovery + assert rewrite (sin invocar pytest CLI)
+import ast
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-logger = logging.getLogger(__name__)
+src = '''
+def test_normalize_spaces():
+    assert " ".join("a  b".split()) == "a b"
 
-# === 1. ThreadPoolExecutor para I/O-bound (scrape) ===
-def fetch(url: str) -> tuple[str, int]:
-    """Descarga una URL — I/O-bound, ideal para threads."""
+def helper_not_a_test():
+    return 1
+
+def test_casefold():
+    assert "Á".casefold() == "á"
+'''
+tree = ast.parse(src)
+discovered = [n.name for n in tree.body if isinstance(n, ast.FunctionDef) and n.name.startswith("test_")]
+print("discovered", discovered)
+print("count", len(discovered))
+# assert rewrite conceptual: mensaje con ambos lados
+a, b = "juan", "Juan".casefold()
+try:
+    assert a == b
+    print("assert_ok", True)
+except AssertionError:
+    print("assert_ok", False)`,
+        output: `discovered ['test_normalize_spaces', 'test_casefold']
+count 2
+assert_ok True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Nombres test_*",
+        content:
+          "Si no empieza por test_, pytest no lo corre (salvo configuración explícita).",
+      },
+    },
+    {
+      heading: "fixtures, scopes y aislamiento",
+      subtopicId: "S27-T2-B",
+      paragraphs: [
+        "Las **fixtures** inyectan dependencias (datos sintéticos, tmp paths) sin globals. **Scopes**: function (default), class, module, session.",
+        "El aislamiento evita que un test contamine al siguiente: cada function-scope recrea el estado. Session-scope sirve para recursos caros de solo lectura.",
+        "Factory fixtures devuelven callables para crear N entidades sintéticas por caso.",
+      ],
+      code: {
+        language: 'python',
+        title: "fixtures_scope.py",
+        code: `# fixtures conceptuales (diccionario de proveedores)
+from copy import deepcopy
+
+_base_contacts = [
+    {"id": "c1", "name": "Ana López", "email": "ana@example.pe"},
+    {"id": "c2", "name": "ANA  lopez", "email": "ana@example.pe"},
+]
+
+def fixture_contacts(scope="function"):
+    # function-scope: copia profunda por test
+    if scope == "function":
+        return deepcopy(_base_contacts)
+    return _base_contacts  # session-like: misma lista (peligroso si mutas)
+
+t1 = fixture_contacts("function")
+t1[0]["name"] = "MUTADO"
+t2 = fixture_contacts("function")
+print("isolated", t2[0]["name"] == "Ana López")
+print("n", len(t2))
+print("scope_default", "function")`,
+        output: `isolated True
+n 2
+scope_default function`,
+      },
+      callout: {
+        type: "danger",
+        title: "Mutar fixture session",
+        content:
+          "Si mutas un fixture session-scope, el siguiente test ve basura. Prefiere function + factory.",
+      },
+    },
+    {
+      heading: "excepciones, floats, fechas y archivos temporales",
+      subtopicId: "S27-T3-A",
+      paragraphs: [
+        "Prueba **excepciones** con el tipo y, si aplica, el mensaje. Para **floats** usa tolerancia (`math.isclose`) o decimal cuantizado.",
+        "**Fechas**: fija el reloj o usa valores UTC sintéticos; no compares `now()` con literales frágiles.",
+        "**tmp_path** / `tempfile` evita escribir en el repo. Limpia o usa context managers.",
+      ],
+      code: {
+        language: 'python',
+        title: "borders_tmp.py",
+        code: `import math
+from datetime import date, datetime, timezone
+from pathlib import Path
+import tempfile
+
+def parse_score(s: str) -> float:
+    if s.strip() == "":
+        raise ValueError("score vacío")
+    return float(s)
+
+# excepción
+try:
+    parse_score("  ")
+    raised = False
+except ValueError as e:
+    raised = "vacío" in str(e)
+print("exc_ok", raised)
+
+# float
+print("close", math.isclose(0.1 + 0.2, 0.3, rel_tol=1e-9, abs_tol=1e-12))
+
+# fecha fija
+d = date(2026, 7, 20)
+print("iso", d.isoformat())
+
+# tmp file
+with tempfile.TemporaryDirectory() as td:
+    p = Path(td) / "norm.txt"
+    p.write_text("juan\\n", encoding="utf-8")
+    print("tmp_bytes", p.read_text(encoding="utf-8").strip())`,
+        output: `exc_ok True
+close True
+iso 2026-07-20
+tmp_bytes juan`,
+      },
+      callout: {
+        type: "tip",
+        title: "isclose > ==",
+        content:
+          "Nunca compares floats de probabilidad con igualdad bit a bit en tests de matching.",
+      },
+    },
+    {
+      heading: "casos negativos y mensajes",
+      subtopicId: "S27-T3-B",
+      paragraphs: [
+        "Los **casos negativos** prueban inputs inválidos: None, vacío, tipo incorrecto, encoding roto. Deben fallar de forma controlada.",
+        "Mensajes de error **útiles** nombran el campo y el valor ofensivo (sin PII real). Facilita debug en CI.",
+        "Tabla: input → excepción esperada → fragmento de mensaje. Cubre al menos un caso happy path y tres negativos por función pública.",
+      ],
+      code: {
+        language: 'python',
+        title: "negative_messages.py",
+        code: `def require_email(value):
+    if value is None:
+        raise TypeError("email: se esperaba str, recibió None")
+    if not isinstance(value, str):
+        raise TypeError(f"email: se esperaba str, recibió {type(value).__name__}")
+    v = value.strip()
+    if not v or "@" not in v:
+        raise ValueError(f"email inválido: {value!r}")
+    return v.casefold()
+
+cases = [
+    (None, TypeError, "None"),
+    (123, TypeError, "int"),
+    ("", ValueError, "inválido"),
+    ("ok@example.pe", None, "ok@example.pe"),
+]
+results = []
+for raw, exp_exc, frag in cases:
     try:
-        r = requests.get(url, timeout=5)
-        return (url, r.status_code)
+        out = require_email(raw)
+        results.append(exp_exc is None and frag in out)
     except Exception as e:
-        return (url, -1)
-
-def scrape_parallel(urls: list[str], n_workers: int = 20) -> list[tuple[str, int]]:
-    """Scrapea N URLs en paralelo con ThreadPoolExecutor."""
-    start = time.time()
-    with cf.ThreadPoolExecutor(max_workers=n_workers) as ex:
-        # map preserva orden; as_completed no
-        results = list(ex.map(fetch, urls))
-    logger.info("Scrape de %d URLs en %.2fs", len(urls), time.time() - start)
-    return results
-
-# === 2. ProcessPoolExecutor para CPU-bound (cómputo) ===
-def heavy_compute(x: int) -> int:
-    """Simula cómputo CPU-bound — no se beneficia de threads por GIL."""
-    total = 0
-    for i in range(x * 100000):
-        total += i ** 2
-    return total % 1000000
-
-def compute_parallel(items: list[int], n_workers: int = 8) -> list[int]:
-    """Paraleliza cómputo CPU-bound con ProcessPoolExecutor."""
-    start = time.time()
-    with cf.ProcessPoolExecutor(max_workers=n_workers) as ex:
-        results = list(ex.map(heavy_compute, items))
-    logger.info("Compute de %d items en %.2fs", len(items), time.time() - start)
-    return results
-
-# === 3. as_completed: procesa en orden de finalización ===
-def process_as_completed(urls: list[str]):
-    """Procesa resultados en el orden en que terminan (no en orden de submit)."""
-    with cf.ThreadPoolExecutor(max_workers=10) as ex:
-        futures = {ex.submit(fetch, u): u for u in urls}
-        for future in cf.as_completed(futures, timeout=30):
-            url = futures[future]
-            try:
-                result = future.result(timeout=5)  # timeout por future
-                logger.info("OK: %s -> %d", result[0], result[1])
-            except cf.TimeoutError:
-                logger.warning("Timeout en %s", url)
-            except Exception as e:
-                logger.error("Error en %s: %s", url, e)
-
-# === 4. Manejo de errores y shutdown limpio ===
-def robust_parallel(items: list, func, n_workers: int = 8) -> list:
-    """Patrón robusto: maneja errores por task, hace shutdown limpio."""
-    results = []
-    with cf.ThreadPoolExecutor(max_workers=n_workers) as ex:
-        futures = {ex.submit(func, item): item for item in items}
-        for future in cf.as_completed(futures):
-            try:
-                results.append(future.result())
-            except Exception as e:
-                logger.error("Task falló: %s", e)
-                results.append(None)  # placeholder
-    return results
-
-# === Test ===
-if __name__ == "__main__":
-    urls = [f"https://httpbin.org/get?i={i}" for i in range(20)]
-    results = scrape_parallel(urls, n_workers=10)
-    print(f"OK: {sum(1 for _, s in results if s == 200)}/{len(results)}")`,
+        results.append(exp_exc is not None and isinstance(e, exp_exc) and frag in str(e))
+print("neg_ok", all(results))
+print("n_cases", len(cases))`,
+        output: `neg_ok True
+n_cases 4`,
       },
       callout: {
-        type: 'warning',
-        title: 'Cuidado con el número de workers',
+        type: "warning",
+        title: "Sin secretos en mensajes",
         content:
-          'Para ThreadPoolExecutor, `max_workers` > 100 suele empeorar el performance por overhead de context switching. Para ProcessPoolExecutor, nunca superes `os.cpu_count()` — procesos extra solo compiten por CPU. La regla: threads = 2-4x CPU count para I/O; processes = CPU count para CPU-bound. Ajusta con experimentación (benchmark con timeit).',
+          "No imprimas tokens ni PII real en asserts de CI.",
       },
     },
     {
-      heading: 'GIL y sus implicaciones: I/O-bound → threading/asyncio, CPU-bound → multiprocessing',
+      heading: "branch y risk coverage",
+      subtopicId: "S27-T4-A",
       paragraphs: [
-        'El GIL (Global Interpreter Lock) es el mutex que CPython usa para garantizar que solo un thread ejecute bytecode a la vez. Esto NO es un bug — es una decisión de diseño que simplifica el manejo de memoria (reference counting thread-safe sin locks en cada objeto). Pero tiene implicaciones enormes: si lanzas 10 threads para acelerar un cálculo CPU-bound, todos compiten por el GIL y terminan corriendo secuencialmente — no hay speedup. Sin embargo, durante I/O (recv, read, sleep), el GIL se libera, así que threads SÍ ayudan con trabajo I/O-bound. Esta es la distinción fundamental que determina tu elección de herramienta.',
-        'La decisión se reduce a una pregunta: ¿tu función pasa más tiempo calculando (CPU) o esperando (I/O)? Si es CPU (transformación de datos, modelos ML, compresión, hashing) → multiprocessing o ProcessPoolExecutor. Si es I/O (HTTP, DB, archivos, redes) → threading o asyncio. Hay un caso intermedio: librerías C-extension como numpy, pandas, scikit-learn, y lxml liberan el GIL durante sus operaciones — así que threading SÍ acelera código que pasa la mayor parte del tiempo dentro de numpy/pandas. Pero código Python puro (loops, dicts, classes custom) NO se beneficia de threads. El GIL se libera también cada 100 instrucciones bytecode (desde Python 3.2) para fairness entre threads, pero esto no ayuda con CPU-bound puro.',
-        'PEP 703 (Python 3.13+ experimental, 3.15+ stable) trae el GIL-free Python (no-GIL build). Esto cambia el panorama: threads SÍ acelerarán CPU-bound. Pero el no-GIL tiene overhead en single-thread (5-10% más lento) y requiere que librerías C-extension sean GIL-aware. En 2025-2026, la migración es gradual y muchas librerías aún no son compatibles. Por ahora, la regla práctica sigue siendo: I/O → asyncio/threading, CPU → multiprocessing. Cuando el no-GIL sea mainstream, threading será la respuesta universal — pero eso tomará 2-3 años más. Mientras tanto, dominar multiprocessing es obligatorio para seniors.',
+        "**Branch coverage** mide si cada rama (if/else) se ejecutó. 100% de líneas ≠ 100% de riesgo cubierto.",
+        "**Risk coverage**: prioriza ramas de negocio (match/no-match, missing fields) sobre logs y pretty-print.",
+        "Reporta cobertura como evidencia, no como meta vacía: una rama de umbral sin test es deuda del gate CP-N3-A.",
       ],
       code: {
         language: 'python',
-        title: 'gil_decision.py',
-        code: `import time
-import threading
-import multiprocessing as mp
-import asyncio
-import aiohttp
+        title: "branch_risk.py",
+        code: `def classify_pair(score: float, thr_auto=0.9, thr_review=0.6) -> str:
+    if score >= thr_auto:
+        return "auto_match"
+    if score >= thr_review:
+        return "review"
+    return "non_match"
 
-# === 1. CPU-bound: threads NO aceleran, processes SÍ ===
-def cpu_task(n: int = 5_000_000) -> int:
-    """Puro cómputo Python — saturado por GIL con threads."""
-    total = 0
-    for i in range(n):
-        total += i ** 2 % 7
-    return total
-
-def benchmark_cpu():
-    n_tasks = 4
-    # Secuencial
-    start = time.time()
-    for _ in range(n_tasks): cpu_task()
-    print(f"CPU secuencial: {time.time()-start:.1f}s")
-    # Threads (sin speedup por GIL)
-    start = time.time()
-    threads = [threading.Thread(target=cpu_task) for _ in range(n_tasks)]
-    for t in threads: t.start()
-    for t in threads: t.join()
-    print(f"CPU threads (sin speedup): {time.time()-start:.1f}s")
-    # Processes (speedup real)
-    start = time.time()
-    with mp.Pool(n_tasks) as p:
-        p.map(cpu_task, range(n_tasks))
-    print(f"CPU processes (speedup real): {time.time()-start:.1f}s")
-# Salida típica (4 cores):
-# CPU secuencial: 4.2s
-# CPU threads (sin speedup): 4.3s
-# CPU processes (speedup real): 1.3s  (3.2x speedup)
-
-# === 2. I/O-bound: threads y asyncio SÍ aceleran ===
-async def io_task_async(session, url):
-    async with session.get(url) as r:
-        return r.status
-
-async def benchmark_async():
-    urls = [f"https://httpbin.org/get?i={i}" for i in range(20)]
-    async with aiohttp.ClientSession() as session:
-        start = time.time()
-        await asyncio.gather(*[io_task_async(session, u) for u in urls])
-        print(f"I/O asyncio (20 URLs): {time.time()-start:.2f}s")
-
-def io_task_sync(url):
-    return requests.get(url, timeout=5).status_code
-
-def benchmark_threads():
-    import requests
-    from concurrent.futures import ThreadPoolExecutor
-    urls = [f"https://httpbin.org/get?i={i}" for i in range(20)]
-    start = time.time()
-    with ThreadPoolExecutor(max_workers=20) as ex:
-        list(ex.map(io_task_sync, urls))
-    print(f"I/O threads (20 URLs): {time.time()-start:.2f}s")
-# Salida típica:
-# I/O asyncio (20 URLs): 0.85s
-# I/O threads (20 URLs): 1.20s  (asyncio gana por menor overhead)
-
-# === 3. Regla mnemotécnica ===
-def elegir_herramienta(trabajo: str, n_tasks: int) -> str:
-    """Decide threading vs multiprocessing vs asyncio según el tipo de trabajo."""
-    if trabajo == "CPU":
-        return "ProcessPoolExecutor (max_workers=cpu_count)"
-    elif trabajo == "I/O":
-        if n_tasks > 100:
-            return "asyncio + aiohttp (10x más eficiente que threads)"
-        else:
-            return "ThreadPoolExecutor (max_workers=20-50)"
-    elif trabajo == "MIXED":
-        return "asyncio + run_in_executor(ProcessPoolExecutor) para partes CPU"
-    return "Depende — perfila primero"
-
-print(elegir_herramienta("CPU", 100))
-print(elegir_herramienta("I/O", 500))`,
+# instrumentación simple de ramas
+branches = {"auto": 0, "review": 0, "non": 0}
+for s in [0.95, 0.7, 0.2, 0.9]:
+    c = classify_pair(s)
+    if c == "auto_match":
+        branches["auto"] += 1
+    elif c == "review":
+        branches["review"] += 1
+    else:
+        branches["non"] += 1
+covered = sum(1 for v in branches.values() if v > 0)
+print("branch_covered", covered, "of", 3)
+print("branches", branches)
+print("risk_focus", "thresholds")`,
+        output: `branch_covered 3 of 3
+branches {'auto': 2, 'review': 1, 'non': 1}
+risk_focus thresholds`,
       },
       callout: {
-        type: 'info',
-        title: 'PEP 703: no-GIL Python está llegando',
+        type: "info",
+        title: "Cobertura con sentido",
         content:
-          'Python 3.13 (Oct 2024) introdujo un build experimental sin GIL (PEP 703). Python 3.15 (Oct 2026) lo traerá más estable. Cuando el no-GIL sea mainstream, threading acelerará CPU-bound también — pero requerirá que todas tus librerías C-extension sean thread-safe sin GIL. Hasta entonces, multiprocessing sigue siendo la respuesta para CPU-bound.',
+          "Si una rama de 'review' nunca se prueba, el clerical queue se romperá en producción sin que CI se entere.",
       },
     },
     {
-      heading: 'Backpressure: cómo evitar que un producer rápido ahogue a un consumer lento',
+      heading: "mutación conceptual, fallas útiles y mantenimiento",
+      subtopicId: "S27-T4-B",
       paragraphs: [
-        'Backpressure es el problema más subestimado en pipelines de datos. Imagina un producer que lee de Kafka a 100k msg/s y un consumer que procesa a 10k msg/s — si no hay backpressure, el producer mete items en una queue sin límite, la queue crece hasta agotar RAM, y el proceso muere por OOM. Backpressure significa: el producer se PAUSA cuando el consumer no puede seguir. En asyncio, esto se logra con `asyncio.Queue(maxsize=N)` — cuando la queue está llena, `await queue.put(item)` bloquea al producer hasta que el consumer libere espacio. Es automático, elegante, y crítico en producción.',
-        'Existen 3 estrategias de backpressure: (1) bounded queue — `Queue(maxsize=N)` bloquea al producer en put() cuando está llena; (2) semaphore — `Semaphore(N)` limita cuántos items están "en vuelo" simultáneamente; (3) credit-based — el consumer envía créditos al producer diciendo "puedes mandarme N más" (patrón usado en gRPC y AMQP). La elección depende del patrón: para producer-consumer simple, bounded queue basta; para fan-out a múltiples consumers con speeds distintos, semaphore o credit-based son mejores. Sin backpressure, un pico de tráfico mata tu pipeline; con backpressure, tu pipeline se degrada graceful (más lento pero no muere).',
-        'En pipelines reales, el backpressure debe propagarse a través de todas las etapas. Si tienes fetch → parse → enrich → store, y store es el bottleneck, fetch debe pausarse cuando enrich se llene, enrich debe pausarse cuando parse se llene, y así sucesivamente. Esto se logra con queues bounded en cada etapa — el backpressure se propaga naturalmente porque cada `put()` bloquea. Cuando uses Kafka o RabbitMQ, configura `max.poll.records` y `prefetch_count` para evitar meter demasiados mensajes en memoria. En HTTP servers (FastAPI), el backpressure llega del browser/HTTP client — si respondes lento, el cliente espera o timeout. Sin estas protecciones, tu sistema "funciona" en testing con 100 req/s y explota en producción con 10k req/s.',
+        "**Mutación conceptual**: cambia deliberadamente el código (quita un strip, invierte un umbral) y verifica que algún test falle. Si no falla, el test es débil.",
+        "Fallas **útiles** muestran input sintético, esperado vs actual y el contrato violado. Evita `assert False`.",
+        "Mantenimiento: borra tests que solo copian implementación; renombra; parametriza tablas; no duplices oráculos en tres sitios.",
       ],
       code: {
         language: 'python',
-        title: 'backpressure.py',
-        code: `import asyncio
-import random
+        title: "mutation_useful.py",
+        code: `def normalize_name(s: str) -> str:
+    return " ".join(s.casefold().split())
 
-# === Pipeline de 3 etapas con backpressure propagado ===
-async def producer(out_queue: asyncio.Queue, n: int = 1000):
-    """Produce items rápido (1ms cada uno)."""
-    for i in range(n):
-        await asyncio.sleep(0.001)  # produce rápido
-        await out_queue.put({"id": i, "data": f"item_{i}"})
-        print(f"[PROD] emitido {i}")
-    await out_queue.put(None)  # sentinel
+def normalize_name_mutated(s: str) -> str:
+    # mutación: sin strip de espacios internos colapsados
+    return s.casefold()
 
-async def stage(name: str, in_queue: asyncio.Queue, out_queue: asyncio.Queue, delay: float):
-    """Etapa intermedia — procesa con delay distinto por etapa."""
-    while True:
-        item = await in_queue.get()
-        if item is None:
-            await out_queue.put(None)
-            break
-        await asyncio.sleep(delay)  # simula trabajo variable
-        item[f"{name}_processed"] = True
-        await out_queue.put(item)
-        print(f"  [{name}] procesado {item['id']}")
-        in_queue.task_done()
-
-async def consumer(in_queue: asyncio.Queue):
-    """Consumer lento (50ms por item) — el bottleneck."""
-    count = 0
-    while True:
-        item = await in_queue.get()
-        if item is None:
-            break
-        await asyncio.sleep(0.05)  # consumer LENTO
-        count += 1
-        print(f"    [CONS] recibido {item['id']} (total: {count})")
-        in_queue.task_done()
-    return count
-
-async def run_pipeline_with_backpressure():
-    """Cada queue tiene maxsize pequeño → backpressure se propaga."""
-    q1 = asyncio.Queue(maxsize=10)  # entre producer y stage1
-    q2 = asyncio.Queue(maxsize=10)  # entre stage1 y stage2
-    q3 = asyncio.Queue(maxsize=10)  # entre stage2 y consumer
-
-    # Lanzar todas las etapas concurrentemente
-    prod_task = asyncio.create_task(producer(q1, n=50))
-    s1_task = asyncio.create_task(stage("parse", q1, q2, delay=0.005))
-    s2_task = asyncio.create_task(stage("enrich", q2, q3, delay=0.01))
-    cons_task = asyncio.create_task(consumer(q3))
-
-    # Esperar a que terminen
-    await prod_task
-    await s1_task
-    await s2_task
-    count = await cons_task
-    print(f"\\nPipeline completado: {count} items procesados")
-
-# === Sin backpressure (queue sin límite) — PROBLEMA ===
-async def pipeline_sin_backpressure():
-    """Queue sin maxsize → si consumer es lento, RAM explota."""
-    q = asyncio.Queue()  # SIN maxsize — peligroso
-    # Si producer produce 1M items y consumer es lento,
-    # la queue crece hasta agotar RAM
-    pass
-
-if __name__ == "__main__":
-    asyncio.run(run_pipeline_with_backpressure())
-# Salida: producer se pausa cuando q1 está llena,
-#         stage1 se pausa cuando q2 está llena,
-#         backpressure se propaga hasta producer.`,
+raw = "  Ana  López "
+oracle = "ana lópez"
+good = normalize_name(raw) == oracle
+# el test de regresión DEBE detectar la mutación
+mut_detected = normalize_name_mutated(raw) != oracle
+print("good_passes", good)
+print("mutation_killed", mut_detected)
+print("maintain", "one_oracle")`,
+        output: `good_passes True
+mutation_killed True
+maintain one_oracle`,
       },
       callout: {
-        type: 'danger',
-        title: 'Sin backpressure, tu pipeline muere en producción',
+        type: "tip",
+        title: "Kill the mutant",
         content:
-          'El error #1 de juniors es usar `asyncio.Queue()` sin `maxsize`. En testing con 100 items funciona. En producción con 1M items y un consumer lento, la queue crece hasta OOM (Out Of Memory). SIEMPRE usa `Queue(maxsize=N)` con N razonable (10-1000 según memoria disponible por item). Mejor degradar a "más lento" que morir por OOM.',
-      },
-    },
-    {
-      heading: 'Async context managers y async generators: patrones para pipelines streaming',
-      paragraphs: [
-        'Async context managers (`async with`) y async generators (`async def` con `yield`) son las dos piezas que permiten construir pipelines streaming que procesan datasets infinitos sin cargar todo en memoria. Un async context manager maneja setup/teardown asíncrono — por ejemplo, abrir una conexión async de DB que se cierra automáticamente al salir del `with`. Un async generator produce items uno a uno con `yield`, pausando entre cada uno — ideal para leer streams infinitos (Kafka, WebSocket, logs en tail). Combinados, permiten pipelines que procesan terabytes de data con memoria constante.',
-        'El patrón canónico es: `async with pool.acquire() as conn: async for row in conn.cursor("SELECT ..."): process(row)`. La conexión se adquiere al entrar y libera al salir (incluso si hay excepciones). El cursor es un async generator que produce rows uno a uno — no carga todo el resultado en memoria. Si tu query retorna 10M rows, este patrón procesa los 10M con uso constante de memoria (no 10M x tamaño_row en RAM). Para transformaciones, encadenas async generators con `async for`: `async for item in transform(source())`. Cada generator consume del anterior y produce para el siguiente — pipeline reactivo.',
-        'Para construir tus propios async context managers, usa `@contextlib.asynccontextmanager` sobre un async generator: la parte antes de `yield` es el setup, la parte después es el teardown (en `finally` para garantizar cleanup). Para async generators custom, simplemente define `async def gen(): while True: data = await fetch(); yield data`. Cuidado con una trampa: SIEMPRE consume completamente un async generator o ciérralo con `aclose()` — si lo abandonas a mitad, los recursos (conexiones, file handles) se quedan abiertos. En pipelines reales, este patrón se usa para: streaming de Kafka a PostgreSQL, procesamiento de logs en tiempo real, ETL de archivos CSV grandes sin cargarlos completos, y WebSocket servers que procesan mensajes en streaming.',
-      ],
-      code: {
-        language: 'python',
-        title: 'async_streaming.py',
-        code: `import asyncio
-import contextlib
-from typing import AsyncIterator
-
-# === 1. Async context manager custom ===
-@contextlib.asynccontextmanager
-async def db_connection(dsn: str):
-    """Simula conexión async de DB con setup/teardown garantizado."""
-    print(f"  [DB] conectando a {dsn}")
-    conn = {"dsn": dsn, "id": id(dsn)}  # simula conexión
-    try:
-        yield conn  # devuelve la conexión al bloque async with
-    finally:
-        # cleanup garantizado incluso si hay excepción
-        print(f"  [DB] cerrando conexión {conn['id']}")
-
-async def use_db():
-    async with db_connection("postgresql://localhost/mydb") as conn:
-        print(f"  [DB] usando conexión {conn['id']}")
-        # Simular query
-        await asyncio.sleep(0.1)
-    # conexión cerrada automáticamente aquí
-
-# === 2. Async generator: stream de items sin cargar todo en RAM ===
-async def fetch_rows(n: int = 1000000) -> AsyncIterator[dict]:
-    """Simula un cursor DB que produce 1M rows sin cargar todos en memoria."""
-    for i in range(n):
-        await asyncio.sleep(0)  # cede control al event loop
-        yield {"id": i, "value": i * 2}
-
-async def transform(rows: AsyncIterator[dict]) -> AsyncIterator[dict]:
-    """Transforma cada row — pipeline stage."""
-    async for row in rows:
-        row["value_squared"] = row["value"] ** 2
-        row["category"] = "A" if row["value"] % 2 == 0 else "B"
-        yield row
-
-async def sink(rows: AsyncIterator[dict], batch_size: int = 1000):
-    """Inserta en DB en batches — sin cargar todo en RAM."""
-    batch = []
-    total = 0
-    async for row in rows:
-        batch.append(row)
-        if len(batch) >= batch_size:
-            # Simula batch INSERT
-            await asyncio.sleep(0.01)
-            total += len(batch)
-            print(f"  [SINK] insertados {total} rows")
-            batch.clear()
-    # Flush final
-    if batch:
-        total += len(batch)
-        print(f"  [SINK] insertados {total} rows (final)")
-
-# === 3. Pipeline streaming completo: source → transform → sink ===
-async def run_streaming_pipeline():
-    """Procesa 1M rows con memoria constante — clave para big data."""
-    print("Iniciando pipeline streaming...")
-    source = fetch_rows(n=5000)
-    transformed = transform(source)
-    await sink(transformed, batch_size=500)
-    print("Pipeline completado.")
-
-# === 4. Cerrar async generators correctamente ===
-async def safe_consume():
-    """Usa aclose() para liberar recursos si cortas el consumo."""
-    gen = fetch_rows(n=1000000)
-    try:
-        async for i, row in enumerate(gen):
-            if i >= 10:  # cortar antes de terminar
-                break
-            print(f"  row {i}")
-    finally:
-        await gen.aclose()  # libera recursos del generator
-        print("  [gen] cerrado correctamente")
-
-if __name__ == "__main__":
-    asyncio.run(run_streaming_pipeline())
-# Salida: inserta en batches de 500 sin cargar 5000 rows en RAM.
-# Escala a 1M o 1B rows sin cambiar el código — memoria constante.`,
-      },
-      callout: {
-        type: 'tip',
-        title: 'async generators para datasets infinitos',
-        content:
-          'Si necesitas procesar un dataset que no cabe en RAM (10GB+ CSV, tabla PostgreSQL de 100M rows, stream de Kafka), SIEMPRE usa async generators con `yield`. Cada item se procesa y descarta antes de cargar el siguiente — uso de memoria constante. Combinado con `async for` y pipelines encadenados, puedes procesar terabytes en una laptop con 8GB RAM.',
+          "Si alteras un comparador y todos los tests siguen verdes, no tienes contrato: tienes teatro de cobertura.",
       },
     },
   ],
   iDo: {
-    intro:
-      'Vamos a construir juntos 3 piezas que aparecen en TODO pipeline async production-ready: (1) un pipeline producer-consumer con asyncio.Queue que procesa 10,000 URLs en paralelo con backpressure, (2) paralelización de feature engineering CPU-bound con ProcessPoolExecutor, y (3) un rate limiter async que respeta límites de API externa. Estos 3 patrones son el 80% del trabajo de "hacer que mi pipeline escale a producción".',
+    intro: "Te muestro cómo priorizar riesgos, escribir AAA con oráculos, fixtures aisladas y matar mutantes sobre normalización/matching sintético — inicio de CP-N3-A.",
     steps: [
       {
-        description: 'Pipeline producer-consumer con asyncio.Queue que procesa 10,000 URLs en paralelo',
+        demoId: "S27-T1-A-DEMO",
+        subtopicId: "S27-T1-A",
+        environment: "local-python",
+        description: "Prioriza suites unit/integration/e2e por score de riesgo para el motor ER sintético.",
         code: {
           language: 'python',
-          title: 'async_scraper_pipeline.py',
-          code: `import asyncio
-import aiohttp
-import time
-import logging
-from typing import Optional
-
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-logger = logging.getLogger("scraper")
-
-# === Configuración del pipeline ===
-N_URLS = 10_000
-MAX_CONCURRENT_FETCH = 50      # no más de 50 fetches en vuelo
-MAX_QUEUE_SIZE = 500           # backpressure: queue no crece infinitamente
-BATCH_SIZE = 100               # inserta a DB en batches de 100
-
-async def producer(urls: list[str], queue: asyncio.Queue):
-    """Produce URLs — se pausa si la queue está llena (backpressure)."""
-    for i, url in enumerate(urls):
-        await queue.put({"id": i, "url": url})
-    await queue.put(None)  # sentinel: fin de stream
-    logger.info("Producer terminó: %d URLs emitidas", len(urls))
-
-async def fetch(session: aiohttp.ClientSession, url: str, sem: asyncio.Semaphore) -> Optional[dict]:
-    """Descarga una URL respetando el Semaphore (rate limit)."""
-    async with sem:
-        try:
-            async with session.get(url, timeout=aiohttp.ClientTimeout(total=10)) as resp:
-                if resp.status == 200:
-                    text = await resp.text()
-                    return {"url": url, "status": 200, "size": len(text), "text": text[:200]}
-                return {"url": url, "status": resp.status, "size": 0, "text": ""}
-        except Exception as e:
-            logger.warning("Error en %s: %s", url, e)
-            return None
-
-async def worker(name: str, in_queue: asyncio.Queue, out_queue: asyncio.Queue, session: aiohttp.ClientSession, sem: asyncio.Semaphore):
-    """Consume URLs de in_queue, hace fetch, pone resultado en out_queue."""
-    while True:
-        item = await in_queue.get()
-        if item is None:
-            await in_queue.put(None)  # pasar sentinel a otros workers
-            break
-        result = await fetch(session, item["url"], sem)
-        if result:
-            await out_queue.put(result)
-        in_queue.task_done()
-    logger.info("Worker %s terminó", name)
-
-async def batch_sink(in_queue: asyncio.Queue):
-    """Consumidor final: inserta resultados a DB en batches."""
-    batch = []
-    total = 0
-    while True:
-        item = await in_queue.get()
-        if item is None:
-            # flush final
-            if batch:
-                total += len(batch)
-                # simula INSERT a DB
-                logger.info("Sink: insertando batch final de %d (total: %d)", len(batch), total)
-            break
-        batch.append(item)
-        if len(batch) >= BATCH_SIZE:
-            # simula INSERT a DB
-            total += len(batch)
-            logger.info("Sink: insertados %d (total: %d)", len(batch), total)
-            batch.clear()
-        in_queue.task_done()
-    return total
-
-async def run_pipeline(urls: list[str]) -> int:
-    """Orquesta producer → 50 workers → sink con backpressure completo."""
-    fetch_queue = asyncio.Queue(maxsize=MAX_QUEUE_SIZE)
-    sink_queue = asyncio.Queue(maxsize=MAX_QUEUE_SIZE)
-    sem = asyncio.Semaphore(MAX_CONCURRENT_FETCH)
-
-    timeout = aiohttp.ClientTimeout(total=60)
-    async with aiohttp.ClientSession(timeout=timeout) as session:
-        # Lanzar todos los componentes concurrentemente
-        prod_task = asyncio.create_task(producer(urls, fetch_queue))
-        worker_tasks = [
-            asyncio.create_task(worker(f"w{i}", fetch_queue, sink_queue, session, sem))
-            for i in range(MAX_CONCURRENT_FETCH)
-        ]
-        sink_task = asyncio.create_task(batch_sink(sink_queue))
-
-        # Esperar a que producer termine
-        await prod_task
-        # Esperar a que todos los workers terminen (reciben sentinel)
-        await asyncio.gather(*worker_tasks)
-        # Señalar al sink que no hay más datos
-        await sink_queue.put(None)
-        # Esperar al sink
-        total = await sink_task
-        return total
-
-# === Demo con URLs sintéticas ===
-if __name__ == "__main__":
-    urls = [f"https://httpbin.org/get?i={i}" for i in range(N_URLS)]
-    start = time.time()
-    total = asyncio.run(run_pipeline(urls))
-    elapsed = time.time() - start
-    logger.info("Pipeline completado: %d URLs en %.2fs (%.0f URLs/s)",
-                total, elapsed, total / elapsed if elapsed > 0 else 0)
-# Salida típica:
-# 2024-01-15 [INFO] Pipeline completado: 10000 URLs en 38.5s (260 URLs/s)
-# vs secuencial: ~100s (100 URLs/s)`,
+          title: "risk_rank_demo.py",
+          code: `areas = [
+    ("normalize", 5, 5, "unit"),
+    ("blocking", 4, 4, "unit"),
+    ("repo_sql", 4, 2, "integration"),
+    ("review_ui", 2, 2, "e2e"),
+]
+scored = sorted(((i*l, n, layer) for n,i,l,layer in areas), reverse=True)
+print("order", [n for _, n, _ in scored])
+print("top_layer", scored[0][2])
+print("pyramid_ok", scored[0][2] == "unit")`,
+          output: `order ['normalize', 'blocking', 'repo_sql', 'review_ui']
+top_layer unit
+pyramid_ok True`,
         },
-        why: 'El patrón producer-consumer con asyncio.Queue bounded te da 3 cosas: (1) backpressure automático — si el sink es lento, el producer se pausa y no se llena la RAM; (2) paralelismo controlado — el Semaphore garantiza que no hagas más de 50 fetches concurrentes, evitando rate limits; (3) pipeline reactivo — cada etapa corre en paralelo sin coordinación manual. Es el patrón que usan scrapers production-ready en Mercado Libre, Rappi, y PedidosYa.',
+        why: "La pirámide + riesgo pone primero los contratos de normalización.",
       },
       {
-        description: 'Usar ProcessPoolExecutor para paralelizar cálculos CPU-bound (features para ML)',
+        demoId: "S27-T1-B-DEMO",
+        subtopicId: "S27-T1-B",
+        environment: "local-python",
+        description: "Test AAA con oráculo fijo para normalize_name sobre dato sintético peruano.",
         code: {
           language: 'python',
-          title: 'parallel_features_ml.py',
-          code: `import numpy as np
-import pandas as pd
-from concurrent.futures import ProcessPoolExecutor, as_completed
-import time
-import logging
+          title: "aaa_demo.py",
+          code: `def normalize_name(s: str) -> str:
+    return " ".join(s.casefold().split())
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-logger = logging.getLogger("features")
-
-# === Feature engineering CPU-bound por chunk ===
-def compute_features_chunk(chunk: pd.DataFrame) -> pd.DataFrame:
-    """Calcula features de ML para un chunk del DataFrame.
-    Función PURA — top-level, sin estado, picklable.
-    """
-    chunk = chunk.copy()
-    # Features estadísticos
-    chunk["log_monto"] = np.log1p(chunk["monto"].clip(lower=0))
-    chunk["monto_zscore"] = (chunk["monto"] - chunk["monto"].mean()) / (chunk["monto"].std() + 1e-8)
-    chunk["monto_rank"] = chunk["monto"].rank(pct=True)
-    # Features temporales
-    chunk["dia_semana"] = pd.to_datetime(chunk["fecha"]).dt.dayofweek
-    chunk["es_fin_semana"] = chunk["dia_semana"].isin([5, 6]).astype(int)
-    chunk["hora"] = pd.to_datetime(chunk["fecha"]).dt.hour
-    # Features de cliente (simuladas — en prod sería un GROUP BY)
-    chunk["monto_rolling_7d"] = chunk.groupby("cliente_id")["monto"].transform(
-        lambda x: x.rolling(7, min_periods=1).mean()
-    )
-    chunk["frecuencia_7d"] = chunk.groupby("cliente_id")["monto"].transform(
-        lambda x: x.rolling(7, min_periods=1).count()
-    )
-    # Cross features
-    chunk["monto_por_frecuencia"] = chunk["monto_rolling_7d"] / (chunk["frecuencia_7d"] + 1)
-    return chunk
-
-def generate_synthetic_data(n: int = 100_000) -> pd.DataFrame:
-    """Genera dataset sintético de transacciones para benchmark."""
-    np.random.seed(42)
-    return pd.DataFrame({
-        "cliente_id": np.random.randint(1, 1000, n),
-        "monto": np.random.exponential(500, n),
-        "fecha": pd.date_range("2024-01-01", periods=n, freq="1H"),
-        "categoria": np.random.choice(["A", "B", "C", "D"], n),
-    })
-
-def feature_engineering_secuencial(df: pd.DataFrame) -> pd.DataFrame:
-    """Baseline: todo secuencial."""
-    return compute_features_chunk(df)
-
-def feature_engineering_paralelo(df: pd.DataFrame, n_workers: int = 8) -> pd.DataFrame:
-    """Paraleliza por chunks — cada worker procesa un chunk independiente."""
-    chunks = np.array_split(df, n_workers)
-    logger.info("Particionando en %d chunks (avg %d filas cada uno)",
-                n_workers, len(chunks[0]))
-
-    resultados = []
-    with ProcessPoolExecutor(max_workers=n_workers) as executor:
-        # as_completed: procesa en el orden que terminan (mejor para progreso)
-        futures = {executor.submit(compute_features_chunk, chunk): i
-                   for i, chunk in enumerate(chunks)}
-        for future in as_completed(futures):
-            chunk_idx = futures[future]
-            try:
-                resultado = future.result(timeout=60)
-                resultados.append((chunk_idx, resultado))
-                logger.info("Chunk %d completado (%d filas)", chunk_idx, len(resultado))
-            except Exception as e:
-                logger.error("Error en chunk %d: %s", chunk_idx, e)
-
-    # Reconstruir en orden original
-    resultados.sort(key=lambda x: x[0])
-    return pd.concat([r for _, r in resultados], ignore_index=True)
-
-# === Benchmark ===
-if __name__ == "__main__":
-    df = generate_synthetic_data(100_000)
-    logger.info("Dataset: %d filas, %d columnas", len(df), df.shape[1])
-
-    # Secuencial (baseline)
-    start = time.time()
-    df_seq = feature_engineering_secuencial(df)
-    t_seq = time.time() - start
-    logger.info("Secuencial: %.2fs", t_seq)
-
-    # Paralelo (8 workers)
-    start = time.time()
-    df_par = feature_engineering_paralelo(df, n_workers=8)
-    t_par = time.time() - start
-    logger.info("Paralelo (8 workers): %.2fs", t_par)
-    logger.info("Speedup: %.1fx", t_seq / t_par)
-
-    # Verificar que dan lo mismo
-    assert df_seq.shape == df_par.shape, "Shapes difieren!"
-    logger.info("Resultados: %d filas, %d features", len(df_par), df_par.shape[1])
-    print(df_par[["cliente_id", "monto", "log_monto", "monto_zscore", "monto_rolling_7d"]].head())
-# Salida típica:
-# Secuencial: 12.45s
-# Paralelo (8 workers): 2.18s
-# Speedup: 5.7x`,
+# Arrange
+raw, oracle = "  María  Ríos ", "maría ríos"
+# Act
+got = normalize_name(raw)
+# Assert
+assert got == oracle
+print("got", got)
+print("aaa", "pass")`,
+          output: `got maría ríos
+aaa pass`,
         },
-        why: 'El truco es partir el DataFrame en chunks por una clave natural (cliente_id o índice) y pasar chunks independientes a cada proceso worker. Sin estado compartido, sin locks, sin complexity. El speedup es 5-7x en 8 cores (no 8x por el overhead de spawn + pickle serialization). Este patrón es exactamente lo que usan los feature stores de empresas de fintech para procesar millones de transacciones diarias.',
+        why: "Oráculo determinista = regresión confiable.",
       },
       {
-        description: 'Construir un rate limiter async que permite máximo N requests/segundo a una API externa',
+        demoId: "S27-T2-A-DEMO",
+        subtopicId: "S27-T2-A",
+        environment: "local-python",
+        description: "Descubre nombres test_* y valida un assert de matching exacto post-normalización.",
         code: {
           language: 'python',
-        title: 'async_rate_limiter.py',
-        code: `import asyncio
-import time
-import logging
-from typing import Optional
-import aiohttp
-
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-logger = logging.getLogger("rate_limiter")
-
-# === 1. Rate limiter con token bucket (slide window) ===
-class AsyncRateLimiter:
-    """Rate limiter async — permite máximo N requests por segundo.
-    Implementa token bucket: tokens se rellenan a rate constante.
-    """
-    def __init__(self, rate: float, burst: int = None):
-        self.rate = rate              # requests por segundo
-        self.burst = burst or int(rate)  # capacidad del bucket
-        self.tokens = float(self.burst)
-        self.last_update = time.monotonic()
-        self.lock = asyncio.Lock()
-
-    async def acquire(self):
-        """Espera hasta que haya un token disponible."""
-        async with self.lock:
-            now = time.monotonic()
-            elapsed = now - self.last_update
-            self.last_update = now
-            # Rellenar tokens según tiempo transcurrido
-            self.tokens = min(self.burst, self.tokens + elapsed * self.rate)
-            if self.tokens < 1:
-                # No hay token — esperar
-                wait_time = (1 - self.tokens) / self.rate
-                logger.debug("Rate limit: esperando %.3fs", wait_time)
-                await asyncio.sleep(wait_time)
-                self.tokens = 0
-            else:
-                self.tokens -= 1
-
-# === 2. Cliente HTTP que respeta el rate limit ===
-class RateLimitedClient:
-    """Cliente HTTP async con rate limiting automático."""
-    def __init__(self, rate: float = 10.0, burst: int = 20):
-        self.limiter = AsyncRateLimiter(rate=rate, burst=burst)
-        timeout = aiohttp.ClientTimeout(total=30)
-        self.session = aiohttp.ClientSession(timeout=timeout)
-
-    async def get(self, url: str) -> Optional[dict]:
-        """GET con rate limiting — respeta N req/s."""
-        await self.limiter.acquire()
-        try:
-            async with self.session.get(url) as resp:
-                if resp.status == 200:
-                    return await resp.json()
-                elif resp.status == 429:
-                    retry_after = int(resp.headers.get("Retry-After", "5"))
-                    logger.warning("429 Too Many Requests — esperando %ds", retry_after)
-                    await asyncio.sleep(retry_after)
-                    return await self.get(url)  # retry
-                else:
-                    logger.error("HTTP %d en %s", resp.status, url)
-                    return None
-        except Exception as e:
-            logger.error("Error en %s: %s", url, e)
-            return None
-
-    async def close(self):
-        await self.session.close()
-
-# === 3. Demo: 100 requests con rate limit de 10 req/s ===
-async def demo_rate_limiter():
-    client = RateLimitedClient(rate=10.0, burst=15)  # 10 req/s, burst 15
-    urls = [f"https://httpbin.org/get?i={i}" for i in range(100)]
-
-    start = time.time()
-    tasks = [client.get(url) for url in urls]
-    results = await asyncio.gather(*tasks, return_exceptions=True)
-    elapsed = time.time() - start
-
-    ok = sum(1 for r in results if isinstance(r, dict))
-    logger.info("Completados %d/%d requests en %.2fs (%.1f req/s efectivo)",
-                ok, len(urls), elapsed, ok / elapsed if elapsed > 0 else 0)
-    await client.close()
-
-# === 4. Rate limiter distribuido (con Redis) — para múltiples instancias ===
-async def redis_rate_limiter_demo():
-    """En producción con múltiples procesos, el rate limiter debe ser distribuido.
-    Patrón: INCR + EXPIRE en Redis."""
-    import aioredis
-    r = aioredis.from_url("redis://localhost")
-    key = "api:rate:window"
-    count = await r.incr(key)
-    if count == 1:
-        await r.expire(key, 1)  # ventana de 1 segundo
-    if count > 10:  # límite de 10 req/s
-        return False  # rate limited
-    return True
-
-if __name__ == "__main__":
-    asyncio.run(demo_rate_limiter())
-# Salida:
-# 2024-01-15 [INFO] Completados 100/100 requests en 10.2s (9.8 req/s efectivo)
-# → Respeta el rate limit de 10 req/s sin 429s.`,
+          title: "discovery_demo.py",
+          code: `import re
+module = '''
+def test_exact_after_norm():
+    a = " ".join("A B".split()).casefold()
+    b = "a b"
+    assert a == b
+def util():
+    pass
+def test_email_domain():
+    assert "x@example.pe".endswith("@example.pe")
+'''
+names = re.findall(r"^def (test_\\w+)", module, flags=re.M)
+print("node_ids", names)
+a = " ".join("A B".split()).casefold()
+print("assert_exact", a == "a b")
+print("n_tests", len(names))`,
+          output: `node_ids ['test_exact_after_norm', 'test_email_domain']
+assert_exact True
+n_tests 2`,
+        },
+        why: "Discovery predecible y asserts claros aceleran CI.",
       },
-      why: 'Un rate limiter es OBLIGATORIO cuando integras APIs externas con rate limits (Stripe, Twitter, OpenAI, SUNAT). Sin rate limiting, te banearán o pagarás overage. El patrón token bucket permite burst controlado (acumula tokens en idle) y respeta el rate promedio. En producción con múltiples instancias, el rate limiter debe ser distribuido (Redis), no local — de lo contrario, 10 instancias x 10 req/s = 100 req/s en total y te banearán.',
-    },
-  ],
+      {
+        demoId: "S27-T2-B-DEMO",
+        subtopicId: "S27-T2-B",
+        environment: "local-python",
+        description: "Fixture factory con scope function: dos tests no se contaminan al mutar contactos.",
+        code: {
+          language: 'python',
+          title: "fixture_demo.py",
+          code: `from copy import deepcopy
+BASE = [{"id": "e1", "name": "Luis"}]
+
+def contacts_fx():
+    return deepcopy(BASE)
+
+a = contacts_fx(); a[0]["name"] = "X"
+b = contacts_fx()
+print("isolated", b[0]["name"] == "Luis")
+print("a_mut", a[0]["name"])
+print("scope", "function")`,
+          output: `isolated True
+a_mut X
+scope function`,
+        },
+        why: "Aislamiento function-scope evita flakes de orden.",
+      },
+      {
+        demoId: "S27-T3-A-DEMO",
+        subtopicId: "S27-T3-A",
+        environment: "local-python",
+        description: "Excepción ValueError, isclose de score y escritura en directorio temporal.",
+        code: {
+          language: 'python',
+          title: "borders_demo.py",
+          code: `import math, tempfile
+from pathlib import Path
+from datetime import date
+
+def score(x):
+    if x is None:
+        raise ValueError("score None")
+    return float(x)
+
+try:
+    score(None)
+except ValueError as e:
+    print("exc", str(e))
+print("close", math.isclose(0.30000000000000004, 0.3, abs_tol=1e-9))
+print("day", date(2026, 1, 15).isoformat())
+with tempfile.TemporaryDirectory() as td:
+    p = Path(td) / "s.txt"
+    p.write_text("0.85", encoding="utf-8")
+    print("tmp", p.read_text(encoding="utf-8"))`,
+          output: `exc score None
+close True
+day 2026-01-15
+tmp 0.85`,
+        },
+        why: "Bordes numéricos/temporales evitan tests frágiles.",
+      },
+      {
+        demoId: "S27-T3-B-DEMO",
+        subtopicId: "S27-T3-B",
+        environment: "local-python",
+        description: "Tabla de casos negativos para validador de RUC sintético (formato, no consulta SUNAT real).",
+        code: {
+          language: 'python',
+          title: "negative_demo.py",
+          code: `def check_ruc(s: str) -> str:
+    if not s or not s.isdigit() or len(s) != 11:
+        raise ValueError(f"ruc inválido: {s!r}")
+    return s
+
+ok = []
+for val, bad in [("20123456789", False), ("123", True), ("", True), ("abcdefghijk", True)]:
+    try:
+        check_ruc(val)
+        ok.append(not bad)
+    except ValueError as e:
+        ok.append(bad and "inválido" in str(e))
+print("neg_table", all(ok))
+print("n", len(ok))`,
+          output: `neg_table True
+n 4`,
+        },
+        why: "Mensajes con valor ofensivo (sintético) aceleran el fix.",
+      },
+      {
+        demoId: "S27-T4-A-DEMO",
+        subtopicId: "S27-T4-A",
+        environment: "local-python",
+        description: "Cubre las tres ramas de umbral auto/review/non_match y reporta cobertura de ramas.",
+        code: {
+          language: 'python',
+          title: "coverage_demo.py",
+          code: `def decide(score):
+    if score >= 0.9:
+        return "auto"
+    if score >= 0.6:
+        return "review"
+    return "non"
+
+hits = {decide(s) for s in (0.95, 0.75, 0.1)}
+print("covered", sorted(hits))
+print("full", hits == {"auto", "review", "non"})
+print("risk", "threshold_branches")`,
+          output: `covered ['auto', 'non', 'review']
+full True
+risk threshold_branches`,
+        },
+        why: "Branch coverage enfocada en umbrales de matching.",
+      },
+      {
+        demoId: "S27-T4-B-DEMO",
+        subtopicId: "S27-T4-B",
+        environment: "local-python",
+        description: "Mutación: quitar casefold; el test de regresión debe fallar (mutante eliminado).",
+        code: {
+          language: 'python',
+          title: "mutation_demo.py",
+          code: `def good(s):
+    return s.casefold().strip()
+def mutant(s):
+    return s.strip()  # mutación
+oracle = "ana"
+raw = "ANA"
+print("test_good", good(raw) == oracle)
+print("kills_mutant", mutant(raw) != oracle)
+print("policy", "regression_on_bug")`,
+          output: `test_good True
+kills_mutant True
+policy regression_on_bug`,
+        },
+        why: "Si el mutante vive, el test no protege el contrato.",
+      },
+    ],
   },
   weDo: {
-    intro:
-      'Te toca practicar los 3 patrones más importantes de concurrencia async: (1) agregar backpressure a un pipeline con Queue + Semaphore, (2) implementar un connection pool async con asyncpg, y (3) debuggear un race condition intencional con asyncio.Lock. Cada ejercicio tiene starter code y solution code — intenta resolverlo solo primero.',
+    intro: "24 ejercicios de pirámide, AAA, discovery, fixtures, bordes, negativos, cobertura y mutación.",
     steps: [
       {
+        id: "S27-T1-A-E1",
+        subtopicId: "S27-T1-A",
+        kind: "guided",
         instruction:
-          'Agrega backpressure al pipeline limitando el tamaño de la queue (maxsize=20) y usando un Semaphore(10) para no saturar la API. El producer debe pausarse cuando la queue esté llena, y los fetches no deben superar 10 concurrentes.',
-        hint: 'Usa asyncio.Queue(maxsize=20) y asyncio.Semaphore(10). El "await queue.put(item)" se bloquea cuando la queue está llena. El "async with sem" garantiza que solo N coroutines ejecutan el fetch a la vez.',
+          "Dado impact=5 likelihood=4, imprime score=impact*likelihood.",
+        hint: "Multiplica enteros",
+        hints: [
+          "Multiplica enteros",
+          "print del producto",
+        ],
+        edgeCases: ["score 0 si likelihood 0"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'backpressure_starter.py',
-          code: `import asyncio
-import aiohttp
-import time
-
-async def fetch(session, url, sem):
-    """TODO: respeta el semáforo para limitar concurrencia."""
-    pass
-
-async def producer(queue, n=100):
-    """TODO: produce n items, la queue tiene maxsize=20 (backpressure)."""
-    pass
-
-async def consumer(queue, session, sem):
-    """TODO: consume de la queue y hace fetch con rate limit."""
-    pass
-
-async def main():
-    """TODO: orquesta producer + 5 consumers con backpressure completo."""
-    pass
-
-# asyncio.run(main())`,
+          title: "exercise.py",
+          code: `impact, likelihood = 5, 4
+# TODO
+`,
         },
         solutionCode: {
           language: 'python',
-          title: 'backpressure_solution.py',
-          code: `import asyncio
-import aiohttp
-import time
-import logging
-
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-logger = logging.getLogger("bp")
-
-async def fetch(session: aiohttp.ClientSession, url: str, sem: asyncio.Semaphore) -> dict:
-    """Fetch con Semaphore — solo N concurrentes."""
-    async with sem:  # solo 10 coroutines pasan a la vez
-        async with session.get(url, timeout=aiohttp.ClientTimeout(total=10)) as resp:
-            return {"url": url, "status": resp.status}
-
-async def producer(queue: asyncio.Queue, n: int = 100):
-    """Produce n items — se pausa si queue está llena (backpressure)."""
-    for i in range(n):
-        url = f"https://httpbin.org/get?i={i}"
-        await queue.put(url)  # se bloquea si queue llena → backpressure
-        logger.debug("Producido %d", i)
-    # Sentinel: un None por cada consumer
-    for _ in range(5):
-        await queue.put(None)
-
-async def consumer(name: str, queue: asyncio.Queue, session: aiohttp.ClientSession, sem: asyncio.Semaphore):
-    """Consume URLs hasta recibir sentinel."""
-    while True:
-        url = await queue.get()
-        if url is None:
-            logger.info("Consumer %s recibió sentinel", name)
-            break
-        try:
-            result = await fetch(session, url, sem)
-            logger.info("[%s] %s -> %d", name, result["url"], result["status"])
-        except Exception as e:
-            logger.error("[%s] error en %s: %s", name, url, e)
-        queue.task_done()
-
-async def main():
-    """Orquesta producer + 5 consumers con backpressure completo."""
-    queue = asyncio.Queue(maxsize=20)  # backpressure: se llena → producer pausa
-    sem = asyncio.Semaphore(10)         # rate limit: máx 10 fetches concurrentes
-    timeout = aiohttp.ClientTimeout(total=30)
-    async with aiohttp.ClientSession(timeout=timeout) as session:
-        prod = asyncio.create_task(producer(queue, n=50))
-        consumers = [asyncio.create_task(consumer(f"c{i}", queue, session, sem))
-                     for i in range(5)]
-        await prod
-        await asyncio.gather(*consumers)
-
-if __name__ == "__main__":
-    start = time.time()
-    asyncio.run(main())
-    logger.info("Pipeline con backpressure completado en %.2fs", time.time() - start)
-# Salida:
-# 2024-01-15 [INFO] [c0] https://httpbin.org/get?i=0 -> 200
-# 2024-01-15 [INFO] [c1] https://httpbin.org/get?i=1 -> 200
-# ...
-# 2024-01-15 [INFO] Consumer c0 recibió sentinel
-# 2024-01-15 [INFO] Pipeline con backpressure completado en 4.85s`,
+          title: "exercise.py",
+          code: `impact, likelihood = 5, 4
+print(impact * likelihood)`,
+          output: `20`,
         },
       },
       {
+        id: "S27-T1-A-E2",
+        subtopicId: "S27-T1-A",
+        kind: "independent",
         instruction:
-          'Implementa un AsyncConnectionPool con asyncpg que reutiliza conexiones de PostgreSQL. Debe tener acquire() y release(), y un máximo de 10 conexiones concurrentes. Usa async context manager para garantizar que las conexiones se liberen incluso si hay excepciones.',
-        hint: 'Usa asyncio.Queue(maxsize=10) para almacenar conexiones disponibles. En acquire(), saca una conexión de la queue (se bloquea si no hay). En release(), la devuelve. Implementa __aenter__/__aexit__ para usar como "async with pool.acquire() as conn:".',
+          "Ordena áreas por score desc y imprime solo los nombres.",
+        hint: "sorted reverse",
+        hints: [
+          "sorted reverse",
+          "key con producto",
+        ],
+        edgeCases: ["empates por nombre"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'pool_starter.py',
-          code: `import asyncio
-import asyncpg
-from typing import Optional
-
-class AsyncConnectionPool:
-    """TODO: Pool de conexiones asyncpg con max_connections=10."""
-    def __init__(self, dsn: str, max_connections: int = 10):
-        self.dsn = dsn
-        self.max_connections = max_connections
-        self.pool: asyncio.Queue = None
-        # TODO: inicializar pool
-
-    async def initialize(self):
-        """TODO: crear N conexiones y meterlas en la queue."""
-        pass
-
-    async def acquire(self):
-        """TODO: sacar conexión del pool (bloquea si está vacío)."""
-        pass
-
-    async def release(self, conn):
-        """TODO: devolver conexión al pool."""
-        pass
-
-    async def close(self):
-        """TODO: cerrar todas las conexiones."""
-        pass
-
-# Test:
-# async def main():
-#     pool = AsyncConnectionPool("postgresql://user:pass@localhost/db")
-#     await pool.initialize()
-#     conn = await pool.acquire()
-#     # usar conn
-#     await pool.release(conn)
-#     await pool.close()`,
+          title: "exercise.py",
+          code: `rows=[('e2e',2,1),('unit',5,5)]
+# TODO print names
+`,
         },
         solutionCode: {
           language: 'python',
-          title: 'pool_solution.py',
-          code: `import asyncio
-import asyncpg
-from contextlib import asynccontextmanager
-from typing import Optional
-import logging
-
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-logger = logging.getLogger("pool")
-
-class AsyncConnectionPool:
-    """Pool de conexiones asyncpg con max_connections.
-    Reutiliza conexiones para evitar overhead de connect por query.
-    """
-    def __init__(self, dsn: str, max_connections: int = 10):
-        self.dsn = dsn
-        self.max_connections = max_connections
-        self._pool: asyncio.Queue = asyncio.Queue(maxsize=max_connections)
-        self._all_connections: list = []  # para cerrar al final
-        self._initialized = False
-
-    async def initialize(self):
-        """Crea N conexiones iniciales y las mete en el pool."""
-        for i in range(self.max_connections):
-            conn = await asyncpg.connect(self.dsn)
-            self._all_connections.append(conn)
-            await self._pool.put(conn)
-        self._initialized = True
-        logger.info("Pool inicializado con %d conexiones", self.max_connections)
-
-    async def acquire(self) -> asyncpg.Connection:
-        """Saca una conexión del pool. Se bloquea si están todas en uso."""
-        if not self._initialized:
-            await self.initialize()
-        conn = await self._pool.get()  # bloquea si pool vacío
-        logger.debug("Conexión adquirida (disponibles: %d)", self._pool.qsize())
-        return conn
-
-    async def release(self, conn: asyncpg.Connection):
-        """Devuelve conexión al pool para reutilización."""
-        await self._pool.put(conn)
-        logger.debug("Conexión liberada (disponibles: %d)", self._pool.qsize())
-
-    @asynccontextmanager
-    async def connection(self):
-        """Async context manager — garantiza release incluso con excepciones."""
-        conn = await self.acquire()
-        try:
-            yield conn
-        finally:
-            await self.release(conn)
-
-    async def close(self):
-        """Cierra todas las conexiones del pool."""
-        for conn in self._all_connections:
-            await conn.close()
-        logger.info("Pool cerrado (%d conexiones)", len(self._all_connections))
-
-# === Test con queries en paralelo ===
-async def query_user(pool: AsyncConnectionPool, user_id: int) -> dict:
-    """Ejecuta un query usando el pool."""
-    async with pool.connection() as conn:
-        row = await conn.fetchrow(
-            "SELECT id, name, email FROM users WHERE id = $1", user_id
-        )
-        return dict(row) if row else None
-
-async def main():
-    pool = AsyncConnectionPool(
-        "postgresql://postgres:postgres@localhost/testdb",
-        max_connections=10
-    )
-    await pool.initialize()
-    try:
-        # 50 queries en paralelo — solo 10 conexiones concurrentes
-        user_ids = list(range(1, 51))
-        results = await asyncio.gather(*[query_user(pool, uid) for uid in user_ids])
-        logger.info("Queries exitosos: %d/%d", sum(1 for r in results if r), len(user_ids))
-    finally:
-        await pool.close()
-
-if __name__ == "__main__":
-    asyncio.run(main())
-# Salida:
-# 2024-01-15 [INFO] Pool inicializado con 10 conexiones
-# 2024-01-15 [INFO] Queries exitosos: 50/50
-# 2024-01-15 [INFO] Pool cerrado (10 conexiones)`,
+          title: "exercise.py",
+          code: `rows=[('e2e',2,1),('unit',5,5)]
+print([n for n,_,_ in sorted(rows, key=lambda r: -(r[1]*r[2]))])`,
+          output: `['unit', 'e2e']`,
         },
       },
       {
+        id: "S27-T1-A-E3",
+        subtopicId: "S27-T1-A",
+        kind: "transfer",
         instruction:
-          'Debuggea un race condition intencional. El código tiene un contador global que se incrementa desde 100 coroutines concurrentes sin lock — pierde increments. Agrega asyncio.Lock para que el resultado sea correcto (10000).',
-        hint: 'El race condition ocurre porque "counter += 1" NO es atómico: leer, sumar, escribir son 3 operaciones y el event loop puede cambiar de coroutine entre ellas. Usa "async with lock:" alrededor del incremento. Compara el resultado broken vs fixed.',
+          "Imprime True si la capa top es 'unit'.",
+        hint: "compara layer",
+        hints: [
+          "compara layer",
+          "pirámide",
+        ],
+        edgeCases: ["integration no es unit"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'race_starter.py',
-          code: `import asyncio
-
-counter = 0  # estado compartido (¡peligroso!)
-
-async def increment_broken(n: int):
-    """TODO: incrementa counter n veces SIN lock — RACE CONDITION."""
-    global counter
-    for _ in range(n):
-        # TODO: añade await asyncio.sleep(0) para forzar el context switch
-        counter += 1
-
-async def increment_safe(n: int, lock: asyncio.Lock):
-    """TODO: incrementa counter n veces CON lock — CORRECTO."""
-    global counter
-    for _ in range(n):
-        # TODO: usa async with lock
-        pass
-
-async def main():
-    """TODO: compara broken vs safe."""
-    pass
-
-# asyncio.run(main())`,
+          title: "exercise.py",
+          code: `top_layer='unit'
+# TODO
+`,
         },
         solutionCode: {
           language: 'python',
-          title: 'race_solution.py',
-          code: `import asyncio
-import logging
-
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-logger = logging.getLogger("race")
-
-counter = 0  # estado compartido
-
-async def increment_broken(n: int):
-    """SIN lock — race condition (pierde increments).
-    El await asyncio.sleep(0) fuerza al event loop a cambiar de coroutine
-    en medio del read-modify-write, exponiendo el race.
-    """
-    global counter
-    for _ in range(n):
-        await asyncio.sleep(0)  # fuerza context switch
-        counter += 1  # NO atómico: leer → sumar → escribir
-
-async def increment_safe(n: int, lock: asyncio.Lock):
-    """CON lock — exclusión mutua garantizada.
-    async with lock asegura que solo una coroutine ejecute el bloque a la vez.
-    """
-    global counter
-    for _ in range(n):
-        await asyncio.sleep(0)  # mismo context switch pero protegido
-        async with lock:
-            counter += 1  # atómico bajo el lock
-
-async def main():
-    global counter
-
-    # === Test 1: SIN lock (race condition) ===
-    counter = 0
-    n_coroutines = 100
-    increments_per_coroutine = 100
-    expected = n_coroutines * increments_per_coroutine  # 10000
-
-    await asyncio.gather(*[increment_broken(increments_per_coroutine)
-                           for _ in range(n_coroutines)])
-    logger.info("SIN lock: esperado=%d, actual=%d (perdió %d increments)",
-                expected, counter, expected - counter)
-
-    # === Test 2: CON lock (correcto) ===
-    counter = 0
-    lock = asyncio.Lock()
-    await asyncio.gather(*[increment_safe(increments_per_coroutine, lock)
-                           for _ in range(n_coroutines)])
-    logger.info("CON lock: esperado=%d, actual=%d (correcto: %s)",
-                expected, counter, counter == expected)
-
-    # === Test 3: alternativas sin lock ===
-    # asyncio.Lock no es la única solución. Otras:
-    # 1. asyncio.Queue (pasar mensajes en vez de compartir estado)
-    # 2. Atómicos con multiprocessing.Value (pero no async)
-    # 3. Diseño sin estado compartido (cada coroutine tiene su contador local)
-    counter = 0
-    async def increment_local(n: int) -> int:
-        """Cada coroutine tiene su propio contador — sin race."""
-        local = 0
-        for _ in range(n):
-            local += 1
-        return local
-
-    results = await asyncio.gather(*[increment_local(increments_per_coroutine)
-                                     for _ in range(n_coroutines)])
-    logger.info("SIN estado compartido: %d (correcto: %s)",
-                sum(results), sum(results) == expected)
-
-if __name__ == "__main__":
-    asyncio.run(main())
-# Salida:
-# 2024-01-15 [INFO] SIN lock: esperado=10000, actual=7342 (perdió 2658 increments)
-# 2024-01-15 [INFO] CON lock: esperado=10000, actual=10000 (correcto: True)
-# 2024-01-15 [INFO] SIN estado compartido: 10000 (correcto: True)
-#
-# → El lock es correcto pero la mejor solución es evitar estado compartido.`,
+          title: "exercise.py",
+          code: `top_layer='unit'
+print(top_layer == 'unit')`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S27-T1-B-E1",
+        subtopicId: "S27-T1-B",
+        kind: "guided",
+        instruction:
+          "Implementa normalize: casefold + join de split; imprime resultado de ' A  B '.",
+        hint: "casefold",
+        hints: [
+          "casefold",
+          "split/join",
+        ],
+        edgeCases: ["tabs y NBSP en prod"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `s=' A  B '
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `s=' A  B '
+print(' '.join(s.casefold().split()))`,
+          output: `a b`,
+        },
+      },
+      {
+        id: "S27-T1-B-E2",
+        subtopicId: "S27-T1-B",
+        kind: "independent",
+        instruction:
+          "AAA: assert normalizado == 'ana' para 'ANA'; imprime 'pass'.",
+        hint: "assert luego print",
+        hints: [
+          "assert luego print",
+          "oráculo 'ana'",
+        ],
+        edgeCases: ["falla ruidosa si rompes"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `raw='ANA'
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `raw='ANA'
+assert raw.casefold() == 'ana'
+print('pass')`,
+          output: `pass`,
+        },
+      },
+      {
+        id: "S27-T1-B-E3",
+        subtopicId: "S27-T1-B",
+        kind: "transfer",
+        instruction:
+          "Oráculo de matching exacto: imprime True si a y b normalizados son iguales.",
+        hint: "normaliza ambos",
+        hints: [
+          "normaliza ambos",
+          "compara",
+        ],
+        edgeCases: ["acentos: casefold ayuda en muchas locales"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `a,b='X Y','x  y'
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `a,b='X Y','x  y'
+print(' '.join(a.casefold().split()) == ' '.join(b.casefold().split()))`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S27-T2-A-E1",
+        subtopicId: "S27-T2-A",
+        kind: "guided",
+        instruction:
+          "Filtra nombres que empiezan con 'test_' de la lista dada.",
+        hint: "startswith",
+        hints: [
+          "startswith",
+          "list comp",
+        ],
+        edgeCases: ["Test* clases en pytest real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `names=['test_a','helper','test_b']
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `names=['test_a','helper','test_b']
+print([n for n in names if n.startswith('test_')])`,
+          output: `['test_a', 'test_b']`,
+        },
+      },
+      {
+        id: "S27-T2-A-E2",
+        subtopicId: "S27-T2-A",
+        kind: "independent",
+        instruction:
+          "Si left!=right imprime 'fail' else 'ok' (assert blando).",
+        hint: "ternario",
+        hints: [
+          "ternario",
+          "diff conceptual",
+        ],
+        edgeCases: ["pytest muestra diff"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `left,right='a','b'
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `left,right='a','b'
+print('ok' if left == right else 'fail')`,
+          output: `fail`,
+        },
+      },
+      {
+        id: "S27-T2-A-E3",
+        subtopicId: "S27-T2-A",
+        kind: "transfer",
+        instruction:
+          "Parametriza mentalmente: imprime pares (input, expected) para strip de ' x ' → 'x'.",
+        hint: "lista de tuplas",
+        hints: [
+          "lista de tuplas",
+          "tabla",
+        ],
+        edgeCases: ["varios cases en un test"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO print table
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print([(' x ', 'x')])`,
+          output: `[(' x ', 'x')]`,
+        },
+      },
+      {
+        id: "S27-T2-B-E1",
+        subtopicId: "S27-T2-B",
+        kind: "guided",
+        instruction:
+          "Copia profunda de lista de dicts; muta la copia; original['n'] debe seguir 1.",
+        hint: "deepcopy",
+        hints: [
+          "deepcopy",
+          "mutación local",
+        ],
+        edgeCases: ["copy() superficial falla en dict anidado"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `from copy import deepcopy
+orig=[{'n':1}]
+# TODO
+print(orig[0]['n'])`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `from copy import deepcopy
+orig=[{'n':1}]
+c=deepcopy(orig)
+c[0]['n']=9
+print(orig[0]['n'])`,
+          output: `1`,
+        },
+      },
+      {
+        id: "S27-T2-B-E2",
+        subtopicId: "S27-T2-B",
+        kind: "independent",
+        instruction:
+          "Imprime 'function' como scope por defecto de fixture.",
+        hint: "literal",
+        hints: [
+          "literal",
+          "scopes pytest",
+        ],
+        edgeCases: ["session para recursos caros RO"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('function')`,
+          output: `function`,
+        },
+      },
+      {
+        id: "S27-T2-B-E3",
+        subtopicId: "S27-T2-B",
+        kind: "transfer",
+        instruction:
+          "Factory: define make(n) que devuelve n contactos sintéticos; imprime len(make(3)).",
+        hint: "list comp",
+        hints: [
+          "list comp",
+          "ids sintéticos",
+        ],
+        edgeCases: ["datos fakes only"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `def make(n):
+    return [{'id': f'c{i}'} for i in range(n)]
+print(len(make(3)))`,
+          output: `3`,
+        },
+      },
+      {
+        id: "S27-T3-A-E1",
+        subtopicId: "S27-T3-A",
+        kind: "guided",
+        instruction:
+          "Usa math.isclose(0.1+0.2, 0.3) e imprime el booleano.",
+        hint: "import math",
+        hints: [
+          "import math",
+          "isclose",
+        ],
+        edgeCases: ["abs_tol en scores"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `import math
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `import math
+print(math.isclose(0.1 + 0.2, 0.3))`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S27-T3-A-E2",
+        subtopicId: "S27-T3-A",
+        kind: "independent",
+        instruction:
+          "Captura ValueError de int('x') e imprime 'bad'.",
+        hint: "try/except",
+        hints: [
+          "try/except",
+          "ValueError",
+        ],
+        edgeCases: ["mensaje opcional"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `try:
+    int('x')
+except ValueError:
+    print('bad')`,
+          output: `bad`,
+        },
+      },
+      {
+        id: "S27-T3-A-E3",
+        subtopicId: "S27-T3-A",
+        kind: "transfer",
+        instruction:
+          "Escribe 'ok' en un NamedTemporaryFile texto y reimprime su contenido.strip().",
+        hint: "tempfile",
+        hints: [
+          "tempfile",
+          "utf-8",
+        ],
+        edgeCases: ["borrar en finally en prod"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `import tempfile
+from pathlib import Path
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `import tempfile
+from pathlib import Path
+with tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8') as f:
+    f.write('ok')
+    path=f.name
+print(Path(path).read_text(encoding='utf-8').strip())`,
+          output: `ok`,
+        },
+      },
+      {
+        id: "S27-T3-B-E1",
+        subtopicId: "S27-T3-B",
+        kind: "guided",
+        instruction:
+          "Si email es '' lanza ValueError('email vacío'); caza e imprime el mensaje.",
+        hint: "raise ValueError",
+        hints: [
+          "raise ValueError",
+          "except",
+        ],
+        edgeCases: ["None vs ''"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `email=''
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `email=''
+try:
+    if email == '':
+        raise ValueError('email vacío')
+except ValueError as e:
+    print(e)`,
+          output: `email vacío`,
+        },
+      },
+      {
+        id: "S27-T3-B-E2",
+        subtopicId: "S27-T3-B",
+        kind: "independent",
+        instruction:
+          "Valida que s contenga '@'; si no, imprime 'invalid' else 'ok'.",
+        hint: "in",
+        hints: [
+          "in",
+          "guard",
+        ],
+        edgeCases: ["no es validación RFC completa"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `s='sin-arroba'
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `s='sin-arroba'
+print('ok' if '@' in s else 'invalid')`,
+          output: `invalid`,
+        },
+      },
+      {
+        id: "S27-T3-B-E3",
+        subtopicId: "S27-T3-B",
+        kind: "transfer",
+        instruction:
+          "Construye mensaje f\"campo score inválido: {v!r}\" con v=-1 e imprímelo.",
+        hint: "f-string !r",
+        hints: [
+          "f-string !r",
+          "sin PII",
+        ],
+        edgeCases: ["no loguear tokens"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `v=-1
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `v=-1
+print(f'campo score inválido: {v!r}')`,
+          output: `campo score inválido: -1`,
+        },
+      },
+      {
+        id: "S27-T4-A-E1",
+        subtopicId: "S27-T4-A",
+        kind: "guided",
+        instruction:
+          "Función f(x) retorna 'hi' si x>0 else 'lo'. Imprime f(1), f(-1).",
+        hint: "if/else",
+        hints: [
+          "if/else",
+          "dos prints o tupla",
+        ],
+        edgeCases: ["rama ==0"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `def f(x):
+    return 'hi' if x > 0 else 'lo'
+print(f(1), f(-1))`,
+          output: `hi lo`,
+        },
+      },
+      {
+        id: "S27-T4-A-E2",
+        subtopicId: "S27-T4-A",
+        kind: "independent",
+        instruction:
+          "Dado set de ramas cubiertas {'auto','review'}, imprime si falta 'non'.",
+        hint: "membership",
+        hints: [
+          "membership",
+          "cobertura",
+        ],
+        edgeCases: ["risk coverage"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `hit={'auto','review'}
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `hit={'auto','review'}
+print('non' not in hit)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S27-T4-A-E3",
+        subtopicId: "S27-T4-A",
+        kind: "transfer",
+        instruction:
+          "Imprime porcentaje de ramas cubiertas: 2 de 3 → redondeado int 66.",
+        hint: "int(100*k/n)",
+        hints: [
+          "int(100*k/n)",
+          "branch %",
+        ],
+        edgeCases: ["no uses solo line coverage"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `k,n=2,3
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `k,n=2,3
+print(int(100 * k / n))`,
+          output: `66`,
+        },
+      },
+      {
+        id: "S27-T4-B-E1",
+        subtopicId: "S27-T4-B",
+        kind: "guided",
+        instruction:
+          "Mutante: good usa strip, mutant no. Imprime True si mutant(' a ')!='a' o good sí normaliza.",
+        hint: "compara",
+        hints: [
+          "compara",
+          "kill mutant",
+        ],
+        edgeCases: ["mutación de umbral"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `raw=' a '
+# TODO detectar debilidad conceptual
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `raw=' a '
+good=raw.strip()
+mutant=raw
+print(good == 'a' and mutant != 'a')`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S27-T4-B-E2",
+        subtopicId: "S27-T4-B",
+        kind: "independent",
+        instruction:
+          "Falla útil: imprime dict con keys expected, actual para expected=1 actual=2.",
+        hint: "dict",
+        hints: [
+          "dict",
+          "debug CI",
+        ],
+        edgeCases: ["include input sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print({'expected': 1, 'actual': 2})`,
+          output: `{'expected': 1, 'actual': 2}`,
+        },
+      },
+      {
+        id: "S27-T4-B-E3",
+        subtopicId: "S27-T4-B",
+        kind: "transfer",
+        instruction:
+          "Imprime política: 'bug_repro → regression_test' (inicio CP-N3-A).",
+        hint: "string",
+        hints: [
+          "string",
+          "mantenimiento",
+        ],
+        edgeCases: ["un oráculo, muchos cases"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('bug_repro → regression_test')`,
+          output: `bug_repro → regression_test`,
         },
       },
     ],
   },
   youDo: {
-    title: 'High-Throughput Pipeline',
-    context: 'async-data-pipeline: ingiere 100,000 registros desde una API REST paginada, procesando 50 requests concurrentes; producer: fetch asíncrono con aiohttp + rate limiting (máx 100 req/s); consumer: transforma y valida cada registro con Pydantic v2; sink: inserta en PostgreSQL con asyncpg usando batch inserts de 1,000 rows; métricas (throughput registros/s, latencia p50/p99, errores) expuestas en endpoint /metrics; comparación de rendimiento: sync baseline vs async implementación (benchmarks en README).',
+    title: "Contratos pytest de normalización y matching — inicio CP-N3-A",
+    context:
+      "Construye una mini suite sobre funciones sintéticas de normalización y exact match (contactos fakes @example.pe, run_id cpn3a-01). Cada supuesto del ER futuro debe ser un test ejecutable. Incluye pirámide de riesgo, AAA, fixtures aisladas, bordes y al menos una prueba de mutación conceptual. No marques section_passed ni edites ledger/seed.",
     objectives: [
-      'Aplicar los conceptos aprendidos en un proyecto real',
-      'Demostrar dominio del tema con un entregable de portafolio',
-      'Documentar el proceso y los resultados',
+      "Mapa de riesgos y capas unit/integration/e2e",
+      "Tests AAA con oráculos fijos para normalize y exact_match",
+      "Fixtures function-scope y casos negativos con mensajes",
+      "Cobertura de ramas de umbral + mutante eliminado",
+      "Documentación es-PE del contrato de pruebas",
     ],
     requirements: [
-      'Código funcional y documentado',
-      'Tests que validen el funcionamiento',
-      'README con instrucciones de uso',
+      "Datos sintéticos only; sin PII real ni secretos",
+      "Cada bug documentado → test de regresión",
+      "Matching no implica fraude ni parentesco",
+      "Demo reproducible (python -m pytest o scripts de assert)",
+      "Alineación a CP-N3-A (inicio)",
     ],
-    portfolioNote: 'Este proyecto es ideal para mostrar en entrevistas técnicas y agregar a tu portafolio de GitHub.',
+    starterCode: `# CP-N3-A inicio — contratos de normalización/matching
+def normalize_name(s: str) -> str:
+    return " ".join(s.casefold().split())
+
+def exact_match(a: str, b: str) -> bool:
+    return normalize_name(a) == normalize_name(b)
+
+# TODO: tests AAA, negativos, umbrales, mutación conceptual
+if __name__ == "__main__":
+    assert exact_match(" Ana  ", "ana")
+    print("starter_ok")
+`,
+    portfolioNote:
+      "Paquete de inicio CP-N3-A: suite de contratos pytest (o asserts ejecutables) sobre normalización/matching sintético. Otra lane califica PASS; no editar checkpoint/ledger.",
     rubric: [
-      { criterion: 'Funcionalidad', weight: '40%' },
-      { criterion: 'Calidad de código', weight: '20%' },
-      { criterion: 'Documentación', weight: '20%' },
-      { criterion: 'Tests', weight: '20%' },
+      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
+      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
+      { criterion: "Privacidad / sin PII real / sin secretos / sin inferencia de fraude", weight: "20%" },
+      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
+      { criterion: "Código legible y límites claros", weight: "10%" },
+      { criterion: "Documentación en español profesional", weight: "10%" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: '¿Qué es el GIL (Global Interpreter Lock) en Python y cómo afecta la concurrencia?',
+        question: "En la pirámide de pruebas, la base más ancha suele ser:",
         options: [
-          'Un mutex que permite que solo un thread ejecute bytecode Python a la vez — para CPU-bound, usa multiprocessing; para I/O-bound, threading o asyncio funcionan porque el GIL se libera durante I/O',
-          'Un sistema de garbage collection que limpia memoria',
-          'Un módulo de encriptación de Python',
-          'Un debugger integrado en el intérprete',
+          "E2E UI",
+          "Pruebas unitarias",
+          "Solo manual",
+          "Load tests en prod",
         ],
-        correctIndex: 0,
-        explanation: 'El GIL impide que dos threads ejecuten bytecode Python simultáneamente. Para CPU-bound (cálculos), multiprocessing usa procesos separados con su propio GIL. Para I/O-bound (red, archivos), el GIL se libera durante la espera, permitiendo que otros threads corran. asyncio aprovecha esto con un solo thread y event loop.',
+        correctIndex: 1,
+        explanation:
+          "Muchas unitarias baratas; pocas E2E caras.",
       },
       {
-        question: '¿Cuándo usarías asyncio vs threading vs multiprocessing?',
+        question: "Un oráculo confiable es:",
         options: [
-          'asyncio para I/O-bound con miles de conexiones concurrentes; threading para I/O-bound con librerías síncronas; multiprocessing para CPU-bound (cálculos pesados)',
-          'Siempre asyncio, los demás están obsoletos',
-          'Siempre multiprocessing, es el más rápido',
-          'Siempre threading, es el más simple',
+          "Un print en consola",
+          "Una fuente de verdad determinista para el assert",
+          "El reloj del sistema sin fijar",
+          "El orden de un set",
         ],
-        correctIndex: 0,
-        explanation: 'asyncio: ideal para 1000+ conexiones I/O concurrentes (scraping, websockets, APIs). threading: cuando necesitas I/O pero la librería no es async (requests, psycopg2). multiprocessing: para CPU-bound (procesamiento de imágenes, entrenamiento ML) porque el GIL impide paralelismo real con threads.',
+        correctIndex: 1,
+        explanation:
+          "El assert necesita verdad estable (fija o propiedad).",
       },
       {
-        question: '¿Qué hace `asyncio.Semaphore(N)` en un programa asíncrono?',
+        question: "Si mutas un casefold y ningún test falla:",
         options: [
-          'Limita a N el número de coroutines que se ejecutan concurrentemente — las demás esperan su turno, evitando saturar el recurso externo (API rate limit, DB connections)',
-          'Divide el trabajo en N partes iguales',
-          'Crea N copias del event loop',
-          'Es un semáforo de tráfico para controlar el flujo de datos',
+          "Está bien",
+          "El contrato es débil; el mutante sobrevivió",
+          "pytest está roto siempre",
+          "Ignora cobertura",
         ],
-        correctIndex: 0,
-        explanation: 'Semaphore(N) permite que solo N coroutines pasen a la vez. Si llamas a una API con rate limit de 10 req/seg, Semaphore(10) asegura que nunca más de 10 requests estén en vuelo simultáneamente. Las demás coroutines se pausan en "async with sem:" hasta que una de las N termina y libera el slot.',
+        correctIndex: 1,
+        explanation:
+          "Mutación conceptual detecta tests inútiles.",
       },
       {
-        question: '¿Qué es `asyncio.TaskGroup` (Python 3.11+) y por qué es mejor que `asyncio.gather()`?',
+        question: "Las pruebas de matching en CP-N3-A demuestran:",
         options: [
-          'TaskGroup maneja cancelación y errores automáticamente: si una tarea falla, cancela las demás y agrupa excepciones en ExceptionGroup — gather no hace esto',
-          'TaskGroup es más rápido que gather',
-          'TaskGroup reemplaza a async/await',
-          'TaskGroup es solo para testing',
+          "Fraude automático",
+          "Parentescos",
+          "Contratos de misma entidad / normalización — no riesgo ni relación",
+          "Envío de correos",
         ],
-        correctIndex: 0,
-        explanation: 'TaskGroup (Python 3.11+) es la forma moderna de agrupar tareas async. Si una tarea lanza excepción, TaskGroup cancela automáticamente las demás y agrupa todas las excepciones en ExceptionGroup. asyncio.gather() no cancela las demás tareas si una falla — hay que manejar cancelación manualmente. TaskGroup es más seguro.',
-      },
-      {
-        question: '¿Qué es backpressure en un pipeline asíncrono y cómo se maneja?',
-        options: [
-          'Cuando el productor genera datos más rápido de lo que el consumidor puede procesar — se maneja con asyncio.Queue(maxsize=N) que bloquea al productor cuando la queue está llena',
-          'Es la presión del sistema operativo sobre el proceso',
-          'Es un tipo de ataque de denegación de servicio',
-          'Es la memoria que consume el event loop',
-        ],
-        correctIndex: 0,
-        explanation: 'Backpressure ocurre cuando el producer es más rápido que el consumer. Sin control, la queue crece hasta OOM. asyncio.Queue(maxsize=100) soluciona esto: cuando hay 100 items, el producer se bloquea en "await queue.put(item)" hasta que el consumer procesa uno. Esto regula el flujo naturalmente sin código adicional.',
+        correctIndex: 2,
+        explanation:
+          "ER decide misma entidad; no fraude ni parentesco.",
       },
     ],
   },
   resources: {
     docs: [
-      { label: 'Python 201 (Driscoll) — Ch. 27-30 (fuente primaria)', url: 'Python 201 (Driscoll) — Ch. 27-30 (fuente primaria)' },
-      { label: 'Python asyncio docs', url: 'Python asyncio docs' },
-      { label: 'asyncio TaskGroup (Python 3.11)', url: 'asyncio TaskGroup (Python 3.11)' },
-      { label: 'aiohttp docs', url: 'aiohttp docs' },
+      {
+        label: "pytest documentation",
+        url: "https://docs.pytest.org/en/stable/",
+        note: "Discovery, fixtures, parametrize",
+      },
+      {
+        label: "Python unittest.mock (referencia dobles)",
+        url: "https://docs.python.org/3/library/unittest.mock.html",
+        note: "Preparación para S28",
+      },
     ],
     books: [
-      { label: 'Python 201 — Michael Driscoll', note: 'Capítulos relevantes para esta sección' },
+      {
+        label: "Python Testing with pytest (Okken)",
+        note: "Fixtures y diseño de suites",
+      },
+      {
+        label: "Unit Testing Principles (Khorikov)",
+        note: "Oráculos y mantenibilidad",
+      },
     ],
     courses: [
-      { label: 'Real Python', url: 'https://realpython.com', note: 'Tutoriales complementarios' },
+      {
+        label: "pytest official getting started",
+        url: "https://docs.pytest.org/en/stable/getting-started.html",
+        note: "Primeros test_*",
+      },
     ],
   },
 }

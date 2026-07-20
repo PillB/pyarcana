@@ -1,0 +1,111 @@
+{
+  "version": "3.2",
+  "section": "S22",
+  "section_id": "rapidfuzz-entity",
+  "phase": "PHASE_5",
+  "lane": "LANE-S22-S26-CLOSE",
+  "generated_at": "2026-07-20T23:30:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "rapidfuzz-entity",
+    "title_v3": "Email, identidad y aprobación humana",
+    "privacy_note": "matching/resolución de entidades no implica fraude, parentesco ni colusión"
+  },
+  "retired_from_bank": [
+    "usar-rapidfuzz-con-las-métrica",
+    "implementar-el-pipeline-de-4-p",
+    "diseñar-estrategias-de-blockin",
+    "entender-cuándo-rapidfuzz-es-s"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S22 (Email, identidad y aprobación humana). Privacy: matching/resolución ≠ fraude.",
+  "families": [
+    {
+      "family_id": "S22-T1-A-EX",
+      "concept": "mime-encoding-html-attachments",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S22-T1-B-EX",
+      "concept": "templates-sanitization",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S22-T2-A-EX",
+      "concept": "oauth-service-account-scopes",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S22-T2-B-EX",
+      "concept": "drafts-expiry-adapters",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S22-T3-A-EX",
+      "concept": "resolve-verify-recipients",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S22-T3-B-EX",
+      "concept": "lists-cc-bcc-privacy-min",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S22-T4-A-EX",
+      "concept": "approval-queue-state-machine",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S22-T4-B-EX",
+      "concept": "idempotency-audit-retry",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (rapidfuzz-entity key)",
+    "course-state/s22_phase5_exam_bank.json"
+  ]
+}

@@ -1,0 +1,214 @@
+{
+  "version": "3.2",
+  "section": "S10",
+  "section_id": "sklearn",
+  "phase": "PHASE_6",
+  "lane": "LANE-N1-FINISH",
+  "role": "Isolated Validator (lightweight)",
+  "generated_at": "2026-07-20T19:15:00Z",
+  "prompt_version": "3.2",
+  "student_visible_sources": [
+    "src/lib/course/sections/s10-sklearn.ts",
+    "prisma/seed.ts (sklearn)"
+  ],
+  "status": "passed",
+  "summary": "S10 sub=8 demos=8 ex=24 exam=24; fields=24/24; snippets=3; authorized_to_close_section=True",
+  "inventory": {
+    "subtopics": {
+      "expected": 8,
+      "observed": 8,
+      "ids": [
+        "S10-T1-A",
+        "S10-T1-B",
+        "S10-T2-A",
+        "S10-T2-B",
+        "S10-T3-A",
+        "S10-T3-B",
+        "S10-T4-A",
+        "S10-T4-B"
+      ]
+    },
+    "demos": {
+      "expected": 8,
+      "observed_with_demoId": 8,
+      "ids": [
+        "S10-T1-A-DEMO",
+        "S10-T1-B-DEMO",
+        "S10-T2-A-DEMO",
+        "S10-T2-B-DEMO",
+        "S10-T3-A-DEMO",
+        "S10-T3-B-DEMO",
+        "S10-T4-A-DEMO",
+        "S10-T4-B-DEMO"
+      ]
+    },
+    "exercises": {
+      "expected": 24,
+      "observed": 24,
+      "ids": [
+        "S10-T1-A-E1",
+        "S10-T1-A-E2",
+        "S10-T1-A-E3",
+        "S10-T1-B-E1",
+        "S10-T1-B-E2",
+        "S10-T1-B-E3",
+        "S10-T2-A-E1",
+        "S10-T2-A-E2",
+        "S10-T2-A-E3",
+        "S10-T2-B-E1",
+        "S10-T2-B-E2",
+        "S10-T2-B-E3",
+        "S10-T3-A-E1",
+        "S10-T3-A-E2",
+        "S10-T3-A-E3",
+        "S10-T3-B-E1",
+        "S10-T3-B-E2",
+        "S10-T3-B-E3",
+        "S10-T4-A-E1",
+        "S10-T4-A-E2",
+        "S10-T4-A-E3",
+        "S10-T4-B-E1",
+        "S10-T4-B-E2",
+        "S10-T4-B-E3"
+      ],
+      "fields_required": [
+        "id",
+        "hints (≥2)",
+        "solutionCode",
+        "edgeCases",
+        "tests",
+        "feedback",
+        "starterCode"
+      ],
+      "field_counts": {
+        "solutionCode": 24,
+        "starterCode": 25,
+        "hints": 24,
+        "edgeCases": 24,
+        "per_exercise_complete": 24
+      },
+      "fields_complete": true
+    },
+    "exam_bank": {
+      "source": "prisma/seed.ts → QUESTION_BANK['sklearn']",
+      "concepts": 8,
+      "variants_per_concept": 3,
+      "total": 24,
+      "concept_slugs": [
+        "imports-namespaces-main",
+        "public-api-dependencies",
+        "src-layout-pyproject",
+        "versioning-compatibility",
+        "argparse-subcommands-exitcodes",
+        "stdio-streams-help",
+        "config-precedence",
+        "secrets-defaults-early-validation"
+      ]
+    },
+    "youDo": {
+      "title_present": true,
+      "cp_mentions": 6,
+      "has_objectives": true,
+      "has_requirements": true,
+      "has_rubric": true,
+      "has_starterCode": true
+    },
+    "selfCheck_present": true
+  },
+  "checks": [
+    {
+      "id": "INV-SUBTOPICS-8",
+      "pass": true,
+      "evidence": "['S10-T1-A', 'S10-T1-B', 'S10-T2-A', 'S10-T2-B', 'S10-T3-A', 'S10-T3-B', 'S10-T4-A', 'S10-T4-B']"
+    },
+    {
+      "id": "INV-DEMOS-8",
+      "pass": true,
+      "evidence": "['S10-T1-A-DEMO', 'S10-T1-B-DEMO', 'S10-T2-A-DEMO', 'S10-T2-B-DEMO', 'S10-T3-A-DEMO', 'S10-T3-B-DEMO', 'S10-T4-A-DEMO', 'S10-T4-B-DEMO']"
+    },
+    {
+      "id": "INV-EXERCISES-24",
+      "pass": true,
+      "evidence": "24; solutionCode=24 extracted=24"
+    },
+    {
+      "id": "FIELDS-COMPLETE",
+      "pass": true,
+      "evidence": "sol=24 extracted=24 starter=25 hints≥2=24 edge=24 tests=24 feedback=24"
+    },
+    {
+      "id": "SEED-SKLEARN-8x3",
+      "pass": true,
+      "evidence": "24; ['imports-namespaces-main', 'public-api-dependencies', 'src-layout-pyproject', 'versioning-compatibility', 'argparse-subcommands-exitcodes', 'stdio-streams-help', 'config-precedence', 'secrets-defaults-early-validation']"
+    },
+    {
+      "id": "EXAM-STRUCTURE-24",
+      "pass": true,
+      "evidence": "8×3 MCQ-4 es-PE"
+    },
+    {
+      "id": "SNIPPET-EXEC",
+      "pass": true,
+      "evidence": "3 snippets OK; failures=0"
+    },
+    {
+      "id": "YOUDO-PRESENT",
+      "pass": true,
+      "evidence": "{'title_present': True, 'cp_mentions': 6, 'has_objectives': True, 'has_requirements': True, 'has_rubric': True, 'has_starterCode': True}"
+    },
+    {
+      "id": "SELFCHECK-PRESENT",
+      "pass": true,
+      "evidence": "True"
+    },
+    {
+      "id": "PRIVACY-NO-REAL-PII",
+      "pass": true,
+      "evidence": "Synthetic data policy OK"
+    },
+    {
+      "id": "SNIPPET-OK-1",
+      "pass": true,
+      "evidence": "SOL-1: def _ws(s: str) -> str: → \"['clean']\\nx\\n\""
+    },
+    {
+      "id": "SNIPPET-OK-2",
+      "pass": true,
+      "evidence": "SOL-2: def util_norm(s: str) -> str: → 'hola:a\\nhola:b\\nok\\n'"
+    },
+    {
+      "id": "SNIPPET-OK-3",
+      "pass": true,
+      "evidence": "SOL-3: recs = { → 'normalize.py importa compare en el mismo paquete -> relativo o absoluto del paquete (from . import compare)\\nplugin externo usa familiarity_core -> absoluto (import familiarity_core)\\nejecutar el CLI de'"
+    }
+  ],
+  "snippet_execution": {
+    "solutionCode_extracted": 24,
+    "successes": [
+      {
+        "label": "SOL-1",
+        "head": "def _ws(s: str) -> str:",
+        "stdout_preview": "['clean']\nx\n"
+      },
+      {
+        "label": "SOL-2",
+        "head": "def util_norm(s: str) -> str:",
+        "stdout_preview": "hola:a\nhola:b\nok\n"
+      },
+      {
+        "label": "SOL-3",
+        "head": "recs = {",
+        "stdout_preview": "normalize.py importa compare en el mismo paquete -> relativo o absoluto del paquete (from . import compare)\nplugin externo usa familiarity_core -> absoluto (import familiarity_core)\nejecutar el CLI de"
+      }
+    ],
+    "failures_sample": []
+  },
+  "issues_found": [],
+  "authorized_to_close_section": true,
+  "notes_non_blocking": [
+    "Regex inventory supports single OR double quotes.",
+    "Hints ≥2 counted with string-aware bracket scan.",
+    "solutionCode is object with nested code template; AST parse accepted if runtime needs fixtures.",
+    "Does not edit checkpoint/section_ledger."
+  ]
+}

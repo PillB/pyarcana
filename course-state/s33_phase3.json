@@ -1,0 +1,1070 @@
+{
+  "version": "3.2",
+  "section": "S33",
+  "section_id": "advanced-models",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S33 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S33 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s33-advanced-models.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "advanced-models",
+    "index": 33,
+    "title_platform": "Modelos Avanzados — Gradient Boosting, Stacking, Interpretabilidad",
+    "title_v3": "ML supervisado y baselines responsables",
+    "title_decision": "KEEP platform id 'advanced-models' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "comparación honesta que conserva el baseline determinista y demuestra cuándo el ML agrega —o no agrega— valor",
+    "estimatedHours": 14,
+    "level": "Competente a experto",
+    "phase": 2,
+    "prerequisites": [
+      "S32"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N3-B (baseline)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "advanced-models",
+    "platform_title": "Modelos Avanzados — Gradient Boosting, Stacking, Interpretabilidad",
+    "v3_title": "ML supervisado y baselines responsables",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante define unidad, target y horizonte.",
+    "El estudiante fija baseline de regla y dummy.",
+    "El estudiante entrena modelos lineales regularizados.",
+    "El estudiante interpreta coeficientes y supuestos.",
+    "El estudiante entrena árboles y ensambles.",
+    "El estudiante controla overfit y reproducibilidad.",
+    "El estudiante registra experimentos mínimos.",
+    "El estudiante hace CV y análisis de errores."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S33-T1-A",
+      "slug": "unit-target-horizon",
+      "title": "unidad, target y horizonte"
+    },
+    {
+      "subtopic_id": "S33-T1-B",
+      "slug": "costs-rule-dummy",
+      "title": "costos, baseline de regla y dummy estimator"
+    },
+    {
+      "subtopic_id": "S33-T2-A",
+      "slug": "reg-logreg-regularization",
+      "title": "regresión/logística y regularización"
+    },
+    {
+      "subtopic_id": "S33-T2-B",
+      "slug": "coefs-assumptions-scaling",
+      "title": "coeficientes, supuestos y scaling"
+    },
+    {
+      "subtopic_id": "S33-T3-A",
+      "slug": "trees-rf-boosting",
+      "title": "decisiones y random forest/boosting"
+    },
+    {
+      "subtopic_id": "S33-T3-B",
+      "slug": "overfit-depth-repro",
+      "title": "overfit, profundidad y reproducibilidad"
+    },
+    {
+      "subtopic_id": "S33-T4-A",
+      "slug": "pipeline-min-tracking",
+      "title": "pipeline y tracking mínimo"
+    },
+    {
+      "subtopic_id": "S33-T4-B",
+      "slug": "cv-error-analysis",
+      "title": "validación cruzada apropiada y error analysis"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S33-T1",
+      "title": "Framing",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S33-T1-A",
+          "slug": "unit-target-horizon",
+          "title": "unidad, target y horizonte",
+          "outcome": "El estudiante define unidad, target y horizonte.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "unidad, target y horizonte",
+              "must_cover": [
+                "prediction unit",
+                "target",
+                "horizon"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S33-T1-A-DEMO",
+              "title": "Demo: unidad, target y horizonte",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S33-T1-A-E1",
+                "kind": "guided",
+                "title": "unidad, target y horizonte — guided",
+                "skill": "unit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S33-T1-A-E2",
+                "kind": "independent",
+                "title": "unidad, target y horizonte — independent",
+                "skill": "unit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S33-T1-A-E3",
+                "kind": "transfer",
+                "title": "unidad, target y horizonte — transfer",
+                "skill": "unit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S33-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S33-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S33-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S33-T1-B",
+          "slug": "costs-rule-dummy",
+          "title": "costos, baseline de regla y dummy estimator",
+          "outcome": "El estudiante fija baseline de regla y dummy.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "costos, baseline de regla y dummy estimator",
+              "must_cover": [
+                "cost matrix",
+                "DummyClassifier"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S33-T1-B-DEMO",
+              "title": "Demo: costos, baseline de regla y dummy estimator",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S33-T1-B-E1",
+                "kind": "guided",
+                "title": "costos, baseline de regla y dummy estimator — guided",
+                "skill": "costs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S33-T1-B-E2",
+                "kind": "independent",
+                "title": "costos, baseline de regla y dummy estimator — independent",
+                "skill": "costs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S33-T1-B-E3",
+                "kind": "transfer",
+                "title": "costos, baseline de regla y dummy estimator — transfer",
+                "skill": "costs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S33-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S33-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S33-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S33-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S33-T1-EVAL-1",
+            "title": "unidad, target y horizonte — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S33-T1-EVAL-2",
+            "title": "costos, baseline de regla y dummy estimator — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S33-T2",
+      "title": "Lineales",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S33-T2-A",
+          "slug": "reg-logreg-regularization",
+          "title": "regresión/logística y regularización",
+          "outcome": "El estudiante entrena modelos lineales regularizados.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "regresión/logística y regularización",
+              "must_cover": [
+                "logistic",
+                "regularization"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S33-T2-A-DEMO",
+              "title": "Demo: regresión/logística y regularización",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S33-T2-A-E1",
+                "kind": "guided",
+                "title": "regresión/logística y regularización — guided",
+                "skill": "reg",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S33-T2-A-E2",
+                "kind": "independent",
+                "title": "regresión/logística y regularización — independent",
+                "skill": "reg",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S33-T2-A-E3",
+                "kind": "transfer",
+                "title": "regresión/logística y regularización — transfer",
+                "skill": "reg",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S33-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S33-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S33-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S33-T2-B",
+          "slug": "coefs-assumptions-scaling",
+          "title": "coeficientes, supuestos y scaling",
+          "outcome": "El estudiante interpreta coeficientes y supuestos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "coeficientes, supuestos y scaling",
+              "must_cover": [
+                "coefficients",
+                "assumptions"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S33-T2-B-DEMO",
+              "title": "Demo: coeficientes, supuestos y scaling",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S33-T2-B-E1",
+                "kind": "guided",
+                "title": "coeficientes, supuestos y scaling — guided",
+                "skill": "coefs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S33-T2-B-E2",
+                "kind": "independent",
+                "title": "coeficientes, supuestos y scaling — independent",
+                "skill": "coefs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S33-T2-B-E3",
+                "kind": "transfer",
+                "title": "coeficientes, supuestos y scaling — transfer",
+                "skill": "coefs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S33-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S33-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S33-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S33-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S33-T2-EVAL-1",
+            "title": "regresión/logística y regularización — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S33-T2-EVAL-2",
+            "title": "coeficientes, supuestos y scaling — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S33-T3",
+      "title": "Árboles/ensambles",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S33-T3-A",
+          "slug": "trees-rf-boosting",
+          "title": "decisiones y random forest/boosting",
+          "outcome": "El estudiante entrena árboles y ensambles.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "decisiones y random forest/boosting",
+              "must_cover": [
+                "RandomForest",
+                "boosting"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S33-T3-A-DEMO",
+              "title": "Demo: decisiones y random forest/boosting",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S33-T3-A-E1",
+                "kind": "guided",
+                "title": "decisiones y random forest/boosting — guided",
+                "skill": "trees",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S33-T3-A-E2",
+                "kind": "independent",
+                "title": "decisiones y random forest/boosting — independent",
+                "skill": "trees",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S33-T3-A-E3",
+                "kind": "transfer",
+                "title": "decisiones y random forest/boosting — transfer",
+                "skill": "trees",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S33-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S33-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S33-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S33-T3-B",
+          "slug": "overfit-depth-repro",
+          "title": "overfit, profundidad y reproducibilidad",
+          "outcome": "El estudiante controla overfit y reproducibilidad.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "overfit, profundidad y reproducibilidad",
+              "must_cover": [
+                "overfitting",
+                "max_depth",
+                "seed"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S33-T3-B-DEMO",
+              "title": "Demo: overfit, profundidad y reproducibilidad",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S33-T3-B-E1",
+                "kind": "guided",
+                "title": "overfit, profundidad y reproducibilidad — guided",
+                "skill": "overfit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S33-T3-B-E2",
+                "kind": "independent",
+                "title": "overfit, profundidad y reproducibilidad — independent",
+                "skill": "overfit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S33-T3-B-E3",
+                "kind": "transfer",
+                "title": "overfit, profundidad y reproducibilidad — transfer",
+                "skill": "overfit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S33-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S33-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S33-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S33-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S33-T3-EVAL-1",
+            "title": "decisiones y random forest/boosting — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S33-T3-EVAL-2",
+            "title": "overfit, profundidad y reproducibilidad — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S33-T4",
+      "title": "Experimento",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S33-T4-A",
+          "slug": "pipeline-min-tracking",
+          "title": "pipeline y tracking mínimo",
+          "outcome": "El estudiante registra experimentos mínimos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "pipeline y tracking mínimo",
+              "must_cover": [
+                "Pipeline",
+                "experiment tracking"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S33-T4-A-DEMO",
+              "title": "Demo: pipeline y tracking mínimo",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S33-T4-A-E1",
+                "kind": "guided",
+                "title": "pipeline y tracking mínimo — guided",
+                "skill": "pipeline",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S33-T4-A-E2",
+                "kind": "independent",
+                "title": "pipeline y tracking mínimo — independent",
+                "skill": "pipeline",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S33-T4-A-E3",
+                "kind": "transfer",
+                "title": "pipeline y tracking mínimo — transfer",
+                "skill": "pipeline",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S33-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S33-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S33-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S33-T4-B",
+          "slug": "cv-error-analysis",
+          "title": "validación cruzada apropiada y error analysis",
+          "outcome": "El estudiante hace CV y análisis de errores.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "validación cruzada apropiada y error analysis",
+              "must_cover": [
+                "CV",
+                "error analysis"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S33-T4-B-DEMO",
+              "title": "Demo: validación cruzada apropiada y error analysis",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S33-T4-B-E1",
+                "kind": "guided",
+                "title": "validación cruzada apropiada y error analysis — guided",
+                "skill": "cv",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S33-T4-B-E2",
+                "kind": "independent",
+                "title": "validación cruzada apropiada y error analysis — independent",
+                "skill": "cv",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S33-T4-B-E3",
+                "kind": "transfer",
+                "title": "validación cruzada apropiada y error analysis — transfer",
+                "skill": "cv",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S33-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S33-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S33-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S33-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S33-T4-EVAL-1",
+            "title": "pipeline y tracking mínimo — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S33-T4-EVAL-2",
+            "title": "validación cruzada apropiada y error analysis — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S33-PROJ",
+    "title": "ML supervisado y baselines responsables",
+    "replaces_legacy": "Legacy You Do de 'Modelos Avanzados — Gradient Boosting, Stacking, Interpretabilidad' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "comparación honesta que conserva el baseline determinista y demuestra cuándo el ML agrega —o no agrega— valor.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N3-B (baseline)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N3-B (baseline)",
+    "increment_gate": "comparación honesta que conserva el baseline determinista y demuestra cuándo el ML agrega —o no agrega— valor."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'advanced-models' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s33-advanced-models.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Modelos Avanzados — Gradient Boosting, Stacking, Interpretabilidad' vs 'ML supervisado y baselines responsables'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N3-B (baseline)",
+    "increment_gate": "comparación honesta que conserva el baseline determinista y demuestra cuándo el ML agrega —o no agrega— valor.",
+    "project_id": "S33-PROJ",
+    "section_passed": false,
+    "notes": "S33 contributes to CP-N3-B (baseline). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S33",
+    "risk": "Display title still 'Modelos Avanzados — Gradient Boosting, Stacking, Interpretabilidad' until product rename; topic mismatch vs V3 'ML supervisado y baselines responsables'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S33-T1-A first"
+  }
+}

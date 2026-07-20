@@ -1,0 +1,84 @@
+{
+  "id": "CP-N1-A",
+  "gate_section": "S04",
+  "name": "Client Intake & Data Quality Script",
+  "level": 1,
+  "acceptance_criteria": [
+    "Script lee registros sintéticos y emite estados válidos (ok/warn/error).",
+    "Validación de campos obligatorios y formatos simples sin PII real.",
+    "Tasa de error del lote calculada y reportada en métricas JSON.",
+    "Casos borde (vacíos, tipos incorrectos) no crashean el proceso.",
+    "Salida reproducible con seed fija y exit code 0 en demo."
+  ],
+  "rubric_0_3": {
+    "correctness": {
+      "weight_hint": 0.35,
+      "scale": "0-3",
+      "levels": {
+        "0": "No cumple el comportamiento principal.",
+        "1": "Parcial; fallas en casos normales.",
+        "2": "Cumple casos normales; bordes incompletos.",
+        "3": "Correcto en normal, borde y error documentado."
+      },
+      "focus": "Clasificación correcta ok/warn/error según reglas documentadas."
+    },
+    "robustness": {
+      "weight_hint": 0.2,
+      "scale": "0-3",
+      "levels": {
+        "0": "Crashea ante entradas imperfectas.",
+        "1": "Algunos bordes cubiertos.",
+        "2": "Bordes y errores no críticos manejados.",
+        "3": "Resiliente y con mensajes accionables."
+      },
+      "focus": "Maneja filas incompletas y tipos inesperados sin abortar el lote."
+    },
+    "maintainability": {
+      "weight_hint": 0.25,
+      "scale": "0-3",
+      "levels": {
+        "0": "Monolito opaco.",
+        "1": "Estructura mínima.",
+        "2": "Módulos/funciones claros y legibles.",
+        "3": "Diseño limpio, testeable y documentado."
+      },
+      "focus": "Funciones pequeñas, reglas centralizadas, sin secretos."
+    },
+    "responsible_use": {
+      "weight_hint": 0.2,
+      "scale": "0-3",
+      "levels": {
+        "0": "Riesgo ético/privacidad no abordado.",
+        "1": "Menciones superficiales.",
+        "2": "Controles y límites presentes.",
+        "3": "Controles, límites y comunicación impecables."
+      },
+      "focus": "Solo datos sintéticos; no almacena ni expone PII real."
+    },
+    "gate_rule": "Promedio ponderado conceptual ≥ 2.4/3 y ningún criterio crítico < 2; cero P0 de seguridad/privacidad/fraude-inference."
+  },
+  "dependencies": [
+    "S01",
+    "S02",
+    "S03",
+    "S04"
+  ],
+  "wow_factor_definition": "Demo local que valida un lote sintético de intake, imprime métricas (n_total, n_ok, n_error, error_rate) y un resumen legible para stakeholders.",
+  "scoring_weights_reference": {
+    "correctness": 0.35,
+    "edge_cases_data": 0.2,
+    "tests": 0.15,
+    "design": 0.1,
+    "reproducibility": 0.1,
+    "communication_limits": 0.1,
+    "pass_threshold": 0.8
+  },
+  "prohibitions": [
+    "No real PII",
+    "No fraud inference as automatic decision",
+    "No hardcoded production secrets",
+    "Synthetic or legally reusable data only"
+  ],
+  "package_version": "1.0.0",
+  "generated_at": "2026-07-20T14:53:43Z"
+}

@@ -1,0 +1,1083 @@
+{
+  "version": "3.2",
+  "section": "S13",
+  "section_id": "rpa-automation",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1B-FACTORY",
+  "prompt_version": "3.2",
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N1B-FACTORY — S09–S13 research blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N1B-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S13 blueprint: 4 topics × 2 subtopics with full artifact specs and canonical counts before PHASE 4 authorship.",
+    "scope_in": [
+      "S13 only (within N1B factory batch)",
+      "Blueprint: outcomes, demos, exercises E1/E2/E3, topic evals, A/B/C slots, capstone notes",
+      "Count validation vs invariant vector",
+      "Platform gap notes (legacy retention)"
+    ],
+    "scope_out": [
+      "Writing full theory paragraphs / complete exercise bodies (PHASE 4)",
+      "Writing full A/B/C item stems (PHASE 5)",
+      "Editing large .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s13-rpa-automation.ts",
+      "prisma/seed.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/course_requirements.json",
+      "src/lib/course/index.ts"
+    ]
+  },
+  "section_meta": {
+    "id": "rpa-automation",
+    "index": 13,
+    "title_platform": "RPA & Automatización con IA",
+    "title_v3": "Familiarity Evidence Dashboard y cierre de nivel",
+    "title_decision": "KEEP platform id 'rpa-automation' (learning_roadmap.md). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+    "estimatedHours": 14,
+    "level": "Principiante avanzado",
+    "phase": 0,
+    "prerequisites": [
+      "S01",
+      "S02",
+      "S03",
+      "S04",
+      "S05",
+      "S06",
+      "S07",
+      "S08",
+      "S09",
+      "S10",
+      "S11",
+      "S12"
+    ],
+    "environment": "local/cloud controlado",
+    "project_capstone": "CP-N1-C (cierre) + CF-1 + Level-1 regression"
+  },
+  "learning_outcomes_section": [
+    "El estudiante aplica normalización y blocking para ER determinista por reglas y produce entity_resolution_score sin colapsarlo con señales de relación.",
+    "El estudiante evalúa ER con etiquetas sintéticas, calcula precision/recall simples y encola revisión clerical.",
+    "El estudiante computa señales de relación (shared contact, distancia, apellidos) como relationship_signal_score separado del ER score.",
+    "El estudiante deriva señales desde transacciones directas y contrapartes comunes sin afirmar colusión.",
+    "El estudiante produce un score de evidencia con incertidumbre y explicación legible por humanos.",
+    "El estudiante aplica umbrales de revisión/abstención y prohíbe inferencia automática de parentesco/fraude.",
+    "El estudiante ensambla un scaffold de dashboard/mapa con fichas de caso pseudonimizadas a partir del modelo de dominio.",
+    "El estudiante entrega ficha de privacidad, controles de acceso básicos, pruebas, demo reproducible y runbook de operación N1."
+  ],
+  "topics": [
+    {
+      "topic_id": "S13-T1",
+      "title": "Identidad",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S13-T1-A",
+          "slug": "normalize-blocking-er",
+          "title": "Normalización, blocking y entity resolution",
+          "outcome": "El estudiante aplica normalización y blocking para ER determinista por reglas y produce entity_resolution_score sin colapsarlo con señales de relación.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Normalización, blocking y entity resolution",
+              "must_cover": [
+                "normalize names/docs",
+                "blocking keys",
+                "rule-based match",
+                "entity_resolution_score",
+                "no probabilistic ER yet (S30)"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S13-T1-A-DEMO",
+              "title": "Emparejar 2 registros sintéticos por documento normalizado + bloque región",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S13-T1-A-E1",
+                "kind": "guided",
+                "title": "Normalizar nombres y document_id",
+                "skill": "normalize",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S13-T1-A-E2",
+                "kind": "independent",
+                "title": "Blocking key apellido+region",
+                "skill": "blocking",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S13-T1-A-E3",
+                "kind": "transfer",
+                "title": "Reglas deterministas → score ER 0–1 documentado",
+                "skill": "ER",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S13-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S13-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S13-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S13-T1-B",
+          "slug": "labeled-truth-precision-recall-clerical",
+          "title": "Verdad etiquetada, precision/recall y revisión clerical",
+          "outcome": "El estudiante evalúa ER con etiquetas sintéticas, calcula precision/recall simples y encola revisión clerical.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Verdad etiquetada, precision/recall y revisión clerical",
+              "must_cover": [
+                "labeled pairs",
+                "TP/FP/FN",
+                "precision/recall",
+                "clerical review queue",
+                "thresholds for review"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S13-T1-B-DEMO",
+              "title": "Evaluar 20 pares etiquetados; listar 3 para revisión humana",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S13-T1-B-E1",
+                "kind": "guided",
+                "title": "Calcular precision/recall de tabla confusión",
+                "skill": "métricas",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S13-T1-B-E2",
+                "kind": "independent",
+                "title": "Encolar pairs con score en banda de duda",
+                "skill": "clerical",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S13-T1-B-E3",
+                "kind": "transfer",
+                "title": "Explicar por qué un FP no implica fraude",
+                "skill": "límites",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S13-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S13-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S13-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S13-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S13-T1-EVAL-1",
+            "title": "Pipeline normalize+blocking+ER score",
+            "authentic": true
+          },
+          {
+            "id": "S13-T1-EVAL-2",
+            "title": "Evaluación precision/recall + cola clerical",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S13-T2",
+      "title": "Relación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S13-T2-A",
+          "slug": "shared-contact-distance-surnames",
+          "title": "Email/teléfono/dirección compartidos, distancia y apellidos",
+          "outcome": "El estudiante computa señales de relación (shared contact, distancia, apellidos) como relationship_signal_score separado del ER score.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Email/teléfono/dirección compartidos, distancia y apellidos",
+              "must_cover": [
+                "shared email/phone/address signals",
+                "geo distance signal",
+                "surname token overlap",
+                "relationship_signal_score",
+                "not kinship verdict"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S13-T2-A-DEMO",
+              "title": "Dos entidades: shared phone + 1.2 km → señales con explicación",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S13-T2-A-E1",
+                "kind": "guided",
+                "title": "Detectar email compartido sintético",
+                "skill": "shared contact",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S13-T2-A-E2",
+                "kind": "independent",
+                "title": "Combinar distancia + apellido en score de señal",
+                "skill": "señales",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S13-T2-A-E3",
+                "kind": "transfer",
+                "title": "Redactar disclaimer: señal ≠ parentesco",
+                "skill": "ética",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S13-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S13-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S13-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S13-T2-B",
+          "slug": "direct-tx-common-counterparties",
+          "title": "Transacciones directas y contrapartes comunes",
+          "outcome": "El estudiante deriva señales desde transacciones directas y contrapartes comunes sin afirmar colusión.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Transacciones directas y contrapartes comunes",
+              "must_cover": [
+                "direct transfers",
+                "common counterparties",
+                "graphlet simple",
+                "evidence objects",
+                "no collusion claim"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S13-T2-B-DEMO",
+              "title": "Grafo simple A↔B y A,C↔D común → RelationshipEvidence list",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S13-T2-B-E1",
+                "kind": "guided",
+                "title": "Listar txs directas entre pair",
+                "skill": "txs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S13-T2-B-E2",
+                "kind": "independent",
+                "title": "Encontrar contraparte común top-k",
+                "skill": "counterparties",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S13-T2-B-E3",
+                "kind": "transfer",
+                "title": "Qué NO inferir de contraparte común",
+                "skill": "límites",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S13-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S13-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S13-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S13-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S13-T2-EVAL-1",
+            "title": "Señales shared contact/geo/apellido separadas del ER",
+            "authentic": true
+          },
+          {
+            "id": "S13-T2-EVAL-2",
+            "title": "Transacciones y contrapartes como evidencia no colusión",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S13-T3",
+      "title": "Decisión",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S13-T3-A",
+          "slug": "evidence-score-uncertainty-explanation",
+          "title": "Score de evidencia, incertidumbre y explicación",
+          "outcome": "El estudiante produce un score de evidencia con incertidumbre y explicación legible por humanos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Score de evidencia, incertidumbre y explicación",
+              "must_cover": [
+                "aggregate evidence",
+                "uncertainty band",
+                "explanation bullets",
+                "feature attributions light",
+                "audit fields"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S13-T3-A-DEMO",
+              "title": "Ficha con score, low/med/high uncertainty y 3 bullets de por qué",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S13-T3-A-E1",
+                "kind": "guided",
+                "title": "Plantilla de explicación a partir de señales",
+                "skill": "explain",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S13-T3-A-E2",
+                "kind": "independent",
+                "title": "Calcular uncertainty si faltan campos",
+                "skill": "incertidumbre",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S13-T3-A-E3",
+                "kind": "transfer",
+                "title": "Caso con señales conflictivas — explicación honesta",
+                "skill": "juicio",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S13-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S13-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S13-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S13-T3-B",
+          "slug": "review-threshold-abstention-no-auto-inference",
+          "title": "Umbral de revisión, abstención y no inferencia automática",
+          "outcome": "El estudiante aplica umbrales de revisión/abstención y prohíbe inferencia automática de parentesco/fraude.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Umbral de revisión, abstención y no inferencia automática",
+              "must_cover": [
+                "review threshold",
+                "abstain",
+                "human-in-the-loop",
+                "policy no auto kinship/fraud",
+                "action = review|accept_pair|reject_pair only as data ops not legal"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S13-T3-B-DEMO",
+              "title": "Scores en zona gris → status=needs_review; nunca auto_fraud=true",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S13-T3-B-E1",
+                "kind": "guided",
+                "title": "Configurar umbrales accept/review/abstain",
+                "skill": "umbrales",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S13-T3-B-E2",
+                "kind": "independent",
+                "title": "Implementar decide_ops_status sin fraud label",
+                "skill": "abstención",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S13-T3-B-E3",
+                "kind": "transfer",
+                "title": "Auditoría: eliminar cualquier path que setee is_family",
+                "skill": "policy",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S13-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S13-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S13-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S13-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S13-T3-EVAL-1",
+            "title": "Score+incertidumbre+explicación",
+            "authentic": true
+          },
+          {
+            "id": "S13-T3-EVAL-2",
+            "title": "Umbrales review/abstain sin auto fraude/parentesco",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S13-T4",
+      "title": "Producto",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender",
+        "Evaluar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S13-T4-A",
+          "slug": "dashboard-map-case-sheet",
+          "title": "Dashboard/mapa pseudonimizado y ficha de caso",
+          "outcome": "El estudiante ensambla un scaffold de dashboard/mapa con fichas de caso pseudonimizadas a partir del modelo de dominio.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Dashboard/mapa pseudonimizado y ficha de caso",
+              "must_cover": [
+                "static scaffold or provided template",
+                "pseudonymize display",
+                "case sheet fields",
+                "map points from synthetic coords",
+                "UI not full design system (S19)"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S13-T4-A-DEMO",
+              "title": "HTML/Streamlit-light o template estático con 3 casos sintéticos",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S13-T4-A-E1",
+                "kind": "guided",
+                "title": "Pseudonimizar nombres en vista",
+                "skill": "privacidad UI",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S13-T4-A-E2",
+                "kind": "independent",
+                "title": "Ficha de caso con ER score ≠ relationship score",
+                "skill": "ficha",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S13-T4-A-E3",
+                "kind": "transfer",
+                "title": "Mapa con tooltip de geoseñal trazable",
+                "skill": "geo UI",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S13-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S13-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S13-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S13-T4-B",
+          "slug": "privacy-access-tests-demo-runbook",
+          "title": "Privacidad, acceso, pruebas, demo y runbook",
+          "outcome": "El estudiante entrega ficha de privacidad, controles de acceso básicos, pruebas, demo reproducible y runbook de operación N1.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Privacidad, acceso, pruebas, demo y runbook",
+              "must_cover": [
+                "privacy sheet",
+                "access notes",
+                "tests green",
+                "demo script",
+                "runbook",
+                "CF-1 artifacts"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S13-T4-B-DEMO",
+              "title": "Runbook: setup → load synthetic → run ER → open dashboard → review queue",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S13-T4-B-E1",
+                "kind": "guided",
+                "title": "Completar privacy sheet template",
+                "skill": "privacidad",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S13-T4-B-E2",
+                "kind": "independent",
+                "title": "Script demo de un comando",
+                "skill": "demo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S13-T4-B-E3",
+                "kind": "transfer",
+                "title": "Runbook de incidentes: fuga de PII en log",
+                "skill": "operación",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S13-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S13-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S13-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S13-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S13-T4-EVAL-1",
+            "title": "Scaffold dashboard/ficha pseudonimizada",
+            "authentic": true
+          },
+          {
+            "id": "S13-T4-EVAL-2",
+            "title": "Privacy sheet + demo + runbook + checklist regresión N1",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S13-PROJ",
+    "title": "Familiarity Evidence Dashboard (cierre CP-N1-C)",
+    "replaces_legacy": "Invoice Digitizer Bot — RPA se conserva como legado/futuro S24; TARGET es CP-N1-C dashboard de evidencia de familiaridad",
+    "objectives": [
+      "ER determinista por reglas sobre datos sintéticos",
+      "entity_resolution_score separado de relationship_signal_score",
+      "Geoevidencia trazable + revisión humana",
+      "Dashboard/mapa pseudonimizado + ficha de caso",
+      "Privacy sheet, demo y runbook",
+      "Gate de promoción: CP-N1-A/B/C + regresión S1–S13 + CF-1"
+    ],
+    "requirements": [
+      "Código reutiliza familiarity_core (S10) y dominio (S11) y adapters (S12) cuando existan",
+      "Sin PII real; sin envío de datos bancarios a APIs públicas",
+      "UI scaffold estático o plantilla — no exige diseño visual completo",
+      "Tests: normal/borde/error + al menos un caso clerical review",
+      "Documentos: privacy sheet, CF-1 (stakeholders, JTBD, métricas, no-go, contratos, demo base)"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N1-C gate @ S13; CF-1 @ S13; habilita promoción a Nivel 2 (S14+)",
+    "level1_regression": {
+      "id": "N1-REGRESSION",
+      "scope": "S1–S13",
+      "required": true,
+      "checks": [
+        "CP-N1-A Client Intake & Data Quality Script PASS",
+        "CP-N1-B Client/Transaction ETL Pipeline PASS",
+        "CP-N1-C Familiarity Evidence Dashboard PASS",
+        "Smoke tests / demos S1–S13 verdes o UNVERIFIED documentados",
+        "Invariantes de privacidad: ER ≠ relationship ≠ fraud triage",
+        "No secretos en repo; datos sintéticos",
+        "CF-1 artifacts complete"
+      ],
+      "promotion_rule": "S14 blocked until CP-N1-C + N1 regression + CF-1 PASS",
+      "status": "PLANNED_NOT_PASSED"
+    },
+    "cf1": {
+      "id": "CF-1",
+      "gate_section": "S13",
+      "artifacts": [
+        "stakeholders",
+        "jobs-to-be-done",
+        "métricas de éxito",
+        "restricciones/no-go",
+        "contratos",
+        "demo base de CP-FINAL"
+      ],
+      "status": "PLANNED_NOT_PASSED"
+    },
+    "promotion": {
+      "blocks": "S14",
+      "requires": [
+        "CP-N1-A PASS",
+        "CP-N1-B PASS",
+        "CP-N1-C PASS",
+        "N1-REGRESSION PASS",
+        "CF-1 PASS"
+      ],
+      "section_passed": false
+    }
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'rpa-automation' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s13-rpa-automation.ts; orphans: []"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N1-C (cierre) + CF-1 + Level-1 regression",
+    "increment_gate": "Familiarity Evidence Dashboard con ER determinista basado en reglas, datos sintéticos, entity_resolution_score separado de relationship_signal_score, geoevidencia trazable, revisión humana y límites explícitos. Promoción: tres capstones N1, regresión S1–S13 y CF-1 aprobados.",
+    "project_id": "S13-PROJ",
+    "section_passed": false,
+    "notes": "S13 contributes to CP-N1-C (cierre) + CF-1 + Level-1 regression. No passed states written by factory lane. S13 is the N1 exit gate: CP-N1-C + Level-1 regression + CF-1."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "capstone_increment_specified": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Factory blueprint quality aligned to S03 phase3 pattern. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 topic split gives clear 4×2 ownership for N1 second half",
+    "risk": "Display title still 'RPA & Automatización con IA' until product rename; large topic mismatch may confuse learners if tagline not updated in PHASE 4",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S13-T1-A first"
+  }
+}

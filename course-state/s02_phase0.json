@@ -1,0 +1,233 @@
+{
+  "version": "3.2",
+  "section": "S02",
+  "section_id": "basics",
+  "phase": "PHASE_0_COMPLETE",
+  "generated_at": "2026-07-20T12:00:00Z",
+  "lane": "LANE-S02",
+  "mode": "PARALLEL_PRODUCTION",
+  "max_phase_authorized": "PHASE_3_BLUEPRINT",
+
+  "requirement_matrix": {
+    "global_requirements": [
+      {
+        "id": "REQ-GLOBAL-001",
+        "requirement": "Cada sección tiene exactamente 4 temas evaluables",
+        "source": "V3 prompt §4 Definiciones de conteo",
+        "acceptance_test": "Contar temas en blueprint de S02 = 4",
+        "status": "blocked",
+        "evidence": "V3 roadmap S02 define T1–T4: Valores, Nombres, Operadores, I/O. Contenido actual no está estructurado como 4 temas V3."
+      },
+      {
+        "id": "REQ-GLOBAL-002",
+        "requirement": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar subtemas en blueprint de S02 = 8 (4×2)",
+        "status": "blocked",
+        "evidence": "Current content has 6 learningOutcomes (variables/types, casting, conditionals, loops, functions, comprehensions), not 4×2 V3 subtopics."
+      },
+      {
+        "id": "REQ-GLOBAL-003",
+        "requirement": "Cada subtema tiene 1 demo I Do y 3 ejercicios del estudiante",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar demos = 8, ejercicios = 24 para S02",
+        "status": "blocked",
+        "evidence": "Current S02 has 3 iDo steps + 2 weDo steps; theory has 5 code demos embedded. Far below 8 demos + 24 exercises."
+      },
+      {
+        "id": "REQ-GLOBAL-004",
+        "requirement": "Cada subtema tiene 3 variantes de examen A/B/C",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar variantes = 24 (8 subtemas × 3) para S02",
+        "status": "blocked",
+        "evidence": "Seed basics has 12 questions across 4 concepts (assign-vs-compare, list-comprehension, truthiness, kwargs)."
+      },
+      {
+        "id": "REQ-GLOBAL-005",
+        "requirement": "Cada sección tiene evaluación por tema, examen acumulativo y proyecto",
+        "source": "V3 prompt §4",
+        "acceptance_test": "4 topic evaluations + 1 section exam + 1 project increment for S02",
+        "status": "partial",
+        "evidence": "selfCheck (5 Q) + youDo project exist. Missing 4 topic evaluations."
+      },
+      {
+        "id": "REQ-GLOBAL-006",
+        "requirement": "Idioma: español peruano profesional",
+        "source": "V3 prompt §3 Restricciones invariantes",
+        "acceptance_test": "Contenido de S02 en español peruano sin caricaturas",
+        "status": "pass",
+        "evidence": "Existing content uses español peruano (soles, María Quispe, propinas). Keep for rewrites."
+      },
+      {
+        "id": "REQ-GLOBAL-007",
+        "requirement": "No equiparar coincidencia con parentesco/colusión/fraude",
+        "source": "V3 prompt §3",
+        "acceptance_test": "S02 no afirma parentesco por coincidencia de nombres en intake",
+        "status": "pass",
+        "evidence": "S02 intake parser is capture/normalize only; ER is later. Gate: preserve original field values, not score kinship."
+      },
+      {
+        "id": "REQ-GLOBAL-008",
+        "requirement": "Todo código debe ejecutarse o marcarse UNVERIFIED",
+        "source": "V3 prompt §3",
+        "acceptance_test": "Código de S02 ejecutado en entorno declarado (browser/local)",
+        "status": "partial",
+        "evidence": "Existing demos have expected outputs; V3 rewrites must re-verify or mark UNVERIFIED."
+      },
+      {
+        "id": "REQ-GLOBAL-009",
+        "requirement": "Datos sintéticos o legalmente reutilizables",
+        "source": "V3 prompt §3",
+        "acceptance_test": "S02 usa registros de cliente sintéticos sin PII real",
+        "status": "pass",
+        "evidence": "Maria Quispe / synthetic patterns; V3 gate requires synthetic client record."
+      }
+    ],
+
+    "section_requirements": [
+      {
+        "id": "REQ-S02-001",
+        "requirement": "S02 cubre T1 Valores: literales y tipos; inspección, conversión y validación explícita",
+        "source": "V3 roadmap S02 T1",
+        "acceptance_test": "Contenido enseña literales int/float/str/bool, type/isinstance, cast y validación antes de usar",
+        "status": "partial",
+        "evidence": "Theory block 1 covers types, type(), isinstance, casting, f-strings. Missing: validation patterns, explicit fail-on-bad-cast, None handling depth."
+      },
+      {
+        "id": "REQ-S02-002",
+        "requirement": "S02 cubre T2 Nombres: asignación y convenciones; identidad, mutabilidad y copias al nivel necesario",
+        "source": "V3 roadmap S02 T2",
+        "acceptance_test": "Contenido enseña snake_case/PEP8, = vs binding, id/is, mutable vs immutable, copia superficial",
+        "status": "partial",
+        "evidence": "snake_case mentioned; assignment exists. Missing: id(), is/is not, mutability demo, copy/slice shallow copy."
+      },
+      {
+        "id": "REQ-S02-003",
+        "requirement": "S02 cubre T3 Operadores: aritmética, comparación y precedencia; dinero, Decimal, precisión y redondeo",
+        "source": "V3 roadmap S02 T3",
+        "acceptance_test": "Contenido enseña + - * / // % **, comparaciones, precedencia, Decimal para dinero, quantize/redondeo",
+        "status": "blocked",
+        "evidence": "Operators appear only inside conditionals/examples. No Decimal module. No money precision teaching. Float used for soles (propinas)."
+      },
+      {
+        "id": "REQ-S02-004",
+        "requirement": "S02 cubre T4 I/O: input, print y f-strings; parsing, mensajes de error y ejemplos comprobables",
+        "source": "V3 roadmap S02 T4",
+        "acceptance_test": "Contenido enseña input/print/f-strings, parse de campos, mensajes accionables, tests de casos límite",
+        "status": "partial",
+        "evidence": "youDo uses input(); f-strings in theory. Missing: structured parsing of multi-field client record, empty/Unicode/invalid number test suite."
+      },
+      {
+        "id": "REQ-S02-005",
+        "requirement": "S02 incremento/gate: capturar registro sintético de cliente (nombres, dos apellidos, contacto, dirección) sin perder valor original; vacíos, Unicode y número inválido pasan pruebas",
+        "source": "V3 roadmap S02 Incremento/gate",
+        "acceptance_test": "Parser produces dict/structure with raw original + parsed fields; tests: empty, Unicode, invalid number",
+        "status": "blocked",
+        "evidence": "youDo is Personal Budget Calculator — unrelated to intake parser. Capstone CP-N1-A needs intake increment at S02."
+      },
+      {
+        "id": "REQ-S02-006",
+        "requirement": "S02 examen verifica habilidades de valores/tipos/nombres/operadores/I-O (no loops/funciones/comprehensions como foco principal)",
+        "source": "V3 roadmap S02 + scope alignment",
+        "acceptance_test": "Exam bank concepts map to 8 S02 subtopics",
+        "status": "blocked",
+        "evidence": "Seed concepts list-comprehension, kwargs, truthiness belong largely to S03/S04 V3; assign-vs-compare partially maps to T2/T3."
+      },
+      {
+        "id": "REQ-S02-007",
+        "requirement": "S02 entorno: browser/local",
+        "source": "V3 roadmap S02",
+        "acceptance_test": "Demos ejecutan en browser-pyodide y/o local-python; Decimal es stdlib (ok en ambos)",
+        "status": "pass",
+        "evidence": "V3 declares browser/local. Pure Python + decimal stdlib fits pyodide."
+      },
+      {
+        "id": "REQ-S02-008",
+        "requirement": "S02 prerrequisito: S1",
+        "source": "V3 roadmap S02",
+        "acceptance_test": "Contenido asume intérprete/entorno listo; no re-enseña setup",
+        "status": "pass",
+        "evidence": "S02 assumes S01 completed. Parallel lane may author while S01 incomplete; release gate still requires S01."
+      },
+      {
+        "id": "REQ-S02-009",
+        "requirement": "Proyecto alineado a parser de intake (CP-N1-A path)",
+        "source": "V3 S02 project + S01–S04 capstone chain",
+        "acceptance_test": "You Do / project increment is intake field capture, not budget calculator",
+        "status": "blocked",
+        "evidence": "Current youDo = Personal Budget Calculator. Must remapp to intake parser increment."
+      }
+    ],
+
+    "platform_requirements": [
+      {
+        "id": "REQ-PLATFORM-001",
+        "requirement": "S02 carga sin errores en la plataforma",
+        "source": "Regression / section registry",
+        "acceptance_test": "Section id 'basics' loads in UI",
+        "status": "pass",
+        "evidence": "s02-basics.ts exports section02 with id basics; historically shipped."
+      },
+      {
+        "id": "REQ-PLATFORM-002",
+        "requirement": "S02 puede hospedar demos multi-subtema (futuro)",
+        "source": "V3 counting + platform notes from S01",
+        "acceptance_test": "Blueprint documents platform gap for 8 demos",
+        "status": "partial",
+        "evidence": "Same gap as S01: CourseSection model lacks subtopic demos array."
+      },
+      {
+        "id": "REQ-PLATFORM-003",
+        "requirement": "Banco de examen section_id basics expandible a 8 conceptos",
+        "source": "prisma/seed.ts",
+        "acceptance_test": "Seed supports 8×3 for basics",
+        "status": "blocked",
+        "evidence": "Currently 4 concepts × 3 = 12 for basics."
+      }
+    ]
+  },
+
+  "contradictions_detected": [
+    {
+      "id": "CONTRADICTION-S02-001",
+      "issue": "V3 S02 is 'Valores, tipos, operadores e I/O' (intake parser). Existing s02-basics.ts is 'Python Absolute Basics' covering variables, conditionals, loops, functions, comprehensions — a V2 mega-section that overlaps S03/S04 V3 scope.",
+      "resolution": "Platform title may stay short ('Basics de Python') but theory/outcomes/project MUST re-scope to V3 T1–T4 only. Move conditionals/loops/functions/comprehensions out of S02 learning outcomes into S03/S04 ownership. Keep reusable code snippets only where they serve values/I-O demos.",
+      "authority": "learning_roadmap_52_V3.md is primary for S02 scope; learning_roadmap.md/platform title secondary for branding.",
+      "impact": "Blocks PHASE 4 full rewrite until blueprint locks 4×2. Does not block PHASE 0–3 research/blueprint.",
+      "status": "resolved"
+    },
+    {
+      "id": "CONTRADICTION-S02-002",
+      "issue": "V3 project gate is intake client record parser. Existing youDo is Personal Budget Calculator.",
+      "resolution": "Blueprint project_increment = intake parser (nombres, apellido_paterno, apellido_materno, contacto, dirección; preserve raw; empty/Unicode/invalid number tests). Budget calculator may become optional stretch or discard.",
+      "authority": "V3 S02 Incremento/gate + CP-N1-A chain",
+      "impact": "PHASE 4 must replace youDo.",
+      "status": "resolved"
+    },
+    {
+      "id": "CONTRADICTION-S02-003",
+      "issue": "Exam bank (list-comprehension, kwargs, truthiness) does not match V3 S02 skills. Truthiness is primarily S03 T1; comprehensions/kwargs are S04.",
+      "resolution": "New exam slugs for 8 S02 subtopics. Deprecate or reassign existing basics concepts in PHASE 5; do not mark S02 passed with old bank.",
+      "authority": "V3 counting + roadmap T1–T4",
+      "impact": "PHASE 5 exam rewrite required.",
+      "status": "resolved"
+    },
+    {
+      "id": "CONTRADICTION-S02-004",
+      "issue": "Existing content uses float for money (soles/propinas). V3 mandates Decimal for money.",
+      "resolution": "T3-B teaches Decimal + quantize; propina-style examples rewritten with Decimal('0.10') not 0.10 float.",
+      "authority": "V3 S02 T3 + docs.python.org/3/library/decimal.html (2026-07-20)",
+      "impact": "Content rewrite in PHASE 4.",
+      "status": "resolved"
+    }
+  ],
+
+  "phase_0_gate": {
+    "all_requirements_extracted": true,
+    "all_contradictions_resolved": true,
+    "requirement_matrix_complete": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_1",
+    "note": "Lane must not set section to passed. Max phase PHASE_3."
+  }
+}

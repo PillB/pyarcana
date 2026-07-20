@@ -1,0 +1,93 @@
+{
+  "id": "CP-FINAL",
+  "gate_section": "S52",
+  "name": "Enterprise Relationship & Operations Intelligence Platform",
+  "level": "FINAL",
+  "acceptance_criteria": [
+    "Checklist conceptual de los 12 capstones de nivel presentes como paquetes.",
+    "Smoke: execution.json de cada uno de los 12 con status==pass.",
+    "Métricas de integración y arquitectura de alto nivel en salida JSON.",
+    "System card de la plataforma enterprise y límites éticos.",
+    "Demo exit 0 solo si 12/12 packages pasaron."
+  ],
+  "rubric_0_3": {
+    "correctness": {
+      "weight_hint": 0.35,
+      "scale": "0-3",
+      "levels": {
+        "0": "No cumple el comportamiento principal.",
+        "1": "Parcial; fallas en casos normales.",
+        "2": "Cumple casos normales; bordes incompletos.",
+        "3": "Correcto en normal, borde y error documentado."
+      },
+      "focus": "12/12 execution.json status=pass requeridos."
+    },
+    "robustness": {
+      "weight_hint": 0.2,
+      "scale": "0-3",
+      "levels": {
+        "0": "Crashea ante entradas imperfectas.",
+        "1": "Algunos bordes cubiertos.",
+        "2": "Bordes y errores no críticos manejados.",
+        "3": "Resiliente y con mensajes accionables."
+      },
+      "focus": "Falla clara si falta un package o status != pass."
+    },
+    "maintainability": {
+      "weight_hint": 0.25,
+      "scale": "0-3",
+      "levels": {
+        "0": "Monolito opaco.",
+        "1": "Estructura mínima.",
+        "2": "Módulos/funciones claros y legibles.",
+        "3": "Diseño limpio, testeable y documentado."
+      },
+      "focus": "Orquestador legible y paths estables."
+    },
+    "responsible_use": {
+      "weight_hint": 0.2,
+      "scale": "0-3",
+      "levels": {
+        "0": "Riesgo ético/privacidad no abordado.",
+        "1": "Menciones superficiales.",
+        "2": "Controles y límites presentes.",
+        "3": "Controles, límites y comunicación impecables."
+      },
+      "focus": "Integra controles de privacidad/ética de todos los niveles."
+    },
+    "gate_rule": "Promedio ponderado conceptual ≥ 2.4/3 y ningún criterio crítico < 2; cero P0 de seguridad/privacidad/fraude-inference."
+  },
+  "dependencies": [
+    "CP-N1-A",
+    "CP-N1-B",
+    "CP-N1-C",
+    "CP-N2-A",
+    "CP-N2-B",
+    "CP-N2-C",
+    "CP-N3-A",
+    "CP-N3-B",
+    "CP-N3-C",
+    "CP-N4-A",
+    "CP-N4-B",
+    "CP-N4-C",
+    "S52"
+  ],
+  "wow_factor_definition": "Integración reproducible de los 12 capstones con smoke de evidencia, arquitectura, métricas y system card para portfolio máster.",
+  "scoring_weights_reference": {
+    "correctness": 0.35,
+    "edge_cases_data": 0.2,
+    "tests": 0.15,
+    "design": 0.1,
+    "reproducibility": 0.1,
+    "communication_limits": 0.1,
+    "pass_threshold": 0.8
+  },
+  "prohibitions": [
+    "No real PII",
+    "No fraud inference as automatic decision",
+    "No hardcoded production secrets",
+    "Synthetic or legally reusable data only"
+  ],
+  "package_version": "1.0.0",
+  "generated_at": "2026-07-20T14:53:43Z"
+}

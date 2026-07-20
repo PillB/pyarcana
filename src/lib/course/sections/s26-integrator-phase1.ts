@@ -1,156 +1,1288 @@
 import type { CourseSection } from '../../types'
 
 export const section26: CourseSection = {
-  id: 'integrator-phase1',
+  id: "integrator-phase1",
   index: 26,
-  title: 'Proyecto Integrador Fase 1',
-  shortTitle: 'Proyecto Integrador Fase 1',
-  tagline: 'Integra todo lo aprendido en un sistema real que podrías vender.',
+  title: "Orquestación y VP RPA + AI Analyst",
+  shortTitle: "VP RPA + AI Analyst",
+  tagline: "VP RPA + AI Analyst: Excel/sistema → validación → análisis → modelo/IA → informe → aprobación → borrador de correo. Demo con datos sintéticos, evidencia de cada estado y recuperación de fallas",
   estimatedHours: 16,
-  level: 'Competente',
+  level: "Competente",
   phase: 1,
-  icon: 'Award',
-  accentColor: 'bg-gradient-to-br from-blue-500 to-indigo-600',
-  jobRelevance: 'Capstone de Fase 1 que integra todas las competencias Competente en una sola plataforma vendible. Demuestra capacidad de diseñar sistemas end-to-end combinando backend, RAG, data pipelines, CV, entity resolution, RPA y dashboards. Diferenciador clave para entrevistas de mid-level.',
+  icon: "Award",
+  accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
+  jobRelevance:
+    "Cierras **CP-N2-C** orquestando el VP: Excel/sistema → validación → análisis → IA → informe → aprobación → borrador de correo, con **regresión N2** y **CF-2**. Esta sección (id `integrator-phase1` conservado) retematiza a V3 **Orquestación y VP RPA + AI Analyst**. HITL obligatorio; matching ≠ fraude.",
   learningOutcomes: [
-    { text: 'Integrar backend FastAPI (S21), RAG chatbot (S20), pipeline de datos (S18-19), CV module (S23), entity resolution (S22), RPA bot (S24) y dashboard Streamlit (S25) en una plataforma coherente' },
-    { text: 'Diseñar arquitectura de microservicios integrada con Docker Compose' },
-    { text: 'Documentar arquitectura con Mermaid diagrams' },
-    { text: 'Crear tests de integración para cada módulo del sistema' },
-    { text: 'Producir demo video ejecutivo de 3-5 minutos' },
-    { text: 'Reunir todos los componentes en un repositorio GitHub profesional' },
+    { text: "Modelar tasks/flows/DAG con estados" },
+    { text: "Configurar límites, metadata y schedules" },
+    { text: "Implementar checkpoints, retry/backoff y dead-letter" },
+    { text: "Garantizar idempotencia, concurrencia y rollback" },
+    { text: "Diseñar revisión humana de análisis/reporte/destinatario" },
+    { text: "Operar aprobación, rechazo, edición y auditoría" },
+    { text: "Definir SLO, alerts y runbook" },
+    { text: "Validar E2E, seguridad, costo y métricas de valor" },
   ],
   theory: [
     {
-      heading: 'Fundamentos',
+      heading: "Cierre CP-N2-C: orquestación del VP y regresión N2",
       paragraphs: [
-        'Esta sección cubre los conceptos esenciales del tema. Estudia cada bloque de teoría con atención y no pases al siguiente sin entender completamente el anterior.',
-        'La práctica es clave. Usa el editor interactivo para experimentar con cada concepto antes de pasar a los ejercicios.',
+        "En V3, **S26 cierra CP-N2-C** y prepara **regresión Level-2 (S14–S26)** + **CF-2** (contratos entre Familiarity, reporting y automatización). No marcas section_passed desde esta lane de contenido.",
+        "El flujo canónico: **ingest Excel/sistema → validar → analizar → IA asistida → informe → aprobación humana → draft de correo**. Cada estado deja evidencia.",
+        "Orden: **T1 Orquestación** → **T2 Resiliencia** → **T3 HITL** → **T4 Operación/E2E**. Privacidad: scores y matches no son veredictos de fraude.",
       ],
+      callout: {
+        type: "info",
+        title: "Promoción N2 (referencia)",
+        content:
+          "Promoción conceptual: CP-N2-A/B/C + regresión S14–S26 + CF-2. Esta autoría entrega el paquete de contenido; otra lane califica gates.",
+      },
+    },
+    {
+      heading: "tasks/flows/DAG y estados",
+      subtopicId: "S26-T1-A",
+      paragraphs: [
+        "Un **DAG** define dependencias: validar antes de analizar; aprobar antes de draft_email.",
+        "Estados de task: pending, running, success, failed, skipped. El flow agrega el estado global.",
+        "Implementación didáctica: dict de nodos + edges, ejecución topológica simple.",
+      ],
+      code: {
+        language: 'python',
+        title: "dag_states.py",
+        code: `from collections import deque
+
+edges = [
+    ("ingest", "validate"),
+    ("validate", "analyze"),
+    ("analyze", "ai_assist"),
+    ("ai_assist", "report"),
+    ("report", "approve"),
+    ("approve", "draft_email"),
+]
+
+def topo(edges):
+    nodes = set()
+    for a, b in edges:
+        nodes.add(a); nodes.add(b)
+    indeg = {n: 0 for n in nodes}
+    adj = {n: [] for n in nodes}
+    for a, b in edges:
+        adj[a].append(b); indeg[b] += 1
+    q = deque([n for n in nodes if indeg[n] == 0])
+    order = []
+    while q:
+        u = q.popleft(); order.append(u)
+        for v in adj[u]:
+            indeg[v] -= 1
+            if indeg[v] == 0:
+                q.append(v)
+    return order
+
+print(topo(edges))`,
+        output: `['ingest', 'validate', 'analyze', 'ai_assist', 'report', 'approve', 'draft_email']`,
+      },
+      callout: {
+        type: "tip",
+        title: "Estados visibles",
+        content:
+          "El dashboard del VP muestra el estado de cada nodo con timestamp.",
+      },
+    },
+    {
+      heading: "límites, metadata y schedules",
+      subtopicId: "S26-T1-B",
+      paragraphs: [
+        "**Rate limits** protegen APIs. **Metadata** de run: run_id, trigger, git_sha sintético, data_cutoff.",
+        "**Schedules** (cron) vs on-demand. Documenta ventana de mantenimiento.",
+        "Límites de concurrencia por cola.",
+      ],
+      code: {
+        language: 'python',
+        title: "limits_meta.py",
+        code: `run_meta = {
+    "run_id": "cpn2c-close-01",
+    "trigger": "manual",
+    "schedule": None,
+    "limits": {"max_parallel_tasks": 2, "api_rpm": 30},
+    "data_cutoff": "2026-01-15",
+}
+print(run_meta["run_id"], run_meta["limits"]["api_rpm"])
+# schedule example
+cron = "0 6 * * 1-5"  # 06:00 L-V America/Lima conceptual
+print("cron", cron, "tz", "America/Lima")`,
+        output: `cpn2c-close-01 30
+cron 0 6 * * 1-5 tz America/Lima`,
+      },
+      callout: {
+        type: "info",
+        title: "Metadata inmutable",
+        content:
+          "No reescribas metadata tras el start; versiona un nuevo run_id.",
+      },
+    },
+    {
+      heading: "checkpoints, retry/backoff y dead-letter",
+      subtopicId: "S26-T2-A",
+      paragraphs: [
+        "**Checkpoint**: guarda progreso para reanudar sin rehacer ingest. **Backoff** exponencial en retries.",
+        "**DLQ** (dead-letter queue) aísla items irrecuperables para análisis humano.",
+        "No reintentes fallas de validación de negocio eternamente.",
+      ],
+      code: {
+        language: 'python',
+        title: "ckpt_dlq.py",
+        code: `import random
+
+def backoff_sleep_ms(attempt, base=100, cap=2000):
+    return min(cap, base * (2 ** (attempt - 1)))
+
+def process_with_dlq(items, flaky_ids):
+    ok, dlq, ckpt = [], [], set()
+    for it in items:
+        if it in ckpt:
+            continue
+        if it in flaky_ids:
+            dlq.append(it)
+        else:
+            ok.append(it); ckpt.add(it)
+    return ok, dlq, sorted(ckpt)
+
+print([backoff_sleep_ms(i) for i in range(1, 5)])
+print(process_with_dlq(["a", "b", "c"], flaky_ids={"b"}))`,
+        output: `[100, 200, 400, 800]
+(['a', 'c'], ['b'], ['a', 'c'])`,
+      },
+      callout: {
+        type: "warning",
+        title: "DLQ no es basurero",
+        content:
+          "Cada mensaje en DLQ tiene owner y SLA de inspección.",
+      },
+    },
+    {
+      heading: "idempotencia, concurrencia y rollback",
+      subtopicId: "S26-T2-B",
+      paragraphs: [
+        "Pasos **idempotentes** con keys de negocio. **Locks** optimistas por run_id/entity.",
+        "**Rollback**: compensar efectos (borrar draft, marcar report superseded) si falla un paso posterior.",
+        "Documenta el grafo de compensación.",
+      ],
+      code: {
+        language: 'python',
+        title: "rollback.py",
+        code: `store = {"reports": {}, "drafts": {}}
+
+def write_report(run_id, body):
+    store["reports"][run_id] = body
+    return run_id
+
+def write_draft(run_id, body):
+    store["drafts"][run_id] = body
+    return run_id
+
+def rollback(run_id):
+    store["drafts"].pop(run_id, None)
+    store["reports"].pop(run_id, None)
+
+write_report("r1", "informe")
+write_draft("r1", "draft")
+rollback("r1")
+print("reports", store["reports"], "drafts", store["drafts"])`,
+        output: `reports {} drafts {}`,
+      },
+      callout: {
+        type: "tip",
+        title: "Compensación",
+        content:
+          "Rollback no siempre es transacción ACID; define compensaciones explícitas.",
+      },
+    },
+    {
+      heading: "revisión de análisis/reporte/destinatario",
+      subtopicId: "S26-T3-A",
+      paragraphs: [
+        "Tres colas HITL: **análisis** (métricas), **reporte** (narrativa), **destinatario** (email verificado).",
+        "Cada artefacto tiene checklist. Bloqueo si falta evidencia.",
+        "El revisor no confirma fraude ni parentesco; confirma calidad del paquete de evidencia y la decisión operativa (aprobar/rechazar/editar).",
+      ],
+      code: {
+        language: 'python',
+        title: "review_queues.py",
+        code: `queues = {
+    "analysis": [{"id": "a1", "status": "pending"}],
+    "report": [{"id": "r1", "status": "pending"}],
+    "recipient": [{"id": "c1", "status": "pending"}],
+}
+
+def pending_counts(q):
+    return {k: sum(1 for x in v if x["status"] == "pending") for k, v in q.items()}
+
+print(pending_counts(queues))
+print("all_clear", all(c == 0 for c in pending_counts(queues).values()))`,
+        output: `{'analysis': 1, 'report': 1, 'recipient': 1}
+all_clear False`,
+      },
+      callout: {
+        type: "info",
+        title: "Triple gate",
+        content:
+          "Sin las tres revisiones en verde, no hay draft_email.",
+      },
+    },
+    {
+      heading: "aprobación, rechazo, edición y auditoría",
+      subtopicId: "S26-T3-B",
+      paragraphs: [
+        "Acciones: **approve**, **reject**, **edit** (vuelve a pending con diff). Todo a **audit trail**.",
+        "Reject requiere razón. Edit versiona el artefacto.",
+        "Sin audit, el capstone no es demostrable.",
+      ],
+      code: {
+        language: 'python',
+        title: "audit_hitl.py",
+        code: `audit = []
+
+def act(artifact_id, action, actor, reason=None):
+    rec = {"id": artifact_id, "action": action, "actor": actor, "reason": reason}
+    audit.append(rec)
+    return rec
+
+act("report-1", "edit", "ana", reason="clarificar n")
+act("report-1", "approve", "luis")
+print(len(audit), audit[-1]["action"], audit[0]["reason"])`,
+        output: `2 approve clarificar n`,
+      },
+      callout: {
+        type: "warning",
+        title: "Razones obligatorias en reject",
+        content:
+          "Reject sin reason se rechaza a nivel API.",
+      },
+    },
+    {
+      heading: "SLO, alerts y runbook",
+      subtopicId: "S26-T4-A",
+      paragraphs: [
+        "**SLO** ejemplos: 95% runs success en 7d; p95 duración < 15 min; 0 envíos sin approve.",
+        "**Alerts** cuando burn rate de error sube. **Runbook**: pasos de mitigación y rollback.",
+        "Incluye contacto y severidad.",
+      ],
+      code: {
+        language: 'python',
+        title: "slo_alerts.py",
+        code: `slo = {
+    "success_rate_7d": 0.95,
+    "p95_duration_min": 15,
+    "zero_send_without_approve": True,
+}
+metrics = {"success_rate_7d": 0.91, "p95_duration_min": 12, "sends_without_approve": 0}
+
+def alerts(m, slo):
+    out = []
+    if m["success_rate_7d"] < slo["success_rate_7d"]:
+        out.append("success_rate_low")
+    if m["p95_duration_min"] > slo["p95_duration_min"]:
+        out.append("latency_high")
+    if m["sends_without_approve"] > 0:
+        out.append("P0_unapproved_send")
+    return out
+
+print(alerts(metrics, slo))
+print("runbook_step", "disable_schedule → drain queue → page oncall")`,
+        output: `['success_rate_low']
+runbook_step disable_schedule → drain queue → page oncall`,
+      },
+      callout: {
+        type: "danger",
+        title: "P0 unapproved send",
+        content:
+          "Cualquier envío sin approve es incidente P0 aunque sea sandbox mal configurado.",
+      },
+    },
+    {
+      heading: "pruebas E2E, seguridad, costo y métricas de valor",
+      subtopicId: "S26-T4-B",
+      paragraphs: [
+        "**E2E** del VP con datos sintéticos: cada nodo success + draft final + audit.",
+        "**Seguridad**: secretos, scopes, no PII real. **Costo**: tokens API + minutos RPA.",
+        "**Valor**: tiempo humano ahorrado (estimado), tasa de rework, no “fraudes detectados”.",
+        "**Regresión N2 (notas)**: reejecutar tests críticos de CP-N2-A/B/C, E2E de integración S14–S26, ítem de recuperación y controles de privacidad/seguridad. Gate: cero fallas críticas y ≥80% evidencia no crítica.",
+      ],
+      code: {
+        language: 'python',
+        title: "e2e_value.py",
+        code: `def e2e_vp():
+    steps = ["ingest", "validate", "analyze", "ai", "report", "approve", "draft"]
+    evidence = {s: "success" for s in steps}
+    evidence["audit_events"] = 3
+    evidence["cost_tokens"] = 1200
+    evidence["value_minutes_saved_est"] = 45
+    evidence["fraud_labels"] = 0  # debe ser 0: no auto-fraude
+    return evidence
+
+ev = e2e_vp()
+print("draft", ev["draft"], "audit", ev["audit_events"])
+print("cost_tokens", ev["cost_tokens"], "fraud_labels", ev["fraud_labels"])
+print("n2_regression_note", "re-run CP-N2-A/B/C critical + privacy checks")`,
+        output: `draft success audit 3
+cost_tokens 1200 fraud_labels 0
+n2_regression_note re-run CP-N2-A/B/C critical + privacy checks`,
+      },
+      callout: {
+        type: "info",
+        title: "CF-2 y regresión",
+        content:
+          "CF-2 fija interfaces entre Familiarity, reporting y automatización. La regresión N2 no se “compensa” entre capstones.",
+      },
     },
   ],
   iDo: {
-    intro: 'Te muestro paso a paso cómo aplicar los conceptos de esta sección con ejemplos prácticos.',
+    intro: "Te muestro el cierre de CP-N2-C: DAG del VP, resiliencia, HITL triple, SLO y E2E con notas de regresión N2/CF-2 — sin envío real ni fraude automático.",
     steps: [
       {
-        description: 'Demostración del concepto principal',
+        demoId: "S26-T1-A-DEMO",
+        subtopicId: "S26-T1-A",
+        environment: "local/cloud controlado",
+        description: "Modelar DAG con estados explícitos.",
         code: {
           language: 'python',
-          title: 'demo.py',
-          code: '"""Proyecto integrador: plataforma de IA."""\nfrom fastapi import FastAPI\nfrom pydantic import BaseModel\nimport structlog\n\nlogger = structlog.get_logger()\napp = FastAPI(title="AI Platform API", version="1.0.0")\n\nclass PredictionRequest(BaseModel):\n    user_id: str\n    features: dict\n\n@app.post("/predict")\nasync def predict(request: PredictionRequest):\n    logger.info("prediction_request", user_id=request.user_id)\n    prediction = sum(request.features.values()) / len(request.features)\n    return {"user_id": request.user_id, "prediction": prediction, "confidence": 0.87}\n\n# uvicorn main:app --reload --port 8000',
+          title: "demo.py",
+          code: `order=["ingest","validate","analyze","report","approve","draft_email"]
+print(order)
+print("n_steps", len(order))`,
+          output: `['ingest', 'validate', 'analyze', 'report', 'approve', 'draft_email']
+n_steps 6`,
         },
-        why: 'Un proyecto integrador combina multiples tecnologias en un sistema cohesivo. FastAPI sirve predicciones, Pydantic valida inputs/outputs, structlog registra eventos para auditoria. Cada componente es independiente pero se integra via contratos claros (schemas Pydantic).',
+        why: "El orden del VP es el contrato del flow.",
+      },
+      {
+        demoId: "S26-T1-B-DEMO",
+        subtopicId: "S26-T1-B",
+        environment: "local/cloud controlado",
+        description: "Programar con límites y metadata.",
+        code: {
+          language: 'python',
+          title: "demo.py",
+          code: `meta={"run_id":"r1","api_rpm":30,"tz":"America/Lima"}
+print(meta)`,
+          output: `{'run_id': 'r1', 'api_rpm': 30, 'tz': 'America/Lima'}`,
+        },
+        why: "Metadata habilita auditoría y schedules.",
+      },
+      {
+        demoId: "S26-T2-A-DEMO",
+        subtopicId: "S26-T2-A",
+        environment: "local/cloud controlado",
+        description: "Checkpoint + retry + dead-letter.",
+        code: {
+          language: 'python',
+          title: "demo.py",
+          code: `ckpt=set(["a"]); dlq=["b"]
+print("resume_from", sorted(ckpt), "dlq", dlq)`,
+          output: `resume_from ['a'] dlq ['b']`,
+        },
+        why: "Reanudar sin rehacer lo exitoso.",
+      },
+      {
+        demoId: "S26-T2-B-DEMO",
+        subtopicId: "S26-T2-B",
+        environment: "local/cloud controlado",
+        description: "Rollback seguro bajo fallo de draft.",
+        code: {
+          language: 'python',
+          title: "demo.py",
+          code: `state={"report":"ok","draft":"ok"}
+state.pop("draft"); print(state)`,
+          output: `{'report': 'ok'}`,
+        },
+        why: "Compensación explícita.",
+      },
+      {
+        demoId: "S26-T3-A-DEMO",
+        subtopicId: "S26-T3-A",
+        environment: "local/cloud controlado",
+        description: "Colas de revisión multi-artefacto.",
+        code: {
+          language: 'python',
+          title: "demo.py",
+          code: `q={"analysis":1,"report":1,"recipient":0}
+print(q, "blocked", any(v>0 for v in q.values()))`,
+          output: `{'analysis': 1, 'report': 1, 'recipient': 0} blocked True`,
+        },
+        why: "Triple revisión antes del correo.",
+      },
+      {
+        demoId: "S26-T3-B-DEMO",
+        subtopicId: "S26-T3-B",
+        environment: "local/cloud controlado",
+        description: "Aprobar/rechazar/editar con auditoría.",
+        code: {
+          language: 'python',
+          title: "demo.py",
+          code: `audit=[{"action":"approve","actor":"r1"}]
+print(audit[0])`,
+          output: `{'action': 'approve', 'actor': 'r1'}`,
+        },
+        why: "Sin audit no hay capstone demostrable.",
+      },
+      {
+        demoId: "S26-T4-A-DEMO",
+        subtopicId: "S26-T4-A",
+        environment: "local/cloud controlado",
+        description: "Definir SLO, alerts y runbook N2.",
+        code: {
+          language: 'python',
+          title: "demo.py",
+          code: `slo_ok=0.91<0.95
+print("alert_success_rate" if slo_ok else "ok")`,
+          output: `alert_success_rate`,
+        },
+        why: "SLO operativos del VP.",
+      },
+      {
+        demoId: "S26-T4-B-DEMO",
+        subtopicId: "S26-T4-B",
+        environment: "local/cloud controlado",
+        description: "E2E + seguridad + costo + valor (sin fraude auto).",
+        code: {
+          language: 'python',
+          title: "demo.py",
+          code: `print({"e2e":"pass","cost_tokens":100,"value_min":30,"fraud_labels":0,"n2_regression":"planned"})`,
+          output: `{'e2e': 'pass', 'cost_tokens': 100, 'value_min': 30, 'fraud_labels': 0, 'n2_regression': 'planned'}`,
+        },
+        why: "Cierre CP-N2-C con notas de regresión N2.",
       },
     ],
   },
   weDo: {
-    intro: 'Ahora te toca a ti practicar con guía. Lee cada instrucción, intenta escribir el código, y si te trabas revisa la solución.',
+    intro: "24 ejercicios de DAG, limits, checkpoint/DLQ, rollback, colas HITL, audit, SLO y E2E/regresión.",
     steps: [
       {
-        instruction: 'Practica el concepto principal de esta sección',
-        hint: 'Revisa la teoría y el I Do antes de intentar este ejercicio.',
+        id: "S26-T1-A-E1",
+        subtopicId: "S26-T1-A",
+        kind: "guided",
+        instruction:
+          "Lista el orden canónico de 4 pasos: ingest,validate,analyze,report.",
+        hint: "lista",
+        hints: [
+          "lista",
+          "print",
+        ],
+        edgeCases: ["draft al final"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'ejercicio.py',
-          code: '# Tu código aquí\n',
+          title: "exercise.py",
+          code: `# TODO
+`,
         },
         solutionCode: {
           language: 'python',
-          title: 'solucion.py',
-          code: '# Estructura del proyecto integrador\n"""\nai-platform/\n+-- api/           # FastAPI endpoints\n+-- models/        # Modelos ML (XGBoost, SHAP)\n+-- tests/         # pytest con >85% coverage\n+-- docker/        # Dockerfile multi-stage\n+-- k8s/           # Manifiestos Kubernetes\n+-- .github/       # CI/CD con GitHub Actions\n+-- README.md      # Documentacion completa\n"""\nprint("Estructura del proyecto integrador definida")',
+          title: "exercise.py",
+          code: `print(['ingest','validate','analyze','report'])`,
+          output: `['ingest', 'validate', 'analyze', 'report']`,
+        },
+      },
+      {
+        id: "S26-T1-A-E2",
+        subtopicId: "S26-T1-A",
+        kind: "independent",
+        instruction:
+          "Cuenta edges en pares (a,b) de un path lineal de 3 nodos.",
+        hint: "len edges",
+        hints: [
+          "len edges",
+          "n-1",
+        ],
+        edgeCases: ["ciclos prohibidos"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `nodes=['a','b','c']
+# TODO edges
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `nodes=['a','b','c']
+edges=list(zip(nodes, nodes[1:]))
+print(len(edges), edges)`,
+          output: `2 [('a', 'b'), ('b', 'c')]`,
+        },
+      },
+      {
+        id: "S26-T1-A-E3",
+        subtopicId: "S26-T1-A",
+        kind: "transfer",
+        instruction:
+          "Estado global failed si algún task failed.",
+        hint: "any",
+        hints: [
+          "any",
+          "agregación",
+        ],
+        edgeCases: ["skipped vs failed"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `tasks={'a':'success','b':'failed'}
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `tasks={'a':'success','b':'failed'}
+print('failed' if any(v=='failed' for v in tasks.values()) else 'success')`,
+          output: `failed`,
+        },
+      },
+      {
+        id: "S26-T1-B-E1",
+        subtopicId: "S26-T1-B",
+        kind: "guided",
+        instruction:
+          "Imprime run_id de un dict metadata.",
+        hint: "index dict",
+        hints: [
+          "index dict",
+          "key",
+        ],
+        edgeCases: ["uuid en prod"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `m={'run_id':'cpn2c-1'}
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `m={'run_id':'cpn2c-1'}
+print(m['run_id'])`,
+          output: `cpn2c-1`,
+        },
+      },
+      {
+        id: "S26-T1-B-E2",
+        subtopicId: "S26-T1-B",
+        kind: "independent",
+        instruction:
+          "Si api_rpm>60 imprime 'too_high'.",
+        hint: "umbral",
+        hints: [
+          "umbral",
+          "límites",
+        ],
+        edgeCases: ["burst vs sustained"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `api_rpm=90
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `api_rpm=90
+print('too_high' if api_rpm>60 else 'ok')`,
+          output: `too_high`,
+        },
+      },
+      {
+        id: "S26-T1-B-E3",
+        subtopicId: "S26-T1-B",
+        kind: "transfer",
+        instruction:
+          "Schedule cron string '0 6 * * 1-5' e imprime tz America/Lima.",
+        hint: "constantes",
+        hints: [
+          "constantes",
+          "doc",
+        ],
+        edgeCases: ["DST"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('0 6 * * 1-5', 'America/Lima')`,
+          output: `0 6 * * 1-5 America/Lima`,
+        },
+      },
+      {
+        id: "S26-T2-A-E1",
+        subtopicId: "S26-T2-A",
+        kind: "guided",
+        instruction:
+          "backoff ms: base*2**(attempt-1) para attempt=3 base=100.",
+        hint: "exponencial",
+        hints: [
+          "exponencial",
+          "print",
+        ],
+        edgeCases: ["cap"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `attempt, base = 3, 100
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `attempt, base = 3, 100
+print(base * (2 ** (attempt - 1)))`,
+          output: `400`,
+        },
+      },
+      {
+        id: "S26-T2-A-E2",
+        subtopicId: "S26-T2-A",
+        kind: "independent",
+        instruction:
+          "Añade 'x' a dlq si falla; imprime dlq.",
+        hint: "lista",
+        hints: [
+          "lista",
+          "append",
+        ],
+        edgeCases: ["owner DLQ"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `dlq=[]
+fail=True
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `dlq=[]
+fail=True
+if fail:
+    dlq.append('x')
+print(dlq)`,
+          output: `['x']`,
+        },
+      },
+      {
+        id: "S26-T2-A-E3",
+        subtopicId: "S26-T2-A",
+        kind: "transfer",
+        instruction:
+          "Checkpoint set: no reproceses ids ya en ckpt.",
+        hint: "set membership",
+        hints: [
+          "set membership",
+          "skip",
+        ],
+        edgeCases: ["persistencia"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `ckpt={'a'}; items=['a','b']
+# TODO print to_process
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `ckpt={'a'}; items=['a','b']
+print([i for i in items if i not in ckpt])`,
+          output: `['b']`,
+        },
+      },
+      {
+        id: "S26-T2-B-E1",
+        subtopicId: "S26-T2-B",
+        kind: "guided",
+        instruction:
+          "Idempotent write: segunda vez no cambia valor.",
+        hint: "if key not in",
+        hints: [
+          "if key not in",
+          "store",
+        ],
+        edgeCases: ["upsert versioned"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `store={}
+
+def put(k,v):
+    # TODO only if missing
+    pass
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `store={}
+
+def put(k,v):
+    if k not in store:
+        store[k]=v
+put('r','v1'); put('r','v2')
+print(store['r'])`,
+          output: `v1`,
+        },
+      },
+      {
+        id: "S26-T2-B-E2",
+        subtopicId: "S26-T2-B",
+        kind: "independent",
+        instruction:
+          "Rollback: borra draft key del state.",
+        hint: "pop",
+        hints: [
+          "pop",
+          "dict",
+        ],
+        edgeCases: ["compensar side effects"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `state={'report':'ok','draft':'ok'}
+# TODO
+print(state)`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `state={'report':'ok','draft':'ok'}
+state.pop('draft', None)
+print(state)`,
+          output: `{'report': 'ok'}`,
+        },
+      },
+      {
+        id: "S26-T2-B-E3",
+        subtopicId: "S26-T2-B",
+        kind: "transfer",
+        instruction:
+          "Lock: si locked True no entres; imprime 'busy'/'enter'.",
+        hint: "flag",
+        hints: [
+          "flag",
+          "concurrencia",
+        ],
+        edgeCases: ["ttl del lock"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `locked=True
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `locked=True
+print('busy' if locked else 'enter')`,
+          output: `busy`,
+        },
+      },
+      {
+        id: "S26-T3-A-E1",
+        subtopicId: "S26-T3-A",
+        kind: "guided",
+        instruction:
+          "Cuenta pending en cola analysis.",
+        hint: "sum",
+        hints: [
+          "sum",
+          "status",
+        ],
+        edgeCases: ["done vs approved"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `analysis=[{'status':'pending'},{'status':'done'}]
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `analysis=[{'status':'pending'},{'status':'done'}]
+print(sum(1 for x in analysis if x['status']=='pending'))`,
+          output: `1`,
+        },
+      },
+      {
+        id: "S26-T3-A-E2",
+        subtopicId: "S26-T3-A",
+        kind: "independent",
+        instruction:
+          "blocked si alguna cola >0.",
+        hint: "any",
+        hints: [
+          "any",
+          "values",
+        ],
+        edgeCases: ["triple gate"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `q={'analysis':1,'report':0,'recipient':0}
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `q={'analysis':1,'report':0,'recipient':0}
+print(any(v>0 for v in q.values()))`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S26-T3-A-E3",
+        subtopicId: "S26-T3-A",
+        kind: "transfer",
+        instruction:
+          "Imprime checklist mínima ['metrics','narrative','recipient'].",
+        hint: "lista",
+        hints: [
+          "lista",
+          "gate",
+        ],
+        edgeCases: ["evidencia adjunta"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['metrics','narrative','recipient'])`,
+          output: `['metrics', 'narrative', 'recipient']`,
+        },
+      },
+      {
+        id: "S26-T3-B-E1",
+        subtopicId: "S26-T3-B",
+        kind: "guided",
+        instruction:
+          "Registra action approve con actor.",
+        hint: "append dict",
+        hints: [
+          "append dict",
+          "audit",
+        ],
+        edgeCases: ["timestamp"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `audit=[]
+# TODO
+print(audit)`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `audit=[]
+audit.append({'action':'approve','actor':'rev'})
+print(audit[0]['action'])`,
+          output: `approve`,
+        },
+      },
+      {
+        id: "S26-T3-B-E2",
+        subtopicId: "S26-T3-B",
+        kind: "independent",
+        instruction:
+          "Reject sin reason → 'invalid'.",
+        hint: "guard reason",
+        hints: [
+          "guard reason",
+          "None",
+        ],
+        edgeCases: ["reason codes"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `action, reason = 'reject', None
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `action, reason = 'reject', None
+print('invalid' if action=='reject' and not reason else 'ok')`,
+          output: `invalid`,
+        },
+      },
+      {
+        id: "S26-T3-B-E3",
+        subtopicId: "S26-T3-B",
+        kind: "transfer",
+        instruction:
+          "Edit incrementa version de 1 a 2.",
+        hint: "version++",
+        hints: [
+          "version++",
+          "artefacto",
+        ],
+        edgeCases: ["diff store"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `ver=1
+# TODO edit
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `ver=1
+ver += 1
+print(ver)`,
+          output: `2`,
+        },
+      },
+      {
+        id: "S26-T4-A-E1",
+        subtopicId: "S26-T4-A",
+        kind: "guided",
+        instruction:
+          "Alert si success_rate < 0.95.",
+        hint: "comparación",
+        hints: [
+          "comparación",
+          "slo",
+        ],
+        edgeCases: ["ventana 7d"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `rate=0.9
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `rate=0.9
+print('alert' if rate < 0.95 else 'ok')`,
+          output: `alert`,
+        },
+      },
+      {
+        id: "S26-T4-A-E2",
+        subtopicId: "S26-T4-A",
+        kind: "independent",
+        instruction:
+          "P0 si sends_without_approve>0.",
+        hint: "severidad",
+        hints: [
+          "severidad",
+          "security",
+        ],
+        edgeCases: ["sandbox misconfig"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `n=1
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `n=1
+print('P0_unapproved_send' if n>0 else 'ok')`,
+          output: `P0_unapproved_send`,
+        },
+      },
+      {
+        id: "S26-T4-A-E3",
+        subtopicId: "S26-T4-A",
+        kind: "transfer",
+        instruction:
+          "Runbook one-liner: disable_schedule → drain → page.",
+        hint: "string",
+        hints: [
+          "string",
+          "ops",
+        ],
+        edgeCases: ["oncall roster"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO print steps
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('disable_schedule -> drain -> page')`,
+          output: `disable_schedule -> drain -> page`,
+        },
+      },
+      {
+        id: "S26-T4-B-E1",
+        subtopicId: "S26-T4-B",
+        kind: "guided",
+        instruction:
+          "E2E: todos los steps en success; imprime True.",
+        hint: "all",
+        hints: [
+          "all",
+          "lista",
+        ],
+        edgeCases: ["fallo parcial"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `steps=['ingest','validate','draft']
+status={s:'success' for s in steps}
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `steps=['ingest','validate','draft']
+status={s:'success' for s in steps}
+print(all(status[s]=='success' for s in steps))`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S26-T4-B-E2",
+        subtopicId: "S26-T4-B",
+        kind: "independent",
+        instruction:
+          "fraud_labels debe ser 0 en el VP; imprime ok/fail.",
+        hint: "política",
+        hints: [
+          "política",
+          "assert blando",
+        ],
+        edgeCases: ["no auto-fraude"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `fraud_labels=0
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `fraud_labels=0
+print('ok' if fraud_labels==0 else 'fail')`,
+          output: `ok`,
+        },
+      },
+      {
+        id: "S26-T4-B-E3",
+        subtopicId: "S26-T4-B",
+        kind: "transfer",
+        instruction:
+          "Imprime notas de regresión N2: 'CP-N2-A/B/C critical+privacy' y valor estimado 45 min.",
+        hint: "dos prints o un dict",
+        hints: [
+          "dos prints o un dict",
+          "cierre",
+        ],
+        edgeCases: ["gate ≥80% no crítica; 0 fallas críticas"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print({'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est': 45, 'cf2': 'interfaces Familiarity-reporting-automation'})`,
+          output: `{'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est': 45, 'cf2': 'interfaces Familiarity-reporting-automation'}`,
         },
       },
     ],
   },
   youDo: {
-    title: 'AI-Powered Automation Platform',
-    context: 'ai-automation-platform — plataforma que integra todas las habilidades de Fase 1. Componentes: (1) Backend FastAPI (S21) API REST + WebSocket para datos en tiempo real; (2) RAG Chatbot (S20) con conocimiento del negocio sobre documentación; (3) Pipeline de Datos (S18-19) Prefect orquestando ingesta + transformación + almacenamiento; (4) CV Module (S23) endpoint de análisis de imágenes con YOLO; (5) Entity Resolution (S22) endpoint para deduplicar registros de clientes con RapidFuzz; (6) RPA Bot (S24) que automáticamente recolecta datos nuevos diariamente; (7) Dashboard (S25) Streamlit frontend que visualiza todo. Entregables: repositorio GitHub con README arquitectural (Mermaid diagram), Docker Compose con todos los servicios, tests de integración para cada módulo, demo video de 3-5 minutos mostrando el sistema en acción.',
+    title: "VP RPA + AI Analyst — cierre CP-N2-C + notas regresión N2",
+    context:
+      "Orquesta el VP sintético de punta a punta: ingest→validate→analyze→ai→report→approve→draft_email. Incluye checkpoint/DLQ, triple cola HITL, audit, SLO y un checklist de **regresión N2** (tests críticos CP-N2-A/B/C, E2E S14–S26, privacidad/seguridad, CF-2 interfaces). No envíes correo real; fraud_labels=0; matching no implica fraude. Esta entrega no marca section_passed ni escribe ledger.",
     objectives: [
-      'Aplicar los conceptos aprendidos en un proyecto real',
-      'Demostrar dominio del tema con un entregable de portafolio',
-      'Documentar el proceso y los resultados',
+      "DAG ejecutable con estados y metadata de run",
+      "Resiliencia: checkpoint, retry/backoff, DLQ, rollback",
+      "HITL: revisión análisis/reporte/destinatario + audit approve/reject/edit",
+      "Operación: SLO/alerts/runbook + E2E con costo/valor",
+      "Documentar notas de regresión N2 y CF-2 en el portafolio",
     ],
     requirements: [
-      'Código funcional y documentado',
-      'Tests que validen el funcionamiento',
-      'README con instrucciones de uso',
+      "Datos sintéticos only; sin secretos",
+      "Cero envíos sin approve (y de hecho cero envíos reales)",
+      "fraud_labels auto = 0",
+      "Evidencia por estado del pipeline",
+      "Notas de regresión N2 y CF-2 en You Do / README del proyecto",
+      "es-PE en runbook y mensajes de UI",
     ],
-    portfolioNote: 'Este proyecto es ideal para mostrar en entrevistas técnicas y agregar a tu portafolio de GitHub.',
+    starterCode: `# VP RPA + AI Analyst — esqueleto de cierre CP-N2-C
+STEPS = ["ingest", "validate", "analyze", "ai_assist", "report", "approve", "draft_email"]
+state = {s: "pending" for s in STEPS}
+audit = []
+# TODO: ejecutar en orden, HITL gates, draft, e2e evidence, n2 regression notes
+print("TODO VP", STEPS)
+print("n2_regression", "re-run critical CP-N2-A/B/C + privacy + CF-2 contracts")
+`,
+    portfolioNote:
+      "Paquete de cierre CP-N2-C: pipeline con evidencia, HITL y draft sandbox. Incluye sección de **regresión N2** (S14–S26) y **CF-2**. Otra lane califica PASS; no editar checkpoint/ledger desde autoría de contenido.",
     rubric: [
-      { criterion: 'Funcionalidad', weight: '40%' },
-      { criterion: 'Calidad de código', weight: '20%' },
-      { criterion: 'Documentación', weight: '20%' },
-      { criterion: 'Tests', weight: '20%' },
+      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
+      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
+      { criterion: "Privacidad / sin PII real / sin secretos / sin inferencia de fraude", weight: "20%" },
+      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
+      { criterion: "Código legible y límites claros", weight: "10%" },
+      { criterion: "Documentación en español profesional", weight: "10%" },
+      { criterion: "Notas de regresión N2 y CF-2 presentes y accionables", weight: "bonus checklist" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: 'En un proyecto integrador, ¿cuál es el propósito principal de combinar múltiples tecnologías (FastAPI + ML + RAG + Docker)?',
+        question: "El orden draft_email respecto a approve es:",
         options: [
-          'Demostrar que puedes construir un sistema end-to-end que resuelve un problema real — el diferenciador #1 en entrevistas Senior es mostrar arquitectura completa, no snippets aislados',
-          'Usar tantas tecnologías como sea posible para impresionar',
-          'Cumplir con requisitos de un curso',
-          'Aprender una tecnología nueva por proyecto',
+          "Draft antes de approve",
+          "Approve antes de draft_email",
+          "En paralelo sin gate",
+          "Solo schedule",
         ],
-        correctIndex: 0,
-        explanation: 'Un proyecto integrador demuestra que puedes conectar componentes: API (FastAPI) sirve predicciones de un modelo (ML), que consulta un knowledge base (RAG), todo containerizado (Docker). Esto muestra arquitectura de sistemas — la skill que diferencia Senior de Mid-level. Los reclutadores buscan proyectos que resuelvan problemas reales end-to-end.',
+        correctIndex: 1,
+        explanation:
+          "Aprobación humana precede al borrador final.",
       },
       {
-        question: '¿Qué incluye un README de un proyecto integrador de nivel profesional?',
+        question: "La regresión N2 incluye:",
         options: [
-          'Descripción del problema, arquitectura (diagrama), instrucciones de instalación, uso, tests, y screenshots/demo del funcionamiento',
-          'Solo el nombre del proyecto y el nombre del autor',
-          'El código fuente completo sin explicación',
-          'Una lista de dependencias sin instrucciones de uso',
+          "Solo un print",
+          "Tests críticos de capstones N2, E2E y controles de privacidad/seguridad",
+          "Borrar S14",
+          "Marcar passed sin tests",
         ],
-        correctIndex: 0,
-        explanation: 'Un README profesional incluye: (1) qué problema resuelve, (2) arquitectura con diagrama, (3) "docker-compose up" para levantar todo, (4) cómo usar la API con ejemplos curl, (5) tests con "pytest", (6) screenshots o GIF de la app funcionando. Sin esto, tu proyecto parece incompleto. Los reclutadores pasan <30s revisando un repo.',
+        correctIndex: 1,
+        explanation:
+          "Definición de regresión de nivel en el roadmap V3.",
       },
       {
-        question: '¿Por qué es importante incluir tests en un proyecto integrador?',
+        question: "Un send sin approve es:",
         options: [
-          'Porque demuestra madurez profesional — un proyecto sin tests es un prototype, no un producto. Tests también documentan el comportamiento esperado y previenen regresiones',
-          'Porque es obligatorio para que el código compile',
-          'Porque los tests aceleran la ejecución del código',
-          'Porque sin tests no se puede desplegar en Docker',
+          "Warning menor",
+          "Incidente P0",
+          "OK en sandbox siempre",
+          "Ignorable",
         ],
-        correctIndex: 0,
-        explanation: 'Tests en un proyecto integrador demuestran: (1) sabes testing profesional, (2) tu código funciona como dices, (3) futuros cambios no rompen nada. Incluye: unit tests (pytest), integration tests (API endpoints), y opcionalmente E2E tests (Playwright). Un repo con badge "tests passing" genera confianza inmediata en entrevistas.',
+        correctIndex: 1,
+        explanation:
+          "Cero envíos sin approve es SLO de seguridad.",
       },
       {
-        question: '¿Qué es un diagrama de arquitectura y por qué es esencial en un proyecto integrador?',
+        question: "fraud_labels automáticos en el VP deben ser:",
         options: [
-          'Una representación visual de los componentes del sistema y cómo se comunican — aclara el diseño a stakeholders y demuestra que entiendes el sistema completo',
-          'Un diagrama UML de clases',
-          'Un esquema de base de datos',
-          'Un mapa de sitio web',
+          "Maximizados",
+          "0 — solo evidencia para humanos",
+          "Igual al score de matching",
+          "Exportados a prensa",
         ],
-        correctIndex: 0,
-        explanation: 'Un diagrama de arquitectura muestra: API (FastAPI) → DB (PostgreSQL) → Model (ML) → Cache (Redis) → Frontend (Streamlit). Herramientas: draw.io, Excalidraw, o Mermaid en el README. El diagrama demuestra que piensas en sistemas, no solo en código. Es lo primero que mira un entrevistador Senior.',
-      },
-      {
-        question: '¿Cuál es la mejor estrategia para presentar un proyecto integrador en una entrevista?',
-        options: [
-          'Demo en vivo (deploy funcionando) + explicación del problema + decisiones técnicas + métricas de impacto + lecciones aprendidas — en 5-10 minutos',
-          'Mostrar todo el código línea por línea',
-          'Leer el README en voz alta',
-          'Solo mencionar que existe sin mostrar evidencia',
-        ],
-        correctIndex: 0,
-        explanation: 'La mejor presentación: (1) "Este proyecto resuelve X problema", (2) demo en vivo (URL o screenshot), (3) "Usé FastAPI porque...", (4) "El modelo logró 87% AUC", (5) "Lo más difícil fue...". 5-10 minutos máximo. Los entrevistadores quieren ver que puedes comunicar decisiones técnicas, no que memorizaste código.',
+        correctIndex: 1,
+        explanation:
+          "Matching/score ≠ fraude.",
       },
     ],
   },
   resources: {
     docs: [
-      { label: 'Documentación oficial', url: 'https://docs.python.org/3/' },
+      {
+        label: "Prefect concepts (flows/tasks)",
+        url: "https://docs.prefect.io/",
+        note: "Orquestación conceptual",
+      },
+      {
+        label: "SRE Workbook — SLOs",
+        url: "https://sre.google/workbook/implementing-slos/",
+        note: "SLO y alerts",
+      },
     ],
     books: [
-      { label: 'Python 201 — Michael Driscoll', note: 'Capítulos relevantes para esta sección' },
+      {
+        label: "Release It! (Nygard)",
+        note: "Estabilidad, DLQ, rollback",
+      },
+      {
+        label: "Site Reliability Engineering (Google)",
+        note: "Runbooks y error budgets",
+      },
     ],
     courses: [
-      { label: 'Real Python', url: 'https://realpython.com', note: 'Tutoriales complementarios' },
+      {
+        label: "Pipeline orchestration patterns",
+        url: "https://docs.prefect.io/v3/concepts/flows",
+        note: "Flows y estados",
+      },
     ],
   },
 }

@@ -1,0 +1,87 @@
+{
+  "id": "CP-N3-C",
+  "gate_section": "S39",
+  "name": "Responsible ML Case Triage",
+  "level": 3,
+  "acceptance_criteria": [
+    "Baseline + modelo simple con calibración/proxy de confianza.",
+    "Umbral de decisión y banda de abstención (human review).",
+    "Model card con intended use, limitations y fairness notes.",
+    "Monitoreo sintético (drift proxy o tasa de abstención).",
+    "NO clasifica fraude real; labels sintéticos de triage operativo."
+  ],
+  "rubric_0_3": {
+    "correctness": {
+      "weight_hint": 0.35,
+      "scale": "0-3",
+      "levels": {
+        "0": "No cumple el comportamiento principal.",
+        "1": "Parcial; fallas en casos normales.",
+        "2": "Cumple casos normales; bordes incompletos.",
+        "3": "Correcto en normal, borde y error documentado."
+      },
+      "focus": "Métricas baseline vs modelo reportadas con honestidad."
+    },
+    "robustness": {
+      "weight_hint": 0.2,
+      "scale": "0-3",
+      "levels": {
+        "0": "Crashea ante entradas imperfectas.",
+        "1": "Algunos bordes cubiertos.",
+        "2": "Bordes y errores no críticos manejados.",
+        "3": "Resiliente y con mensajes accionables."
+      },
+      "focus": "Abstención ante baja confianza."
+    },
+    "maintainability": {
+      "weight_hint": 0.25,
+      "scale": "0-3",
+      "levels": {
+        "0": "Monolito opaco.",
+        "1": "Estructura mínima.",
+        "2": "Módulos/funciones claros y legibles.",
+        "3": "Diseño limpio, testeable y documentado."
+      },
+      "focus": "Pipeline de score → umbral → acción claro."
+    },
+    "responsible_use": {
+      "weight_hint": 0.2,
+      "scale": "0-3",
+      "levels": {
+        "0": "Riesgo ético/privacidad no abordado.",
+        "1": "Menciones superficiales.",
+        "2": "Controles y límites presentes.",
+        "3": "Controles, límites y comunicación impecables."
+      },
+      "focus": "Model card obligatorio; sin claims indebidos."
+    },
+    "gate_rule": "Promedio ponderado conceptual ≥ 2.4/3 y ningún criterio crítico < 2; cero P0 de seguridad/privacidad/fraude-inference."
+  },
+  "dependencies": [
+    "CP-N3-A",
+    "CP-N3-B",
+    "S35",
+    "S36",
+    "S37",
+    "S38",
+    "S39"
+  ],
+  "wow_factor_definition": "Triage ML responsable con abstención, model card y métricas de monitoreo — demo ética lista para gate N3.",
+  "scoring_weights_reference": {
+    "correctness": 0.35,
+    "edge_cases_data": 0.2,
+    "tests": 0.15,
+    "design": 0.1,
+    "reproducibility": 0.1,
+    "communication_limits": 0.1,
+    "pass_threshold": 0.8
+  },
+  "prohibitions": [
+    "No real PII",
+    "No fraud inference as automatic decision",
+    "No hardcoded production secrets",
+    "Synthetic or legally reusable data only"
+  ],
+  "package_version": "1.0.0",
+  "generated_at": "2026-07-20T14:53:43Z"
+}

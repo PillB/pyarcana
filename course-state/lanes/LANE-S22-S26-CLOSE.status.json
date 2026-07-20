@@ -1,0 +1,244 @@
+{
+  "lane_id": "LANE-S22-S26-CLOSE",
+  "status": "completed",
+  "phase": "PHASE_5_EXAM_BANK + PHASE_6_VALIDATION",
+  "generated_at": "2026-07-20T23:30:00Z",
+  "prompt_version": "3.2",
+  "scope": [
+    "S22",
+    "S23",
+    "S24",
+    "S25",
+    "S26"
+  ],
+  "phase5": {
+    "rapidfuzz-entity": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s22_phase5_exam_bank.json",
+      "concept_slugs": [
+        "mime-encoding-html-attachments",
+        "templates-sanitization",
+        "oauth-service-account-scopes",
+        "drafts-expiry-adapters",
+        "resolve-verify-recipients",
+        "lists-cc-bcc-privacy-min",
+        "approval-queue-state-machine",
+        "idempotency-audit-retry"
+      ],
+      "title_v3": "Email, identidad y aprobación humana"
+    },
+    "computer-vision": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s23_phase5_exam_bank.json",
+      "concept_slugs": [
+        "dom-user-locators",
+        "auto-waiting-assertions",
+        "forms-upload-download-sessions",
+        "auth-states-page-objects",
+        "trace-screenshot-logs",
+        "robust-selectors-retries-recovery",
+        "api-export-first",
+        "tos-captcha-desktop-human"
+      ],
+      "title_v3": "Browser RPA con Playwright"
+    },
+    "rpa-advanced": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s24_phase5_exam_bank.json",
+      "concept_slugs": [
+        "dpi-deskew-crop-contrast",
+        "noise-orientation",
+        "langs-layout-confidence",
+        "text-tables-kv-pairs",
+        "schema-normalization",
+        "crossfield-validation-review",
+        "golden-field-accuracy-coverage",
+        "privacy-hostile-fallback"
+      ],
+      "title_v3": "OCR y Document AI"
+    },
+    "streamlit-dashboards": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s25_phase5_exam_bank.json",
+      "concept_slugs": [
+        "rule-vs-specialized-vs-llm",
+        "model-cards-licenses-local-cloud",
+        "hf-pipelines-endpoints",
+        "batch-timeout-cache-cost-fallback",
+        "objective-context-constraints-examples",
+        "glm-thinking-tools-checkpoints",
+        "golden-schema-human-review",
+        "injection-exfil-bias-minimize"
+      ],
+      "title_v3": "Endpoints de IA, Hugging Face y prompting evaluado"
+    },
+    "integrator-phase1": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s26_phase5_exam_bank.json",
+      "concept_slugs": [
+        "tasks-flows-dag-states",
+        "limits-metadata-schedules",
+        "checkpoints-retry-backoff-dlq",
+        "idempotency-concurrency-rollback",
+        "review-analysis-report-recipient",
+        "approve-reject-edit-audit",
+        "slo-alerts-runbook",
+        "e2e-security-cost-value"
+      ],
+      "title_v3": "Orquestación y VP RPA + AI Analyst"
+    }
+  },
+  "phase6": {
+    "S22": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s22_phase6_validation.json"
+    },
+    "S23": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s23_phase6_validation.json"
+    },
+    "S24": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s24_phase6_validation.json"
+    },
+    "S25": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s25_phase6_validation.json"
+    },
+    "S26": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s26_phase6_validation.json"
+    }
+  },
+  "sections_authorized_to_close": [
+    "S22",
+    "S23",
+    "S24",
+    "S25",
+    "S26"
+  ],
+  "sections_blocked": [],
+  "pass_fail_table": [
+    {
+      "section": "S22",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S23",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S24",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S25",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S26",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    }
+  ],
+  "privacy_note": "Matching/resolución de entidades y scores fuzzy no implican fraude, parentesco ni colusión.",
+  "files_changed": [
+    "prisma/seed.ts",
+    "course-state/s22_phase5_exam_bank.json",
+    "course-state/s23_phase5_exam_bank.json",
+    "course-state/s24_phase5_exam_bank.json",
+    "course-state/s25_phase5_exam_bank.json",
+    "course-state/s26_phase5_exam_bank.json",
+    "course-state/s22_phase6_validation.json",
+    "course-state/s23_phase6_validation.json",
+    "course-state/s24_phase6_validation.json",
+    "course-state/s25_phase6_validation.json",
+    "course-state/s26_phase6_validation.json",
+    "course-state/lanes/LANE-S22-S26-CLOSE.status.json"
+  ],
+  "files_not_edited": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json"
+  ],
+  "next_action": "Orchestrator: merge authorized S22–S26 into checkpoint/section_ledger; db:seed updated banks."
+}

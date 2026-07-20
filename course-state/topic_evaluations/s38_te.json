@@ -1,0 +1,171 @@
+{
+  "version": "3.2",
+  "section": "S38",
+  "section_id": "performance-extreme",
+  "section_title": "Concurrencia, observabilidad y workflows resilientes",
+  "artifact": "topic_evaluations",
+  "platform_note": "Paquetes TE V3 (4 por sección). Datos estructurados para render TopicEvaluation; CourseSection.topicEvaluations es opcional.",
+  "generated_at": "2026-07-20T14:52:23Z",
+  "rubric_scale": "0-3 per criterion",
+  "language": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_principle": "Coincidir en apellido, teléfono, email, dirección, distancia o transacciones es evidencia para revisión, no prueba de parentesco, colusión o fraude.",
+  "topic_evaluations": [
+    {
+      "id": "S38-T1-TE",
+      "topic_id": "S38-T1",
+      "title": "Evaluación formativa — Concurrencia",
+      "subtopics_covered": [
+        "S38-T1-A",
+        "S38-T1-B"
+      ],
+      "topic_summary": "threads/processes/async; I/O vs CPU, GIL y serialización.",
+      "tasks": [
+        {
+          "id": "S38-T1-TE-1",
+          "title": "Tarea auténtica — Concurrencia: threads/processes/async",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: threads/processes/async. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S38, tema T1. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S38-T1-TE-2",
+          "title": "Tarea auténtica — Concurrencia: I/O vs CPU, GIL y serialización",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: I/O vs CPU, GIL y serialización. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S38, tema T1. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Concurrencia» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S38-T2-TE",
+      "topic_id": "S38-T2",
+      "title": "Evaluación formativa — Control",
+      "subtopics_covered": [
+        "S38-T2-A",
+        "S38-T2-B"
+      ],
+      "topic_summary": "pools, backpressure y rate limits; cancelación, timeout y recursos.",
+      "tasks": [
+        {
+          "id": "S38-T2-TE-1",
+          "title": "Tarea auténtica — Control: pools, backpressure y rate limits",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: pools, backpressure y rate limits. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S38, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S38-T2-TE-2",
+          "title": "Tarea auténtica — Control: cancelación, timeout y recursos",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: cancelación, timeout y recursos. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S38, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Control» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S38-T3-TE",
+      "topic_id": "S38-T3",
+      "title": "Evaluación formativa — Observabilidad",
+      "subtopics_covered": [
+        "S38-T3-A",
+        "S38-T3-B"
+      ],
+      "topic_summary": "logs, metrics y traces; correlation, redacción y SLI/SLO.",
+      "tasks": [
+        {
+          "id": "S38-T3-TE-1",
+          "title": "Tarea auténtica — Observabilidad: logs, metrics y traces",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: logs, metrics y traces. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S38, tema T3. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S38-T3-TE-2",
+          "title": "Tarea auténtica — Observabilidad: correlation, redacción y SLI/SLO",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: correlation, redacción y SLI/SLO. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S38, tema T3. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Observabilidad» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S38-T4-TE",
+      "topic_id": "S38-T4",
+      "title": "Evaluación formativa — Resiliencia",
+      "subtopics_covered": [
+        "S38-T4-A",
+        "S38-T4-B"
+      ],
+      "topic_summary": "states, checkpoint y idempotencia; retry, dead-letter, replay y runbook.",
+      "tasks": [
+        {
+          "id": "S38-T4-TE-1",
+          "title": "Tarea auténtica — Resiliencia: states, checkpoint y idempotencia",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: states, checkpoint y idempotencia. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S38, tema T4. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S38-T4-TE-2",
+          "title": "Tarea auténtica — Resiliencia: retry, dead-letter, replay y runbook",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: retry, dead-letter, replay y runbook. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S38, tema T4. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Resiliencia» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    }
+  ],
+  "counts": {
+    "topic_evaluations": 4,
+    "tasks": 8
+  }
+}

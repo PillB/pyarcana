@@ -1,0 +1,11 @@
+{
+  "id": "CP-N1-A",
+  "status": "pass",
+  "exit_code": 0,
+  "stdout": "METRICS_JSON: {\"capstone_id\": \"CP-N1-A\", \"status\": \"pass\", \"n_total\": 6, \"n_ok\": 2, \"n_warn\": 1, \"n_error\": 3, \"error_rate\": 0.5, \"results\": [{\"id\": \"C001\", \"status\": \"ok\"}, {\"id\": \"C002\", \"status\": \"error\"}, {\"id\": \"C003\", \"status\": \"error\"}, {\"id\": \"C004\", \"status\": \"warn\"}, {\"id\": \"C005\", \"status\": \"ok\"}, {\"id\": null, \"status\": \"error\"}]}\nCP-N1-A demo OK — error_rate=50.00%\n",
+  "stderr": "",
+  "command": "python3 demo.py",
+  "cwd": "course-state/capstones/CP-N1-A",
+  "executed_at": "2026-07-20T14:53:43Z",
+  "python": "3.9.6"
+}

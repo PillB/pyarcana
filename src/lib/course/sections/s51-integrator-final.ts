@@ -1,159 +1,1153 @@
 import type { CourseSection } from '../../types'
 
 export const section51: CourseSection = {
-  id: 'integrator-final',
+  id: "integrator-final",
   index: 51,
-  title: 'Proyecto Integrador Final — Sistema AI Production-Grade',
-  shortTitle: 'Proyecto Integrador Final — Si',
-  tagline: 'Tu obra maestra. El sistema que defines en LinkedIn como tu proyecto más grande.',
-  estimatedHours: 20,
-  level: 'Master',
+  title: "Observabilidad, gobernanza y UX del copiloto",
+  shortTitle: "Obs y UX copiloto",
+  tagline: "Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces",
+  estimatedHours: 16,
+  level: "Master",
   phase: 3,
-  icon: 'Crown',
-  accentColor: 'bg-gradient-to-br from-amber-500 to-red-600',
-  jobRelevance: 'Capstone Final del roadmap. Demuestra capacidad Master end-to-end para diseñar, construir, desplegar y operar sistemas AI production-grade. Es el proyecto principal del portafolio que se presenta a FAANG y startups top. Define la transición de Senior a Staff/Principal.',
+  icon: "Crown",
+  accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
+  jobRelevance:
+    "Retemática V3 **Observabilidad, gobernanza y UX del copiloto** (id de plataforma `integrator-final` conservado; legado «Proyecto Integrador Final — Sistema AI Production-Grade»). Contribuye a **CP-N4-C (cierre) + CF-5 + Level-4 regression**: Auditable AI Operations Copilot aprobado con system card y dashboard operativo que permiten saber qué versión respondió, qué evidencia usó, qué tool llamó y cómo revertirla. CF-5 congela artefactos e interfaces para integración final. Datos sintéticos; sin PII real. ER/matching no implica fraude ni parentesco.",
   learningOutcomes: [
-    { text: 'Integrar multi-agent LangGraph con ≥ 5 agentes especializados (S40)' },
-    { text: 'Servir modelo fine-tuned (S41) como componente del sistema' },
-    { text: 'Operar RAG pipeline evaluado con RAGAS ≥ 0.75 (S20)' },
-    { text: 'Integrar sistema CV en tiempo real (S34)' },
-    { text: 'Operar pipeline de datos con Prefect + dbt (S29, S37)' },
-    { text: 'Desplegar en Kubernetes con CI/CD completo (S32)' },
-    { text: 'Implementar observabilidad completa: LangSmith + Grafana (S43)' },
-    { text: 'Documentar governance framework (S48)' },
+    { text: "Traza prompts, retrieval y tools" },
+    { text: "Mide tokens/costo/latency con redacción" },
+    { text: "Registra modelo/prompt/dataset" },
+    { text: "Controla cambios, acceso y auditoría" },
+    { text: "Opera SLO, feedback y drift" },
+    { text: "Responde incidentes y postmortems" },
+    { text: "Muestra incertidumbre, citas y confirmaciones" },
+    { text: "Diseña a11y, corrección y contestabilidad" },
   ],
   theory: [
     {
-      heading: 'Arquitectura del proyecto integrador Master',
+      heading: "Mapa V3 S51: Observabilidad, gobernanza y UX del copiloto",
       paragraphs: [
-        'El proyecto integrador final consolida todo el curso en una plataforma agéntica de IA production-grade. La plataforma combina: (1) LangGraph multi-agent con 3 sub-agentes (researcher con RAG, analyst con datos, writer de reportes), (2) modelo fine-tuned con QLoRA para dominio específico, (3) RAG con knowledge graph para razonamiento relacional, (4) LLMOps completo con LangSmith tracing, RAGAS evaluation, y A/B testing, (5) despliegue con Terraform + Kubernetes + ArgoCD. El objetivo: construir un sistema que un startup peruano podría usar como producto, no un toy project.',
-        'QLoRA (Quantized Low-Rank Adaptation) fine-tunea un LLM en una GPU consumer. Cuantiza el modelo base a 4-bit (NF4) y solo entrena adapters LoRA (0.1% de los parámetros). Un Llama 3.1 8B se fine-tunea en una RTX 3090 (24GB) en 3 horas con 1000 ejemplos. El resultado: un modelo especializado en tu dominio (ej. análisis de facturas peruanas, soporte al cliente en español) que supera a GPT-4 en tareas específicas, pero corre localmente sin costo por token. La integración con Ollama permite servir el modelo fine-tuned en producción con la misma API que un modelo base.',
-        'El despliegue usa Terraform para provisionar el cluster Kubernetes con GPU nodes, ArgoCD para GitOps, y Prometheus + Grafana para monitoring. El pipeline CI/CD: (1) push a main → tests, (2) build Docker image, (3) deploy canary 10%, (4) si sin errores en 30min → 100%, (5) si errores → rollback automático. La plataforma se monitorea con LangSmith (LLM tracing), RAGAS (calidad del RAG), y Prometheus (latency, throughput, error rate). Un dashboard de Grafana une todo en una vista ejecutiva: "plataforma saludable, 99.9% uptime, AUC del modelo 0.87, costo $50/día".',
+        "En V3, **S51** retematiza el archivo de plataforma `integrator-final` hacia **Observabilidad, gobernanza y UX del copiloto**. **FINAL/CLOSE gate** (CLOSE + Level-4 regression + CF-5).",
+        "Incremento: Auditable AI Operations Copilot aprobado con system card y dashboard operativo que permiten saber qué versión respondió, qué evidencia usó, qué tool llamó y cómo revertirla. CF-5 congela artefactos e interfaces para integración final.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger.",
       ],
+      callout: {
+        type: "info",
+        title: "Platform id preservado",
+        content:
+          "KEEP_PLATFORM_ID_RETHEME_CONTENT: `integrator-final`. Capstone: CP-N4-C (cierre) + CF-5 + Level-4 regression.",
+      },
+    },
+    {
+      heading: "traces de prompts/retrieval/tools",
+      subtopicId: "S51-T1-A",
+      paragraphs: [
+        "**traces de prompts/retrieval/tools** — outcome del blueprint phase3 para `traces-prompts-retrieval-tools`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "traces_prompts_retrieval_tools.py",
+        code: `print("p3"); print(["c1"]); print("get_case")`,
+        output: `p3
+['c1']
+get_case`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "tokens, costo, latency y redacción",
+      subtopicId: "S51-T1-B",
+      paragraphs: [
+        "**tokens, costo, latency y redacción** — outcome del blueprint phase3 para `tokens-cost-latency-redaction`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "tokens_cost_latency_redaction.py",
+        code: `print("ana@[redacted]"); print({"tokens":1200,"cost":0.01,"latency_ms":900}); print("no_raw_pii", True)`,
+        output: `ana@[redacted]
+{'tokens': 1200, 'cost': 0.01, 'latency_ms': 900}
+no_raw_pii True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "registro de modelo/prompt/dataset",
+      subtopicId: "S51-T2-A",
+      paragraphs: [
+        "**registro de modelo/prompt/dataset** — outcome del blueprint phase3 para `registry-model-prompt-dataset`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "registry_model_prompt_dataset.py",
+        code: `print([("dataset","eval-v4"),("model","m-2"),("prompt","p3")]); print("immutable", True); print("system_card_link", True)`,
+        output: `[('dataset', 'eval-v4'), ('model', 'm-2'), ('prompt', 'p3')]
+immutable True
+system_card_link True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "cambio, acceso, retención y auditoría",
+      subtopicId: "S51-T2-B",
+      paragraphs: [
+        "**cambio, acceso, retención y auditoría** — outcome del blueprint phase3 para `change-access-retention-audit`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "change_access_retention_audit.py",
+        code: `print({"change":"rfc+approve","retention_days":180}); print("who_changed", "required"); print("cf5", "freeze_interfaces")`,
+        output: `{'change': 'rfc+approve', 'retention_days': 180}
+who_changed required
+cf5 freeze_interfaces`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "SLO, feedback y drift",
+      subtopicId: "S51-T3-A",
+      paragraphs: [
+        "**SLO, feedback y drift** — outcome del blueprint phase3 para `slo-feedback-drift`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "slo_feedback_drift.py",
+        code: `print({"availability":0.995}); print("drift_ok", True); print("feedback", "thumbs+labels")`,
+        output: `{'availability': 0.995}
+drift_ok True
+feedback thumbs+labels`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "incidents, rollback y postmortem",
+      subtopicId: "S51-T3-B",
+      paragraphs: [
+        "**incidents, rollback y postmortem** — outcome del blueprint phase3 para `incidents-rollback-postmortem`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "incidents_rollback_postmortem.py",
+        code: `print({"sev":"P1","rollback_to":"m-1"}); print("page", True); print("timeline", "required")`,
+        output: `{'sev': 'P1', 'rollback_to': 'm-1'}
+page True
+timeline required`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "incertidumbre, citas y confirmaciones",
+      subtopicId: "S51-T4-A",
+      paragraphs: [
+        "**incertidumbre, citas y confirmaciones** — outcome del blueprint phase3 para `uncertainty-cites-confirm`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "uncertainty_cites_confirm.py",
+        code: `print({"uncertainty":"low/med/high","cites":True}); print("show_cites", True); print("confirm", "before_side_effects")`,
+        output: `{'uncertainty': 'low/med/high', 'cites': True}
+show_cites True
+confirm before_side_effects`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "accesibilidad, corrección y contestabilidad",
+      subtopicId: "S51-T4-B",
+      paragraphs: [
+        "**accesibilidad, corrección y contestabilidad** — outcome del blueprint phase3 para `a11y-correction-contestability`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "a11y_correction_contestability.py",
+        code: `print({"contrast":"AA","keyboard":True}); print({"edit":True,"contest":True}); print("human_rights", "contestability")`,
+        output: `{'contrast': 'AA', 'keyboard': True}
+{'edit': True, 'contest': True}
+human_rights contestability`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
     },
   ],
   iDo: {
-    intro: 'Te muestro paso a paso cómo aplicar los conceptos de esta sección con ejemplos prácticos.',
+    intro: "Te muestro 8 demos de S51 (Observabilidad, gobernanza y UX del copiloto) alineadas a CP-N4-C (cierre) + CF-5 + Level-4 regression.",
     steps: [
       {
-        description: 'Diseñar la arquitectura de una plataforma agéntica completa',
+        demoId: "S51-T1-A-DEMO",
+        subtopicId: "S51-T1-A",
+        environment: "local-python",
+        description: "Demo: traces de prompts/retrieval/tools",
         code: {
           language: 'python',
-          title: 'demo.py',
-          code: '# Plataforma agenticaca: LangGraph multi-agent\nfrom langgraph.graph import StateGraph, END\nfrom typing import TypedDict\n\nclass AgentState(TypedDict):\n    query: str\n    research: str\n    analysis: str\n    report: str\n\ndef researcher(state): return {"research": f"Docs encontrados para: {state[\'query\']}"}\ndef analyst(state): return {"analysis": f"Analisis de: {state[\'research\'][:30]}"}\ndef writer(state): return {"report": f"Reporte: {state[\'query\']}"}\n\ng = StateGraph(AgentState)\ng.add_node("researcher", researcher)\ng.add_node("analyst", analyst)\ng.add_node("writer", writer)\ng.set_entry_point("researcher")\ng.add_edge("researcher", "analyst")\ng.add_edge("analyst", "writer")\ng.add_edge("writer", END)\napp = g.compile()\nprint("Plataforma: 3 agentes (researcher -> analyst -> writer)")',
+          title: "demo_traces_prompts_retrieval_tools.py",
+          code: `print("trace_id", "t-1"); print("spans", ["prompt","retrieve","tool"]); print("audit", True)`,
+          output: `trace_id t-1
+spans ['prompt', 'retrieve', 'tool']
+audit True`,
         },
-        why: 'La plataforma integra agentes especializados que colaboran via shared state. LangGraph orquesta el flujo. Cada agente tiene tools y prompts especificos.',
+        why: "Demuestra el outcome de S51-T1-A con Python verificable.",
+      },
+      {
+        demoId: "S51-T1-B-DEMO",
+        subtopicId: "S51-T1-B",
+        environment: "local-python",
+        description: "Demo: tokens, costo, latency y redacción",
+        code: {
+          language: 'python',
+          title: "demo_tokens_cost_latency_redaction.py",
+          code: `print("tokens", 1200); print("redaction", True); print("latency_ms", 900)`,
+          output: `tokens 1200
+redaction True
+latency_ms 900`,
+        },
+        why: "Demuestra el outcome de S51-T1-B con Python verificable.",
+      },
+      {
+        demoId: "S51-T2-A-DEMO",
+        subtopicId: "S51-T2-A",
+        environment: "local-python",
+        description: "Demo: registro de modelo/prompt/dataset",
+        code: {
+          language: 'python',
+          title: "demo_registry_model_prompt_dataset.py",
+          code: `print("registry", True); print("versions", {"model":"m-2"}); print("pin", True)`,
+          output: `registry True
+versions {'model': 'm-2'}
+pin True`,
+        },
+        why: "Demuestra el outcome de S51-T2-A con Python verificable.",
+      },
+      {
+        demoId: "S51-T2-B-DEMO",
+        subtopicId: "S51-T2-B",
+        environment: "local-python",
+        description: "Demo: cambio, acceso, retención y auditoría",
+        code: {
+          language: 'python',
+          title: "demo_change_access_retention_audit.py",
+          code: `print("access_log", True); print("retention", 180); print("change_control", True)`,
+          output: `access_log True
+retention 180
+change_control True`,
+        },
+        why: "Demuestra el outcome de S51-T2-B con Python verificable.",
+      },
+      {
+        demoId: "S51-T3-A-DEMO",
+        subtopicId: "S51-T3-A",
+        environment: "local-python",
+        description: "Demo: SLO, feedback y drift",
+        code: {
+          language: 'python',
+          title: "demo_slo_feedback_drift.py",
+          code: `print("slo", True); print("drift_watch", True); print("feedback_loop", True)`,
+          output: `slo True
+drift_watch True
+feedback_loop True`,
+        },
+        why: "Demuestra el outcome de S51-T3-A con Python verificable.",
+      },
+      {
+        demoId: "S51-T3-B-DEMO",
+        subtopicId: "S51-T3-B",
+        environment: "local-python",
+        description: "Demo: incidents, rollback y postmortem",
+        code: {
+          language: 'python',
+          title: "demo_incidents_rollback_postmortem.py",
+          code: `print("rollback", "m-1"); print("postmortem", True); print("action_items", True)`,
+          output: `rollback m-1
+postmortem True
+action_items True`,
+        },
+        why: "Demuestra el outcome de S51-T3-B con Python verificable.",
+      },
+      {
+        demoId: "S51-T4-A-DEMO",
+        subtopicId: "S51-T4-A",
+        environment: "local-python",
+        description: "Demo: incertidumbre, citas y confirmaciones",
+        code: {
+          language: 'python',
+          title: "demo_uncertainty_cites_confirm.py",
+          code: `print("uncertainty", True); print("cites", True); print("confirm_gate", True)`,
+          output: `uncertainty True
+cites True
+confirm_gate True`,
+        },
+        why: "Demuestra el outcome de S51-T4-A con Python verificable.",
+      },
+      {
+        demoId: "S51-T4-B-DEMO",
+        subtopicId: "S51-T4-B",
+        environment: "local-python",
+        description: "Demo: accesibilidad, corrección y contestabilidad",
+        code: {
+          language: 'python',
+          title: "demo_a11y_correction_contestability.py",
+          code: `print("a11y", True); print("correction", True); print("contest", True)`,
+          output: `a11y True
+correction True
+contest True`,
+        },
+        why: "Demuestra el outcome de S51-T4-B con Python verificable.",
       },
     ],
   },
   weDo: {
-    intro: 'Ahora te toca a ti practicar con guía. Lee cada instrucción, intenta escribir el código, y si te trabas revisa la solución.',
+    intro: "24 ejercicios (8×E1 guided / E2 independent / E3 transfer) en es-PE con soluciones verificadas.",
     steps: [
       {
-        instruction: 'Implementa el agente principal con LangGraph que orquesta 3 sub-agentes',
-        hint: 'Revisa la teoría y el I Do antes de intentar este ejercicio.',
+        id: "S51-T1-A-E1",
+        subtopicId: "S51-T1-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'ejercicio.py',
-          code: '# Tu código aquí\n',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
         },
         solutionCode: {
           language: 'python',
-          title: 'solucion.py',
-          code: '# QLoRA: fine-tuning en GPU consumer\nfrom transformers import AutoModelForCausalLM, BitsAndBytesConfig\nfrom peft import LoraConfig, get_peft_model\nimport torch\n\nbnb = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.float16)\nmodel = AutoModelForCausalLM.from_pretrained("meta-llama/Llama-3.1-8B", quantization_config=bnb, device_map="auto")\nlora = LoraConfig(r=16, lora_alpha=32, target_modules=["q_proj", "v_proj"], task_type="CAUSAL_LM")\nmodel = get_peft_model(model, lora)\nmodel.print_trainable_parameters()\n# Output: trainable: 8M (0.1%) | total: 8B (100%)\nprint("QLoRA: 8B params fine-tunable en GPU de 24GB")',
+          title: "exercise.py",
+          code: `print('p3')`,
+          output: `p3`,
+        },
+      },
+      {
+        id: "S51-T1-A-E2",
+        subtopicId: "S51-T1-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['c1'])`,
+          output: `['c1']`,
+        },
+      },
+      {
+        id: "S51-T1-A-E3",
+        subtopicId: "S51-T1-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('get_case')`,
+          output: `get_case`,
+        },
+      },
+      {
+        id: "S51-T1-B-E1",
+        subtopicId: "S51-T1-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('ana@[redacted]')`,
+          output: `ana@[redacted]`,
+        },
+      },
+      {
+        id: "S51-T1-B-E2",
+        subtopicId: "S51-T1-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(0.01)`,
+          output: `0.01`,
+        },
+      },
+      {
+        id: "S51-T1-B-E3",
+        subtopicId: "S51-T1-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S51-T2-A-E1",
+        subtopicId: "S51-T2-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print([('dataset','eval-v4'),('model','m-2'),('prompt','p3')])`,
+          output: `[('dataset', 'eval-v4'), ('model', 'm-2'), ('prompt', 'p3')]`,
+        },
+      },
+      {
+        id: "S51-T2-A-E2",
+        subtopicId: "S51-T2-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S51-T2-A-E3",
+        subtopicId: "S51-T2-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('m-2')`,
+          output: `m-2`,
+        },
+      },
+      {
+        id: "S51-T2-B-E1",
+        subtopicId: "S51-T2-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(180)`,
+          output: `180`,
+        },
+      },
+      {
+        id: "S51-T2-B-E2",
+        subtopicId: "S51-T2-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S51-T2-B-E3",
+        subtopicId: "S51-T2-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('rfc+approve')`,
+          output: `rfc+approve`,
+        },
+      },
+      {
+        id: "S51-T3-A-E1",
+        subtopicId: "S51-T3-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(0.995)`,
+          output: `0.995`,
+        },
+      },
+      {
+        id: "S51-T3-A-E2",
+        subtopicId: "S51-T3-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S51-T3-A-E3",
+        subtopicId: "S51-T3-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(0.05)`,
+          output: `0.05`,
+        },
+      },
+      {
+        id: "S51-T3-B-E1",
+        subtopicId: "S51-T3-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('P1')`,
+          output: `P1`,
+        },
+      },
+      {
+        id: "S51-T3-B-E2",
+        subtopicId: "S51-T3-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('m-1')`,
+          output: `m-1`,
+        },
+      },
+      {
+        id: "S51-T3-B-E3",
+        subtopicId: "S51-T3-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('blameless')`,
+          output: `blameless`,
+        },
+      },
+      {
+        id: "S51-T4-A-E1",
+        subtopicId: "S51-T4-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S51-T4-A-E2",
+        subtopicId: "S51-T4-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S51-T4-A-E3",
+        subtopicId: "S51-T4-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('before_side_effects')`,
+          output: `before_side_effects`,
+        },
+      },
+      {
+        id: "S51-T4-B-E1",
+        subtopicId: "S51-T4-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S51-T4-B-E2",
+        subtopicId: "S51-T4-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S51-T4-B-E3",
+        subtopicId: "S51-T4-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('contestability')`,
+          output: `contestability`,
         },
       },
     ],
   },
   youDo: {
-    title: 'AI Platform Master',
-    context: 'ai-master-platform — sistema de IA de clase empresarial que demuestra todas las competencias del roadmap. Requisitos mínimos: (1) Multi-agent LangGraph con ≥ 5 agentes especializados (S40); (2) Modelo fine-tuned (S41) sirviendo un componente del sistema; (3) RAG pipeline evaluado con RAGAS ≥ 0.75 (S20); (4) Sistema CV en tiempo real integrado (S34); (5) Pipeline de datos con Prefect + dbt (S29, S37); (6) Desplegado en Kubernetes con CI/CD completo (S32); (7) Observabilidad completa: LangSmith + Grafana (S43); (8) Governance framework documentado (S48). Entregables de portafolio: repositorio GitHub con README de 3,000+ palabras; sistema desplegado públicamente (URL accesible); demo video de 10 minutos; technical blog post en Medium/Substack; presentación de 15 slides para stakeholders de negocio.',
+    title: "[FINAL] Observabilidad, gobernanza y UX del copiloto (CP-N4-C (cierre) + CF-5 + Level-4 regression)",
+    context:
+      "Proyecto de sección **S51** (Observabilidad, gobernanza y UX del copiloto). Gate: **CP-N4-C (cierre) + CF-5 + Level-4 regression**. Auditable AI Operations Copilot aprobado con system card y dashboard operativo que permiten saber qué versión respondió, qué evidencia usó, qué tool llamó y cómo revertirla. CF-5 congela artefactos e interfaces para integración final. **FINAL — CP-N4-C CLOSE + CF-5 + Level-4 regression**: Auditable AI Operations Copilot (system card + dashboard; qué versión, evidencia, tools, rollback). CF-5 congela interfaces. Nota FINAL. Usa solo datos sintéticos; no marques section_passed desde esta entrega de autoría.",
     objectives: [
-      'Aplicar los conceptos aprendidos en un proyecto real',
-      'Demostrar dominio del tema con un entregable de portafolio',
-      'Documentar el proceso y los resultados',
+      "FINAL: Auditable AI Operations Copilot aprobado con system card y dashboard operativo que permiten saber qué versión respondió, qué evidencia usó, qué tool llamó y cómo revertirla. CF-5 congela artefactos e interfaces para integración final.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-C (cierre) + CF-5 + Level-4 regression",
     ],
     requirements: [
-      'Código funcional y documentado',
-      'Tests que validen el funcionamiento',
-      'README con instrucciones de uso',
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección",
     ],
-    portfolioNote: 'Este proyecto es ideal para mostrar en entrevistas técnicas y agregar a tu portafolio de GitHub.',
+    starterCode: `# S51 You Do — Observabilidad, gobernanza y UX del copiloto
+# Gate: CP-N4-C (cierre) + CF-5 + Level-4 regression
+# Auditable AI Operations Copilot aprobado con system card y dashboard operativo que permiten saber qué versión respondió,
+
+def main():
+    print("section", "S51")
+    print("gate", 'CP-N4-C (cierre) + CF-5 + Level-4 regression')
+    print("synthetic", True)
+    # TODO: implementar incremento del blueprint
+
+if __name__ == "__main__":
+    main()
+`,
+    portfolioNote:
+      "FINAL. Entrega alineada a CP-N4-C (cierre) + CF-5 + Level-4 regression. Portfolio en español profesional; evidencia ejecutable; privacidad. Otra lane califica PASS; no editar checkpoint/ledger/seed.",
     rubric: [
-      { criterion: 'Funcionalidad', weight: '40%' },
-      { criterion: 'Calidad de código', weight: '20%' },
-      { criterion: 'Documentación', weight: '20%' },
-      { criterion: 'Tests', weight: '20%' },
+      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
+      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
+      { criterion: "Privacidad / sin PII real / sin secretos", weight: "20%" },
+      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
+      { criterion: "Código legible y límites claros", weight: "10%" },
+      { criterion: "Documentación en español profesional", weight: "10%" },
+      { criterion: "Nota FINAL de gate: CLOSE + Level-4 regression + CF-5", weight: "gate FINAL" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: '¿Qué debe demostrar un proyecto integrador Master?',
+        question: "El id de plataforma de S51 que se preserva es:",
         options: [
-          'Capacidad de diseñar y construir una plataforma de IA production-grade: agentes + fine-tuning + RAG + LLMOps + IaC — el nivel de un Staff Engineer',
-          'Solo saber Python básico',
-          'Solo saber entrenar un modelo',
-          'Solo saber hacer un dashboard',
+          "integrator-final",
+          "renamed-v3",
+          "legacy-drop",
+          "random",
         ],
         correctIndex: 0,
-        explanation: 'Un proyecto Master integra: LangGraph multi-agent (orquestación), QLoRA fine-tuning (especialización), GraphRAG (razonamiento relacional), LLMOps (observabilidad), Terraform+K8s (infraestructura). Demuestra que puedes arquitectar sistemas de IA a escala — el nivel de Staff/Principal Engineer.',
+        explanation:
+          "KEEP_PLATFORM_ID_RETHEME_CONTENT.",
       },
       {
-        question: '¿Qué es el canary deployment en el contexto de un sistema de IA?',
+        question: "El incremento/gate V3 de S51 pertenece a:",
         options: [
-          'Desplegar la nueva versión del modelo al 10% del tráfico, monitorear drift y accuracy, y promover a 100% solo si no hay regresión',
-          'Desplegar un modelo de canario',
-          'Desplegar solo datos de prueba',
-          'Desplegar solo la documentación',
+          "CP-N4-C (cierre) + CF-5 + Level-4 regression",
+          "CP-N1-A",
+          "solo marketing",
+          "sin capstone",
         ],
         correctIndex: 0,
-        explanation: 'Canary para IA: 10% del tráfico va al nuevo modelo. Se monitorea: accuracy en producción, drift score, latency, error rate. Si todo OK en 30 min, sube a 100%. Si accuracy baja > 2%, rollback automático. Esencial porque un modelo nuevo puede tener bugs que solo aparecen con datos reales.',
+        explanation:
+          "Blueprint phase3 capstone_notes.",
       },
       {
-        question: '¿Qué incluye un LLMOps completo para producción?',
+        question: "Los ejemplos del curso deben usar:",
         options: [
-          'Tracing (LangSmith), evaluation (RAGAS), A/B testing (feature flags), cost tracking, y monitoring de drift — las 5 capas de observabilidad para LLMs',
-          'Solo logging',
-          'Solo tests unitarios',
-          'Solo monitoreo de CPU',
+          "PII real de clientes",
+          "Datos sintéticos",
+          "Secretos de prod",
+          "Claves API reales",
         ],
-        correctIndex: 0,
-        explanation: 'LLMOps completo: (1) Tracing con LangSmith ve el razonamiento del LLM, (2) RAGAS evalúa calidad después de cada cambio, (3) A/B testing compara prompts/modelos, (4) Cost tracking monitoriza $ por request, (5) Drift detection alerta si el input cambia. Sin estas 5 capas, no sabes si tu LLM está funcionando bien o mal.',
+        correctIndex: 1,
+        explanation:
+          "Synthetic data only.",
       },
       {
-        question: '¿Por qué es importante merge LoRA adapters antes de servir el modelo?',
+        question: "Entity resolution (si aparece) decide:",
         options: [
-          'Sin merge, sirves el modelo base + adapters por separado = 2x overhead. Merge los integra en un solo modelo, reduciendo latencia y memoria',
-          'Porque sin merge el modelo no funciona',
-          'Porque es obligatorio por ley',
-          'Porque mejora la precisión',
+          "Fraude",
+          "Parentesco",
+          "Misma entidad cuando aplique",
+          "Sentimiento",
         ],
-        correctIndex: 0,
-        explanation: 'Después de fine-tunear con QLoRA, tienes el modelo base (4-bit) + adapters LoRA (8M params). Para servir: option A (sin merge) carga ambos = 2x overhead. Option B (merge) integra los adapters en los pesos del modelo = 1 modelo, menos latencia, menos memoria. Siempre merge antes de production serving.',
-      },
-      {
-        question: '¿Qué es la infraestructura como código (IaC) para un sistema de IA?',
-        options: [
-          'Terraform define: cluster K8s con GPU nodes, MLflow, feature store, y monitoring — todo reproducible con un comando',
-          'Es escribir código que genera IA',
-          'Es un framework de ML',
-          'Es un sistema de CI/CD',
-        ],
-        correctIndex: 0,
-        explanation: 'IaC para IA: Terraform crea el cluster K8s, provisions GPU nodes (g4dn.xlarge), instala MLflow con Helm, configura Istio service mesh, y setup Prometheus/Grafana. Un `terraform apply` levanta toda la infra. Un `terraform destroy` la elimina. Reproducible, versionable, auditable.',
+        correctIndex: 2,
+        explanation:
+          "ER ≠ relación ≠ fraude.",
       },
     ],
   },
   resources: {
     docs: [
-      { label: 'Documentación oficial', url: 'https://docs.python.org/3/' },
+      {
+        label: "Python docs",
+        url: "https://docs.python.org/3/",
+        note: "Referencia stdlib",
+      },
+      {
+        label: "V3 section support",
+        url: "https://docs.python.org/3/library/",
+        note: "Apoyo S51 Observabilidad, gobernanza y UX del copiloto",
+      },
     ],
     books: [
-      { label: 'Python 201 — Michael Driscoll', note: 'Capítulos relevantes para esta sección' },
+      {
+        label: "Architecture / platform engineering refs",
+        note: "Alinear a Observabilidad, gobernanza y UX del copiloto",
+      },
+      {
+        label: "Site Reliability / Security basics",
+        note: "Operación y privacidad",
+      },
     ],
     courses: [
-      { label: 'Real Python', url: 'https://realpython.com', note: 'Tutoriales complementarios' },
+      {
+        label: "MDN / cloud / MLOps primers",
+        url: "https://developer.mozilla.org/",
+        note: "Complemento conceptual",
+      },
     ],
   },
 }

@@ -1,0 +1,255 @@
+{
+  "version": "3.2",
+  "section": "S22",
+  "section_id": "rapidfuzz-entity",
+  "phase": "PHASE_0_COMPLETE",
+  "generated_at": "2026-07-20T17:30:00Z",
+  "lane": "LANE-N2-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "requirement_matrix": {
+    "global_requirements": [
+      {
+        "id": "REQ-GLOBAL-001",
+        "requirement": "Cada sección tiene exactamente 4 temas evaluables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S22",
+        "status": "pass",
+        "evidence": "V3 S22 define T1–T4"
+      },
+      {
+        "id": "REQ-GLOBAL-002",
+        "requirement": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S22",
+        "status": "blocked",
+        "evidence": "Plataforma no está en 4×2 V3; requiere retheme PHASE 4"
+      },
+      {
+        "id": "REQ-GLOBAL-003",
+        "requirement": "Cada subtema tiene 1 demo I Do y 3 ejercicios",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S22",
+        "status": "blocked",
+        "evidence": "Inventario plataforma bajo vector canónico"
+      },
+      {
+        "id": "REQ-GLOBAL-004",
+        "requirement": "Cada subtema tiene 3 variantes A/B/C",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S22",
+        "status": "blocked",
+        "evidence": "seed legacy 4×3=12; target V3 8×3=24"
+      },
+      {
+        "id": "REQ-GLOBAL-005",
+        "requirement": "Evaluación por tema + examen acumulativo + proyecto",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S22",
+        "status": "partial",
+        "evidence": "selfCheck/youDo legacy; faltan 4 topic evals V3"
+      },
+      {
+        "id": "REQ-GLOBAL-006",
+        "requirement": "Idioma: español peruano profesional",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S22",
+        "status": "pass",
+        "evidence": "Tono profesional en plataforma"
+      },
+      {
+        "id": "REQ-GLOBAL-007",
+        "requirement": "No equiparar coincidencia con parentesco/colusión/fraude",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S22",
+        "status": "pass",
+        "evidence": "Principio transversal; N2 no es gate ER"
+      },
+      {
+        "id": "REQ-GLOBAL-008",
+        "requirement": "Código ejecutable o UNVERIFIED",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S22",
+        "status": "partial",
+        "evidence": "Re-verificación en PHASE 7"
+      },
+      {
+        "id": "REQ-GLOBAL-009",
+        "requirement": "Datos sintéticos o legalmente reutilizables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Validar en blueprint S22",
+        "status": "pass",
+        "evidence": "Preferencia V3 datasets sintéticos"
+      }
+    ],
+    "section_requirements": [
+      {
+        "id": "REQ-S22-001",
+        "requirement": "S22 cubre: Mensaje — MIME, encoding, HTML/text y attachments; templates y sanitización",
+        "source": "V3 roadmap S22 T1",
+        "acceptance_test": "Contenido de S22 incluye ambos subtemas de T1",
+        "status": "fail",
+        "evidence": "Plataforma 'rapidfuzz-entity' (RapidFuzz y Resolución de Entidades a Escala) no enseña el tema V3 'Mensaje' como ownership canónico."
+      },
+      {
+        "id": "REQ-S22-002",
+        "requirement": "S22 cubre: Proveedor — OAuth/service account y scopes; drafts, expiración y adaptadores",
+        "source": "V3 roadmap S22 T2",
+        "acceptance_test": "Contenido de S22 incluye ambos subtemas de T2",
+        "status": "fail",
+        "evidence": "Plataforma 'rapidfuzz-entity' (RapidFuzz y Resolución de Entidades a Escala) no enseña el tema V3 'Proveedor' como ownership canónico."
+      },
+      {
+        "id": "REQ-S22-003",
+        "requirement": "S22 cubre: Destinatario — resolución y verificación; listas, CC/BCC, privacidad y mínima divulgación",
+        "source": "V3 roadmap S22 T3",
+        "acceptance_test": "Contenido de S22 incluye ambos subtemas de T3",
+        "status": "fail",
+        "evidence": "Plataforma 'rapidfuzz-entity' (RapidFuzz y Resolución de Entidades a Escala) no enseña el tema V3 'Destinatario' como ownership canónico."
+      },
+      {
+        "id": "REQ-S22-004",
+        "requirement": "S22 cubre: Workflow — approval queue y state machine; idempotencia, audit log y reintento sin duplicar",
+        "source": "V3 roadmap S22 T4",
+        "acceptance_test": "Contenido de S22 incluye ambos subtemas de T4",
+        "status": "fail",
+        "evidence": "Plataforma 'rapidfuzz-entity' (RapidFuzz y Resolución de Entidades a Escala) no enseña el tema V3 'Workflow' como ownership canónico."
+      },
+      {
+        "id": "REQ-S22-005",
+        "requirement": "S22 incremento/gate: crea borradores en sandbox o archivos .eml; ningún correo real se envía automáticamente y todo destinatario requiere confirmación",
+        "source": "V3 roadmap S22 Incremento/gate",
+        "acceptance_test": "You Do / project cumple el gate V3",
+        "status": "fail",
+        "evidence": "You Do plataforma alineado a 'RapidFuzz y Resolución de Entidades a Escala', no al gate V3."
+      },
+      {
+        "id": "REQ-S22-006",
+        "requirement": "S22 proyecto: inicio CP-N2-C (capstone CP-N2-C (inicio))",
+        "source": "V3 roadmap S22 + capstone_ledger",
+        "acceptance_test": "Incremento de proyecto alineado a capstone",
+        "status": "fail",
+        "evidence": "Proyecto de plataforma desalineado; ver phase3 project_increment"
+      },
+      {
+        "id": "REQ-S22-007",
+        "requirement": "S22 entorno: local/sandbox proveedor",
+        "source": "V3 roadmap S22",
+        "acceptance_test": "Demos declaran entorno correcto",
+        "status": "pass",
+        "evidence": "Target environment local/sandbox proveedor"
+      },
+      {
+        "id": "REQ-S22-008",
+        "requirement": "S22 prerrequisitos: S21",
+        "source": "V3 roadmap S22",
+        "acceptance_test": "Prerrequisitos documentados en blueprint",
+        "status": "pass",
+        "evidence": "['S21']"
+      },
+      {
+        "id": "REQ-S22-009",
+        "requirement": "Contenido legado de plataforma no se elimina; se inventaría y planifica reubicación",
+        "source": "Instrucciones LANE-N2-FACTORY",
+        "acceptance_test": "Archivo src/lib/course/sections/s22-rapidfuzz-entity.ts intacto en PHASE 0–3",
+        "status": "pass",
+        "evidence": "Esta lane solo escribe course-state artifacts; no reescribe .ts"
+      }
+    ],
+    "platform_requirements": [
+      {
+        "id": "REQ-PLATFORM-001",
+        "requirement": "S22 carga en la plataforma con id estable 'rapidfuzz-entity'",
+        "source": "src/lib/course/index.ts + learning_roadmap.md",
+        "acceptance_test": "Section id rapidfuzz-entity registrado",
+        "status": "pass",
+        "evidence": "file src/lib/course/sections/s22-rapidfuzz-entity.ts; id: 'rapidfuzz-entity'"
+      },
+      {
+        "id": "REQ-PLATFORM-002",
+        "requirement": "S22 tiene especificación de examen en seed/roadmap de plataforma",
+        "source": "prisma/seed.ts",
+        "acceptance_test": "4 conceptos legacy × 3 presentes; 8 V3 pendientes",
+        "status": "partial",
+        "evidence": "seed 'rapidfuzz-entity': 4×3=12 legacy; 0 alineados a V3 S22"
+      },
+      {
+        "id": "REQ-PLATFORM-003",
+        "requirement": "Tabs theory/ido/wedo/youdo/quiz renderizan",
+        "source": "CourseSection shape",
+        "acceptance_test": "theory[], iDo, weDo, youDo, selfCheck presentes",
+        "status": "pass",
+        "evidence": "src/lib/course/sections/s22-rapidfuzz-entity.ts incluye shape actual"
+      }
+    ]
+  },
+  "contradictions_detected": [
+    {
+      "id": "CONTRADICTION-S22-001",
+      "issue": "V3 define S22 como 'Email, identidad y aprobación humana'. Plataforma id 'rapidfuzz-entity' es 'RapidFuzz y Resolución de Entidades a Escala' (src/lib/course/sections/s22-rapidfuzz-entity.ts).",
+      "resolution": "KEEP platform id 'rapidfuzz-entity' (learning_roadmap.md authority). TARGET production content = V3 4×2. Legacy inventariado, no borrado.",
+      "authority": "learning_roadmap.md = id/title platform; V3 = counting + outcomes target",
+      "impact": "No claim de section passed. PHASE 4+ retheme.",
+      "status": "recorded",
+      "type": "platform_id_mapping_conflict"
+    },
+    {
+      "id": "CONTRADICTION-S22-002",
+      "issue": "You Do / project de plataforma no coincide con gate V3: crea borradores en sandbox o archivos .eml; ningún correo real se envía automáticamente y todo destinatario requiere con...",
+      "resolution": "Mapear You Do legacy; TARGET project_increment en phase3.",
+      "authority": "V3 Incremento/gate S22",
+      "impact": "You Do reescritura en PHASE 4; no borrar hasta reemplazo verificado",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S22-003",
+      "issue": "Exam bank 4×3 legacy vs 8×3 V3 subtopics",
+      "resolution": "PHASE 5 introduce 8 familias A/B/C V3; legacy se reasigna o retira en seed coordinado",
+      "authority": "V3 counting contract",
+      "impact": "12 vs 24 variants; 0 cobertura skills V3",
+      "status": "recorded"
+    }
+  ],
+  "platform_id_mapping": {
+    "platform_section_id": "rapidfuzz-entity",
+    "platform_title": "RapidFuzz y Resolución de Entidades a Escala",
+    "v3_title": "Email, identidad y aprobación humana",
+    "decision": "KEEP_PLATFORM_ID",
+    "conflict": true,
+    "severity": "learning_roadmap.md for id; V3 for content target"
+  },
+  "v3_section_snapshot": {
+    "v3_label": "S22 — Email, identidad y aprobación humana",
+    "prerequisite": "S21",
+    "environment": "local/sandbox proveedor",
+    "project": "inicio CP-N2-C",
+    "topics": {
+      "T1": "Mensaje: MIME, encoding, HTML/text y attachments; templates y sanitización",
+      "T2": "Proveedor: OAuth/service account y scopes; drafts, expiración y adaptadores",
+      "T3": "Destinatario: resolución y verificación; listas, CC/BCC, privacidad y mínima divulgación",
+      "T4": "Workflow: approval queue y state machine; idempotencia, audit log y reintento sin duplicar"
+    },
+    "increment_gate": "crea borradores en sandbox o archivos .eml; ningún correo real se envía automáticamente y todo destinatario requiere confirmación",
+    "capstone": "CP-N2-C (inicio)"
+  },
+  "platform_section_snapshot": {
+    "section_id": "rapidfuzz-entity",
+    "index": 22,
+    "title": "RapidFuzz y Resolución de Entidades a Escala",
+    "shortTitle": "RapidFuzz",
+    "file": "src/lib/course/sections/s22-rapidfuzz-entity.ts",
+    "orphan_files": [],
+    "exam_concepts_seed_expected": 4,
+    "note": "Legacy content retained; V3 retheme in PHASE 4+"
+  },
+  "phase_0_gate": {
+    "all_requirements_extracted": true,
+    "all_contradictions_recorded": true,
+    "requirement_matrix_complete": true,
+    "content_not_deleted": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_3_LIGHTWEIGHT",
+    "note": "PHASE 1/2 skipped in lightweight factory mode; phase3 carries slug plan + counts"
+  }
+}

@@ -1,0 +1,321 @@
+{
+  "version": "3.2",
+  "section": "S28",
+  "section_id": "llm-agents",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S27-S30-P4",
+  "generated_at": "2026-07-20T08:10:39Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget llm-agents section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s28-llm-agents.ts",
+      "course-state/s28_phase4_progress.json",
+      "course-state/lanes/LANE-S27-S30-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "llm-agents",
+    "index": 28,
+    "title": "Pruebas de datos, propiedades e integración",
+    "shortTitle": "Props e integración",
+    "tagline": "suite que encuentra errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas",
+    "estimatedHours": 12,
+    "learningOutcomes": 8,
+    "youDo": "Suite QA del motor ER — propiedades, goldens e integración",
+    "icon": "ShieldCheck",
+    "legacy_note": "llm-agents retargeted to data/property/integration tests for ER QA",
+    "capstone": "CP-N3-A (QA ER)"
+  },
+  "subtopics_authored": {
+    "S28-T1-A": {
+      "slug": "invariants-case-generation",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S28-T1-A-DEMO",
+      "exercises": [
+        "S28-T1-A-E1",
+        "S28-T1-A-E2",
+        "S28-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S28-T1-B": {
+      "slug": "idempotency-symmetry-metamorphic",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S28-T1-B-DEMO",
+      "exercises": [
+        "S28-T1-B-E1",
+        "S28-T1-B-E2",
+        "S28-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S28-T2-A": {
+      "slug": "schema-quality-contracts",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S28-T2-A-DEMO",
+      "exercises": [
+        "S28-T2-A-E1",
+        "S28-T2-A-E2",
+        "S28-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S28-T2-B": {
+      "slug": "golden-drift-reconcile",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S28-T2-B-DEMO",
+      "exercises": [
+        "S28-T2-B-E1",
+        "S28-T2-B-E2",
+        "S28-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S28-T3-A": {
+      "slug": "mocks-fakes-http-db-clock",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S28-T3-A-DEMO",
+      "exercises": [
+        "S28-T3-A-E1",
+        "S28-T3-A-E2",
+        "S28-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S28-T3-B": {
+      "slug": "contract-tests-no-overmock",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S28-T3-B-DEMO",
+      "exercises": [
+        "S28-T3-B-E1",
+        "S28-T3-B-E2",
+        "S28-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S28-T4-A": {
+      "slug": "integration-e2e-testcontainers",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S28-T4-A-DEMO",
+      "exercises": [
+        "S28-T4-A-E1",
+        "S28-T4-A-E2",
+        "S28-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S28-T4-B": {
+      "slug": "flakes-determinism-ci",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S28-T4-B-DEMO",
+      "exercises": [
+        "S28-T4-B-E1",
+        "S28-T4-B-E2",
+        "S28-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Suite QA del motor ER — propiedades, goldens e integración",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S28-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S28-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "ER/matching y scores no implican fraude, parentesco ni colusión. Solo decide 'misma entidad' cuando aplique."
+}

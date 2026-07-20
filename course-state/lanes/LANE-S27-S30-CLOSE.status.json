@@ -1,0 +1,201 @@
+{
+  "lane_id": "LANE-S27-S30-CLOSE",
+  "status": "completed",
+  "phase": "PHASE_5_EXAM_BANK + PHASE_6_VALIDATION",
+  "generated_at": "2026-07-20T23:45:00Z",
+  "prompt_version": "3.2",
+  "scope": [
+    "S27",
+    "S28",
+    "S29",
+    "S30"
+  ],
+  "phase5": {
+    "async-concurrency": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s27_phase5_exam_bank.json",
+      "concept_slugs": [
+        "risks-test-pyramid",
+        "aaa-oracles",
+        "discovery-assertions",
+        "fixtures-scopes-isolation",
+        "exceptions-floats-dates-tmp",
+        "negative-cases-messages",
+        "branch-risk-coverage",
+        "mutation-useful-failures"
+      ],
+      "title_v3": "Estrategia de pruebas con pytest"
+    },
+    "llm-agents": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s28_phase5_exam_bank.json",
+      "concept_slugs": [
+        "invariants-case-generation",
+        "idempotency-symmetry-metamorphic",
+        "schema-quality-contracts",
+        "golden-drift-reconcile",
+        "mocks-fakes-http-db-clock",
+        "contract-tests-no-overmock",
+        "integration-e2e-testcontainers",
+        "flakes-determinism-ci"
+      ],
+      "title_v3": "Pruebas de datos, propiedades e integración"
+    },
+    "mlops": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s29_phase5_exam_bank.json",
+      "concept_slugs": [
+        "keys-constraints-normalization",
+        "temporality-provenance",
+        "cte-windows-antijoins",
+        "cardinality-null-plans",
+        "acid-isolation",
+        "upserts-concurrency-recovery",
+        "indexes-migrations",
+        "repository-pooling-tests"
+      ],
+      "title_v3": "SQL avanzado y modelado relacional"
+    },
+    "security-infra": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s30_phase5_exam_bank.json",
+      "concept_slugs": [
+        "exact-edit-token-date",
+        "missingness-frequency",
+        "rules-candidate-recall",
+        "combos-cost-impossible",
+        "weights-prob-thresholds",
+        "train-clerical-cluster",
+        "labeled-splits-by-entity",
+        "pr-pairwise-cluster-slices"
+      ],
+      "title_v3": "Entity resolution probabilístico"
+    }
+  },
+  "phase6": {
+    "S27": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s27_phase6_validation.json"
+    },
+    "S28": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s28_phase6_validation.json"
+    },
+    "S29": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s29_phase6_validation.json"
+    },
+    "S30": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s30_phase6_validation.json"
+    }
+  },
+  "sections_authorized_to_close": [
+    "S27",
+    "S28",
+    "S29",
+    "S30"
+  ],
+  "sections_blocked": [],
+  "pass_fail_table": [
+    {
+      "section": "S27",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S28",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S29",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S30",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    }
+  ],
+  "privacy_note": "Matching/resolución de entidades y scores no implican fraude, parentesco ni colusión.",
+  "files_changed": [
+    "prisma/seed.ts",
+    "course-state/s27_phase5_exam_bank.json",
+    "course-state/s28_phase5_exam_bank.json",
+    "course-state/s29_phase5_exam_bank.json",
+    "course-state/s30_phase5_exam_bank.json",
+    "course-state/s27_phase6_validation.json",
+    "course-state/s28_phase6_validation.json",
+    "course-state/s29_phase6_validation.json",
+    "course-state/s30_phase6_validation.json",
+    "course-state/lanes/LANE-S27-S30-CLOSE.status.json"
+  ],
+  "files_not_edited": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json"
+  ],
+  "next_action": "Orchestrator: merge authorized S27–S30 into checkpoint/section_ledger; db:seed updated banks."
+}

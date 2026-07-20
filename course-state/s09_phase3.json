@@ -1,0 +1,1020 @@
+{
+  "version": "3.2",
+  "section": "S09",
+  "section_id": "visualization",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1B-FACTORY",
+  "prompt_version": "3.2",
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N1B-FACTORY — S09–S13 research blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N1B-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S09 blueprint: 4 topics × 2 subtopics with full artifact specs and canonical counts before PHASE 4 authorship.",
+    "scope_in": [
+      "S09 only (within N1B factory batch)",
+      "Blueprint: outcomes, demos, exercises E1/E2/E3, topic evals, A/B/C slots, capstone notes",
+      "Count validation vs invariant vector",
+      "Platform gap notes (legacy retention)"
+    ],
+    "scope_out": [
+      "Writing full theory paragraphs / complete exercise bodies (PHASE 4)",
+      "Writing full A/B/C item stems (PHASE 5)",
+      "Editing large .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s09-visualization.ts",
+      "prisma/seed.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/course_requirements.json",
+      "src/lib/course/index.ts"
+    ]
+  },
+  "section_meta": {
+    "id": "visualization",
+    "index": 9,
+    "title_platform": "Data Visualization",
+    "title_v3": "Excepciones, debugging y logging seguro",
+    "title_decision": "KEEP platform id 'visualization' (learning_roadmap.md). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+    "estimatedHours": 8,
+    "level": "Principiante avanzado",
+    "phase": 0,
+    "prerequisites": [
+      "S08"
+    ],
+    "environment": "local-python",
+    "project_capstone": "CP-N1-C (inicio)"
+  },
+  "learning_outcomes_section": [
+    "El estudiante elige el tipo de excepción correcto, hace raise con contexto y encadena causas con `from`.",
+    "El estudiante dibuja la frontera try/except/finally (o with) y separa errores recuperables de fatales.",
+    "El estudiante lee un traceback, identifica el frame útil y usa un debugger o prints controlados para inspeccionar estado.",
+    "El estudiante reduce un fallo a un caso mínimo, formula hipótesis falsables y documenta la causa raíz.",
+    "El estudiante configura logging con niveles y registros estructurados (campos estables) aptos para operación.",
+    "El estudiante propaga un correlation_id y redacta email/teléfono/dirección completos en logs.",
+    "El estudiante decide fail-fast vs continuar-con-cuarentena según tipo de fallo (datos/config/proveedor).",
+    "El estudiante aplica retries solo a errores transitorios, mantiene operaciones idempotentes y envía irrecuperables a cuarentena."
+  ],
+  "topics": [
+    {
+      "topic_id": "S09-T1",
+      "title": "Excepciones",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S09-T1-A",
+          "slug": "exception-types-raise-chaining",
+          "title": "Tipos específicos, raise y chaining",
+          "outcome": "El estudiante elige el tipo de excepción correcto, hace raise con contexto y encadena causas con `from`.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Tipos específicos, raise y chaining",
+              "must_cover": [
+                "ValueError/TypeError/KeyError/OSError",
+                "raise",
+                "raise ... from e",
+                "custom Exception ligera"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S09-T1-A-DEMO",
+              "title": "Validar fila de intake y encadenar ParseError → ValidationError",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S09-T1-A-E1",
+                "kind": "guided",
+                "title": "Mapear 5 fallos a tipos de excepción",
+                "skill": "Elegir tipo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S09-T1-A-E2",
+                "kind": "independent",
+                "title": "raise con mensaje accionable en parse_monto",
+                "skill": "raise + mensaje",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S09-T1-A-E3",
+                "kind": "transfer",
+                "title": "Encadenar OSError de lectura a DataLoadError",
+                "skill": "exception chaining",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S09-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S09-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S09-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S09-T1-B",
+          "slug": "recovery-boundaries-cleanup",
+          "title": "Fronteras de recuperación y cleanup",
+          "outcome": "El estudiante dibuja la frontera try/except/finally (o with) y separa errores recuperables de fatales.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Fronteras de recuperación y cleanup",
+              "must_cover": [
+                "try/except/else/finally",
+                "with cleanup",
+                "no swallow bare except",
+                "propagate vs handle"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S09-T1-B-DEMO",
+              "title": "Leer lote con finally que cierra handle y re-raise si config inválida",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S09-T1-B-E1",
+                "kind": "guided",
+                "title": "Completar finally que cierra recurso",
+                "skill": "cleanup",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S09-T1-B-E2",
+                "kind": "independent",
+                "title": "Clasificar 6 errores: recover vs fail-fast",
+                "skill": "fronteras",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S09-T1-B-E3",
+                "kind": "transfer",
+                "title": "Refactor bare except a handlers específicos",
+                "skill": "robustez",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S09-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S09-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S09-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S09-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S09-T1-EVAL-1",
+            "title": "Clasificar y re-raise 4 errores de parseo con chaining",
+            "authentic": true
+          },
+          {
+            "id": "S09-T1-EVAL-2",
+            "title": "Implementar frontera try/with con cleanup verificable",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S09-T2",
+      "title": "Diagnóstico",
+      "bloom_focus": [
+        "Analizar",
+        "Aplicar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S09-T2-A",
+          "slug": "traceback-debugger",
+          "title": "Traceback y debugger",
+          "outcome": "El estudiante lee un traceback, identifica el frame útil y usa un debugger o prints controlados para inspeccionar estado.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Traceback y debugger",
+              "must_cover": [
+                "traceback frames",
+                "pdb/breakpoint()",
+                "logging de stack",
+                "no exponer secretos en stack logs"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S09-T2-A-DEMO",
+              "title": "Reproducir KeyError en normalizer y ubicar frame con breakpoint",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S09-T2-A-E1",
+                "kind": "guided",
+                "title": "Anotar 3 frames de un traceback sintético",
+                "skill": "leer stack",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S09-T2-A-E2",
+                "kind": "independent",
+                "title": "Usar breakpoint en función de normalize",
+                "skill": "debugger",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S09-T2-A-E3",
+                "kind": "transfer",
+                "title": "Explicar causa raíz a partir solo del traceback",
+                "skill": "análisis",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S09-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S09-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S09-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S09-T2-B",
+          "slug": "minimal-repro-hypothesis-rootcause",
+          "title": "Reproducción mínima, hipótesis y causa raíz",
+          "outcome": "El estudiante reduce un fallo a un caso mínimo, formula hipótesis falsables y documenta la causa raíz.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Reproducción mínima, hipótesis y causa raíz",
+              "must_cover": [
+                "minimal repro",
+                "hipótesis",
+                "5-whys ligero",
+                "regresión test del bug"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S09-T2-B-DEMO",
+              "title": "De 200 filas a 1 fila que dispara el bug de apellidos dobles",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S09-T2-B-E1",
+                "kind": "guided",
+                "title": "Recortar fixture a caso mínimo",
+                "skill": "repro",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S09-T2-B-E2",
+                "kind": "independent",
+                "title": "Escribir 2 hipótesis y cómo falsificarlas",
+                "skill": "método",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S09-T2-B-E3",
+                "kind": "transfer",
+                "title": "Añadir test de regresión que falla en rojo y pasa tras fix",
+                "skill": "root cause",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S09-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S09-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S09-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S09-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S09-T2-EVAL-1",
+            "title": "Reducir bug sintético a minimal repro + causa raíz documentada",
+            "authentic": true
+          },
+          {
+            "id": "S09-T2-EVAL-2",
+            "title": "Usar debugger/traceback para localizar frame incorrecto",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S09-T3",
+      "title": "Logging",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S09-T3-A",
+          "slug": "log-levels-structure",
+          "title": "Niveles y estructura",
+          "outcome": "El estudiante configura logging con niveles y registros estructurados (campos estables) aptos para operación.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Niveles y estructura",
+              "must_cover": [
+                "DEBUG/INFO/WARNING/ERROR",
+                "Logger vs root",
+                "formato estructurado key=value/JSON",
+                "handlers"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S09-T3-A-DEMO",
+              "title": "Logger de pipeline con campos stage, record_id, duration_ms",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S09-T3-A-E1",
+                "kind": "guided",
+                "title": "Asignar nivel correcto a 6 eventos",
+                "skill": "niveles",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S09-T3-A-E2",
+                "kind": "independent",
+                "title": "Configurar logger de módulo con StreamHandler",
+                "skill": "setup",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S09-T3-A-E3",
+                "kind": "transfer",
+                "title": "Convertir prints a logs estructurados en CLI stub",
+                "skill": "estructura",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S09-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S09-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S09-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S09-T3-B",
+          "slug": "correlation-ids-pii-redaction",
+          "title": "Correlation IDs y redacción de PII",
+          "outcome": "El estudiante propaga un correlation_id y redacta email/teléfono/dirección completos en logs.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Correlation IDs y redacción de PII",
+              "must_cover": [
+                "correlation_id / request_id",
+                "redact helpers",
+                "never log full email/phone/address",
+                "partial masks"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S09-T3-B-DEMO",
+              "title": "Log de error con email enmascarado a***@ejemplo.pe y correlation_id",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S09-T3-B-E1",
+                "kind": "guided",
+                "title": "Implementar mask_email y mask_phone",
+                "skill": "redacción",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S09-T3-B-E2",
+                "kind": "independent",
+                "title": "Inyectar correlation_id en 3 capas de llamada",
+                "skill": "propagación",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S09-T3-B-E3",
+                "kind": "transfer",
+                "title": "Auditar snippet que filtra PII y proponer fix",
+                "skill": "privacidad",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S09-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S09-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S09-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S09-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S09-T3-EVAL-1",
+            "title": "Configurar logger estructurado de 2 módulos",
+            "authentic": true
+          },
+          {
+            "id": "S09-T3-EVAL-2",
+            "title": "Redactar PII y propagar correlation_id en un flujo de 3 pasos",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S09-T4",
+      "title": "Resiliencia inicial",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S09-T4-A",
+          "slug": "failfast-vs-continue",
+          "title": "Fallar rápido vs continuar",
+          "outcome": "El estudiante decide fail-fast vs continuar-con-cuarentena según tipo de fallo (datos/config/proveedor).",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Fallar rápido vs continuar",
+              "must_cover": [
+                "fail-fast config",
+                "quarantine bad rows",
+                "error taxonomy data|config|provider",
+                "partial success"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S09-T4-A-DEMO",
+              "title": "Lote: 1 fila mala a cuarentena; config rota → abort",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S09-T4-A-E1",
+                "kind": "guided",
+                "title": "Clasificar 8 fallos en data/config/provider",
+                "skill": "taxonomía",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S09-T4-A-E2",
+                "kind": "independent",
+                "title": "Implementar process_batch con quarantine list",
+                "skill": "continuar",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S09-T4-A-E3",
+                "kind": "transfer",
+                "title": "Política escrita: cuándo abortar el job",
+                "skill": "diseño",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S09-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S09-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S09-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S09-T4-B",
+          "slug": "idempotency-retries-quarantine",
+          "title": "Idempotencia, retries solo transitorios y cuarentena",
+          "outcome": "El estudiante aplica retries solo a errores transitorios, mantiene operaciones idempotentes y envía irrecuperables a cuarentena.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Idempotencia, retries solo transitorios y cuarentena",
+              "must_cover": [
+                "idempotent write keys",
+                "retry transient only",
+                "backoff simple",
+                "quarantine file/table"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S09-T4-B-DEMO",
+              "title": "Retry 3× en TimeoutError simulado; ValueError → quarantine sin retry",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S09-T4-B-E1",
+                "kind": "guided",
+                "title": "Tabla: error → retry? sí/no",
+                "skill": "política",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S09-T4-B-E2",
+                "kind": "independent",
+                "title": "Decorator/retry simple con max_attempts",
+                "skill": "retries",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S09-T4-B-E3",
+                "kind": "transfer",
+                "title": "Diseñar clave de idempotencia para re-ingesta",
+                "skill": "idempotencia",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S09-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S09-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S09-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S09-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S09-T4-EVAL-1",
+            "title": "Política fail-fast/continue sobre matriz de fallos",
+            "authentic": true
+          },
+          {
+            "id": "S09-T4-EVAL-2",
+            "title": "Retry solo transitorio + cuarentena de irrecuperables",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S09-PROJ",
+    "title": "Bitácora auditable del pipeline (inicio CP-N1-C)",
+    "replaces_legacy": "Add Visuals to Your Netflix EDA — se conserva hasta migración; TARGET es logging/errores del pipeline",
+    "objectives": [
+      "Clasificar fallos en data | config | provider",
+      "Emitir logs estructurados con correlation_id",
+      "Redactar email/teléfono/dirección completos",
+      "Cuarentena de filas inválidas sin abortar el lote salvo config fatal",
+      "Documentar política fail-fast vs continue en README"
+    ],
+    "requirements": [
+      "Módulo audit_log.py o similar con redact helpers",
+      "process_batch(records) → {ok, quarantined, errors_by_class}",
+      "Ningún log de demo contiene PII completa",
+      "Dataset sintético; if __name__ == '__main__' demo reproducible"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N1-C inicia en S9 (observabilidad); cierra en S13 dashboard"
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'visualization' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s09-visualization.ts; orphans: ['src/lib/course/sections/s09-sklearn.ts']"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N1-C (inicio)",
+    "increment_gate": "bitácora auditable que nunca registra email/teléfono/dirección completos y diferencia fallo de datos, configuración y proveedor",
+    "project_id": "S09-PROJ",
+    "section_passed": false,
+    "notes": "S09 contributes to CP-N1-C (inicio). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "capstone_increment_specified": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Factory blueprint quality aligned to S03 phase3 pattern. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 topic split gives clear 4×2 ownership for N1 second half",
+    "risk": "Display title still 'Data Visualization' until product rename; large topic mismatch may confuse learners if tagline not updated in PHASE 4",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S09-T1-A first"
+  }
+}

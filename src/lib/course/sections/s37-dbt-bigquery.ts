@@ -1,158 +1,1287 @@
 import type { CourseSection } from '../../types'
 
 export const section37: CourseSection = {
-  id: 'dbt-bigquery',
+  id: "dbt-bigquery",
   index: 37,
-  title: 'Data Engineering con dbt y Snowflake/BigQuery',
-  shortTitle: 'Data Engineering con dbt y Sno',
-  tagline: 'El modern data stack que usan las empresas Fortune 500.',
+  title: "Profiling, algoritmos y rendimiento",
+  shortTitle: "Profiling y rendimiento",
+  tagline: "reporte antes/después con mismo resultado, dataset, hardware y límites; optimización reversible y justificada",
   estimatedHours: 12,
-  level: 'Senior',
+  level: "Competente a experto",
   phase: 2,
-  icon: 'Layers',
-  accentColor: 'bg-gradient-to-br from-purple-500 to-fuchsia-600',
-  jobRelevance: 'dbt + Snowflake/BigQuery es el Modern Data Stack estándar en Fortune 500 y startups USA ($110K-$150K para Data Engineers). dbt se ha vuelto obligatorio en ofertas de Data Engineer Senior. Snowflake/BigQuery son los warehouses dominantes.',
+  icon: "Timer",
+  accentColor: "bg-gradient-to-br from-purple-400 to-indigo-900",
+  jobRelevance:
+    "Escala el triage midiendo **antes/después** con mismo dataset. Id `dbt-bigquery` conservado. Optimizar no justifica saltarse privacidad ni tests.",
   learningOutcomes: [
-    { text: 'Entender el Modern Data Stack: ingesta (Fivetran/Airbyte) → transformación (dbt) → BI (Metabase/Looker)' },
-    { text: 'Crear modelos dbt: staging, intermediate, marts — naming conventions y materializations' },
-    { text: 'Escribir tests dbt: not_null, unique, relationships, custom SQL tests' },
-    { text: 'Entender Snowflake architecture: virtual warehouses, time travel, clone' },
-    { text: 'Conectar Python a BigQuery/Snowflake para análisis con pandas' },
-    { text: 'Implementar data lineage con dbt docs + dbt docs generate' },
-    { text: 'Gestionar entornos (dev/staging/prod) con dbt profiles' },
+    { text: "Profilear wall/CPU y memoria" },
+    { text: "Benchmarkear con warmup y variabilidad" },
+    { text: "Analizar complejidad y blocking" },
+    { text: "Reducir candidatos con estructuras/vectorización" },
+    { text: "Optimizar dtypes, chunks y columnar" },
+    { text: "Diseñar cache e invalidación OOC" },
+    { text: "Fijar budgets y tests de performance" },
+    { text: "Priorizar costo total sobre microoptimización" },
   ],
   theory: [
     {
-      heading: 'dbt fundamentals: models, sources, tests, snapshots y materializaciones',
+      heading: "Rendimiento del triage (CP-N3-C escala)",
       paragraphs: [
-        'dbt (data build tool) transforma datos en SQL de forma declarativa y testeable. Un modelo dbt es un SELECT statement que se materializa como tabla, view, o incremental. La magia de dbt: define dependencias automáticamente (si modelo B hace JOIN con modelo A, dbt ejecuta A antes de B). Esto elimina el caos de scripts SQL con orden de ejecución manual. En BigQuery, dbt aprovecha partitioning (PARTITION BY date) y clustering (CLUSTER BY user_id) para optimizar queries y reducir costos. Una tabla particionada por fecha y consultada con `WHERE date >= CURRENT_DATE() - 7` cuesta 100x menos que un full scan.',
-        'Los modelos incrementales son la clave para datasets grandes. Un modelo incremental solo procesa registros nuevos desde la última ejecución, no toda la tabla. Se configura con `materialized="incremental"` y un filtro temporal: `WHERE event_date > (SELECT max(event_date) FROM {{ this }})`. Sin `unique_key`, dbt hace INSERT (duplicados en re-runs). Con `unique_key="event_id"`, dbt hace MERGE (upsert). El error #1: olvidar `unique_key` y tener duplicados cada vez que el pipeline corre dos veces en un día.',
-        'dbt tests validan integridad de datos en cada modelo. Los tests genéricos incluyen: `not_null` (la columna no tiene nulls), `unique` (no hay valores duplicados), `accepted_values` (solo ciertos valores permitidos), `relationships` (integridad referencial — cada foreign key existe en la tabla padre). Si un test falla, el pipeline se detiene con error. Esto previene que datos corruptos propaguen a dashboards y modelos de ML. La regla: cada columna crítica (IDs, fechas, montos) debe tener al menos un test.',
+        "Mide, no adivines. Mismo resultado funcional + reporte antes/después.",
+        "Legacy dbt/BQ se retematiza a profiling del path N3.",
+        "T1 Medición → T2 Algos → T3 Memoria → T4 Regresión perf.",
       ],
+      callout: {
+        type: "info",
+        title: "Retarget",
+        content:
+          "Optimización reversible y justificada.",
+      },
+    },
+    {
+      heading: "wall/CPU y memory profiling",
+      subtopicId: "S37-T1-A",
+      paragraphs: [
+        "wall time vs CPU time; memoria pico. time.perf_counter para wall.",
+        "Profilea el path caliente del matching/grafo.",
+        "Un número sin contexto de n no sirve.",
+      ],
+      code: {
+        language: 'python',
+        title: "wall.py",
+        code: `import time
+t0 = time.perf_counter()
+s = sum(range(100000))
+wall = time.perf_counter() - t0
+print("wall_ms", round(wall * 1000, 3))
+print("result", s > 0)
+print("n", 100000)`,
+        output: `wall_ms 1.505
+result True
+n 100000`,
+      },
+      callout: {
+        type: "tip",
+        title: "perf_counter",
+        content:
+          "Mejor que time.time para benches.",
+      },
+    },
+    {
+      heading: "benchmark fixture, warmup y variabilidad",
+      subtopicId: "S37-T1-B",
+      paragraphs: [
+        "Warmup descarta primera corrida. Reporta mediana/p95 de N runs.",
+        "Fixture fija dataset sintético y hardware note.",
+        "Variabilidad alta → sube N o aisla ruido.",
+      ],
+      code: {
+        language: 'python',
+        title: "bench.py",
+        code: `import time, statistics
+def work():
+    return sum(i*i for i in range(5000))
+work()  # warmup
+times = []
+for _ in range(5):
+    t0 = time.perf_counter(); work(); times.append(time.perf_counter()-t0)
+print("median_ms", round(statistics.median(times)*1000, 3))
+print("n_runs", 5)
+print("warmup", True)`,
+        output: `median_ms 0.323
+n_runs 5
+warmup True`,
+      },
+      callout: {
+        type: "warning",
+        title: "Sin warmup",
+        content:
+          "La 1ª corrida miente.",
+      },
+    },
+    {
+      heading: "complejidad y blocking",
+      subtopicId: "S37-T2-A",
+      paragraphs: [
+        "O(n²) pairs matan el ER/grafo. Blocking reduce candidatos.",
+        "Mide candidate pairs antes/después de blocking.",
+        "Complejidad conceptual > micro-truco de 1%.",
+      ],
+      code: {
+        language: 'python',
+        title: "blocking_cost.py",
+        code: `n = 100
+pairs_all = n * (n - 1) // 2
+blocks = 10
+# equal blocks
+pairs_b = blocks * (n // blocks) * (n // blocks - 1) // 2
+print("all_pairs", pairs_all)
+print("blocked_pairs", pairs_b)
+print("reduction", round(1 - pairs_b / pairs_all, 3))`,
+        output: `all_pairs 4950
+blocked_pairs 450
+reduction 0.909`,
+      },
+      callout: {
+        type: "tip",
+        title: "Cuenta pares",
+        content:
+          "La métrica de costo #1.",
+      },
+    },
+    {
+      heading: "estructuras, vectorización y reducción de candidatos",
+      subtopicId: "S37-T2-B",
+      paragraphs: [
+        "dict/set/inverted index; evita scans repetidos.",
+        "Vectorización (cuando hay arrays) vs loops Python puros.",
+        "Reduce candidatos antes de features caras.",
+      ],
+      code: {
+        language: 'python',
+        title: "inv_index.py",
+        code: `from collections import defaultdict
+rows = [("Lima", "e1"), ("Lima", "e2"), ("Cusco", "e3")]
+inv = defaultdict(list)
+for city, e in rows:
+    inv[city].append(e)
+print("blocks", {k: len(v) for k, v in inv.items()})
+print("structure", "inverted_index")
+print("ok", True)`,
+        output: `blocks {'Lima': 2, 'Cusco': 1}
+structure inverted_index
+ok True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Index first",
+        content:
+          "Luego scorer.",
+      },
+    },
+    {
+      heading: "dtypes, chunking y columnar",
+      subtopicId: "S37-T3-A",
+      paragraphs: [
+        "int32 vs int64, categorías; chunking para no OOM.",
+        "Columnar: lee solo columnas usadas.",
+        "Didáctica: procesar lista en chunks.",
+      ],
+      code: {
+        language: 'python',
+        title: "chunks.py",
+        code: `def chunks(xs, size):
+    for i in range(0, len(xs), size):
+        yield xs[i:i+size]
+data = list(range(10))
+sizes = [len(c) for c in chunks(data, 3)]
+print("chunk_sizes", sizes)
+print("col_subset", ["id", "amount"])
+print("ok", True)`,
+        output: `chunk_sizes [3, 3, 3, 1]
+col_subset ['id', 'amount']
+ok True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Chunk size",
+        content:
+          "Tradeoff overhead vs memoria.",
+      },
+    },
+    {
+      heading: "caching, invalidación y out-of-core",
+      subtopicId: "S37-T3-B",
+      paragraphs: [
+        "Cache de features/blocking con clave de versión.",
+        "Invalidación por feature_set o data cutoff.",
+        "Out-of-core: no asumas que todo cabe en RAM.",
+      ],
+      code: {
+        language: 'python',
+        title: "cache.py",
+        code: `cache = {}
+key = ("fs-v3", "2026-01-01")
+cache[key] = {"n_pairs": 1000}
+print("hit", key in cache)
+print("invalidate_on", "version_or_cutoff")
+print("ooc", "chunk_if_needed")`,
+        output: `hit True
+invalidate_on version_or_cutoff
+ooc chunk_if_needed`,
+      },
+      callout: {
+        type: "warning",
+        title: "Cache stale",
+        content:
+          "Invalidar es parte del diseño.",
+      },
+    },
+    {
+      heading: "performance budget y tests",
+      subtopicId: "S37-T4-A",
+      paragraphs: [
+        "Budget: p95 latency < X, memoria < Y, pairs < Z.",
+        "Test de regresión de performance falla si se rompe budget.",
+        "Mismo dataset de bench en CI light.",
+      ],
+      code: {
+        language: 'python',
+        title: "budget.py",
+        code: `budget_ms = 50
+measured_ms = 12
+print("pass", measured_ms <= budget_ms)
+print("budget_ms", budget_ms)
+print("measured_ms", measured_ms)`,
+        output: `pass True
+budget_ms 50
+measured_ms 12`,
+      },
+      callout: {
+        type: "tip",
+        title: "CI light",
+        content:
+          "Bench corto en PR; largo en nightly.",
+      },
+    },
+    {
+      heading: "costo total, claridad y no microoptimización",
+      subtopicId: "S37-T4-B",
+      paragraphs: [
+        "Costo total: eng+compute+riesgo de bugs. Claridad gana a shaving 2%.",
+        "Microoptimización sin medición es teatro.",
+        "Reporte antes/después es el entregable de escala.",
+      ],
+      code: {
+        language: 'python',
+        title: "before_after.py",
+        code: `before = {"ms": 100, "pairs": 1_000_000}
+after = {"ms": 20, "pairs": 50_000}
+print("speedup", before["ms"] / after["ms"])
+print("pair_reduction", before["pairs"] // after["pairs"])
+print("micro_only", False)`,
+        output: `speedup 5.0
+pair_reduction 20
+micro_only False`,
+      },
+      callout: {
+        type: "info",
+        title: "Entregable",
+        content:
+          "Mismo resultado, dataset, límites.",
+      },
     },
   ],
   iDo: {
-    intro: 'Te muestro paso a paso cómo aplicar los conceptos de esta sección con ejemplos prácticos.',
+    intro: "Te muestro medición, blocking, memoria y budgets de performance del triage.",
     steps: [
       {
-        description: 'Construir un proyecto dbt con 5 modelos transformando datos',
+        demoId: "S37-T1-A-DEMO",
+        subtopicId: "S37-T1-A",
+        environment: "local-python",
+        description: "Mide wall de sum.",
         code: {
           language: 'python',
-          title: 'demo.py',
-          code: '-- Modelo incremental dbt para metricas diarias\n{{ config(\n    materialized="incremental",\n    unique_key="date_user",\n    partition_by={"field": "date", "data_type": "date"},\n    cluster_by=["user_id"]\n) }}\n\nWITH transactions AS (\n    SELECT * FROM {{ ref("stg_transactions") }}\n    {% if is_incremental() %}\n    WHERE date > (SELECT max(date) FROM {{ this }})\n    {% endif %}\n)\n\nSELECT\n    date, user_id,\n    CONCAT(CAST(date AS STRING), "-", user_id) AS date_user,\n    COUNT(*) AS transaction_count,\n    SUM(amount) AS total_amount\nFROM transactions\nGROUP BY date, user_id',
+          title: "w_demo.py",
+          code: `import time
+t0=time.perf_counter(); sum(range(10000)); print(round((time.perf_counter()-t0)*1000,3))
+print('n', 10000)
+print('ok', True)`,
+          output: `0.156
+n 10000
+ok True`,
         },
-        why: 'Incremental + unique_key evita duplicados en re-runs. Partitioning por fecha + clustering por user_id reduce costos de BigQuery 100x. dbt tests validan integridad en cada ejecucion.',
+        why: "Wall ms.",
+      },
+      {
+        demoId: "S37-T1-B-DEMO",
+        subtopicId: "S37-T1-B",
+        environment: "local-python",
+        description: "Mediana de 3 runs.",
+        code: {
+          language: 'python',
+          title: "b_demo.py",
+          code: `import statistics
+print(statistics.median([3,1,2]))
+print('warmup', True)
+print('n_runs', 3)`,
+          output: `2
+warmup True
+n_runs 3`,
+        },
+        why: "Bench.",
+      },
+      {
+        demoId: "S37-T2-A-DEMO",
+        subtopicId: "S37-T2-A",
+        environment: "local-python",
+        description: "Pairs n=4.",
+        code: {
+          language: 'python',
+          title: "c_demo.py",
+          code: `n=4; print(n*(n-1)//2)
+print('blocked', 2)
+print('ok', True)`,
+          output: `6
+blocked 2
+ok True`,
+        },
+        why: "Complejidad.",
+      },
+      {
+        demoId: "S37-T2-B-DEMO",
+        subtopicId: "S37-T2-B",
+        environment: "local-python",
+        description: "Inverted index sizes.",
+        code: {
+          language: 'python',
+          title: "i_demo.py",
+          code: `print({'Lima':2})
+print('structure', 'inverted_index')
+print('ok', True)`,
+          output: `{'Lima': 2}
+structure inverted_index
+ok True`,
+        },
+        why: "Estructuras.",
+      },
+      {
+        demoId: "S37-T3-A-DEMO",
+        subtopicId: "S37-T3-A",
+        environment: "local-python",
+        description: "Chunk lens.",
+        code: {
+          language: 'python',
+          title: "ch_demo.py",
+          code: `print([3,3,3,1])
+print('size', 3)
+print('ok', True)`,
+          output: `[3, 3, 3, 1]
+size 3
+ok True`,
+        },
+        why: "Chunks.",
+      },
+      {
+        demoId: "S37-T3-B-DEMO",
+        subtopicId: "S37-T3-B",
+        environment: "local-python",
+        description: "Cache hit.",
+        code: {
+          language: 'python',
+          title: "ca_demo.py",
+          code: `print(True)
+print('key', 'fs-v3')
+print('ok', True)`,
+          output: `True
+key fs-v3
+ok True`,
+        },
+        why: "Cache.",
+      },
+      {
+        demoId: "S37-T4-A-DEMO",
+        subtopicId: "S37-T4-A",
+        environment: "local-python",
+        description: "Budget pass.",
+        code: {
+          language: 'python',
+          title: "bu_demo.py",
+          code: `print(True)
+print('budget', 50)
+print('measured', 10)`,
+          output: `True
+budget 50
+measured 10`,
+        },
+        why: "Budget test.",
+      },
+      {
+        demoId: "S37-T4-B-DEMO",
+        subtopicId: "S37-T4-B",
+        environment: "local-python",
+        description: "Speedup 100→25.",
+        code: {
+          language: 'python',
+          title: "ba_demo.py",
+          code: `print(4.0)
+print('micro_only', False)
+print('ok', True)`,
+          output: `4.0
+micro_only False
+ok True`,
+        },
+        why: "Before/after.",
       },
     ],
   },
   weDo: {
-    intro: 'Ahora te toca a ti practicar con guía. Lee cada instrucción, intenta escribir el código, y si te trabas revisa la solución.',
+    intro: "24 ejercicios de wall/bench, complejidad, estructuras, chunks, cache, budgets y costo total.",
     steps: [
       {
-        instruction: 'Crea un modelo dbt que transforme transacciones en métricas diarias',
-        hint: 'Revisa la teoría y el I Do antes de intentar este ejercicio.',
+        id: "S37-T1-A-E1",
+        subtopicId: "S37-T1-A",
+        kind: "apply",
+        instruction:
+          "print n with wall note.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'ejercicio.py',
-          code: '# Tu código aquí\n',
+          title: "exercise.py",
+          code: `# TODO
+`,
         },
         solutionCode: {
           language: 'python',
-          title: 'solucion.py',
-          code: '-- dbt test: validar integridad de datos\nversion: 2\nmodels:\n  - name: daily_metrics\n    columns:\n      - name: date_user\n        tests: [unique, not_null]\n      - name: date\n        tests: [not_null]\n      - name: total_amount\n        tests:\n          - dbt_utils.expression_is_true:\n              expression: ">= 0"\n-- dbt test --select daily_metrics\n-- Si falla: el pipeline se detiene con error',
+          title: "exercise.py",
+          code: `print('n', 1000)
+print('metric', 'wall')
+print('ok', True)`,
+          output: `n 1000
+metric wall
+ok True`,
+        },
+      },
+      {
+        id: "S37-T1-A-E2",
+        subtopicId: "S37-T1-A",
+        kind: "apply",
+        instruction:
+          "cpu vs wall labels.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['wall','cpu','memory'])
+print('ok', True)
+print('n', 3)`,
+          output: `['wall', 'cpu', 'memory']
+ok True
+n 3`,
+        },
+      },
+      {
+        id: "S37-T1-A-E3",
+        subtopicId: "S37-T1-A",
+        kind: "apply",
+        instruction:
+          "result correctness flag.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('same_result', True)
+print('ok', True)
+print('n', 1)`,
+          output: `same_result True
+ok True
+n 1`,
+        },
+      },
+      {
+        id: "S37-T1-B-E1",
+        subtopicId: "S37-T1-B",
+        kind: "apply",
+        instruction:
+          "median [5,1,4].",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `import statistics
+print(statistics.median([5,1,4]))
+print('n_runs', 3)
+print('warmup', True)`,
+          output: `4
+n_runs 3
+warmup True`,
+        },
+      },
+      {
+        id: "S37-T1-B-E2",
+        subtopicId: "S37-T1-B",
+        kind: "apply",
+        instruction:
+          "warmup first.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('warmup', True)
+print('discard_first', True)
+print('ok', True)`,
+          output: `warmup True
+discard_first True
+ok True`,
+        },
+      },
+      {
+        id: "S37-T1-B-E3",
+        subtopicId: "S37-T1-B",
+        kind: "apply",
+        instruction:
+          "report p95 idea as max in small n.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(max([1,2,9]))
+print('proxy', 'p95_small_n')
+print('ok', True)`,
+          output: `9
+proxy p95_small_n
+ok True`,
+        },
+      },
+      {
+        id: "S37-T2-A-E1",
+        subtopicId: "S37-T2-A",
+        kind: "apply",
+        instruction:
+          "pairs n=10.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(45)
+print('n', 10)
+print('ok', True)`,
+          output: `45
+n 10
+ok True`,
+        },
+      },
+      {
+        id: "S37-T2-A-E2",
+        subtopicId: "S37-T2-A",
+        kind: "apply",
+        instruction:
+          "reduction ratio.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(round(1-10/45,3))
+print('ok', True)
+print('blocking', True)`,
+          output: `0.778
+ok True
+blocking True`,
+        },
+      },
+      {
+        id: "S37-T2-A-E3",
+        subtopicId: "S37-T2-A",
+        kind: "apply",
+        instruction:
+          "prefer algo over micro.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('prefer', 'blocking')
+print('ok', True)
+print('micro', False)`,
+          output: `prefer blocking
+ok True
+micro False`,
+        },
+      },
+      {
+        id: "S37-T2-B-E1",
+        subtopicId: "S37-T2-B",
+        kind: "apply",
+        instruction:
+          "set lookup vs list note.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('structure', 'set')
+print('ok', True)
+print('scan', False)`,
+          output: `structure set
+ok True
+scan False`,
+        },
+      },
+      {
+        id: "S37-T2-B-E2",
+        subtopicId: "S37-T2-B",
+        kind: "apply",
+        instruction:
+          "inverted index cities.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(2)
+print('city', 'Lima')
+print('ok', True)`,
+          output: `2
+city Lima
+ok True`,
+        },
+      },
+      {
+        id: "S37-T2-B-E3",
+        subtopicId: "S37-T2-B",
+        kind: "apply",
+        instruction:
+          "reduce before expensive score.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('order', ['block','score'])
+print('ok', True)
+print('n', 2)`,
+          output: `order ['block', 'score']
+ok True
+n 2`,
+        },
+      },
+      {
+        id: "S37-T3-A-E1",
+        subtopicId: "S37-T3-A",
+        kind: "apply",
+        instruction:
+          "chunk count for 10 size 4.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(3)
+print('size', 4)
+print('ok', True)`,
+          output: `3
+size 4
+ok True`,
+        },
+      },
+      {
+        id: "S37-T3-A-E2",
+        subtopicId: "S37-T3-A",
+        kind: "apply",
+        instruction:
+          "columns subset.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['id','amt'])
+print('ok', True)
+print('columnar', True)`,
+          output: `['id', 'amt']
+ok True
+columnar True`,
+        },
+      },
+      {
+        id: "S37-T3-A-E3",
+        subtopicId: "S37-T3-A",
+        kind: "apply",
+        instruction:
+          "dtype note int32.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('dtype', 'int32')
+print('ok', True)
+print('mem', 'lower')`,
+          output: `dtype int32
+ok True
+mem lower`,
+        },
+      },
+      {
+        id: "S37-T3-B-E1",
+        subtopicId: "S37-T3-B",
+        kind: "apply",
+        instruction:
+          "cache key tuple.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(('fs-v1','cut'))
+print('hit', True)
+print('ok', True)`,
+          output: `('fs-v1', 'cut')
+hit True
+ok True`,
+        },
+      },
+      {
+        id: "S37-T3-B-E2",
+        subtopicId: "S37-T3-B",
+        kind: "apply",
+        instruction:
+          "invalidate reason.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('version_change')
+print('ok', True)
+print('stale', True)`,
+          output: `version_change
+ok True
+stale True`,
+        },
+      },
+      {
+        id: "S37-T3-B-E3",
+        subtopicId: "S37-T3-B",
+        kind: "apply",
+        instruction:
+          "ooc strategy chunk.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('ooc', 'chunk')
+print('ok', True)
+print('ram', 'bounded')`,
+          output: `ooc chunk
+ok True
+ram bounded`,
+        },
+      },
+      {
+        id: "S37-T4-A-E1",
+        subtopicId: "S37-T4-A",
+        kind: "apply",
+        instruction:
+          "pass if 9<=10.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)
+print('budget', 10)
+print('measured', 9)`,
+          output: `True
+budget 10
+measured 9`,
+        },
+      },
+      {
+        id: "S37-T4-A-E2",
+        subtopicId: "S37-T4-A",
+        kind: "apply",
+        instruction:
+          "fail if 12>10.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(False)
+print('budget', 10)
+print('measured', 12)`,
+          output: `False
+budget 10
+measured 12`,
+        },
+      },
+      {
+        id: "S37-T4-A-E3",
+        subtopicId: "S37-T4-A",
+        kind: "apply",
+        instruction:
+          "budget fields.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['latency_p95','memory','pairs'])
+print('ok', True)
+print('n', 3)`,
+          output: `['latency_p95', 'memory', 'pairs']
+ok True
+n 3`,
+        },
+      },
+      {
+        id: "S37-T4-B-E1",
+        subtopicId: "S37-T4-B",
+        kind: "apply",
+        instruction:
+          "speedup 80/20.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(4.0)
+print('ok', True)
+print('micro_only', False)`,
+          output: `4.0
+ok True
+micro_only False`,
+        },
+      },
+      {
+        id: "S37-T4-B-E2",
+        subtopicId: "S37-T4-B",
+        kind: "apply",
+        instruction:
+          "clarity over 2%.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('prefer', 'clarity')
+print('ok', True)
+print('shave', '2pct_no')`,
+          output: `prefer clarity
+ok True
+shave 2pct_no`,
+        },
+      },
+      {
+        id: "S37-T4-B-E3",
+        subtopicId: "S37-T4-B",
+        kind: "apply",
+        instruction:
+          "report keys.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['before','after','dataset','hardware'])
+print('ok', True)
+print('n', 4)`,
+          output: `['before', 'after', 'dataset', 'hardware']
+ok True
+n 4`,
         },
       },
     ],
   },
   youDo: {
-    title: 'Modern Data Stack Pipeline',
-    context: 'Pipeline completo con Airbyte (ingesta), dbt (transformaciones con tests), PostgreSQL/BigQuery (warehouse), y dashboard Streamlit sobre los marts de dbt.',
+    title: "Reporte antes/después de escala del triage (CP-N3-C escala)",
+    context:
+      "Mide path caliente, aplica blocking/estructuras, budget test y reporte. Id dbt-bigquery conservado.",
     objectives: [
-      'Aplicar los conceptos aprendidos en un proyecto real',
-      'Demostrar dominio del tema con un entregable de portafolio',
-      'Documentar el proceso y los resultados',
+      "Profile wall",
+      "Blocking reduction",
+      "Cache/chunks",
+      "Budget + before/after",
     ],
     requirements: [
-      'Código funcional y documentado',
-      'Tests que validen el funcionamiento',
-      'README con instrucciones de uso',
+      "Mismo resultado funcional",
+      "Dataset/hardware anotados",
+      "es-PE",
     ],
-    portfolioNote: 'Este proyecto es ideal para mostrar en entrevistas técnicas y agregar a tu portafolio de GitHub.',
+    starterCode: `import time
+def bench(fn, n=5):
+    fn(); ts=[]
+    for _ in range(n):
+        t0=time.perf_counter(); fn(); ts.append(time.perf_counter()-t0)
+    return sorted(ts)[len(ts)//2]
+if __name__=='__main__':
+    print(bench(lambda: sum(range(1000))))
+`,
+    portfolioNote:
+      "Escala CP-N3-C; no PASS.",
     rubric: [
-      { criterion: 'Funcionalidad', weight: '40%' },
-      { criterion: 'Calidad de código', weight: '20%' },
-      { criterion: 'Documentación', weight: '20%' },
-      { criterion: 'Tests', weight: '20%' },
+      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
+      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
+      { criterion: "Privacidad / sin PII real / sin secretos / sin inferencia de fraude", weight: "20%" },
+      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
+      { criterion: "Código legible y límites claros", weight: "10%" },
+      { criterion: "Documentación en español profesional", weight: "10%" },
+      { criterion: "Before/after con mismo resultado", weight: "bonus" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: '¿Qué es dbt y qué problema resuelve?',
+        question: "Warmup sirve para:",
         options: [
-          'Transforma datos con SQL declarativo y testeable — define dependencias automáticamente y materializa como tablas/views en la DB',
-          'dbt es un reemplazo de SQL',
-          'dbt es un framework web',
-          'dbt es un ORM como SQLAlchemy',
+          "Inflar métricas",
+          "Estabilizar benches descartando cold start",
+          "Borrar cache siempre",
+          "Evitar tests",
         ],
-        correctIndex: 0,
-        explanation: 'dbt (data build tool) transforma datos en SQL: un modelo es un SELECT que se materializa como tabla. dbt resuelve dependencias automáticamente (si B hace JOIN con A, ejecuta A primero). Elimina scripts SQL con orden manual.',
+        correctIndex: 1,
+        explanation:
+          "Cold start.",
       },
       {
-        question: '¿Qué es un modelo incremental en dbt?',
+        question: "Blocking reduce:",
         options: [
-          'Solo procesa registros nuevos desde la última ejecución — usa unique_key para MERGE (upsert), reduciendo costo y tiempo drásticamente',
-          'Un modelo que se actualiza cada segundo',
-          'Un modelo con menos columnas',
-          'Un modelo temporal que se borra después',
+          "Solo logs",
+          "Pares candidatos O(n²)",
+          "Privacidad automáticamente",
+          "Seeds",
         ],
-        correctIndex: 0,
-        explanation: 'Incremental: en vez de reprocesar 10M de filas cada noche, solo procesa las nuevas del día. Con unique_key="event_id", dbt hace MERGE (upsert). Sin unique_key, hace INSERT y duplica en re-runs.',
+        correctIndex: 1,
+        explanation:
+          "Costo de pares.",
       },
       {
-        question: '¿Qué son los dbt tests?',
+        question: "Performance budget en CI:",
         options: [
-          'Validaciones de integridad de datos: not_null, unique, accepted_values, relationships — si fallan, el pipeline se detiene',
-          'Tests unitarios de código Python',
-          'Tests de rendimiento de queries',
-          'Tests de seguridad de la base de datos',
+          "Es opcional teatro",
+          "Falla si se rompe el límite acordado",
+          "Solo se mide en prod un año después",
+          "Reemplaza tests funcionales",
         ],
-        correctIndex: 0,
-        explanation: 'dbt tests son assertions: expect_column_to_not_be_null, expect_column_values_to_be_unique. Si un test falla, el build se detiene. Previene que datos corruptos propaguen a dashboards y modelos ML.',
+        correctIndex: 1,
+        explanation:
+          "Regresión perf.",
       },
       {
-        question: '¿Qué hace `dbt docs generate`?',
+        question: "Microoptimizar 2% sin medición:",
         options: [
-          'Genera un sitio HTML con documentación de cada modelo, descripciones de columnas, tests, y linaje visual de datos',
-          'Genera documentación de código Python',
-          'Genera un PDF con el diseño de la DB',
-          'Genera un diagrama ER',
+          "Best practice",
+          "Teatro; prioriza claridad y algos",
+          "Obligatorio",
+          "Invalida blocking",
         ],
-        correctIndex: 0,
-        explanation: 'dbt docs generate crea un sitio web navegable: clic en cualquier modelo y ves su SQL, descripciones, tests, y qué modelos dependen de él. El linaje visual muestra el flujo de datos desde sources hasta modelos finales.',
-      },
-      {
-        question: '¿Qué es partitioning en BigQuery y por qué reduce costos?',
-        options: [
-          'Divide la tabla por fecha — al consultar con WHERE date >= CURRENT_DATE()-7, BigQuery solo escanea 7 días en vez de toda la tabla, reduciendo costo 100x',
-          'Es dividir la tabla en múltiples archivos',
-          'Es un tipo de índice',
-          'Es comprimir los datos',
-        ],
-        correctIndex: 0,
-        explanation: 'BigQuery cobra por bytes escaneados. Sin partitioning, un SELECT escanea toda la tabla (10GB = $0.05 por query). Con partitioning por fecha, WHERE date >= "2026-01-01" solo escanea esa partición (100MB = $0.0005). 100x más barato.',
+        correctIndex: 1,
+        explanation:
+          "Costo total.",
       },
     ],
   },
   resources: {
     docs: [
-      { label: 'Documentación oficial', url: 'https://docs.python.org/3/' },
+      {
+        label: "Python time.perf_counter",
+        url: "https://docs.python.org/3/library/time.html",
+        note: "Wall clock",
+      },
+      {
+        label: "Big-O cheat sheet",
+        url: "https://www.bigocheatsheet.com/",
+        note: "Complejidad",
+      },
     ],
     books: [
-      { label: 'Python 201 — Michael Driscoll', note: 'Capítulos relevantes para esta sección' },
+      {
+        label: "High Performance Python",
+        note: "Profiling",
+      },
+      {
+        label: "Algorithm design manuals",
+        note: "Blocking/indexing",
+      },
     ],
     courses: [
-      { label: 'Real Python', url: 'https://realpython.com', note: 'Tutoriales complementarios' },
+      {
+        label: "Python profilers",
+        url: "https://docs.python.org/3/library/profile.html",
+        note: "cProfile",
+      },
     ],
   },
 }

@@ -1,0 +1,286 @@
+{
+  "version": "3.2",
+  "section": "S13",
+  "section_id": "rpa-automation",
+  "phase": "PHASE_1_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1B-FACTORY",
+  "content_inventory": {
+    "section_file": "src/lib/course/sections/s13-rpa-automation.ts",
+    "orphan_files": [],
+    "total_lines": 1723,
+    "structure": {
+      "id": "rpa-automation",
+      "index": 13,
+      "title": "RPA & Automatización con IA",
+      "shortTitle": "RPA & Automatización",
+      "tagline_platform": "RPA & Automatización con IA",
+      "estimatedHours": 14,
+      "level": "Principiante avanzado",
+      "phase": 0
+    },
+    "theory_blocks": [
+      {
+        "block": 1,
+        "heading": "RPA landscape & tool selection",
+        "v3_alignment": "none — RPA → S24 / CP-N2-C path"
+      },
+      {
+        "block": 2,
+        "heading": "Playwright automation",
+        "v3_alignment": "none"
+      },
+      {
+        "block": 3,
+        "heading": "OCR / PDFs",
+        "v3_alignment": "none"
+      },
+      {
+        "block": 4,
+        "heading": "Ollama / LLM local",
+        "v3_alignment": "none for N1 gate"
+      },
+      {
+        "block": 5,
+        "heading": "Whisper / HF",
+        "v3_alignment": "none"
+      },
+      {
+        "block": 6,
+        "heading": "Prefect orchestration",
+        "v3_alignment": "none"
+      }
+    ],
+    "learningOutcomes_count": 7,
+    "learningOutcomes_summary": [
+      "Python-RPA vs UiPath matrix",
+      "Playwright",
+      "desktop automation",
+      "OCR tesseract",
+      "Ollama/OpenAI",
+      "Whisper",
+      "Prefect + GH Actions"
+    ],
+    "iDo_steps_count": 3,
+    "weDo_steps_count": 3,
+    "youDo_project": {
+      "title": "Capstone: Invoice Digitizer Bot — PDF folder → OCR/extract → LLM structure → SQLite + Excel",
+      "maps_to_capstone_current": "legacy portfolio",
+      "maps_to_capstone_v3_target": "CP-N1-C (cierre) + CF-1 + Level-1 regression"
+    },
+    "selfCheck_questions": {
+      "total": 5
+    },
+    "codePlayground_demo": {
+      "note": "Demos viven principalmente en iDo; V3 requiere 8 demos por subtema",
+      "verified": false
+    }
+  },
+  "exam_bank_inventory": {
+    "source_file": "prisma/seed.ts",
+    "section_id": "rpa-automation",
+    "total_questions": 12,
+    "unique_concepts": 4,
+    "variants_per_concept": 3,
+    "concepts": [
+      {
+        "slug": "playwright-vs-selenium",
+        "variants": 3,
+        "coverage": "Legacy RPA — NOT V3 S13"
+      },
+      {
+        "slug": "ollama-local-llm",
+        "variants": 3,
+        "coverage": "Legacy RPA — NOT V3 S13"
+      },
+      {
+        "slug": "ocr-tesseract",
+        "variants": 3,
+        "coverage": "Legacy RPA — NOT V3 S13"
+      },
+      {
+        "slug": "prefect-orchestration",
+        "variants": 3,
+        "coverage": "Legacy RPA — NOT V3 S13"
+      }
+    ],
+    "gap_vs_v3": {
+      "current_concepts": 4,
+      "v3_target_subtopics": 8,
+      "missing_subtopics": 8,
+      "missing_concept_slugs": [
+        "T1-a: normalize-blocking-er",
+        "T1-b: labeled-truth-precision-recall-clerical",
+        "T2-a: shared-contact-distance-surnames",
+        "T2-b: direct-tx-common-counterparties",
+        "T3-a: evidence-score-uncertainty-explanation",
+        "T3-b: review-threshold-abstention-no-auto-inference",
+        "T4-a: dashboard-map-case-sheet",
+        "T4-b: privacy-access-tests-demo-runbook"
+      ]
+    }
+  },
+  "platform_inventory": {
+    "section_renders": true,
+    "tabs_visible": [
+      "theory",
+      "ido",
+      "wedo",
+      "youdo",
+      "quiz"
+    ],
+    "section_registered_in_index": true
+  },
+  "counting_summary": {
+    "current_state": {
+      "topics": 6,
+      "topics_v3_aligned": 0,
+      "subtopics": 0,
+      "demos": 3,
+      "student_exercises": 3,
+      "topic_evaluations": 0,
+      "exam_variants": 12,
+      "section_exam": 1,
+      "project_increments": 1,
+      "selfCheck_mcq": 5
+    },
+    "v3_target": {
+      "topics": 4,
+      "subtopics": 8,
+      "demos": 8,
+      "student_exercises": 24,
+      "topic_evaluations": 4,
+      "exam_variants": 24,
+      "section_exam": 1,
+      "project_increments": 1
+    },
+    "gap": {
+      "topics_need_full_retheme": 4,
+      "subtopics": 8,
+      "demos": 5,
+      "student_exercises": 21,
+      "topic_evaluations": 4,
+      "exam_variants": 12,
+      "project_needs_retheme": true
+    }
+  },
+  "issues_found": [
+    {
+      "issue_id": "S13-CONTENT-001",
+      "severity": "P0",
+      "status": "open",
+      "category": "topic_mismatch",
+      "observed_evidence": "src/lib/course/sections/s13-rpa-automation.ts enseña 'RPA & Automatización con IA'. V3 S13 exige 'Familiarity Evidence Dashboard y cierre de nivel'.",
+      "expected": "4 temas V3 con 8 subtemas: ['T1', 'T2', 'T3', 'T4']",
+      "root_cause": "Contenido V2/plataforma; V3 redefinió S9–S13 del nivel 1 de datos/familiaridad",
+      "impact": "Cero cobertura de outcomes V3; bloquea compliance claim",
+      "fix": "PHASE 3–5: retheme; preservar archivo legado hasta migración",
+      "verification": [
+        "Theory headings match V3 T1–T4",
+        "You Do matches V3 project"
+      ]
+    },
+    {
+      "issue_id": "S13-CONTENT-002",
+      "severity": "P1",
+      "status": "open",
+      "category": "counting_contract",
+      "observed_evidence": "~3 demos, ~3 ejercicios formales, 12 exam variants, 0 topic evals",
+      "expected": "8 demos, 24 exercises, 24 exam variants, 4 topic evaluations",
+      "root_cause": "Estructura V2",
+      "impact": "Insuficiente práctica/evaluación mastery",
+      "fix": "Expandir a vector canónico en PHASE 3–5",
+      "verification": [
+        "subtopics=8",
+        "variants=24",
+        "exercises=24"
+      ]
+    },
+    {
+      "issue_id": "S13-CONTENT-003",
+      "severity": "P1",
+      "status": "open",
+      "category": "capstone_alignment",
+      "observed_evidence": "You Do = Capstone: Invoice Digitizer Bot — PDF folder → OCR/extract → LLM structure → SQLite + Excel",
+      "expected": "Familiarity Evidence Dashboard con ER determinista basado en reglas, datos sintéticos, entity_resolution_score separado de relationship_signal_score, geoevidencia trazable, revisión humana y límites explícitos. Promoción: tres capstones N1, regresión S1–S13 y CF-1 aprobados.",
+      "root_cause": "Proyecto legado de portafolio DS/RPA",
+      "impact": "Capstone CP-N1-C (cierre) + CF-1 + Level-1 regression pierde incremento de S13",
+      "fix": "Rediseñar You Do en PHASE 3/4",
+      "verification": [
+        "Project maps to V3 gate"
+      ]
+    },
+    {
+      "issue_id": "S13-CONTENT-004",
+      "severity": "P1",
+      "status": "open",
+      "category": "exam_bank",
+      "observed_evidence": "4 conceptos legacy: ['playwright-vs-selenium', 'ollama-local-llm', 'ocr-tesseract', 'prefect-orchestration']",
+      "expected": "8 familias A/B/C V3",
+      "root_cause": "Banco alineado a título plataforma",
+      "impact": "Examen no mide skills V3",
+      "fix": "PHASE 5: 8×3 variantes nuevas",
+      "verification": [
+        "8 concepts × 3 under production plan"
+      ]
+    },
+    {
+      "issue_id": "S13-CONTENT-005",
+      "severity": "P2",
+      "status": "open",
+      "category": "topic_evaluations",
+      "observed_evidence": "0 topic evaluations; solo selfCheck de sección",
+      "expected": "4 evaluaciones de tema (2 tareas + rúbrica 0–3)",
+      "root_cause": "Shape CourseSection no modela topic evals aún",
+      "impact": "Sin assessment formativo por tema",
+      "fix": "Blueprint PHASE 3 declara 4 paquetes",
+      "verification": [
+        "topic_evaluations count = 4 in blueprint"
+      ]
+    },
+    {
+      "issue_id": "S13-CONTENT-007",
+      "severity": "P0",
+      "status": "open",
+      "category": "level_gate",
+      "observed_evidence": "CP-N1-C PARTIAL; CF-1 NOT_STARTED; no N1 regression suite registered as PASS",
+      "expected": "CP-N1-C + N1 regression S1–S13 + CF-1 all PASS before S14",
+      "root_cause": "Nivel 1 no cerrado; contenido RPA no es el dashboard de evidencia",
+      "impact": "Bloquea promoción Nivel 2",
+      "fix": "PHASE 3 blueprint + later implementation of dashboard + regression checklist",
+      "verification": [
+        "capstone_ledger CP-N1-C",
+        "CF-1",
+        "N1-REGRESSION"
+      ]
+    },
+    {
+      "issue_id": "S13-CONTENT-008",
+      "severity": "P1",
+      "status": "open",
+      "category": "privacy_er_separation",
+      "observed_evidence": "Legacy RPA content; FamiliarityDashboard may exist but needs V3 score separation",
+      "expected": "entity_resolution_score ≠ relationship_signal_score; human review; no auto fraud/kinship",
+      "root_cause": "V3 privacy contract not enforced in section content",
+      "impact": "Violación de principio canónico del curso",
+      "fix": "Enforce in S13 T1–T3 blueprint and project",
+      "verification": [
+        "two score fields",
+        "review queue",
+        "no is_fraud"
+      ]
+    }
+  ],
+  "phase_1_gate": {
+    "all_paths_inspected": true,
+    "all_artifacts_counted": true,
+    "all_gaps_registered": true,
+    "issues_count": 7,
+    "issues_P0": 2,
+    "issues_P1": 4,
+    "issues_P2": 1,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_3",
+    "notes": "PHASE 2 (source research deep) deferred in factory lane; blueprints authorized at S03-comparable scope. No section passed."
+  }
+}

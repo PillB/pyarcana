@@ -1,0 +1,320 @@
+{
+  "version": "3.2",
+  "section": "S04",
+  "section_id": "functions-modules",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S04-S05-P4",
+  "generated_at": "2026-07-20T06:48:38Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/s01-s03/orchestration",
+  "preamble": {
+    "objective": "Retarget functions-modules section TS to V3 roadmap; author full packages for all 8 subtopics (T1–T4).",
+    "scope_in": [
+      "src/lib/course/sections/s04-functions-modules.ts",
+      "course-state/s04_phase4_progress.json",
+      "course-state/lanes/LANE-S04-S05-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "s01-setup.ts",
+      "s02-basics.ts",
+      "s03-data-structures.ts",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "functions-modules",
+    "index": 4,
+    "title": "Iteración y resúmenes transaccionales",
+    "shortTitle": "Iteración & Resúmenes",
+    "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+    "estimatedHours": 8,
+    "learningOutcomes": 8,
+    "youDo": "Client Intake & Data Quality Script (CP-N1-A complete)",
+    "icon": "Repeat",
+    "legacy_note": "decorators/pathlib packaging demoted; target is iteration + CP-N1-A batch script"
+  },
+  "subtopics_authored": {
+    "S04-T1-A": {
+      "slug": "for-range-sequences",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S04-T1-A-DEMO",
+      "exercises": [
+        "S04-T1-A-E1",
+        "S04-T1-A-E2",
+        "S04-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S04-T1-B": {
+      "slug": "enumerate-zip",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S04-T1-B-DEMO",
+      "exercises": [
+        "S04-T1-B-E1",
+        "S04-T1-B-E2",
+        "S04-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S04-T2-A": {
+      "slug": "while-sentinels",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S04-T2-A-DEMO",
+      "exercises": [
+        "S04-T2-A-E1",
+        "S04-T2-A-E2",
+        "S04-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S04-T2-B": {
+      "slug": "break-continue-guards",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S04-T2-B-DEMO",
+      "exercises": [
+        "S04-T2-B-E1",
+        "S04-T2-B-E2",
+        "S04-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S04-T3-A": {
+      "slug": "counters-accumulators",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S04-T3-A-DEMO",
+      "exercises": [
+        "S04-T3-A-E1",
+        "S04-T3-A-E2",
+        "S04-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S04-T3-B": {
+      "slug": "comprehensions",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S04-T3-B-DEMO",
+      "exercises": [
+        "S04-T3-B-E1",
+        "S04-T3-B-E2",
+        "S04-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S04-T4-A": {
+      "slug": "state-tracing",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S04-T4-A-DEMO",
+      "exercises": [
+        "S04-T4-A-E1",
+        "S04-T4-A-E2",
+        "S04-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S04-T4-B": {
+      "slug": "complexity-off-by-one",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S04-T4-B-DEMO",
+      "exercises": [
+        "S04-T4-B-E1",
+        "S04-T4-B-E2",
+        "S04-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S04-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S04-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "youDo": "Client Intake & Data Quality Script — multi-record, rates, raw preserved",
+  "notes": "Español peruano; datos sintéticos; platform id preserved."
+}

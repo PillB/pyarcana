@@ -1,0 +1,109 @@
+{
+  "version": "3.2",
+  "section": "S04",
+  "section_id": "functions-modules",
+  "phase": "PHASE_5",
+  "lane": "LANE-S04-S05-P5",
+  "generated_at": "2026-07-20T12:05:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "functions-modules"
+  },
+  "parallelism_rules": {
+    "same_skill_per_family": true,
+    "same_format": "MCQ 4 options",
+    "cognitive_demand": "A/B/C matched within family (not cosmetic rewording)",
+    "one_best_answer": true,
+    "explanation": "key rationale only"
+  },
+  "retired_from_s04_bank": [
+    "functools-wraps",
+    "pathlib-vs-os",
+    "name-main",
+    "keyword-only-args"
+  ],
+  "retired_note": "Legacy S04 bank covered decorators/pathlib/__main__/keyword-only (S10 packaging territory). Replaced with V3 iteration/resumen slugs for CP-N1-A batch gate.",
+  "families": [
+    {
+      "family_id": "S04-T1-A-EX",
+      "concept": "for-range-sequences",
+      "skill": "Recorrer secuencias con for/range sin off-by-one",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: for reg in filas; B: range(3) stop exclusivo; C: cuándo range(len). Misma skill de recorrido.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S04-T1-B-EX",
+      "concept": "enumerate-zip",
+      "skill": "enumerate y zip sin desalinear columnas",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: enumerate start=1; B: zip corto silencioso; C: len check / strict. Misma skill de alineación.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S04-T2-A-EX",
+      "concept": "while-sentinels",
+      "skill": "while con centinela y terminación explícita",
+      "bloom": "Comprender/Aplicar",
+      "equivalence_note": "A: cuándo while vs for; B: centinela corta lote; C: variable de control. Misma skill de terminación.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S04-T2-B-EX",
+      "concept": "break-continue-guards",
+      "skill": "break/continue y guardrails anti-infinito",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: continue en vacío; B: MAX_ITERS; C: SKIP vs END. Misma skill de control de bucle.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S04-T3-A-EX",
+      "concept": "counters-accumulators",
+      "skill": "Contadores, acumuladores y tasa con denominador correcto",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: tasa error/total; B: contador vs acumulador; C: primer reject O(n). Misma skill de resúmenes.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S04-T3-B-EX",
+      "concept": "comprehensions",
+      "skill": "List/set comprehensions legibles y cuándo usar for",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: filter reject ids; B: for multi-rama; C: set de statuses. Misma skill de comprehensions.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S04-T4-A-EX",
+      "concept": "state-tracing",
+      "skill": "Trazar estado de bucles para depurar contadores",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: definición de traza; B: valores en tabla montos; C: por qué trazar. Misma skill de depuración.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S04-T4-B-EX",
+      "concept": "complexity-off-by-one",
+      "skill": "Costo O(n)/O(n²) y off-by-one de índices",
+      "bloom": "Comprender/Aplicar",
+      "equivalence_note": "A: n² anidado; B: IndexError len; C: un pase de contadores. Misma skill de costo/índices.",
+      "variants": ["A", "B", "C"]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase4_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (functions-modules key)",
+    "course-state/s04_phase5_exam_bank.json",
+    "course-state/lanes/LANE-S04-S05-P5.status.json"
+  ]
+}

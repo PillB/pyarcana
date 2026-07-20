@@ -1,0 +1,260 @@
+{
+  "version": "3.2",
+  "section": "S09",
+  "section_id": "visualization",
+  "phase": "PHASE_0_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1B-FACTORY",
+  "prompt_version": "3.2",
+  "requirement_matrix": {
+    "global_requirements": [
+      {
+        "id": "REQ-GLOBAL-001",
+        "requirement": "Cada sección tiene exactamente 4 temas evaluables",
+        "source": "V3 prompt §4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Contar temas en blueprint de S09 = 4",
+        "status": "pass",
+        "evidence": "V3 roadmap S09 define T1–T4"
+      },
+      {
+        "id": "REQ-GLOBAL-002",
+        "requirement": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar subtemas en blueprint de S09 = 8 (4×2)",
+        "status": "blocked",
+        "evidence": "Contenido de plataforma no está estructurado como 4×2 V3; requiere retematización en PHASE 4."
+      },
+      {
+        "id": "REQ-GLOBAL-003",
+        "requirement": "Cada subtema tiene 1 demo I Do y 3 ejercicios del estudiante",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar demos = 8, ejercicios = 24 para S09",
+        "status": "blocked",
+        "evidence": "Inventario plataforma: demos/ejercicios por debajo del vector canónico (ver counting_summary en phase1)."
+      },
+      {
+        "id": "REQ-GLOBAL-004",
+        "requirement": "Cada subtema tiene 3 variantes de examen A/B/C",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar variantes = 24 (8×3) para S09",
+        "status": "blocked",
+        "evidence": "seed.ts: 4 conceptos × 3 = 12 variantes por section_id de plataforma; target V3 = 24."
+      },
+      {
+        "id": "REQ-GLOBAL-005",
+        "requirement": "Cada sección tiene evaluación por tema, examen acumulativo y proyecto",
+        "source": "V3 prompt §4",
+        "acceptance_test": "4 topic evaluations + 1 section exam + 1 project increment for S09",
+        "status": "partial",
+        "evidence": "selfCheck + youDo presentes; faltan 4 evaluaciones por tema y retheme del proyecto al gate V3."
+      },
+      {
+        "id": "REQ-GLOBAL-006",
+        "requirement": "Idioma: español peruano profesional",
+        "source": "V3 prompt §3",
+        "acceptance_test": "Contenido de S09 en español peruano sin caricaturas",
+        "status": "pass",
+        "evidence": "Contenido plataforma usa tono profesional y contexto peruano (regiones, S/, empresas locales)."
+      },
+      {
+        "id": "REQ-GLOBAL-007",
+        "requirement": "No equiparar coincidencia con parentesco/colusión/fraude",
+        "source": "V3 prompt §3",
+        "acceptance_test": "S09: entity_resolution_score separado de relationship_signal_score; sin inferencia automática de parentesco/fraude",
+        "status": "partial",
+        "evidence": "Principio se formaliza en S11–S13 V3; contenido legado no modela ER/relación."
+      },
+      {
+        "id": "REQ-GLOBAL-008",
+        "requirement": "Todo código debe ejecutarse o marcarse UNVERIFIED",
+        "source": "V3 prompt §3",
+        "acceptance_test": "Código de S09 ejecutado en entorno declarado",
+        "status": "partial",
+        "evidence": "Outputs embebidos en demos legacy; re-verificación formal en PHASE 7 / TECHNICALLY_VERIFIED."
+      },
+      {
+        "id": "REQ-GLOBAL-009",
+        "requirement": "Datos sintéticos o legalmente reutilizables",
+        "source": "V3 prompt §3",
+        "acceptance_test": "S09 no usa PII real de personas",
+        "status": "pass",
+        "evidence": "Preferencia V3: datasets sintéticos de cliente/transacción; demos legacy usan datos de muestra."
+      }
+    ],
+    "section_requirements": [
+      {
+        "id": "REQ-S09-001",
+        "requirement": "S09 cubre: Excepciones — Tipos específicos, raise y chaining; Fronteras de recuperación y cleanup",
+        "source": "V3 roadmap S09 T1",
+        "acceptance_test": "Contenido de S09 incluye ambos subtemas de T1",
+        "status": "fail",
+        "evidence": "Plataforma visualization (Data Visualization) no enseña el tema V3 'Excepciones' como ownership canónico."
+      },
+      {
+        "id": "REQ-S09-002",
+        "requirement": "S09 cubre: Diagnóstico — Traceback y debugger; Reproducción mínima, hipótesis y causa raíz",
+        "source": "V3 roadmap S09 T2",
+        "acceptance_test": "Contenido de S09 incluye ambos subtemas de T2",
+        "status": "fail",
+        "evidence": "Plataforma visualization (Data Visualization) no enseña el tema V3 'Diagnóstico' como ownership canónico."
+      },
+      {
+        "id": "REQ-S09-003",
+        "requirement": "S09 cubre: Logging — Niveles y estructura; Correlation IDs y redacción de PII",
+        "source": "V3 roadmap S09 T3",
+        "acceptance_test": "Contenido de S09 incluye ambos subtemas de T3",
+        "status": "fail",
+        "evidence": "Plataforma visualization (Data Visualization) no enseña el tema V3 'Logging' como ownership canónico."
+      },
+      {
+        "id": "REQ-S09-004",
+        "requirement": "S09 cubre: Resiliencia inicial — Fallar rápido vs continuar; Idempotencia, retries solo transitorios y cuarentena",
+        "source": "V3 roadmap S09 T4",
+        "acceptance_test": "Contenido de S09 incluye ambos subtemas de T4",
+        "status": "fail",
+        "evidence": "Plataforma visualization (Data Visualization) no enseña el tema V3 'Resiliencia inicial' como ownership canónico."
+      },
+      {
+        "id": "REQ-S09-005",
+        "requirement": "S09 incremento/gate: bitácora auditable que nunca registra email/teléfono/dirección completos y diferencia fallo de datos, configuración y proveedor",
+        "source": "V3 roadmap S09 Incremento/gate",
+        "acceptance_test": "You Do / project cumple el gate V3",
+        "status": "fail",
+        "evidence": "You Do actual: Add Visuals to Your Netflix EDA — Tu primera pieza de portafolio visual"
+      },
+      {
+        "id": "REQ-S09-006",
+        "requirement": "S09 proyecto: inicio CP-N1-C — bitácora auditable (capstone CP-N1-C (inicio))",
+        "source": "V3 roadmap S09 Proyecto + capstone_ledger",
+        "acceptance_test": "Incremento de proyecto alineado a capstone",
+        "status": "fail",
+        "evidence": "Proyecto de plataforma desalineado; ver phase3 project_increment"
+      },
+      {
+        "id": "REQ-S09-007",
+        "requirement": "S09 entorno: local-python",
+        "source": "V3 roadmap S09",
+        "acceptance_test": "Demos declaran entorno correcto",
+        "status": "pass",
+        "evidence": "Target environment local-python"
+      },
+      {
+        "id": "REQ-S09-008",
+        "requirement": "S09 prerrequisitos: S08",
+        "source": "V3 roadmap S09",
+        "acceptance_test": "Prerrequisitos documentados en blueprint",
+        "status": "pass",
+        "evidence": "['S08']"
+      },
+      {
+        "id": "REQ-S09-009",
+        "requirement": "Contenido legado de plataforma no se elimina; se inventaría y planifica reubicación",
+        "source": "Instrucciones LANE-N1B-FACTORY + course_requirements authority",
+        "acceptance_test": "Archivo src/lib/course/sections/s09-visualization.ts intacto en PHASE 0–3",
+        "status": "pass",
+        "evidence": "Esta lane solo escribe course-state artifacts; no reescribe .ts grandes"
+      }
+    ],
+    "platform_requirements": [
+      {
+        "id": "REQ-PLATFORM-001",
+        "requirement": "S09 carga en la plataforma con id estable 'visualization'",
+        "source": "src/lib/course/index.ts + learning_roadmap.md",
+        "acceptance_test": "Section id visualization registrado en COURSE_SECTIONS",
+        "status": "pass",
+        "evidence": "index imports src/lib/course/sections/s09-visualization.ts; id: 'visualization'"
+      },
+      {
+        "id": "REQ-PLATFORM-002",
+        "requirement": "S09 tiene especificación de examen en seed/roadmap de plataforma",
+        "source": "prisma/seed.ts + learning_roadmap.md",
+        "acceptance_test": "4 conceptos legacy × 3 presentes; 8 V3 pendientes",
+        "status": "partial",
+        "evidence": "seed 'visualization': 4 concepts × 3 = 12; 0 alineados a V3 S09"
+      },
+      {
+        "id": "REQ-PLATFORM-003",
+        "requirement": "Tabs theory/ido/wedo/youdo/quiz renderizan",
+        "source": "CourseSection shape + SectionView",
+        "acceptance_test": "theory[], iDo, weDo, youDo, selfCheck presentes",
+        "status": "pass",
+        "evidence": "src/lib/course/sections/s09-visualization.ts incluye shape actual"
+      }
+    ]
+  },
+  "contradictions_detected": [
+    {
+      "id": "CONTRADICTION-S09-001",
+      "issue": "V3 define S09 como 'Excepciones, debugging y logging seguro'. Plataforma id 'visualization' es 'Data Visualization' (src/lib/course/sections/s09-visualization.ts).",
+      "resolution": "Mantener section_id de plataforma (learning_roadmap.md authority). TARGET de producción = topics V3 4×2. Contenido legado inventariado, no borrado.",
+      "authority": "learning_roadmap.md = id/title platform; V3 = counting + outcomes target",
+      "impact": "No claim de section passed. PHASE 4+ retheme.",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S09-002",
+      "issue": "You Do plataforma = 'Add Visuals to Your Netflix EDA — Tu primera pieza de portafolio visual'. V3 project = 'inicio CP-N1-C — bitácora auditable'.",
+      "resolution": "Mapear You Do legacy; TARGET project_increment en phase3.",
+      "authority": "V3 Incremento/gate S09",
+      "impact": "You Do reescritura en PHASE 4; no borrar hasta reemplazo verificado",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S09-003",
+      "issue": "Exam bank 4×3 legacy vs 8×3 V3 subtopics",
+      "resolution": "PHASE 5 introduce 8 familias A/B/C V3; legacy se reasigna o retira en seed coordinado",
+      "authority": "V3 counting contract",
+      "impact": "12 vs 24 variants; 0 cobertura skills V3",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S09-004",
+      "issue": "Archivos huérfanos/duplicados no importados en index: ['src/lib/course/sections/s09-sklearn.ts']",
+      "resolution": "No borrar en esta lane; documentar. index.ts es autoridad de qué se sirve.",
+      "authority": "src/lib/course/index.ts",
+      "impact": "Confusión de ownership de contenido; evitar editar huérfanos como canónicos",
+      "status": "recorded"
+    }
+  ],
+  "v3_section_snapshot": {
+    "v3_label": "S09 — Excepciones, debugging y logging seguro",
+    "prerequisite": "S08",
+    "environment": "local-python",
+    "project": "inicio CP-N1-C — bitácora auditable",
+    "topics": {
+      "T1": "Excepciones: Tipos específicos, raise y chaining; Fronteras de recuperación y cleanup",
+      "T2": "Diagnóstico: Traceback y debugger; Reproducción mínima, hipótesis y causa raíz",
+      "T3": "Logging: Niveles y estructura; Correlation IDs y redacción de PII",
+      "T4": "Resiliencia inicial: Fallar rápido vs continuar; Idempotencia, retries solo transitorios y cuarentena"
+    },
+    "increment_gate": "bitácora auditable que nunca registra email/teléfono/dirección completos y diferencia fallo de datos, configuración y proveedor",
+    "capstone": "CP-N1-C (inicio)"
+  },
+  "platform_section_snapshot": {
+    "section_id": "visualization",
+    "index": 9,
+    "title": "Data Visualization",
+    "shortTitle": "Visualización",
+    "file": "src/lib/course/sections/s09-visualization.ts",
+    "orphan_files": [
+      "src/lib/course/sections/s09-sklearn.ts"
+    ],
+    "youDo": "Add Visuals to Your Netflix EDA — Tu primera pieza de portafolio visual",
+    "exam_concepts_seed": [
+      "matplotlib-oo-api",
+      "tight-layout",
+      "seaborn-use-case",
+      "plotly-export"
+    ],
+    "lines": 596
+  },
+  "phase_0_gate": {
+    "all_requirements_extracted": true,
+    "all_contradictions_recorded": true,
+    "requirement_matrix_complete": true,
+    "content_not_deleted": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_1"
+  }
+}

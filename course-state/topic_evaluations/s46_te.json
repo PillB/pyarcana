@@ -1,0 +1,171 @@
+{
+  "version": "3.2",
+  "section": "S46",
+  "section_id": "gpu-computing",
+  "section_title": "Ingeniería de datos y orquestación de producción",
+  "artifact": "topic_evaluations",
+  "platform_note": "Paquetes TE V3 (4 por sección). Datos estructurados para render TopicEvaluation; CourseSection.topicEvaluations es opcional.",
+  "generated_at": "2026-07-20T14:52:23Z",
+  "rubric_scale": "0-3 per criterion",
+  "language": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_principle": "Coincidir en apellido, teléfono, email, dirección, distancia o transacciones es evidencia para revisión, no prueba de parentesco, colusión o fraude.",
+  "topic_evaluations": [
+    {
+      "id": "S46-T1-TE",
+      "topic_id": "S46-T1",
+      "title": "Evaluación formativa — Batch/stream",
+      "subtopics_covered": [
+        "S46-T1-A",
+        "S46-T1-B"
+      ],
+      "topic_summary": "ventanas, event time y watermarks; late data y exactly-once como propiedad compuesta.",
+      "tasks": [
+        {
+          "id": "S46-T1-TE-1",
+          "title": "Tarea auténtica — Batch/stream: ventanas, event time y watermarks",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: ventanas, event time y watermarks. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S46, tema T1. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S46-T1-TE-2",
+          "title": "Tarea auténtica — Batch/stream: late data y exactly-once como propiedad compuesta",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: late data y exactly-once como propiedad compuesta. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S46, tema T1. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Batch/stream» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S46-T2-TE",
+      "topic_id": "S46-T2",
+      "title": "Evaluación formativa — Orquestación",
+      "subtopics_covered": [
+        "S46-T2-A",
+        "S46-T2-B"
+      ],
+      "topic_summary": "DAG/assets y dependency; schedules, backfills y state recovery.",
+      "tasks": [
+        {
+          "id": "S46-T2-TE-1",
+          "title": "Tarea auténtica — Orquestación: DAG/assets y dependency",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: DAG/assets y dependency. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S46, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S46-T2-TE-2",
+          "title": "Tarea auténtica — Orquestación: schedules, backfills y state recovery",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: schedules, backfills y state recovery. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S46, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Orquestación» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S46-T3-TE",
+      "topic_id": "S46-T3",
+      "title": "Evaluación formativa — Calidad/linaje",
+      "subtopics_covered": [
+        "S46-T3-A",
+        "S46-T3-B"
+      ],
+      "topic_summary": "contracts y freshness; lineage, observability y ownership.",
+      "tasks": [
+        {
+          "id": "S46-T3-TE-1",
+          "title": "Tarea auténtica — Calidad/linaje: contracts y freshness",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: contracts y freshness. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S46, tema T3. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S46-T3-TE-2",
+          "title": "Tarea auténtica — Calidad/linaje: lineage, observability y ownership",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: lineage, observability y ownership. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S46, tema T3. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Calidad/linaje» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S46-T4-TE",
+      "topic_id": "S46-T4",
+      "title": "Evaluación formativa — Operación",
+      "subtopics_covered": [
+        "S46-T4-A",
+        "S46-T4-B"
+      ],
+      "topic_summary": "partitions y incremental loads; SLO, incidentes y data recovery.",
+      "tasks": [
+        {
+          "id": "S46-T4-TE-1",
+          "title": "Tarea auténtica — Operación: partitions y incremental loads",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: partitions y incremental loads. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S46, tema T4. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S46-T4-TE-2",
+          "title": "Tarea auténtica — Operación: SLO, incidentes y data recovery",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: SLO, incidentes y data recovery. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S46, tema T4. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Operación» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    }
+  ],
+  "counts": {
+    "topic_evaluations": 4,
+    "tasks": 8
+  }
+}

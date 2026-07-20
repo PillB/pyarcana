@@ -1,0 +1,1066 @@
+{
+  "version": "3.2",
+  "section": "S07",
+  "section_id": "data-acquisition",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1-FACTORY",
+  "prompt_version": "3.2",
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "research_agent": "Pre-Round Research curricular blueprint patterns",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N1-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S07 blueprint: 4×2 subtopics, 24 exercises, 8 demos, 24 A/B/C, project increment.",
+    "scope_in": [
+      "S07",
+      "blueprint IDs",
+      "count validation",
+      "capstone increment",
+      "platform gap notes"
+    ],
+    "scope_out": [
+      "full theory/exercise bodies",
+      "full A/B/C stems",
+      "editing section .ts",
+      "marking passed",
+      "editing checkpoint/ledger/seed/s01-s03"
+    ],
+    "stop_criterion": "counts match canonical vector slice; gate authorizes PHASE 4 only"
+  },
+  "section_meta": {
+    "id": "data-acquisition",
+    "index": 7,
+    "title_platform": "Adquisición de Datos para Data Science",
+    "title_v3": "Texto, Unicode y expresiones regulares",
+    "title_decision": "KEEP platform id 'data-acquisition'. Production content rethemes to V3 'Texto, Unicode y expresiones regulares'.",
+    "tagline_target": "Unicode latam, strings y regex sin sobrevalidar",
+    "estimatedHours": 14,
+    "level": "Intermedio",
+    "prerequisites": [
+      "S6"
+    ],
+    "environment": "browser/local",
+    "project_capstone": "CP-N1-B",
+    "gate": null
+  },
+  "learning_outcomes_section": [
+    "El estudiante normaliza Unicode (NFC/NFD) y usa casefold para comparaciones insensibles a mayúsculas.",
+    "El estudiante modela nombres latam con dos apellidos y partículas (de, del, y) sin forzar un solo apellido.",
+    "El estudiante manipula texto con métodos str idiomáticos antes de recurrir a regex.",
+    "El estudiante normaliza contacto con reglas modestas y evita regex hiper-estrictas que rechazan válidos.",
+    "El estudiante escribe patrones con grupos y anchors ^$ para extracción limitada.",
+    "El estudiante compila patrones, extrae con findall/finditer y conoce límites (catastrophic backtracking, overfit).",
+    "El estudiante compara strings por igualdad normalizada y por tokens (Jaccard simple) sin afirmar identidad de persona.",
+    "El estudiante razona FP/FN de matching textual y conserva evidencia (scores, raw) sin etiquetar parentesco."
+  ],
+  "topics": [
+    {
+      "topic_id": "S07-T1",
+      "title": "Unicode",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S07-T1-A",
+          "slug": "unicode-normalization-casefold",
+          "title": "Code points, normalización y casefold",
+          "outcome": "El estudiante normaliza Unicode (NFC/NFD) y usa casefold para comparaciones insensibles a mayúsculas.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Code points, normalización y casefold",
+              "must_cover": [
+                "ord/chr intro",
+                "NFC vs NFD",
+                "unicodedata.normalize",
+                "casefold vs lower",
+                "tildes y ñ"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S07-T1-A-DEMO",
+              "title": "Comparar 'José' vs 'Jose\\u0301' con y sin normalize",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S07-T1-A-E1",
+                "kind": "guided",
+                "title": "NFC de nombres sintéticos",
+                "skill": "Code points, normalización y casefold",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S07-T1-A-E2",
+                "kind": "independent",
+                "title": "casefold match",
+                "skill": "Code points, normalización y casefold",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S07-T1-A-E3",
+                "kind": "transfer",
+                "title": "Diagnosticar mismatch por NFD",
+                "skill": "Code points, normalización y casefold",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S07-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S07-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S07-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S07-T1-B",
+          "slug": "latam-names-particles",
+          "title": "Tildes, ñ, partículas y apellidos compuestos",
+          "outcome": "El estudiante modela nombres latam con dos apellidos y partículas (de, del, y) sin forzar un solo apellido.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Tildes, ñ, partículas y apellidos compuestos",
+              "must_cover": [
+                "nombre + apellido1 + apellido2",
+                "partículas",
+                "no asumir formato US",
+                "conservar raw",
+                "espacios múltiples"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S07-T1-B-DEMO",
+              "title": "Parse suave de 'María del Carmen Quispe Huamán'",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S07-T1-B-E1",
+                "kind": "guided",
+                "title": "Split de dos apellidos",
+                "skill": "Tildes, ñ, partículas y apellidos compuestos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S07-T1-B-E2",
+                "kind": "independent",
+                "title": "Preservar partículas",
+                "skill": "Tildes, ñ, partículas y apellidos compuestos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S07-T1-B-E3",
+                "kind": "transfer",
+                "title": "Casos sin segundo apellido → review",
+                "skill": "Tildes, ñ, partículas y apellidos compuestos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S07-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S07-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S07-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S07-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S07-T1-EVAL-1",
+            "title": "Normalizar 10 nombres sintéticos con NFC+casefold",
+            "authentic": true
+          },
+          {
+            "id": "S07-T1-EVAL-2",
+            "title": "Diseñar schema de nombre con dos apellidos",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S07-T2",
+      "title": "Strings",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S07-T2-A",
+          "slug": "string-ops",
+          "title": "split/join/search/replace",
+          "outcome": "El estudiante manipula texto con métodos str idiomáticos antes de recurrir a regex.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "split/join/search/replace",
+              "must_cover": [
+                "split/rsplit",
+                "join",
+                "find/in",
+                "replace",
+                "strip/lstrip/rstrip",
+                "partition"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S07-T2-A-DEMO",
+              "title": "Limpiar dirección sintética: strip, colapsar espacios, join tokens",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S07-T2-A-E1",
+                "kind": "guided",
+                "title": "split CSV-like simple",
+                "skill": "split/join/search/replace",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S07-T2-A-E2",
+                "kind": "independent",
+                "title": "join con separador estable",
+                "skill": "split/join/search/replace",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S07-T2-A-E3",
+                "kind": "transfer",
+                "title": "replace controlado sin regex",
+                "skill": "split/join/search/replace",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S07-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S07-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S07-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S07-T2-B",
+          "slug": "names-emails-phones",
+          "title": "Nombres, emails y teléfonos sin sobrevalidación",
+          "outcome": "El estudiante normaliza contacto con reglas modestas y evita regex hiper-estrictas que rechazan válidos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Nombres, emails y teléfonos sin sobrevalidación",
+              "must_cover": [
+                "email: lower + strip + un @",
+                "phone: dígitos + código país opcional",
+                "no RFC completo",
+                "review vs reject",
+                "falsos negativos de overvalidation"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S07-T2-B-DEMO",
+              "title": "normalize_email y normalize_phone_pe sintético",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S07-T2-B-E1",
+                "kind": "guided",
+                "title": "Email lower/strip",
+                "skill": "Nombres, emails y teléfonos sin sobrevalidación",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S07-T2-B-E2",
+                "kind": "independent",
+                "title": "Teléfono a dígitos",
+                "skill": "Nombres, emails y teléfonos sin sobrevalidación",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S07-T2-B-E3",
+                "kind": "transfer",
+                "title": "Rechazar regex demasiado estricta",
+                "skill": "Nombres, emails y teléfonos sin sobrevalidación",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S07-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S07-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S07-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S07-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S07-T2-EVAL-1",
+            "title": "Suite str-only de limpieza de 5 campos",
+            "authentic": true
+          },
+          {
+            "id": "S07-T2-EVAL-2",
+            "title": "Política reject vs review documentada",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S07-T3",
+      "title": "Regex",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S07-T3-A",
+          "slug": "regex-patterns-groups",
+          "title": "Patrones, grupos y anchors",
+          "outcome": "El estudiante escribe patrones con grupos y anchors ^$ para extracción limitada.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Patrones, grupos y anchors",
+              "must_cover": [
+                "re.search/match/fullmatch",
+                "grupos ()",
+                "clases []",
+                "cuantificadores",
+                "anchors",
+                "raw strings r''"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S07-T3-A-DEMO",
+              "title": "Extraer DNI sintético 8 dígitos con grupos",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S07-T3-A-E1",
+                "kind": "guided",
+                "title": "fullmatch de código región",
+                "skill": "Patrones, grupos y anchors",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S07-T3-A-E2",
+                "kind": "independent",
+                "title": "Grupos nombre/apellido",
+                "skill": "Patrones, grupos y anchors",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S07-T3-A-E3",
+                "kind": "transfer",
+                "title": "Anclar vs buscar en medio",
+                "skill": "Patrones, grupos y anchors",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S07-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S07-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S07-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S07-T3-B",
+          "slug": "compile-extract-limits",
+          "title": "Compilación, extracción y límites de validación",
+          "outcome": "El estudiante compila patrones, extrae con findall/finditer y conoce límites (catastrophic backtracking, overfit).",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Compilación, extracción y límites de validación",
+              "must_cover": [
+                "re.compile",
+                "findall/finditer",
+                "flags IGNORECASE/VERBOSE",
+                "timeouts conceptuales",
+                "no validar email solo con regex monstruo"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S07-T3-B-DEMO",
+              "title": "compile de patrón teléfono; finditer sobre log sintético",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S07-T3-B-E1",
+                "kind": "guided",
+                "title": "compile + reuse",
+                "skill": "Compilación, extracción y límites de validación",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S07-T3-B-E2",
+                "kind": "independent",
+                "title": "findall de códigos",
+                "skill": "Compilación, extracción y límites de validación",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S07-T3-B-E3",
+                "kind": "transfer",
+                "title": "Explicar riesgo de backtracking",
+                "skill": "Compilación, extracción y límites de validación",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S07-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S07-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S07-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S07-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S07-T3-EVAL-1",
+            "title": "3 patrones compileados con tests",
+            "authentic": true
+          },
+          {
+            "id": "S07-T3-EVAL-2",
+            "title": "Documento límites de validación por regex",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S07-T4",
+      "title": "Similaridad inicial",
+      "bloom_focus": [
+        "Analizar",
+        "Aplicar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S07-T4-A",
+          "slug": "exact-token-similarity",
+          "title": "Exacta y por tokens",
+          "outcome": "El estudiante compara strings por igualdad normalizada y por tokens (Jaccard simple) sin afirmar identidad de persona.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Exacta y por tokens",
+              "must_cover": [
+                "exact match post-normalize",
+                "token set",
+                "Jaccard simple",
+                "no fuzzy library requerida aún",
+                "umbral → review"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S07-T4-A-DEMO",
+              "title": "token_jaccard('Juan Perez', 'Juan P. Perez')",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S07-T4-A-E1",
+                "kind": "guided",
+                "title": "Exact tras normalize",
+                "skill": "Exacta y por tokens",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S07-T4-A-E2",
+                "kind": "independent",
+                "title": "Jaccard tokens",
+                "skill": "Exacta y por tokens",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S07-T4-A-E3",
+                "kind": "transfer",
+                "title": "Caso score medio → review",
+                "skill": "Exacta y por tokens",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S07-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S07-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S07-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S07-T4-B",
+          "slug": "fp-fn-evidence",
+          "title": "FP/FN y conservación de evidencia",
+          "outcome": "El estudiante razona FP/FN de matching textual y conserva evidencia (scores, raw) sin etiquetar parentesco.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "FP/FN y conservación de evidencia",
+              "must_cover": [
+                "FP/FN definiciones",
+                "evidencia: score + campos",
+                "no parentesco/fraude",
+                "umbral review",
+                "human review handoff conceptual"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S07-T4-B-DEMO",
+              "title": "Tabla FP/FN de 4 pares sintéticos",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S07-T4-B-E1",
+                "kind": "guided",
+                "title": "Clasificar FP/FN",
+                "skill": "FP/FN y conservación de evidencia",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S07-T4-B-E2",
+                "kind": "independent",
+                "title": "Empaquetar evidencia",
+                "skill": "FP/FN y conservación de evidencia",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S07-T4-B-E3",
+                "kind": "transfer",
+                "title": "Redactar por qué no se afirma parentesco",
+                "skill": "FP/FN y conservación de evidencia",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S07-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S07-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S07-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S07-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S07-T4-EVAL-1",
+            "title": "Comparador exact+token con umbral review",
+            "authentic": true
+          },
+          {
+            "id": "S07-T4-EVAL-2",
+            "title": "Ficha de evidencia sin claims de parentesco",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S07-PROJ",
+    "title": "Normalización latinoamericana (CP-N1-B)",
+    "capstone_link": "CP-N1-B",
+    "replaces_legacy": "Data Acquisition Pipeline 3 fuentes",
+    "objectives": [
+      "Pipeline que conserva raw y normalized por campo de texto",
+      "Registrar transformaciones aplicadas (lista de steps)",
+      "Manejar dos apellidos sin convención universal forzada",
+      "Regex solo donde aporta; str primero"
+    ],
+    "requirements": [
+      "normalize_record(raw: dict) → {raw, normalized, transforms}",
+      "Unicode NFC + casefold donde corresponda",
+      "Sin scraping/API en este incremento V3",
+      "Datos sintéticos peruanos/latam",
+      "No overvalidation de email/teléfono"
+    ],
+    "rubric": [
+      {
+        "criterion": "raw + normalized + transforms",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Unicode y nombres latam",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Regex responsable",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Sin overvalidation",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Evidencia sin parentesco",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Tests de ejemplos latam",
+        "weight": "10%"
+      }
+    ]
+  },
+  "planned_ids": {
+    "subtopic_slugs_4x2": [
+      "unicode-normalization-casefold",
+      "latam-names-particles",
+      "string-ops",
+      "names-emails-phones",
+      "regex-patterns-groups",
+      "compile-extract-limits",
+      "exact-token-similarity",
+      "fp-fn-evidence"
+    ],
+    "demo_ids": [
+      "S07-T1-A-DEMO",
+      "S07-T1-B-DEMO",
+      "S07-T2-A-DEMO",
+      "S07-T2-B-DEMO",
+      "S07-T3-A-DEMO",
+      "S07-T3-B-DEMO",
+      "S07-T4-A-DEMO",
+      "S07-T4-B-DEMO"
+    ],
+    "exercise_ids": [
+      "S07-T1-A-E1",
+      "S07-T1-A-E2",
+      "S07-T1-A-E3",
+      "S07-T1-B-E1",
+      "S07-T1-B-E2",
+      "S07-T1-B-E3",
+      "S07-T2-A-E1",
+      "S07-T2-A-E2",
+      "S07-T2-A-E3",
+      "S07-T2-B-E1",
+      "S07-T2-B-E2",
+      "S07-T2-B-E3",
+      "S07-T3-A-E1",
+      "S07-T3-A-E2",
+      "S07-T3-A-E3",
+      "S07-T3-B-E1",
+      "S07-T3-B-E2",
+      "S07-T3-B-E3",
+      "S07-T4-A-E1",
+      "S07-T4-A-E2",
+      "S07-T4-A-E3",
+      "S07-T4-B-E1",
+      "S07-T4-B-E2",
+      "S07-T4-B-E3"
+    ],
+    "exercise_count": 24,
+    "demo_count": 8,
+    "slug_count": 8
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "platform_extension_notes": [
+    "Legacy file src/lib/course/sections/s07-data-acquisition.ts retained until PHASE 4 replacement",
+    "seed.ts concepts ['generators-yield', 'sql-injection-safety', 'multiprocessing-vs-threads', 'logging-best-practices'] provisional; replace in PHASE 5",
+    "Legacy content destination: APIs/SQL/scraping → V3 S12; generators → performance later; regex partial reuse in S07 V3; collections → S06 V3. Orphan file s07-pandas.ts is duplicate of pandas (not in index).",
+    "CourseSection shape may need extension for 24 exercises / 8 demos / topic evals"
+  ],
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "capstone_increment_specified": true,
+    "gate_acceptance_specified": false,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Factory blueprint for S07. Do not mark passed. S04/S08 include CP gate acceptance when applicable."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 map cleanly to 8 slugs with Spanish titles",
+    "risk": "Display title still 'Adquisición de Datos para Data Science' until UI pass",
+    "next_single_action": "PHASE 4 — author S07-T1-A first"
+  }
+}

@@ -1,0 +1,1070 @@
+{
+  "version": "3.2",
+  "section": "S45",
+  "section_id": "iac",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S45 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S45 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s45-iac.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "iac",
+    "index": 45,
+    "title_platform": "Infraestructura como Código para AI Platforms",
+    "title_v3": "Cloud, almacenamiento, colas e infraestructura",
+    "title_decision": "KEEP platform id 'iac' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados",
+    "estimatedHours": 14,
+    "level": "Experto a máster",
+    "phase": 3,
+    "prerequisites": [
+      "S44"
+    ],
+    "environment": "cloud-lab o emulador",
+    "project_capstone": "CP-N4-B (arquitectura)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "iac",
+    "platform_title": "Infraestructura como Código para AI Platforms",
+    "v3_title": "Cloud, almacenamiento, colas e infraestructura",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante elige object/relacional/cache.",
+    "El estudiante define consistencia, lifecycle y backups.",
+    "El estudiante diseña colas y delivery semantics.",
+    "El estudiante garantiza dedup, orden y DLQ.",
+    "El estudiante dimensiona compute y red.",
+    "El estudiante restringe IAM, paths privados y egress.",
+    "El estudiante declara infra y environments.",
+    "El estudiante presupuesta costo y recovery."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S45-T1-A",
+      "slug": "object-relational-cache",
+      "title": "object store, relacional y cache"
+    },
+    {
+      "subtopic_id": "S45-T1-B",
+      "slug": "consistency-lifecycle-backups",
+      "title": "consistencia, lifecycle y backups"
+    },
+    {
+      "subtopic_id": "S45-T2-A",
+      "slug": "queue-event-delivery",
+      "title": "queue/event y delivery semantics"
+    },
+    {
+      "subtopic_id": "S45-T2-B",
+      "slug": "dedup-ordering-dlq",
+      "title": "dedup, ordering y dead-letter"
+    },
+    {
+      "subtopic_id": "S45-T3-A",
+      "slug": "compute-autoscale-net",
+      "title": "compute, autoscaling y networking"
+    },
+    {
+      "subtopic_id": "S45-T3-B",
+      "slug": "iam-private-egress",
+      "title": "IAM, private paths y egress"
+    },
+    {
+      "subtopic_id": "S45-T4-A",
+      "slug": "declarative-config-envs",
+      "title": "configuración declarativa y environments"
+    },
+    {
+      "subtopic_id": "S45-T4-B",
+      "slug": "cost-quotas-recovery-portability",
+      "title": "costos, quotas, recovery y portability"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S45-T1",
+      "title": "Persistencia",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S45-T1-A",
+          "slug": "object-relational-cache",
+          "title": "object store, relacional y cache",
+          "outcome": "El estudiante elige object/relacional/cache.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "object store, relacional y cache",
+              "must_cover": [
+                "S3",
+                "Postgres",
+                "Redis"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S45-T1-A-DEMO",
+              "title": "Demo: object store, relacional y cache",
+              "environment": "cloud-lab o emulador",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S45-T1-A-E1",
+                "kind": "guided",
+                "title": "object store, relacional y cache — guided",
+                "skill": "object",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S45-T1-A-E2",
+                "kind": "independent",
+                "title": "object store, relacional y cache — independent",
+                "skill": "object",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S45-T1-A-E3",
+                "kind": "transfer",
+                "title": "object store, relacional y cache — transfer",
+                "skill": "object",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S45-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S45-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S45-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S45-T1-B",
+          "slug": "consistency-lifecycle-backups",
+          "title": "consistencia, lifecycle y backups",
+          "outcome": "El estudiante define consistencia, lifecycle y backups.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "consistencia, lifecycle y backups",
+              "must_cover": [
+                "lifecycle",
+                "backup"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S45-T1-B-DEMO",
+              "title": "Demo: consistencia, lifecycle y backups",
+              "environment": "cloud-lab o emulador",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S45-T1-B-E1",
+                "kind": "guided",
+                "title": "consistencia, lifecycle y backups — guided",
+                "skill": "consistency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S45-T1-B-E2",
+                "kind": "independent",
+                "title": "consistencia, lifecycle y backups — independent",
+                "skill": "consistency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S45-T1-B-E3",
+                "kind": "transfer",
+                "title": "consistencia, lifecycle y backups — transfer",
+                "skill": "consistency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S45-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S45-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S45-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S45-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S45-T1-EVAL-1",
+            "title": "object store, relacional y cache — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S45-T1-EVAL-2",
+            "title": "consistencia, lifecycle y backups — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S45-T2",
+      "title": "Mensajería",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S45-T2-A",
+          "slug": "queue-event-delivery",
+          "title": "queue/event y delivery semantics",
+          "outcome": "El estudiante diseña colas y delivery semantics.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "queue/event y delivery semantics",
+              "must_cover": [
+                "queue",
+                "at-least-once"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S45-T2-A-DEMO",
+              "title": "Demo: queue/event y delivery semantics",
+              "environment": "cloud-lab o emulador",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S45-T2-A-E1",
+                "kind": "guided",
+                "title": "queue/event y delivery semantics — guided",
+                "skill": "queue",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S45-T2-A-E2",
+                "kind": "independent",
+                "title": "queue/event y delivery semantics — independent",
+                "skill": "queue",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S45-T2-A-E3",
+                "kind": "transfer",
+                "title": "queue/event y delivery semantics — transfer",
+                "skill": "queue",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S45-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S45-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S45-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S45-T2-B",
+          "slug": "dedup-ordering-dlq",
+          "title": "dedup, ordering y dead-letter",
+          "outcome": "El estudiante garantiza dedup, orden y DLQ.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "dedup, ordering y dead-letter",
+              "must_cover": [
+                "dedup",
+                "ordering",
+                "DLQ"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S45-T2-B-DEMO",
+              "title": "Demo: dedup, ordering y dead-letter",
+              "environment": "cloud-lab o emulador",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S45-T2-B-E1",
+                "kind": "guided",
+                "title": "dedup, ordering y dead-letter — guided",
+                "skill": "dedup",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S45-T2-B-E2",
+                "kind": "independent",
+                "title": "dedup, ordering y dead-letter — independent",
+                "skill": "dedup",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S45-T2-B-E3",
+                "kind": "transfer",
+                "title": "dedup, ordering y dead-letter — transfer",
+                "skill": "dedup",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S45-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S45-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S45-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S45-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S45-T2-EVAL-1",
+            "title": "queue/event y delivery semantics — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S45-T2-EVAL-2",
+            "title": "dedup, ordering y dead-letter — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S45-T3",
+      "title": "Plataforma",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S45-T3-A",
+          "slug": "compute-autoscale-net",
+          "title": "compute, autoscaling y networking",
+          "outcome": "El estudiante dimensiona compute y red.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "compute, autoscaling y networking",
+              "must_cover": [
+                "autoscaling",
+                "VPC"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S45-T3-A-DEMO",
+              "title": "Demo: compute, autoscaling y networking",
+              "environment": "cloud-lab o emulador",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S45-T3-A-E1",
+                "kind": "guided",
+                "title": "compute, autoscaling y networking — guided",
+                "skill": "compute",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S45-T3-A-E2",
+                "kind": "independent",
+                "title": "compute, autoscaling y networking — independent",
+                "skill": "compute",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S45-T3-A-E3",
+                "kind": "transfer",
+                "title": "compute, autoscaling y networking — transfer",
+                "skill": "compute",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S45-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S45-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S45-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S45-T3-B",
+          "slug": "iam-private-egress",
+          "title": "IAM, private paths y egress",
+          "outcome": "El estudiante restringe IAM, paths privados y egress.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "IAM, private paths y egress",
+              "must_cover": [
+                "IAM",
+                "private endpoint"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S45-T3-B-DEMO",
+              "title": "Demo: IAM, private paths y egress",
+              "environment": "cloud-lab o emulador",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S45-T3-B-E1",
+                "kind": "guided",
+                "title": "IAM, private paths y egress — guided",
+                "skill": "iam",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S45-T3-B-E2",
+                "kind": "independent",
+                "title": "IAM, private paths y egress — independent",
+                "skill": "iam",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S45-T3-B-E3",
+                "kind": "transfer",
+                "title": "IAM, private paths y egress — transfer",
+                "skill": "iam",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S45-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S45-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S45-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S45-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S45-T3-EVAL-1",
+            "title": "compute, autoscaling y networking — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S45-T3-EVAL-2",
+            "title": "IAM, private paths y egress — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S45-T4",
+      "title": "Infraestructura",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S45-T4-A",
+          "slug": "declarative-config-envs",
+          "title": "configuración declarativa y environments",
+          "outcome": "El estudiante declara infra y environments.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "configuración declarativa y environments",
+              "must_cover": [
+                "IaC",
+                "envs"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S45-T4-A-DEMO",
+              "title": "Demo: configuración declarativa y environments",
+              "environment": "cloud-lab o emulador",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S45-T4-A-E1",
+                "kind": "guided",
+                "title": "configuración declarativa y environments — guided",
+                "skill": "declarative",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S45-T4-A-E2",
+                "kind": "independent",
+                "title": "configuración declarativa y environments — independent",
+                "skill": "declarative",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S45-T4-A-E3",
+                "kind": "transfer",
+                "title": "configuración declarativa y environments — transfer",
+                "skill": "declarative",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S45-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S45-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S45-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S45-T4-B",
+          "slug": "cost-quotas-recovery-portability",
+          "title": "costos, quotas, recovery y portability",
+          "outcome": "El estudiante presupuesta costo y recovery.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "costos, quotas, recovery y portability",
+              "must_cover": [
+                "cost",
+                "quotas"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S45-T4-B-DEMO",
+              "title": "Demo: costos, quotas, recovery y portability",
+              "environment": "cloud-lab o emulador",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S45-T4-B-E1",
+                "kind": "guided",
+                "title": "costos, quotas, recovery y portability — guided",
+                "skill": "cost",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S45-T4-B-E2",
+                "kind": "independent",
+                "title": "costos, quotas, recovery y portability — independent",
+                "skill": "cost",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S45-T4-B-E3",
+                "kind": "transfer",
+                "title": "costos, quotas, recovery y portability — transfer",
+                "skill": "cost",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S45-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S45-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S45-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S45-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S45-T4-EVAL-1",
+            "title": "configuración declarativa y environments — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S45-T4-EVAL-2",
+            "title": "costos, quotas, recovery y portability — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S45-PROJ",
+    "title": "Cloud, almacenamiento, colas e infraestructura",
+    "replaces_legacy": "Legacy You Do de 'Infraestructura como Código para AI Platforms' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-B (arquitectura)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N4-B (arquitectura)",
+    "increment_gate": "job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'iac' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s45-iac.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Infraestructura como Código para AI Platforms' vs 'Cloud, almacenamiento, colas e infraestructura'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N4-B (arquitectura)",
+    "increment_gate": "job asíncrono con artifact store, status, retry y dead-letter; permisos y costos presupuestados.",
+    "project_id": "S45-PROJ",
+    "section_passed": false,
+    "notes": "S45 contributes to CP-N4-B (arquitectura). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S45",
+    "risk": "Display title still 'Infraestructura como Código para AI Platforms' until product rename; topic mismatch vs V3 'Cloud, almacenamiento, colas e infraestructura'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S45-T1-A first"
+  }
+}

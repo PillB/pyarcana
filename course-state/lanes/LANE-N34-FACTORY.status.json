@@ -1,0 +1,1189 @@
+{
+  "lane": "LANE-N34-FACTORY",
+  "mode": "PARALLEL_PRODUCTION",
+  "scope": "S27–S52",
+  "updated_at": "2026-07-20T18:00:00Z",
+  "status": "LIGHTWEIGHT_BLUEPRINTS_COMPLETE",
+  "section_passed": false,
+  "no_passed_states": true,
+  "lightweight": true,
+  "phases_per_section": {
+    "PHASE_0": "NOT_IN_SCOPE",
+    "PHASE_1": "SKIPPED_LIGHTWEIGHT",
+    "PHASE_2": "SKIPPED_LIGHTWEIGHT",
+    "PHASE_3": "COMPLETE",
+    "PHASE_4": "NOT_STARTED",
+    "PHASE_5": "NOT_STARTED"
+  },
+  "sections": {
+    "S27": {
+      "section_id": "async-concurrency",
+      "v3_title": "Estrategia de pruebas con pytest",
+      "platform_title": "Concurrencia Avanzada y Arquitecturas Async",
+      "file": "src/lib/course/sections/s27-async-concurrency.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s27_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "risks-test-pyramid",
+        "aaa-oracles",
+        "discovery-assertions",
+        "fixtures-scopes-isolation",
+        "exceptions-floats-dates-tmp",
+        "negative-cases-messages",
+        "branch-risk-coverage",
+        "mutation-useful-failures"
+      ],
+      "capstone": "CP-N3-A (inicio)",
+      "platform_id_conflict": true
+    },
+    "S28": {
+      "section_id": "llm-agents",
+      "v3_title": "Pruebas de datos, propiedades e integración",
+      "platform_title": "LLM Agents con LangGraph — Producción",
+      "file": "src/lib/course/sections/s28-llm-agents.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s28_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "invariants-case-generation",
+        "idempotency-symmetry-metamorphic",
+        "schema-quality-contracts",
+        "golden-drift-reconcile",
+        "mocks-fakes-http-db-clock",
+        "contract-tests-no-overmock",
+        "integration-e2e-testcontainers",
+        "flakes-determinism-ci"
+      ],
+      "capstone": "CP-N3-A (QA ER)",
+      "platform_id_conflict": true
+    },
+    "S29": {
+      "section_id": "mlops",
+      "v3_title": "SQL avanzado y modelado relacional",
+      "platform_title": "MLOps Avanzado — MLflow, DVC, Evidently",
+      "file": "src/lib/course/sections/s29-mlops.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s29_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "keys-constraints-normalization",
+        "temporality-provenance",
+        "cte-windows-antijoins",
+        "cardinality-null-plans",
+        "acid-isolation",
+        "upserts-concurrency-recovery",
+        "indexes-migrations",
+        "repository-pooling-tests"
+      ],
+      "capstone": "CP-N3-A (almacén ER)",
+      "platform_id_conflict": true
+    },
+    "S30": {
+      "section_id": "security-infra",
+      "v3_title": "Entity resolution probabilístico",
+      "platform_title": "Seguridad Avanzada e Infraestructura",
+      "file": "src/lib/course/sections/s30-security-infra.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s30_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "exact-edit-token-date",
+        "missingness-frequency",
+        "rules-candidate-recall",
+        "combos-cost-impossible",
+        "weights-prob-thresholds",
+        "train-clerical-cluster",
+        "labeled-splits-by-entity",
+        "pr-pairwise-cluster-slices"
+      ],
+      "capstone": "CP-N3-A (cierre)",
+      "platform_id_conflict": true
+    },
+    "S31": {
+      "section_id": "streaming-data",
+      "v3_title": "Grafos y evidencia relacional",
+      "platform_title": "Streaming de Datos en Tiempo Real",
+      "file": "src/lib/course/sections/s31-streaming-data.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s31_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "nodes-edges-direction-weight",
+        "multigraph-time-provenance",
+        "entities-tx-contacts",
+        "dedup-agg-keep-detail",
+        "degree-components-paths",
+        "centrality-limited-interp",
+        "subgraphs-tests",
+        "viz-scale-privacy-edge-evidence"
+      ],
+      "capstone": "CP-N3-B (inicio)",
+      "platform_id_conflict": true
+    },
+    "S32": {
+      "section_id": "microservices",
+      "v3_title": "Feature engineering y pipelines sin leakage",
+      "platform_title": "Microservicios Python + Docker + Kubernetes",
+      "file": "src/lib/course/sections/s32-microservices.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s32_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "num-cat-text-features",
+        "missing-scale-encode",
+        "shared-contact-distance",
+        "windows-frequency",
+        "columntransformer-custom",
+        "fit-transform-persist",
+        "entity-group-time-split",
+        "leakage-skew-versioning"
+      ],
+      "capstone": "CP-N3-B (features)",
+      "platform_id_conflict": true
+    },
+    "S33": {
+      "section_id": "advanced-models",
+      "v3_title": "ML supervisado y baselines responsables",
+      "platform_title": "Modelos Avanzados — Gradient Boosting, Stacking, Interpretabilidad",
+      "file": "src/lib/course/sections/s33-advanced-models.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s33_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "unit-target-horizon",
+        "costs-rule-dummy",
+        "reg-logreg-regularization",
+        "coefs-assumptions-scaling",
+        "trees-rf-boosting",
+        "overfit-depth-repro",
+        "pipeline-min-tracking",
+        "cv-error-analysis"
+      ],
+      "capstone": "CP-N3-B (baseline)",
+      "platform_id_conflict": true
+    },
+    "S34": {
+      "section_id": "cv-ai-integration",
+      "v3_title": "Métricas, desbalance, calibración y umbrales",
+      "platform_title": "Integración CV + IA + Automatización",
+      "file": "src/lib/course/sections/s34-cv-ai-integration.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s34_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "confusion-pr-f-prauc",
+        "topk-review-load",
+        "class-weights-resampling-cv",
+        "prevalence-misleading-metrics",
+        "reliability-brier",
+        "calibrators-oos",
+        "threshold-cost-capacity",
+        "abstention-slices-sensitivity"
+      ],
+      "capstone": "CP-N3-B (cierre)",
+      "platform_id_conflict": true
+    },
+    "S35": {
+      "section_id": "system-design",
+      "v3_title": "Explicabilidad, equidad e incertidumbre",
+      "platform_title": "Diseño de Sistemas de IA en Producción",
+      "file": "src/lib/course/sections/s35-system-design.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s35_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "coefs-perm-importance",
+        "local-corr-limits",
+        "cohorts-slice-metrics",
+        "proxies-sample-harm",
+        "cal-intervals-conformal",
+        "ood-abstention",
+        "model-card-contestability",
+        "approve-override-appeal-retire"
+      ],
+      "capstone": "CP-N3-C (inicio)",
+      "platform_id_conflict": true
+    },
+    "S36": {
+      "section_id": "ai-apis-advanced",
+      "v3_title": "Clustering, anomalías y validación temporal",
+      "platform_title": "APIs de IA Avanzadas — Tool Use, Structured Outputs, Batch API",
+      "file": "src/lib/course/sections/s36-ai-apis-advanced.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s36_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "scale-kmeans-density",
+        "choice-stability-metrics",
+        "pca-visualization",
+        "prudent-projection-interp",
+        "iforest-lof-rules",
+        "novelty-vs-outlier-contam",
+        "splits-backtests-windows",
+        "scarce-labels-pk-human"
+      ],
+      "capstone": "CP-N3-C (señales)",
+      "platform_id_conflict": true
+    },
+    "S37": {
+      "section_id": "dbt-bigquery",
+      "v3_title": "Profiling, algoritmos y rendimiento",
+      "platform_title": "Data Engineering con dbt y Snowflake/BigQuery",
+      "file": "src/lib/course/sections/s37-dbt-bigquery.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s37_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "wall-cpu-memory-profile",
+        "bench-warmup-variability",
+        "complexity-blocking",
+        "structures-vectorize-reduce",
+        "dtypes-chunking-columnar",
+        "cache-invalidate-ooc",
+        "perf-budget-tests",
+        "total-cost-clarity-no-micro"
+      ],
+      "capstone": "CP-N3-C (escala)",
+      "platform_id_conflict": true
+    },
+    "S38": {
+      "section_id": "performance-extreme",
+      "v3_title": "Concurrencia, observabilidad y workflows resilientes",
+      "platform_title": "Performance Extrema — Numba, Cython, Vectorización",
+      "file": "src/lib/course/sections/s38-performance-extreme.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s38_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "threads-processes-async",
+        "io-vs-cpu-gil-serialize",
+        "pools-backpressure-rate",
+        "cancel-timeout-resources",
+        "logs-metrics-traces",
+        "correlation-redact-sli-slo",
+        "states-checkpoint-idempotency",
+        "retry-dlq-replay-runbook"
+      ],
+      "capstone": "CP-N3-C (operación)",
+      "platform_id_conflict": true
+    },
+    "S39": {
+      "section_id": "integrator-phase2",
+      "v3_title": "Responsible ML Case Triage y cierre de nivel",
+      "platform_title": "Proyecto Integrador Fase 2",
+      "file": "src/lib/course/sections/s39-integrator-phase2.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s39_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "intake-er-rel-features-model",
+        "contracts-versions-ownership",
+        "queue-evidence-packet-explain",
+        "decision-override-feedback-appeal",
+        "privacy-fairness-security",
+        "drift-incidents-rollback-human",
+        "acceptance-demo",
+        "cards-value-metrics-postmortem"
+      ],
+      "capstone": "CP-N3-C (cierre) + CF-3 + Level-3 regression",
+      "platform_id_conflict": true
+    },
+    "S40": {
+      "section_id": "agentic-architecture",
+      "v3_title": "Arquitectura, DDD y decisiones técnicas",
+      "platform_title": "Arquitectura de Sistemas Agénticos a Escala",
+      "file": "src/lib/course/sections/s40-agentic-architecture.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s40_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "functional-quality-attrs",
+        "tradeoffs-risks-measurable",
+        "cohesion-coupling-layers",
+        "ports-adapters-domain-dep",
+        "bounded-contexts-ubiquitous",
+        "entities-vo-services",
+        "c4-flow-adr",
+        "apis-events-debt-compat"
+      ],
+      "capstone": "CP-N4-A (inicio)",
+      "platform_id_conflict": true
+    },
+    "S41": {
+      "section_id": "llm-finetuning",
+      "v3_title": "APIs con FastAPI y contratos HTTP",
+      "platform_title": "Fine-Tuning de LLMs (QLoRA, LoRA, SFT)",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s41_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "resources-methods-status",
+        "idempotency-pagination-versioning",
+        "routing-deps-models",
+        "validation-serialize-docs",
+        "sync-async-background",
+        "errors-timeouts-lifecycle",
+        "unit-contract-integration",
+        "compat-ratelimit-observability"
+      ],
+      "capstone": "CP-N4-A (servicio)",
+      "platform_id_conflict": true
+    },
+    "S42": {
+      "section_id": "graph-rag",
+      "v3_title": "Schemas, seguridad y privacidad de servicios",
+      "platform_title": "Graph RAG y Knowledge Graphs",
+      "file": "src/lib/course/sections/s42-graph-rag.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s42_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "pydantic-jsonschema",
+        "evolution-unions-business-val",
+        "authn-authz-rbac",
+        "scopes-service-ids-deny",
+        "limits-injection-ssrf-path",
+        "secrets-crypto-deps",
+        "minimize-purpose-retention",
+        "audit-delete-pseudo-access"
+      ],
+      "capstone": "CP-N4-A (control plane)",
+      "platform_id_conflict": true
+    },
+    "S43": {
+      "section_id": "llmops",
+      "v3_title": "Contenedores y reproducibilidad operativa",
+      "platform_title": "LLMOps — Observabilidad, Evaluación, A/B Testing",
+      "file": "src/lib/course/sections/s43-llmops.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s43_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "dockerfile-layers-cache",
+        "bases-nonroot-size",
+        "config-secrets-volumes",
+        "net-health-signals",
+        "api-worker-db-cache",
+        "deps-migrations-ephemeral",
+        "locks-multistage",
+        "scan-limits-debug"
+      ],
+      "capstone": "CP-N4-A (cierre)",
+      "platform_id_conflict": true
+    },
+    "S44": {
+      "section_id": "multimodal",
+      "v3_title": "CI/CD y seguridad de la cadena de suministro",
+      "platform_title": "Sistemas Multi-Modal — Visión + Lenguaje",
+      "file": "src/lib/course/sections/s44-multimodal.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s44_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "lint-types-tests-matrix",
+        "caches-artifacts-conditions",
+        "min-perms-pin-secret-scan",
+        "sbom-provenance-attest",
+        "envs-approvals",
+        "migrations-canary-rollback",
+        "branch-review-release-notes",
+        "failure-handling-audit-evidence"
+      ],
+      "capstone": "CP-N4-B (inicio)",
+      "platform_id_conflict": true
+    },
+    "S45": {
+      "section_id": "iac",
+      "v3_title": "Cloud, almacenamiento, colas e infraestructura",
+      "platform_title": "Infraestructura como Código para AI Platforms",
+      "file": "src/lib/course/sections/s45-iac.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s45_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "object-relational-cache",
+        "consistency-lifecycle-backups",
+        "queue-event-delivery",
+        "dedup-ordering-dlq",
+        "compute-autoscale-net",
+        "iam-private-egress",
+        "declarative-config-envs",
+        "cost-quotas-recovery-portability"
+      ],
+      "capstone": "CP-N4-B (arquitectura)",
+      "platform_id_conflict": true
+    },
+    "S46": {
+      "section_id": "gpu-computing",
+      "v3_title": "Ingeniería de datos y orquestación de producción",
+      "platform_title": "Performance Extrema — CUDA, GPU Computing con Python",
+      "file": "src/lib/course/sections/s46-gpu-computing.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s46_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "windows-event-time-watermarks",
+        "late-data-exactly-once",
+        "dag-assets-dependency",
+        "schedules-backfills-state",
+        "contracts-freshness",
+        "lineage-obs-ownership",
+        "partitions-incremental",
+        "slo-incidents-data-recovery"
+      ],
+      "capstone": "CP-N4-B (pipeline)",
+      "platform_id_conflict": true
+    },
+    "S47": {
+      "section_id": "opensource",
+      "v3_title": "MLOps: experimentos, registro y serving",
+      "platform_title": "Contribución Open Source y Diseño de APIs Públicas",
+      "file": "src/lib/course/sections/s47-opensource.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s47_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "tracking-reproducibility",
+        "data-code-env-lineage-compare",
+        "signatures-stages-approvals",
+        "artifacts-card-compat",
+        "batch-online-feature-consistency",
+        "latency-batching-fallback",
+        "shadow-canary-monitoring",
+        "rollback-retire-audit"
+      ],
+      "capstone": "CP-N4-B (cierre) + CF-4",
+      "platform_id_conflict": true
+    },
+    "S48": {
+      "section_id": "ai-governance",
+      "v3_title": "LLM applications y RAG con evidencia",
+      "platform_title": "Gobernanza de IA, Ética y Compliance",
+      "file": "src/lib/course/sections/s48-ai-governance.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s48_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "embeddings-similarity",
+        "limits-versions-eval",
+        "chunking-metadata-dedup",
+        "acl-deletion-provenance",
+        "lexical-vector-hybrid-rerank",
+        "context-cites-permissions",
+        "structured-grounding",
+        "retrieval-answer-eval-cost-abstain"
+      ],
+      "capstone": "CP-N4-C (inicio)",
+      "platform_id_conflict": true
+    },
+    "S49": {
+      "section_id": "data-contracts",
+      "v3_title": "Agentes, herramientas y context engineering",
+      "platform_title": "Data Contracts e Ingeniería de Datos Avanzada",
+      "file": "src/lib/course/sections/s49-data-contracts.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s49_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "workflow-vs-agent",
+        "routing-planner-evaluator",
+        "single-responsibility-fns",
+        "schema-perms-idempotency-errors",
+        "min-context-jit-checkpoints",
+        "memory-compaction-lkg",
+        "stopping-budgets",
+        "sandbox-human-approval-recovery"
+      ],
+      "capstone": "CP-N4-C (tools)",
+      "platform_id_conflict": true
+    },
+    "S50": {
+      "section_id": "tech-leadership",
+      "v3_title": "Evals, red teaming y fiabilidad de IA",
+      "platform_title": "Liderazgo Técnico — Mentoría, ADRs, RFC y Technical Writing",
+      "file": "src/lib/course/sections/s50-tech-leadership.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s50_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "task-dataset-rubric",
+        "outcome-process-trajectory-recovery",
+        "graders-det-human-llm",
+        "calibration-order-bias-holdout",
+        "injection-exfil-tool-misuse",
+        "indirect-poison-least-priv",
+        "hallucination-abstention",
+        "latency-cost-cache-incident-rollback"
+      ],
+      "capstone": "CP-N4-C (quality gate)",
+      "platform_id_conflict": true
+    },
+    "S51": {
+      "section_id": "integrator-final",
+      "v3_title": "Observabilidad, gobernanza y UX del copiloto",
+      "platform_title": "Proyecto Integrador Final — Sistema AI Production-Grade",
+      "file": "src/lib/course/sections/s51-integrator-final.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s51_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "traces-prompts-retrieval-tools",
+        "tokens-cost-latency-redaction",
+        "registry-model-prompt-dataset",
+        "change-access-retention-audit",
+        "slo-feedback-drift",
+        "incidents-rollback-postmortem",
+        "uncertainty-cites-confirm",
+        "a11y-correction-contestability"
+      ],
+      "capstone": "CP-N4-C (cierre) + CF-5 + Level-4 regression",
+      "platform_id_conflict": true
+    },
+    "S52": {
+      "section_id": "career-strategy",
+      "v3_title": "Enterprise Relationship & Operations Intelligence Platform: capstone final",
+      "platform_title": "Perfil Global y Estrategia de Carrera",
+      "file": "src/lib/course/sections/s52-career-strategy.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase3": "course-state/s52_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "stakeholders-jobs-success-cf1",
+        "changes-constraints-risks-nogo",
+        "bounded-apis-events",
+        "data-models-rpa-rag-human",
+        "tests-evals-redteam-perf",
+        "slo-backup-rollback-disaster",
+        "demo-cv-narrative",
+        "arch-readme-cards-license-video-defense"
+      ],
+      "capstone": "CP-FINAL exclusivamente",
+      "platform_id_conflict": true
+    }
+  },
+  "capstone_gates": {
+    "S30": {
+      "capstone": "CP-N3-A",
+      "state": "PLANNED_NOT_PASSED",
+      "role": "close CP-N3-A",
+      "name": "Testable Entity Resolution Engine",
+      "blocks": "S31 until CP-N3-A PASS"
+    },
+    "S34": {
+      "capstone": "CP-N3-B",
+      "state": "PLANNED_NOT_PASSED",
+      "role": "close CP-N3-B",
+      "name": "Relationship Investigation Workbench",
+      "blocks": "S35 until CP-N3-B PASS"
+    },
+    "S39": {
+      "capstone": "CP-N3-C",
+      "state": "PLANNED_NOT_PASSED",
+      "role": "close CP-N3-C + Level-3 regression + CF-3",
+      "name": "Responsible ML Case Triage",
+      "cp_n3_c": "PLANNED_NOT_PASSED",
+      "n3_regression": "PLANNED_NOT_PASSED",
+      "cf3": "PLANNED_NOT_PASSED",
+      "blocks": "S40 until all three PASS"
+    },
+    "S43": {
+      "capstone": "CP-N4-A",
+      "state": "PLANNED_NOT_PASSED",
+      "role": "close CP-N4-A",
+      "name": "Governed Python Service Platform",
+      "blocks": "S44 until CP-N4-A PASS"
+    },
+    "S47": {
+      "capstone": "CP-N4-B",
+      "state": "PLANNED_NOT_PASSED",
+      "role": "close CP-N4-B + CF-4",
+      "name": "Production Data/ML Platform",
+      "cp_n4_b": "PLANNED_NOT_PASSED",
+      "cf4": "PLANNED_NOT_PASSED",
+      "blocks": "S48 until CP-N4-B and CF-4 PASS"
+    },
+    "S51": {
+      "capstone": "CP-N4-C",
+      "state": "PLANNED_NOT_PASSED",
+      "role": "close CP-N4-C + Level-4 regression + CF-5",
+      "name": "Auditable AI Operations Copilot",
+      "cp_n4_c": "PLANNED_NOT_PASSED",
+      "n4_regression": "PLANNED_NOT_PASSED",
+      "cf5": "PLANNED_NOT_PASSED",
+      "blocks": "S52 until all PASS (plus CF-1…CF-5)"
+    },
+    "S52": {
+      "capstone": "CP-FINAL",
+      "state": "PLANNED_NOT_PASSED",
+      "role": "FINAL gate; independent of CP-N4-C",
+      "name": "Enterprise Relationship & Operations Intelligence Platform",
+      "cp_final": "PLANNED_NOT_PASSED",
+      "total_regression": "PLANNED_NOT_PASSED",
+      "blocks": "Master promotion until PASS"
+    }
+  },
+  "platform_id_mapping_conflicts": [
+    {
+      "section": "S27",
+      "platform_section_id": "async-concurrency",
+      "platform_title": "Concurrencia Avanzada y Arquitecturas Async",
+      "v3_title": "Estrategia de pruebas con pytest",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s27-async-concurrency.ts",
+      "capstone": "CP-N3-A (inicio)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S28",
+      "platform_section_id": "llm-agents",
+      "platform_title": "LLM Agents con LangGraph — Producción",
+      "v3_title": "Pruebas de datos, propiedades e integración",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s28-llm-agents.ts",
+      "capstone": "CP-N3-A (QA ER)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S29",
+      "platform_section_id": "mlops",
+      "platform_title": "MLOps Avanzado — MLflow, DVC, Evidently",
+      "v3_title": "SQL avanzado y modelado relacional",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s29-mlops.ts",
+      "capstone": "CP-N3-A (almacén ER)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S30",
+      "platform_section_id": "security-infra",
+      "platform_title": "Seguridad Avanzada e Infraestructura",
+      "v3_title": "Entity resolution probabilístico",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s30-security-infra.ts",
+      "capstone": "CP-N3-A (cierre)",
+      "is_major_gate": true
+    },
+    {
+      "section": "S31",
+      "platform_section_id": "streaming-data",
+      "platform_title": "Streaming de Datos en Tiempo Real",
+      "v3_title": "Grafos y evidencia relacional",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s31-streaming-data.ts",
+      "capstone": "CP-N3-B (inicio)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S32",
+      "platform_section_id": "microservices",
+      "platform_title": "Microservicios Python + Docker + Kubernetes",
+      "v3_title": "Feature engineering y pipelines sin leakage",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s32-microservices.ts",
+      "capstone": "CP-N3-B (features)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S33",
+      "platform_section_id": "advanced-models",
+      "platform_title": "Modelos Avanzados — Gradient Boosting, Stacking, Interpretabilidad",
+      "v3_title": "ML supervisado y baselines responsables",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s33-advanced-models.ts",
+      "capstone": "CP-N3-B (baseline)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S34",
+      "platform_section_id": "cv-ai-integration",
+      "platform_title": "Integración CV + IA + Automatización",
+      "v3_title": "Métricas, desbalance, calibración y umbrales",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s34-cv-ai-integration.ts",
+      "capstone": "CP-N3-B (cierre)",
+      "is_major_gate": true
+    },
+    {
+      "section": "S35",
+      "platform_section_id": "system-design",
+      "platform_title": "Diseño de Sistemas de IA en Producción",
+      "v3_title": "Explicabilidad, equidad e incertidumbre",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s35-system-design.ts",
+      "capstone": "CP-N3-C (inicio)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S36",
+      "platform_section_id": "ai-apis-advanced",
+      "platform_title": "APIs de IA Avanzadas — Tool Use, Structured Outputs, Batch API",
+      "v3_title": "Clustering, anomalías y validación temporal",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s36-ai-apis-advanced.ts",
+      "capstone": "CP-N3-C (señales)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S37",
+      "platform_section_id": "dbt-bigquery",
+      "platform_title": "Data Engineering con dbt y Snowflake/BigQuery",
+      "v3_title": "Profiling, algoritmos y rendimiento",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s37-dbt-bigquery.ts",
+      "capstone": "CP-N3-C (escala)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S38",
+      "platform_section_id": "performance-extreme",
+      "platform_title": "Performance Extrema — Numba, Cython, Vectorización",
+      "v3_title": "Concurrencia, observabilidad y workflows resilientes",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s38-performance-extreme.ts",
+      "capstone": "CP-N3-C (operación)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S39",
+      "platform_section_id": "integrator-phase2",
+      "platform_title": "Proyecto Integrador Fase 2",
+      "v3_title": "Responsible ML Case Triage y cierre de nivel",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s39-integrator-phase2.ts",
+      "capstone": "CP-N3-C (cierre) + CF-3 + Level-3 regression",
+      "is_major_gate": true
+    },
+    {
+      "section": "S40",
+      "platform_section_id": "agentic-architecture",
+      "platform_title": "Arquitectura de Sistemas Agénticos a Escala",
+      "v3_title": "Arquitectura, DDD y decisiones técnicas",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s40-agentic-architecture.ts",
+      "capstone": "CP-N4-A (inicio)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S41",
+      "platform_section_id": "llm-finetuning",
+      "platform_title": "Fine-Tuning de LLMs (QLoRA, LoRA, SFT)",
+      "v3_title": "APIs con FastAPI y contratos HTTP",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "capstone": "CP-N4-A (servicio)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S42",
+      "platform_section_id": "graph-rag",
+      "platform_title": "Graph RAG y Knowledge Graphs",
+      "v3_title": "Schemas, seguridad y privacidad de servicios",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s42-graph-rag.ts",
+      "capstone": "CP-N4-A (control plane)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S43",
+      "platform_section_id": "llmops",
+      "platform_title": "LLMOps — Observabilidad, Evaluación, A/B Testing",
+      "v3_title": "Contenedores y reproducibilidad operativa",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s43-llmops.ts",
+      "capstone": "CP-N4-A (cierre)",
+      "is_major_gate": true
+    },
+    {
+      "section": "S44",
+      "platform_section_id": "multimodal",
+      "platform_title": "Sistemas Multi-Modal — Visión + Lenguaje",
+      "v3_title": "CI/CD y seguridad de la cadena de suministro",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s44-multimodal.ts",
+      "capstone": "CP-N4-B (inicio)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S45",
+      "platform_section_id": "iac",
+      "platform_title": "Infraestructura como Código para AI Platforms",
+      "v3_title": "Cloud, almacenamiento, colas e infraestructura",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s45-iac.ts",
+      "capstone": "CP-N4-B (arquitectura)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S46",
+      "platform_section_id": "gpu-computing",
+      "platform_title": "Performance Extrema — CUDA, GPU Computing con Python",
+      "v3_title": "Ingeniería de datos y orquestación de producción",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s46-gpu-computing.ts",
+      "capstone": "CP-N4-B (pipeline)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S47",
+      "platform_section_id": "opensource",
+      "platform_title": "Contribución Open Source y Diseño de APIs Públicas",
+      "v3_title": "MLOps: experimentos, registro y serving",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s47-opensource.ts",
+      "capstone": "CP-N4-B (cierre) + CF-4",
+      "is_major_gate": true
+    },
+    {
+      "section": "S48",
+      "platform_section_id": "ai-governance",
+      "platform_title": "Gobernanza de IA, Ética y Compliance",
+      "v3_title": "LLM applications y RAG con evidencia",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s48-ai-governance.ts",
+      "capstone": "CP-N4-C (inicio)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S49",
+      "platform_section_id": "data-contracts",
+      "platform_title": "Data Contracts e Ingeniería de Datos Avanzada",
+      "v3_title": "Agentes, herramientas y context engineering",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s49-data-contracts.ts",
+      "capstone": "CP-N4-C (tools)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S50",
+      "platform_section_id": "tech-leadership",
+      "platform_title": "Liderazgo Técnico — Mentoría, ADRs, RFC y Technical Writing",
+      "v3_title": "Evals, red teaming y fiabilidad de IA",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s50-tech-leadership.ts",
+      "capstone": "CP-N4-C (quality gate)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S51",
+      "platform_section_id": "integrator-final",
+      "platform_title": "Proyecto Integrador Final — Sistema AI Production-Grade",
+      "v3_title": "Observabilidad, gobernanza y UX del copiloto",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s51-integrator-final.ts",
+      "capstone": "CP-N4-C (cierre) + CF-5 + Level-4 regression",
+      "is_major_gate": true
+    },
+    {
+      "section": "S52",
+      "platform_section_id": "career-strategy",
+      "platform_title": "Perfil Global y Estrategia de Carrera",
+      "v3_title": "Enterprise Relationship & Operations Intelligence Platform: capstone final",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s52-career-strategy.ts",
+      "capstone": "CP-FINAL exclusivamente",
+      "is_major_gate": true
+    }
+  ],
+  "counting_contract_batch": {
+    "sections": 26,
+    "topics": 104,
+    "subtopics": 208,
+    "demos": 208,
+    "student_exercises": 624,
+    "exam_variants": 624,
+    "topic_evaluations": 104,
+    "note": "26 sections × (4 topics, 8 subtopics, 8 demos, 24 exercises, 24 A/B/C)"
+  },
+  "gates_planned": {
+    "N3": {
+      "S30": "CP-N3-A",
+      "S34": "CP-N3-B",
+      "S39": "CP-N3-C + CF-3 + N3 regression"
+    },
+    "N4": {
+      "S43": "CP-N4-A",
+      "S47": "CP-N4-B + CF-4",
+      "S51": "CP-N4-C + CF-5 + N4 regression"
+    },
+    "FINAL": {
+      "S52": "CP-FINAL + total regression"
+    }
+  },
+  "do_not_edit_respected": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json",
+    "course-state/parallel_orchestration.json",
+    "src/lib/course/sections/*.ts (no rewrites this run)",
+    "prisma/seed.ts"
+  ],
+  "artifacts_written": [
+    "course-state/s27_phase3.json",
+    "course-state/s28_phase3.json",
+    "course-state/s29_phase3.json",
+    "course-state/s30_phase3.json",
+    "course-state/s31_phase3.json",
+    "course-state/s32_phase3.json",
+    "course-state/s33_phase3.json",
+    "course-state/s34_phase3.json",
+    "course-state/s35_phase3.json",
+    "course-state/s36_phase3.json",
+    "course-state/s37_phase3.json",
+    "course-state/s38_phase3.json",
+    "course-state/s39_phase3.json",
+    "course-state/s40_phase3.json",
+    "course-state/s41_phase3.json",
+    "course-state/s42_phase3.json",
+    "course-state/s43_phase3.json",
+    "course-state/s44_phase3.json",
+    "course-state/s45_phase3.json",
+    "course-state/s46_phase3.json",
+    "course-state/s47_phase3.json",
+    "course-state/s48_phase3.json",
+    "course-state/s49_phase3.json",
+    "course-state/s50_phase3.json",
+    "course-state/s51_phase3.json",
+    "course-state/s52_phase3.json",
+    "course-state/lanes/LANE-N34-FACTORY.status.json"
+  ],
+  "mirrored_to": "/Users/pabloillescas/Projects/PyArcana/course-state",
+  "next_for_orchestrator": "Merge lane status; do not mark S27–S52 passed. Schedule PHASE 4 authorship per section starting T1-A. Capstone gates S30/S34/S39/S43/S47/S51/S52 remain PLANNED_NOT_PASSED.",
+  "blocked": false,
+  "files_written_count": 27
+}

@@ -1,0 +1,111 @@
+{
+  "version": "3.2",
+  "section": "S36",
+  "section_id": "ai-apis-advanced",
+  "phase": "PHASE_5",
+  "lane": "LANE-S31-S39-CLOSE",
+  "generated_at": "2026-07-20T23:59:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "ai-apis-advanced",
+    "title_v3": "Clustering, anomalías y validación temporal",
+    "privacy_note": "Anomaly/novelty scores priorizan revisión; no equivalen a fraude ni colusión demostrados. Privacy: scores ≠ fraude."
+  },
+  "retired_from_bank": [
+    "dominar-openai-tool-calling:-t",
+    "usar-structured-outputs-(json",
+    "gestionar-costos-con-prompt-ca",
+    "implementar-fallback-chains:-g"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S36 (Clustering, anomalías y validación temporal). Privacy: scores ≠ fraude/parentesco/colusión.",
+  "families": [
+    {
+      "family_id": "S36-T1-A-EX",
+      "concept": "scale-kmeans-density",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S36-T1-B-EX",
+      "concept": "choice-stability-metrics",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S36-T2-A-EX",
+      "concept": "pca-visualization",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S36-T2-B-EX",
+      "concept": "prudent-projection-interp",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S36-T3-A-EX",
+      "concept": "iforest-lof-rules",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S36-T3-B-EX",
+      "concept": "novelty-vs-outlier-contam",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S36-T4-A-EX",
+      "concept": "splits-backtests-windows",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S36-T4-B-EX",
+      "concept": "scarce-labels-pk-human",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (ai-apis-advanced key)",
+    "course-state/s36_phase5_exam_bank.json"
+  ]
+}

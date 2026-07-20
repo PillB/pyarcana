@@ -1,0 +1,171 @@
+{
+  "version": "3.2",
+  "section": "S18",
+  "section_id": "data-engineering",
+  "section_title": "EDA, estadística descriptiva e incertidumbre",
+  "artifact": "topic_evaluations",
+  "platform_note": "Paquetes TE V3 (4 por sección). Datos estructurados para render TopicEvaluation; CourseSection.topicEvaluations es opcional.",
+  "generated_at": "2026-07-20T14:52:23Z",
+  "rubric_scale": "0-3 per criterion",
+  "language": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_principle": "Coincidir en apellido, teléfono, email, dirección, distancia o transacciones es evidencia para revisión, no prueba de parentesco, colusión o fraude.",
+  "topic_evaluations": [
+    {
+      "id": "S18-T1-TE",
+      "topic_id": "S18-T1",
+      "title": "Evaluación formativa — Distribuciones",
+      "subtopics_covered": [
+        "S18-T1-A",
+        "S18-T1-B"
+      ],
+      "topic_summary": "centro, dispersión y cuantiles; métricas robustas y escalas.",
+      "tasks": [
+        {
+          "id": "S18-T1-TE-1",
+          "title": "Tarea auténtica — Distribuciones: centro, dispersión y cuantiles",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: centro, dispersión y cuantiles. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S18, tema T1. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S18-T1-TE-2",
+          "title": "Tarea auténtica — Distribuciones: métricas robustas y escalas",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: métricas robustas y escalas. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S18, tema T1. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Distribuciones» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S18-T2-TE",
+      "topic_id": "S18-T2",
+      "title": "Evaluación formativa — Muestreo",
+      "subtopics_covered": [
+        "S18-T2-A",
+        "S18-T2-B"
+      ],
+      "topic_summary": "población/muestra y sesgo; intervalos básicos y tamaño de efecto.",
+      "tasks": [
+        {
+          "id": "S18-T2-TE-1",
+          "title": "Tarea auténtica — Muestreo: población/muestra y sesgo",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: población/muestra y sesgo. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S18, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S18-T2-TE-2",
+          "title": "Tarea auténtica — Muestreo: intervalos básicos y tamaño de efecto",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: intervalos básicos y tamaño de efecto. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S18, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Muestreo» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S18-T3-TE",
+      "topic_id": "S18-T3",
+      "title": "Evaluación formativa — Relaciones",
+      "subtopics_covered": [
+        "S18-T3-A",
+        "S18-T3-B"
+      ],
+      "topic_summary": "correlación y confusión; segmentación, anomalías y causalidad no demostrada.",
+      "tasks": [
+        {
+          "id": "S18-T3-TE-1",
+          "title": "Tarea auténtica — Relaciones: correlación y confusión",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: correlación y confusión. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S18, tema T3. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S18-T3-TE-2",
+          "title": "Tarea auténtica — Relaciones: segmentación, anomalías y causalidad no demostrada",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: segmentación, anomalías y causalidad no demostrada. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S18, tema T3. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Relaciones» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S18-T4-TE",
+      "topic_id": "S18-T4",
+      "title": "Evaluación formativa — Flujo",
+      "subtopics_covered": [
+        "S18-T4-A",
+        "S18-T4-B"
+      ],
+      "topic_summary": "preguntas, hipótesis y evidencia; notebook reproducible y data notes.",
+      "tasks": [
+        {
+          "id": "S18-T4-TE-1",
+          "title": "Tarea auténtica — Flujo: preguntas, hipótesis y evidencia",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: preguntas, hipótesis y evidencia. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S18, tema T4. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S18-T4-TE-2",
+          "title": "Tarea auténtica — Flujo: notebook reproducible y data notes",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: notebook reproducible y data notes. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S18, tema T4. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Flujo» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    }
+  ],
+  "counts": {
+    "topic_evaluations": 4,
+    "tasks": 8
+  }
+}

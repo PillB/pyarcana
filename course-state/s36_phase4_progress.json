@@ -1,0 +1,321 @@
+{
+  "version": "3.2",
+  "section": "S36",
+  "section_id": "ai-apis-advanced",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S31-S39-P4",
+  "generated_at": "2026-07-20T08:26:36Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget ai-apis-advanced section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s36-ai-apis-advanced.ts",
+      "course-state/s36_phase4_progress.json",
+      "course-state/lanes/LANE-S31-S39-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "ai-apis-advanced",
+    "index": 36,
+    "title": "Clustering, anomalías y validación temporal",
+    "shortTitle": "Clustering y anomalías",
+    "tagline": "señales auxiliares evaluadas por utilidad de revisión; una anomalía nunca es conclusión de conducta indebida",
+    "estimatedHours": 12,
+    "learningOutcomes": 8,
+    "youDo": "Señales auxiliares de rareza con backtest (CP-N3-C señales)",
+    "icon": "ScanSearch",
+    "legacy_note": "ai-apis-advanced retargeted to clustering/anomalies",
+    "capstone": "CP-N3-C (señales)"
+  },
+  "subtopics_authored": {
+    "S36-T1-A": {
+      "slug": "scale-kmeans-density",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S36-T1-A-DEMO",
+      "exercises": [
+        "S36-T1-A-E1",
+        "S36-T1-A-E2",
+        "S36-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S36-T1-B": {
+      "slug": "choice-stability-metrics",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S36-T1-B-DEMO",
+      "exercises": [
+        "S36-T1-B-E1",
+        "S36-T1-B-E2",
+        "S36-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S36-T2-A": {
+      "slug": "pca-visualization",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S36-T2-A-DEMO",
+      "exercises": [
+        "S36-T2-A-E1",
+        "S36-T2-A-E2",
+        "S36-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S36-T2-B": {
+      "slug": "prudent-projection-interp",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S36-T2-B-DEMO",
+      "exercises": [
+        "S36-T2-B-E1",
+        "S36-T2-B-E2",
+        "S36-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S36-T3-A": {
+      "slug": "iforest-lof-rules",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S36-T3-A-DEMO",
+      "exercises": [
+        "S36-T3-A-E1",
+        "S36-T3-A-E2",
+        "S36-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S36-T3-B": {
+      "slug": "novelty-vs-outlier-contam",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S36-T3-B-DEMO",
+      "exercises": [
+        "S36-T3-B-E1",
+        "S36-T3-B-E2",
+        "S36-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S36-T4-A": {
+      "slug": "splits-backtests-windows",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S36-T4-A-DEMO",
+      "exercises": [
+        "S36-T4-A-E1",
+        "S36-T4-A-E2",
+        "S36-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S36-T4-B": {
+      "slug": "scarce-labels-pk-human",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S36-T4-B-DEMO",
+      "exercises": [
+        "S36-T4-B-E1",
+        "S36-T4-B-E2",
+        "S36-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Señales auxiliares de rareza con backtest (CP-N3-C señales)",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S36-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S36-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "ER/matching y scores no implican fraude, parentesco ni colusión. Solo decide 'misma entidad' cuando aplique."
+}

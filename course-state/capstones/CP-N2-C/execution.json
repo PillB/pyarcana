@@ -1,0 +1,11 @@
+{
+  "id": "CP-N2-C",
+  "status": "pass",
+  "exit_code": 0,
+  "stdout": "METRICS_JSON: {\"capstone_id\": \"CP-N2-C\", \"status\": \"pass\", \"pipeline_status\": \"completed\", \"stages\": [\"ingest_excel\", \"validate\", \"analyze\", \"draft_report\", \"human_approval\", \"email_draft\", \"completed\"], \"approved\": true, \"email_sent\": false, \"rollback_demo\": true, \"rollback_restored_stage\": \"validate\", \"n_history_ok\": 7}\nCP-N2-C RPA flow OK — status=completed\n",
+  "stderr": "",
+  "command": "python3 demo.py",
+  "cwd": "course-state/capstones/CP-N2-C",
+  "executed_at": "2026-07-20T14:53:43Z",
+  "python": "3.9.6"
+}

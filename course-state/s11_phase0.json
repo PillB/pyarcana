@@ -1,0 +1,260 @@
+{
+  "version": "3.2",
+  "section": "S11",
+  "section_id": "testing",
+  "phase": "PHASE_0_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1B-FACTORY",
+  "prompt_version": "3.2",
+  "requirement_matrix": {
+    "global_requirements": [
+      {
+        "id": "REQ-GLOBAL-001",
+        "requirement": "Cada sección tiene exactamente 4 temas evaluables",
+        "source": "V3 prompt §4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Contar temas en blueprint de S11 = 4",
+        "status": "pass",
+        "evidence": "V3 roadmap S11 define T1–T4"
+      },
+      {
+        "id": "REQ-GLOBAL-002",
+        "requirement": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar subtemas en blueprint de S11 = 8 (4×2)",
+        "status": "blocked",
+        "evidence": "Contenido de plataforma no está estructurado como 4×2 V3; requiere retematización en PHASE 4."
+      },
+      {
+        "id": "REQ-GLOBAL-003",
+        "requirement": "Cada subtema tiene 1 demo I Do y 3 ejercicios del estudiante",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar demos = 8, ejercicios = 24 para S11",
+        "status": "blocked",
+        "evidence": "Inventario plataforma: demos/ejercicios por debajo del vector canónico (ver counting_summary en phase1)."
+      },
+      {
+        "id": "REQ-GLOBAL-004",
+        "requirement": "Cada subtema tiene 3 variantes de examen A/B/C",
+        "source": "V3 prompt §4",
+        "acceptance_test": "Contar variantes = 24 (8×3) para S11",
+        "status": "blocked",
+        "evidence": "seed.ts: 4 conceptos × 3 = 12 variantes por section_id de plataforma; target V3 = 24."
+      },
+      {
+        "id": "REQ-GLOBAL-005",
+        "requirement": "Cada sección tiene evaluación por tema, examen acumulativo y proyecto",
+        "source": "V3 prompt §4",
+        "acceptance_test": "4 topic evaluations + 1 section exam + 1 project increment for S11",
+        "status": "partial",
+        "evidence": "selfCheck + youDo presentes; faltan 4 evaluaciones por tema y retheme del proyecto al gate V3."
+      },
+      {
+        "id": "REQ-GLOBAL-006",
+        "requirement": "Idioma: español peruano profesional",
+        "source": "V3 prompt §3",
+        "acceptance_test": "Contenido de S11 en español peruano sin caricaturas",
+        "status": "pass",
+        "evidence": "Contenido plataforma usa tono profesional y contexto peruano (regiones, S/, empresas locales)."
+      },
+      {
+        "id": "REQ-GLOBAL-007",
+        "requirement": "No equiparar coincidencia con parentesco/colusión/fraude",
+        "source": "V3 prompt §3",
+        "acceptance_test": "S11: entity_resolution_score separado de relationship_signal_score; sin inferencia automática de parentesco/fraude",
+        "status": "partial",
+        "evidence": "Principio se formaliza en S11–S13 V3; contenido legado no modela ER/relación."
+      },
+      {
+        "id": "REQ-GLOBAL-008",
+        "requirement": "Todo código debe ejecutarse o marcarse UNVERIFIED",
+        "source": "V3 prompt §3",
+        "acceptance_test": "Código de S11 ejecutado en entorno declarado",
+        "status": "partial",
+        "evidence": "Outputs embebidos en demos legacy; re-verificación formal en PHASE 7 / TECHNICALLY_VERIFIED."
+      },
+      {
+        "id": "REQ-GLOBAL-009",
+        "requirement": "Datos sintéticos o legalmente reutilizables",
+        "source": "V3 prompt §3",
+        "acceptance_test": "S11 no usa PII real de personas",
+        "status": "pass",
+        "evidence": "Preferencia V3: datasets sintéticos de cliente/transacción; demos legacy usan datos de muestra."
+      }
+    ],
+    "section_requirements": [
+      {
+        "id": "REQ-S11-001",
+        "requirement": "S11 cubre: Objetos — Clases, instancias y dataclass; Invariantes y estados válidos",
+        "source": "V3 roadmap S11 T1",
+        "acceptance_test": "Contenido de S11 incluye ambos subtemas de T1",
+        "status": "fail",
+        "evidence": "Plataforma testing (Testing Your Python Code) no enseña el tema V3 'Objetos' como ownership canónico."
+      },
+      {
+        "id": "REQ-S11-002",
+        "requirement": "S11 cubre: Encapsulación — Propiedades y métodos; Igualdad, hash y mutabilidad consciente",
+        "source": "V3 roadmap S11 T2",
+        "acceptance_test": "Contenido de S11 incluye ambos subtemas de T2",
+        "status": "fail",
+        "evidence": "Plataforma testing (Testing Your Python Code) no enseña el tema V3 'Encapsulación' como ownership canónico."
+      },
+      {
+        "id": "REQ-S11-003",
+        "requirement": "S11 cubre: Diseño — Composición antes que herencia; Protocolos y polimorfismo con propósito",
+        "source": "V3 roadmap S11 T3",
+        "acceptance_test": "Contenido de S11 incluye ambos subtemas de T3",
+        "status": "fail",
+        "evidence": "Plataforma testing (Testing Your Python Code) no enseña el tema V3 'Diseño' como ownership canónico."
+      },
+      {
+        "id": "REQ-S11-004",
+        "requirement": "S11 cubre: Límites — Repositorios/servicios y serialización; Dependencias y pruebas del dominio",
+        "source": "V3 roadmap S11 T4",
+        "acceptance_test": "Contenido de S11 incluye ambos subtemas de T4",
+        "status": "fail",
+        "evidence": "Plataforma testing (Testing Your Python Code) no enseña el tema V3 'Límites' como ownership canónico."
+      },
+      {
+        "id": "REQ-S11-005",
+        "requirement": "S11 incremento/gate: modelo que distingue ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence; ninguna clase decide fraude o parentesco",
+        "source": "V3 roadmap S11 Incremento/gate",
+        "acceptance_test": "You Do / project cumple el gate V3",
+        "status": "fail",
+        "evidence": "You Do actual: Test Suite for Your Churn Project — El diferenciador senior"
+      },
+      {
+        "id": "REQ-S11-006",
+        "requirement": "S11 proyecto: dominio Cliente–Transacción–Evidencia (capstone CP-N1-C (modelo de dominio))",
+        "source": "V3 roadmap S11 Proyecto + capstone_ledger",
+        "acceptance_test": "Incremento de proyecto alineado a capstone",
+        "status": "fail",
+        "evidence": "Proyecto de plataforma desalineado; ver phase3 project_increment"
+      },
+      {
+        "id": "REQ-S11-007",
+        "requirement": "S11 entorno: local-python",
+        "source": "V3 roadmap S11",
+        "acceptance_test": "Demos declaran entorno correcto",
+        "status": "pass",
+        "evidence": "Target environment local-python"
+      },
+      {
+        "id": "REQ-S11-008",
+        "requirement": "S11 prerrequisitos: S10",
+        "source": "V3 roadmap S11",
+        "acceptance_test": "Prerrequisitos documentados en blueprint",
+        "status": "pass",
+        "evidence": "['S10']"
+      },
+      {
+        "id": "REQ-S11-009",
+        "requirement": "Contenido legado de plataforma no se elimina; se inventaría y planifica reubicación",
+        "source": "Instrucciones LANE-N1B-FACTORY + course_requirements authority",
+        "acceptance_test": "Archivo src/lib/course/sections/s11-testing.ts intacto en PHASE 0–3",
+        "status": "pass",
+        "evidence": "Esta lane solo escribe course-state artifacts; no reescribe .ts grandes"
+      }
+    ],
+    "platform_requirements": [
+      {
+        "id": "REQ-PLATFORM-001",
+        "requirement": "S11 carga en la plataforma con id estable 'testing'",
+        "source": "src/lib/course/index.ts + learning_roadmap.md",
+        "acceptance_test": "Section id testing registrado en COURSE_SECTIONS",
+        "status": "pass",
+        "evidence": "index imports src/lib/course/sections/s11-testing.ts; id: 'testing'"
+      },
+      {
+        "id": "REQ-PLATFORM-002",
+        "requirement": "S11 tiene especificación de examen en seed/roadmap de plataforma",
+        "source": "prisma/seed.ts + learning_roadmap.md",
+        "acceptance_test": "4 conceptos legacy × 3 presentes; 8 V3 pendientes",
+        "status": "partial",
+        "evidence": "seed 'testing': 4 concepts × 3 = 12; 0 alineados a V3 S11"
+      },
+      {
+        "id": "REQ-PLATFORM-003",
+        "requirement": "Tabs theory/ido/wedo/youdo/quiz renderizan",
+        "source": "CourseSection shape + SectionView",
+        "acceptance_test": "theory[], iDo, weDo, youDo, selfCheck presentes",
+        "status": "pass",
+        "evidence": "src/lib/course/sections/s11-testing.ts incluye shape actual"
+      }
+    ]
+  },
+  "contradictions_detected": [
+    {
+      "id": "CONTRADICTION-S11-001",
+      "issue": "V3 define S11 como 'OOP y modelo de dominio'. Plataforma id 'testing' es 'Testing Your Python Code' (src/lib/course/sections/s11-testing.ts).",
+      "resolution": "Mantener section_id de plataforma (learning_roadmap.md authority). TARGET de producción = topics V3 4×2. Contenido legado inventariado, no borrado.",
+      "authority": "learning_roadmap.md = id/title platform; V3 = counting + outcomes target",
+      "impact": "No claim de section passed. PHASE 4+ retheme.",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S11-002",
+      "issue": "You Do plataforma = 'Test Suite for Your Churn Project — El diferenciador senior'. V3 project = 'dominio Cliente–Transacción–Evidencia'.",
+      "resolution": "Mapear You Do legacy; TARGET project_increment en phase3.",
+      "authority": "V3 Incremento/gate S11",
+      "impact": "You Do reescritura en PHASE 4; no borrar hasta reemplazo verificado",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S11-003",
+      "issue": "Exam bank 4×3 legacy vs 8×3 V3 subtopics",
+      "resolution": "PHASE 5 introduce 8 familias A/B/C V3; legacy se reasigna o retira en seed coordinado",
+      "authority": "V3 counting contract",
+      "impact": "12 vs 24 variants; 0 cobertura skills V3",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S11-004",
+      "issue": "Archivos huérfanos/duplicados no importados en index: ['src/lib/course/sections/s11-advanced-topics.ts']",
+      "resolution": "No borrar en esta lane; documentar. index.ts es autoridad de qué se sirve.",
+      "authority": "src/lib/course/index.ts",
+      "impact": "Confusión de ownership de contenido; evitar editar huérfanos como canónicos",
+      "status": "recorded"
+    }
+  ],
+  "v3_section_snapshot": {
+    "v3_label": "S11 — OOP y modelo de dominio",
+    "prerequisite": "S10",
+    "environment": "local-python",
+    "project": "dominio Cliente–Transacción–Evidencia",
+    "topics": {
+      "T1": "Objetos: Clases, instancias y dataclass; Invariantes y estados válidos",
+      "T2": "Encapsulación: Propiedades y métodos; Igualdad, hash y mutabilidad consciente",
+      "T3": "Diseño: Composición antes que herencia; Protocolos y polimorfismo con propósito",
+      "T4": "Límites: Repositorios/servicios y serialización; Dependencias y pruebas del dominio"
+    },
+    "increment_gate": "modelo que distingue ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence; ninguna clase decide fraude o parentesco",
+    "capstone": "CP-N1-C (modelo de dominio)"
+  },
+  "platform_section_snapshot": {
+    "section_id": "testing",
+    "index": 11,
+    "title": "Testing Your Python Code",
+    "shortTitle": "Testing",
+    "file": "src/lib/course/sections/s11-testing.ts",
+    "orphan_files": [
+      "src/lib/course/sections/s11-advanced-topics.ts"
+    ],
+    "youDo": "Test Suite for Your Churn Project — El diferenciador senior",
+    "exam_concepts_seed": [
+      "pytest-naming",
+      "fixtures-purpose",
+      "parametrize",
+      "coverage"
+    ],
+    "lines": 820
+  },
+  "phase_0_gate": {
+    "all_requirements_extracted": true,
+    "all_contradictions_recorded": true,
+    "requirement_matrix_complete": true,
+    "content_not_deleted": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_1"
+  }
+}

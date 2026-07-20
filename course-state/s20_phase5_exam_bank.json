@@ -1,0 +1,109 @@
+{
+  "version": "3.2",
+  "section": "S20",
+  "section_id": "rag",
+  "phase": "PHASE_5",
+  "lane": "LANE-S18-S21-CLOSE",
+  "generated_at": "2026-07-20T22:00:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "rag"
+  },
+  "retired_from_bank": [
+    "entender-la-arquitectura-rag-c",
+    "implementar-chunking-strategie",
+    "usar-embeddings-de-sentence-tr",
+    "almacenar-vectores-en-qdrant-p"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S20 (Automatización robusta de Excel).",
+  "families": [
+    {
+      "family_id": "S20-T1-A-EX",
+      "concept": "sheets-cells-tables-named",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S20-T1-B-EX",
+      "concept": "formulas-vs-cached-values",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S20-T2-A-EX",
+      "concept": "styles-charts-templates",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S20-T2-B-EX",
+      "concept": "dates-locales-merged-protect",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S20-T3-A-EX",
+      "concept": "reconcile-pivots",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S20-T3-B-EX",
+      "concept": "validation-structure-preserve",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S20-T4-A-EX",
+      "concept": "batch-corrupt-locks",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S20-T4-B-EX",
+      "concept": "backups-idempotency-visual-tests",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (rag key)",
+    "course-state/s20_phase5_exam_bank.json"
+  ]
+}

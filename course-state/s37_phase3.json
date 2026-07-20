@@ -1,0 +1,1069 @@
+{
+  "version": "3.2",
+  "section": "S37",
+  "section_id": "dbt-bigquery",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S37 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S37 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s37-dbt-bigquery.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "dbt-bigquery",
+    "index": 37,
+    "title_platform": "Data Engineering con dbt y Snowflake/BigQuery",
+    "title_v3": "Profiling, algoritmos y rendimiento",
+    "title_decision": "KEEP platform id 'dbt-bigquery' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "reporte antes/después con mismo resultado, dataset, hardware y límites; optimización reversible y justificada",
+    "estimatedHours": 12,
+    "level": "Competente a experto",
+    "phase": 2,
+    "prerequisites": [
+      "S36"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N3-C (escala)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "dbt-bigquery",
+    "platform_title": "Data Engineering con dbt y Snowflake/BigQuery",
+    "v3_title": "Profiling, algoritmos y rendimiento",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante profilea wall/CPU y memoria.",
+    "El estudiante benchmarkea con warmup y variabilidad.",
+    "El estudiante analiza complejidad y blocking.",
+    "El estudiante reduce candidatos con estructuras/vectorización.",
+    "El estudiante optimiza dtypes, chunks y columnar.",
+    "El estudiante diseña cache e invalidación OOC.",
+    "El estudiante fija budgets y tests de performance.",
+    "El estudiante prioriza costo total sobre microoptimización."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S37-T1-A",
+      "slug": "wall-cpu-memory-profile",
+      "title": "wall/CPU y memory profiling"
+    },
+    {
+      "subtopic_id": "S37-T1-B",
+      "slug": "bench-warmup-variability",
+      "title": "benchmark fixture, warmup y variabilidad"
+    },
+    {
+      "subtopic_id": "S37-T2-A",
+      "slug": "complexity-blocking",
+      "title": "complejidad y blocking"
+    },
+    {
+      "subtopic_id": "S37-T2-B",
+      "slug": "structures-vectorize-reduce",
+      "title": "estructuras, vectorización y reducción de candidatos"
+    },
+    {
+      "subtopic_id": "S37-T3-A",
+      "slug": "dtypes-chunking-columnar",
+      "title": "dtypes, chunking y columnar"
+    },
+    {
+      "subtopic_id": "S37-T3-B",
+      "slug": "cache-invalidate-ooc",
+      "title": "caching, invalidación y out-of-core"
+    },
+    {
+      "subtopic_id": "S37-T4-A",
+      "slug": "perf-budget-tests",
+      "title": "performance budget y tests"
+    },
+    {
+      "subtopic_id": "S37-T4-B",
+      "slug": "total-cost-clarity-no-micro",
+      "title": "costo total, claridad y no microoptimización"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S37-T1",
+      "title": "Medición",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S37-T1-A",
+          "slug": "wall-cpu-memory-profile",
+          "title": "wall/CPU y memory profiling",
+          "outcome": "El estudiante profilea wall/CPU y memoria.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "wall/CPU y memory profiling",
+              "must_cover": [
+                "cProfile",
+                "tracemalloc"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S37-T1-A-DEMO",
+              "title": "Demo: wall/CPU y memory profiling",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S37-T1-A-E1",
+                "kind": "guided",
+                "title": "wall/CPU y memory profiling — guided",
+                "skill": "wall",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S37-T1-A-E2",
+                "kind": "independent",
+                "title": "wall/CPU y memory profiling — independent",
+                "skill": "wall",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S37-T1-A-E3",
+                "kind": "transfer",
+                "title": "wall/CPU y memory profiling — transfer",
+                "skill": "wall",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S37-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S37-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S37-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S37-T1-B",
+          "slug": "bench-warmup-variability",
+          "title": "benchmark fixture, warmup y variabilidad",
+          "outcome": "El estudiante benchmarkea con warmup y variabilidad.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "benchmark fixture, warmup y variabilidad",
+              "must_cover": [
+                "benchmark",
+                "warmup"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S37-T1-B-DEMO",
+              "title": "Demo: benchmark fixture, warmup y variabilidad",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S37-T1-B-E1",
+                "kind": "guided",
+                "title": "benchmark fixture, warmup y variabilidad — guided",
+                "skill": "bench",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S37-T1-B-E2",
+                "kind": "independent",
+                "title": "benchmark fixture, warmup y variabilidad — independent",
+                "skill": "bench",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S37-T1-B-E3",
+                "kind": "transfer",
+                "title": "benchmark fixture, warmup y variabilidad — transfer",
+                "skill": "bench",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S37-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S37-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S37-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S37-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S37-T1-EVAL-1",
+            "title": "wall/CPU y memory profiling — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S37-T1-EVAL-2",
+            "title": "benchmark fixture, warmup y variabilidad — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S37-T2",
+      "title": "Algoritmos",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S37-T2-A",
+          "slug": "complexity-blocking",
+          "title": "complejidad y blocking",
+          "outcome": "El estudiante analiza complejidad y blocking.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "complejidad y blocking",
+              "must_cover": [
+                "Big-O",
+                "blocking cost"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S37-T2-A-DEMO",
+              "title": "Demo: complejidad y blocking",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S37-T2-A-E1",
+                "kind": "guided",
+                "title": "complejidad y blocking — guided",
+                "skill": "complexity",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S37-T2-A-E2",
+                "kind": "independent",
+                "title": "complejidad y blocking — independent",
+                "skill": "complexity",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S37-T2-A-E3",
+                "kind": "transfer",
+                "title": "complejidad y blocking — transfer",
+                "skill": "complexity",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S37-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S37-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S37-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S37-T2-B",
+          "slug": "structures-vectorize-reduce",
+          "title": "estructuras, vectorización y reducción de candidatos",
+          "outcome": "El estudiante reduce candidatos con estructuras/vectorización.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "estructuras, vectorización y reducción de candidatos",
+              "must_cover": [
+                "vectorize",
+                "candidate reduce"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S37-T2-B-DEMO",
+              "title": "Demo: estructuras, vectorización y reducción de candidatos",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S37-T2-B-E1",
+                "kind": "guided",
+                "title": "estructuras, vectorización y reducción de candidatos — guided",
+                "skill": "structures",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S37-T2-B-E2",
+                "kind": "independent",
+                "title": "estructuras, vectorización y reducción de candidatos — independent",
+                "skill": "structures",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S37-T2-B-E3",
+                "kind": "transfer",
+                "title": "estructuras, vectorización y reducción de candidatos — transfer",
+                "skill": "structures",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S37-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S37-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S37-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S37-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S37-T2-EVAL-1",
+            "title": "complejidad y blocking — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S37-T2-EVAL-2",
+            "title": "estructuras, vectorización y reducción de candidatos — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S37-T3",
+      "title": "Memoria/I/O",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S37-T3-A",
+          "slug": "dtypes-chunking-columnar",
+          "title": "dtypes, chunking y columnar",
+          "outcome": "El estudiante optimiza dtypes, chunks y columnar.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "dtypes, chunking y columnar",
+              "must_cover": [
+                "dtype",
+                "chunk",
+                "parquet"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S37-T3-A-DEMO",
+              "title": "Demo: dtypes, chunking y columnar",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S37-T3-A-E1",
+                "kind": "guided",
+                "title": "dtypes, chunking y columnar — guided",
+                "skill": "dtypes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S37-T3-A-E2",
+                "kind": "independent",
+                "title": "dtypes, chunking y columnar — independent",
+                "skill": "dtypes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S37-T3-A-E3",
+                "kind": "transfer",
+                "title": "dtypes, chunking y columnar — transfer",
+                "skill": "dtypes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S37-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S37-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S37-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S37-T3-B",
+          "slug": "cache-invalidate-ooc",
+          "title": "caching, invalidación y out-of-core",
+          "outcome": "El estudiante diseña cache e invalidación OOC.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "caching, invalidación y out-of-core",
+              "must_cover": [
+                "cache",
+                "out-of-core"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S37-T3-B-DEMO",
+              "title": "Demo: caching, invalidación y out-of-core",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S37-T3-B-E1",
+                "kind": "guided",
+                "title": "caching, invalidación y out-of-core — guided",
+                "skill": "cache",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S37-T3-B-E2",
+                "kind": "independent",
+                "title": "caching, invalidación y out-of-core — independent",
+                "skill": "cache",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S37-T3-B-E3",
+                "kind": "transfer",
+                "title": "caching, invalidación y out-of-core — transfer",
+                "skill": "cache",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S37-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S37-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S37-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S37-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S37-T3-EVAL-1",
+            "title": "dtypes, chunking y columnar — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S37-T3-EVAL-2",
+            "title": "caching, invalidación y out-of-core — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S37-T4",
+      "title": "Regresión",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S37-T4-A",
+          "slug": "perf-budget-tests",
+          "title": "performance budget y tests",
+          "outcome": "El estudiante fija budgets y tests de performance.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "performance budget y tests",
+              "must_cover": [
+                "perf budget",
+                "regression test"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S37-T4-A-DEMO",
+              "title": "Demo: performance budget y tests",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S37-T4-A-E1",
+                "kind": "guided",
+                "title": "performance budget y tests — guided",
+                "skill": "perf",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S37-T4-A-E2",
+                "kind": "independent",
+                "title": "performance budget y tests — independent",
+                "skill": "perf",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S37-T4-A-E3",
+                "kind": "transfer",
+                "title": "performance budget y tests — transfer",
+                "skill": "perf",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S37-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S37-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S37-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S37-T4-B",
+          "slug": "total-cost-clarity-no-micro",
+          "title": "costo total, claridad y no microoptimización",
+          "outcome": "El estudiante prioriza costo total sobre microoptimización.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "costo total, claridad y no microoptimización",
+              "must_cover": [
+                "total cost",
+                "readability"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S37-T4-B-DEMO",
+              "title": "Demo: costo total, claridad y no microoptimización",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S37-T4-B-E1",
+                "kind": "guided",
+                "title": "costo total, claridad y no microoptimización — guided",
+                "skill": "total",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S37-T4-B-E2",
+                "kind": "independent",
+                "title": "costo total, claridad y no microoptimización — independent",
+                "skill": "total",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S37-T4-B-E3",
+                "kind": "transfer",
+                "title": "costo total, claridad y no microoptimización — transfer",
+                "skill": "total",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S37-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S37-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S37-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S37-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S37-T4-EVAL-1",
+            "title": "performance budget y tests — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S37-T4-EVAL-2",
+            "title": "costo total, claridad y no microoptimización — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S37-PROJ",
+    "title": "Profiling, algoritmos y rendimiento",
+    "replaces_legacy": "Legacy You Do de 'Data Engineering con dbt y Snowflake/BigQuery' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "reporte antes/después con mismo resultado, dataset, hardware y límites; optimización reversible y justificada.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N3-C (escala)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N3-C (escala)",
+    "increment_gate": "reporte antes/después con mismo resultado, dataset, hardware y límites; optimización reversible y justificada."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'dbt-bigquery' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s37-dbt-bigquery.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Data Engineering con dbt y Snowflake/BigQuery' vs 'Profiling, algoritmos y rendimiento'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N3-C (escala)",
+    "increment_gate": "reporte antes/después con mismo resultado, dataset, hardware y límites; optimización reversible y justificada.",
+    "project_id": "S37-PROJ",
+    "section_passed": false,
+    "notes": "S37 contributes to CP-N3-C (escala). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S37",
+    "risk": "Display title still 'Data Engineering con dbt y Snowflake/BigQuery' until product rename; topic mismatch vs V3 'Profiling, algoritmos y rendimiento'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S37-T1-A first"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "id": "CP-N2-B",
+  "status": "pass",
+  "exit_code": 0,
+  "stdout": "METRICS_JSON: {\"capstone_id\": \"CP-N2-B\", \"status\": \"pass\", \"sections_total\": 5, \"sections_rendered\": 5, \"rows_referenced\": 100, \"a11y_pass\": true, \"a11y_checklist\": {\"section_headings\": true, \"text_not_color_only\": true, \"table_headers\": true, \"limitations_visible\": true, \"lang_hint\": \"es-PE\"}, \"report_chars\": 447}\nCP-N2-B Reporting OK — sections=5/5\n",
+  "stderr": "",
+  "command": "python3 demo.py",
+  "cwd": "course-state/capstones/CP-N2-B",
+  "executed_at": "2026-07-20T14:53:43Z",
+  "python": "3.9.6"
+}

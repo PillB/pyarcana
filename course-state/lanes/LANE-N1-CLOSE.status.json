@@ -1,0 +1,218 @@
+{
+  "lane_id": "LANE-N1-CLOSE",
+  "status": "completed",
+  "phase": "PHASE_5_EXAM_BANK + PHASE_6_VALIDATION",
+  "generated_at": "2026-07-20T15:10:00Z",
+  "scope": [
+    "S04",
+    "S05",
+    "S06",
+    "S07",
+    "S08"
+  ],
+  "phase5": {
+    "functions-modules": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "ok_preexisting",
+      "artifact": "course-state/s04_phase5_exam_bank.json"
+    },
+    "oop": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "ok_preexisting",
+      "artifact": "course-state/s05_phase5_exam_bank.json"
+    },
+    "numpy": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s06_phase5_exam_bank.json",
+      "concept_slugs": [
+        "list-tuple-slicing",
+        "unpacking-aliasing-copy",
+        "dicts-membership",
+        "sets-dedup",
+        "nested-traversal",
+        "safe-access-missing",
+        "sort-key",
+        "structure-choice-determinism"
+      ]
+    },
+    "data-acquisition": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s07_phase5_exam_bank.json",
+      "concept_slugs": [
+        "unicode-normalization-casefold",
+        "latam-names-particles",
+        "string-ops",
+        "names-emails-phones",
+        "regex-patterns-groups",
+        "compile-extract-limits",
+        "exact-token-similarity",
+        "fp-fn-evidence"
+      ]
+    },
+    "pandas": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s08_phase5_exam_bank.json",
+      "concept_slugs": [
+        "pathlib-with-modes",
+        "newlines-atomic-write",
+        "csv-dialects-headers",
+        "irregular-rows-quarantine",
+        "json-serialize",
+        "schema-nulls-evolution",
+        "backups-hashes-provenance",
+        "reconciliation-manifest"
+      ]
+    }
+  },
+  "phase6": {
+    "S04": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s04_phase6_validation.json"
+    },
+    "S05": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s05_phase6_validation.json"
+    },
+    "S06": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s06_phase6_validation.json"
+    },
+    "S07": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s07_phase6_validation.json"
+    },
+    "S08": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s08_phase6_validation.json"
+    }
+  },
+  "sections_authorized_to_close": [
+    "S04",
+    "S05",
+    "S06",
+    "S07",
+    "S08"
+  ],
+  "sections_blocked": [],
+  "pass_fail_table": [
+    {
+      "section": "S04",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S05",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S06",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S07",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S08",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    }
+  ],
+  "files_changed": [
+    "prisma/seed.ts",
+    "course-state/s06_phase5_exam_bank.json",
+    "course-state/s07_phase5_exam_bank.json",
+    "course-state/s08_phase5_exam_bank.json",
+    "course-state/s04_phase6_validation.json",
+    "course-state/s05_phase6_validation.json",
+    "course-state/s06_phase6_validation.json",
+    "course-state/s07_phase6_validation.json",
+    "course-state/s08_phase6_validation.json",
+    "course-state/lanes/LANE-N1-CLOSE.status.json"
+  ],
+  "files_not_edited": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json",
+    "src/lib/course/sections/s01-setup.ts",
+    "src/lib/course/sections/s02-basics.ts",
+    "src/lib/course/sections/s03-data-structures.ts"
+  ],
+  "next_action": "Orchestrator: merge authorized S04–S08 into checkpoint/section_ledger; db:seed updated banks."
+}

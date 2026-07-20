@@ -1,0 +1,318 @@
+{
+  "version": "3.2",
+  "section": "S09",
+  "section_id": "visualization",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S09-S11-P4",
+  "generated_at": "2026-07-20T07:17:28Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget visualization section TS to V3 exceptions/debugging/logging; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s09-visualization.ts",
+      "course-state/s09_phase4_progress.json",
+      "course-state/lanes/LANE-S09-S11-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "visualization",
+    "index": 9,
+    "title": "Excepciones, debugging y logging seguro",
+    "shortTitle": "Excepciones & logs",
+    "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+    "estimatedHours": 8,
+    "learningOutcomes": 8,
+    "youDo": "Bitácora auditable del pipeline (inicio CP-N1-C)",
+    "icon": "ShieldAlert",
+    "gate": "CP-N1-C (inicio)",
+    "legacy_note": "matplotlib/seaborn/plotly demoted; target is exceptions/logging pipeline observability"
+  },
+  "subtopics_authored": {
+    "S09-T1-A": {
+      "slug": "exception-types-raise-chaining",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S09-T1-A-DEMO",
+      "exercises": [
+        "S09-T1-A-E1",
+        "S09-T1-A-E2",
+        "S09-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S09-T1-B": {
+      "slug": "recovery-boundaries-cleanup",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S09-T1-B-DEMO",
+      "exercises": [
+        "S09-T1-B-E1",
+        "S09-T1-B-E2",
+        "S09-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S09-T2-A": {
+      "slug": "traceback-debugger",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S09-T2-A-DEMO",
+      "exercises": [
+        "S09-T2-A-E1",
+        "S09-T2-A-E2",
+        "S09-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S09-T2-B": {
+      "slug": "minimal-repro-hypothesis-rootcause",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S09-T2-B-DEMO",
+      "exercises": [
+        "S09-T2-B-E1",
+        "S09-T2-B-E2",
+        "S09-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S09-T3-A": {
+      "slug": "log-levels-structure",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S09-T3-A-DEMO",
+      "exercises": [
+        "S09-T3-A-E1",
+        "S09-T3-A-E2",
+        "S09-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S09-T3-B": {
+      "slug": "correlation-ids-pii-redaction",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S09-T3-B-DEMO",
+      "exercises": [
+        "S09-T3-B-E1",
+        "S09-T3-B-E2",
+        "S09-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S09-T4-A": {
+      "slug": "failfast-vs-continue",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S09-T4-A-DEMO",
+      "exercises": [
+        "S09-T4-A-E1",
+        "S09-T4-A-E2",
+        "S09-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S09-T4-B": {
+      "slug": "idempotency-retries-quarantine",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S09-T4-B-DEMO",
+      "exercises": [
+        "S09-T4-B-E1",
+        "S09-T4-B-E2",
+        "S09-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Bitácora auditable del pipeline (inicio CP-N1-C)",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S09-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S09-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "next_action": "PHASE 5 exam bank for visualization V3 slugs. Do not mark S09 passed from this lane."
+}

@@ -1,0 +1,320 @@
+{
+  "version": "3.2",
+  "section": "S15",
+  "section_id": "stdlib-deep",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S14-S17-P4",
+  "generated_at": "2026-07-20T07:31:21Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget stdlib-deep section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s15-stdlib-deep.ts",
+      "course-state/s15_phase4_progress.json",
+      "course-state/lanes/LANE-S14-S17-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "stdlib-deep",
+    "index": 15,
+    "title": "Pandas: ingesta, selección y tipos",
+    "shortTitle": "Pandas ingesta",
+    "tagline": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
+    "estimatedHours": 12,
+    "learningOutcomes": 8,
+    "youDo": "Ingesta tipada clientes/transacciones con reconciliación",
+    "icon": "Settings",
+    "legacy_note": "stdlib profunda demoted; target is Pandas ingesta for CP-N2-A dataset",
+    "capstone": "CP-N2-A (dataset)"
+  },
+  "subtopics_authored": {
+    "S15-T1-A": {
+      "slug": "series-dataframe-index",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S15-T1-A-DEMO",
+      "exercises": [
+        "S15-T1-A-E1",
+        "S15-T1-A-E2",
+        "S15-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S15-T1-B": {
+      "slug": "read-csv-excel-parser",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S15-T1-B-DEMO",
+      "exercises": [
+        "S15-T1-B-E1",
+        "S15-T1-B-E2",
+        "S15-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S15-T2-A": {
+      "slug": "loc-iloc-filters-assign",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S15-T2-A-DEMO",
+      "exercises": [
+        "S15-T2-A-E1",
+        "S15-T2-A-E2",
+        "S15-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S15-T2-B": {
+      "slug": "chained-assignment-copy",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S15-T2-B-DEMO",
+      "exercises": [
+        "S15-T2-B-E1",
+        "S15-T2-B-E2",
+        "S15-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S15-T3-A": {
+      "slug": "strings-nullable-dates-cats",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S15-T3-A-DEMO",
+      "exercises": [
+        "S15-T3-A-E1",
+        "S15-T3-A-E2",
+        "S15-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S15-T3-B": {
+      "slug": "explicit-coercion-schema",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S15-T3-B-DEMO",
+      "exercises": [
+        "S15-T3-B-E1",
+        "S15-T3-B-E2",
+        "S15-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S15-T4-A": {
+      "slug": "csv-parquet-excel-export",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S15-T4-A-DEMO",
+      "exercises": [
+        "S15-T4-A-E1",
+        "S15-T4-A-E2",
+        "S15-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S15-T4-B": {
+      "slug": "index-format-provenance-memory",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S15-T4-B-DEMO",
+      "exercises": [
+        "S15-T4-B-E1",
+        "S15-T4-B-E2",
+        "S15-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Ingesta tipada clientes/transacciones con reconciliación",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S15-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S15-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true
+}

@@ -1,0 +1,87 @@
+{
+  "id": "CP-N2-C",
+  "gate_section": "S26",
+  "name": "VP RPA + AI Analyst",
+  "level": 2,
+  "acceptance_criteria": [
+    "Flujo: entrada tabular → validación → análisis → informe → aprobación → borrador correo.",
+    "Estados del flujo auditables; rollback simulado a estado anterior.",
+    "Sin envío real de correo ni PII real a proveedores.",
+    "Evidencia de cada estado en métricas/log estructurado.",
+    "Demo exit 0 con pipeline_status=completed."
+  ],
+  "rubric_0_3": {
+    "correctness": {
+      "weight_hint": 0.35,
+      "scale": "0-3",
+      "levels": {
+        "0": "No cumple el comportamiento principal.",
+        "1": "Parcial; fallas en casos normales.",
+        "2": "Cumple casos normales; bordes incompletos.",
+        "3": "Correcto en normal, borde y error documentado."
+      },
+      "focus": "Transiciones de estado válidas y ordenadas."
+    },
+    "robustness": {
+      "weight_hint": 0.2,
+      "scale": "0-3",
+      "levels": {
+        "0": "Crashea ante entradas imperfectas.",
+        "1": "Algunos bordes cubiertos.",
+        "2": "Bordes y errores no críticos manejados.",
+        "3": "Resiliente y con mensajes accionables."
+      },
+      "focus": "Falla simulada recupera vía rollback."
+    },
+    "maintainability": {
+      "weight_hint": 0.25,
+      "scale": "0-3",
+      "levels": {
+        "0": "Monolito opaco.",
+        "1": "Estructura mínima.",
+        "2": "Módulos/funciones claros y legibles.",
+        "3": "Diseño limpio, testeable y documentado."
+      },
+      "focus": "Estados enumerados y funciones por etapa."
+    },
+    "responsible_use": {
+      "weight_hint": 0.2,
+      "scale": "0-3",
+      "levels": {
+        "0": "Riesgo ético/privacidad no abordado.",
+        "1": "Menciones superficiales.",
+        "2": "Controles y límites presentes.",
+        "3": "Controles, límites y comunicación impecables."
+      },
+      "focus": "Humano en el loop; sin automatizar envío real."
+    },
+    "gate_rule": "Promedio ponderado conceptual ≥ 2.4/3 y ningún criterio crítico < 2; cero P0 de seguridad/privacidad/fraude-inference."
+  },
+  "dependencies": [
+    "CP-N2-A",
+    "CP-N2-B",
+    "S22",
+    "S23",
+    "S24",
+    "S25",
+    "S26"
+  ],
+  "wow_factor_definition": "Orquestación RPA/IA sintética de extremo a extremo con aprobación humana, borrador de correo y rollback — lista para demo de portafolio.",
+  "scoring_weights_reference": {
+    "correctness": 0.35,
+    "edge_cases_data": 0.2,
+    "tests": 0.15,
+    "design": 0.1,
+    "reproducibility": 0.1,
+    "communication_limits": 0.1,
+    "pass_threshold": 0.8
+  },
+  "prohibitions": [
+    "No real PII",
+    "No fraud inference as automatic decision",
+    "No hardcoded production secrets",
+    "Synthetic or legally reusable data only"
+  ],
+  "package_version": "1.0.0",
+  "generated_at": "2026-07-20T14:53:43Z"
+}

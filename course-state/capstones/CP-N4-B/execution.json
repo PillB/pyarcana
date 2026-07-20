@@ -1,0 +1,11 @@
+{
+  "id": "CP-N4-B",
+  "status": "pass",
+  "exit_code": 0,
+  "stdout": "METRICS_JSON: {\"capstone_id\": \"CP-N4-B\", \"status\": \"pass\", \"active_version\": \"triage:1.0.0\", \"n_registered\": 3, \"gate_blocked_weak_model\": true, \"rollback_ok\": true, \"lineage\": [\"train:1.0.0\", \"train:1.1.0\", \"gate_block:1.1.0\", \"serve:1.0.0\", \"serve:1.2.0\", \"rollback:1.0.0\"]}\nCP-N4-B ML Platform OK — active=triage:1.0.0\n",
+  "stderr": "",
+  "command": "python3 demo.py",
+  "cwd": "course-state/capstones/CP-N4-B",
+  "executed_at": "2026-07-20T14:53:43Z",
+  "python": "3.9.6"
+}

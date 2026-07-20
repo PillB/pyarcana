@@ -1,0 +1,629 @@
+{
+  "lane": "LANE-N2-FACTORY",
+  "mode": "PARALLEL_PRODUCTION",
+  "scope": "S14–S26",
+  "updated_at": "2026-07-20T17:30:00Z",
+  "status": "LIGHTWEIGHT_BLUEPRINTS_COMPLETE",
+  "section_passed": false,
+  "no_passed_states": true,
+  "lightweight": true,
+  "phases_per_section": {
+    "PHASE_0": "COMPLETE",
+    "PHASE_1": "SKIPPED_LIGHTWEIGHT",
+    "PHASE_2": "SKIPPED_LIGHTWEIGHT",
+    "PHASE_3": "COMPLETE",
+    "PHASE_4": "NOT_STARTED",
+    "PHASE_5": "NOT_STARTED"
+  },
+  "sections": {
+    "S14": {
+      "section_id": "security",
+      "v3_title": "NumPy y cómputo vectorizado",
+      "platform_title": "Seguridad para Automatizaciones e Inteligencia Artificial",
+      "file": "src/lib/course/sections/s14-security.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase0": "course-state/s14_phase0.json",
+        "phase3": "course-state/s14_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "ndarray-dtype-shape",
+        "create-index-masks",
+        "ufuncs-reductions",
+        "broadcasting-shapes",
+        "views-copies-mutability",
+        "nan-inf-stability",
+        "vectorize-vs-loops",
+        "memory-measure-tol-tests"
+      ],
+      "capstone": "CP-N2-A (inicio)",
+      "platform_id_conflict": true
+    },
+    "S15": {
+      "section_id": "stdlib-deep",
+      "v3_title": "Pandas: ingesta, selección y tipos",
+      "platform_title": "Python Avanzado — stdlib Profunda",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase0": "course-state/s15_phase0.json",
+        "phase3": "course-state/s15_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "series-dataframe-index",
+        "read-csv-excel-parser",
+        "loc-iloc-filters-assign",
+        "chained-assignment-copy",
+        "strings-nullable-dates-cats",
+        "explicit-coercion-schema",
+        "csv-parquet-excel-export",
+        "index-format-provenance-memory"
+      ],
+      "capstone": "CP-N2-A (dataset)",
+      "platform_id_conflict": true
+    },
+    "S16": {
+      "section_id": "wxpython-gui",
+      "v3_title": "Calidad, limpieza y contratos de datos",
+      "platform_title": "GUI de Escritorio con wxPython",
+      "file": "src/lib/course/sections/s16-wxpython-gui.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase0": "course-state/s16_phase0.json",
+        "phase3": "course-state/s16_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "nulls-field-policies",
+        "indicators-imputation-limits",
+        "exact-vs-conflict-dups",
+        "keys-cardinality-evidence",
+        "normalize-strings-nums-dates-cats",
+        "outliers-plausible-vs-error",
+        "schema-crossfield-rules",
+        "metrics-quarantine-audit"
+      ],
+      "capstone": "CP-N2-A (quality)",
+      "platform_id_conflict": true
+    },
+    "S17": {
+      "section_id": "packaging",
+      "v3_title": "Joins, reshape, groupby y cierre analítico",
+      "platform_title": "Distribución, Packaging y CLI Profesional",
+      "file": "src/lib/course/sections/s17-packaging.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase0": "course-state/s17_phase0.json",
+        "phase3": "course-state/s17_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "keys-cardinality-joins",
+        "validate-dup-antijoin",
+        "concat-melt-pivot",
+        "long-wide-stable-names",
+        "groupby-agg-transform",
+        "windows-dates-cohorts",
+        "denominators-totals",
+        "temporal-leakage-controls"
+      ],
+      "capstone": "CP-N2-A (cierre)",
+      "platform_id_conflict": true
+    },
+    "S18": {
+      "section_id": "data-engineering",
+      "v3_title": "EDA, estadística descriptiva e incertidumbre",
+      "platform_title": "Ingeniería de Datos Intermedia — Prefect, Parquet, Great Expectations",
+      "file": "src/lib/course/sections/s18-data-engineering.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase0": "course-state/s18_phase0.json",
+        "phase3": "course-state/s18_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "center-spread-quantiles",
+        "robust-metrics-scales",
+        "population-sample-bias",
+        "intervals-effect-size",
+        "correlation-confounds",
+        "segments-anomalies-no-causal",
+        "questions-hypotheses-evidence",
+        "repro-notebook-data-notes"
+      ],
+      "capstone": "CP-N2-B (inicio)",
+      "platform_id_conflict": true
+    },
+    "S19": {
+      "section_id": "databases-orm",
+      "v3_title": "Visualización y comunicación accesible",
+      "platform_title": "Bases de Datos Avanzadas y ORMs",
+      "file": "src/lib/course/sections/s19-databases-orm.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase0": "course-state/s19_phase0.json",
+        "phase3": "course-state/s19_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "question-audience-chart",
+        "axes-scales-encodings",
+        "matplotlib-seaborn",
+        "composition-annotations-export",
+        "plotly-filters-tooltips",
+        "state-perf-a11y-alts",
+        "units-source-limits",
+        "color-contrast-alt-no-overclaim"
+      ],
+      "capstone": "CP-N2-B (dashboard)",
+      "platform_id_conflict": true
+    },
+    "S20": {
+      "section_id": "rag",
+      "v3_title": "Automatización robusta de Excel",
+      "platform_title": "RAG — Retrieval-Augmented Generation en Producción",
+      "file": "src/lib/course/sections/s20-rag.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase0": "course-state/s20_phase0.json",
+        "phase3": "course-state/s20_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "sheets-cells-tables-named",
+        "formulas-vs-cached-values",
+        "styles-charts-templates",
+        "dates-locales-merged-protect",
+        "reconcile-pivots",
+        "validation-structure-preserve",
+        "batch-corrupt-locks",
+        "backups-idempotency-visual-tests"
+      ],
+      "capstone": "CP-N2-B (excel factory)",
+      "platform_id_conflict": true
+    },
+    "S21": {
+      "section_id": "fastapi",
+      "v3_title": "Documentos, plantillas y reportes trazables",
+      "platform_title": "FastAPI — Backend Python para Sitios Web en Vivo",
+      "file": "src/lib/course/sections/s21-fastapi.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase0": "course-state/s21_phase0.json",
+        "phase3": "course-state/s21_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "jinja-data-presentation",
+        "conditions-tables-safe-format",
+        "styles-sections-docx-pdf",
+        "pdf-digital-vs-image-ocr",
+        "exec-summary-method-findings",
+        "charts-tables-sources-limits",
+        "copy-a11y-consistency",
+        "visual-render-provenance-approval"
+      ],
+      "capstone": "CP-N2-B (cierre)",
+      "platform_id_conflict": true
+    },
+    "S22": {
+      "section_id": "rapidfuzz-entity",
+      "v3_title": "Email, identidad y aprobación humana",
+      "platform_title": "RapidFuzz y Resolución de Entidades a Escala",
+      "file": "src/lib/course/sections/s22-rapidfuzz-entity.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase0": "course-state/s22_phase0.json",
+        "phase3": "course-state/s22_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "mime-encoding-html-attachments",
+        "templates-sanitization",
+        "oauth-service-account-scopes",
+        "drafts-expiry-adapters",
+        "resolve-verify-recipients",
+        "lists-cc-bcc-privacy-min",
+        "approval-queue-state-machine",
+        "idempotency-audit-retry"
+      ],
+      "capstone": "CP-N2-C (inicio)",
+      "platform_id_conflict": true
+    },
+    "S23": {
+      "section_id": "computer-vision",
+      "v3_title": "Browser RPA con Playwright",
+      "platform_title": "Visión por Computadora y Camera Feeds en Tiempo Real",
+      "file": "src/lib/course/sections/s23-computer-vision.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase0": "course-state/s23_phase0.json",
+        "phase3": "course-state/s23_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "dom-user-locators",
+        "auto-waiting-assertions",
+        "forms-upload-download-sessions",
+        "auth-states-page-objects",
+        "trace-screenshot-logs",
+        "robust-selectors-retries-recovery",
+        "api-export-first",
+        "tos-captcha-desktop-human"
+      ],
+      "capstone": "CP-N2-C (web adapter)",
+      "platform_id_conflict": true
+    },
+    "S24": {
+      "section_id": "rpa-advanced",
+      "v3_title": "OCR y Document AI",
+      "platform_title": "RPAs Avanzados y Orquestación",
+      "file": "src/lib/course/sections/s24-rpa-advanced.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase0": "course-state/s24_phase0.json",
+        "phase3": "course-state/s24_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "dpi-deskew-crop-contrast",
+        "noise-orientation",
+        "langs-layout-confidence",
+        "text-tables-kv-pairs",
+        "schema-normalization",
+        "crossfield-validation-review",
+        "golden-field-accuracy-coverage",
+        "privacy-hostile-fallback"
+      ],
+      "capstone": "CP-N2-C (document intake)",
+      "platform_id_conflict": true
+    },
+    "S25": {
+      "section_id": "streamlit-dashboards",
+      "v3_title": "Endpoints de IA, Hugging Face y prompting evaluado",
+      "platform_title": "Dashboards Interactivos y Streamlit",
+      "file": "src/lib/course/sections/s25-streamlit-dashboards.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase0": "course-state/s25_phase0.json",
+        "phase3": "course-state/s25_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "rule-vs-specialized-vs-llm",
+        "model-cards-licenses-local-cloud",
+        "hf-pipelines-endpoints",
+        "batch-timeout-cache-cost-fallback",
+        "objective-context-constraints-examples",
+        "glm-thinking-tools-checkpoints",
+        "golden-schema-human-review",
+        "injection-exfil-bias-minimize"
+      ],
+      "capstone": "CP-N2-C (AI assist)",
+      "platform_id_conflict": true
+    },
+    "S26": {
+      "section_id": "integrator-phase1",
+      "v3_title": "Orquestación y VP RPA + AI Analyst",
+      "platform_title": "Proyecto Integrador Fase 1",
+      "file": "src/lib/course/sections/s26-integrator-phase1.ts",
+      "section_passed": false,
+      "artifacts": {
+        "phase0": "course-state/s26_phase0.json",
+        "phase3": "course-state/s26_phase3.json"
+      },
+      "counts_planned": {
+        "topics": 4,
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam_variants_abc": 24,
+        "topic_evaluations": 4
+      },
+      "slug_plan": [
+        "tasks-flows-dag-states",
+        "limits-metadata-schedules",
+        "checkpoints-retry-backoff-dlq",
+        "idempotency-concurrency-rollback",
+        "review-analysis-report-recipient",
+        "approve-reject-edit-audit",
+        "slo-alerts-runbook",
+        "e2e-security-cost-value"
+      ],
+      "capstone": "CP-N2-C (cierre) + CF-2 + Level-2 regression",
+      "platform_id_conflict": true
+    }
+  },
+  "capstone_gates": {
+    "S17": {
+      "capstone": "CP-N2-A",
+      "name": "Executive Data Quality & EDA Portfolio",
+      "state": "PLANNED_NOT_PASSED",
+      "role": "close CP-N2-A"
+    },
+    "S21": {
+      "capstone": "CP-N2-B",
+      "name": "Accessible Insights Dashboard & Reporting Factory",
+      "state": "PLANNED_NOT_PASSED",
+      "role": "close CP-N2-B"
+    },
+    "S26": {
+      "capstone": "CP-N2-C",
+      "name": "VP RPA + AI Analyst",
+      "state": "PLANNED_NOT_PASSED",
+      "role": "close CP-N2-C + Level-2 regression + CF-2",
+      "cp_n2_c": "PLANNED_NOT_PASSED",
+      "n2_regression": "PLANNED_NOT_PASSED",
+      "cf2": "PLANNED_NOT_PASSED",
+      "blocks": "S27 until all three PASS"
+    }
+  },
+  "platform_id_mapping_conflicts": [
+    {
+      "section": "S14",
+      "platform_section_id": "security",
+      "platform_title": "Seguridad para Automatizaciones e Inteligencia Artificial",
+      "v3_title": "NumPy y cómputo vectorizado",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s14-security.ts",
+      "capstone": "CP-N2-A (inicio)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S15",
+      "platform_section_id": "stdlib-deep",
+      "platform_title": "Python Avanzado — stdlib Profunda",
+      "v3_title": "Pandas: ingesta, selección y tipos",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "capstone": "CP-N2-A (dataset)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S16",
+      "platform_section_id": "wxpython-gui",
+      "platform_title": "GUI de Escritorio con wxPython",
+      "v3_title": "Calidad, limpieza y contratos de datos",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s16-wxpython-gui.ts",
+      "capstone": "CP-N2-A (quality)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S17",
+      "platform_section_id": "packaging",
+      "platform_title": "Distribución, Packaging y CLI Profesional",
+      "v3_title": "Joins, reshape, groupby y cierre analítico",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s17-packaging.ts",
+      "capstone": "CP-N2-A (cierre)",
+      "is_major_gate": true
+    },
+    {
+      "section": "S18",
+      "platform_section_id": "data-engineering",
+      "platform_title": "Ingeniería de Datos Intermedia — Prefect, Parquet, Great Expectations",
+      "v3_title": "EDA, estadística descriptiva e incertidumbre",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s18-data-engineering.ts",
+      "capstone": "CP-N2-B (inicio)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S19",
+      "platform_section_id": "databases-orm",
+      "platform_title": "Bases de Datos Avanzadas y ORMs",
+      "v3_title": "Visualización y comunicación accesible",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s19-databases-orm.ts",
+      "capstone": "CP-N2-B (dashboard)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S20",
+      "platform_section_id": "rag",
+      "platform_title": "RAG — Retrieval-Augmented Generation en Producción",
+      "v3_title": "Automatización robusta de Excel",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s20-rag.ts",
+      "capstone": "CP-N2-B (excel factory)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S21",
+      "platform_section_id": "fastapi",
+      "platform_title": "FastAPI — Backend Python para Sitios Web en Vivo",
+      "v3_title": "Documentos, plantillas y reportes trazables",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s21-fastapi.ts",
+      "capstone": "CP-N2-B (cierre)",
+      "is_major_gate": true
+    },
+    {
+      "section": "S22",
+      "platform_section_id": "rapidfuzz-entity",
+      "platform_title": "RapidFuzz y Resolución de Entidades a Escala",
+      "v3_title": "Email, identidad y aprobación humana",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s22-rapidfuzz-entity.ts",
+      "capstone": "CP-N2-C (inicio)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S23",
+      "platform_section_id": "computer-vision",
+      "platform_title": "Visión por Computadora y Camera Feeds en Tiempo Real",
+      "v3_title": "Browser RPA con Playwright",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s23-computer-vision.ts",
+      "capstone": "CP-N2-C (web adapter)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S24",
+      "platform_section_id": "rpa-advanced",
+      "platform_title": "RPAs Avanzados y Orquestación",
+      "v3_title": "OCR y Document AI",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s24-rpa-advanced.ts",
+      "capstone": "CP-N2-C (document intake)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S25",
+      "platform_section_id": "streamlit-dashboards",
+      "platform_title": "Dashboards Interactivos y Streamlit",
+      "v3_title": "Endpoints de IA, Hugging Face y prompting evaluado",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s25-streamlit-dashboards.ts",
+      "capstone": "CP-N2-C (AI assist)",
+      "is_major_gate": false
+    },
+    {
+      "section": "S26",
+      "platform_section_id": "integrator-phase1",
+      "platform_title": "Proyecto Integrador Fase 1",
+      "v3_title": "Orquestación y VP RPA + AI Analyst",
+      "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+      "file": "src/lib/course/sections/s26-integrator-phase1.ts",
+      "capstone": "CP-N2-C (cierre) + CF-2 + Level-2 regression",
+      "is_major_gate": true
+    }
+  ],
+  "counting_contract_batch": {
+    "sections": 13,
+    "topics": 52,
+    "subtopics": 104,
+    "demos": 104,
+    "student_exercises": 312,
+    "exam_variants": 312,
+    "topic_evaluations": 52,
+    "note": "13 sections × (4 topics, 8 subtopics, 8 demos, 24 exercises, 24 A/B/C)"
+  },
+  "do_not_edit_respected": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json",
+    "course-state/parallel_orchestration.json",
+    "src/lib/course/sections/*.ts (no rewrites this run)",
+    "prisma/seed.ts"
+  ],
+  "artifacts_written": [
+    "course-state/s14_phase0.json",
+    "course-state/s14_phase3.json",
+    "course-state/s15_phase0.json",
+    "course-state/s15_phase3.json",
+    "course-state/s16_phase0.json",
+    "course-state/s16_phase3.json",
+    "course-state/s17_phase0.json",
+    "course-state/s17_phase3.json",
+    "course-state/s18_phase0.json",
+    "course-state/s18_phase3.json",
+    "course-state/s19_phase0.json",
+    "course-state/s19_phase3.json",
+    "course-state/s20_phase0.json",
+    "course-state/s20_phase3.json",
+    "course-state/s21_phase0.json",
+    "course-state/s21_phase3.json",
+    "course-state/s22_phase0.json",
+    "course-state/s22_phase3.json",
+    "course-state/s23_phase0.json",
+    "course-state/s23_phase3.json",
+    "course-state/s24_phase0.json",
+    "course-state/s24_phase3.json",
+    "course-state/s25_phase0.json",
+    "course-state/s25_phase3.json",
+    "course-state/s26_phase0.json",
+    "course-state/s26_phase3.json",
+    "course-state/lanes/LANE-N2-FACTORY.status.json"
+  ],
+  "mirrored_to": "/Users/pabloillescas/Projects/PyArcana/course-state",
+  "next_for_orchestrator": "Merge lane status; do not mark S14–S26 passed. Schedule PHASE 4 authorship per section starting T1-A. Capstone gates S17/S21/S26 remain PLANNED_NOT_PASSED.",
+  "blocked": false
+}

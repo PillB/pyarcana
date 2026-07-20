@@ -1,0 +1,11 @@
+{
+  "id": "CP-N1-B",
+  "status": "pass",
+  "exit_code": 0,
+  "stdout": "METRICS_JSON: {\"capstone_id\": \"CP-N1-B\", \"status\": \"pass\", \"n_in\": 7, \"n_out\": 4, \"n_quarantine\": 3, \"manifest\": {\"source\": \"synthetic_csv_memory\", \"n_in_declared\": 7, \"n_out\": 4, \"n_quarantine\": 3, \"clean_fp\": \"db27f2d64f2cf321\", \"lineage\": [\"raw_csv\", \"validate_contract\", \"quarantine_or_clean\"]}}\nCP-N1-B ETL OK — out=4 quarantine=3\n",
+  "stderr": "",
+  "command": "python3 demo.py",
+  "cwd": "course-state/capstones/CP-N1-B",
+  "executed_at": "2026-07-20T14:53:43Z",
+  "python": "3.9.6"
+}

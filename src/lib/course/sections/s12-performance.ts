@@ -1,1221 +1,1780 @@
 import type { CourseSection } from '../../types'
 
 export const section12: CourseSection = {
-  id: 'performance',
+  id: "performance",
   index: 12,
-  title: 'Performance, Concurrency & Logging',
-  shortTitle: 'Performance & Logging',
-  tagline:
-    'Multiprocessing, profiling, logging y argparse — código production-ready',
-  estimatedHours: 10,
-  level: 'Avanzado',
+  title: "APIs, SQL y geodatos responsables",
+  shortTitle: "APIs · SQL · Geo",
+  tagline: "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+  estimatedHours: 12,
+  level: "Intermedio",
   phase: 0,
-  icon: 'Gauge',
-  accentColor: 'bg-gradient-to-br from-indigo-500 to-purple-600',
+  icon: "Gauge",
+  accentColor: "bg-gradient-to-br from-indigo-500 to-purple-600",
   jobRelevance:
-    'En cualquier trabajo serio de data, el código tiene que ser RÁPIDO, OBSERVABLE y REUSABLE. "Rápido" significa paralelizar feature engineering con multiprocessing para que un job de 4 horas baje a 35 minutos. "Observable" significa logging estructurado para que cuando el pipeline se cae a las 3am, los logs te digan EXACTAMENTE en qué etapa y por qué — sin reproducir el error en tu laptop. "Reusable" significa empaquetarlo como CLI con argparse para que tus colegas lo usen sin abrir un notebook. Estas 4 skills — multiprocessing, profiling, logging, argparse — son lo que separa un junior que escribe scripts que "funcionan en mi laptop" de un senior que entrega pipelines production-ready que corren en servidores, scheduleados, monitoreados, y usados por todo el equipo de data. En empresas peruanas como Interbank, BBVA, Mercado Libre y Rimac, este perfil cobra 40-60% más que un Data Analyst que solo sabe pandas.',
+    "En onboarding, compliance y data quality en bancos, fintech y retail en Perú, necesitas **adaptadores HTTP resilientes**, **SQL parametrizado** y **geoevidencia controlada** sin filtrar PII bancaria a geocoders públicos. Esta sección (id de plataforma `performance` conservado) retematiza a V3 **APIs + SQL + geodatos** e incrementa **CP-N1-C** (adquisición + geoevidencia) con mocks locales y datos sintéticos.",
   learningOutcomes: [
-    { text: 'Paralelizar feature engineering con multiprocessing y concurrent.futures (Process vs Thread)' },
-    { text: 'Entender el GIL y cuándo usar ProcessPoolExecutor vs ThreadPoolExecutor' },
-    { text: 'Perfil código con timeit, cProfile y line_profiler para encontrar bottlenecks' },
-    { text: 'Configurar logging estructurado (JSON, RotatingFileHandler) para pipelines en producción' },
-    { text: 'Convertir notebooks en herramientas CLI reutilizables con argparse' },
-    { text: 'Empaquetar un CLI como ejecutable instalable con pyproject.toml + entry_points' },
+    { text: "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados" },
+    { text: "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios" },
+    { text: "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance" },
+    { text: "Escribir contract tests del adaptador y fallback degradado offline" },
+    { text: "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias" },
+    { text: "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL" },
+    { text: "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock" },
+    { text: "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor" },
   ],
   theory: [
     {
-      heading: 'Multiprocessing & concurrent.futures — Process vs Thread y el GIL',
+      heading: "De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la sección)",
       paragraphs: [
-        'Python tiene el famoso GIL (Global Interpreter Lock): solo un thread ejecuta bytecode Python a la vez. Esto significa que `threading` NO acelera tareas CPU-bound (cálculo puro, transformación de datos, modelos de ML) — todos los threads compiten por el mismo GIL y terminan corriendo secuencialmente. Para acelerar tareas CPU-bound necesitas `multiprocessing`: procesos separados del sistema operativo, cada uno con su propio GIL y su propio espacio de memoria, corriendo en paralelo en múltiples cores. En una laptop de 8 cores, una tarea CPU-bound puede correr 6-7x más rápido (no 8x por el overhead de crear procesos y serializar datos). En servidores cloud con 32 cores, los speedups son dramáticos — un job de 8 horas baja a 20 minutos.',
-        'La API moderna y recomendada es `concurrent.futures.ProcessPoolExecutor` y `ThreadPoolExecutor`. El patrón básico es limpio: `with ProcessPoolExecutor() as executor: results = list(executor.map(func, items))`. Esto crea un pool de procesos workers, distribuye los items, y recolecta resultados en orden. Para tareas CPU-bound (calcular features por cliente, transformar imágenes, encodear videos, hyperparameter sweep) usa Process. Para I/O-bound (scrapear 100 URLs, llamar 50 APIs, leer 20 archivos de disco) usa Thread — porque durante la espera de I/O el GIL se libera y otros threads pueden avanzar. La regla mnemotécnica: si tu función pasa el 90% del tiempo esperando red/disco → Thread; si pasa el 90% calculando → Process.',
-        'El caso de uso clásico en DS: tienes 500k clientes y necesitas calcular 20 features por cliente (RFM: recencia, frecuencia, monetario, más features de comportamiento). En single-process tarda 4 horas. Con `ProcessPoolExecutor(max_workers=8)` y `executor.map(calcular_features, chunks_de_clientes)`, baja a 35 minutos. Otro caso: hyperparameter sweep con 100 configs de modelo — en paralelo corren 8 a la vez, el sweep completo baja de 8 horas a 1 hora. Cuidado con 3 trampas: (1) memoria — cada proceso copia data, pasa chunks chicos no DataFrames gigantes, o tu RAM explota; (2) funciones lambda — no se pueden picklear (serializar para enviar a otro proceso), usa funciones top-level con `def`; (3) shared state — multiprocessing tiene Queues y Managers pero es complejo, mejor diseñar funciones puras sin estado compartido.',
+        "En V3, **S12 no es el path principal de multiprocessing, profiling ni logging de producción**. Ese material se reubica conceptualmente hacia el tramo de sistemas/ops. Aquí construyes el **incremento CP-N1-C de adquisición y geoevidencia**: cliente HTTP síncrono resiliente, SQLite parametrizado y geocoder mock/autorizado **sin PII bancaria a servicios públicos**.",
+        "El hilo conductor es un **adaptador de señales sintéticas** (listas de entidades, evidencias y coordenadas) con timeout, cache, provenance y fallback offline. Solo datos sintéticos latam (`example.com`, Lima/Arequipa, ids `C00x`).",
+        "Orden: **T1 HTTP** → **T2 Auth/cache/contracts** → **T3 SQL** → **T4 Geodatos responsables**.",
       ],
-      code: {
-        language: 'python',
-        title: 'paralelo_features.py',
-        code: `import pandas as pd
-import numpy as np
-from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
-import requests
-import time
-
-# === 1. CPU-bound: feature engineering en paralelo ===
-def calcular_features_cliente(cliente_id: int) -> dict:
-    """Simula cómputo pesado por cliente (en la vida real: query DB, transforma, calcula 20 features)."""
-    np.random.seed(cliente_id)  # determinista para reproducibilidad
-    historial = np.random.exponential(30, 365)  # 365 días de compras simuladas
-    recencia = 365 - np.argmax(historial[::-1] > 0)  # días desde última compra
-    frecuencia = (historial > 0).sum()
-    monetario = float(historial.sum())
-    return {
-        "cliente_id": cliente_id,
-        "recencia": int(recencia),
-        "frecuencia": int(frecuencia),
-        "monetario": monetario,
-        "rfm_score": recencia * 0.3 + frecuencia * 0.4 + monetario * 0.3,
-    }
-
-# Single-process (lento — baseline)
-start = time.time()
-n_clientes = 10_000
-resultados_seq = [calcular_features_cliente(i) for i in range(n_clientes)]
-print(f"Secuencial: {time.time() - start:.1f}s")
-# Secuencial: 8.5s
-
-# Paralelo (rápido — usa todos los cores disponibles)
-start = time.time()
-with ProcessPoolExecutor(max_workers=8) as executor:
-    resultados_par = list(executor.map(calcular_features_cliente, range(n_clientes)))
-print(f"Paralelo (8 workers): {time.time() - start:.1f}s")
-# Paralelo (8 workers): 1.4s  (~6x speedup)
-
-# === 2. I/O-bound: scrapear 50 URLs en paralelo con ThreadPoolExecutor ===
-def fetch_url(url: str) -> tuple[str, int]:
-    """Descarga una URL y devuelve (url, status_code)."""
-    try:
-        resp = requests.get(url, timeout=10)
-        return (url, resp.status_code)
-    except Exception:
-        return (url, -1)
-
-urls = [f"https://api.mercadolibre.com/items/ML{i}" for i in range(50)]
-
-# Threads son ideales para I/O porque durante la espera de red, el GIL se libera
-start = time.time()
-with ThreadPoolExecutor(max_workers=10) as executor:
-    futures = [executor.submit(fetch_url, url) for url in urls]
-    resultados_io = [f.result() for f in as_completed(futures)]
-print(f"50 URLs en paralelo (10 threads): {time.time() - start:.2f}s")
-# 50 URLs en paralelo (10 threads): 1.85s  (vs ~15s secuencial)
-
-# === 3. Procesar un DataFrame en chunks paralelos ===
-def procesar_chunk(chunk: pd.DataFrame) -> pd.DataFrame:
-    """Aplica feature engineering a un chunk del DataFrame — función pura, sin estado."""
-    chunk = chunk.copy()
-    chunk["log_monto"] = np.log1p(chunk["monto"])
-    chunk["monto_zscore"] = (chunk["monto"] - chunk["monto"].mean()) / chunk["monto"].std()
-    chunk["es_outlier"] = chunk["monto_zscore"].abs() > 3
-    return chunk
-
-df_grande = pd.DataFrame({
-    "cliente_id": range(100_000),
-    "monto": np.random.exponential(500, 100_000),
-})
-
-# Partir en 8 chunks, procesar en paralelo, recombinar
-start = time.time()
-chunks = np.array_split(df_grande, 8)
-with ProcessPoolExecutor(max_workers=8) as executor:
-    chunks_procesados = list(executor.map(procesar_chunk, chunks))
-df_final = pd.concat(chunks_procesados, ignore_index=True)
-print(f"DataFrame 100k filas en 8 chunks: {time.time() - start:.2f}s")
-print(df_final.head())
-#    cliente_id       monto  log_monto  monto_zscore  es_outlier
-# 0           0  123.456789   4.820282      0.241983       False
-# 1           1   45.678912   3.842156     -0.901234       False
-# ...`,
-      },
       callout: {
-        type: 'tip',
-        title: 'Joblib para scikit-learn',
+        type: "info",
+        title: "Contenido reubicado conceptualmente",
         content:
-          'scikit-learn usa joblib internamente para paralelizar — solo pasa `n_jobs=-1` en GridSearchCV, RandomForest, KMeans, etc. y usa todos los cores. Si tu código es sklearn-céntrico, no necesitas escribir multiprocessing manual. Para código custom, usa concurrent.futures. Joblib también ofrece `Parallel(n_jobs=-1)(delayed(func)(x) for x in items)` que es muy similar a ProcessPoolExecutor.map pero con mejor manejo de memoria para arrays numpy.',
+          "Material legado de performance/concurrency de este archivo **no es el camino V3 del estudiante en S12**. Target: adaptadores HTTP + SQL + geo para CP-N1-C. Conserva datos sintéticos; nunca PII real ni tokens en logs.",
       },
     },
     {
-      heading: 'Profiling & Benchmarking — timeit, cProfile, line_profiler',
+      heading: "requests/responses, status y JSON",
+      subtopicId: "S12-T1-A",
       paragraphs: [
-        'La regla #1 de optimización es: NUNCA optimices sin medir primero. La intuición humana sobre qué es lento es pésima — el 80% de las veces, el bottleneck NO es donde crees. Pasas 2 horas optimizando una función que consume el 2% del tiempo y no notas que el 90% se va en otro lado. Por eso necesitas profiling: medir EXACTAMENTE dónde se gasta el tiempo. Python tiene 3 herramientas complementarias: `timeit` (microbenchmarks de snippets chicos), `cProfile` (perfil de toda una ejecución, función por función), y `line_profiler` (perfil línea por línea de UNA función específica). Combinadas, te dicen exactamente qué optimizar y — más importante — qué NO tocar (porque no aporta al tiempo total).',
-        '`timeit` es para comparar implementaciones de un mismo algoritmo. Por ejemplo: ¿es más rápido `[x*2 for x in range(1000)]` o `list(map(lambda x: x*2, range(1000)))`? Con `timeit.timeit(stmt, number=10000)` lo sabes en 2 segundos. Es esencial cuando dudas entre dos formas de escribir algo. `cProfile` es para scripts completos: corres `python -m cProfile -s cumulative mi_script.py` y obtienes una tabla con cada función, cuántas veces se llamó (ncalls), cuánto tiempo total gastó (tottime), y cuánto tiempo cumulativo incluyendo sub-llamadas (cumtime). Identificas la función que se come el 80% del tiempo y la atacas primero — eso es la regla de Pareto aplicada a performance.',
-        '`line_profiler` es el más detallado: perfil línea por línea de UNA función. Lo instalas con `pip install line_profiler`, decoras la función con `@profile`, y corres `kernprof -l -v mi_script.py`. Te muestra por cada línea: tiempo total, porcentaje del total, tiempo por llamada, número de hits. Descubres cosas como "esta línea de pandas `.iterrows()` se come el 95% del tiempo" — y la reescribes vectorizada para 100x speedup. En DS, el 80% de las optimizaciones son: (1) reemplazar `.iterrows()` con operaciones vectorizadas de pandas/numpy, (2) usar numpy en vez de Python loops, (3) cachear resultados de funciones puras, (4) usar C-extensions (numba, cython) para hot paths críticos. Sin profiling, optimizas a ciegas; con profiling, cada hora invertida rinde.',
+        "Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerpo (a menudo JSON). En este curso usamos un **cliente mock** o `urllib` con fixtures: la pedagogía es status + parse, no la librería de red.",
+        "**2xx** = éxito; **4xx** = error del cliente (no reintentes a ciegas); **5xx** = error del servidor (candidatos a retry con límite). Siempre parsea con manejo de cuerpo vacío o JSON inválido.",
+        "**Timeout es obligatorio**: sin `timeout=` un socket colgado congela el pipeline. Headers (`Accept`, `User-Agent`) documentan el contrato del adaptador.",
       ],
       code: {
         language: 'python',
-        title: 'profiling_demo.py',
-        code: `# === 1. timeit: comparar dos implementaciones de un mismo algoritmo ===
-import timeit
+        title: "mock_http_status.py",
+        code: `class MockResponse:
+    def __init__(self, status_code, payload):
+        self.status_code = status_code
+        self._payload = payload
+    def json(self):
+        return self._payload
 
-# Lista por comprehension
-t1 = timeit.timeit("[x*2 for x in range(1000)]", number=10000)
-# Map con lambda
-t2 = timeit.timeit("list(map(lambda x: x*2, range(1000)))", number=10000)
-print(f"List comp: {t1:.3f}s")
-print(f"Map+lambda: {t2:.3f}s")
-# List comp: 0.42s
-# Map+lambda: 0.58s  (list comp gana por 30%)
+def get_entity(store, entity_id):
+    if entity_id not in store:
+        return MockResponse(404, {"error": "not_found"})
+    return MockResponse(200, store[entity_id])
 
-# === 2. cProfile: perfil de script completo ===
-# Guarda como perf_demo.py y corre:
-#   python -m cProfile -s cumulative perf_demo.py
-import pandas as pd
-import numpy as np
-
-def procesar_datos_lento(n: int = 100_000):
-    """Forma LENTA: itera con .iterrows() — el antipatrón #1 de pandas."""
-    df = pd.DataFrame({"x": np.random.randn(n), "y": np.random.randn(n)})
-    resultado = []
-    for _, row in df.iterrows():
-        resultado.append(row["x"] ** 2 + row["y"] ** 2)
-    return sum(resultado)
-
-def procesar_datos_rapido(n: int = 100_000):
-    """Forma RÁPIDA: vectorizada con numpy/pandas."""
-    df = pd.DataFrame({"x": np.random.randn(n), "y": np.random.randn(n)})
-    return float((df["x"] ** 2 + df["y"] ** 2).sum())
-
-# Output de cProfile (top 10 por tiempo cumulativo):
-#    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-#       100  185.234    1.852  185.234    1.852 perf_demo.py:5(procesar_datos_lento)
-#   10000000   12.451    0.000   12.451    0.000 {method 'append' of 'list' objects}
-#         1    0.045    0.045    0.045    0.045 perf_demo.py:13(procesar_datos_rapido)
-# → El 99.9% del tiempo está en procesar_datos_lento. Optimiza SOLO eso.
-
-# === 3. line_profiler: perfil línea por línea ===
-# Instala: pip install line_profiler
-# Decora la función con @profile (line_profiler lo provee automáticamente)
-# Corre: kernprof -l -v perf_demo.py
-
-# @profile  # descomenta para usar line_profiler
-def feature_engineering(df):
-    n = len(df)
-    df["log_x"] = np.log1p(df["x"])                              # 5% del tiempo
-    df["zscore"] = (df["x"] - df["x"].mean()) / df["x"].std()    # 3%
-    df["rolling_mean"] = df["x"].rolling(7).mean()               # 15%
-    df["categoria"] = pd.cut(df["x"], bins=10, labels=False)     # 8%
-    for i in range(n):                                           # ESTA LÍNEA: 65% del tiempo
-        df.loc[i, "custom"] = df.loc[i, "x"] * 2  # .loc[i] es O(n)
-    return df
-
-# Output de line_profiler:
-# Line #  Hits    Time  Per Hit  % Time  Line Contents
-# =====================================================
-#      3     1       5      5.0      0.0  def feature_engineering(df):
-#      4     1   15000  15000.0      5.0    df["log_x"] = np.log1p(df["x"])
-#      5     1    9000   9000.0      3.0    df["zscore"] = ...
-#      6     1   45000  45000.0     15.0    df["rolling_mean"] = ...
-#      7     1   24000  24000.0      8.0    df["categoria"] = pd.cut(...)
-#      8 100001  195000      1.9     65.0    for i in range(n):
-#      9 100000   60000      0.6     20.0      df.loc[i, "custom"] = df.loc[i, "x"] * 2
-# → El loop con .loc[i] es el bottleneck. Vectoriza: df["custom"] = df["x"] * 2
-#   (1 línea, 100x más rápido)
-
-# === 4. memory_profiler (bonus para detectar memory leaks) ===
-# pip install memory_profiler
-# Decorador @profile, corres: python -m memory_profiler script.py
-# Te muestra uso de RAM línea por línea — útil para detectar memory leaks en pipelines`,
+store = {"C001": {"id": "C001", "region": "Lima", "score": 0.8}}
+ok = get_entity(store, "C001")
+miss = get_entity(store, "C999")
+print("200 keys:", sorted(ok.json().keys()), "status", ok.status_code)
+print("404 status", miss.status_code, "body", miss.json())`,
+        output: `200 keys: ['id', 'region', 'score'] status 200
+404 status 404 body {'error': 'not_found'}`,
       },
       callout: {
-        type: 'info',
-        title: 'Regla de oro: mide, no adivines',
+        type: "tip",
+        title: "Regla de status",
         content:
-          'Antes de optimizar, SIEMPRE corre cProfile. El 80% de las optimizaciones "intuitivas" no producen speedup real porque atacan el 20% del código. Mide, identifica el hot path, optimiza SOLO ese, vuelve a medir. Itera. Es lo que diferencia a seniors de juniors: los seniors perfilan, los juniors adivinan y pierden tiempo en cosas que no importan.',
+          "Traduce status → acción del adaptador (return None, raise, retry). No asumas siempre 200.",
       },
     },
     {
-      heading: 'Logging — producción DS necesita logs estructurados',
+      heading: "Timeout, paginación, retry/backoff y rate limit",
+      subtopicId: "S12-T1-B",
       paragraphs: [
-        '`print()` es para debugging en desarrollo. `logging` es para producción. La diferencia es enorme: print siempre imprime (no puedes desactivarlo sin comentar líneas o redirigir stdout), no tiene niveles, no tiene timestamps automáticos, no escribe a archivo sin redirección manual con `>`. El módulo `logging` (built-in, sin instalar nada) resuelve todo: niveles (DEBUG/INFO/WARNING/ERROR/CRITICAL) que puedes subir/bajar en runtime, formato configurable (timestamp, nivel, módulo, mensaje), múltiples destinos (consola, archivo, syslog, HTTP endpoint), y se desactiva por nivel en producción. En un pipeline de DS en producción, sin logs no puedes debuggear un fallo a las 3am — los logs son tu única pista de qué pasó.',
-        'Configuración básica: `logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s", handlers=[...])`. Creas un logger por módulo con `logger = logging.getLogger(__name__)` (el `__name__` te dice qué módulo escribió el log). Usas `logger.info("Procesando %d filas", n)` — ¡SIEMPRE usa %-format, no f-string, para que el formato se aplique solo si el nivel está activo! En producción subes el nivel a WARNING (o ERROR) para reducir ruido. Para DS, loggea: inicio/fin de cada etapa del pipeline, cuántos registros procesaste en cada etapa, tiempo de cada etapa, advertencias (datos faltantes, outliers detectados), errores con traceback completo (logger.exception() lo hace automáticamente dentro de un except).',
-        'Para logs estructurados (machine-parseable, lo que usan Datadog, ELK, Splunk), usa JSON: cada log es un dict con timestamp, level, message, y campos custom (run_id, n_rows, duration_sec). Esto permite buscar en Kibana/Datadog con queries como `level:ERROR AND module:feature_eng AND n_rows>10000` — imposible con logs en texto plano. La librería `structlog` o `python-json-logger` lo facilitan. En empresas serias, los logs van a un sistema centralizado (ELK stack, Splunk, Datadog) donde los consulta el equipo on-call. Como Data Scientist, SIEMPRE loggea tus pipelines — si fallan en prod, los logs son tu única forma de diagnosticar sin reproducir el entorno exacto (que muchas veces es imposible).',
+        "**Timeout** acota la espera por request. **Paginación** (`page` o `cursor`/`next`) recorre colecciones grandes sin traer todo de una vez.",
+        "**Retry/backoff** solo en errores **transitorios** (429, 503, timeouts). Un **400** o **404** no se reintenta. Respeta `Retry-After` y un **max_retries** duro.",
+        "Rate limit: duerme entre páginas o respeta cuotas del proveedor. En demo usamos `sleep` simbólico o contador de delays.",
       ],
       code: {
         language: 'python',
-        title: 'logging_setup.py',
-        code: `import logging
-import sys
-from pathlib import Path
+        title: "paginate_rate.py",
+        code: `import time
 
-# === 1. Configuración básica con dos handlers (consola + archivo) ===
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-    handlers=[
-        logging.StreamHandler(sys.stdout),                      # consola
-        logging.FileHandler("pipeline.log", encoding="utf-8"),  # archivo
-    ],
-)
-logger = logging.getLogger(__name__)
-
-# Uso por niveles (DEBUG < INFO < WARNING < ERROR < CRITICAL)
-logger.debug("Mensaje detallado (solo visible con level=DEBUG)")  # no se muestra si level=INFO
-logger.info("Pipeline iniciado")                                   # se muestra
-logger.warning("Dataset tiene 5 nulos, imputando con mediana")    # se muestra
-logger.error("Falló la conexión a la API de SUNAT")               # se muestra
-logger.critical("Disco lleno, no se puede escribir resultados")   # se muestra
-
-# === 2. Logger en un pipeline de DS (el caso real) ===
-import pandas as pd
-import time
-
-def run_pipeline(csv_path: str):
-    logger.info("Iniciando pipeline para %s", csv_path)  # %-format, no f-string!
-
-    start = time.time()
-    try:
-        df = pd.read_csv(csv_path)
-        logger.info("Cargado %d filas, %d columnas en %.2fs",
-                    len(df), df.shape[1], time.time() - start)
-    except FileNotFoundError:
-        logger.error("Archivo no encontrado: %s", csv_path)
-        raise
-
-    # Limpieza: detectar y reportar nulos
-    n_nulos_antes = df.isnull().sum().sum()
-    if n_nulos_antes > 0:
-        logger.warning("%d nulos detectados, imputando con mediana", n_nulos_antes)
-        df = df.fillna(df.median(numeric_only=True))
-
-    # Feature engineering
-    start = time.time()
-    df["log_monto"] = df["monto"].apply(lambda x: max(0, x))
-    logger.info("Feature engineering completado en %.2fs", time.time() - start)
-
-    # Guardar
-    out_path = csv_path.replace(".csv", "_procesado.parquet")
-    df.to_parquet(out_path)
-    logger.info("Guardado en %s (%d filas)", out_path, len(df))
-
-    return df
-
-# === 3. JSON logging estructurado (para producción con Datadog/ELK) ===
-# pip install python-json-logger
-import logging.config
-
-LOG_CONFIG = {
-    "version": 1,
-    "handlers": {
-        "json_file": {
-            "class": "logging.FileHandler",
-            "filename": "pipeline_structured.log",
-            "formatter": "json",
-        },
-    },
-    "formatters": {
-        "json": {
-            "()": "pythonjsonlogger.jsonlogger.JsonFormatter",
-            "format": "%(asctime)s %(name)s %(levelname)s %(message)s",
-        },
-    },
-    "loggers": {
-        "pipeline": {"handlers": ["json_file"], "level": "INFO"},
-    },
+pages = {
+    1: {"items": ["s1", "s2"], "next": 2},
+    2: {"items": ["s3"], "next": 3},
+    3: {"items": ["s4"], "next": None},
 }
-# logging.config.dictConfig(LOG_CONFIG)
-# Cada log se escribe como JSON:
-# {"asctime": "2024-01-15 10:30:45", "name": "pipeline", "levelname": "INFO", "message": "..."}
 
-# === 4. Logging en archivos rotados (no crecen infinitamente) ===
-from logging.handlers import RotatingFileHandler
+def fetch_page(n):
+    return pages[n]
 
-handler = RotatingFileHandler(
-    "app.log",
-    maxBytes=10 * 1024 * 1024,  # 10 MB por archivo
-    backupCount=5,               # mantener 5 archivos viejos: app.log.1, app.log.2, ...
-)
-handler.setFormatter(logging.Formatter(
-    "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
-))
-logger.addHandler(handler)
-
-# Output esperado en pipeline.log:
-# 2024-01-15 10:30:45 [INFO] pipeline: Iniciando pipeline para ventas.csv
-# 2024-01-15 10:30:46 [INFO] pipeline: Cargado 10000 filas, 8 columnas en 0.85s
-# 2024-01-15 10:30:46 [WARNING] pipeline: 45 nulos detectados, imputando con mediana
-# 2024-01-15 10:30:47 [INFO] pipeline: Feature engineering completado en 0.42s
-# 2024-01-15 10:30:47 [INFO] pipeline: Guardado en ventas_procesado.parquet (10000 filas)`,
+all_items = []
+page = 1
+delays = 0
+while page is not None:
+    data = fetch_page(page)
+    all_items.extend(data["items"])
+    page = data["next"]
+    if page is not None:
+        delays += 1  # simula rate-limit sleep
+print("items", all_items, "rate_limit_pauses", delays)`,
+        output: `items ['s1', 's2', 's3', 's4'] rate_limit_pauses 2`,
       },
       callout: {
-        type: 'warning',
-        title: 'Nunca uses f-strings en logs',
+        type: "warning",
+        title: "No reintentes 400",
         content:
-          'Mal: `logger.info(f"Procesé {n} filas")`. Bien: `logger.info("Procesé %d filas", n)`. Con f-string, el formato se evalúa SIEMPRE, incluso si el nivel está apagado (waste de CPU). Con %-format, el formato se aplica solo si el mensaje se va a mostrar. En pipelines con miles de logs debug por segundo, esto es 5-10x más rápido. Es un detalle que se nota en code reviews seniors.',
+          "Retry ciego en 4xx de cliente amplifica abuso y no arregla el request.",
       },
     },
     {
-      heading: 'argparse / CLI tooling — de notebook a herramienta reusable',
+      heading: "Auth, secretos, cache y provenance",
+      subtopicId: "S12-T2-A",
       paragraphs: [
-        'Un notebook Jupyter es excelente para explorar, pero NO es reusable: tienes que abrirlo, cambiar celdas, re-ejecutar todo en orden. Para que tu código lo usen otros (o tú mismo en 6 meses cuando ya no recuerdas qué celda hacer primero), necesitas un CLI (Command Line Interface) con `argparse`. Esto convierte tu script en una herramienta: `python pipeline.py --input ventas.csv --output resultado.parquet --verbose` en vez de editar variables dentro del código. En equipos de data science, los CLIs son la forma estándar de compartir pipelines — un colega hace `pip install -e .` y luego corre `mi-pipeline --help` sin abrir un notebook.',
-        '`argparse` es built-in (sin instalar nada). Patrón básico: `parser = argparse.ArgumentParser(description="...")`, `parser.add_argument("--input", required=True, help="Archivo CSV de entrada")`, `args = parser.parse_args()`. Soporta tipos (`type=int`, `type=float`, `type=Path`), valores default (`default=100`), choices (`choices=["prod", "dev"]` para restringir opciones), flags booleanas (`--verbose`, `action="store_true"`), múltiples valores (`nargs="+"` para listas), y subcomandos (`git push`, `git pull` estilo). El atributo `--help` se genera automáticamente desde tus `help=` strings — documentación gratis que nunca se desactualiza porque vive al lado del código.',
-        'Para proyectos serios, evoluciona a `click` (sintaxis con decoradores más limpia) o `typer` (type hints nativos, autocompletado en shell, generado por el mismo autor de FastAPI). Pero argparse es suficiente para 80% de casos y está en la stdlib. Empaqueta tu CLI como un ejecutable con `pyproject.toml` + `entry_points`: defines `[project.scripts] mi-tool = "mi_paquete.cli:main"` y luego de `pip install -e .`, corres `mi-tool` desde cualquier lado sin prefijar `python`. Esto es lo que hace que tu proyecto parezca "profesional" — un comando instalable, no un script que hay que ejecutar con `python ruta/al/script.py`. En tu portafolio, tener un CLI instalable con tests vale 10x más que un notebook solitario.',
+        "Autenticación **Bearer** o basic lee el token de **variable de entorno**, nunca hardcodeado. Si falta el secreto, falla cerrado con mensaje claro.",
+        "**Cache de GET** por hash de URL con **TTL** reduce costo y latencia; no caches respuestas de escritura ni datos sensibles sin política.",
+        "**Provenance**: cada fetch deja `source_url`, `fetched_at`, `status_code`, `cache_hit`. **Nunca loguees el token**.",
       ],
       code: {
         language: 'python',
-        title: 'cli_pipeline.py',
-        code: `import argparse
-import sys
-import logging
-import pandas as pd
-from pathlib import Path
+        title: "auth_cache_prov.py",
+        code: `import os, hashlib, time, json
 
-def main():
-    parser = argparse.ArgumentParser(
-        description="Pipeline de limpieza y feature engineering para datasets de ventas.",
-        epilog="Ejemplo: python cli_pipeline.py --input ventas.csv --output limpio.parquet --verbose",
-    )
-    parser.add_argument("--input", "-i", required=True, type=Path,
-                        help="Ruta al archivo CSV de entrada")
-    parser.add_argument("--output", "-o", required=True, type=Path,
-                        help="Ruta al archivo de salida (.parquet o .csv)")
-    parser.add_argument("--impute-strategy", default="median",
-                        choices=["median", "mean", "drop"],
-                        help="Estrategia para imputar nulos (default: median)")
-    parser.add_argument("--outlier-threshold", type=float, default=1.5,
-                        help="Multiplicador IQR para detectar outliers (default: 1.5)")
-    parser.add_argument("--verbose", "-v", action="store_true",
-                        help="Mostrar logs detallados (DEBUG)")
-    parser.add_argument("--chunksize", type=int, default=None,
-                        help="Tamaño de chunk para CSVs grandes (default: cargar todo)")
+os.environ["API_TOKEN"] = "demo-token-not-real"
 
-    args = parser.parse_args()
+def get_token():
+    tok = os.environ.get("API_TOKEN")
+    if not tok:
+        raise RuntimeError("API_TOKEN missing")
+    return tok
 
-    # Configurar logging según verbosity (subir/bajar nivel en runtime)
-    level = logging.DEBUG if args.verbose else logging.INFO
-    logging.basicConfig(level=level, format="%(asctime)s [%(levelname)s] %(message)s")
-    logger = logging.getLogger("pipeline")
+CACHE = {}
+def cached_get(url, ttl=60):
+    key = hashlib.sha256(url.encode()).hexdigest()[:12]
+    now = time.time()
+    if key in CACHE and now - CACHE[key]["ts"] < ttl:
+        return CACHE[key]["body"], True
+    body = {"url": url, "ok": True}
+    CACHE[key] = {"ts": now, "body": body}
+    return body, False
 
-    # Validar inputs (fallar rápido con mensaje claro)
-    if not args.input.exists():
-        logger.error("Archivo de entrada no existe: %s", args.input)
-        sys.exit(1)
-
-    logger.info("Iniciando pipeline")
-    logger.info("  Input:  %s", args.input)
-    logger.info("  Output: %s", args.output)
-    logger.info("  Impute: %s", args.impute_strategy)
-
-    # Cargar datos (con chunksize para CSVs grandes)
-    if args.chunksize:
-        chunks = pd.read_csv(args.input, chunksize=args.chunksize)
-        df = pd.concat(chunks)
-    else:
-        df = pd.read_csv(args.input)
-    logger.info("Cargadas %d filas, %d columnas", len(df), df.shape[1])
-
-    # Imputar nulos según estrategia elegida
-    if args.impute_strategy == "median":
-        df = df.fillna(df.median(numeric_only=True))
-    elif args.impute_strategy == "mean":
-        df = df.fillna(df.mean(numeric_only=True))
-    elif args.impute_strategy == "drop":
-        df = df.dropna()
-
-    # Guardar (respeta extensión del archivo de salida)
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    if args.output.suffix == ".parquet":
-        df.to_parquet(args.output, index=False)
-    else:
-        df.to_csv(args.output, index=False)
-    logger.info("Guardado en %s", args.output)
-
-if __name__ == "__main__":
-    main()
-
-# === Ejemplos de uso desde terminal ===
-# $ python cli_pipeline.py --help
-# usage: cli_pipeline.py [-h] --input INPUT --output OUTPUT ...
-#
-# Pipeline de limpieza y feature engineering para datasets de ventas.
-#
-# options:
-#   -i, --input INPUT           Ruta al archivo CSV de entrada
-#   -o, --output OUTPUT         Ruta al archivo de salida (.parquet o .csv)
-#   --impute-strategy {median,mean,drop}
-#   --outlier-threshold OUTLIER_THRESHOLD
-#   -v, --verbose               Mostrar logs detallados
-#
-# $ python cli_pipeline.py -i ventas.csv -o limpio.parquet --verbose
-# 2024-01-15 [INFO] Iniciando pipeline
-# 2024-01-15 [INFO]   Input: ventas.csv
-# 2024-01-15 [INFO]   Output: limpio.parquet
-# 2024-01-15 [INFO] Cargadas 10000 filas, 8 columnas
-# 2024-01-15 [INFO] Guardado en limpio.parquet
-
-# === pyproject.toml para hacerlo instalable como comando ===
-# [project]
-# name = "pipeline-ventas"
-# version = "0.1.0"
-# [project.scripts]
-# pipeline-ventas = "pipeline.cli:main"
-# Después: pip install -e .  → puedes correr "pipeline-ventas" desde cualquier lado`,
+token = get_token()
+body, hit = cached_get("https://api.example.com/signals")
+prov = {
+    "source_url": "https://api.example.com/signals",
+    "fetched_at": "2026-07-20T12:00:00Z",
+    "cache_hit": hit,
+    "auth": "bearer",
+    # token NEVER in provenance dump
+}
+print("token_len", len(token))
+print("cache_hit", hit)
+print("provenance", json.dumps(prov, sort_keys=True))
+body2, hit2 = cached_get("https://api.example.com/signals")
+print("second_hit", hit2)`,
+        output: `token_len 19
+cache_hit False
+provenance {"auth": "bearer", "cache_hit": false, "fetched_at": "2026-07-20T12:00:00Z", "source_url": "https://api.example.com/signals"}
+second_hit True`,
       },
       callout: {
-        type: 'tip',
-        title: 'Typer: argparse con type hints (recomendado para 2025+)',
+        type: "danger",
+        title: "Secretos fuera de código",
         content:
-          'Si ya usas type hints (Python 3.6+), `typer` genera el CLI automáticamente desde tus type hints. `def main(input: Path, output: Path, verbose: bool = False):` se convierte en CLI sin argparse manual. Es lo que usa FastAPI para sus ejemplos. Para proyectos nuevos, prefiere typer sobre argparse — menos boilerplate, type safety, y autocompletado en shell gratis.',
+          "No commits de .env con tokens reales. No imprimas Authorization headers.",
+      },
+    },
+    {
+      heading: "Contract tests y fallback",
+      subtopicId: "S12-T2-B",
+      paragraphs: [
+        "Un **contract test** fija las claves obligatorias del JSON del proveedor (fixture). Si el schema cambia, el test falla antes de producción.",
+        "**Fallback degradado**: si 5xx o red caída, lee coordenadas/precomputados locales y marca `mode=offline` en provenance.",
+        "Feature flag offline permite demos reproducibles sin red — obligatorio en CP-N1-C.",
+      ],
+      code: {
+        language: 'python',
+        title: "contract_fallback.py",
+        code: `REQUIRED = {"lat", "lon", "label"}
+
+def assert_contract(payload):
+    missing = REQUIRED - set(payload)
+    if missing:
+        raise AssertionError(f"missing keys: {sorted(missing)}")
+    return True
+
+def geocode(addr, online=True):
+    if online:
+        # mock online ok
+        return {"lat": -12.0464, "lon": -77.0428, "label": addr, "mode": "online"}
+    return {"lat": -12.05, "lon": -77.04, "label": addr, "mode": "offline_fallback"}
+
+fix = {"lat": -16.4090, "lon": -71.5375, "label": "Arequipa"}
+print("contract", assert_contract(fix))
+print("online", geocode("Lima", online=True)["mode"])
+print("offline", geocode("Lima", online=False)["mode"])`,
+        output: `contract True
+online online
+offline offline_fallback`,
+      },
+      callout: {
+        type: "tip",
+        title: "Fail soft, trace hard",
+        content:
+          "Fallback no oculta el fallo: deja mode=offline y razón en provenance.",
+      },
+    },
+    {
+      heading: "Esquema, CRUD y joins",
+      subtopicId: "S12-T3-A",
+      paragraphs: [
+        "SQLite vía `sqlite3` basta para el almacén local de CP-N1-C: tablas `clients`, `transactions`, `evidence`.",
+        "CRUD = CREATE/INSERT/SELECT/UPDATE (y DELETE con cuidado). **JOIN** une evidencias a entidades por `entity_id`.",
+        "Empieza transacciones explícitas cuando un caso toca varias filas; en T3-B profundizamos COMMIT/ROLLBACK.",
+      ],
+      code: {
+        language: 'python',
+        title: "sqlite_join.py",
+        code: `import sqlite3
+
+con = sqlite3.connect(":memory:")
+con.executescript('''
+CREATE TABLE clients (id TEXT PRIMARY KEY, name TEXT);
+CREATE TABLE evidence (id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT, payload TEXT);
+''')
+con.execute("INSERT INTO clients VALUES (?, ?)", ("C001", "Ana Demo"))
+con.execute(
+    "INSERT INTO evidence VALUES (?, ?, ?, ?)",
+    ("E1", "C001", "geo", '{"lat": -12.04}'),
+)
+con.commit()
+row = con.execute(
+    "SELECT c.name, e.kind FROM clients c JOIN evidence e ON c.id = e.entity_id"
+).fetchone()
+print("join", row)
+con.close()`,
+        output: `join ('Ana Demo', 'geo')`,
+      },
+      callout: {
+        type: "tip",
+        title: "FKs lógicas primero",
+        content:
+          "Documenta entity_id aunque no actives FOREIGN KEY; la integridad empieza en el modelo.",
+      },
+    },
+    {
+      heading: "Parámetros, transacciones, constraints e índices",
+      subtopicId: "S12-T3-B",
+      paragraphs: [
+        "Usa placeholders `?` (o `:name`). **Prohibido** armar SQL con f-strings de input de usuario: es inyección.",
+        "`executemany` + `BEGIN`/`COMMIT` hacen batch atómico; un UNIQUE roto → `ROLLBACK` y reporte de fila.",
+        "`UNIQUE`/`NOT NULL` e **índices** en `document_id` / `entity_id` aceleran lookups del dashboard.",
+      ],
+      code: {
+        language: 'python',
+        title: "params_tx.py",
+        code: `import sqlite3
+
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE clients (id TEXT PRIMARY KEY, document_id TEXT UNIQUE NOT NULL)")
+con.execute("CREATE INDEX idx_doc ON clients(document_id)")
+try:
+    con.execute("BEGIN")
+    con.executemany(
+        "INSERT INTO clients(id, document_id) VALUES (?, ?)",
+        [("C001", "D-100"), ("C002", "D-200"), ("C003", "D-100")],
+    )
+    con.commit()
+except sqlite3.IntegrityError as exc:
+    con.rollback()
+    print("rollback_ok", type(exc).__name__)
+n = con.execute("SELECT COUNT(*) FROM clients").fetchone()[0]
+print("rows_after_rollback", n)
+# safe param query
+doc = "D-999'; OR 1=1 --"
+row = con.execute("SELECT * FROM clients WHERE document_id = ?", (doc,)).fetchone()
+print("injection_safe", row)
+con.close()`,
+        output: `rollback_ok IntegrityError
+rows_after_rollback 0
+injection_safe None`,
+      },
+      callout: {
+        type: "danger",
+        title: "f-string SQL = vulnerabilidad",
+        content:
+          "Nunca interpoles input en SQL. Siempre `?` y tupla de params.",
+      },
+    },
+    {
+      heading: "Normalización y geocoding autorizado",
+      subtopicId: "S12-T4-A",
+      paragraphs: [
+        "Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No inventes campos que no vinieron.",
+        "Solo **geocoder autorizado/mock**. Política del curso: **no envíes PII bancaria** (docs, cuentas, montos) a proveedores públicos.",
+        "`MockGeocoder` devuelve lat/lon fijos por ciudad de demo (Lima, Arequipa) para demos offline reproducibles.",
+      ],
+      code: {
+        language: 'python',
+        title: "mock_geocode.py",
+        code: `import re
+
+def normalize_address(s: str) -> str:
+    s = re.sub(r"\\s+", " ", s.strip())
+    return s.title()
+
+class MockGeocoder:
+    TABLE = {
+        "Lima": (-12.0464, -77.0428),
+        "Arequipa": (-16.4090, -71.5375),
+    }
+    def geocode(self, city: str):
+        coords = self.TABLE.get(city.title())
+        if not coords:
+            return None
+        lat, lon = coords
+        return {"city": city.title(), "lat": lat, "lon": lon, "provider": "mock"}
+
+addr = normalize_address("  av.  larco  123  ")
+geo = MockGeocoder().geocode("lima")
+print("addr", addr)
+print("geo", geo)`,
+        output: `addr Av. Larco 123
+geo {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock'}`,
+      },
+      callout: {
+        type: "warning",
+        title: "Egress policy",
+        content:
+          "Checklist: ¿el payload al proveedor incluye solo dirección/ciudad sintética autorizada? Si no, bloquea.",
+      },
+    },
+    {
+      heading: "Calidad de coordenada, Haversine, caching y política",
+      subtopicId: "S12-T4-B",
+      paragraphs: [
+        "Valida **lat ∈ [-90,90]** y **lon ∈ [-180,180]** antes de calcular. Coordenadas basura no entran al mapa.",
+        "**Haversine** estima km entre dos puntos; sirve como **geoseñal de relación**, no como veredicto de parentesco o fraude.",
+        "Cachea geocodes bajo TTL/política del proveedor. Documenta que distancia es **señal**, no kinship.",
+      ],
+      code: {
+        language: 'python',
+        title: "haversine_signal.py",
+        code: `import math
+
+def valid_coord(lat, lon):
+    return -90 <= lat <= 90 and -180 <= lon <= 180
+
+def haversine_km(a, b):
+    R = 6371.0
+    lat1, lon1 = map(math.radians, a)
+    lat2, lon2 = map(math.radians, b)
+    dlat, dlon = lat2 - lat1, lon2 - lon1
+    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2
+    return 2 * R * math.asin(math.sqrt(h))
+
+lima = (-12.0464, -77.0428)
+callao = (-12.0500, -77.1250)
+print("valid", valid_coord(*lima))
+print("invalid", valid_coord(91, 0))
+d = haversine_km(lima, callao)
+print("km_approx", round(d, 2))
+print("signal_only", "relationship_signal not kinship")`,
+        output: `valid True
+invalid False
+km_approx 8.95
+signal_only relationship_signal not kinship`,
+      },
+      callout: {
+        type: "tip",
+        title: "Distancia ≠ parentesco",
+        content:
+          "1.2 km entre entidades es geoseñal; jamás auto-etiqueta is_family o fraude.",
       },
     },
   ],
   iDo: {
-    intro:
-      'Vamos a construir juntos 3 piezas que aparecen en TODO pipeline production-ready: (1) feature engineering paralelizado con ProcessPoolExecutor, (2) profiling de una función lenta con cProfile + line_profiler para encontrar el bottleneck exacto, y (3) configuración de logging estructurado a archivo rotado integrado con un CLI de argparse. Estos 3 patrones son el 80% del trabajo de "hacer que mi script sea production-ready".',
+    intro: "Ocho demos locales (mock HTTP, paginación, provenance, contract/fallback, SQLite join, transacción atómica, MockGeocoder, Haversine Lima–Callao). Observa status, SQL parametrizado y geoseñal sin veredicto.",
     steps: [
       {
-        description: 'Paralelizar feature engineering con ProcessPoolExecutor',
+        demoId: "S12-T1-A-DEMO",
+        subtopicId: "S12-T1-A",
+        environment: "local-python",
+        description: "Cliente mock HTTP que devuelve lista de señales sintéticas con status 200 y parse JSON.",
         code: {
           language: 'python',
-          title: 'parallel_features.py',
+          title: "list_signals_demo.py",
+          code: `class MockResponse:
+    def __init__(self, status_code, payload):
+        self.status_code = status_code
+        self._payload = payload
+    def json(self):
+        return self._payload
+
+SIGNALS = [
+    {"id": "S1", "entity_id": "C001", "kind": "shared_phone"},
+    {"id": "S2", "entity_id": "C002", "kind": "geo"},
+]
+
+def list_signals():
+    return MockResponse(200, {"items": SIGNALS, "count": len(SIGNALS)})
+
+resp = list_signals()
+data = resp.json()
+print("status", resp.status_code)
+print("count", data["count"])
+print("kinds", [x["kind"] for x in data["items"]])`,
+          output: `status 200
+count 2
+kinds ['shared_phone', 'geo']`,
+        },
+        why: "El adaptador ve el contrato real (status + JSON) sin red externa.",
+      },
+      {
+        demoId: "S12-T1-B-DEMO",
+        subtopicId: "S12-T1-B",
+        environment: "local-python",
+        description: "Paginar 3 páginas de API mock con contador de rate-limit (sin sleep real largo).",
+        code: {
+          language: 'python',
+          title: "paginate_demo.py",
+          code: `API = {
+    1: {"items": [1, 2], "next": 2},
+    2: {"items": [3], "next": 3},
+    3: {"items": [4, 5], "next": None},
+}
+items = []
+page = 1
+pauses = 0
+while page is not None:
+    chunk = API[page]
+    items.extend(chunk["items"])
+    page = chunk["next"]
+    if page is not None:
+        pauses += 1
+print("items", items)
+print("pages_fetched", 3, "rate_limit_pauses", pauses)`,
+          output: `items [1, 2, 3, 4, 5]
+pages_fetched 3 rate_limit_pauses 2`,
+        },
+        why: "Paginación + respeto de ritmo son el esqueleto de adquisición resiliente.",
+      },
+      {
+        demoId: "S12-T2-A-DEMO",
+        subtopicId: "S12-T2-A",
+        environment: "local-python",
+        description: "Fetch con token de env + manifest de provenance (token no se imprime).",
+        code: {
+          language: 'python',
+          title: "provenance_demo.py",
+          code: `import os, json, hashlib
+os.environ["SIG_API_TOKEN"] = "syn-token-000"
+token = os.environ["SIG_API_TOKEN"]
+url = "https://api.example.com/v1/signals/C001"
+body = {"entity_id": "C001", "signals": ["geo"]}
+manifest = {
+    "source_url": url,
+    "fetched_at": "2026-07-20T15:00:00Z",
+    "status_code": 200,
+    "body_sha12": hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()[:12],
+    "auth_scheme": "bearer",
+    "token_present": bool(token),
+}
+print(json.dumps(manifest, sort_keys=True))
+print("token_logged", False)`,
+          output: `{"auth_scheme": "bearer", "body_sha12": "5acbf63b7a4b", "fetched_at": "2026-07-20T15:00:00Z", "source_url": "https://api.example.com/v1/signals/C001", "status_code": 200, "token_present": true}
+token_logged False`,
+        },
+        why: "Provenance auditable sin filtrar secretos.",
+      },
+      {
+        demoId: "S12-T2-B-DEMO",
+        subtopicId: "S12-T2-B",
+        environment: "local-python",
+        description: "Contract test del geocoder mock + fallback a coordenadas precalculadas.",
+        code: {
+          language: 'python',
+          title: "geocoder_contract_demo.py",
+          code: `REQUIRED = {"lat", "lon", "provider"}
+PRECALC = {"Lima": {"lat": -12.0464, "lon": -77.0428, "provider": "precalc"}}
+
+def contract_ok(d):
+    return not (REQUIRED - set(d.keys()))
+
+def geocode(city, fail_online=False):
+    if fail_online:
+        return {**PRECALC[city], "mode": "offline_fallback"}
+    online = {"lat": -12.0464, "lon": -77.0428, "provider": "mock", "mode": "online"}
+    assert contract_ok(online)
+    return online
+
+print("online", geocode("Lima"))
+print("fallback", geocode("Lima", fail_online=True))
+print("contract_precalc", contract_ok(PRECALC["Lima"]))`,
+          output: `online {'lat': -12.0464, 'lon': -77.0428, 'provider': 'mock', 'mode': 'online'}
+fallback {'lat': -12.0464, 'lon': -77.0428, 'provider': 'precalc', 'mode': 'offline_fallback'}
+contract_precalc True`,
+        },
+        why: "Contrato + fallback hacen demos reproducibles cuando el proveedor no responde.",
+      },
+      {
+        demoId: "S12-T3-A-DEMO",
+        subtopicId: "S12-T3-A",
+        environment: "local-python",
+        description: "Tablas clients, transactions, evidence con join de caso sintético.",
+        code: {
+          language: 'python',
+          title: "case_join_demo.py",
           code: `import sqlite3
-import pandas as pd
-import numpy as np
-from concurrent.futures import ProcessPoolExecutor
-import time
-import logging
-
-# Configurar logging para ver progreso
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-logger = logging.getLogger("features")
-
-def cargar_datos(db_path: str = "productos.db") -> pd.DataFrame:
-    """Carga datos desde SQLite — en la vida real podría ser PostgreSQL o Snowflake."""
-    conn = sqlite3.connect(db_path)
-    df = pd.read_sql("SELECT * FROM productos", conn)
-    conn.close()
-    return df
-
-def calcular_features_categoria(args: tuple) -> pd.DataFrame:
-    """Calcula features agregadas por categoría — cómputo CPU-bound.
-    Recibe tupla porque ProcessPoolExecutor necesita picklear los argumentos.
-    """
-    categoria, sub_df = args
-    if sub_df.empty:
-        return pd.DataFrame()
-    sub_df = sub_df.copy()
-    sub_df["log_precio"] = np.log1p(sub_df["precio"])
-    sub_df["zscore_precio"] = (sub_df["precio"] - sub_df["precio"].mean()) / sub_df["precio"].std()
-    sub_df["percentil_precio"] = sub_df["precio"].rank(pct=True)
-    sub_df["es_outlier"] = sub_df["zscore_precio"].abs() > 3
-    return sub_df
-
-def feature_engineering_paralelo(df: pd.DataFrame, n_workers: int = 8) -> pd.DataFrame:
-    """Parte el DataFrame por categoría y procesa cada chunk en paralelo."""
-    categorias = df["categoria"].unique()
-    logger.info("Procesando %d categorías con %d workers", len(categorias), n_workers)
-
-    start = time.time()
-    # Construir lista de (categoria, sub_df) — cada worker recibe uno
-    chunks = [(cat, df[df["categoria"] == cat]) for cat in categorias]
-
-    with ProcessPoolExecutor(max_workers=n_workers) as executor:
-        # map preserva orden, submit + as_completed no (pero permite progreso)
-        futures = {executor.submit(calcular_features_categoria, chunk): chunk[0]
-                   for chunk in chunks}
-        resultados = []
-        for future in chunks:  # iterar en orden para preservar orden
-            pass
-        # Más simple con map (preserva orden):
-        resultados = list(executor.map(calcular_features_categoria, chunks))
-
-    df_final = pd.concat([r for r in resultados if not r.empty], ignore_index=True)
-    elapsed = time.time() - start
-    logger.info("Feature engineering completado en %.2fs (%d filas)", elapsed, len(df_final))
-    return df_final
-
-# === Demo con datos sintéticos ===
-def setup_demo(db_path: str = "productos.db"):
-    """Crea DB de demo con 50k productos en 20 categorías."""
-    conn = sqlite3.connect(db_path)
-    conn.execute("""CREATE TABLE IF NOT EXISTS productos
-                    (id INTEGER PRIMARY KEY, nombre TEXT, precio REAL, categoria TEXT)""")
-    conn.execute("DELETE FROM productos")
-    import random
-    random.seed(42)
-    categorias = [f"cat_{i}" for i in range(20)]
-    filas = [(f"prod_{i}", random.uniform(10, 5000), random.choice(categorias))
-             for i in range(50_000)]
-    conn.executemany("INSERT INTO productos VALUES (?, ?, ?, ?)", filas)
-    conn.commit()
-    conn.close()
-
-setup_demo()
-df = cargar_datos()
-df_features = feature_engineering_paralelo(df, n_workers=8)
-print(df_features[["nombre", "precio", "log_precio", "zscore_precio", "es_outlier"]].head())
-#           nombre   precio  log_precio  zscore_precio  es_outlier
-# 0      prod_0   423.56      6.045         0.12        False
-# 1      prod_1  2891.34      7.969         1.85        False
-# ...`,
+con = sqlite3.connect(":memory:")
+con.executescript('''
+CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);
+CREATE TABLE transactions(id TEXT PRIMARY KEY, client_id TEXT, amount REAL);
+CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);
+''')
+con.execute("INSERT INTO clients VALUES ('C001','Ana')")
+con.execute("INSERT INTO transactions VALUES ('T1','C001',120.5)")
+con.execute("INSERT INTO evidence VALUES ('E1','C001','geo')")
+con.commit()
+rows = con.execute('''
+SELECT c.id, t.id, e.kind
+FROM clients c
+JOIN transactions t ON t.client_id = c.id
+JOIN evidence e ON e.entity_id = c.id
+''').fetchall()
+print("case_rows", rows)
+con.close()`,
+          output: `case_rows [('C001', 'T1', 'geo')]`,
         },
-        why: 'Cuando tienes 50 categorías con 10k productos cada una, calcular features secuencialmente tarda 10 minutos. Con ProcessPoolExecutor(max_workers=8), baja a 90 segundos. El truco es partir el trabajo por una clave natural (categoría) y pasar chunks independientes a cada worker — sin estado compartido, sin locks, sin complexity.',
+        why: "El join de caso es el corazón del almacén local del dashboard.",
       },
       {
-        description: 'Perfil de una función lenta con cProfile + line_profiler',
+        demoId: "S12-T3-B-DEMO",
+        subtopicId: "S12-T3-B",
+        environment: "local-python",
+        description: "Insert batch atómico; rollback si una fila viola UNIQUE.",
         code: {
           language: 'python',
-          title: 'profiling_real.py',
-          code: `# === Paso 1: Script con una función SOSPECHOSAMENTE lenta ===
-import pandas as pd
-import numpy as np
-import time
-
-def feature_engineering_lento(df: pd.DataFrame) -> pd.DataFrame:
-    """Función lenta — vamos a perfilarla para encontrar el bottleneck."""
-    df = df.copy()
-    df["log_monto"] = np.log1p(df["monto"])                              # sospechoso 1
-    df["zscore"] = (df["monto"] - df["monto"].mean()) / df["monto"].std() # sospechoso 2
-    df["categoria"] = pd.cut(df["monto"], bins=10, labels=False)         # sospechoso 3
-    # El antipatrón clásico — iterar con .loc[i]:
-    for i in range(len(df)):
-        df.loc[i, "custom"] = df.loc[i, "monto"] * 2 + df.loc[i, "log_monto"]
-    return df
-
-# Crear DataFrame de prueba
-df_test = pd.DataFrame({"monto": np.random.exponential(500, 50_000)})
-
-# === Paso 2: cProfile para ver qué función se come el tiempo ===
-# Guarda el script y corre:
-#   python -m cProfile -s cumulative profiling_real.py
-# Salida (top 10):
-#    ncalls  tottime  percall  cumtime  percall filename:lineno(function)
-#    500001   8.234    0.000    8.234    0.000 {method 'loc' of 'DataFrame'}
-#         1   3.456    3.456   11.690   11.690 profiling_real.py:5(feature_engineering_lento)
-#    500001   0.876    0.000    0.876    0.000 {method 'loc' of 'DataFrame'}
-# → El 70% del tiempo (8.2s de 11.7s) está en el loop con .loc[i]
-
-# === Paso 3: line_profiler para ver LÍNEA por LÍNEA ===
-# pip install line_profiler
-# Decora la función con @profile y corre:
-#   kernprof -l -v profiling_real.py
-
-# @profile  # descomenta para line_profiler
-def feature_engineering_lento(df):
-    df = df.copy()
-    df["log_monto"] = np.log1p(df["monto"])                              # 2% del tiempo
-    df["zscore"] = (df["monto"] - df["monto"].mean()) / df["monto"].std()  # 1%
-    df["categoria"] = pd.cut(df["monto"], bins=10, labels=False)         # 4%
-    for i in range(len(df)):                                              # 65% ← bottleneck
-        df.loc[i, "custom"] = df.loc[i, "monto"] * 2 + df.loc[i, "log_monto"]  # 28%
-    return df
-
-# Salida de line_profiler:
-# Line #  Hits    Time  Per Hit  % Time  Line Contents
-# =====================================================
-#      1     1       5      5.0      0.0  def feature_engineering_lento(df):
-#      2     1       2      2.0      0.0      df = df.copy()
-#      3     1    1500   1500.0      2.0      df["log_monto"] = np.log1p(df["monto"])
-#      4     1     800    800.0      1.0      df["zscore"] = ...
-#      5     1    3000   3000.0      4.0      df["categoria"] = pd.cut(...)
-#      6 50001  25000      0.5     65.0      for i in range(len(df)):
-#      7 50000  12000      0.2     28.0          df.loc[i, "custom"] = ...
-# → El loop se come el 93% del tiempo. Vectorizar = 100x speedup.
-
-# === Paso 4: Optimizar — vectorizar el loop ===
-def feature_engineering_rapido(df: pd.DataFrame) -> pd.DataFrame:
-    """Mismo resultado, 100x más rápido — todo vectorizado."""
-    df = df.copy()
-    df["log_monto"] = np.log1p(df["monto"])
-    df["zscore"] = (df["monto"] - df["monto"].mean()) / df["monto"].std()
-    df["categoria"] = pd.cut(df["monto"], bins=10, labels=False)
-    # Vectorizado — una sola operación sobre toda la columna
-    df["custom"] = df["monto"] * 2 + df["log_monto"]
-    return df
-
-# Comparar tiempos
-start = time.time()
-df_lento = feature_engineering_lento(df_test)
-t_lento = time.time() - start
-print(f"Lento: {t_lento:.2f}s")
-
-start = time.time()
-df_rapido = feature_engineering_rapido(df_test)
-t_rapido = time.time() - start
-print(f"Rápido: {t_rapido:.2f}s")
-print(f"Speedup: {t_lento / t_rapido:.0f}x")
-# Lento: 11.7s
-# Rápido: 0.08s
-# Speedup: 146x`,
+          title: "atomic_batch_demo.py",
+          code: `import sqlite3
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT UNIQUE)")
+batch = [("C001", "DOC1"), ("C002", "DOC2"), ("C003", "DOC1")]
+try:
+    con.execute("BEGIN")
+    con.executemany("INSERT INTO clients VALUES (?,?)", batch)
+    con.commit()
+    print("unexpected_commit")
+except sqlite3.IntegrityError:
+    con.rollback()
+    print("atomic_rollback", True)
+print("count", con.execute("SELECT COUNT(*) FROM clients").fetchone()[0])
+con.close()`,
+          output: `atomic_rollback True
+count 0`,
         },
-        why: 'Sin profiling, hubieras pasado horas "optimizando" la línea np.log1p (que solo es 2% del tiempo) sin resultado. cProfile te dice qué FUNCIÓN atacar; line_profiler te dice qué LÍNEA exacta. El 80% de las veces, el bottleneck es un .iterrows() o .loc[i] en un loop — vectorizar con numpy/pandas da speedups de 50-100x.',
+        why: "Transacciones evitan estados a medias cuando hay conflicto de negocio.",
       },
       {
-        description: 'Logging estructurado integrado con un CLI de argparse',
+        demoId: "S12-T4-A-DEMO",
+        subtopicId: "S12-T4-A",
+        environment: "local-python",
+        description: "MockGeocoder devuelve lat/lon sintéticos para Lima/Arequipa.",
         code: {
           language: 'python',
-          title: 'cli_with_logging.py',
-          code: `import argparse
-import logging
-import sys
-from logging.handlers import RotatingFileHandler
-from pathlib import Path
-import pandas as pd
-import time
+          title: "mock_cities_demo.py",
+          code: `class MockGeocoder:
+    DB = {"Lima": (-12.0464, -77.0428), "Arequipa": (-16.4090, -71.5375)}
+    def geocode(self, city):
+        if city not in self.DB:
+            return None
+        lat, lon = self.DB[city]
+        return {"city": city, "lat": lat, "lon": lon, "provider": "authorized_mock"}
 
-def setup_logging(verbose: bool = False, log_file: Path = None):
-    """Configura logging con consola + archivo rotado. Subir nivel con --verbose."""
-    handlers = [logging.StreamHandler(sys.stdout)]
-    if log_file:
-        log_file.parent.mkdir(parents=True, exist_ok=True)
-        # Rotación: 5MB por archivo, 3 backups (pipeline.log.1, .2, .3)
-        file_handler = RotatingFileHandler(
-            log_file, maxBytes=5 * 1024 * 1024, backupCount=3, encoding="utf-8"
-        )
-        file_handler.setFormatter(logging.Formatter(
-            "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-            datefmt="%Y-%m-%d %H:%M:%S",
-        ))
-        handlers.append(file_handler)
-
-    logging.basicConfig(
-        level=logging.DEBUG if verbose else logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S",
-        handlers=handlers,
-    )
-
-def process_chunk(chunk: pd.DataFrame, logger) -> pd.DataFrame:
-    """Procesa un chunk del DataFrame y loggea métricas clave."""
-    n_in = len(chunk)
-    n_nulos = chunk.isnull().sum().sum()
-    if n_nulos > 0:
-        logger.warning("Chunk: %d nulos detectados, imputando", n_nulos)
-        chunk = chunk.fillna(chunk.median(numeric_only=True))
-    chunk = chunk.copy()
-    chunk["log_monto"] = chunk["monto"].apply(lambda x: max(0, x))
-    logger.debug("Chunk procesado: %d → %d filas", n_in, len(chunk))
-    return chunk
-
-def main():
-    parser = argparse.ArgumentParser(
-        description="Pipeline de procesamiento de ventas con logging estructurado."
-    )
-    parser.add_argument("--input", "-i", required=True, type=Path,
-                        help="CSV de entrada")
-    parser.add_argument("--output", "-o", required=True, type=Path,
-                        help="Parquet de salida")
-    parser.add_argument("--log-file", type=Path, default=Path("logs/pipeline.log"),
-                        help="Archivo de log (default: logs/pipeline.log)")
-    parser.add_argument("--chunksize", type=int, default=10_000,
-                        help="Filas por chunk (default: 10000)")
-    parser.add_argument("--verbose", "-v", action="store_true",
-                        help="Mostrar logs DEBUG")
-    args = parser.parse_args()
-
-    # Configurar logging ANTES de cualquier logger
-    setup_logging(args.verbose, args.log_file)
-    logger = logging.getLogger("pipeline")
-
-    logger.info("Config: input=%s output=%s chunksize=%d",
-                args.input, args.output, args.chunksize)
-
-    if not args.input.exists():
-        logger.error("Archivo no existe: %s", args.input)
-        sys.exit(1)
-
-    # Procesar por chunks (para CSVs grandes)
-    start = time.time()
-    total_rows = 0
-    chunks_out = []
-    for i, chunk in enumerate(pd.read_csv(args.input, chunksize=args.chunksize)):
-        logger.info("Procesando chunk %d (%d filas)", i + 1, len(chunk))
-        chunks_out.append(process_chunk(chunk, logger))
-        total_rows += len(chunk)
-
-    df_final = pd.concat(chunks_out, ignore_index=True)
-    elapsed = time.time() - start
-    logger.info("Procesadas %d filas en %.2fs (%.0f filas/seg)",
-                total_rows, elapsed, total_rows / elapsed if elapsed > 0 else 0)
-
-    # Guardar
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    df_final.to_parquet(args.output, index=False)
-    logger.info("Guardado en %s (%d filas, %d columnas)",
-                args.output, len(df_final), df_final.shape[1])
-
-if __name__ == "__main__":
-    main()
-
-# === Uso ===
-# $ python cli_with_logging.py -i ventas.csv -o limpio.parquet -v
-# 2024-01-15 10:30:45 [INFO] pipeline: Config: input=ventas.csv output=limpio.parquet chunksize=10000
-# 2024-01-15 10:30:45 [INFO] pipeline: Procesando chunk 1 (10000 filas)
-# 2024-01-15 10:30:45 [DEBUG] pipeline: Chunk procesado: 10000 → 10000 filas
-# 2024-01-15 10:30:46 [INFO] pipeline: Procesando chunk 2 (10000 filas)
-# 2024-01-15 10:30:47 [INFO] pipeline: Procesadas 50000 filas en 2.34s (21368 filas/seg)
-# 2024-01-15 10:30:47 [INFO] pipeline: Guardado en limpio.parquet (50000 filas, 9 columnas)
-#
-# Y todo queda persistido en logs/pipeline.log (rotado cada 5MB, 3 backups).`,
+g = MockGeocoder()
+for c in ("Lima", "Arequipa", "Iquitos"):
+    print(c, g.geocode(c))`,
+          output: `Lima {'city': 'Lima', 'lat': -12.0464, 'lon': -77.0428, 'provider': 'authorized_mock'}
+Arequipa {'city': 'Arequipa', 'lat': -16.409, 'lon': -71.5375, 'provider': 'authorized_mock'}
+Iquitos None`,
         },
-        why: 'Este patrón (argparse + logging con RotatingFileHandler + procesamiento por chunks) es la plantilla de TODO pipeline production-ready. argparse lo hace reusable, logging te da observabilidad cuando falla en prod, y chunks evitan OOM con datasets grandes. Combinado con multiprocessing del paso 1, tienes un pipeline profesional completo.',
+        why: "Geocoder intercambiable y offline para demos sin egress de PII.",
+      },
+      {
+        demoId: "S12-T4-B-DEMO",
+        subtopicId: "S12-T4-B",
+        environment: "local-python",
+        description: "Distancia entre dos puntos sintéticos Lima–Callao como geoseñal.",
+        code: {
+          language: 'python',
+          title: "lima_callao_demo.py",
+          code: `import math
+
+def haversine_km(a, b):
+    R = 6371.0
+    lat1, lon1 = map(math.radians, a)
+    lat2, lon2 = map(math.radians, b)
+    dlat, dlon = lat2 - lat1, lon2 - lon1
+    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2
+    return 2 * R * math.asin(math.sqrt(h))
+
+lima = (-12.0464, -77.0428)
+callao = (-12.0500, -77.1250)
+km = haversine_km(lima, callao)
+signal = {"type": "geo_distance_km", "value": round(km, 2), "verdict": None}
+print(signal)
+print("disclaimer", "signal != kinship")`,
+          output: `{'type': 'geo_distance_km', 'value': 8.95, 'verdict': None}
+disclaimer signal != kinship`,
+        },
+        why: "La distancia alimenta relationship_signal_score, no un veredicto legal.",
       },
     ],
   },
   weDo: {
-    intro:
-      'Te toca practicar los 3 patrones más importantes de performance y observability: (1) paralelizar una función CPU-bound, (2) perfilar una función para encontrar el bottleneck, y (3) configurar logging estructurado. Cada ejercicio tiene starter code y solution code — intenta resolverlo solo primero.',
+    intro: "24 ejercicios (E1 guiado / E2 independiente / E3 transferencia) por los 8 subtemas. Dos pistas por ejercicio. Ejecuta en local-python con datos sintéticos.",
     steps: [
       {
+        id: "S12-T1-A-E1",
+        subtopicId: "S12-T1-A",
+        kind: "guided",
         instruction:
-          'Escribe una función `parallel_squares` que reciba una lista de 10,000 enteros, calcule el cuadrado de cada uno con una función `square(x)`, y devuelva la lista de resultados. Compara el tiempo secuencial vs paralelo con ProcessPoolExecutor(max_workers=8).',
-        hint: 'Usa `executor.map(square, numbers)` para preservar orden. La función `square` debe ser top-level (no lambda) para que se pueda picklear. Mide tiempo con time.time() antes y después de cada versión.',
+          "E1 (guiado) — Implementa `get_entity(store, entity_id)` que devuelva (status, body). 200 con el dict si existe; 404 con `{'error':'not_found'}` si no.",
+        hint: "Devuelve una tupla (status_code, dict).",
+        hints: [
+          "Devuelve una tupla (status_code, dict).",
+          "404 no lanza excepción: el adaptador decide la acción.",
+        ],
+        edgeCases: ["404 body estable", "id existente"],
+        tests: "200 con dict; 404 con error",
+        feedback: "Status explícito evita try/except ruidosos en el caller.",
         starterCode: {
           language: 'python',
-          title: 'parallel_squares_starter.py',
-          code: `import time
-from concurrent.futures import ProcessPoolExecutor
-
-def square(x: int) -> int:
-    """TODO: Devuelve x al cuadrado."""
-    pass
-
-def parallel_squares(numbers: list[int], n_workers: int = 8) -> list[int]:
-    """TODO: Calcula cuadrados en paralelo con ProcessPoolExecutor."""
-    pass
-
-def sequential_squares(numbers: list[int]) -> list[int]:
-    """TODO: Calcula cuadrados secuencialmente (baseline)."""
-    pass
-
-# Test:
-# numbers = list(range(10000))
-# t1 = time.time(); r1 = sequential_squares(numbers); t1 = time.time() - t1
-# t2 = time.time(); r2 = parallel_squares(numbers); t2 = time.time() - t2
-# print(f"Secuencial: {t1:.3f}s")
-# print(f"Paralelo: {t2:.3f}s")
-# print(f"Speedup: {t1/t2:.1f}x")`,
+          title: "get_entity.py",
+          code: `store = {"C001": {"id": "C001", "region": "Lima"}}
+def get_entity(store, entity_id):
+    # TODO
+    ...
+print(get_entity(store, "C001"))
+print(get_entity(store, "C999"))`,
         },
         solutionCode: {
           language: 'python',
-          title: 'parallel_squares_solution.py',
-          code: `import time
-from concurrent.futures import ProcessPoolExecutor
-
-def square(x: int) -> int:
-    """Devuelve x al cuadrado. Top-level (no lambda) para que sea picklable."""
-    # Simular cómputo ligero para que el paralelismo sea notorio
-    total = 0
-    for i in range(1000):
-        total += i
-    return x * x + total % 7  # añadir algo de cómputo real
-
-def parallel_squares(numbers: list[int], n_workers: int = 8) -> list[int]:
-    """Calcula cuadrados en paralelo con ProcessPoolExecutor."""
-    with ProcessPoolExecutor(max_workers=n_workers) as executor:
-        # map preserva el orden de los resultados
-        results = list(executor.map(square, numbers))
-    return results
-
-def sequential_squares(numbers: list[int]) -> list[int]:
-    """Calcula cuadrados secuencialmente (baseline)."""
-    return [square(x) for x in numbers]
-
-# Test comparativo
-if __name__ == "__main__":
-    numbers = list(range(10_000))
-
-    t1 = time.time()
-    r1 = sequential_squares(numbers)
-    t1 = time.time() - t1
-    print(f"Secuencial: {t1:.3f}s")
-
-    t2 = time.time()
-    r2 = parallel_squares(numbers)
-    t2 = time.time() - t2
-    print(f"Paralelo (8 workers): {t2:.3f}s")
-    print(f"Speedup: {t1/t2:.1f}x")
-
-    # Verificar que dan lo mismo
-    assert r1 == r2, "Los resultados no coinciden!"
-    print(f"\\nResultados idénticos: {len(r1)} elementos")
-    print(f"Primeros 5: {r1[:5]}")
-# Salida típica:
-# Secuencial: 0.42s
-# Paralelo (8 workers): 0.09s
-# Speedup: 4.7x
-#
-# Resultados idénticos: 10000 elementos
-# Primeros 5: [3, 6, 11, 18, 27]`,
+          title: "get_entity.py",
+          code: `store = {"C001": {"id": "C001", "region": "Lima"}}
+def get_entity(store, entity_id):
+    if entity_id not in store:
+        return 404, {"error": "not_found"}
+    return 200, store[entity_id]
+print(get_entity(store, "C001"))
+print(get_entity(store, "C999"))`,
+          output: `(200, {'id': 'C001', 'region': 'Lima'})
+(404, {'error': 'not_found'})`,
         },
       },
       {
+        id: "S12-T1-A-E2",
+        subtopicId: "S12-T1-A",
+        kind: "independent",
         instruction:
-          'Tienes una función `limpiar_nombres_lento` que itera con .loc[i] sobre un DataFrame para limpiar nombres (capitalizar, quitar espacios). Perfílala con cProfile conceptualmente, identifica el bottleneck, y reescríbela vectorizada para lograr 50x+ speedup.',
-        hint: 'El bottleneck SIEMPRE es .loc[i] en un loop. Vectoriza con .str.title() y .str.strip() de pandas — una sola operación sobre toda la columna. Mide con timeit.',
+          "E2 (independiente) — Dado un `payload` JSON-like dict de respuesta, implementa `parse_entity(payload)` que exija claves `id` y `region` y devuelva solo esas claves. Si falta alguna, devuelve None.",
+        hint: "Usa set de required keys.",
+        hints: [
+          "Usa set de required keys.",
+          "No mutes el payload original; construye un dict nuevo.",
+        ],
+        edgeCases: ["clave faltante", "extra ignorado"],
+        tests: "dict tipado o None",
+        feedback: "Parse estricto reduce basura aguas abajo.",
         starterCode: {
           language: 'python',
-          title: 'profile_starter.py',
-          code: `import pandas as pd
-import numpy as np
-import time
-
-def limpiar_nombres_lento(df: pd.DataFrame) -> pd.DataFrame:
-    """TODO: Limpia nombres iterando con .loc[i] — IDENTIFICA el bottleneck."""
-    df = df.copy()
-    for i in range(len(df)):
-        # Capitalizar y quitar espacios extra
-        nombre = df.loc[i, "nombre"].strip().title()
-        df.loc[i, "nombre_limpio"] = nombre
-    return df
-
-def limpiar_nombres_rapido(df: pd.DataFrame) -> pd.DataFrame:
-    """TODO: Misma funcionalidad pero VECTORIZADA con .str accessor."""
-    pass
-
-# Test:
-# df = pd.DataFrame({"nombre": ["  juan perez ", "MARIA QUISPE", "  carlos  "] * 10000})
-# t1 = time.time(); df1 = limpiar_nombres_lento(df); t1 = time.time() - t1
-# t2 = time.time(); df2 = limpiar_nombres_rapido(df); t2 = time.time() - t2
-# print(f"Lento: {t1:.3f}s")
-# print(f"Rápido: {t2:.3f}s")
-# print(f"Speedup: {t1/t2:.0f}x")`,
+          title: "parse_entity.py",
+          code: `def parse_entity(payload):
+    # TODO
+    ...
+print(parse_entity({"id": "C001", "region": "Lima", "extra": 1}))
+print(parse_entity({"id": "C001"}))`,
         },
         solutionCode: {
           language: 'python',
-          title: 'profile_solution.py',
-          code: `import pandas as pd
-import numpy as np
-import time
-
-def limpiar_nombres_lento(df: pd.DataFrame) -> pd.DataFrame:
-    """Versión LENTA — iterar con .loc[i] es el antipatrón #1 de pandas.
-    cProfile mostraría que el 95% del tiempo está en {method 'loc' of 'DataFrame'}.
-    line_profiler mostraría que la línea del loop se come el 90%+ del tiempo.
-    """
-    df = df.copy()
-    for i in range(len(df)):
-        nombre = df.loc[i, "nombre"].strip().title()
-        df.loc[i, "nombre_limpio"] = nombre
-    return df
-
-def limpiar_nombres_rapido(df: pd.DataFrame) -> pd.DataFrame:
-    """Versión RÁPIDA — vectorizada con .str accessor de pandas.
-    Una sola operación C-level sobre toda la columna, sin loop Python.
-    """
-    df = df.copy()
-    df["nombre_limpio"] = df["nombre"].str.strip().str.title()
-    return df
-
-# === Test comparativo ===
-if __name__ == "__main__":
-    # Crear DataFrame de prueba (30k nombres con espacios y mayúsculas mal)
-    nombres_sucios = ["  juan perez ", "MARIA QUISPE", "  carlos  ",
-                      "PEDRO  HUAMAN  ", "  ana  lucia  "]
-    df = pd.DataFrame({"nombre": nombres_sucios * 6000})  # 30,000 filas
-    print(f"DataFrame: {len(df)} filas")
-
-    # Versión lenta
-    t1 = time.time()
-    df1 = limpiar_nombres_lento(df)
-    t1 = time.time() - t1
-    print(f"Lento (.loc[i] loop): {t1:.3f}s")
-
-    # Versión rápida
-    t2 = time.time()
-    df2 = limpiar_nombres_rapido(df)
-    t2 = time.time() - t2
-    print(f"Rápido (.str vectorizado): {t2:.3f}s")
-    print(f"Speedup: {t1/t2:.0f}x")
-
-    # Verificar que dan lo mismo
-    assert df1["nombre_limpio"].equals(df2["nombre_limpio"]), "Resultados difieren!"
-    print("\\nResultados idénticos:")
-    print(df2[["nombre", "nombre_limpio"]].head())
-# Salida típica:
-# DataFrame: 30000 filas
-# Lento (.loc[i] loop): 3.85s
-# Rápido (.str vectorizado): 0.012s
-# Speedup: 320x
-#
-# Resultados idénticos:
-#              nombre nombre_limpio
-# 0      "  juan perez "    Juan Perez
-# 1    "MARIA QUISPE"     Maria Quispe
-# 2      "  carlos  "      Carlos
-# 3  "PEDRO  HUAMAN  "     Pedro Huaman
-# 4  "  ana  lucia  "      Ana Lucia
-
-# === Nota: cómo perfilar realmente ===
-# Para ver el output de cProfile, guardar el script y correr:
-#   python -m cProfile -s cumulative profile_solution.py
-# Para line_profiler:
-#   pip install line_profiler
-#   Decorar la función con @profile
-#   kernprof -l -v profile_solution.py`,
+          title: "parse_entity.py",
+          code: `def parse_entity(payload):
+    if not isinstance(payload, dict):
+        return None
+    if "id" not in payload or "region" not in payload:
+        return None
+    return {"id": payload["id"], "region": payload["region"]}
+print(parse_entity({"id": "C001", "region": "Lima", "extra": 1}))
+print(parse_entity({"id": "C001"}))`,
+          output: `{'id': 'C001', 'region': 'Lima'}
+None`,
         },
       },
       {
+        id: "S12-T1-A-E3",
+        subtopicId: "S12-T1-A",
+        kind: "transfer",
         instruction:
-          'Configura un logger con dos handlers: consola (INFO+) y archivo rotado (DEBUG+, 1MB, 3 backups). Escribe una función `procesar` que loggee inicio, progreso cada 1000 items, warnings si hay nulos, y fin con tiempo total.',
-        hint: 'RotatingFileHandler con maxBytes=1024*1024, backupCount=3. Dos handlers con niveles distintos: StreamHandler(level=INFO) y FileHandler(level=DEBUG). Usa logger.info/.debug/.warning según corresponda. SIEMPRE %-format, no f-string.',
+          "E3 (transferencia) — Construye `STATUS_ACTION` mapeando 200→'use_body', 404→'missing', 429→'retry', 500→'retry', 400→'fix_client'. Imprime la acción para [200,404,429,400,500].",
+        hint: "dict.get(code, 'unknown')",
+        hints: [
+          "dict.get(code, 'unknown')",
+          "400 no es retry.",
+        ],
+        edgeCases: ["400 no retry"],
+        tests: "tabla status→acción",
+        feedback: "La tabla es el contrato de resiliencia del adaptador.",
         starterCode: {
           language: 'python',
-          title: 'logging_starter.py',
-          code: `import logging
-from logging.handlers import RotatingFileHandler
-import sys
-
-def setup_logging(log_file: str = "app.log"):
-    """TODO: Configura consola (INFO+) + archivo rotado (DEBUG+, 1MB, 3 backups)."""
-    pass
-
-def procesar(items: list) -> int:
-    """TODO: Procesa items. Loggea inicio, progreso cada 1000, warnings si hay nulos, fin con tiempo."""
-    logger = logging.getLogger("procesar")
-    # TODO: implementar
-    pass
-
-# Test:
-# setup_logging()
-# procesar(list(range(3500)) + [None] * 50)  # 3550 items, 50 nulos`,
+          title: "status_table.py",
+          code: `STATUS_ACTION = {
+    # TODO
+}
+for code in [200, 404, 429, 400, 500]:
+    print(code, STATUS_ACTION.get(code, "unknown"))`,
         },
         solutionCode: {
           language: 'python',
-          title: 'logging_solution.py',
-          code: `import logging
-from logging.handlers import RotatingFileHandler
-import sys
-import time
-
-def setup_logging(log_file: str = "app.log"):
-    """Configura consola (INFO+) + archivo rotado (DEBUG+, 1MB, 3 backups)."""
-    logger = logging.getLogger()  # root logger
-    logger.setLevel(logging.DEBUG)  # nivel mínimo global — DEBUG para que archivo reciba todo
-
-    # Handler 1: consola con nivel INFO
-    console = logging.StreamHandler(sys.stdout)
-    console.setLevel(logging.INFO)
-    console.setFormatter(logging.Formatter(
-        "%(asctime)s [%(levelname)s] %(message)s", datefmt="%H:%M:%S"
-    ))
-    logger.addHandler(console)
-
-    # Handler 2: archivo rotado con nivel DEBUG
-    file_h = RotatingFileHandler(
-        log_file, maxBytes=1 * 1024 * 1024, backupCount=3, encoding="utf-8"
-    )
-    file_h.setLevel(logging.DEBUG)
-    file_h.setFormatter(logging.Formatter(
-        "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-        datefmt="%Y-%m-%d %H:%M:%S"
-    ))
-    logger.addHandler(file_h)
-
-def procesar(items: list) -> int:
-    """Procesa items con logging estructurado en cada etapa."""
-    logger = logging.getLogger("procesar")
-
-    start = time.time()
-    n = len(items)
-    logger.info("Iniciando procesamiento de %d items", n)
-    logger.debug("Primeros 3 items: %s", items[:3] if items else "[]")
-
-    procesados = 0
-    nulos = 0
-    for i, item in enumerate(items):
-        if item is None:
-            nulos += 1
-            if nulos == 1:  # warn solo la primera vez para no spammer
-                logger.warning("Primer nulo detectado en posición %d", i)
-            continue
-        # ... procesar item (simulado)
-        procesados += 1
-
-        # Progreso cada 1000 items
-        if (i + 1) % 1000 == 0:
-            logger.info("Progreso: %d/%d (%.0f%%)",
-                        i + 1, n, (i + 1) / n * 100)
-            logger.debug("Item actual: %s", item)
-
-    elapsed = time.time() - start
-    logger.info("Completado: %d procesados, %d nulos en %.2fs",
-                procesados, nulos, elapsed)
-    return procesados
-
-# === Test ===
-if __name__ == "__main__":
-    setup_logging("procesar.log")
-    # 3550 items, 50 nulos dispersos
-    items = list(range(3500)) + [None] * 50
-    # Mezclar para que los nulos estén dispersos
-    import random
-    random.seed(42)
-    random.shuffle(items)
-
-    resultado = procesar(items)
-    print(f"\\nResultado: {resultado} items procesados")
-
-# === Output en consola (solo INFO+): ===
-# 10:30:45 [INFO] Iniciando procesamiento de 3550 items
-# 10:30:45 [INFO] Progreso: 1000/3550 (28%)
-# 10:30:45 [INFO] Progreso: 2000/3550 (56%)
-# 10:30:45 [INFO] Progreso: 3000/3550 (85%)
-# 10:30:45 [WARNING] Primer nulo detectado en posición 3142
-# 10:30:45 [INFO] Completado: 3500 procesados, 50 nulos en 0.03s
-#
-# === Output en procesar.log (DEBUG+, incluye lo anterior +): ===
-# 2024-01-15 10:30:45 [DEBUG] procesar: Primeros 3 items: [1234, 567, 2891]
-# 2024-01-15 10:30:45 [DEBUG] procesar: Progreso: 1000/3550 (28%)
-# 2024-01-15 10:30:45 [DEBUG] procesar: Item actual: 999
-# ...`,
+          title: "status_table.py",
+          code: `STATUS_ACTION = {
+    200: "use_body",
+    404: "missing",
+    429: "retry",
+    500: "retry",
+    400: "fix_client",
+}
+for code in [200, 404, 429, 400, 500]:
+    print(code, STATUS_ACTION.get(code, "unknown"))`,
+          output: `200 use_body
+404 missing
+429 retry
+400 fix_client
+500 retry`,
+        },
+      },
+      {
+        id: "S12-T1-B-E1",
+        subtopicId: "S12-T1-B",
+        kind: "guided",
+        instruction:
+          "E1 (guiado) — Simula timeout: `fetch(timeout_s, cost_s)` devuelve 'ok' si cost_s <= timeout_s, si no lanza TimeoutError capturado y devuelve 'timeout'.",
+        hint: "if cost > timeout: return 'timeout'",
+        hints: [
+          "if cost > timeout: return 'timeout'",
+          "No uses red real; compara números.",
+        ],
+        edgeCases: ["cost == timeout cuenta ok o timeout según tu política; aquí > es timeout"],
+        tests: "ok y timeout",
+        feedback: "Timeout obligatorio evita workers colgados.",
+        starterCode: {
+          language: 'python',
+          title: "timeout_sim.py",
+          code: `def fetch(timeout_s, cost_s):
+    # TODO
+    ...
+print(fetch(2.0, 0.5))
+print(fetch(1.0, 3.0))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "timeout_sim.py",
+          code: `def fetch(timeout_s, cost_s):
+    if cost_s > timeout_s:
+        return "timeout"
+    return "ok"
+print(fetch(2.0, 0.5))
+print(fetch(1.0, 3.0))`,
+          output: `ok
+timeout`,
+        },
+      },
+      {
+        id: "S12-T1-B-E2",
+        subtopicId: "S12-T1-B",
+        kind: "independent",
+        instruction:
+          "E2 (independiente) — `collect_all(api)` pagina desde 1 hasta next is None y devuelve lista plana de items.",
+        hint: "while page is not None",
+        hints: [
+          "while page is not None",
+          "api[page]['items'] y api[page]['next']",
+        ],
+        edgeCases: ["next null termina"],
+        tests: "lista plana a,b,c",
+        feedback: "Paginación correcta es prerequisito de full-sync sintético.",
+        starterCode: {
+          language: 'python',
+          title: "collect_pages.py",
+          code: `api = {
+    1: {"items": ["a"], "next": 2},
+    2: {"items": ["b", "c"], "next": None},
+}
+def collect_all(api):
+    # TODO
+    ...
+print(collect_all(api))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "collect_pages.py",
+          code: `api = {
+    1: {"items": ["a"], "next": 2},
+    2: {"items": ["b", "c"], "next": None},
+}
+def collect_all(api):
+    out = []
+    page = 1
+    while page is not None:
+        chunk = api[page]
+        out.extend(chunk["items"])
+        page = chunk["next"]
+    return out
+print(collect_all(api))`,
+          output: `['a', 'b', 'c']`,
+        },
+      },
+      {
+        id: "S12-T1-B-E3",
+        subtopicId: "S12-T1-B",
+        kind: "transfer",
+        instruction:
+          "E3 (transferencia) — `should_retry(status)` True solo para 429 y 503. Imprime para 400,404,429,503,200.",
+        hint: "return status in {429, 503}",
+        hints: [
+          "return status in {429, 503}",
+          "200 y 4xx de cliente no reintentan.",
+        ],
+        edgeCases: ["400 False", "429 True"],
+        tests: "política retry transitorio",
+        feedback: "Retry selectivo respeta al proveedor y a tu cuota.",
+        starterCode: {
+          language: 'python',
+          title: "retry_policy.py",
+          code: `def should_retry(status):
+    # TODO
+    ...
+for s in [400, 404, 429, 503, 200]:
+    print(s, should_retry(s))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "retry_policy.py",
+          code: `def should_retry(status):
+    return status in {429, 503}
+for s in [400, 404, 429, 503, 200]:
+    print(s, should_retry(s))`,
+          output: `400 False
+404 False
+429 True
+503 True
+200 False`,
+        },
+      },
+      {
+        id: "S12-T2-A-E1",
+        subtopicId: "S12-T2-A",
+        kind: "guided",
+        instruction:
+          "E1 (guiado) — `require_token(env)` lee API_TOKEN del dict env; si falta o vacío, lanza ValueError('API_TOKEN missing'); si no, devuelve el token.",
+        hint: "tok = env.get('API_TOKEN')",
+        hints: [
+          "tok = env.get('API_TOKEN')",
+          "if not tok: raise ValueError(...)",
+        ],
+        edgeCases: ["token vacío falla"],
+        tests: "abc + error message",
+        feedback: "Fail closed sin secreto evita llamadas anónimas accidentales.",
+        starterCode: {
+          language: 'python',
+          title: "require_token.py",
+          code: `def require_token(env):
+    # TODO
+    ...
+print(require_token({"API_TOKEN": "abc"}))
+try:
+    require_token({})
+except ValueError as e:
+    print(str(e))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "require_token.py",
+          code: `def require_token(env):
+    tok = env.get("API_TOKEN")
+    if not tok:
+        raise ValueError("API_TOKEN missing")
+    return tok
+print(require_token({"API_TOKEN": "abc"}))
+try:
+    require_token({})
+except ValueError as e:
+    print(str(e))`,
+          output: `abc
+API_TOKEN missing`,
+        },
+      },
+      {
+        id: "S12-T2-A-E2",
+        subtopicId: "S12-T2-A",
+        kind: "independent",
+        instruction:
+          "E2 (independiente) — Cache GET: `Cache` con get/set por url; segunda get del mismo url devuelve cache_hit True. Usa dict interno.",
+        hint: "key = url",
+        hints: [
+          "key = url",
+          "almacenar body y devolver (body, hit)",
+        ],
+        edgeCases: ["miss → None, False"],
+        tests: "hit y miss",
+        feedback: "Cache de GET reduce latencia en demos repetidas.",
+        starterCode: {
+          language: 'python',
+          title: "cache_get.py",
+          code: `class Cache:
+    def __init__(self):
+        self._data = {}
+    def get(self, url):
+        # TODO return (body, hit) o (None, False)
+        ...
+    def set(self, url, body):
+        # TODO
+        ...
+c = Cache()
+c.set("u1", {"ok": True})
+print(c.get("u1"))
+print(c.get("missing"))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "cache_get.py",
+          code: `class Cache:
+    def __init__(self):
+        self._data = {}
+    def get(self, url):
+        if url in self._data:
+            return self._data[url], True
+        return None, False
+    def set(self, url, body):
+        self._data[url] = body
+c = Cache()
+c.set("u1", {"ok": True})
+print(c.get("u1"))
+print(c.get("missing"))`,
+          output: `({'ok': True}, True)
+(None, False)`,
+        },
+      },
+      {
+        id: "S12-T2-A-E3",
+        subtopicId: "S12-T2-A",
+        kind: "transfer",
+        instruction:
+          "E3 (transferencia) — `min_provenance(url, status, cache_hit)` devuelve dict con source_url, fetched_at fijo '2026-07-20T00:00:00Z', status_code, cache_hit. Sin token.",
+        hint: "Campos mínimos de auditoría.",
+        hints: [
+          "Campos mínimos de auditoría.",
+          "No incluyas Authorization.",
+        ],
+        edgeCases: ["sin token"],
+        tests: "4 campos de provenance",
+        feedback: "Provenance es evidencia de adquisición para el capstone.",
+        starterCode: {
+          language: 'python',
+          title: "provenance_fields.py",
+          code: `def min_provenance(url, status, cache_hit):
+    # TODO
+    ...
+print(sorted(min_provenance("https://x", 200, False).items()))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "provenance_fields.py",
+          code: `def min_provenance(url, status, cache_hit):
+    return {
+        "source_url": url,
+        "fetched_at": "2026-07-20T00:00:00Z",
+        "status_code": status,
+        "cache_hit": cache_hit,
+    }
+print(sorted(min_provenance("https://x", 200, False).items()))`,
+          output: `[('cache_hit', False), ('fetched_at', '2026-07-20T00:00:00Z'), ('source_url', 'https://x'), ('status_code', 200)]`,
+        },
+      },
+      {
+        id: "S12-T2-B-E1",
+        subtopicId: "S12-T2-B",
+        kind: "guided",
+        instruction:
+          "E1 (guiado) — `assert_keys(payload, required)` lanza AssertionError con missing sorted si faltan claves; si ok imprime 'ok'.",
+        hint: "missing = set(required) - set(payload)",
+        hints: [
+          "missing = set(required) - set(payload)",
+          "raise AssertionError si missing",
+        ],
+        edgeCases: ["mensaje con lon"],
+        tests: "ok + AssertionError",
+        feedback: "Contract tests baratos atrapan roturas de proveedor.",
+        starterCode: {
+          language: 'python',
+          title: "assert_keys.py",
+          code: `def assert_keys(payload, required):
+    # TODO
+    ...
+assert_keys({"lat": 1, "lon": 2}, ["lat", "lon"])
+print("ok")
+try:
+    assert_keys({"lat": 1}, ["lat", "lon"])
+except AssertionError as e:
+    print(e)`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "assert_keys.py",
+          code: `def assert_keys(payload, required):
+    missing = set(required) - set(payload)
+    if missing:
+        raise AssertionError(f"missing keys: {sorted(missing)}")
+assert_keys({"lat": 1, "lon": 2}, ["lat", "lon"])
+print("ok")
+try:
+    assert_keys({"lat": 1}, ["lat", "lon"])
+except AssertionError as e:
+    print(e)`,
+          output: `ok
+missing keys: ['lon']`,
+        },
+      },
+      {
+        id: "S12-T2-B-E2",
+        subtopicId: "S12-T2-B",
+        kind: "independent",
+        instruction:
+          "E2 (independiente) — `fetch_with_fallback(status, local_body)`: si status>=500 devuelve (local_body, 'offline'); si 200 devuelve ({'online':True}, 'online').",
+        hint: "if status >= 500",
+        hints: [
+          "if status >= 500",
+          "retorna tupla (body, mode)",
+        ],
+        edgeCases: ["5xx → offline"],
+        tests: "online/offline modes",
+        feedback: "Fallback degradado mantiene el demo del dashboard vivo.",
+        starterCode: {
+          language: 'python',
+          title: "fallback_5xx.py",
+          code: `def fetch_with_fallback(status, local_body):
+    # TODO
+    ...
+print(fetch_with_fallback(200, {"lat": 0}))
+print(fetch_with_fallback(503, {"lat": -12.0}))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "fallback_5xx.py",
+          code: `def fetch_with_fallback(status, local_body):
+    if status >= 500:
+        return local_body, "offline"
+    return {"online": True}, "online"
+print(fetch_with_fallback(200, {"lat": 0}))
+print(fetch_with_fallback(503, {"lat": -12.0}))`,
+          output: `({'online': True}, 'online')
+({'lat': -12.0}, 'offline')`,
+        },
+      },
+      {
+        id: "S12-T2-B-E3",
+        subtopicId: "S12-T2-B",
+        kind: "transfer",
+        instruction:
+          "E3 (transferencia) — Matriz online/offline: dict con claves ('online', True/False) → comportamiento 'live_api' o 'local_file'. Imprime ambos.",
+        hint: "Usa tuplas como clave de dict.",
+        hints: [
+          "Usa tuplas como clave de dict.",
+          "offline siempre local_file.",
+        ],
+        edgeCases: ["flag offline"],
+        tests: "matriz de operación",
+        feedback: "La matriz es runbook mínimo de operación N1.",
+        starterCode: {
+          language: 'python',
+          title: "online_offline_matrix.py",
+          code: `matrix = {
+    # TODO
+}
+for online in (True, False):
+    print(online, matrix[online])`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "online_offline_matrix.py",
+          code: `matrix = {
+    True: "live_api",
+    False: "local_file",
+}
+for online in (True, False):
+    print(online, matrix[online])`,
+          output: `True live_api
+False local_file`,
+        },
+      },
+      {
+        id: "S12-T3-A-E1",
+        subtopicId: "S12-T3-A",
+        kind: "guided",
+        instruction:
+          "E1 (guiado) — En SQLite :memory:, crea tabla evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL). Inserta E1/C001/geo y cuenta filas.",
+        hint: "CREATE TABLE evidence (...)",
+        hints: [
+          "CREATE TABLE evidence (...)",
+          "INSERT + SELECT COUNT(*)",
+        ],
+        edgeCases: ["NOT NULL en entity_id"],
+        tests: "count 1",
+        feedback: "Esquema mínimo de evidencias para el join de caso.",
+        starterCode: {
+          language: 'python',
+          title: "create_evidence.py",
+          code: `import sqlite3
+con = sqlite3.connect(":memory:")
+# TODO create + insert
+print(con.execute("SELECT COUNT(*) FROM evidence").fetchone()[0])
+con.close()`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "create_evidence.py",
+          code: `import sqlite3
+con = sqlite3.connect(":memory:")
+con.execute(
+    "CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL)"
+)
+con.execute("INSERT INTO evidence VALUES (?,?,?)", ("E1", "C001", "geo"))
+con.commit()
+print(con.execute("SELECT COUNT(*) FROM evidence").fetchone()[0])
+con.close()`,
+          output: `1`,
+        },
+      },
+      {
+        id: "S12-T3-A-E2",
+        subtopicId: "S12-T3-A",
+        kind: "independent",
+        instruction:
+          "E2 (independiente) — CRUD de client: insert C001, update name a 'Ana Q', select name, delete, count 0.",
+        hint: "UPDATE clients SET name=? WHERE id=?",
+        hints: [
+          "UPDATE clients SET name=? WHERE id=?",
+          "Orden: insert → update → select → delete → count",
+        ],
+        edgeCases: ["update parametrizado"],
+        tests: "Ana Q y 0",
+        feedback: "CRUD parametrizado es la base del almacén local.",
+        starterCode: {
+          language: 'python',
+          title: "crud_client.py",
+          code: `import sqlite3
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)")
+# TODO CRUD
+con.close()`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "crud_client.py",
+          code: `import sqlite3
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)")
+con.execute("INSERT INTO clients VALUES (?,?)", ("C001", "Ana"))
+con.execute("UPDATE clients SET name=? WHERE id=?", ("Ana Q", "C001"))
+print(con.execute("SELECT name FROM clients WHERE id=?", ("C001",)).fetchone()[0])
+con.execute("DELETE FROM clients WHERE id=?", ("C001",))
+print(con.execute("SELECT COUNT(*) FROM clients").fetchone()[0])
+con.close()`,
+          output: `Ana Q
+0`,
+        },
+      },
+      {
+        id: "S12-T3-A-E3",
+        subtopicId: "S12-T3-A",
+        kind: "transfer",
+        instruction:
+          "E3 (transferencia) — Join: clients + evidence; imprime kinds de C001 ordenados.",
+        hint: "JOIN ON c.id = e.entity_id",
+        hints: [
+          "JOIN ON c.id = e.entity_id",
+          "WHERE c.id = ?",
+        ],
+        edgeCases: ["no mezclar C002"],
+        tests: "['geo','phone']",
+        feedback: "Join por entity_id alimenta la ficha de caso.",
+        starterCode: {
+          language: 'python',
+          title: "join_evidence.py",
+          code: `import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript('''
+CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);
+CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);
+INSERT INTO clients VALUES ('C001','Ana');
+INSERT INTO evidence VALUES ('E1','C001','geo');
+INSERT INTO evidence VALUES ('E2','C001','phone');
+INSERT INTO evidence VALUES ('E3','C002','geo');
+''')
+# TODO query kinds for C001 sorted
+con.close()`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "join_evidence.py",
+          code: `import sqlite3
+con = sqlite3.connect(":memory:")
+con.executescript('''
+CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);
+CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);
+INSERT INTO clients VALUES ('C001','Ana');
+INSERT INTO evidence VALUES ('E1','C001','geo');
+INSERT INTO evidence VALUES ('E2','C001','phone');
+INSERT INTO evidence VALUES ('E3','C002','geo');
+''')
+rows = con.execute(
+    "SELECT e.kind FROM clients c JOIN evidence e ON c.id=e.entity_id WHERE c.id=? ORDER BY e.kind",
+    ("C001",),
+).fetchall()
+print([r[0] for r in rows])
+con.close()`,
+          output: `['geo', 'phone']`,
+        },
+      },
+      {
+        id: "S12-T3-B-E1",
+        subtopicId: "S12-T3-B",
+        kind: "guided",
+        instruction:
+          "E1 (guiado) — Reescribe búsqueda insegura: en lugar de f-string, usa `?` y muestra que input malicioso no inyecta.",
+        hint: "WHERE id = ?",
+        hints: [
+          "WHERE id = ?",
+          "No uses f'...{user_id}'",
+        ],
+        edgeCases: ["inyección neutralizada"],
+        tests: "None (no match literal)",
+        feedback: "Placeholders matan la inyección clásica.",
+        starterCode: {
+          language: 'python',
+          title: "safe_sql.py",
+          code: `import sqlite3
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)")
+con.execute("INSERT INTO clients VALUES ('C001','Ana')")
+user_id = "C001' OR '1'='1"
+# TODO safe query
+print(con.execute("SELECT name FROM clients WHERE id = ?", (user_id,)).fetchone())
+con.close()`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "safe_sql.py",
+          code: `import sqlite3
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)")
+con.execute("INSERT INTO clients VALUES ('C001','Ana')")
+user_id = "C001' OR '1'='1"
+print(con.execute("SELECT name FROM clients WHERE id = ?", (user_id,)).fetchone())
+con.close()`,
+          output: `None`,
+        },
+      },
+      {
+        id: "S12-T3-B-E2",
+        subtopicId: "S12-T3-B",
+        kind: "independent",
+        instruction:
+          "E2 (independiente) — Transacción: inserta C001 ok; segundo insert con mismo id debe rollback y dejar count=0 si todo el batch falla junto (usa un solo BEGIN con dos inserts, el segundo duplicado).",
+        hint: "BEGIN; insert; insert duplicado; except rollback",
+        hints: [
+          "BEGIN; insert; insert duplicado; except rollback",
+          "Tras rollback count 0",
+        ],
+        edgeCases: ["rollback total"],
+        tests: "count 0",
+        feedback: "Atomicidad evita filas huérfanas.",
+        starterCode: {
+          language: 'python',
+          title: "tx_rollback.py",
+          code: `import sqlite3
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY)")
+try:
+    # TODO atomic batch with duplicate
+    ...
+except sqlite3.IntegrityError:
+    con.rollback()
+print(con.execute("SELECT COUNT(*) FROM clients").fetchone()[0])
+con.close()`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "tx_rollback.py",
+          code: `import sqlite3
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY)")
+try:
+    con.execute("BEGIN")
+    con.execute("INSERT INTO clients VALUES ('C001')")
+    con.execute("INSERT INTO clients VALUES ('C001')")
+    con.commit()
+except sqlite3.IntegrityError:
+    con.rollback()
+print(con.execute("SELECT COUNT(*) FROM clients").fetchone()[0])
+con.close()`,
+          output: `0`,
+        },
+      },
+      {
+        id: "S12-T3-B-E3",
+        subtopicId: "S12-T3-B",
+        kind: "transfer",
+        instruction:
+          "E3 (transferencia) — Crea índice idx_document_id en clients(document_id) y lista nombres de índices de la tabla via PRAGMA index_list.",
+        hint: "CREATE INDEX idx_document_id ON clients(document_id)",
+        hints: [
+          "CREATE INDEX idx_document_id ON clients(document_id)",
+          "PRAGMA index_list('clients')",
+        ],
+        edgeCases: ["nombre de índice"],
+        tests: "idx_document_id presente",
+        feedback: "Índice en document_id acelera ER lookups.",
+        starterCode: {
+          language: 'python',
+          title: "choose_index.py",
+          code: `import sqlite3
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)")
+# TODO index + pragma
+con.close()`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "choose_index.py",
+          code: `import sqlite3
+con = sqlite3.connect(":memory:")
+con.execute("CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)")
+con.execute("CREATE INDEX idx_document_id ON clients(document_id)")
+names = [r[1] for r in con.execute("PRAGMA index_list('clients')").fetchall()]
+print(sorted(names))
+con.close()`,
+          output: `['idx_document_id', 'sqlite_autoindex_clients_1']`,
+        },
+      },
+      {
+        id: "S12-T4-A-E1",
+        subtopicId: "S12-T4-A",
+        kind: "guided",
+        instruction:
+          "E1 (guiado) — `normalize_address` colapsa espacios y hace strip; imprime resultado de '  Jr.  de  la  Unión  100 '.",
+        hint: "re.sub(r'\\s+', ' ', s.strip())",
+        hints: [
+          "re.sub(r'\\s+', ' ', s.strip())",
+          "No uses title si no se pide; solo espacios.",
+        ],
+        edgeCases: ["espacios dobles"],
+        tests: "string normalizado",
+        feedback: "Normalizar reduce misses del geocoder mock.",
+        starterCode: {
+          language: 'python',
+          title: "norm_addr.py",
+          code: `import re
+def normalize_address(s):
+    # TODO
+    ...
+print(repr(normalize_address("  Jr.  de  la  Unión  100 ")))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "norm_addr.py",
+          code: `import re
+def normalize_address(s):
+    return re.sub(r"\\s+", " ", s.strip())
+print(repr(normalize_address("  Jr.  de  la  Unión  100 ")))`,
+          output: `'Jr. de la Unión 100'`,
+        },
+      },
+      {
+        id: "S12-T4-A-E2",
+        subtopicId: "S12-T4-A",
+        kind: "independent",
+        instruction:
+          "E2 (independiente) — Interfaz mínima: clase MockGeocoder con geocode(city)→dict|None para Lima y Arequipa.",
+        hint: "Tabla city→(lat,lon)",
+        hints: [
+          "Tabla city→(lat,lon)",
+          "provider='mock'",
+        ],
+        edgeCases: ["ciudad desconocida None"],
+        tests: "-12.0464 y None",
+        feedback: "Interfaz intercambiable permite swap a proveedor autorizado real más adelante.",
+        starterCode: {
+          language: 'python',
+          title: "mock_geocoder.py",
+          code: `class MockGeocoder:
+    # TODO
+    ...
+g = MockGeocoder()
+print(g.geocode("Lima")["lat"])
+print(g.geocode("Cusco"))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "mock_geocoder.py",
+          code: `class MockGeocoder:
+    DB = {"Lima": (-12.0464, -77.0428), "Arequipa": (-16.4090, -71.5375)}
+    def geocode(self, city):
+        if city not in self.DB:
+            return None
+        lat, lon = self.DB[city]
+        return {"city": city, "lat": lat, "lon": lon, "provider": "mock"}
+g = MockGeocoder()
+print(g.geocode("Lima")["lat"])
+print(g.geocode("Cusco"))`,
+          output: `-12.0464
+None`,
+        },
+      },
+      {
+        id: "S12-T4-A-E3",
+        subtopicId: "S12-T4-A",
+        kind: "transfer",
+        instruction:
+          "E3 (transferencia) — Checklist de egress: dado un payload dict, `allowed_for_public_geocoder(payload)` True solo si las claves ⊆ {'address','city','country'} (sin document_id, account, amount).",
+        hint: "set(payload) <= allowed",
+        hints: [
+          "set(payload) <= allowed",
+          "document_id debe fallar",
+        ],
+        edgeCases: ["PII bancaria bloqueada"],
+        tests: "True/False",
+        feedback: "Política de egress es requisito CP-N1-C.",
+        starterCode: {
+          language: 'python',
+          title: "egress_checklist.py",
+          code: `ALLOWED = {"address", "city", "country"}
+def allowed_for_public_geocoder(payload):
+    # TODO
+    ...
+print(allowed_for_public_geocoder({"city": "Lima", "address": "Av 1"}))
+print(allowed_for_public_geocoder({"city": "Lima", "document_id": "D1"}))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "egress_checklist.py",
+          code: `ALLOWED = {"address", "city", "country"}
+def allowed_for_public_geocoder(payload):
+    return set(payload) <= ALLOWED
+print(allowed_for_public_geocoder({"city": "Lima", "address": "Av 1"}))
+print(allowed_for_public_geocoder({"city": "Lima", "document_id": "D1"}))`,
+          output: `True
+False`,
+        },
+      },
+      {
+        id: "S12-T4-B-E1",
+        subtopicId: "S12-T4-B",
+        kind: "guided",
+        instruction:
+          "E1 (guiado) — `valid_lat_lon(lat, lon)` True solo en rangos válidos. Prueba (0,0), (91,0), (0,181), (-12.04,-77.04).",
+        hint: "-90<=lat<=90 and -180<=lon<=180",
+        hints: [
+          "-90<=lat<=90 and -180<=lon<=180",
+          "Imprime cuatro booleanos",
+        ],
+        edgeCases: ["91 inválido"],
+        tests: "True False False True",
+        feedback: "Valida antes de Haversine o de pintar el mapa.",
+        starterCode: {
+          language: 'python',
+          title: "valid_coords.py",
+          code: `def valid_lat_lon(lat, lon):
+    # TODO
+    ...
+for p in [(0,0), (91,0), (0,181), (-12.04, -77.04)]:
+    print(p, valid_lat_lon(*p))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "valid_coords.py",
+          code: `def valid_lat_lon(lat, lon):
+    return -90 <= lat <= 90 and -180 <= lon <= 180
+for p in [(0,0), (91,0), (0,181), (-12.04, -77.04)]:
+    print(p, valid_lat_lon(*p))`,
+          output: `(0, 0) True
+(91, 0) False
+(0, 181) False
+(-12.04, -77.04) True`,
+        },
+      },
+      {
+        id: "S12-T4-B-E2",
+        subtopicId: "S12-T4-B",
+        kind: "independent",
+        instruction:
+          "E2 (independiente) — `haversine_km` entre (0,0) y (0,1) debe ser ~111.19 km; imprime round(d, 2) y assert abs(d-111.19)<1.",
+        hint: "Fórmula Haversine con R=6371",
+        hints: [
+          "Fórmula Haversine con R=6371",
+          "math.radians, sin, cos, asin, sqrt",
+        ],
+        edgeCases: ["tolerancia 1 km"],
+        tests: "~111.19 + tolerance_ok",
+        feedback: "Test de tolerancia evita regresiones de fórmula.",
+        starterCode: {
+          language: 'python',
+          title: "haversine_test.py",
+          code: `import math
+def haversine_km(a, b):
+    # TODO
+    ...
+d = haversine_km((0.0, 0.0), (0.0, 1.0))
+print(round(d, 2))
+assert abs(d - 111.19) < 1
+print("tolerance_ok")`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "haversine_test.py",
+          code: `import math
+def haversine_km(a, b):
+    R = 6371.0
+    lat1, lon1 = map(math.radians, a)
+    lat2, lon2 = map(math.radians, b)
+    dlat, dlon = lat2 - lat1, lon2 - lon1
+    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2
+    return 2 * R * math.asin(math.sqrt(h))
+d = haversine_km((0.0, 0.0), (0.0, 1.0))
+print(round(d, 2))
+assert abs(d - 111.19) < 1
+print("tolerance_ok")`,
+          output: `111.19
+tolerance_ok`,
+        },
+      },
+      {
+        id: "S12-T4-B-E3",
+        subtopicId: "S12-T4-B",
+        kind: "transfer",
+        instruction:
+          "E3 (transferencia) — `as_relationship_signal(km)` devuelve dict type=geo_distance_km, value=km, kinship_verdict=None. Imprime para 1.2.",
+        hint: "Nunca setees is_family",
+        hints: [
+          "Nunca setees is_family",
+          "kinship_verdict siempre None en N1",
+        ],
+        edgeCases: ["no parentesco automático"],
+        tests: "verdict None",
+        feedback: "Geoseñal alimenta S13 relationship_signal_score sin colapsar a ER ni fraude.",
+        starterCode: {
+          language: 'python',
+          title: "geo_as_signal.py",
+          code: `def as_relationship_signal(km):
+    # TODO
+    ...
+print(as_relationship_signal(1.2))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "geo_as_signal.py",
+          code: `def as_relationship_signal(km):
+    return {
+        "type": "geo_distance_km",
+        "value": km,
+        "kinship_verdict": None,
+    }
+print(as_relationship_signal(1.2))`,
+          output: `{'type': 'geo_distance_km', 'value': 1.2, 'kinship_verdict': None}`,
         },
       },
     ],
   },
   youDo: {
-    title: 'Capstone: Performance Optimizer — de script lento a CLI production-ready',
+    title: "Adaptadores HTTP + SQLite + geoevidencia (CP-N1-C)",
     context:
-      'Te dan un script de 200 líneas que procesa 100k transacciones de un banco peruano (datos sintéticos). El script tarda 8 minutos, no tiene logs, no maneja errores, y solo funciona si editas variables dentro del código. Tu misión: (1) perfilarlo para encontrar el bottleneck, (2) paralelizar el feature engineering con multiprocessing, (3) agregar logging estructurado a archivo rotado, (4) empaquetarlo como CLI con argparse, (5) instalarlo como ejecutable con pyproject.toml. El resultado debe correr en 30 segundos (16x speedup) y ser usable por cualquier colega con `pip install -e .` y `perf-opt --help`. Es exactamente el tipo de refactor que harías en tu segundo mes como Data Engineer Junior.',
+      "Incrementas **CP-N1-C** con adquisición responsable: cliente HTTP mock con timeout/paginación/retry selectivo, secretos por env, cache GET, provenance sin tokens, SQLite parametrizado (clients/transactions/evidence) y **MockGeocoder** con política de no egress de PII bancaria. Solo datos sintéticos. En S13 se cierra el dashboard de evidencia y la regresión de nivel 1.",
     objectives: [
-      'Perfil el script original con cProfile para identificar el bottleneck',
-      'Vectorizar loops pandas con .loc[i] y reemplazarlos con operaciones vectorizadas',
-      'Paralelizar feature engineering con ProcessPoolExecutor',
-      'Configurar logging estructurado (consola + archivo rotado con RotatingFileHandler)',
-      'Empaquetar como CLI con argparse (--input, --output, --workers, --verbose, --log-file)',
-      'Hacerlo instalable como ejecutable con pyproject.toml + entry_points',
+      "Cliente get_entity + list paginado con timeout y should_retry",
+      "Provenance mínimo y cache de GET",
+      "Esquema SQLite + join de caso + transacciones con rollback",
+      "MockGeocoder + Haversine como geoseñal (no parentesco)",
+      "Checklist de payload permitido al geocoder",
     ],
     requirements: [
-      'scripts/original_lento.py — el script original (sin tocar) para baseline',
-      'src/perf_opt/processors.py — funciones vectorizadas (sin .loc[i])',
-      'src/perf_opt/parallel.py — feature_engineering_paralelo() con ProcessPoolExecutor',
-      'src/perf_opt/logging_config.py — setup_logging() con RotatingFileHandler',
-      'src/perf_opt/cli.py — CLI con argparse: --input, --output, --workers, --verbose, --log-file',
-      'pyproject.toml con [project.scripts] perf-opt = "perf_opt.cli:main"',
-      'logs/ con rotación a 5MB, 3 backups',
-      'benchmarks/ con output de cProfile antes/después (txt o markdown)',
-      'tests/ con al menos 5 tests (test_processors.py, test_parallel.py)',
-      'README.md con instrucciones, badges de tests y cuadro comparativo de tiempos',
+      "Timeout obligatorio en la interfaz del cliente (simulado o real)",
+      "SQL solo con placeholders `?`",
+      "Sin tokens en logs/provenance",
+      "Geocoder mock/autorizado; sin PII bancaria a servicios públicos",
+      "Datos sintéticos latam (example.com / Lima / Arequipa)",
+      "Demo offline reproducible (fallback local)",
     ],
-    starterCode: `# scripts/original_lento.py — el script a optimizar
-import pandas as pd
-import numpy as np
-import time
+    starterCode: `"""cp_n1c_acquisition.py — CP-N1-C incremento S12
+HTTP mock + SQLite + MockGeocoder. Datos sintéticos únicamente.
+"""
 
-def load_data(path):
-    return pd.read_csv(path)
+from __future__ import annotations
 
-def feature_eng_lento(df):
-    """Esto es lo que vas a perfilar y optimizar."""
-    df = df.copy()
-    df["log_monto"] = np.log1p(df["monto"])
-    for i in range(len(df)):
-        df.loc[i, "categoria_score"] = (
-            df.loc[i, "monto"] * 2 + df.loc[i, "log_monto"]
-        )
-    return df
+import math
+import os
+import re
+import sqlite3
+from typing import Any, Optional
 
-def main():
-    df = load_data("transacciones.csv")  # 100k filas
-    df = feature_eng_lento(df)
-    df.to_parquet("resultado.parquet")
 
-# === Tu versión optimizada ===
-# src/perf_opt/cli.py
-import argparse, logging
-def main():
-    parser = argparse.ArgumentParser(description="Performance Optimizer")
-    parser.add_argument("--input", "-i", required=True, type=Path)
-    parser.add_argument("--output", "-o", required=True, type=Path)
-    parser.add_argument("--workers", "-w", type=int, default=8)
-    parser.add_argument("--verbose", "-v", action="store_true")
-    parser.add_argument("--log-file", type=Path, default=Path("logs/perf_opt.log"))
-    args = parser.parse_args()
-    # TODO: setup_logging, load, feature_eng_paralelo, save
-    pass
+def require_token(env: dict) -> str:
+    # TODO
+    raise NotImplementedError
 
-# pyproject.toml
-# [project]
-# name = "perf-opt"
-# version = "0.1.0"
-# [project.scripts]
-# perf-opt = "perf_opt.cli:main"`,
+
+def should_retry(status: int) -> bool:
+    # TODO
+    raise NotImplementedError
+
+
+def normalize_address(s: str) -> str:
+    # TODO
+    raise NotImplementedError
+
+
+class MockGeocoder:
+    DB = {"Lima": (-12.0464, -77.0428), "Arequipa": (-16.4090, -71.5375)}
+
+    def geocode(self, city: str) -> Optional[dict]:
+        # TODO
+        raise NotImplementedError
+
+
+def haversine_km(a: tuple[float, float], b: tuple[float, float]) -> float:
+    # TODO
+    raise NotImplementedError
+
+
+def build_db() -> sqlite3.Connection:
+    con = sqlite3.connect(":memory:")
+    # TODO schema clients/transactions/evidence
+    return con
+
+
+def main() -> None:
+    os.environ.setdefault("API_TOKEN", "syn-demo")
+    print("token_len", len(require_token(dict(os.environ))))
+    print("retry 429", should_retry(429))
+    print("norm", normalize_address("  av  larco  1 "))
+    print("geo", MockGeocoder().geocode("Lima"))
+    print("km", round(haversine_km((-12.0464, -77.0428), (-12.05, -77.125)), 2))
+
+
+if __name__ == "__main__":
+    main()
+`,
     portfolioNote:
-      'Este proyecto demuestra las 4 skills que separan juniors de seniors: profiling (mides antes de optimizar), paralelización (multiprocessing para 5-10x speedup), observabilidad (logging estructurado para debuggear en prod), y empaquetado (CLI instalable que otros usan sin abrir notebooks). En entrevistas te preguntan "cuéntame de una vez que optimizaste código" — tener un before/after con números concretos (8 min → 30 seg, 16x speedup) es un diferenciador masivo. Menciónalo en tu CV como "optimicé pipelines de datos con profiling, multiprocessing y logging estructurado, logrando speedups de 10-16x en datasets de 100k+ filas".',
+      "En el README muestra: (1) manifest de provenance sin token, (2) join de caso SQLite, (3) distancia Lima–Callao como geoseñal con disclaimer. Eso evidencia el incremento CP-N1-C de S12.",
     rubric: [
-      { criterion: 'Profiling con cProfile/line_profiler documentado en benchmarks/', weight: '15%' },
-      { criterion: 'Vectorización de loops .loc[i] con .str y operaciones numpy', weight: '20%' },
-      { criterion: 'Paralelización con ProcessPoolExecutor (5-10x speedup medible)', weight: '20%' },
-      { criterion: 'Logging estructurado con RotatingFileHandler (consola + archivo)', weight: '15%' },
-      { criterion: 'CLI con argparse: --input, --output, --workers, --verbose, --log-file', weight: '15%' },
-      { criterion: 'Instalable con pip install -e . y entrada perf-opt', weight: '10%' },
-      { criterion: 'Tests con pytest + README con cuadro comparativo de tiempos', weight: '5%' },
+      { criterion: "HTTP status/JSON/timeout/retry selectivo", weight: "20%" },
+      { criterion: "Auth env + cache + provenance sin secretos", weight: "15%" },
+      { criterion: "SQL parametrizado + transacciones + join", weight: "25%" },
+      { criterion: "Geocoder mock + política de egress", weight: "20%" },
+      { criterion: "Haversine como señal (no veredicto) + demo offline", weight: "20%" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: '¿Cuándo usarías ProcessPoolExecutor vs ThreadPoolExecutor?',
+        question: "Un 400 Bad Request del proveedor debe…",
         options: [
-          'Thread para CPU-bound, Process para I/O-bound',
-          'Process para CPU-bound (cálculo), Thread para I/O-bound (red/disco)',
-          'Siempre Thread — es más rápido en todos los casos',
-          'Siempre Process — es más seguro y no tiene GIL',
+          "Reintentarse con backoff infinito",
+          "Tratarse como error de cliente (no retry ciego)",
+          "Ignorarse como 200",
+          "Borrar el cache",
         ],
         correctIndex: 1,
         explanation:
-          'El GIL de Python impide que múltiples threads ejecuten bytecode a la vez, así que threads NO aceleran cálculo (CPU-bound). Pero threads SÍ ayudan con I/O porque durante la espera (red, disco), el GIL se libera y otros threads avanzan. Para feature engineering pesado → Process. Para scrapear 100 URLs → Thread.',
+          "4xx de cliente no son transitorios; reintentar no corrige el request.",
       },
       {
-        question: '¿Cuál es la regla #1 de optimización de performance?',
+        question: "¿Dónde debe vivir el token de API?",
         options: [
-          'Optimizar lo que se ve más lento al leer el código',
-          'Nunca optimices sin medir primero con profiling (cProfile/line_profiler)',
-          'Siempre usar multiprocessing en todo',
-          'Reescribir en C o Rust para mayor velocidad',
+          "Hardcodeado en el repo",
+          "En variable de entorno / secret store",
+          "En el log de provenance",
+          "En la URL pública del geocoder",
         ],
         correctIndex: 1,
         explanation:
-          'La intuición humana sobre qué es lento es pésima — el 80% de las veces el bottleneck NO es donde crees. Perfilas primero, identificas el hot path (la función/línea que se come el 80% del tiempo), optimizas SOLO eso, vuelves a medir. Esto es lo que diferencia seniors de juniors.',
+          "Secretos fuera de código; nunca en logs ni git.",
       },
       {
-        question: '¿Por qué NO debes usar f-strings en mensajes de logging?',
+        question: "SQL con f-string e input de usuario es…",
         options: [
-          'Porque f-strings son deprecated desde Python 3.12',
-          'Porque el formato se evalúa SIEMPRE, incluso si el nivel está apagado (waste de CPU)',
-          'Porque f-strings no funcionan con logging',
-          'Porque f-strings no permiten variables',
+          "La forma recomendada en SQLite",
+          "Inyección / inseguro; usar placeholders `?`",
+          "Obligatorio para índices",
+          "Necesario para JOIN",
         ],
         correctIndex: 1,
         explanation:
-          'Con `logger.info(f"Procesé {n}")`, el f-string se evalúa SIEMPRE, incluso si el nivel INFO está apagado en producción. Con `logger.info("Procesé %d", n)`, el formato se aplica solo si el mensaje se va a mostrar. En pipelines con miles de logs debug por segundo, esto es 5-10x más rápido.',
+          "Placeholders parametrizados previenen inyección.",
       },
       {
-        question: '¿Qué hace RotatingFileHandler en el módulo logging?',
+        question: "Enviar document_id bancario a un geocoder público…",
         options: [
-          'Rota los logs entre consola y archivo alternadamente',
-          'Crea un nuevo archivo cuando el actual alcanza maxBytes, manteniendo backupCount archivos viejos',
-          'Borra logs viejos automáticamente cada 24 horas',
-          'Comprime los logs en gzip para ahorrar espacio',
+          "Está permitido si hay timeout",
+          "Viola la política de egress de CP-N1-C",
+          "Mejora el Haversine",
+          "Es requerido por SQLite",
         ],
         correctIndex: 1,
         explanation:
-          'RotatingFileHandler crea un nuevo archivo cuando el actual alcanza maxBytes (ej: 10MB). Renombra el actual a app.log.1, el .1 a .2, etc., hasta backupCount archivos viejos. Esto evita que los logs crezcan infinitamente y llenen el disco — crítico en producción donde un pipeline puede correr diariamente por años.',
+          "Solo dirección/ciudad sintética autorizada; sin PII bancaria.",
       },
       {
-        question: '¿Cómo haces que tu script Python sea instalable como comando del sistema?',
+        question: "1.2 km entre dos entidades sintéticas implica…",
         options: [
-          'Compilarlo con py2exe o pyinstaller',
-          'Agregar [project.scripts] en pyproject.toml y correr pip install -e .',
-          'Copiarlo a /usr/local/bin manualmente',
-          'Crear un alias en .bashrc',
+          "Parentesco automático",
+          "Fraude confirmado",
+          "Una geoseñal de relación, no un veredicto",
+          "Borrar el ER score",
         ],
-        correctIndex: 1,
+        correctIndex: 2,
         explanation:
-          'En pyproject.toml defines `[project.scripts] mi-tool = "mi_paquete.cli:main"`. Después de `pip install -e .`, pip crea un ejecutable `mi-tool` en tu PATH que invoca la función main() de tu paquete. Es la forma estándar moderna de distribuir CLIs en Python — lo usan black, ruff, pytest, poetry, etc.',
+          "Haversine alimenta relationship_signal_score; no kinship/fraude auto.",
       },
     ],
   },
   resources: {
     docs: [
-      { label: 'concurrent.futures — Docs', url: 'https://docs.python.org/3/library/concurrent.futures.html', note: 'API moderna de paralelismo en Python (Process/ThreadPoolExecutor)' },
-      { label: 'multiprocessing — Docs', url: 'https://docs.python.org/3/library/multiprocessing.html', note: 'API de bajo nivel para procesos — útil cuando concurrent.futures no basta' },
-      { label: 'cProfile — Docs', url: 'https://docs.python.org/3/library/profile.html', note: 'Profiler determinístico built-in de Python' },
-      { label: 'line_profiler — GitHub', url: 'https://github.com/pyutils/line_profiler', note: 'Perfil línea por línea — instala con pip install line_profiler' },
-      { label: 'logging — HOWTO oficial', url: 'https://docs.python.org/3/howto/logging.html', note: 'Guía oficial de logging con ejemplos prácticos' },
-      { label: 'logging.handlers — RotatingFileHandler', url: 'https://docs.python.org/3/library/logging.handlers.html#rotatingfilehandler', note: 'Docs de RotatingFileHandler y otros handlers built-in' },
-      { label: 'argparse — Tutorial oficial', url: 'https://docs.python.org/3/howto/argparse.html', note: 'HOWTO oficial de argparse con ejemplos completos' },
-      { label: 'pyproject.toml — Packaging guide', url: 'https://packaging.python.org/en/latest/tutorials/packaging-projects/', note: 'Cómo empaquetar y distribuir proyectos Python modernos' },
+      {
+        label: "urllib.request — Extensible library for opening URLs",
+        url: "https://docs.python.org/3/library/urllib.request.html",
+        note: "HTTP síncrono stdlib; en el curso priorizamos mocks + status/JSON",
+      },
+      {
+        label: "sqlite3 — DB-API 2.0 interface for SQLite",
+        url: "https://docs.python.org/3/library/sqlite3.html",
+        note: "placeholders, transactions, PRAGMA",
+      },
+      {
+        label: "http — HTTP modules",
+        url: "https://docs.python.org/3/library/http.html",
+        note: "status codes semánticos",
+      },
+      {
+        label: "math — Mathematical functions",
+        url: "https://docs.python.org/3/library/math.html",
+        note: "Haversine con sin/cos/asin",
+      },
     ],
     books: [
-      { label: 'High Performance Python (Micha Gorelick & Ian Ozsvald, O\'Reilly)', note: 'El libro de referencia sobre optimización en Python — profiling, numpy, multiprocessing, cython, numba.' },
-      { label: 'Fluent Python (Luciano Ramalho)', note: 'Capítulos sobre concurrency, generators, y data model — imprescindible para senior Python.' },
-      { label: 'Python Cookbook (David Beazley & Brian Jones)', note: 'Recetas sobre concurrency, generators, y manejo de datos — referencia práctica.' },
-      { label: 'Robust Python (Patrick Viafore)', note: 'Type hints, testing, y código production-ready — buena continuación después de esta sección.' },
+      {
+        label: "Python Cookbook — network/data recipes",
+        note: "Adaptar a mocks y provenance del curso; no copiar PII real.",
+      },
+      {
+        label: "Designing Data-Intensive Applications (Kleppmann) — selecciones",
+        note: "Contratos, reintentos y datos derivados; alinear con límites N1.",
+      },
     ],
     courses: [
-      { label: 'Real Python — Logging in Python', url: 'https://realpython.com/python-logging/', note: 'Guía completa de logging con ejemplos prácticos' },
-      { label: 'Real Python — argparse', url: 'https://realpython.com/command-line-interfaces-python-argparse/', note: 'Tutorial paso a paso de argparse' },
-      { label: 'Talk Python to Me — Concurrency Course', url: 'https://training.talkpython.fm/courses/details/all-about-python-concurrency', note: 'Curso enfocado en concurrencia Python: threads, multiprocessing, asyncio' },
-      { label: 'Udemy — Python Profiling', url: 'https://www.udemy.com/course/python-profiling/', note: 'Curso corto sobre profiling y optimización con cProfile y line_profiler' },
+      {
+        label: "Real Python — Working with JSON",
+        url: "https://realpython.com/python-json/",
+        note: "Parse seguro; practicar con fixtures locales.",
+      },
     ],
   },
 }

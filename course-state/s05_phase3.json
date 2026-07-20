@@ -1,0 +1,1066 @@
+{
+  "version": "3.2",
+  "section": "S05",
+  "section_id": "oop",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1-FACTORY",
+  "prompt_version": "3.2",
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "research_agent": "Pre-Round Research curricular blueprint patterns",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N1-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S05 blueprint: 4×2 subtopics, 24 exercises, 8 demos, 24 A/B/C, project increment.",
+    "scope_in": [
+      "S05",
+      "blueprint IDs",
+      "count validation",
+      "capstone increment",
+      "platform gap notes"
+    ],
+    "scope_out": [
+      "full theory/exercise bodies",
+      "full A/B/C stems",
+      "editing section .ts",
+      "marking passed",
+      "editing checkpoint/ledger/seed/s01-s03"
+    ],
+    "stop_criterion": "counts match canonical vector slice; gate authorizes PHASE 4 only"
+  },
+  "section_meta": {
+    "id": "oop",
+    "index": 5,
+    "title_platform": "Object-Oriented Programming (OOP)",
+    "title_v3": "Funciones, contratos y descomposición",
+    "title_decision": "KEEP platform id 'oop'. Production content rethemes to V3 'Funciones, contratos y descomposición'.",
+    "tagline_target": "funciones pequeñas, contratos y pureza separada de I/O",
+    "estimatedHours": 10,
+    "level": "Principiante",
+    "prerequisites": [
+      "S4"
+    ],
+    "environment": "browser/local",
+    "project_capstone": "CP-N1-B",
+    "gate": null
+  },
+  "learning_outcomes_section": [
+    "El estudiante define funciones con def, las llama y usa return (incl. None implícito) de forma predecible.",
+    "El estudiante elige posicional vs keyword y evita defaults mutables peligrosos.",
+    "El estudiante documenta pre/post en docstring estilo Google/NumPy breve y enuncia contratos en español.",
+    "El estudiante anota tipos básicos y lanza/propaga errores de dominio sin capturar genérico silencioso.",
+    "El estudiante descompone un pipeline en funciones pequeñas compuestas sin lógica monolítica.",
+    "El estudiante separa funciones puras de I/O y recibe readers/writers como parámetros cuando hace falta.",
+    "El estudiante predice resolución de nombres LEGB y usa closures simples sin abusar de global.",
+    "El estudiante fija ejemplos de entrada/salida y refactoriza manteniendo conducta (golden cases)."
+  ],
+  "topics": [
+    {
+      "topic_id": "S05-T1",
+      "title": "Funciones",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S05-T1-A",
+          "slug": "def-call-return",
+          "title": "Definición, llamada y retorno",
+          "outcome": "El estudiante define funciones con def, las llama y usa return (incl. None implícito) de forma predecible.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Definición, llamada y retorno",
+              "must_cover": [
+                "def",
+                "call",
+                "return",
+                "múltiples return",
+                "None implícito",
+                "no print como único 'retorno' de lógica"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S05-T1-A-DEMO",
+              "title": "def validate_region(r) → bool; usar en batch",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S05-T1-A-E1",
+                "kind": "guided",
+                "title": "Escribir función suma_montos",
+                "skill": "Definición, llamada y retorno",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S05-T1-A-E2",
+                "kind": "independent",
+                "title": "Función que retorna tupla (ok, msg)",
+                "skill": "Definición, llamada y retorno",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S05-T1-A-E3",
+                "kind": "transfer",
+                "title": "Separar print de return en snippet roto",
+                "skill": "Definición, llamada y retorno",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S05-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S05-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S05-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S05-T1-B",
+          "slug": "params-defaults",
+          "title": "Parámetros posicionales, keyword y defaults seguros",
+          "outcome": "El estudiante elige posicional vs keyword y evita defaults mutables peligrosos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Parámetros posicionales, keyword y defaults seguros",
+              "must_cover": [
+                "posicional",
+                "keyword",
+                "defaults",
+                "mutable default anti-pattern",
+                "keyword-only intro *",
+                "orden de params"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S05-T1-B-DEMO",
+              "title": "normalize_text(s, *, lower=True) y bug list=[] default",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S05-T1-B-E1",
+                "kind": "guided",
+                "title": "Llamadas mixtas pos/kw",
+                "skill": "Parámetros posicionales, keyword y defaults seguros",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S05-T1-B-E2",
+                "kind": "independent",
+                "title": "Default seguro None → nueva lista",
+                "skill": "Parámetros posicionales, keyword y defaults seguros",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S05-T1-B-E3",
+                "kind": "transfer",
+                "title": "Diagnosticar default mutable",
+                "skill": "Parámetros posicionales, keyword y defaults seguros",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S05-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S05-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S05-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S05-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S05-T1-EVAL-1",
+            "title": "API de 3 funciones de normalización con firmas claras",
+            "authentic": true
+          },
+          {
+            "id": "S05-T1-EVAL-2",
+            "title": "Corregir defaults mutables y documentar kwargs",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S05-T2",
+      "title": "Contratos",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S05-T2-A",
+          "slug": "pre-post-docstrings",
+          "title": "Pre/postcondiciones y docstrings",
+          "outcome": "El estudiante documenta pre/post en docstring estilo Google/NumPy breve y enuncia contratos en español.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Pre/postcondiciones y docstrings",
+              "must_cover": [
+                "docstring módulo/función",
+                "Args/Returns/Raises",
+                "precondiciones",
+                "postcondiciones",
+                "ejemplos doctest opcionales"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S05-T2-A-DEMO",
+              "title": "Docstring de normalize_email con pre/post",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S05-T2-A-E1",
+                "kind": "guided",
+                "title": "Completar docstring",
+                "skill": "Pre/postcondiciones y docstrings",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S05-T2-A-E2",
+                "kind": "independent",
+                "title": "Enunciar contrato de normalize_phone",
+                "skill": "Pre/postcondiciones y docstrings",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S05-T2-A-E3",
+                "kind": "transfer",
+                "title": "Detectar violación de postcondición",
+                "skill": "Pre/postcondiciones y docstrings",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S05-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S05-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S05-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S05-T2-B",
+          "slug": "type-hints-domain-errors",
+          "title": "Type hints graduales y errores de dominio",
+          "outcome": "El estudiante anota tipos básicos y lanza/propaga errores de dominio sin capturar genérico silencioso.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Type hints graduales y errores de dominio",
+              "must_cover": [
+                "str|None",
+                "list[dict]",
+                "Optional",
+                "ValueError/TypeError de dominio",
+                "no bare except",
+                "hints no ejecutan validación"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S05-T2-B-DEMO",
+              "title": "normalize_dni(s: str) → str con ValueError si formato inválido sintético",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S05-T2-B-E1",
+                "kind": "guided",
+                "title": "Añadir hints a 2 funciones",
+                "skill": "Type hints graduales y errores de dominio",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S05-T2-B-E2",
+                "kind": "independent",
+                "title": "Raise ValueError accionable",
+                "skill": "Type hints graduales y errores de dominio",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S05-T2-B-E3",
+                "kind": "transfer",
+                "title": "Reemplazar except Exception: pass",
+                "skill": "Type hints graduales y errores de dominio",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S05-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S05-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S05-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S05-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S05-T2-EVAL-1",
+            "title": "Paquete de 4 normalizadores documentados con hints",
+            "authentic": true
+          },
+          {
+            "id": "S05-T2-EVAL-2",
+            "title": "Tabla de errores de dominio y mensajes",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S05-T3",
+      "title": "Diseño",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S05-T3-A",
+          "slug": "small-composition",
+          "title": "Funciones pequeñas y composición",
+          "outcome": "El estudiante descompone un pipeline en funciones pequeñas compuestas sin lógica monolítica.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Funciones pequeñas y composición",
+              "must_cover": [
+                "SRP práctico",
+                "composición f(g(x))",
+                "nombres verbales",
+                "límites de tamaño didácticos",
+                "extraer helper"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S05-T3-A-DEMO",
+              "title": "Pipeline normalize_client = compose campos",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S05-T3-A-E1",
+                "kind": "guided",
+                "title": "Extraer helper de función larga",
+                "skill": "Funciones pequeñas y composición",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S05-T3-A-E2",
+                "kind": "independent",
+                "title": "Componer 3 normalizadores",
+                "skill": "Funciones pequeñas y composición",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S05-T3-A-E3",
+                "kind": "transfer",
+                "title": "Identificar función dios y proponer cortes",
+                "skill": "Funciones pequeñas y composición",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S05-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S05-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S05-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S05-T3-B",
+          "slug": "purity-io-injection",
+          "title": "Pureza, efectos e inyección de I/O",
+          "outcome": "El estudiante separa funciones puras de I/O y recibe readers/writers como parámetros cuando hace falta.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Pureza, efectos e inyección de I/O",
+              "must_cover": [
+                "función pura",
+                "efecto colateral",
+                "inyectar open/path",
+                "testear puro sin FS",
+                "idempotencia"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S05-T3-B-DEMO",
+              "title": "normalize_name puro vs load_clients(path) con path inyectable",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S05-T3-B-E1",
+                "kind": "guided",
+                "title": "Marcar puro vs impuro",
+                "skill": "Pureza, efectos e inyección de I/O",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S05-T3-B-E2",
+                "kind": "independent",
+                "title": "Refactor para inyectar path",
+                "skill": "Pureza, efectos e inyección de I/O",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S05-T3-B-E3",
+                "kind": "transfer",
+                "title": "Probar idempotencia f(f(x))==f(x)",
+                "skill": "Pureza, efectos e inyección de I/O",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S05-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S05-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S05-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S05-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S05-T3-EVAL-1",
+            "title": "Diseño: diagrama de 5 funciones del normalizador",
+            "authentic": true
+          },
+          {
+            "id": "S05-T3-EVAL-2",
+            "title": "Tests de pureza e idempotencia sin tocar disco",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S05-T4",
+      "title": "Alcance",
+      "bloom_focus": [
+        "Comprender",
+        "Aplicar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S05-T4-A",
+          "slug": "legb-closures",
+          "title": "LEGB y closures básicos",
+          "outcome": "El estudiante predice resolución de nombres LEGB y usa closures simples sin abusar de global.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "LEGB y closures básicos",
+              "must_cover": [
+                "Local Enclosing Global Built-in",
+                "global/nonlocal intro",
+                "closure factory",
+                "evitar global mutable de negocio"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S05-T4-A-DEMO",
+              "title": "make_prefixer(prefix)(name) y sombra de nombres",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S05-T4-A-E1",
+                "kind": "guided",
+                "title": "Predecir valor LEGB",
+                "skill": "LEGB y closures básicos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S05-T4-A-E2",
+                "kind": "independent",
+                "title": "Factory de normalizador con config",
+                "skill": "LEGB y closures básicos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S05-T4-A-E3",
+                "kind": "transfer",
+                "title": "Corregir uso incorrecto de global",
+                "skill": "LEGB y closures básicos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S05-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S05-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S05-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S05-T4-B",
+          "slug": "tests-refactor",
+          "title": "Pruebas de ejemplo y refactor sin cambiar conducta",
+          "outcome": "El estudiante fija ejemplos de entrada/salida y refactoriza manteniendo conducta (golden cases).",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Pruebas de ejemplo y refactor sin cambiar conducta",
+              "must_cover": [
+                "tabla de ejemplos",
+                "assert de conducta",
+                "refactor extract method",
+                "no cambiar API pública sin tests"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S05-T4-B-DEMO",
+              "title": "3 golden cases de normalize_email antes/después de refactor",
+              "environment": "browser-pyodide",
+              "language": "python",
+              "success_criterion": "Ejecuta sin error y muestra resultado esperado documentado",
+              "maps_existing": "none"
+            },
+            "exercises": [
+              {
+                "id": "S05-T4-B-E1",
+                "kind": "guided",
+                "title": "Escribir 3 asserts",
+                "skill": "Pruebas de ejemplo y refactor sin cambiar conducta",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "caso vacío"
+                ],
+                "tests": "assert/checklist",
+                "feedback": true
+              },
+              {
+                "id": "S05-T4-B-E2",
+                "kind": "independent",
+                "title": "Refactor con tests verdes",
+                "skill": "Pruebas de ejemplo y refactor sin cambiar conducta",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde"
+                ],
+                "tests": "assert",
+                "feedback": true
+              },
+              {
+                "id": "S05-T4-B-E3",
+                "kind": "transfer",
+                "title": "Detectar cambio de conducta en PR sintético",
+                "skill": "Pruebas de ejemplo y refactor sin cambiar conducta",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "diagnóstico"
+                ],
+                "tests": "rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S05-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S05-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S05-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S05-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S05-T4-EVAL-1",
+            "title": "Explicar LEGB en snippet de 10 líneas",
+            "authentic": true
+          },
+          {
+            "id": "S05-T4-EVAL-2",
+            "title": "Refactor de normalizador con suite de ejemplos intacta",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S05-PROJ",
+    "title": "Normalizadores puros (inicio CP-N1-B)",
+    "capstone_link": "CP-N1-B",
+    "replaces_legacy": "Custom ML Pipeline Class",
+    "objectives": [
+      "Implementar normalize_name, normalize_email, normalize_phone, normalize_address puras",
+      "Separar I/O de lectura/escritura del núcleo de normalización",
+      "Demostrar idempotencia: f(f(x)) == f(x) en casos sintéticos",
+      "Docstrings + type hints + errores de dominio claros",
+      "Contribuir contratos reutilizables al pipeline ETL de S08"
+    ],
+    "requirements": [
+      "Sin side effects en normalizadores (no print, no open)",
+      "Conservar raw en capa superior (dict con raw/normalized)",
+      "Casos latam sintéticos: tildes, ñ, dos apellidos (normalización profunda de Unicode en S07)",
+      "Suite de ejemplos ≥3 por función",
+      "No PII real"
+    ],
+    "rubric": [
+      {
+        "criterion": "Pureza e idempotencia",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Separación I/O",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Contratos/docstrings/hints",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Errores de dominio accionables",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Composición y tamaño de funciones",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Pruebas de ejemplo",
+        "weight": "10%"
+      }
+    ]
+  },
+  "planned_ids": {
+    "subtopic_slugs_4x2": [
+      "def-call-return",
+      "params-defaults",
+      "pre-post-docstrings",
+      "type-hints-domain-errors",
+      "small-composition",
+      "purity-io-injection",
+      "legb-closures",
+      "tests-refactor"
+    ],
+    "demo_ids": [
+      "S05-T1-A-DEMO",
+      "S05-T1-B-DEMO",
+      "S05-T2-A-DEMO",
+      "S05-T2-B-DEMO",
+      "S05-T3-A-DEMO",
+      "S05-T3-B-DEMO",
+      "S05-T4-A-DEMO",
+      "S05-T4-B-DEMO"
+    ],
+    "exercise_ids": [
+      "S05-T1-A-E1",
+      "S05-T1-A-E2",
+      "S05-T1-A-E3",
+      "S05-T1-B-E1",
+      "S05-T1-B-E2",
+      "S05-T1-B-E3",
+      "S05-T2-A-E1",
+      "S05-T2-A-E2",
+      "S05-T2-A-E3",
+      "S05-T2-B-E1",
+      "S05-T2-B-E2",
+      "S05-T2-B-E3",
+      "S05-T3-A-E1",
+      "S05-T3-A-E2",
+      "S05-T3-A-E3",
+      "S05-T3-B-E1",
+      "S05-T3-B-E2",
+      "S05-T3-B-E3",
+      "S05-T4-A-E1",
+      "S05-T4-A-E2",
+      "S05-T4-A-E3",
+      "S05-T4-B-E1",
+      "S05-T4-B-E2",
+      "S05-T4-B-E3"
+    ],
+    "exercise_count": 24,
+    "demo_count": 8,
+    "slug_count": 8
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "platform_extension_notes": [
+    "Legacy file src/lib/course/sections/s05-oop.ts retained until PHASE 4 replacement",
+    "seed.ts concepts ['str-vs-repr', 'super-init', 'underscore-convention', 'composition-vs-inheritance'] provisional; replace in PHASE 5",
+    "Legacy content destination: Todo el contenido OOP de plataforma → V3 S11 (OOP y modelo de dominio)",
+    "CourseSection shape may need extension for 24 exercises / 8 demos / topic evals"
+  ],
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "capstone_increment_specified": true,
+    "gate_acceptance_specified": false,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Factory blueprint for S05. Do not mark passed. S04/S08 include CP gate acceptance when applicable."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 map cleanly to 8 slugs with Spanish titles",
+    "risk": "Display title still 'Object-Oriented Programming (OOP)' until UI pass",
+    "next_single_action": "PHASE 4 — author S05-T1-A first"
+  }
+}

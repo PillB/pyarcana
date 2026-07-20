@@ -1,0 +1,11 @@
+{
+  "id": "CP-N3-C",
+  "status": "pass",
+  "exit_code": 0,
+  "stdout": "METRICS_JSON: {\"capstone_id\": \"CP-N3-C\", \"status\": \"pass\", \"n\": 200, \"baseline_acc\": 0.645, \"model_acc_non_abstain\": 1.0, \"abstain_rate\": 0.35, \"seg_abstain_rate\": {\"tier0\": 0.4375, \"tier1\": 0.2754, \"tier2\": 0.3433}, \"drift_proxy\": 0.0294, \"model_card\": {\"name\": \"synthetic_ops_triage_v0\", \"intended_use\": \"Prioritize synthetic ops cases for human queues\", \"not_for\": [\"fraud detection\", \"credit\", \"criminal inference\"], \"human_oversight\": \"abstain band → human review\", \"limitations\": \"Toy linear score; not production calibrated\"}}\nCP-N3-C Triage OK — acc=1.00 abstain=35.00%\n",
+  "stderr": "",
+  "command": "python3 demo.py",
+  "cwd": "course-state/capstones/CP-N3-C",
+  "executed_at": "2026-07-20T14:53:43Z",
+  "python": "3.9.6"
+}

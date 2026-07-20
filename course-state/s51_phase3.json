@@ -1,0 +1,1081 @@
+{
+  "version": "3.2",
+  "section": "S51",
+  "section_id": "integrator-final",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S51 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S51 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s51-integrator-final.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "integrator-final",
+    "index": 51,
+    "title_platform": "Proyecto Integrador Final — Sistema AI Production-Grade",
+    "title_v3": "Observabilidad, gobernanza y UX del copiloto",
+    "title_decision": "KEEP platform id 'integrator-final' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces",
+    "estimatedHours": 16,
+    "level": "Experto a máster",
+    "phase": 3,
+    "prerequisites": [
+      "S50"
+    ],
+    "environment": "local/cloud",
+    "project_capstone": "CP-N4-C (cierre) + CF-5 + Level-4 regression"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "integrator-final",
+    "platform_title": "Proyecto Integrador Final — Sistema AI Production-Grade",
+    "v3_title": "Observabilidad, gobernanza y UX del copiloto",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante traza prompts, retrieval y tools.",
+    "El estudiante mide tokens/costo/latency con redacción.",
+    "El estudiante registra modelo/prompt/dataset.",
+    "El estudiante controla cambios, acceso y auditoría.",
+    "El estudiante opera SLO, feedback y drift.",
+    "El estudiante responde incidentes y postmortems.",
+    "El estudiante muestra incertidumbre, citas y confirmaciones.",
+    "El estudiante diseña a11y, corrección y contestabilidad."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S51-T1-A",
+      "slug": "traces-prompts-retrieval-tools",
+      "title": "traces de prompts/retrieval/tools"
+    },
+    {
+      "subtopic_id": "S51-T1-B",
+      "slug": "tokens-cost-latency-redaction",
+      "title": "tokens, costo, latency y redacción"
+    },
+    {
+      "subtopic_id": "S51-T2-A",
+      "slug": "registry-model-prompt-dataset",
+      "title": "registro de modelo/prompt/dataset"
+    },
+    {
+      "subtopic_id": "S51-T2-B",
+      "slug": "change-access-retention-audit",
+      "title": "cambio, acceso, retención y auditoría"
+    },
+    {
+      "subtopic_id": "S51-T3-A",
+      "slug": "slo-feedback-drift",
+      "title": "SLO, feedback y drift"
+    },
+    {
+      "subtopic_id": "S51-T3-B",
+      "slug": "incidents-rollback-postmortem",
+      "title": "incidents, rollback y postmortem"
+    },
+    {
+      "subtopic_id": "S51-T4-A",
+      "slug": "uncertainty-cites-confirm",
+      "title": "incertidumbre, citas y confirmaciones"
+    },
+    {
+      "subtopic_id": "S51-T4-B",
+      "slug": "a11y-correction-contestability",
+      "title": "accesibilidad, corrección y contestabilidad"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S51-T1",
+      "title": "Observabilidad",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S51-T1-A",
+          "slug": "traces-prompts-retrieval-tools",
+          "title": "traces de prompts/retrieval/tools",
+          "outcome": "El estudiante traza prompts, retrieval y tools.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "traces de prompts/retrieval/tools",
+              "must_cover": [
+                "trace",
+                "span"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S51-T1-A-DEMO",
+              "title": "Demo: traces de prompts/retrieval/tools",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S51-T1-A-E1",
+                "kind": "guided",
+                "title": "traces de prompts/retrieval/tools — guided",
+                "skill": "traces",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S51-T1-A-E2",
+                "kind": "independent",
+                "title": "traces de prompts/retrieval/tools — independent",
+                "skill": "traces",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S51-T1-A-E3",
+                "kind": "transfer",
+                "title": "traces de prompts/retrieval/tools — transfer",
+                "skill": "traces",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S51-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S51-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S51-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S51-T1-B",
+          "slug": "tokens-cost-latency-redaction",
+          "title": "tokens, costo, latency y redacción",
+          "outcome": "El estudiante mide tokens/costo/latency con redacción.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "tokens, costo, latency y redacción",
+              "must_cover": [
+                "token metrics",
+                "redaction"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S51-T1-B-DEMO",
+              "title": "Demo: tokens, costo, latency y redacción",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S51-T1-B-E1",
+                "kind": "guided",
+                "title": "tokens, costo, latency y redacción — guided",
+                "skill": "tokens",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S51-T1-B-E2",
+                "kind": "independent",
+                "title": "tokens, costo, latency y redacción — independent",
+                "skill": "tokens",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S51-T1-B-E3",
+                "kind": "transfer",
+                "title": "tokens, costo, latency y redacción — transfer",
+                "skill": "tokens",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S51-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S51-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S51-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S51-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S51-T1-EVAL-1",
+            "title": "traces de prompts/retrieval/tools — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S51-T1-EVAL-2",
+            "title": "tokens, costo, latency y redacción — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S51-T2",
+      "title": "Gobierno",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S51-T2-A",
+          "slug": "registry-model-prompt-dataset",
+          "title": "registro de modelo/prompt/dataset",
+          "outcome": "El estudiante registra modelo/prompt/dataset.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "registro de modelo/prompt/dataset",
+              "must_cover": [
+                "prompt registry"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S51-T2-A-DEMO",
+              "title": "Demo: registro de modelo/prompt/dataset",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S51-T2-A-E1",
+                "kind": "guided",
+                "title": "registro de modelo/prompt/dataset — guided",
+                "skill": "registry",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S51-T2-A-E2",
+                "kind": "independent",
+                "title": "registro de modelo/prompt/dataset — independent",
+                "skill": "registry",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S51-T2-A-E3",
+                "kind": "transfer",
+                "title": "registro de modelo/prompt/dataset — transfer",
+                "skill": "registry",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S51-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S51-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S51-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S51-T2-B",
+          "slug": "change-access-retention-audit",
+          "title": "cambio, acceso, retención y auditoría",
+          "outcome": "El estudiante controla cambios, acceso y auditoría.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "cambio, acceso, retención y auditoría",
+              "must_cover": [
+                "change control",
+                "audit"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S51-T2-B-DEMO",
+              "title": "Demo: cambio, acceso, retención y auditoría",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S51-T2-B-E1",
+                "kind": "guided",
+                "title": "cambio, acceso, retención y auditoría — guided",
+                "skill": "change",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S51-T2-B-E2",
+                "kind": "independent",
+                "title": "cambio, acceso, retención y auditoría — independent",
+                "skill": "change",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S51-T2-B-E3",
+                "kind": "transfer",
+                "title": "cambio, acceso, retención y auditoría — transfer",
+                "skill": "change",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S51-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S51-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S51-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S51-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S51-T2-EVAL-1",
+            "title": "registro de modelo/prompt/dataset — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S51-T2-EVAL-2",
+            "title": "cambio, acceso, retención y auditoría — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S51-T3",
+      "title": "Operación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S51-T3-A",
+          "slug": "slo-feedback-drift",
+          "title": "SLO, feedback y drift",
+          "outcome": "El estudiante opera SLO, feedback y drift.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "SLO, feedback y drift",
+              "must_cover": [
+                "SLO",
+                "feedback",
+                "drift"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S51-T3-A-DEMO",
+              "title": "Demo: SLO, feedback y drift",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S51-T3-A-E1",
+                "kind": "guided",
+                "title": "SLO, feedback y drift — guided",
+                "skill": "slo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S51-T3-A-E2",
+                "kind": "independent",
+                "title": "SLO, feedback y drift — independent",
+                "skill": "slo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S51-T3-A-E3",
+                "kind": "transfer",
+                "title": "SLO, feedback y drift — transfer",
+                "skill": "slo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S51-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S51-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S51-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S51-T3-B",
+          "slug": "incidents-rollback-postmortem",
+          "title": "incidents, rollback y postmortem",
+          "outcome": "El estudiante responde incidentes y postmortems.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "incidents, rollback y postmortem",
+              "must_cover": [
+                "incident",
+                "postmortem"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S51-T3-B-DEMO",
+              "title": "Demo: incidents, rollback y postmortem",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S51-T3-B-E1",
+                "kind": "guided",
+                "title": "incidents, rollback y postmortem — guided",
+                "skill": "incidents",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S51-T3-B-E2",
+                "kind": "independent",
+                "title": "incidents, rollback y postmortem — independent",
+                "skill": "incidents",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S51-T3-B-E3",
+                "kind": "transfer",
+                "title": "incidents, rollback y postmortem — transfer",
+                "skill": "incidents",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S51-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S51-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S51-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S51-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S51-T3-EVAL-1",
+            "title": "SLO, feedback y drift — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S51-T3-EVAL-2",
+            "title": "incidents, rollback y postmortem — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S51-T4",
+      "title": "UX",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S51-T4-A",
+          "slug": "uncertainty-cites-confirm",
+          "title": "incertidumbre, citas y confirmaciones",
+          "outcome": "El estudiante muestra incertidumbre, citas y confirmaciones.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "incertidumbre, citas y confirmaciones",
+              "must_cover": [
+                "UX uncertainty",
+                "citations"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S51-T4-A-DEMO",
+              "title": "Demo: incertidumbre, citas y confirmaciones",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S51-T4-A-E1",
+                "kind": "guided",
+                "title": "incertidumbre, citas y confirmaciones — guided",
+                "skill": "uncertainty",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S51-T4-A-E2",
+                "kind": "independent",
+                "title": "incertidumbre, citas y confirmaciones — independent",
+                "skill": "uncertainty",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S51-T4-A-E3",
+                "kind": "transfer",
+                "title": "incertidumbre, citas y confirmaciones — transfer",
+                "skill": "uncertainty",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S51-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S51-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S51-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S51-T4-B",
+          "slug": "a11y-correction-contestability",
+          "title": "accesibilidad, corrección y contestabilidad",
+          "outcome": "El estudiante diseña a11y, corrección y contestabilidad.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "accesibilidad, corrección y contestabilidad",
+              "must_cover": [
+                "a11y",
+                "contestability"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S51-T4-B-DEMO",
+              "title": "Demo: accesibilidad, corrección y contestabilidad",
+              "environment": "local/cloud",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S51-T4-B-E1",
+                "kind": "guided",
+                "title": "accesibilidad, corrección y contestabilidad — guided",
+                "skill": "a11y",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S51-T4-B-E2",
+                "kind": "independent",
+                "title": "accesibilidad, corrección y contestabilidad — independent",
+                "skill": "a11y",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S51-T4-B-E3",
+                "kind": "transfer",
+                "title": "accesibilidad, corrección y contestabilidad — transfer",
+                "skill": "a11y",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S51-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S51-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S51-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S51-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S51-T4-EVAL-1",
+            "title": "incertidumbre, citas y confirmaciones — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S51-T4-EVAL-2",
+            "title": "accesibilidad, corrección y contestabilidad — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S51-PROJ",
+    "title": "Observabilidad, gobernanza y UX del copiloto (CP-N4-C (cierre) + CF-5 + Level-4 regression)",
+    "replaces_legacy": "Legacy You Do de 'Proyecto Integrador Final — Sistema AI Production-Grade' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Auditable AI Operations Copilot aprobado con system card y dashboard operativo que permiten saber qué versión respondió, qué evidencia usó, qué tool llamó y cómo revertirla. CF-5 congela artefactos e ",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-C (cierre) + CF-5 + Level-4 regression"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N4-C (cierre) + CF-5 + Level-4 regression",
+    "increment_gate": "Auditable AI Operations Copilot aprobado con system card y dashboard operativo que permiten saber qué versión respondió, qué evidencia usó, qué tool llamó y cómo revertirla. CF-5 congela artefactos e interfaces para integración final."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'integrator-final' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s51-integrator-final.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Proyecto Integrador Final — Sistema AI Production-Grade' vs 'Observabilidad, gobernanza y UX del copiloto'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N4-C (cierre) + CF-5 + Level-4 regression",
+    "increment_gate": "Auditable AI Operations Copilot aprobado con system card y dashboard operativo que permiten saber qué versión respondió, qué evidencia usó, qué tool llamó y cómo revertirla. CF-5 congela artefactos e interfaces para integración final.",
+    "project_id": "S51-PROJ",
+    "section_passed": false,
+    "notes": "S51 contributes to CP-N4-C (cierre) + CF-5 + Level-4 regression. No passed states written by factory lane.",
+    "capstone_gate": "CP-N4-C",
+    "gate_role": "CLOSE + Level-4 regression + CF-5",
+    "promotion_requires": [
+      "CP-N4-A",
+      "CP-N4-B",
+      "CP-N4-C",
+      "regression S40–S51",
+      "CF-5"
+    ],
+    "blocks": "S52 until all pass (also requires CF-1…CF-5)",
+    "cp_n4_c": "PLANNED_NOT_PASSED",
+    "n4_regression": "PLANNED_NOT_PASSED",
+    "cf5": "PLANNED_NOT_PASSED"
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S51",
+    "risk": "Display title still 'Proyecto Integrador Final — Sistema AI Production-Grade' until product rename; topic mismatch vs V3 'Observabilidad, gobernanza y UX del copiloto'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S51-T1-A first"
+  }
+}

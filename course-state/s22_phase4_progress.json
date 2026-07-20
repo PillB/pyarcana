@@ -1,0 +1,321 @@
+{
+  "version": "3.2",
+  "section": "S22",
+  "section_id": "rapidfuzz-entity",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S22-S26-P4",
+  "generated_at": "2026-07-20T08:00:43Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget rapidfuzz-entity section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s22-rapidfuzz-entity.ts",
+      "course-state/s22_phase4_progress.json",
+      "course-state/lanes/LANE-S22-S26-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "rapidfuzz-entity",
+    "index": 22,
+    "title": "Email, identidad y aprobación humana",
+    "shortTitle": "Email y aprobación",
+    "tagline": "crea borradores en sandbox o archivos .eml; ningún correo real se envía automáticamente y todo destinatario requiere confirmación",
+    "estimatedHours": 12,
+    "learningOutcomes": 8,
+    "youDo": "Borrador .eml con aprobación (inicio CP-N2-C)",
+    "icon": "GitCompare",
+    "legacy_note": "RapidFuzz/ER demoted; target is email + human approval for CP-N2-C start",
+    "capstone": "CP-N2-C (inicio)"
+  },
+  "subtopics_authored": {
+    "S22-T1-A": {
+      "slug": "mime-encoding-html-attachments",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S22-T1-A-DEMO",
+      "exercises": [
+        "S22-T1-A-E1",
+        "S22-T1-A-E2",
+        "S22-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S22-T1-B": {
+      "slug": "templates-sanitization",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S22-T1-B-DEMO",
+      "exercises": [
+        "S22-T1-B-E1",
+        "S22-T1-B-E2",
+        "S22-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S22-T2-A": {
+      "slug": "oauth-service-account-scopes",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S22-T2-A-DEMO",
+      "exercises": [
+        "S22-T2-A-E1",
+        "S22-T2-A-E2",
+        "S22-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S22-T2-B": {
+      "slug": "drafts-expiry-adapters",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S22-T2-B-DEMO",
+      "exercises": [
+        "S22-T2-B-E1",
+        "S22-T2-B-E2",
+        "S22-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S22-T3-A": {
+      "slug": "resolve-verify-recipients",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S22-T3-A-DEMO",
+      "exercises": [
+        "S22-T3-A-E1",
+        "S22-T3-A-E2",
+        "S22-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S22-T3-B": {
+      "slug": "lists-cc-bcc-privacy-min",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S22-T3-B-DEMO",
+      "exercises": [
+        "S22-T3-B-E1",
+        "S22-T3-B-E2",
+        "S22-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S22-T4-A": {
+      "slug": "approval-queue-state-machine",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S22-T4-A-DEMO",
+      "exercises": [
+        "S22-T4-A-E1",
+        "S22-T4-A-E2",
+        "S22-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S22-T4-B": {
+      "slug": "idempotency-audit-retry",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S22-T4-B-DEMO",
+      "exercises": [
+        "S22-T4-B-E1",
+        "S22-T4-B-E2",
+        "S22-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Borrador .eml con aprobación (inicio CP-N2-C)",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S22-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S22-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "Matching/resolución de destinatarios o campos no implica fraude, parentesco ni colusión."
+}

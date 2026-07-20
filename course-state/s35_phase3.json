@@ -1,0 +1,1069 @@
+{
+  "version": "3.2",
+  "section": "S35",
+  "section_id": "system-design",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S35 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S35 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s35-system-design.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "system-design",
+    "index": 35,
+    "title_platform": "Diseño de Sistemas de IA en Producción",
+    "title_v3": "Explicabilidad, equidad e incertidumbre",
+    "title_decision": "KEEP platform id 'system-design' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "ficha de caso que distingue evidencia observada, contribución del modelo, incertidumbre y decisión humana",
+    "estimatedHours": 12,
+    "level": "Competente a experto",
+    "phase": 2,
+    "prerequisites": [
+      "S34"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N3-C (inicio)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "system-design",
+    "platform_title": "Diseño de Sistemas de IA en Producción",
+    "v3_title": "Explicabilidad, equidad e incertidumbre",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante explica con coeficientes e importancia.",
+    "El estudiante delimita explicación local y correlación.",
+    "El estudiante mide equidad por cohorte/slice.",
+    "El estudiante detecta proxies y daño diferencial.",
+    "El estudiante comunica incertidumbre y conformal.",
+    "El estudiante abstiene ante OOD.",
+    "El estudiante documenta model card y contestabilidad.",
+    "El estudiante opera aprobación, override y retiro."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S35-T1-A",
+      "slug": "coefs-perm-importance",
+      "title": "coeficientes e importancia por permutación"
+    },
+    {
+      "subtopic_id": "S35-T1-B",
+      "slug": "local-corr-limits",
+      "title": "explicación local, correlación y límites"
+    },
+    {
+      "subtopic_id": "S35-T2-A",
+      "slug": "cohorts-slice-metrics",
+      "title": "cohortes y métricas por slice"
+    },
+    {
+      "subtopic_id": "S35-T2-B",
+      "slug": "proxies-sample-harm",
+      "title": "proxies, sample size y daño diferencial"
+    },
+    {
+      "subtopic_id": "S35-T3-A",
+      "slug": "cal-intervals-conformal",
+      "title": "calibración, intervalos/conformal conceptualmente"
+    },
+    {
+      "subtopic_id": "S35-T3-B",
+      "slug": "ood-abstention",
+      "title": "out-of-distribution y abstención"
+    },
+    {
+      "subtopic_id": "S35-T4-A",
+      "slug": "model-card-contestability",
+      "title": "model card y contestabilidad"
+    },
+    {
+      "subtopic_id": "S35-T4-B",
+      "slug": "approve-override-appeal-retire",
+      "title": "aprobación, override, apelación y retiro"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S35-T1",
+      "title": "Explicación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S35-T1-A",
+          "slug": "coefs-perm-importance",
+          "title": "coeficientes e importancia por permutación",
+          "outcome": "El estudiante explica con coeficientes e importancia.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "coeficientes e importancia por permutación",
+              "must_cover": [
+                "coef",
+                "permutation importance"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S35-T1-A-DEMO",
+              "title": "Demo: coeficientes e importancia por permutación",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S35-T1-A-E1",
+                "kind": "guided",
+                "title": "coeficientes e importancia por permutación — guided",
+                "skill": "coefs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S35-T1-A-E2",
+                "kind": "independent",
+                "title": "coeficientes e importancia por permutación — independent",
+                "skill": "coefs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S35-T1-A-E3",
+                "kind": "transfer",
+                "title": "coeficientes e importancia por permutación — transfer",
+                "skill": "coefs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S35-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S35-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S35-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S35-T1-B",
+          "slug": "local-corr-limits",
+          "title": "explicación local, correlación y límites",
+          "outcome": "El estudiante delimita explicación local y correlación.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "explicación local, correlación y límites",
+              "must_cover": [
+                "local explanation",
+                "correlation ≠ causation"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S35-T1-B-DEMO",
+              "title": "Demo: explicación local, correlación y límites",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S35-T1-B-E1",
+                "kind": "guided",
+                "title": "explicación local, correlación y límites — guided",
+                "skill": "local",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S35-T1-B-E2",
+                "kind": "independent",
+                "title": "explicación local, correlación y límites — independent",
+                "skill": "local",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S35-T1-B-E3",
+                "kind": "transfer",
+                "title": "explicación local, correlación y límites — transfer",
+                "skill": "local",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S35-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S35-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S35-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S35-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S35-T1-EVAL-1",
+            "title": "coeficientes e importancia por permutación — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S35-T1-EVAL-2",
+            "title": "explicación local, correlación y límites — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S35-T2",
+      "title": "Equidad",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S35-T2-A",
+          "slug": "cohorts-slice-metrics",
+          "title": "cohortes y métricas por slice",
+          "outcome": "El estudiante mide equidad por cohorte/slice.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "cohortes y métricas por slice",
+              "must_cover": [
+                "cohort",
+                "slice metrics"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S35-T2-A-DEMO",
+              "title": "Demo: cohortes y métricas por slice",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S35-T2-A-E1",
+                "kind": "guided",
+                "title": "cohortes y métricas por slice — guided",
+                "skill": "cohorts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S35-T2-A-E2",
+                "kind": "independent",
+                "title": "cohortes y métricas por slice — independent",
+                "skill": "cohorts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S35-T2-A-E3",
+                "kind": "transfer",
+                "title": "cohortes y métricas por slice — transfer",
+                "skill": "cohorts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S35-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S35-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S35-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S35-T2-B",
+          "slug": "proxies-sample-harm",
+          "title": "proxies, sample size y daño diferencial",
+          "outcome": "El estudiante detecta proxies y daño diferencial.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "proxies, sample size y daño diferencial",
+              "must_cover": [
+                "proxy",
+                "disparate impact"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S35-T2-B-DEMO",
+              "title": "Demo: proxies, sample size y daño diferencial",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S35-T2-B-E1",
+                "kind": "guided",
+                "title": "proxies, sample size y daño diferencial — guided",
+                "skill": "proxies",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S35-T2-B-E2",
+                "kind": "independent",
+                "title": "proxies, sample size y daño diferencial — independent",
+                "skill": "proxies",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S35-T2-B-E3",
+                "kind": "transfer",
+                "title": "proxies, sample size y daño diferencial — transfer",
+                "skill": "proxies",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S35-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S35-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S35-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S35-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S35-T2-EVAL-1",
+            "title": "cohortes y métricas por slice — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S35-T2-EVAL-2",
+            "title": "proxies, sample size y daño diferencial — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S35-T3",
+      "title": "Incertidumbre",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S35-T3-A",
+          "slug": "cal-intervals-conformal",
+          "title": "calibración, intervalos/conformal conceptualmente",
+          "outcome": "El estudiante comunica incertidumbre y conformal.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "calibración, intervalos/conformal conceptualmente",
+              "must_cover": [
+                "uncertainty",
+                "conformal"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S35-T3-A-DEMO",
+              "title": "Demo: calibración, intervalos/conformal conceptualmente",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S35-T3-A-E1",
+                "kind": "guided",
+                "title": "calibración, intervalos/conformal conceptualmente — guided",
+                "skill": "cal",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S35-T3-A-E2",
+                "kind": "independent",
+                "title": "calibración, intervalos/conformal conceptualmente — independent",
+                "skill": "cal",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S35-T3-A-E3",
+                "kind": "transfer",
+                "title": "calibración, intervalos/conformal conceptualmente — transfer",
+                "skill": "cal",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S35-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S35-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S35-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S35-T3-B",
+          "slug": "ood-abstention",
+          "title": "out-of-distribution y abstención",
+          "outcome": "El estudiante abstiene ante OOD.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "out-of-distribution y abstención",
+              "must_cover": [
+                "OOD",
+                "abstain"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S35-T3-B-DEMO",
+              "title": "Demo: out-of-distribution y abstención",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S35-T3-B-E1",
+                "kind": "guided",
+                "title": "out-of-distribution y abstención — guided",
+                "skill": "ood",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S35-T3-B-E2",
+                "kind": "independent",
+                "title": "out-of-distribution y abstención — independent",
+                "skill": "ood",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S35-T3-B-E3",
+                "kind": "transfer",
+                "title": "out-of-distribution y abstención — transfer",
+                "skill": "ood",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S35-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S35-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S35-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S35-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S35-T3-EVAL-1",
+            "title": "calibración, intervalos/conformal conceptualmente — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S35-T3-EVAL-2",
+            "title": "out-of-distribution y abstención — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S35-T4",
+      "title": "Gobernanza",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S35-T4-A",
+          "slug": "model-card-contestability",
+          "title": "model card y contestabilidad",
+          "outcome": "El estudiante documenta model card y contestabilidad.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "model card y contestabilidad",
+              "must_cover": [
+                "model card",
+                "contestability"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S35-T4-A-DEMO",
+              "title": "Demo: model card y contestabilidad",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S35-T4-A-E1",
+                "kind": "guided",
+                "title": "model card y contestabilidad — guided",
+                "skill": "model",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S35-T4-A-E2",
+                "kind": "independent",
+                "title": "model card y contestabilidad — independent",
+                "skill": "model",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S35-T4-A-E3",
+                "kind": "transfer",
+                "title": "model card y contestabilidad — transfer",
+                "skill": "model",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S35-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S35-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S35-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S35-T4-B",
+          "slug": "approve-override-appeal-retire",
+          "title": "aprobación, override, apelación y retiro",
+          "outcome": "El estudiante opera aprobación, override y retiro.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "aprobación, override, apelación y retiro",
+              "must_cover": [
+                "override",
+                "appeal",
+                "retire"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S35-T4-B-DEMO",
+              "title": "Demo: aprobación, override, apelación y retiro",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S35-T4-B-E1",
+                "kind": "guided",
+                "title": "aprobación, override, apelación y retiro — guided",
+                "skill": "approve",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S35-T4-B-E2",
+                "kind": "independent",
+                "title": "aprobación, override, apelación y retiro — independent",
+                "skill": "approve",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S35-T4-B-E3",
+                "kind": "transfer",
+                "title": "aprobación, override, apelación y retiro — transfer",
+                "skill": "approve",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S35-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S35-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S35-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S35-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S35-T4-EVAL-1",
+            "title": "model card y contestabilidad — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S35-T4-EVAL-2",
+            "title": "aprobación, override, apelación y retiro — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S35-PROJ",
+    "title": "Explicabilidad, equidad e incertidumbre",
+    "replaces_legacy": "Legacy You Do de 'Diseño de Sistemas de IA en Producción' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "ficha de caso que distingue evidencia observada, contribución del modelo, incertidumbre y decisión humana.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N3-C (inicio)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N3-C (inicio)",
+    "increment_gate": "ficha de caso que distingue evidencia observada, contribución del modelo, incertidumbre y decisión humana."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'system-design' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s35-system-design.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Diseño de Sistemas de IA en Producción' vs 'Explicabilidad, equidad e incertidumbre'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N3-C (inicio)",
+    "increment_gate": "ficha de caso que distingue evidencia observada, contribución del modelo, incertidumbre y decisión humana.",
+    "project_id": "S35-PROJ",
+    "section_passed": false,
+    "notes": "S35 contributes to CP-N3-C (inicio). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S35",
+    "risk": "Display title still 'Diseño de Sistemas de IA en Producción' until product rename; topic mismatch vs V3 'Explicabilidad, equidad e incertidumbre'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S35-T1-A first"
+  }
+}

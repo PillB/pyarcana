@@ -1,0 +1,321 @@
+{
+  "version": "3.2",
+  "section": "S25",
+  "section_id": "streamlit-dashboards",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S22-S26-P4",
+  "generated_at": "2026-07-20T08:00:48Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget streamlit-dashboards section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s25-streamlit-dashboards.ts",
+      "course-state/s25_phase4_progress.json",
+      "course-state/lanes/LANE-S22-S26-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "streamlit-dashboards",
+    "index": 25,
+    "title": "Endpoints de IA, Hugging Face y prompting evaluado",
+    "shortTitle": "IA endpoints y prompts",
+    "tagline": "clasificador/extractor especializado y generador de narrativa con JSON validado; no se acepta una salida sin evidencia ni eval contra baseline",
+    "estimatedHours": 14,
+    "learningOutcomes": 8,
+    "youDo": "Asistente JSON evaluado (AI assist CP-N2-C)",
+    "icon": "LayoutDashboard",
+    "legacy_note": "Streamlit demoted; target is HF endpoints + evaluated prompting for CP-N2-C AI assist",
+    "capstone": "CP-N2-C (AI assist)"
+  },
+  "subtopics_authored": {
+    "S25-T1-A": {
+      "slug": "rule-vs-specialized-vs-llm",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S25-T1-A-DEMO",
+      "exercises": [
+        "S25-T1-A-E1",
+        "S25-T1-A-E2",
+        "S25-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S25-T1-B": {
+      "slug": "model-cards-licenses-local-cloud",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S25-T1-B-DEMO",
+      "exercises": [
+        "S25-T1-B-E1",
+        "S25-T1-B-E2",
+        "S25-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S25-T2-A": {
+      "slug": "hf-pipelines-endpoints",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S25-T2-A-DEMO",
+      "exercises": [
+        "S25-T2-A-E1",
+        "S25-T2-A-E2",
+        "S25-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S25-T2-B": {
+      "slug": "batch-timeout-cache-cost-fallback",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S25-T2-B-DEMO",
+      "exercises": [
+        "S25-T2-B-E1",
+        "S25-T2-B-E2",
+        "S25-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S25-T3-A": {
+      "slug": "objective-context-constraints-examples",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S25-T3-A-DEMO",
+      "exercises": [
+        "S25-T3-A-E1",
+        "S25-T3-A-E2",
+        "S25-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S25-T3-B": {
+      "slug": "glm-thinking-tools-checkpoints",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S25-T3-B-DEMO",
+      "exercises": [
+        "S25-T3-B-E1",
+        "S25-T3-B-E2",
+        "S25-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S25-T4-A": {
+      "slug": "golden-schema-human-review",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S25-T4-A-DEMO",
+      "exercises": [
+        "S25-T4-A-E1",
+        "S25-T4-A-E2",
+        "S25-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S25-T4-B": {
+      "slug": "injection-exfil-bias-minimize",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S25-T4-B-DEMO",
+      "exercises": [
+        "S25-T4-B-E1",
+        "S25-T4-B-E2",
+        "S25-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Asistente JSON evaluado (AI assist CP-N2-C)",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S25-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S25-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "Matching/resolución de destinatarios o campos no implica fraude, parentesco ni colusión."
+}

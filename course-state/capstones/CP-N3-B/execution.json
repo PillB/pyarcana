@@ -1,0 +1,11 @@
+{
+  "id": "CP-N3-B",
+  "status": "pass",
+  "exit_code": 0,
+  "stdout": "METRICS_JSON: {\"capstone_id\": \"CP-N3-B\", \"status\": \"pass\", \"n_nodes\": 5, \"n_edges\": 5, \"paths_found\": 1, \"mean_path_len\": 3.0, \"case\": {\"case_id\": \"CASE-SYN-01\", \"query\": {\"from\": \"N1\", \"to\": \"N4\"}, \"path\": [\"N1\", \"N5\", \"N4\"], \"evidence_reasons\": [\"email_domain_synthetic\", \"phone_block_synthetic\"], \"path_evidence_sum\": 0.9, \"entities_minimized\": [{\"id\": \"N1\", \"display\": \"Entity-N1\", \"pii_fields\": []}, {\"id\": \"N5\", \"display\": \"Entity-N5\", \"pii_fields\": []}, {\"id\": \"N4\", \"display\": \"Entity-N4\", \"pii_fields\": []}], \"interpretation\": \"Evidence path for human investigation only\"}, \"disclaimer\": \"Path evidence ≠ collusion/fraud\"}\nCP-N3-B Graph OK — path=N1 → N5 → N4\n",
+  "stderr": "",
+  "command": "python3 demo.py",
+  "cwd": "course-state/capstones/CP-N3-B",
+  "executed_at": "2026-07-20T14:53:43Z",
+  "python": "3.9.6"
+}

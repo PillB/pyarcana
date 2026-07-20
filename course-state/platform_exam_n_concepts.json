@@ -1,0 +1,86 @@
+{
+  "lane_id": "LANE-PLATFORM",
+  "topic": "exam_n_concepts",
+  "verified_at": "2026-07-20",
+  "verified_behavior": {
+    "sampler": {
+      "file": "src/app/api/exam/start/route.ts",
+      "mechanism": "Groups question bank rows by concept; loops for (const [concept, variants] of byConcept.entries()); picks ONE random unused variant per concept; shuffles order.",
+      "hardcoded_question_count": false,
+      "scales_with_seed": true,
+      "note": "Expanding seed to 8 concepts × 3 variants yields 8 questions per attempt without sampler rewrite. Current banks with 4 concepts still yield 4 until seed is expanded (owned by content lanes / LANE-S01-P5)."
+    },
+    "scoring": {
+      "file": "src/app/api/exam/submit/route.ts",
+      "score_formula": "Math.round((correctCount / detailedAnswers.length) * 100)",
+      "pass_threshold": "score >= 70",
+      "hardcoded_total": false,
+      "totalQuestions_source": "detailedAnswers.length (dynamic)"
+    },
+    "ui": {
+      "file": "src/components/course/ExamView.tsx",
+      "submit_progress": "Object.keys(answers).length / exam.questions.length",
+      "result_display": "result.correctCount de result.totalQuestions",
+      "intro_copy": "Una pregunta por concepto (N del banco; V3 full = 8)",
+      "in_progress_badge": "{questions.length} pregunta(s) · 1 por concepto"
+    },
+    "admin": {
+      "file": "src/components/course/AdminDashboard.tsx",
+      "hardcoded_4_exam_questions": false,
+      "note": "Admin renders variantSeed and per-answer concept dynamically; no fixed 4-question assumption."
+    }
+  },
+  "files_changed": [
+    "src/app/api/exam/start/route.ts",
+    "src/components/course/ExamView.tsx",
+    "src/lib/i18n.ts",
+    "course-state/platform_exam_n_concepts.json",
+    "course-state/lanes/LANE-PLATFORM.status.json"
+  ],
+  "files_not_changed": [
+    "prisma/seed.ts",
+    "src/lib/course/sections/s01-setup.ts",
+    "src/lib/course/sections/s02-basics.ts",
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json",
+    "course-state/parallel_orchestration.json"
+  ],
+  "residual_risks": [
+    {
+      "id": "RISK-8Q-UX",
+      "severity": "medium",
+      "description": "8-question exams increase scroll/cognitive load vs 4. Mobile: long vertical list of MC cards; no sticky progress/index or section pagination yet."
+    },
+    {
+      "id": "RISK-MIN-SCORE-70",
+      "severity": "low",
+      "description": "Pass is percentage-based (70%), so it scales for any N. With N=8, pass = ≥6/8 correct; with N=4, ≥3/4. No integer-rounding edge at 70% for 8 (75% or 62.5%→63). With N that cannot hit exactly 70%, nearest-above may feel strict (e.g. N=3: 2/3=67 fails, need 3/3)."
+    },
+    {
+      "id": "RISK-SEED-STILL-4",
+      "severity": "high_until_content",
+      "description": "Until LANE-S01-P5 / content lanes expand question bank to 8 concepts, runtime still serves 4 questions for sections with only 4 concepts in DB. Platform is ready; content is the gate."
+    },
+    {
+      "id": "RISK-EMPTY-ANSWERS",
+      "severity": "low",
+      "description": "submit divides by detailedAnswers.length; empty answers array would yield NaN score. UI requires answering all questions before submit, so unlikely in normal flow."
+    },
+    {
+      "id": "RISK-VARIANT-EXHAUSTION",
+      "severity": "low",
+      "description": "With 3 variants and 3 attempts, anti-reuse works. After all variants used, sampler resets to full set. If a concept has fewer than 3 variants, reuse happens earlier."
+    },
+    {
+      "id": "RISK-DOCS-STALE",
+      "severity": "info",
+      "description": "README.md / AGENT_STATE.md still mention 4 questions / 4 concepts historically; not updated in this lane (docs outside platform UI scope)."
+    }
+  ],
+  "acceptance": {
+    "platform_supports_n_concepts": true,
+    "ui_does_not_claim_fixed_4": true,
+    "sampler_rewrite_required_for_v3_8": false
+  }
+}

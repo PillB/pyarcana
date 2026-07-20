@@ -1,0 +1,1075 @@
+{
+  "version": "3.2",
+  "section": "S29",
+  "section_id": "mlops",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S29 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S29 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s29-mlops.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "mlops",
+    "index": 29,
+    "title_platform": "MLOps Avanzado — MLflow, DVC, Evidently",
+    "title_v3": "SQL avanzado y modelado relacional",
+    "title_decision": "KEEP platform id 'mlops' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "esquema que preserva registros fuente, entidades, pares candidatos, decisiones y evidencia sin sobrescribir historia",
+    "estimatedHours": 14,
+    "level": "Competente a experto",
+    "phase": 2,
+    "prerequisites": [
+      "S12",
+      "S28"
+    ],
+    "environment": "local DB",
+    "project_capstone": "CP-N3-A (almacén ER)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "mlops",
+    "platform_title": "MLOps Avanzado — MLflow, DVC, Evidently",
+    "v3_title": "SQL avanzado y modelado relacional",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante modela claves y constraints correctos.",
+    "El estudiante preserva temporalidad y provenance.",
+    "El estudiante escribe CTEs, windows y anti-joins.",
+    "El estudiante razona cardinalidad, NULL y planes.",
+    "El estudiante elige isolation y garantiza ACID.",
+    "El estudiante implementa upserts y recuperación.",
+    "El estudiante diseña índices y migrations seguras.",
+    "El estudiante aplica repository, pooling y tests."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S29-T1-A",
+      "slug": "keys-constraints-normalization",
+      "title": "claves, constraints y normalización"
+    },
+    {
+      "subtopic_id": "S29-T1-B",
+      "slug": "temporality-provenance",
+      "title": "temporalidad y provenance"
+    },
+    {
+      "subtopic_id": "S29-T2-A",
+      "slug": "cte-windows-antijoins",
+      "title": "CTEs, windows y anti-joins"
+    },
+    {
+      "subtopic_id": "S29-T2-B",
+      "slug": "cardinality-null-plans",
+      "title": "cardinalidad, NULL y planes"
+    },
+    {
+      "subtopic_id": "S29-T3-A",
+      "slug": "acid-isolation",
+      "title": "ACID e isolation"
+    },
+    {
+      "subtopic_id": "S29-T3-B",
+      "slug": "upserts-concurrency-recovery",
+      "title": "upserts, concurrencia y recuperación"
+    },
+    {
+      "subtopic_id": "S29-T4-A",
+      "slug": "indexes-migrations",
+      "title": "índices y migrations"
+    },
+    {
+      "subtopic_id": "S29-T4-B",
+      "slug": "repository-pooling-tests",
+      "title": "repository pattern, pooling y pruebas"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S29-T1",
+      "title": "Modelo",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S29-T1-A",
+          "slug": "keys-constraints-normalization",
+          "title": "claves, constraints y normalización",
+          "outcome": "El estudiante modela claves y constraints correctos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "claves, constraints y normalización",
+              "must_cover": [
+                "PK/FK",
+                "constraints",
+                "3NF"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S29-T1-A-DEMO",
+              "title": "Demo: claves, constraints y normalización",
+              "environment": "local DB",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S29-T1-A-E1",
+                "kind": "guided",
+                "title": "claves, constraints y normalización — guided",
+                "skill": "keys",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S29-T1-A-E2",
+                "kind": "independent",
+                "title": "claves, constraints y normalización — independent",
+                "skill": "keys",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S29-T1-A-E3",
+                "kind": "transfer",
+                "title": "claves, constraints y normalización — transfer",
+                "skill": "keys",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S29-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S29-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S29-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S29-T1-B",
+          "slug": "temporality-provenance",
+          "title": "temporalidad y provenance",
+          "outcome": "El estudiante preserva temporalidad y provenance.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "temporalidad y provenance",
+              "must_cover": [
+                "SCD",
+                "provenance",
+                "audit"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S29-T1-B-DEMO",
+              "title": "Demo: temporalidad y provenance",
+              "environment": "local DB",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S29-T1-B-E1",
+                "kind": "guided",
+                "title": "temporalidad y provenance — guided",
+                "skill": "temporality",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S29-T1-B-E2",
+                "kind": "independent",
+                "title": "temporalidad y provenance — independent",
+                "skill": "temporality",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S29-T1-B-E3",
+                "kind": "transfer",
+                "title": "temporalidad y provenance — transfer",
+                "skill": "temporality",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S29-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S29-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S29-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S29-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S29-T1-EVAL-1",
+            "title": "claves, constraints y normalización — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S29-T1-EVAL-2",
+            "title": "temporalidad y provenance — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S29-T2",
+      "title": "Consulta",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S29-T2-A",
+          "slug": "cte-windows-antijoins",
+          "title": "CTEs, windows y anti-joins",
+          "outcome": "El estudiante escribe CTEs, windows y anti-joins.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "CTEs, windows y anti-joins",
+              "must_cover": [
+                "CTE",
+                "window",
+                "anti-join"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S29-T2-A-DEMO",
+              "title": "Demo: CTEs, windows y anti-joins",
+              "environment": "local DB",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S29-T2-A-E1",
+                "kind": "guided",
+                "title": "CTEs, windows y anti-joins — guided",
+                "skill": "cte",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S29-T2-A-E2",
+                "kind": "independent",
+                "title": "CTEs, windows y anti-joins — independent",
+                "skill": "cte",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S29-T2-A-E3",
+                "kind": "transfer",
+                "title": "CTEs, windows y anti-joins — transfer",
+                "skill": "cte",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S29-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S29-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S29-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S29-T2-B",
+          "slug": "cardinality-null-plans",
+          "title": "cardinalidad, NULL y planes",
+          "outcome": "El estudiante razona cardinalidad, NULL y planes.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "cardinalidad, NULL y planes",
+              "must_cover": [
+                "cardinality",
+                "NULL",
+                "EXPLAIN"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S29-T2-B-DEMO",
+              "title": "Demo: cardinalidad, NULL y planes",
+              "environment": "local DB",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S29-T2-B-E1",
+                "kind": "guided",
+                "title": "cardinalidad, NULL y planes — guided",
+                "skill": "cardinality",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S29-T2-B-E2",
+                "kind": "independent",
+                "title": "cardinalidad, NULL y planes — independent",
+                "skill": "cardinality",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S29-T2-B-E3",
+                "kind": "transfer",
+                "title": "cardinalidad, NULL y planes — transfer",
+                "skill": "cardinality",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S29-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S29-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S29-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S29-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S29-T2-EVAL-1",
+            "title": "CTEs, windows y anti-joins — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S29-T2-EVAL-2",
+            "title": "cardinalidad, NULL y planes — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S29-T3",
+      "title": "Transacción",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S29-T3-A",
+          "slug": "acid-isolation",
+          "title": "ACID e isolation",
+          "outcome": "El estudiante elige isolation y garantiza ACID.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "ACID e isolation",
+              "must_cover": [
+                "ACID",
+                "isolation levels"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S29-T3-A-DEMO",
+              "title": "Demo: ACID e isolation",
+              "environment": "local DB",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S29-T3-A-E1",
+                "kind": "guided",
+                "title": "ACID e isolation — guided",
+                "skill": "acid",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S29-T3-A-E2",
+                "kind": "independent",
+                "title": "ACID e isolation — independent",
+                "skill": "acid",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S29-T3-A-E3",
+                "kind": "transfer",
+                "title": "ACID e isolation — transfer",
+                "skill": "acid",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S29-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S29-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S29-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S29-T3-B",
+          "slug": "upserts-concurrency-recovery",
+          "title": "upserts, concurrencia y recuperación",
+          "outcome": "El estudiante implementa upserts y recuperación.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "upserts, concurrencia y recuperación",
+              "must_cover": [
+                "UPSERT",
+                "concurrency",
+                "recovery"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S29-T3-B-DEMO",
+              "title": "Demo: upserts, concurrencia y recuperación",
+              "environment": "local DB",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S29-T3-B-E1",
+                "kind": "guided",
+                "title": "upserts, concurrencia y recuperación — guided",
+                "skill": "upserts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S29-T3-B-E2",
+                "kind": "independent",
+                "title": "upserts, concurrencia y recuperación — independent",
+                "skill": "upserts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S29-T3-B-E3",
+                "kind": "transfer",
+                "title": "upserts, concurrencia y recuperación — transfer",
+                "skill": "upserts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S29-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S29-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S29-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S29-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S29-T3-EVAL-1",
+            "title": "ACID e isolation — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S29-T3-EVAL-2",
+            "title": "upserts, concurrencia y recuperación — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S29-T4",
+      "title": "Evolución",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S29-T4-A",
+          "slug": "indexes-migrations",
+          "title": "índices y migrations",
+          "outcome": "El estudiante diseña índices y migrations seguras.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "índices y migrations",
+              "must_cover": [
+                "index",
+                "migration"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S29-T4-A-DEMO",
+              "title": "Demo: índices y migrations",
+              "environment": "local DB",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S29-T4-A-E1",
+                "kind": "guided",
+                "title": "índices y migrations — guided",
+                "skill": "indexes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S29-T4-A-E2",
+                "kind": "independent",
+                "title": "índices y migrations — independent",
+                "skill": "indexes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S29-T4-A-E3",
+                "kind": "transfer",
+                "title": "índices y migrations — transfer",
+                "skill": "indexes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S29-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S29-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S29-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S29-T4-B",
+          "slug": "repository-pooling-tests",
+          "title": "repository pattern, pooling y pruebas",
+          "outcome": "El estudiante aplica repository, pooling y tests.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "repository pattern, pooling y pruebas",
+              "must_cover": [
+                "repository",
+                "pool",
+                "sql tests"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S29-T4-B-DEMO",
+              "title": "Demo: repository pattern, pooling y pruebas",
+              "environment": "local DB",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S29-T4-B-E1",
+                "kind": "guided",
+                "title": "repository pattern, pooling y pruebas — guided",
+                "skill": "repository",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S29-T4-B-E2",
+                "kind": "independent",
+                "title": "repository pattern, pooling y pruebas — independent",
+                "skill": "repository",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S29-T4-B-E3",
+                "kind": "transfer",
+                "title": "repository pattern, pooling y pruebas — transfer",
+                "skill": "repository",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S29-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S29-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S29-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S29-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S29-T4-EVAL-1",
+            "title": "índices y migrations — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S29-T4-EVAL-2",
+            "title": "repository pattern, pooling y pruebas — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S29-PROJ",
+    "title": "SQL avanzado y modelado relacional",
+    "replaces_legacy": "Legacy You Do de 'MLOps Avanzado — MLflow, DVC, Evidently' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "esquema que preserva registros fuente, entidades, pares candidatos, decisiones y evidencia sin sobrescribir historia.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N3-A (almacén ER)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N3-A (almacén ER)",
+    "increment_gate": "esquema que preserva registros fuente, entidades, pares candidatos, decisiones y evidencia sin sobrescribir historia."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'mlops' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s29-mlops.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'MLOps Avanzado — MLflow, DVC, Evidently' vs 'SQL avanzado y modelado relacional'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N3-A (almacén ER)",
+    "increment_gate": "esquema que preserva registros fuente, entidades, pares candidatos, decisiones y evidencia sin sobrescribir historia.",
+    "project_id": "S29-PROJ",
+    "section_passed": false,
+    "notes": "S29 contributes to CP-N3-A (almacén ER). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S29",
+    "risk": "Display title still 'MLOps Avanzado — MLflow, DVC, Evidently' until product rename; topic mismatch vs V3 'SQL avanzado y modelado relacional'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S29-T1-A first"
+  }
+}

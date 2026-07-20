@@ -1,0 +1,11 @@
+{
+  "id": "CP-N2-A",
+  "status": "pass",
+  "exit_code": 0,
+  "stdout": "METRICS_JSON: {\"capstone_id\": \"CP-N2-A\", \"status\": \"pass\", \"n_rows\": 100, \"completeness\": 0.925, \"null_rate\": 0.075, \"recon_delta\": 0, \"mean_amount\": 2566.74, \"p50_amount\": 2551.93, \"by_segment\": {\"corp\": 31, \"retail\": 36, \"sme\": 33}, \"engine\": \"numpy\", \"executive_memo\": \"Memo ejecutivo (sintético): 100 filas; completitud 92.5%; monto medio 2566.74; mediana 2551.93. Limitación: datos sintéticos seed=42; no extrapolar a mercado real.\"}\nCP-N2-A EDA OK — completeness=92.50%\n",
+  "stderr": "",
+  "command": "python3 demo.py",
+  "cwd": "course-state/capstones/CP-N2-A",
+  "executed_at": "2026-07-20T14:53:43Z",
+  "python": "3.9.6"
+}

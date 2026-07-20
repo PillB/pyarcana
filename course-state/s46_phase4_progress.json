@@ -1,0 +1,322 @@
+{
+  "version": "3.2",
+  "section": "S46",
+  "section_id": "gpu-computing",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S40-S52-P4",
+  "generated_at": "2026-07-20T08:24:50Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget gpu-computing section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s46-gpu-computing.ts",
+      "course-state/s46_phase4_progress.json",
+      "course-state/lanes/LANE-S40-S52-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "gpu-computing",
+    "index": 46,
+    "title": "Ingeniería de datos y orquestación de producción",
+    "shortTitle": "Data eng producción",
+    "tagline": "pipeline incremental/backfillable sin duplicar, con lineage y alertas por dato tardío o contrato roto",
+    "estimatedHours": 14,
+    "learningOutcomes": 8,
+    "youDo": "Ingeniería de datos y orquestación de producción",
+    "icon": "Cpu",
+    "legacy_note": "gpu-computing retargeted to V3 Ingeniería de datos y orquestación de producción",
+    "capstone": "CP-N4-B (pipeline)",
+    "final_gate": false
+  },
+  "subtopics_authored": {
+    "S46-T1-A": {
+      "slug": "windows-event-time-watermarks",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S46-T1-A-DEMO",
+      "exercises": [
+        "S46-T1-A-E1",
+        "S46-T1-A-E2",
+        "S46-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S46-T1-B": {
+      "slug": "late-data-exactly-once",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S46-T1-B-DEMO",
+      "exercises": [
+        "S46-T1-B-E1",
+        "S46-T1-B-E2",
+        "S46-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S46-T2-A": {
+      "slug": "dag-assets-dependency",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S46-T2-A-DEMO",
+      "exercises": [
+        "S46-T2-A-E1",
+        "S46-T2-A-E2",
+        "S46-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S46-T2-B": {
+      "slug": "schedules-backfills-state",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S46-T2-B-DEMO",
+      "exercises": [
+        "S46-T2-B-E1",
+        "S46-T2-B-E2",
+        "S46-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S46-T3-A": {
+      "slug": "contracts-freshness",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S46-T3-A-DEMO",
+      "exercises": [
+        "S46-T3-A-E1",
+        "S46-T3-A-E2",
+        "S46-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S46-T3-B": {
+      "slug": "lineage-obs-ownership",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S46-T3-B-DEMO",
+      "exercises": [
+        "S46-T3-B-E1",
+        "S46-T3-B-E2",
+        "S46-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S46-T4-A": {
+      "slug": "partitions-incremental",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S46-T4-A-DEMO",
+      "exercises": [
+        "S46-T4-A-E1",
+        "S46-T4-A-E2",
+        "S46-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S46-T4-B": {
+      "slug": "slo-incidents-data-recovery",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S46-T4-B-DEMO",
+      "exercises": [
+        "S46-T4-B-E1",
+        "S46-T4-B-E2",
+        "S46-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Ingeniería de datos y orquestación de producción",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S46-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S46-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "Datos sintéticos only. ER/matching no implica fraude ni parentesco. Sin PII real ni secretos."
+}

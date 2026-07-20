@@ -1,0 +1,321 @@
+{
+  "version": "3.2",
+  "section": "S32",
+  "section_id": "microservices",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S31-S39-P4",
+  "generated_at": "2026-07-20T08:26:30Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget microservices section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s32-microservices.ts",
+      "course-state/s32_phase4_progress.json",
+      "course-state/lanes/LANE-S31-S39-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "microservices",
+    "index": 32,
+    "title": "Feature engineering y pipelines sin leakage",
+    "shortTitle": "Features sin leakage",
+    "tagline": "tabla de features versionada cuya construcción en train e inferencia es idéntica y no usa información futura o de decisión",
+    "estimatedHours": 14,
+    "learningOutcomes": 8,
+    "youDo": "Feature table versionada sin leakage (CP-N3-B features)",
+    "icon": "TableProperties",
+    "legacy_note": "microservices retargeted to feature pipelines",
+    "capstone": "CP-N3-B (features)"
+  },
+  "subtopics_authored": {
+    "S32-T1-A": {
+      "slug": "num-cat-text-features",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S32-T1-A-DEMO",
+      "exercises": [
+        "S32-T1-A-E1",
+        "S32-T1-A-E2",
+        "S32-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S32-T1-B": {
+      "slug": "missing-scale-encode",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S32-T1-B-DEMO",
+      "exercises": [
+        "S32-T1-B-E1",
+        "S32-T1-B-E2",
+        "S32-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S32-T2-A": {
+      "slug": "shared-contact-distance",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S32-T2-A-DEMO",
+      "exercises": [
+        "S32-T2-A-E1",
+        "S32-T2-A-E2",
+        "S32-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S32-T2-B": {
+      "slug": "windows-frequency",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S32-T2-B-DEMO",
+      "exercises": [
+        "S32-T2-B-E1",
+        "S32-T2-B-E2",
+        "S32-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S32-T3-A": {
+      "slug": "columntransformer-custom",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S32-T3-A-DEMO",
+      "exercises": [
+        "S32-T3-A-E1",
+        "S32-T3-A-E2",
+        "S32-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S32-T3-B": {
+      "slug": "fit-transform-persist",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S32-T3-B-DEMO",
+      "exercises": [
+        "S32-T3-B-E1",
+        "S32-T3-B-E2",
+        "S32-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S32-T4-A": {
+      "slug": "entity-group-time-split",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S32-T4-A-DEMO",
+      "exercises": [
+        "S32-T4-A-E1",
+        "S32-T4-A-E2",
+        "S32-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S32-T4-B": {
+      "slug": "leakage-skew-versioning",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S32-T4-B-DEMO",
+      "exercises": [
+        "S32-T4-B-E1",
+        "S32-T4-B-E2",
+        "S32-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Feature table versionada sin leakage (CP-N3-B features)",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S32-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S32-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_note": "ER/matching y scores no implican fraude, parentesco ni colusión. Solo decide 'misma entidad' cuando aplique."
+}

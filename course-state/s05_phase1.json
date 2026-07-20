@@ -1,0 +1,157 @@
+{
+  "version": "3.2",
+  "section": "S05",
+  "section_id": "oop",
+  "phase": "PHASE_1_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1-FACTORY",
+  "content_inventory": {
+    "section_file": "src/lib/course/sections/s05-oop.ts",
+    "total_lines": 799,
+    "structure": {
+      "id": "oop",
+      "index": 5,
+      "title": "Object-Oriented Programming (OOP)",
+      "shortTitle": "OOP",
+      "estimatedHours": 10,
+      "level": "Principiante"
+    },
+    "theory_blocks": [
+      {
+        "block": 1,
+        "heading": "Clases e instancias",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — maps V3 S11"
+      },
+      {
+        "block": 2,
+        "heading": "Encapsulación",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — V3 S11"
+      },
+      {
+        "block": 3,
+        "heading": "Herencia",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — V3 S11"
+      },
+      {
+        "block": 4,
+        "heading": "Dunders",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — V3 S11"
+      },
+      {
+        "block": 5,
+        "heading": "ABC / composición",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — V3 S11"
+      }
+    ],
+    "learningOutcomes_count": 6,
+    "learningOutcomes_summary": [
+      "clases __init__",
+      "encapsulamiento",
+      "herencia super()",
+      "polimorfismo",
+      "dunder methods",
+      "composición vs herencia / ABC"
+    ],
+    "iDo_note": "Legacy multi-step demo blocks present; not 8 I Do demos V3",
+    "weDo_note": "Legacy guided exercises present; not 24 student exercises",
+    "youDo_project": {
+      "title": "Custom ML Pipeline Class — Proyecto OOP de portafolio",
+      "maps_to_capstone_current": "none explicit V3",
+      "maps_to_capstone_v3_target": "Normalizadores puros (inicio CP-N1-B)"
+    },
+    "selfCheck_questions": {
+      "total": 5,
+      "seed_exam_variants": 12,
+      "seed_concepts": [
+        "str-vs-repr",
+        "super-init",
+        "underscore-convention",
+        "composition-vs-inheritance"
+      ],
+      "v3_coverage": "0/8 subtopics"
+    }
+  },
+  "gap_analysis": {
+    "subtopics": "0 structured V3 → 8",
+    "demos": "legacy few → 8",
+    "exercises": "legacy few → 24",
+    "exam_variants": "12 → 24",
+    "topic_evaluations": "0 → 4",
+    "project_retheme": "Custom ML Pipeline Class — Proyecto OOP de portafolio → Normalizadores puros (inicio CP-N1-B)",
+    "title_retheme": "Object-Oriented Programming (OOP) → Funciones, contratos y descomposición (id 'oop' stable)"
+  },
+  "canonical_subtopic_inventory_preview": [
+    {
+      "subtopic_id": "S05-T1-A",
+      "slug": "def-call-return",
+      "title": "Definición, llamada y retorno",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S05-T1-B",
+      "slug": "params-defaults",
+      "title": "Parámetros posicionales, keyword y defaults seguros",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S05-T2-A",
+      "slug": "pre-post-docstrings",
+      "title": "Pre/postcondiciones y docstrings",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S05-T2-B",
+      "slug": "type-hints-domain-errors",
+      "title": "Type hints graduales y errores de dominio",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S05-T3-A",
+      "slug": "small-composition",
+      "title": "Funciones pequeñas y composición",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S05-T3-B",
+      "slug": "purity-io-injection",
+      "title": "Pureza, efectos e inyección de I/O",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S05-T4-A",
+      "slug": "legb-closures",
+      "title": "LEGB y closures básicos",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S05-T4-B",
+      "slug": "tests-refactor",
+      "title": "Pruebas de ejemplo y refactor sin cambiar conducta",
+      "exists_in_content": false
+    }
+  ],
+  "do_not_delete": [
+    "src/lib/course/sections/s05-oop.ts",
+    "prisma/seed.ts",
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json"
+  ],
+  "phase_1_gate": {
+    "inventory_complete": true,
+    "gaps_quantified": true,
+    "content_not_deleted": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_2"
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "version": "3.2",
+  "section": "S07",
+  "section_id": "data-acquisition",
+  "phase": "PHASE_5",
+  "lane": "LANE-N1-CLOSE",
+  "generated_at": "2026-07-20T14:00:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "data-acquisition"
+  },
+  "parallelism_rules": {
+    "same_skill_per_family": true,
+    "same_format": "MCQ 4 options",
+    "cognitive_demand": "A/B/C matched within family (not cosmetic rewording)",
+    "one_best_answer": true,
+    "explanation": "key rationale only"
+  },
+  "retired_from_bank": [
+    "generators-yield",
+    "sql-injection-safety",
+    "multiprocessing-vs-threads",
+    "logging-best-practices"
+  ],
+  "retired_note": "Legacy acquisition bank replaced with V3 Unicode/str/regex latam slugs.",
+  "families": [
+    {
+      "family_id": "S07-T1-A-EX",
+      "concept": "unicode-normalization-casefold",
+      "skill": "NFC/NFD y casefold",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: formas; B: casefold; C: pipeline.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S07-T1-B-EX",
+      "concept": "latam-names-particles",
+      "skill": "Nombres latam y part\u00edculas",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: no US-only; B: review; C: raw.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S07-T2-A-EX",
+      "concept": "string-ops",
+      "skill": "str methods antes de regex",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: str first; B: split/join; C: cu\u00e1ndo regex.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S07-T2-B-EX",
+      "concept": "names-emails-phones",
+      "skill": "Contacto sin overvalidation",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: email; B: no claims; C: overvalidation.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S07-T3-A-EX",
+      "concept": "regex-patterns-groups",
+      "skill": "Patrones, grupos y anchors",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: grupos; B: anchors; C: fullmatch.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S07-T3-B-EX",
+      "concept": "compile-extract-limits",
+      "skill": "compile, extract y l\u00edmites",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: compile; B: finditer; C: l\u00edmites.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S07-T4-A-EX",
+      "concept": "exact-token-similarity",
+      "skill": "Exacta y Jaccard tokens",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: exacta; B: Jaccard; C: score\u2260veredicto.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S07-T4-B-EX",
+      "concept": "fp-fn-evidence",
+      "skill": "FP/FN y evidencia",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: FP; B: evidencia; C: no parentesco.",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase4_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (data-acquisition key)",
+    "course-state/s07_phase5_exam_bank.json"
+  ]
+}

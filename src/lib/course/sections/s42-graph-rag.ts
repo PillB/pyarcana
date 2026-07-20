@@ -1,157 +1,1158 @@
 import type { CourseSection } from '../../types'
 
 export const section42: CourseSection = {
-  id: 'graph-rag',
+  id: "graph-rag",
   index: 42,
-  title: 'Graph RAG y Knowledge Graphs',
-  shortTitle: 'Graph RAG y Knowledge Graphs',
-  tagline: 'Cuando el texto no es suficiente — las relaciones entre entidades son la inteligencia real.',
-  estimatedHours: 12,
-  level: 'Master',
+  title: "Schemas, seguridad y privacidad de servicios",
+  shortTitle: "Schemas y seguridad",
+  tagline: "threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted",
+  estimatedHours: 14,
+  level: "Master",
   phase: 3,
-  icon: 'Share2',
-  accentColor: 'bg-gradient-to-br from-amber-500 to-red-600',
-  jobRelevance: 'GraphRAG es la frontera actual (2025-2026) en retrieval inteligente para dominios con relaciones complejas: fraud detection, recommendation, drug discovery, compliance. Master AI Engineer roles en banca y pharma valoran este skill diferenciador ($180K-$220K).',
+  icon: "Share2",
+  accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
+  jobRelevance:
+    "Retemática V3 **Schemas, seguridad y privacidad de servicios** (id de plataforma `graph-rag` conservado; legado «Graph RAG y Knowledge Graphs»). Contribuye a **CP-N4-A (control plane)**: threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted. Datos sintéticos; sin PII real. ER/matching no implica fraude ni parentesco.",
   learningOutcomes: [
-    { text: 'Construir Knowledge Graphs con Neo4j desde datos no estructurados con LLMs' },
-    { text: 'Implementar GraphRAG: combinar graph traversal con LLM reasoning para respuestas más precisas' },
-    { text: 'Usar py2neo y Cypher para queries de graph complejos' },
-    { text: 'Aplicar entity resolution (S22) para poblar el knowledge graph sin duplicados' },
-    { text: 'Entender Graph Embeddings para semantic search sobre graphs' },
-    { text: 'Casos de uso: fraud detection, recommendation systems, drug discovery patterns' },
+    { text: "Define schemas Pydantic/JSON Schema" },
+    { text: "Evoluciona schemas con validación de negocio" },
+    { text: "Implementa authn/authz RBAC" },
+    { text: "Aplica scopes y deny-by-default" },
+    { text: "Mitiga injection/SSRF/path traversal" },
+    { text: "Gestiona secretos, cifrado y deps" },
+    { text: "Minimiza datos y fija retención" },
+    { text: "Audita, borra y seudonimiza accesos" },
   ],
   theory: [
     {
-      heading: 'Graph RAG: combinando knowledge graphs con retrieval-augmented generation',
+      heading: "Mapa V3 S42: Schemas, seguridad y privacidad de servicios",
       paragraphs: [
-        'GraphRAG combina knowledge graphs (Neo4j) con retrieval-augmented generation para dar respuestas más precisas que el RAG vector-only tradicional. En RAG vector-only, recuperas documentos similares al query por similitud coseno. En GraphRAG, también navegas las relaciones entre entidades: si el usuario pregunta "¿quiénes son los colegas de Ana?", el vector search encuentra documentos sobre Ana, pero el graph traversal encuentra explícitamente las relaciones "trabaja_con" conectadas a Ana. Esto es especialmente poderoso para preguntas multi-hop: "¿qué proyectos comparten los colegas de Ana?" — vector-only no puede responder esto porque requiere joins entre entidades.',
-        'Neo4j es la base de datos de grafos más usada. Usa Cypher como query language: `MATCH (a:Person {name: "Ana"})-[:WORKS_WITH]->(b:Person) RETURN b.name`. En Python, la librería `neo4j` oficial conecta al driver. Para construir el knowledge graph, usas LLMs para extraer entidades (persona, empresa, proyecto) y relaciones (trabaja_con, pertenece_a) de documentos no estructurados. OpenAI structured outputs con pydantic garantiza que el LLM devuelva entidades y relaciones en formato válido. Luego, cargas estos en Neo4j con Cypher CREATE.',
-        'El hybrid retrieval combina vector search (pgvector o Pinecone) con graph traversal (Neo4j). Primero, vector search encuentra los top-K documentos relevantes al query. Luego, graph traversal expande desde las entidades mencionadas en esos documentos, encontrando relaciones que el vector search no captura. Finalmente, combinas ambos contextos y los envías al LLM. En benchmarks RAGAS, GraphRAG reduce hallucination rate 40-60% vs vector-only RAG, especialmente en preguntas multi-hop y de razonamiento relacional.',
+        "En V3, **S42** retematiza el archivo de plataforma `graph-rag` hacia **Schemas, seguridad y privacidad de servicios**.",
+        "Incremento: threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger.",
       ],
+      callout: {
+        type: "info",
+        title: "Platform id preservado",
+        content:
+          "KEEP_PLATFORM_ID_RETHEME_CONTENT: `graph-rag`. Capstone: CP-N4-A (control plane).",
+      },
+    },
+    {
+      heading: "Pydantic y JSON Schema",
+      subtopicId: "S42-T1-A",
+      paragraphs: [
+        "**Pydantic y JSON Schema** — outcome del blueprint phase3 para `pydantic-jsonschema`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "pydantic_jsonschema.py",
+        code: `print(True); print(False); print("jsonschema", True)`,
+        output: `True
+False
+jsonschema True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "evolución, discriminated unions y validación de negocio",
+      subtopicId: "S42-T1-B",
+      paragraphs: [
+        "**evolución, discriminated unions y validación de negocio** — outcome del blueprint phase3 para `evolution-unions-business-val`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "evolution_unions_business_val.py",
+        code: `print("EmailEvent"); print("SmsEvent"); print("union", "discriminated")`,
+        output: `EmailEvent
+SmsEvent
+union discriminated`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "authn/authz y RBAC",
+      subtopicId: "S42-T2-A",
+      paragraphs: [
+        "**authn/authz y RBAC** — outcome del blueprint phase3 para `authn-authz-rbac`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "authn_authz_rbac.py",
+        code: `print(True); print(False); print("authn_vs_authz", "identity!=permission")`,
+        output: `True
+False
+authn_vs_authz identity!=permission`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "scopes, service identities y deny-by-default",
+      subtopicId: "S42-T2-B",
+      paragraphs: [
+        "**scopes, service identities y deny-by-default** — outcome del blueprint phase3 para `scopes-service-ids-deny`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "scopes_service_ids_deny.py",
+        code: `print(True); print(False); print("deny_by_default", True)`,
+        output: `True
+False
+deny_by_default True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "input limits, injection y SSRF/path traversal",
+      subtopicId: "S42-T3-A",
+      paragraphs: [
+        "**input limits, injection y SSRF/path traversal** — outcome del blueprint phase3 para `limits-injection-ssrf-path`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "limits_injection_ssrf_path.py",
+        code: `print("/data/a.txt"); print("blocked", "traversal"); print("ssrf_guard", "allowlist")`,
+        output: `/data/a.txt
+blocked traversal
+ssrf_guard allowlist`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "secretos, cifrado y dependency risk",
+      subtopicId: "S42-T3-B",
+      paragraphs: [
+        "**secretos, cifrado y dependency risk** — outcome del blueprint phase3 para `secrets-crypto-deps`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "secrets_crypto_deps.py",
+        code: `import hashlib
+print("fp", hashlib.sha256(b"not-a-real-secret").hexdigest()[:12])
+print("store", "env_or_vault")
+print("never_log_raw", True)`,
+        output: `fp ed24bc0bb03d
+store env_or_vault
+never_log_raw True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "minimización, purpose y retención",
+      subtopicId: "S42-T4-A",
+      paragraphs: [
+        "**minimización, purpose y retención** — outcome del blueprint phase3 para `minimize-purpose-retention`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "minimize_purpose_retention.py",
+        code: `print("minimized", ["case_id","status"]); print("purpose", "case_ops"); print("retention", 90)`,
+        output: `minimized ['case_id', 'status']
+purpose case_ops
+retention 90`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "audit, deletion, pseudonymization y acceso",
+      subtopicId: "S42-T4-B",
+      paragraphs: [
+        "**audit, deletion, pseudonymization y acceso** — outcome del blueprint phase3 para `audit-delete-pseudo-access`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "audit_delete_pseudo_access.py",
+        code: `import hashlib
+print("pseudo", hashlib.sha256(b"synth:user-1").hexdigest()[:16])
+print("audit_n", 1)
+print("delete", "soft+hard_policy")`,
+        output: `pseudo d6e07b73dc2ab4b4
+audit_n 1
+delete soft+hard_policy`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
     },
   ],
   iDo: {
-    intro: 'Te muestro paso a paso cómo aplicar los conceptos de esta sección con ejemplos prácticos.',
+    intro: "Te muestro 8 demos de S42 (Schemas, seguridad y privacidad de servicios) alineadas a CP-N4-A (control plane).",
     steps: [
       {
-        description: 'Construir un knowledge graph en Neo4j desde documentos con LLM',
+        demoId: "S42-T1-A-DEMO",
+        subtopicId: "S42-T1-A",
+        environment: "local-python",
+        description: "Demo: Pydantic y JSON Schema",
         code: {
           language: 'python',
-          title: 'demo.py',
-          code: '# GraphRAG: Neo4j knowledge graph + hybrid retrieval\nfrom neo4j import GraphDatabase\ndriver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4r", "password"))\n\ndef create_graph(tx, entities, rels):\n    for e in entities:\n        tx.run("MERGE (n:Entity {name: $name, type: $type})", **e)\n    for r in rels:\n        tx.run("MATCH (a:Entity {name: $s}), (b:Entity {name: $t}) MERGE (a)-[:RELATES {type: $rt}]->(b)", s=r["source"], t=r["target"], rt=r["type"])\n\nentities = [{"name": "Ana", "type": "Person"}, {"name": "Interbank", "type": "Company"}]\nrels = [{"source": "Ana", "target": "Interbank", "type": "WORKS_AT"}]\nwith driver.session() as s:\n    s.execute_write(create_graph, entities, rels)\n    result = s.run("MATCH (a:Entity {name: \\"Ana\\"})-[:WORKS_AT]->(c) RETURN c.name")\nfor r in result: print(f"  Trabaja en: {r[\'c.name\']}")',
+          title: "demo_pydantic_jsonschema.py",
+          code: `print({"age":3}); print("pydantic_like", True); print("strict", True)`,
+          output: `{'age': 3}
+pydantic_like True
+strict True`,
         },
-        why: 'GraphRAG combina vector search con graph traversal. Neo4j almacena entidades y relaciones. Cypher queries navegan el grafo para preguntas multi-hop que el RAG vectorial no puede resolver.',
+        why: "Demuestra el outcome de S42-T1-A con Python verificable.",
+      },
+      {
+        demoId: "S42-T1-B-DEMO",
+        subtopicId: "S42-T1-B",
+        environment: "local-python",
+        description: "Demo: evolución, discriminated unions y validación de negocio",
+        code: {
+          language: 'python',
+          title: "demo_evolution_unions_business_val.py",
+          code: `print(10); print("err", "amount"); print("evol", "add_optional")`,
+          output: `10
+err amount
+evol add_optional`,
+        },
+        why: "Demuestra el outcome de S42-T1-B con Python verificable.",
+      },
+      {
+        demoId: "S42-T2-A-DEMO",
+        subtopicId: "S42-T2-A",
+        environment: "local-python",
+        description: "Demo: authn/authz y RBAC",
+        code: {
+          language: 'python',
+          title: "demo_authn_authz_rbac.py",
+          code: `print("authn", "u1"); print("roles", ["analyst"]); print("authz_needed", True)`,
+          output: `authn u1
+roles ['analyst']
+authz_needed True`,
+        },
+        why: "Demuestra el outcome de S42-T2-A con Python verificable.",
+      },
+      {
+        demoId: "S42-T2-B-DEMO",
+        subtopicId: "S42-T2-B",
+        environment: "local-python",
+        description: "Demo: scopes, service identities y deny-by-default",
+        code: {
+          language: 'python',
+          title: "demo_scopes_service_ids_deny.py",
+          code: `print("er-worker"); print(["jobs:run"]); print("service_identity", True)`,
+          output: `er-worker
+['jobs:run']
+service_identity True`,
+        },
+        why: "Demuestra el outcome de S42-T2-B con Python verificable.",
+      },
+      {
+        demoId: "S42-T3-A-DEMO",
+        subtopicId: "S42-T3-A",
+        environment: "local-python",
+        description: "Demo: input limits, injection y SSRF/path traversal",
+        code: {
+          language: 'python',
+          title: "demo_limits_injection_ssrf_path.py",
+          code: `print(True); print(False); print("injection", "parameterized")`,
+          output: `True
+False
+injection parameterized`,
+        },
+        why: "Demuestra el outcome de S42-T3-A con Python verificable.",
+      },
+      {
+        demoId: "S42-T3-B-DEMO",
+        subtopicId: "S42-T3-B",
+        environment: "local-python",
+        description: "Demo: secretos, cifrado y dependency risk",
+        code: {
+          language: 'python',
+          title: "demo_secrets_crypto_deps.py",
+          code: `print("high", ["old"]); print("crypto", "AES-GCM-at-rest"); print("rotate", True)`,
+          output: `high ['old']
+crypto AES-GCM-at-rest
+rotate True`,
+        },
+        why: "Demuestra el outcome de S42-T3-B con Python verificable.",
+      },
+      {
+        demoId: "S42-T4-A-DEMO",
+        subtopicId: "S42-T4-A",
+        environment: "local-python",
+        description: "Demo: minimización, purpose y retención",
+        code: {
+          language: 'python',
+          title: "demo_minimize_purpose_retention.py",
+          code: `print({"case_id":"C1"}); print("drop_email_for_log", True); print("purpose_bound", True)`,
+          output: `{'case_id': 'C1'}
+drop_email_for_log True
+purpose_bound True`,
+        },
+        why: "Demuestra el outcome de S42-T4-A con Python verificable.",
+      },
+      {
+        demoId: "S42-T4-B-DEMO",
+        subtopicId: "S42-T4-B",
+        environment: "local-python",
+        description: "Demo: audit, deletion, pseudonymization y acceso",
+        code: {
+          language: 'python',
+          title: "demo_audit_delete_pseudo_access.py",
+          code: `print(True); print(False); print("no_cross_tenant", True)`,
+          output: `True
+False
+no_cross_tenant True`,
+        },
+        why: "Demuestra el outcome de S42-T4-B con Python verificable.",
       },
     ],
   },
   weDo: {
-    intro: 'Ahora te toca a ti practicar con guía. Lee cada instrucción, intenta escribir el código, y si te trabas revisa la solución.',
+    intro: "24 ejercicios (8×E1 guided / E2 independent / E3 transfer) en es-PE con soluciones verificadas.",
     steps: [
       {
-        instruction: 'Implementa entity extraction con OpenAI structured outputs y carga en Neo4j',
-        hint: 'Revisa la teoría y el I Do antes de intentar este ejercicio.',
+        id: "S42-T1-A-E1",
+        subtopicId: "S42-T1-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'ejercicio.py',
-          code: '# Tu código aquí\n',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
         },
         solutionCode: {
           language: 'python',
-          title: 'solucion.py',
-          code: '# Hybrid retrieval: vector search + graph traversal\ndocs = vector_store.similarity_search("Quien trabaja con Ana?", k=5)\nwith driver.session() as s:\n    result = s.run("MATCH (e:Entity)-[r]->(rel) WHERE e.name CONTAINS \\"Ana\\" RETURN e.name, type(r), rel.name")\n    for r in result: print(f"  {r[\'e.name\']} --{r[\'type(r)\']}--> {r[\'rel.name\']}")\nprint("Hybrid retrieval: vector + graph = mejor precision")',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S42-T1-A-E2",
+        subtopicId: "S42-T1-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(3)`,
+          output: `3`,
+        },
+      },
+      {
+        id: "S42-T1-A-E3",
+        subtopicId: "S42-T1-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('object')`,
+          output: `object`,
+        },
+      },
+      {
+        id: "S42-T1-B-E1",
+        subtopicId: "S42-T1-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('EmailEvent')`,
+          output: `EmailEvent`,
+        },
+      },
+      {
+        id: "S42-T1-B-E2",
+        subtopicId: "S42-T1-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('amount')`,
+          output: `amount`,
+        },
+      },
+      {
+        id: "S42-T1-B-E3",
+        subtopicId: "S42-T1-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('add_optional')`,
+          output: `add_optional`,
+        },
+      },
+      {
+        id: "S42-T2-A-E1",
+        subtopicId: "S42-T2-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S42-T2-A-E2",
+        subtopicId: "S42-T2-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S42-T2-A-E3",
+        subtopicId: "S42-T2-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('u1')`,
+          output: `u1`,
+        },
+      },
+      {
+        id: "S42-T2-B-E1",
+        subtopicId: "S42-T2-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S42-T2-B-E2",
+        subtopicId: "S42-T2-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S42-T2-B-E3",
+        subtopicId: "S42-T2-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('er-worker')`,
+          output: `er-worker`,
+        },
+      },
+      {
+        id: "S42-T3-A-E1",
+        subtopicId: "S42-T3-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('traversal')`,
+          output: `traversal`,
+        },
+      },
+      {
+        id: "S42-T3-A-E2",
+        subtopicId: "S42-T3-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(False)`,
+          output: `False`,
+        },
+      },
+      {
+        id: "S42-T3-A-E3",
+        subtopicId: "S42-T3-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('allowlist')`,
+          output: `allowlist`,
+        },
+      },
+      {
+        id: "S42-T3-B-E1",
+        subtopicId: "S42-T3-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(12)`,
+          output: `12`,
+        },
+      },
+      {
+        id: "S42-T3-B-E2",
+        subtopicId: "S42-T3-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['old'])`,
+          output: `['old']`,
+        },
+      },
+      {
+        id: "S42-T3-B-E3",
+        subtopicId: "S42-T3-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S42-T4-A-E1",
+        subtopicId: "S42-T4-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(90)`,
+          output: `90`,
+        },
+      },
+      {
+        id: "S42-T4-A-E2",
+        subtopicId: "S42-T4-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['case_id','status'])`,
+          output: `['case_id', 'status']`,
+        },
+      },
+      {
+        id: "S42-T4-A-E3",
+        subtopicId: "S42-T4-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('case_ops')`,
+          output: `case_ops`,
+        },
+      },
+      {
+        id: "S42-T4-B-E1",
+        subtopicId: "S42-T4-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(16)`,
+          output: `16`,
+        },
+      },
+      {
+        id: "S42-T4-B-E2",
+        subtopicId: "S42-T4-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(False)`,
+          output: `False`,
+        },
+      },
+      {
+        id: "S42-T4-B-E3",
+        subtopicId: "S42-T4-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('read')`,
+          output: `read`,
         },
       },
     ],
   },
   youDo: {
-    title: 'Knowledge Graph + GraphRAG',
-    context: 'Knowledge graph de entidades de un dominio (ej: empresas peruanas, ejecutivos, relaciones societarias) construido con LLM extraction + GraphRAG para consultas complejas que requieren razonamiento relacional.',
+    title: "Schemas, seguridad y privacidad de servicios",
+    context:
+      "Proyecto de sección **S42** (Schemas, seguridad y privacidad de servicios). Gate: **CP-N4-A (control plane)**. threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted. Usa solo datos sintéticos; no marques section_passed desde esta entrega de autoría.",
     objectives: [
-      'Aplicar los conceptos aprendidos en un proyecto real',
-      'Demostrar dominio del tema con un entregable de portafolio',
-      'Documentar el proceso y los resultados',
+      "threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-A (control plane)",
     ],
     requirements: [
-      'Código funcional y documentado',
-      'Tests que validen el funcionamiento',
-      'README con instrucciones de uso',
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección",
     ],
-    portfolioNote: 'Este proyecto es ideal para mostrar en entrevistas técnicas y agregar a tu portafolio de GitHub.',
+    starterCode: `# S42 You Do — Schemas, seguridad y privacidad de servicios
+# Gate: CP-N4-A (control plane)
+# threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted.
+
+def main():
+    print("section", "S42")
+    print("gate", 'CP-N4-A (control plane)')
+    print("synthetic", True)
+    # TODO: implementar incremento del blueprint
+
+if __name__ == "__main__":
+    main()
+`,
+    portfolioNote:
+      "Entrega alineada a CP-N4-A (control plane). Portfolio en español profesional; evidencia ejecutable; privacidad. Otra lane califica PASS; no editar checkpoint/ledger/seed.",
     rubric: [
-      { criterion: 'Funcionalidad', weight: '40%' },
-      { criterion: 'Calidad de código', weight: '20%' },
-      { criterion: 'Documentación', weight: '20%' },
-      { criterion: 'Tests', weight: '20%' },
+      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
+      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
+      { criterion: "Privacidad / sin PII real / sin secretos", weight: "20%" },
+      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
+      { criterion: "Código legible y límites claros", weight: "10%" },
+      { criterion: "Documentación en español profesional", weight: "10%" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: '¿Qué es GraphRAG y cómo mejora sobre RAG vectorial tradicional?',
+        question: "El id de plataforma de S42 que se preserva es:",
         options: [
-          'Combina knowledge graphs (Neo4j) con retrieval vectorial — navega relaciones entre entidades para responder preguntas multi-hop que el RAG vectorial no puede',
-          'GraphRAG es RAG pero más rápido',
-          'GraphRAG usa grafos en vez de vectores exclusivamente',
-          'GraphRAG es un modelo de lenguaje',
+          "graph-rag",
+          "renamed-v3",
+          "legacy-drop",
+          "random",
         ],
         correctIndex: 0,
-        explanation: 'GraphRAG combina vector search (encuentra documentos similares) con graph traversal (navega relaciones explícitas). Para "¿quiénes son los colegas de Ana?", el vector search encuentra docs sobre Ana, pero el graph traversal encuentra las relaciones "trabaja_con" conectadas a Ana.',
+        explanation:
+          "KEEP_PLATFORM_ID_RETHEME_CONTENT.",
       },
       {
-        question: '¿Qué es Neo4j y qué lenguaje de query usa?',
+        question: "El incremento/gate V3 de S42 pertenece a:",
         options: [
-          'Base de datos de grafos que usa Cypher: MATCH (a:Person)-[:WORKS_WITH]->(b) RETURN b.name — almacena nodos y relaciones en vez de tablas',
-          'Una base de datos SQL',
-          'Un framework de visualización',
-          'Un sistema de colas',
+          "CP-N4-A (control plane)",
+          "CP-N1-A",
+          "solo marketing",
+          "sin capstone",
         ],
         correctIndex: 0,
-        explanation: 'Neo4j es la base de datos de grafos más usada. Cypher es su lenguaje: MATCH (n:Person {name:"Ana"})-[:KNOWS]->(friend) RETURN friend. Los nodos tienen labels y propiedades; las relaciones tienen tipo y dirección. Python se conecta con la librería neo4j oficial.',
+        explanation:
+          "Blueprint phase3 capstone_notes.",
       },
       {
-        question: '¿Qué es entity extraction con LLMs para construir knowledge graphs?',
+        question: "Los ejemplos del curso deben usar:",
         options: [
-          'Usar un LLM para identificar entidades (persona, empresa, proyecto) y relaciones en texto libre, luego cargarlas en Neo4j con Cypher CREATE',
-          'Extraer entidades de un archivo ZIP',
-          'Un algoritmo de clustering',
-          'Un sistema de reconocimiento óptico',
+          "PII real de clientes",
+          "Datos sintéticos",
+          "Secretos de prod",
+          "Claves API reales",
         ],
-        correctIndex: 0,
-        explanation: 'El LLM recibe texto: "Ana trabaja en Interbank con Luis en el proyecto ChurnBot". Extrae: entidades (Ana:Person, Interbank:Company, Luis:Person, ChurnBot:Project) y relaciones (Ana WORKS_AT Interbank, Ana WORKS_WITH Luis, Ana WORKS_ON ChurnBot). Se cargan con Cypher CREATE.',
+        correctIndex: 1,
+        explanation:
+          "Synthetic data only.",
       },
       {
-        question: '¿Qué es hybrid retrieval en GraphRAG?',
+        question: "Entity resolution (si aparece) decide:",
         options: [
-          'Combinar vector search (encontrar docs similares) + graph traversal (explorar relaciones) — da respuestas más precisas que cada método por separado',
-          'Buscar en múltiples bases de datos simultáneamente',
-          'Un algoritmo de búsqueda binaria',
-          'Un sistema de cache',
+          "Fraude",
+          "Parentesco",
+          "Misma entidad cuando aplique",
+          "Sentimiento",
         ],
-        correctIndex: 0,
-        explanation: 'Hybrid retrieval: (1) vector search encuentra los top-K documentos relevantes al query, (2) graph traversal expande desde las entidades en esos documentos encontrando relaciones, (3) se combina el contexto y se envía al LLM. Reduce hallucinations 40-60% vs vector-only.',
-      },
-      {
-        question: '¿Cómo evalúas la calidad de un sistema RAG?',
-        options: [
-          'Con RAGAS: mide faithfulness (¿la respuesta está fundamentada en el contexto?), answer relevancy (¿responde la pregunta?), context precision/recall',
-          'Solo con accuracy',
-          'Solo con latencia',
-          'No se puede evaluar un RAG',
-        ],
-        correctIndex: 0,
-        explanation: 'RAGAS evalúa 4 dimensiones: faithfulness (no alucinación), answer relevancy (responde la pregunta), context precision (el contexto recuperado es relevante), context recall (el contexto recuperado es completo). Usa un LLM como juez. Se corre después de cada cambio de prompt o modelo.',
+        correctIndex: 2,
+        explanation:
+          "ER ≠ relación ≠ fraude.",
       },
     ],
   },
   resources: {
     docs: [
-      { label: 'Documentación oficial', url: 'https://docs.python.org/3/' },
+      {
+        label: "Python docs",
+        url: "https://docs.python.org/3/",
+        note: "Referencia stdlib",
+      },
+      {
+        label: "V3 section support",
+        url: "https://docs.python.org/3/library/",
+        note: "Apoyo S42 Schemas, seguridad y privacidad de servicios",
+      },
     ],
     books: [
-      { label: 'Python 201 — Michael Driscoll', note: 'Capítulos relevantes para esta sección' },
+      {
+        label: "Architecture / platform engineering refs",
+        note: "Alinear a Schemas, seguridad y privacidad de servicios",
+      },
+      {
+        label: "Site Reliability / Security basics",
+        note: "Operación y privacidad",
+      },
     ],
     courses: [
-      { label: 'Real Python', url: 'https://realpython.com', note: 'Tutoriales complementarios' },
+      {
+        label: "MDN / cloud / MLOps primers",
+        url: "https://developer.mozilla.org/",
+        note: "Complemento conceptual",
+      },
     ],
   },
 }

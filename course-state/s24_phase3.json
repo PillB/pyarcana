@@ -1,0 +1,1076 @@
+{
+  "version": "3.2",
+  "section": "S24",
+  "section_id": "rpa-advanced",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T17:30:00Z",
+  "lane": "LANE-N2-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N2-FACTORY — S14–S26 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N2-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S24 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S24 only (within N2 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s24-rpa-advanced.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "rpa-advanced",
+    "index": 24,
+    "title_platform": "RPAs Avanzados y Orquestación",
+    "title_v3": "OCR y Document AI",
+    "title_decision": "KEEP platform id 'rpa-advanced' (learning_roadmap.md). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "extrae campos de documentos sintéticos, conserva bounding boxes/evidencia, abstiene bajo confidence y mide cada campo cr",
+    "estimatedHours": 12,
+    "level": "Competente",
+    "phase": 1,
+    "prerequisites": [
+      "S23"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N2-C (document intake)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "rpa-advanced",
+    "platform_title": "RPAs Avanzados y Orquestación",
+    "v3_title": "OCR y Document AI",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "learning_roadmap.md for stable id; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante preprocesa imágenes (DPI, deskew, crop, contraste).",
+    "El estudiante corrige ruido y orientación.",
+    "El estudiante ejecuta OCR con idiomas, layout y confidence.",
+    "El estudiante extrae texto, tablas y pares clave–valor.",
+    "El estudiante normaliza a schema de extracción.",
+    "El estudiante valida cross-field y encola revisión.",
+    "El estudiante evalúa exactitud por campo en golden set.",
+    "El estudiante maneja privacidad, hostiles y fallback."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S24-T1-A",
+      "slug": "dpi-deskew-crop-contrast",
+      "title": "DPI, deskew, crop y contraste"
+    },
+    {
+      "subtopic_id": "S24-T1-B",
+      "slug": "noise-orientation",
+      "title": "ruido y orientación"
+    },
+    {
+      "subtopic_id": "S24-T2-A",
+      "slug": "langs-layout-confidence",
+      "title": "idiomas, layout y confidence"
+    },
+    {
+      "subtopic_id": "S24-T2-B",
+      "slug": "text-tables-kv-pairs",
+      "title": "texto, tablas y pares clave–valor"
+    },
+    {
+      "subtopic_id": "S24-T3-A",
+      "slug": "schema-normalization",
+      "title": "schema y normalización"
+    },
+    {
+      "subtopic_id": "S24-T3-B",
+      "slug": "crossfield-validation-review",
+      "title": "validación cross-field y cola de revisión"
+    },
+    {
+      "subtopic_id": "S24-T4-A",
+      "slug": "golden-field-accuracy-coverage",
+      "title": "golden set sintético, exactitud por campo y cobertura"
+    },
+    {
+      "subtopic_id": "S24-T4-B",
+      "slug": "privacy-hostile-fallback",
+      "title": "privacidad, archivos hostiles y fallback"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S24-T1",
+      "title": "Imagen",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S24-T1-A",
+          "slug": "dpi-deskew-crop-contrast",
+          "title": "DPI, deskew, crop y contraste",
+          "outcome": "El estudiante preprocesa imágenes (DPI, deskew, crop, contraste).",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "DPI, deskew, crop y contraste",
+              "must_cover": [
+                "DPI",
+                "deskew",
+                "crop",
+                "contrast"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S24-T1-A-DEMO",
+              "title": "Preprocesar imagen para OCR",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S24-T1-A-E1",
+                "kind": "guided",
+                "title": "DPI, deskew, crop y contraste — guided",
+                "skill": "dpi",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S24-T1-A-E2",
+                "kind": "independent",
+                "title": "DPI, deskew, crop y contraste — independent",
+                "skill": "dpi",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S24-T1-A-E3",
+                "kind": "transfer",
+                "title": "DPI, deskew, crop y contraste — transfer",
+                "skill": "dpi",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S24-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S24-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S24-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S24-T1-B",
+          "slug": "noise-orientation",
+          "title": "ruido y orientación",
+          "outcome": "El estudiante corrige ruido y orientación.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "ruido y orientación",
+              "must_cover": [
+                "denoise",
+                "rotate/exif",
+                "page detect"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S24-T1-B-DEMO",
+              "title": "Corregir orientación y ruido",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S24-T1-B-E1",
+                "kind": "guided",
+                "title": "ruido y orientación — guided",
+                "skill": "noise",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S24-T1-B-E2",
+                "kind": "independent",
+                "title": "ruido y orientación — independent",
+                "skill": "noise",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S24-T1-B-E3",
+                "kind": "transfer",
+                "title": "ruido y orientación — transfer",
+                "skill": "noise",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S24-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S24-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S24-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S24-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S24-T1-EVAL-1",
+            "title": "DPI, deskew, crop y contraste — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S24-T1-EVAL-2",
+            "title": "ruido y orientación — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S24-T2",
+      "title": "OCR",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S24-T2-A",
+          "slug": "langs-layout-confidence",
+          "title": "idiomas, layout y confidence",
+          "outcome": "El estudiante ejecuta OCR con idiomas, layout y confidence.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "idiomas, layout y confidence",
+              "must_cover": [
+                "lang packs",
+                "layout",
+                "confidence scores"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S24-T2-A-DEMO",
+              "title": "OCR multi-idioma con confidence",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S24-T2-A-E1",
+                "kind": "guided",
+                "title": "idiomas, layout y confidence — guided",
+                "skill": "langs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S24-T2-A-E2",
+                "kind": "independent",
+                "title": "idiomas, layout y confidence — independent",
+                "skill": "langs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S24-T2-A-E3",
+                "kind": "transfer",
+                "title": "idiomas, layout y confidence — transfer",
+                "skill": "langs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S24-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S24-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S24-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S24-T2-B",
+          "slug": "text-tables-kv-pairs",
+          "title": "texto, tablas y pares clave–valor",
+          "outcome": "El estudiante extrae texto, tablas y pares clave–valor.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "texto, tablas y pares clave–valor",
+              "must_cover": [
+                "table extract",
+                "KV pairs",
+                "blocks"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S24-T2-B-DEMO",
+              "title": "Extraer texto, tablas y KV",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S24-T2-B-E1",
+                "kind": "guided",
+                "title": "texto, tablas y pares clave–valor — guided",
+                "skill": "text",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S24-T2-B-E2",
+                "kind": "independent",
+                "title": "texto, tablas y pares clave–valor — independent",
+                "skill": "text",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S24-T2-B-E3",
+                "kind": "transfer",
+                "title": "texto, tablas y pares clave–valor — transfer",
+                "skill": "text",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S24-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S24-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S24-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S24-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S24-T2-EVAL-1",
+            "title": "idiomas, layout y confidence — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S24-T2-EVAL-2",
+            "title": "texto, tablas y pares clave–valor — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S24-T3",
+      "title": "Extracción",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S24-T3-A",
+          "slug": "schema-normalization",
+          "title": "schema y normalización",
+          "outcome": "El estudiante normaliza a schema de extracción.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "schema y normalización",
+              "must_cover": [
+                "target schema",
+                "normalize fields",
+                "types"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S24-T3-A-DEMO",
+              "title": "Mapear a schema normalizado",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S24-T3-A-E1",
+                "kind": "guided",
+                "title": "schema y normalización — guided",
+                "skill": "schema",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S24-T3-A-E2",
+                "kind": "independent",
+                "title": "schema y normalización — independent",
+                "skill": "schema",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S24-T3-A-E3",
+                "kind": "transfer",
+                "title": "schema y normalización — transfer",
+                "skill": "schema",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S24-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S24-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S24-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S24-T3-B",
+          "slug": "crossfield-validation-review",
+          "title": "validación cross-field y cola de revisión",
+          "outcome": "El estudiante valida cross-field y encola revisión.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "validación cross-field y cola de revisión",
+              "must_cover": [
+                "cross-field",
+                "review queue",
+                "abstain"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S24-T3-B-DEMO",
+              "title": "Validar y encolar revisión/abstención",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S24-T3-B-E1",
+                "kind": "guided",
+                "title": "validación cross-field y cola de revisión — guided",
+                "skill": "crossfield",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S24-T3-B-E2",
+                "kind": "independent",
+                "title": "validación cross-field y cola de revisión — independent",
+                "skill": "crossfield",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S24-T3-B-E3",
+                "kind": "transfer",
+                "title": "validación cross-field y cola de revisión — transfer",
+                "skill": "crossfield",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S24-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S24-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S24-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S24-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S24-T3-EVAL-1",
+            "title": "schema y normalización — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S24-T3-EVAL-2",
+            "title": "validación cross-field y cola de revisión — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S24-T4",
+      "title": "Evaluación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S24-T4-A",
+          "slug": "golden-field-accuracy-coverage",
+          "title": "golden set sintético, exactitud por campo y cobertura",
+          "outcome": "El estudiante evalúa exactitud por campo en golden set.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "golden set sintético, exactitud por campo y cobertura",
+              "must_cover": [
+                "golden set",
+                "per-field accuracy",
+                "coverage"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S24-T4-A-DEMO",
+              "title": "Medir exactitud por campo en golden set",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S24-T4-A-E1",
+                "kind": "guided",
+                "title": "golden set sintético, exactitud por campo y cobertura — guided",
+                "skill": "golden",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S24-T4-A-E2",
+                "kind": "independent",
+                "title": "golden set sintético, exactitud por campo y cobertura — independent",
+                "skill": "golden",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S24-T4-A-E3",
+                "kind": "transfer",
+                "title": "golden set sintético, exactitud por campo y cobertura — transfer",
+                "skill": "golden",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S24-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S24-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S24-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S24-T4-B",
+          "slug": "privacy-hostile-fallback",
+          "title": "privacidad, archivos hostiles y fallback",
+          "outcome": "El estudiante maneja privacidad, hostiles y fallback.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "privacidad, archivos hostiles y fallback",
+              "must_cover": [
+                "PII redaction",
+                "hostile files",
+                "fallback path"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S24-T4-B-DEMO",
+              "title": "Manejar hostiles y fallback con privacidad",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S24-T4-B-E1",
+                "kind": "guided",
+                "title": "privacidad, archivos hostiles y fallback — guided",
+                "skill": "privacy",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S24-T4-B-E2",
+                "kind": "independent",
+                "title": "privacidad, archivos hostiles y fallback — independent",
+                "skill": "privacy",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S24-T4-B-E3",
+                "kind": "transfer",
+                "title": "privacidad, archivos hostiles y fallback — transfer",
+                "skill": "privacy",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S24-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S24-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S24-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S24-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S24-T4-EVAL-1",
+            "title": "golden set sintético, exactitud por campo y cobertura — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S24-T4-EVAL-2",
+            "title": "privacidad, archivos hostiles y fallback — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S24-PROJ",
+    "title": "Intake OCR con evidencia y abstención",
+    "replaces_legacy": "Legacy You Do de 'RPAs Avanzados y Orquestación' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Extraer campos de documentos sintéticos",
+      "Conservar bounding boxes/evidencia",
+      "Abstener bajo confidence",
+      "Métricas por campo crítico"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N2-C (document intake)",
+    "increment_gate": "extrae campos de documentos sintéticos, conserva bounding boxes/evidencia, abstiene bajo confidence y mide cada campo crítico"
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'rpa-advanced' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s24-rpa-advanced.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'RPAs Avanzados y Orquestación' vs 'OCR y Document AI'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N2-C (document intake)",
+    "increment_gate": "extrae campos de documentos sintéticos, conserva bounding boxes/evidencia, abstiene bajo confidence y mide cada campo crítico",
+    "project_id": "S24-PROJ",
+    "section_passed": false,
+    "notes": "S24 contributes to CP-N2-C (document intake). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N2 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for N2",
+    "risk": "Display title still 'RPAs Avanzados y Orquestación' until product rename; large topic mismatch vs V3 'OCR y Document AI'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S24-T1-A first"
+  }
+}

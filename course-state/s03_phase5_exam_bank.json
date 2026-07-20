@@ -1,0 +1,109 @@
+{
+  "version": "3.2",
+  "section": "S03",
+  "section_id": "data-structures",
+  "phase": "PHASE_5",
+  "lane": "LANE-S03-P5",
+  "generated_at": "2026-07-20T23:45:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "data-structures"
+  },
+  "parallelism_rules": {
+    "same_skill_per_family": true,
+    "same_format": "MCQ 4 options",
+    "cognitive_demand": "A/B/C matched within family (not cosmetic rewording)",
+    "one_best_answer": true,
+    "explanation": "key rationale only"
+  },
+  "retired_from_s03_bank": [
+    "json-load-vs-loads",
+    "with-statement",
+    "defaultdict",
+    "exception-type"
+  ],
+  "retired_note": "Legacy S03 bank covered file/JSON/collections (V3 S6 territory). Replaced with V3 decision/rules slugs for motor de reglas CP-N1-A.",
+  "families": [
+    {
+      "family_id": "S03-T1-A-EX",
+      "concept": "comparisons-membership",
+      "skill": "Elegir ==/!=/</>/in/is None y predecir booleanos de intake",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: in con set allowlist; B: rango encadenado; C: is None vs == valor. Misma habilidad de comparación/pertenencia; superficies distintas.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S03-T1-B-EX",
+      "concept": "truthiness-shortcircuit",
+      "skill": "Separar truthiness de ausencia; predecir and/or short-circuit",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: if monto: bug con cero; B: '' or default; C: política None/0/negativo. Misma skill truthiness/short-circuit.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S03-T2-A-EX",
+      "concept": "if-elif-else",
+      "skill": "Clasificar con una rama dominante if/elif/else y fronteras",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: por qué elif vs if sueltos; B: fronteras 80/50; C: overwrite con if dobles. Misma exclusión mutua.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S03-T2-B-EX",
+      "concept": "guard-clauses",
+      "skill": "Orden de guards (None→tipo→rango) y detectar ramas muertas",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: orden típico; B: TypeError si None antes de rango; C: rama inalcanzable. Misma skill de guards.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S03-T3-A-EX",
+      "concept": "allowlists-ranges",
+      "skill": "Combinar allowlist + rango con accept/review/reject",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: región fuera → review; B: edad fuera → reject; C: UPPER_CASE constante. Misma skill de reglas de dominio.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S03-T3-B-EX",
+      "concept": "decision-tables-match",
+      "skill": "Leer decision table e implementar con if o match/case",
+      "bloom": "Comprender/Aplicar",
+      "equivalence_note": "A: qué es decision table; B: OR pattern |; C: cuándo if vs match. Misma skill de tablas/patrones.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S03-T4-A-EX",
+      "concept": "invariants-examples",
+      "skill": "Enunciar invariantes con ejemplos accept/reject/review",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: ejemplos canónicos; B: assert vs status en prod; C: trío contacto. Misma skill de invariantes.",
+      "variants": ["A", "B", "C"]
+    },
+    {
+      "family_id": "S03-T4-B-EX",
+      "concept": "actionable-messages-branch-tests",
+      "skill": "Mensajes accionables y un test por rama",
+      "bloom": "Aplicar",
+      "equivalence_note": "A: mensaje con campo+acción; B: ≥N tests por N ramas; C: rojo→verde en fronteras. Misma skill de verificación.",
+      "variants": ["A", "B", "C"]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (data-structures key only)",
+    "course-state/s03_phase5_exam_bank.json",
+    "course-state/lanes/LANE-S03-P5.status.json"
+  ]
+}

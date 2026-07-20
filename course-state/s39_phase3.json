@@ -1,0 +1,1093 @@
+{
+  "version": "3.2",
+  "section": "S39",
+  "section_id": "integrator-phase2",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S39 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S39 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s39-integrator-phase2.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "integrator-phase2",
+    "index": 39,
+    "title_platform": "Proyecto Integrador Fase 2",
+    "title_v3": "Responsible ML Case Triage y cierre de nivel",
+    "title_decision": "KEEP platform id 'integrator-phase2' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "Responsible ML Case Triage con baseline, calibración, abstención, monitoreo y revisión; promoción N3 + CF-3",
+    "estimatedHours": 16,
+    "level": "Competente a experto",
+    "phase": 2,
+    "prerequisites": [
+      "S27",
+      "S28",
+      "S29",
+      "S30",
+      "S31",
+      "S32",
+      "S33",
+      "S34",
+      "S35",
+      "S36",
+      "S37",
+      "S38"
+    ],
+    "environment": "local/cloud controlado",
+    "project_capstone": "CP-N3-C (cierre) + CF-3 + Level-3 regression"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "integrator-phase2",
+    "platform_title": "Proyecto Integrador Fase 2",
+    "v3_title": "Responsible ML Case Triage y cierre de nivel",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante ensambla el flujo intake→modelo.",
+    "El estudiante versiona contratos y ownership.",
+    "El estudiante arma cola y evidence packet.",
+    "El estudiante opera decisión, override y apelación.",
+    "El estudiante mitiga privacidad/fairness/seguridad.",
+    "El estudiante monitoreo, incidentes y control humano.",
+    "El estudiante cumple aceptación y demo.",
+    "El estudiante publica cards, valor y postmortem."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S39-T1-A",
+      "slug": "intake-er-rel-features-model",
+      "title": "intake → ER → relación → features → modelo"
+    },
+    {
+      "subtopic_id": "S39-T1-B",
+      "slug": "contracts-versions-ownership",
+      "title": "contratos, versiones y ownership"
+    },
+    {
+      "subtopic_id": "S39-T2-A",
+      "slug": "queue-evidence-packet-explain",
+      "title": "queue, evidence packet y explicación"
+    },
+    {
+      "subtopic_id": "S39-T2-B",
+      "slug": "decision-override-feedback-appeal",
+      "title": "decisión, override, feedback y apelación"
+    },
+    {
+      "subtopic_id": "S39-T3-A",
+      "slug": "privacy-fairness-security",
+      "title": "privacidad, fairness y seguridad"
+    },
+    {
+      "subtopic_id": "S39-T3-B",
+      "slug": "drift-incidents-rollback-human",
+      "title": "drift, incidentes, rollback y human control"
+    },
+    {
+      "subtopic_id": "S39-T4-A",
+      "slug": "acceptance-demo",
+      "title": "aceptación y demo"
+    },
+    {
+      "subtopic_id": "S39-T4-B",
+      "slug": "cards-value-metrics-postmortem",
+      "title": "model/data/system cards, métricas de valor y postmortem"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S39-T1",
+      "title": "Arquitectura",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S39-T1-A",
+          "slug": "intake-er-rel-features-model",
+          "title": "intake → ER → relación → features → modelo",
+          "outcome": "El estudiante ensambla el flujo intake→modelo.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "intake → ER → relación → features → modelo",
+              "must_cover": [
+                "pipeline stages",
+                "contracts"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S39-T1-A-DEMO",
+              "title": "Demo: intake → ER → relación → features → modelo",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S39-T1-A-E1",
+                "kind": "guided",
+                "title": "intake → ER → relación → features → modelo — guided",
+                "skill": "intake",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S39-T1-A-E2",
+                "kind": "independent",
+                "title": "intake → ER → relación → features → modelo — independent",
+                "skill": "intake",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S39-T1-A-E3",
+                "kind": "transfer",
+                "title": "intake → ER → relación → features → modelo — transfer",
+                "skill": "intake",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S39-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S39-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S39-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S39-T1-B",
+          "slug": "contracts-versions-ownership",
+          "title": "contratos, versiones y ownership",
+          "outcome": "El estudiante versiona contratos y ownership.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "contratos, versiones y ownership",
+              "must_cover": [
+                "versioning",
+                "ownership"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S39-T1-B-DEMO",
+              "title": "Demo: contratos, versiones y ownership",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S39-T1-B-E1",
+                "kind": "guided",
+                "title": "contratos, versiones y ownership — guided",
+                "skill": "contracts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S39-T1-B-E2",
+                "kind": "independent",
+                "title": "contratos, versiones y ownership — independent",
+                "skill": "contracts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S39-T1-B-E3",
+                "kind": "transfer",
+                "title": "contratos, versiones y ownership — transfer",
+                "skill": "contracts",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S39-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S39-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S39-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S39-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S39-T1-EVAL-1",
+            "title": "intake → ER → relación → features → modelo — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S39-T1-EVAL-2",
+            "title": "contratos, versiones y ownership — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S39-T2",
+      "title": "Revisor",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S39-T2-A",
+          "slug": "queue-evidence-packet-explain",
+          "title": "queue, evidence packet y explicación",
+          "outcome": "El estudiante arma cola y evidence packet.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "queue, evidence packet y explicación",
+              "must_cover": [
+                "review queue",
+                "evidence packet"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S39-T2-A-DEMO",
+              "title": "Demo: queue, evidence packet y explicación",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S39-T2-A-E1",
+                "kind": "guided",
+                "title": "queue, evidence packet y explicación — guided",
+                "skill": "queue",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S39-T2-A-E2",
+                "kind": "independent",
+                "title": "queue, evidence packet y explicación — independent",
+                "skill": "queue",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S39-T2-A-E3",
+                "kind": "transfer",
+                "title": "queue, evidence packet y explicación — transfer",
+                "skill": "queue",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S39-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S39-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S39-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S39-T2-B",
+          "slug": "decision-override-feedback-appeal",
+          "title": "decisión, override, feedback y apelación",
+          "outcome": "El estudiante opera decisión, override y apelación.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "decisión, override, feedback y apelación",
+              "must_cover": [
+                "override",
+                "feedback loop"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S39-T2-B-DEMO",
+              "title": "Demo: decisión, override, feedback y apelación",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S39-T2-B-E1",
+                "kind": "guided",
+                "title": "decisión, override, feedback y apelación — guided",
+                "skill": "decision",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S39-T2-B-E2",
+                "kind": "independent",
+                "title": "decisión, override, feedback y apelación — independent",
+                "skill": "decision",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S39-T2-B-E3",
+                "kind": "transfer",
+                "title": "decisión, override, feedback y apelación — transfer",
+                "skill": "decision",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S39-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S39-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S39-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S39-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S39-T2-EVAL-1",
+            "title": "queue, evidence packet y explicación — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S39-T2-EVAL-2",
+            "title": "decisión, override, feedback y apelación — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S39-T3",
+      "title": "Riesgo",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S39-T3-A",
+          "slug": "privacy-fairness-security",
+          "title": "privacidad, fairness y seguridad",
+          "outcome": "El estudiante mitiga privacidad/fairness/seguridad.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "privacidad, fairness y seguridad",
+              "must_cover": [
+                "privacy",
+                "fairness",
+                "security"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S39-T3-A-DEMO",
+              "title": "Demo: privacidad, fairness y seguridad",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S39-T3-A-E1",
+                "kind": "guided",
+                "title": "privacidad, fairness y seguridad — guided",
+                "skill": "privacy",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S39-T3-A-E2",
+                "kind": "independent",
+                "title": "privacidad, fairness y seguridad — independent",
+                "skill": "privacy",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S39-T3-A-E3",
+                "kind": "transfer",
+                "title": "privacidad, fairness y seguridad — transfer",
+                "skill": "privacy",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S39-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S39-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S39-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S39-T3-B",
+          "slug": "drift-incidents-rollback-human",
+          "title": "drift, incidentes, rollback y human control",
+          "outcome": "El estudiante monitoreo, incidentes y control humano.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "drift, incidentes, rollback y human control",
+              "must_cover": [
+                "drift",
+                "rollback"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S39-T3-B-DEMO",
+              "title": "Demo: drift, incidentes, rollback y human control",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S39-T3-B-E1",
+                "kind": "guided",
+                "title": "drift, incidentes, rollback y human control — guided",
+                "skill": "drift",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S39-T3-B-E2",
+                "kind": "independent",
+                "title": "drift, incidentes, rollback y human control — independent",
+                "skill": "drift",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S39-T3-B-E3",
+                "kind": "transfer",
+                "title": "drift, incidentes, rollback y human control — transfer",
+                "skill": "drift",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S39-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S39-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S39-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S39-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S39-T3-EVAL-1",
+            "title": "privacidad, fairness y seguridad — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S39-T3-EVAL-2",
+            "title": "drift, incidentes, rollback y human control — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S39-T4",
+      "title": "Producto",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S39-T4-A",
+          "slug": "acceptance-demo",
+          "title": "aceptación y demo",
+          "outcome": "El estudiante cumple aceptación y demo.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "aceptación y demo",
+              "must_cover": [
+                "acceptance criteria",
+                "demo"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S39-T4-A-DEMO",
+              "title": "Demo: aceptación y demo",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S39-T4-A-E1",
+                "kind": "guided",
+                "title": "aceptación y demo — guided",
+                "skill": "acceptance",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S39-T4-A-E2",
+                "kind": "independent",
+                "title": "aceptación y demo — independent",
+                "skill": "acceptance",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S39-T4-A-E3",
+                "kind": "transfer",
+                "title": "aceptación y demo — transfer",
+                "skill": "acceptance",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S39-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S39-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S39-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S39-T4-B",
+          "slug": "cards-value-metrics-postmortem",
+          "title": "model/data/system cards, métricas de valor y postmortem",
+          "outcome": "El estudiante publica cards, valor y postmortem.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "model/data/system cards, métricas de valor y postmortem",
+              "must_cover": [
+                "system card",
+                "postmortem"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S39-T4-B-DEMO",
+              "title": "Demo: model/data/system cards, métricas de valor y postmortem",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S39-T4-B-E1",
+                "kind": "guided",
+                "title": "model/data/system cards, métricas de valor y postmortem — guided",
+                "skill": "cards",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S39-T4-B-E2",
+                "kind": "independent",
+                "title": "model/data/system cards, métricas de valor y postmortem — independent",
+                "skill": "cards",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S39-T4-B-E3",
+                "kind": "transfer",
+                "title": "model/data/system cards, métricas de valor y postmortem — transfer",
+                "skill": "cards",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S39-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S39-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S39-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S39-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S39-T4-EVAL-1",
+            "title": "aceptación y demo — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S39-T4-EVAL-2",
+            "title": "model/data/system cards, métricas de valor y postmortem — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S39-PROJ",
+    "title": "Responsible ML Case Triage y cierre de nivel (CP-N3-C (cierre) + CF-3 + Level-3 regression)",
+    "replaces_legacy": "Legacy You Do de 'Proyecto Integrador Fase 2' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Responsible ML Case Triage con baseline, calibración, capacidad de abstenerse, monitoreo y revisión. Promoción: CP-N3-A/B/C, regresión S27–S39 y CF-3 aprobados. CF-3 integra contratos de ER/grafo/tria",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N3-C (cierre) + CF-3 + Level-3 regression"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N3-C (cierre) + CF-3 + Level-3 regression",
+    "increment_gate": "Responsible ML Case Triage con baseline, calibración, capacidad de abstenerse, monitoreo y revisión. Promoción: CP-N3-A/B/C, regresión S27–S39 y CF-3 aprobados. CF-3 integra contratos de ER/grafo/triage y ejecuta regresión cruzada."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'integrator-phase2' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s39-integrator-phase2.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Proyecto Integrador Fase 2' vs 'Responsible ML Case Triage y cierre de nivel'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N3-C (cierre) + CF-3 + Level-3 regression",
+    "increment_gate": "Responsible ML Case Triage con baseline, calibración, capacidad de abstenerse, monitoreo y revisión. Promoción: CP-N3-A/B/C, regresión S27–S39 y CF-3 aprobados. CF-3 integra contratos de ER/grafo/triage y ejecuta regresión cruzada.",
+    "project_id": "S39-PROJ",
+    "section_passed": false,
+    "notes": "S39 contributes to CP-N3-C (cierre) + CF-3 + Level-3 regression. No passed states written by factory lane.",
+    "capstone_gate": "CP-N3-C",
+    "gate_role": "CLOSE + Level-3 regression + CF-3",
+    "promotion_requires": [
+      "CP-N3-A",
+      "CP-N3-B",
+      "CP-N3-C",
+      "regression S27–S39",
+      "CF-3"
+    ],
+    "blocks": "S40 until all pass",
+    "cp_n3_c": "PLANNED_NOT_PASSED",
+    "n3_regression": "PLANNED_NOT_PASSED",
+    "cf3": "PLANNED_NOT_PASSED"
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S39",
+    "risk": "Display title still 'Proyecto Integrador Fase 2' until product rename; topic mismatch vs V3 'Responsible ML Case Triage y cierre de nivel'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S39-T1-A first"
+  }
+}

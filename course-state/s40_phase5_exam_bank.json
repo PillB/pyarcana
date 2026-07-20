@@ -1,0 +1,111 @@
+{
+  "version": "3.2",
+  "section": "S40",
+  "section_id": "agentic-architecture",
+  "phase": "PHASE_5",
+  "lane": "LANE-S40-S52-CLOSE",
+  "generated_at": "2026-07-20T23:59:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "agentic-architecture",
+    "title_v3": "Arquitectura, DDD y decisiones técnicas",
+    "privacy_note": "matching/resolución de entidades no implica fraude, parentesco ni colusión"
+  },
+  "retired_from_bank": [
+    "diseñar-arquitecturas-multi-ag",
+    "implementar-agent-to-agent-com",
+    "construir-sistemas-de-evaluaci",
+    "gestionar-recursos-de-agentes:"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S40 (Arquitectura, DDD y decisiones técnicas).",
+  "families": [
+    {
+      "family_id": "S40-T1-A-EX",
+      "concept": "functional-quality-attrs",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S40-T1-B-EX",
+      "concept": "tradeoffs-risks-measurable",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S40-T2-A-EX",
+      "concept": "cohesion-coupling-layers",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S40-T2-B-EX",
+      "concept": "ports-adapters-domain-dep",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S40-T3-A-EX",
+      "concept": "bounded-contexts-ubiquitous",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S40-T3-B-EX",
+      "concept": "entities-vo-services",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S40-T4-A-EX",
+      "concept": "c4-flow-adr",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S40-T4-B-EX",
+      "concept": "apis-events-debt-compat",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (agentic-architecture key)",
+    "course-state/s40_phase5_exam_bank.json"
+  ]
+}

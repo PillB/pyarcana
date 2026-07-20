@@ -1,851 +1,1660 @@
 import type { CourseSection } from '../../types'
 
 export const section10: CourseSection = {
-  id: 'sklearn',
+  id: "sklearn",
   index: 10,
-  title: 'scikit-learn: Full ML Pipeline',
-  shortTitle: 'scikit-learn',
-  tagline: 'Pipeline, ColumnTransformer, cross-validation, tuning y SHAP — production-grade ML',
-  estimatedHours: 14,
-  level: 'Avanzado',
+  title: "Módulos, packaging y CLI profesional",
+  shortTitle: "Módulos & CLI",
+  tagline: "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+  estimatedHours: 10,
+  level: "Intermedio",
   phase: 0,
-  icon: 'Brain',
-  accentColor: 'bg-gradient-to-br from-red-500 to-rose-600',
+  icon: "Package",
+  accentColor: "bg-gradient-to-br from-red-500 to-rose-600",
   jobRelevance:
-    'scikit-learn es EL framework de ML para tabular data. El 80% de los problemas de ML en empresas peruanas (churn, scoring, forecasting, segmentación) se resuelven con sklearn. Pipeline + ColumnTransformer es lo que te piden en take-home projects. SHAP para explainability es el diferenciador que hace que tu modelo sea confiable para negocio. Sin esto, no hay puesto de Data Scientist.',
+    "Empaquetar un ETL en un CLI instalable es lo que separa un notebook suelto de una herramienta usable por el equipo. Esta sección (id `sklearn` conservado) retematiza S10 a **módulos, packaging y CLI**: cierra empaquetado de **CP-N1-B** y base de **CP-N1-C**. scikit-learn se difiere al tramo ML.",
   learningOutcomes: [
-    { text: 'Construir Pipeline con ColumnTransformer para preprocesamiento' },
-    { text: 'Aplicar StandardScaler, MinMaxScaler, OneHotEncoder, SimpleImputer' },
-    { text: 'Evaluar con train_test_split, StratifiedKFold, cross_val_score' },
-    { text: 'Entrenar modelos: LogisticRegression, RandomForest, XGBoost' },
-    { text: 'Calcular métricas: accuracy, ROC-AUC, precision, recall, F1' },
-    { text: 'Tune hiperparámetros con GridSearchCV y RandomizedSearchCV' },
-    { text: 'Interpretar modelos con SHAP (beeswarm, waterfall)' },
-    { text: 'Persistir modelos con joblib.dump() y joblib.load()' },
+    { text: "Organizar imports, evitar ciclos y usar if __name__ == '__main__'" },
+    { text: "Definir API pública estable y helpers privados" },
+    { text: "Crear paquete instalable con layout src y pyproject.toml" },
+    { text: "Aplicar semver simple y requires-python / deps con criterio" },
+    { text: "Implementar subcomandos argparse con exit codes 0/1/2" },
+    { text: "Separar stdout (datos) de stderr (diagnóstico)" },
+    { text: "Implementar precedencia flags > env > archivo > defaults" },
+    { text: "Mantener secretos fuera del repo y validar config al arranque" },
   ],
   theory: [
     {
-      heading: 'Pipeline y ColumnTransformer — preprocesamiento production-ready',
+      heading: "De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)",
       paragraphs: [
-        'El patrón Pipeline es el estándar de la industria para evitar data leakage y simplificar deployment. Un Pipeline encadena transformaciones (imputer → scaler → model) en un solo objeto. Cuando haces `pipeline.fit(X_train, y_train)`, sklearn aplica cada transformación SOLO sobre X_train, evitando leakage del test set al train. Sin Pipeline, es fácil cometer el error de hacer fit_transform sobre todo el dataset.',
-        'ColumnTransformer aplica transformaciones distintas a columnas distintas en paralelo. Por ejemplo: StandardScaler a numéricas, OneHotEncoder a categóricas, sin tocar ID. La sintaxis: `ColumnTransformer([("num", numeric_transformer, num_cols), ("cat", categorical_transformer, cat_cols)])`. Esto reemplaza el patrón manual de iterar columnas y aplica todas las transformaciones en un solo fit.',
-        'Combinados: Pipeline que tiene un ColumnTransformer como primer paso y un modelo como segundo. `Pipeline([("preprocessor", preprocessor), ("classifier", LogisticRegression())])`. Este objeto es lo que serializas con joblib y despliegas en producción. Todo el preprocesamiento queda encapsulado — no hay riesgo de aplicar transformaciones distintas en training vs inference.',
+        "En V3, **S10 no es el path principal de Pipeline/ColumnTransformer/SHAP**. Ese material se reubica al tramo de ML tabular. Aquí empaquetas **familiarity_core**: módulos limpios, **pyproject.toml**, **CLI** con subcomandos y **config por precedencia**.",
+        "Integra el ETL de CP-N1-B y la observabilidad de S09. Entorno **local-python**. Id de plataforma `sklearn` se conserva.",
+        "Orden: **T1 Módulos** → **T2 Paquetes** → **T3 CLI** → **T4 Configuración**.",
       ],
-      code: {
-        language: 'python',
-        title: 'pipeline.py',
-        code: `import pandas as pd
-import numpy as np
-from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split
-
-# Dataset: churn de clientes
-np.random.seed(42)
-n = 1000
-df = pd.DataFrame({
-    "edad": np.random.randint(18, 80, n),
-    "ingreso": np.random.randint(1500, 8000, n),
-    "meses_antiguedad": np.random.randint(1, 60, n),
-    "productos": np.random.randint(1, 6, n),
-    "region": np.random.choice(["Lima", "Arequipa", "Cusco", "Piura"], n),
-    "tipo_plan": np.random.choice(["Basico", "Premium", "VIP"], n),
-    "churn": np.random.choice([0, 1], n, p=[0.75, 0.25])
-})
-# Hacer el churn dependiente de features (para que el modelo aprenda algo)
-df.loc[(df["meses_antiguedad"] < 6) & (df["productos"] == 1), "churn"] = 1
-df.loc[df["ingreso"] < 2500, "churn"] = np.where(
-    np.random.rand(len(df[df["ingreso"] < 2500])) > 0.5, 1, 0)
-
-# Separar X e y
-X = df.drop("churn", axis=1)
-y = df["churn"]
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2,
-                                                      random_state=42, stratify=y)
-
-# Definir columnas por tipo
-numeric_features = ["edad", "ingreso", "meses_antiguedad", "productos"]
-categorical_features = ["region", "tipo_plan"]
-
-# Transformer para numéricas: imputar mediana + escalar
-numeric_transformer = Pipeline([
-    ("imputer", SimpleImputer(strategy="median")),
-    ("scaler", StandardScaler())
-])
-
-# Transformer para categóricas: imputar moda + one-hot
-categorical_transformer = Pipeline([
-    ("imputer", SimpleImputer(strategy="most_frequent")),
-    ("onehot", OneHotEncoder(drop="first", handle_unknown="ignore"))
-])
-
-# ColumnTransformer combina ambos
-preprocessor = ColumnTransformer([
-    ("num", numeric_transformer, numeric_features),
-    ("cat", categorical_transformer, categorical_features)
-])
-
-# Pipeline completo: preprocesamiento + modelo
-pipeline = Pipeline([
-    ("preprocessor", preprocessor),
-    ("classifier", LogisticRegression(random_state=42, max_iter=1000))
-])
-
-# Entrenar
-pipeline.fit(X_train, y_train)
-print(f"✓ Pipeline entrenado")
-print(f"Train accuracy: {pipeline.score(X_train, y_train):.3f}")
-print(f"Test accuracy:  {pipeline.score(X_test, y_test):.3f}")
-
-# Predecir nuevos clientes (sin churn)
-nuevo_cliente = pd.DataFrame({
-    "edad": [35],
-    "ingreso": [3500],
-    "meses_antiguedad": [3],
-    "productos": [1],
-    "region": ["Lima"],
-    "tipo_plan": ["Basico"]
-})
-prob_churn = pipeline.predict_proba(nuevo_cliente)[0, 1]
-print(f"\\nProbabilidad de churn: {prob_churn:.1%}")`,
-        output: `✓ Pipeline entrenado
-Train accuracy: 0.685
-Test accuracy:  0.672
-
-Probabilidad de churn: 68.5%`,
+      callout: {
+        type: "info",
+        title: "CP-N1-B empaquetado / base CP-N1-C",
+        content:
+          "Gate: CLI ingest|normalize|compare|report; install editable; ayuda útil; lógica separada de I/O.",
       },
     },
     {
-      heading: 'Cross-validation y métricas — evaluación honesta',
+      heading: "Imports, namespaces y __main__",
+      subtopicId: "S10-T1-A",
       paragraphs: [
-        'La validación cruzada (CV) es obligatoria para una evaluación honesta. Un solo train/test split puede dar métricas engañosas por casualidad. `cross_val_score(pipeline, X, y, cv=5)` divide los datos en 5 folds, entrena en 4 y evalúa en 1, rotando. Devuelve 5 scores que promedias para obtener una estimación más robusta. Para clasificación con clases desbalanceadas, usa `StratifiedKFold` que mantiene la proporción de clases en cada fold.',
-        'Las métricas dependen del problema. Para clasificación binaria: `accuracy` (proporción correcta, engañosa con desbalance), `precision` (de los positivos predichos, cuántos son reales), `recall` (de los positivos reales, cuántos detectas), `f1-score` (media armónica precision/recall), `roc_auc` (área bajo curva ROC, ideal para comparar modelos). Para desbalance, ROC-AUC y F1 son mejores que accuracy.',
-        '`classification_report(y_test, y_pred)` imprime precision, recall, f1 por clase en un formato legible. `confusion_matrix(y_test, y_pred)` da la matriz 2x2 (TN, FP, FN, TP). `roc_auc_score(y_test, y_proba)` necesita las probabilidades, no las predicciones. Para regresión: `mean_squared_error`, `r2_score`, `mean_absolute_error`.',
+        "`import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys.modules`. **`__name__`** es el nombre del módulo, o `'__main__'` si se ejecuta como script.",
+        "`if __name__ == '__main__':` protege el CLI/demo para que no corra al importar. **`__all__`** documenta la API pública de `from mod import *` (y comunica intención).",
+        "Los **imports circulares** se rompen extrayendo un tercer módulo, importando dentro de funciones (lazy) o invirtiendo dependencias. Prefiere diseño a hacks.",
       ],
       code: {
         language: 'python',
-        title: 'evaluacion.py',
-        code: `from sklearn.model_selection import cross_val_score, StratifiedKFold
-from sklearn.metrics import (classification_report, confusion_matrix,
-                              roc_auc_score, accuracy_score, precision_score,
-                              recall_score, f1_score)
-import numpy as np
+        title: "main_guard.py",
+        code: `# simulación en un solo archivo
+__all__ = ["normalize_name"]
 
-# Cross-validation con StratifiedKFold (mantiene proporción de clases)
-cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
-cv_scores = cross_val_score(pipeline, X, y, cv=cv, scoring='roc_auc')
-print(f"CV ROC-AUC: {cv_scores.mean():.3f} ± {cv_scores.std():.3f}")
-print(f"Scores por fold: {cv_scores.round(3)}")
+def normalize_name(s: str) -> str:
+    return " ".join(s.split()).casefold()
 
-# Predecir en test
-y_pred = pipeline.predict(X_test)
-y_proba = pipeline.predict_proba(X_test)[:, 1]  # prob de clase 1
+def _cli():
+    print(normalize_name("  Ana  PEREZ "))
 
-# Métricas individuales
-print(f"\\nAccuracy:  {accuracy_score(y_test, y_pred):.3f}")
-print(f"Precision: {precision_score(y_test, y_pred):.3f}")
-print(f"Recall:    {recall_score(y_test, y_pred):.3f}")
-print(f"F1-score:  {f1_score(y_test, y_pred):.3f}")
-print(f"ROC-AUC:   {roc_auc_score(y_test, y_proba):.3f}")
-
-# Reporte completo
-print("\\n=== Classification Report ===")
-print(classification_report(y_test, y_pred, target_names=["No churn", "Churn"]))
-
-# Matriz de confusión
-print("\\n=== Confusion Matrix ===")
-cm = confusion_matrix(y_test, y_pred)
-print(f"              Pred No  Pred Sí")
-print(f"  Real No   |   {cm[0,0]:3d}     {cm[0,1]:3d}")
-print(f"  Real Sí   |   {cm[1,0]:3d}     {cm[1,1]:3d}")
-print(f"\\nTN={cm[0,0]}, FP={cm[0,1]}, FN={cm[1,0]}, TP={cm[1,1]}")`,
-        output: `CV ROC-AUC: 0.612 ± 0.038
-Scores por fold: [0.582 0.642 0.625 0.584 0.626]
-
-Accuracy:  0.672
-Precision: 0.500
-Recall:    0.750
-F1-score:  0.600
-ROC-AUC:   0.612
-
-=== Classification Report ===
-              precision    recall  f1-score   support
-   No churn       0.83      0.71      0.77       150
-      Churn       0.50      0.67      0.57        80
-
-=== Confusion Matrix ===
-              Pred No  Pred Sí
-  Real No   |   107      43
-  Real Sí   |    20      60`,
-      },
-    },
-    {
-      heading: 'Hyperparameter tuning con GridSearchCV y RandomizedSearchCV',
-      paragraphs: [
-        'Cada modelo tiene hiperparámetros que controlan su comportamiento. Para LogisticRegression: `C` (inverso de regularización), `penalty` (l1, l2), `solver`. Para RandomForest: `n_estimators` (número de árboles), `max_depth`, `min_samples_split`, `max_features`. Encontrar los mejores valores manualmente es impracticable — por eso existen GridSearchCV y RandomizedSearchCV.',
-        'GridSearchCV prueba TODAS las combinaciones posibles de una grilla de hiperparámetros. Para 3 valores de C y 3 de penalty, son 9 combinaciones × 5 folds de CV = 45 fits. Es exhaustivo pero costoso. RandomizedSearchCV prueba N combinaciones aleatorias de distribuciones, lo que es más eficiente para espacios grandes. Regla: si tienes pocos hiperparámetros con valores discretos, GridSearch; si tienes muchos o continuos, RandomizedSearch.',
-        'La sintaxis clave para acceder a parámetros del pipeline: usas `__` (doble underscore) para separar pasos. Por ejemplo, `classifier__C` accede al parámetro `C` del paso `classifier`. `preprocessor__num__imputer__strategy` accede a la strategy del imputer del sub-pipeline numérico. Es verboso pero poderoso.',
-      ],
-      code: {
-        language: 'python',
-        title: 'tuning.py',
-        code: `from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
-from sklearn.ensemble import RandomForestClassifier
-from scipy.stats import randint, uniform
-
-# Cambiar el modelo del pipeline a RandomForest
-pipeline_rf = Pipeline([
-    ("preprocessor", preprocessor),
-    ("classifier", RandomForestClassifier(random_state=42))
-])
-
-# === GRID SEARCH (exhaustivo) ===
-param_grid = {
-    "classifier__n_estimators": [50, 100, 200],
-    "classifier__max_depth": [None, 10, 20, 30],
-    "classifier__min_samples_split": [2, 5, 10]
-}
-
-grid_search = GridSearchCV(
-    pipeline_rf,
-    param_grid,
-    cv=5,
-    scoring='roc_auc',
-    n_jobs=-1,  # paralelizar
-    verbose=1
-)
-grid_search.fit(X_train, y_train)
-
-print(f"Mejores params: {grid_search.best_params_}")
-print(f"Mejor CV score: {grid_search.best_score_:.3f}")
-
-# Evaluar en test
-y_pred_best = grid_search.predict(X_test)
-y_proba_best = grid_search.predict_proba(X_test)[:, 1]
-print(f"Test ROC-AUC: {roc_auc_score(y_test, y_proba_best):.3f}")
-
-# === RANDOMIZED SEARCH (más eficiente para espacios grandes) ===
-param_dist = {
-    "classifier__n_estimators": randint(50, 300),
-    "classifier__max_depth": [None, 10, 20, 30, 50],
-    "classifier__min_samples_split": randint(2, 20),
-    "classifier__min_samples_leaf": randint(1, 10),
-    "classifier__max_features": uniform(0.5, 0.5)  # entre 0.5 y 1.0
-}
-
-random_search = RandomizedSearchCV(
-    pipeline_rf,
-    param_dist,
-    n_iter=50,  # 50 combinaciones aleatorias
-    cv=5,
-    scoring='roc_auc',
-    n_jobs=-1,
-    random_state=42,
-    verbose=1
-)
-random_search.fit(X_train, y_train)
-print(f"\\nRandom search mejores params: {random_search.best_params_}")
-print(f"Random search mejor CV: {random_search.best_score_:.3f}")`,
-        output: `Fitting 5 folds for each of 36 candidates, totalling 180 fits
-Mejores params: {'classifier__max_depth': 10, 'classifier__min_samples_split': 5, 'classifier__n_estimators': 100}
-Mejor CV score: 0.625
-Test ROC-AUC: 0.618`,
-      },
-    },
-    {
-      heading: 'SHAP — interpretación de modelos black-box',
-      paragraphs: [
-        'SHAP (SHapley Additive exPlanations) es el estándar de la industria para explicar predicciones de modelos. Te dice CUÁNTO contribuyó cada feature a una predicción específica. Esto es crucial para compliance (GDPR, regulación financiera), debugging (¿por qué el modelo predijo X?), y confianza del negocio. Sin explainability, tu modelo no pasa a producción en bancos y aseguradoras.',
-        'Los dos gráficos principales: (1) **beeswarm plot** (`shap.plots.beeswarm`) muestra la importancia global de features y su dirección. Cada punto es una observación; color rojo = valor alto de la feature, azul = valor bajo. Posición horizontal = impacto en la predicción. (2) **waterfall plot** (`shap.plots.waterfall`) descompone UNA predicción en contribuciones por feature. Ideal para explicar caso por caso.',
-        'Para modelos tree-based (RandomForest, XGBoost), usa `shap.TreeExplainer` que es exacto y rápido. Para otros modelos, `shap.KernelExplainer` (más lento) o `shap.LinearExplainer` para lineales. La regla: SIEMPRE incluye SHAP en proyectos de ML de portafolio. Es lo que diferencia un proyecto "funcional" de uno "production-grade".',
-      ],
-      code: {
-        language: 'python',
-        title: 'shap_demo.py',
-        code: `import shap
-import matplotlib.pyplot as plt
-
-# Usar el mejor modelo del RandomizedSearch
-best_model = random_search.best_estimator_
-
-# Extraer el modelo RandomForest del pipeline
-# (SHAP necesita el modelo, no el pipeline completo)
-preprocessor_fitted = best_model.named_steps["preprocessor"]
-rf_model = best_model.named_steps["classifier"]
-
-# Transformar X_test con el preprocessor
-X_test_transformed = preprocessor_fitted.transform(X_test)
-
-# Nombres de features transformadas (después de one-hot)
-num_features = numeric_features
-cat_features = preprocessor_fitted.named_transformers_["cat"].named_steps["onehot"].get_feature_names_out(categorical_features)
-all_features = list(num_features) + list(cat_features)
-
-# Crear explainer para tree-based
-explainer = shap.TreeExplainer(rf_model)
-shap_values = explainer.shap_values(X_test_transformed)
-
-# === BEESWARM PLOT (importancia global) ===
-plt.figure(figsize=(10, 6))
-shap.summary_plot(shap_values[:,:,1] if len(shap_values.shape) == 3 else shap_values,
-                  X_test_transformed,
-                  feature_names=all_features,
-                  show=False)
-plt.title("SHAP - Importancia de features (global)")
-plt.tight_layout()
-plt.savefig("shap_beeswarm.png", dpi=150, bbox_inches="tight")
-plt.show()
-
-# === WATERFALL PLOT (una predicción específica) ===
-# El cliente con mayor probabilidad de churn
-idx_high_churn = np.argmax(best_model.predict_proba(X_test)[:, 1])
-plt.figure(figsize=(10, 6))
-shap.plots._waterfall.waterfall_legacy(
-    explainer.expected_value[1] if isinstance(explainer.expected_value, list) else explainer.expected_value,
-    shap_values[idx_high_churn,:,1] if len(shap_values.shape) == 3 else shap_values[idx_high_churn],
-    feature_names=all_features,
-    max_display=10
-)
-plt.title(f"SHAP - Cliente #{idx_high_churn} (alto riesgo churn)")
-plt.tight_layout()
-plt.savefig("shap_waterfall.png", dpi=150, bbox_inches="tight")
-plt.show()
-
-print("✓ Gráficos SHAP generados")
-print(f"Cliente más propenso a churn: índice {idx_high_churn}")
-print(f"Probabilidad: {best_model.predict_proba(X_test)[idx_high_churn, 1]:.1%}")`,
-        output: `✓ Gráficos SHAP generados
-Cliente más propenso a churn: índice 23
-Probabilidad: 87.3%`,
+if __name__ == "__main__":
+    _cli()
+print("import_safe", normalize_name("José"))`,
+        output: `ana perez
+import_safe josé`,
       },
       callout: {
-        type: 'tip',
-        title: 'SHAP en entrevistas',
+        type: "tip",
+        title: "python -m",
         content:
-          'En entrevistas de DS mid-senior te preguntan: "¿cómo explicas tu modelo al negocio?". La respuesta correcta es SHAP. Menciona beeswarm para importancia global y waterfall para casos individuales. Las empresas reguladas (banca, seguros) lo exigen.',
+          "Ejecutar `python -m familiarity_core` usa el paquete como __main__ sin pelear con sys.path.",
       },
     },
     {
-      heading: 'Model persistence con joblib',
+      heading: "Dependencias cíclicas y API pública",
+      subtopicId: "S10-T1-B",
       paragraphs: [
-        'Después de entrenar, necesitas persistir (guardar) el modelo para usarlo en producción sin re-entrenar. `joblib.dump(modelo, "modelo.joblib")` serializa el objeto a disco. `joblib.load("modelo.joblib")` lo deserializa. Para modelos sklearn, joblib es más eficiente que pickle (maneja mejor arrays NumPy grandes).',
-        'El patrón profesional: guardas todo el Pipeline (preprocessor + modelo). Así, en producción, solo llamas `pipeline.predict(nuevos_datos)` y todo el preprocesamiento se aplica automáticamente. Sin esto, tendrías que replicar manualmente cada transformación en el código de inference — garantía de bugs.',
-        'Versionado: nunca sobrescribas un modelo. Usa nombres con fecha/version: `churn_model_v1_20250714.joblib`. Mantén un `model_card.md` con: fecha de entrenamiento, dataset usado, métricas, hiperparámetros, limitaciones. Esto es estándar MLOps y se exige en empresas serias.',
+        "Prefijo `_` marca helpers **privados** (convención). La fachada (`__init__.py` o `api.py`) reexporta solo lo estable.",
+        "Una **API pública pequeña** (p. ej. 4 símbolos) reduce breaking changes. Versiona la intención: añadir es minor; renombrar/eliminar es major.",
+        "Lazy import dentro de funciones evita ciclos y acelera el import del paquete cuando un submódulo es pesado.",
       ],
       code: {
         language: 'python',
-        title: 'persistencia.py',
-        code: `import joblib
-from datetime import datetime
-from pathlib import Path
+        title: "public_api.py",
+        code: `def _strip(s: str) -> str:
+    return s.strip()
 
-# Guardar el mejor modelo (todo el pipeline)
-model_path = "churn_pipeline_v1.joblib"
-joblib.dump(best_model, model_path)
-print(f"✓ Modelo guardado en {model_path}")
-print(f"  Tamaño: {Path(model_path).stat().st_size / 1024:.1f} KB")
+def normalize(s: str) -> str:
+    return _strip(s).casefold()
 
-# Guardar metadata
-metadata = {
-    "version": "1.0",
-    "fecha_entrenamiento": datetime.now().isoformat(),
-    "modelo": type(best_model.named_steps["classifier"]).__name__,
-    "metricas": {
-        "cv_roc_auc": random_search.best_score_,
-        "test_roc_auc": roc_auc_score(y_test, y_proba_best)
+def compare(a: str, b: str) -> bool:
+    return normalize(a) == normalize(b)
+
+__all__ = ["normalize", "compare"]
+print("public", __all__)
+print(compare(" Ana ", "ana"))`,
+        output: `public ['normalize', 'compare']
+True`,
+      },
+      callout: {
+        type: "warning",
+        title: "No exportes _internals",
+        content:
+          "Si un usuario importa `_strip`, mañana no puedes renombrarlo sin romperlo.",
+      },
     },
-    "hiperparametros": random_search.best_params_,
-    "features": {
-        "numericas": numeric_features,
-        "categoricas": categorical_features
-    }
+    {
+      heading: "Layout src, pyproject.toml y builds",
+      subtopicId: "S10-T2-A",
+      paragraphs: [
+        "Layout **src/**: `src/familiarity_core/...` evita importar el paquete desde el repo sin instalar. `pyproject.toml` declara name, version, requires-python y el build backend (setuptools/hatchling).",
+        "`pip install -e .` instala en editable: cambias código y el import refleja al toque. Ideal en desarrollo del CLI.",
+        "Si ves `ModuleNotFoundError` post-install, revisa nombre del paquete, packages discovery y el cwd.",
+      ],
+      code: {
+        language: 'python',
+        title: "pyproject_min.py",
+        code: `# fragmento conceptual de pyproject (como dict)
+pyproject = {
+    "project": {
+        "name": "familiarity-core",
+        "version": "0.1.0",
+        "requires-python": ">=3.11",
+        "dependencies": [],
+    },
+    "build-system": {
+        "requires": ["setuptools>=61"],
+        "build-backend": "setuptools.build_meta",
+    },
 }
-joblib.dump(metadata, "churn_pipeline_v1_metadata.joblib")
+print(pyproject["project"]["name"], pyproject["project"]["version"])
+print("layout", "src/familiarity_core/__init__.py")`,
+        output: `familiarity-core 0.1.0
+layout src/familiarity_core/__init__.py`,
+      },
+      callout: {
+        type: "info",
+        title: "stdlib first",
+        content:
+          "En N1 el paquete puede no depender de terceros; declara deps solo cuando existan.",
+      },
+    },
+    {
+      heading: "Versionado y compatibilidad",
+      subtopicId: "S10-T2-B",
+      paragraphs: [
+        "**SemVer** simple: MAJOR.MINOR.PATCH. Breaking → major; feature compatible → minor; fix → patch. En 0.x es más flexible, pero documenta igual.",
+        "`requires-python` y dependencies pinadas con criterio (mínimos, no caos de upper bounds sin razón).",
+        "Un **CHANGELOG** stub (Added/Changed/Fixed) evita amnesia entre sprints. Breaking de firma pública se anuncia.",
+      ],
+      code: {
+        language: 'python',
+        title: "semver_bump.py",
+        code: `def bump(version: str, level: str) -> str:
+    maj, minor, patch = map(int, version.split("."))
+    if level == "major":
+        return f"{maj+1}.0.0"
+    if level == "minor":
+        return f"{maj}.{minor+1}.0"
+    if level == "patch":
+        return f"{maj}.{minor}.{patch+1}"
+    raise ValueError(level)
 
-# === CARGAR EN PRODUCCIÓN ===
-# (simula un script separado)
-modelo_cargado = joblib.load(model_path)
+print("0.1.0 + feature subcomando", bump("0.1.0", "minor"))
+print("0.2.0 + fix help text", bump("0.2.0", "patch"))
+print("1.0.0 + rename API", bump("1.0.0", "major"))`,
+        output: `0.1.0 + feature subcomando 0.2.0
+0.2.0 + fix help text 0.2.1
+1.0.0 + rename API 2.0.0`,
+      },
+      callout: {
+        type: "tip",
+        title: "Hacia S11",
+        content:
+          "Si el dominio cambia nombres de entidades públicas, es breaking para consumidores del paquete.",
+      },
+    },
+    {
+      heading: "argparse, subcomandos y exit codes",
+      subtopicId: "S10-T3-A",
+      paragraphs: [
+        "`argparse.ArgumentParser` + **subparsers** modelan `ingest|normalize|compare|report`. Cada subcomando tiene flags propios.",
+        "Exit codes: **0** éxito, **2** uso/CLI inválido (argparse default), **1** error de runtime/negocio. Scripts y CI dependen de esto.",
+        "Separa el parse de args de la lógica: `main(argv) -> int` retorna el código; el entrypoint hace `sys.exit(main())`.",
+      ],
+      code: {
+        language: 'python',
+        title: "argparse_subs.py",
+        code: `import argparse
 
-# Predecir con datos nuevos (en bruto, sin preprocesar)
-nuevos_clientes = pd.DataFrame({
-    "edad": [25, 55, 40],
-    "ingreso": [2500, 6000, 4200],
-    "meses_antiguedad": [2, 48, 18],
-    "productos": [1, 4, 2],
-    "region": ["Lima", "Arequipa", "Cusco"],
-    "tipo_plan": ["Basico", "VIP", "Premium"]
-})
+def build_parser() -> argparse.ArgumentParser:
+    p = argparse.ArgumentParser(prog="familiarity")
+    sub = p.add_subparsers(dest="cmd", required=True)
+    sub.add_parser("ingest", help="ingerir archivos")
+    n = sub.add_parser("normalize", help="normalizar registros")
+    n.add_argument("--field", default="name")
+    sub.add_parser("compare")
+    r = sub.add_parser("report")
+    r.add_argument("--format", choices=["text", "json"], default="text")
+    return p
 
-predicciones = modelo_cargado.predict(nuevos_clientes)
-probabilidades = modelo_cargado.predict_proba(nuevos_clientes)[:, 1]
+for argv in [["normalize", "--field", "email"], ["report", "--format", "json"]]:
+    ns = build_parser().parse_args(argv)
+    print(ns)`,
+        output: `Namespace(cmd='normalize', field='email')
+Namespace(cmd='report', format='json')`,
+      },
+      callout: {
+        type: "tip",
+        title: "Ayuda humana",
+        content:
+          "help= y epilog en español claro reducen tickets de operadores.",
+      },
+    },
+    {
+      heading: "stdin/stdout/stderr y ayuda",
+      subtopicId: "S10-T3-B",
+      paragraphs: [
+        "**stdout** = datos (JSON, CSV). **stderr** = logs y progreso. Así `cmd > out.json` no contamina el archivo.",
+        "Soportar path o **`-`** para stdin habilita pipes: `cat data.json | familiarity normalize`.",
+        "No mezcles `print` de debug en stdout. Progress bars y logs van a stderr.",
+      ],
+      code: {
+        language: 'python',
+        title: "stdio_split.py",
+        code: `import sys
+from io import StringIO
 
-print("\\n=== PREDICCIONES ===")
-for i, (pred, prob) in enumerate(zip(predicciones, probabilidades)):
-    riesgo = "ALTO" if prob > 0.7 else "MEDIO" if prob > 0.4 else "BAJO"
-    print(f"  Cliente {i+1}: churn={pred}, prob={prob:.1%}, riesgo={riesgo}")`,
-        output: `✓ Modelo guardado en churn_pipeline_v1.joblib
-  Tamaño: 245.3 KB
+def normalize_stream(inp: str) -> str:
+    return inp.strip().casefold()
 
-=== PREDICCIONES ===
-  Cliente 1: churn=1, prob=78.5%, riesgo=ALTO
-  Cliente 2: churn=0, prob=15.2%, riesgo=BAJO
-  Cliente 3: churn=0, prob=42.3%, riesgo=MEDIO`,
+# simula: datos a stdout, log a stderr
+data_in = "  Ana Perez  "
+log = StringIO()
+log.write("stage=normalize event=start\\n")
+out = normalize_stream(data_in)
+log.write("stage=normalize event=done\\n")
+print(out)  # stdout data
+print(log.getvalue().strip(), file=sys.stderr)`,
+        output: `ana perez`,
+      },
+      callout: {
+        type: "warning",
+        title: "Contaminación de stdout",
+        content:
+          "Un print('ok') extra rompe el pipe de quien parsea JSON.",
+      },
+    },
+    {
+      heading: "Archivo/env/flags y precedencia",
+      subtopicId: "S10-T4-A",
+      paragraphs: [
+        "Precedencia canónica: **flags CLI > variables de entorno > archivo de config > defaults**.",
+        "Documenta la tabla en README. Un flag `--log-level` debe ganar a `FAMILIARITY_LOG_LEVEL`.",
+        "Implementa un `merge_config` puro y testeable: dicts por capa, reduce de menor a mayor prioridad.",
+      ],
+      code: {
+        language: 'python',
+        title: "config_merge.py",
+        code: `def merge_config(defaults, file_cfg, env_cfg, flags):
+    out = {}
+    out.update(defaults)
+    out.update({k: v for k, v in file_cfg.items() if v is not None})
+    out.update({k: v for k, v in env_cfg.items() if v is not None})
+    out.update({k: v for k, v in flags.items() if v is not None})
+    return out
+
+cfg = merge_config(
+    {"log_level": "INFO", "jobs": 1},
+    {"log_level": "WARNING"},
+    {"log_level": "DEBUG"},
+    {"log_level": "ERROR"},
+)
+print(cfg)`,
+        output: `{'log_level': 'ERROR', 'jobs': 1}`,
+      },
+      callout: {
+        type: "info",
+        title: "None vs missing",
+        content:
+          "Trata None en flags como 'no pasado' para no pisar env con nulls.",
+      },
+    },
+    {
+      heading: "Secretos, defaults y validación temprana",
+      subtopicId: "S10-T4-B",
+      paragraphs: [
+        "Secretos **fuera del repo**: `.env` en `.gitignore`, nunca en logs. Defaults seguros (TLS on, log level INFO, no debug PII).",
+        "`validate_config()` al arranque con errores claros (qué clave falta, qué subcomando la exige).",
+        "Fail-fast de config evita procesar 10k filas con un path mal tipeado.",
+      ],
+      code: {
+        language: 'python',
+        title: "validate_config.py",
+        code: `def validate_config(cfg: dict, command: str) -> None:
+    required_always = ["log_level"]
+    for k in required_always:
+        if not cfg.get(k):
+            raise RuntimeError(f"config: falta {k}")
+    if command in {"ingest", "report"} and not cfg.get("api_token"):
+        raise RuntimeError(f"config: api_token requerido para {command}")
+
+validate_config({"log_level": "INFO"}, "normalize")
+print("normalize ok sin token")
+try:
+    validate_config({"log_level": "INFO"}, "ingest")
+except RuntimeError as e:
+    print(e)`,
+        output: `normalize ok sin token
+config: api_token requerido para ingest`,
+      },
+      callout: {
+        type: "danger",
+        title: "Secretos",
+        content:
+          "Si el token aparece en un traceback de DEBUG, ya se filtró. Redacta.",
       },
     },
   ],
   iDo: {
-    intro:
-      'Vamos a construir juntos un pipeline completo de churn prediction usando el dataset Telco Customer Churn (disponible en Kaggle). Es el proyecto capstone del curso — combina todo lo aprendido: pandas para EDA, sklearn para modelado, SHAP para explainability. Este proyecto ES tu hero project de portafolio.',
+    intro: "Ocho demos I Do (uno por subtema). Orden T1→T4. familiarity_core: módulos, packaging, CLI y config. local-python; datos sintéticos.",
     steps: [
       {
-        description: 'Construir pipeline con 3 modelos en paralelo',
+        demoId: "S10-T1-A-DEMO",
+        subtopicId: "S10-T1-A",
+        environment: "local-python",
+        description: "Separar normalize y cli en funciones; demo con guard __main__.",
         code: {
           language: 'python',
-          title: 'churn_pipeline.py',
-          code: `import pandas as pd
-import numpy as np
-from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold
-from sklearn.metrics import classification_report, roc_auc_score
-import warnings
-warnings.filterwarnings('ignore')
+          title: "normalize_cli_split.py",
+          code: `__all__ = ["normalize"]
 
-# Dataset sintético (reemplaza por Telco real de Kaggle)
-np.random.seed(42)
-n = 2000
-df = pd.DataFrame({
-    "edad": np.random.randint(18, 80, n),
-    "ingreso_mensual": np.random.randint(1500, 8000, n),
-    "meses_antiguedad": np.random.randint(1, 72, n),
-    "num_productos": np.random.randint(1, 6, n),
-    "cargos_totales": np.random.uniform(100, 8000, n),
-    "region": np.random.choice(["Lima", "Arequipa", "Cusco", "Piura"], n),
-    "tipo_plan": np.random.choice(["Basico", "Premium", "VIP"], n),
-    "metodo_pago": np.random.choice(["Tarjeta", "Efectivo", "Transferencia"], n),
-    "churn": np.random.choice([0, 1], n, p=[0.73, 0.27])
-})
-# Hacer churn dependiente de features (para que el modelo aprenda)
-churn_mask = (df["meses_antiguedad"] < 6) & (df["num_productos"] == 1) & (df["ingreso_mensual"] < 3000)
-df.loc[churn_mask, "churn"] = np.where(np.random.rand(churn_mask.sum()) > 0.2, 1, 0)
+def normalize(text: str) -> str:
+    return " ".join(text.split()).casefold()
 
-print(f"Dataset: {df.shape}")
-print(f"Churn rate: {df['churn'].mean():.1%}")
+def main(argv=None) -> int:
+    import sys
+    args = argv if argv is not None else ["  Ana  "]
+    print(normalize(args[0]))
+    return 0
 
-# Split
-X = df.drop("churn", axis=1)
-y = df["churn"]
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42, stratify=y)
-
-# Preprocessor
-numeric_features = ["edad", "ingreso_mensual", "meses_antiguedad", "num_productos", "cargos_totales"]
-categorical_features = ["region", "tipo_plan", "metodo_pago"]
-
-preprocessor = ColumnTransformer([
-    ("num", Pipeline([
-        ("imputer", SimpleImputer(strategy="median")),
-        ("scaler", StandardScaler())
-    ]), numeric_features),
-    ("cat", Pipeline([
-        ("imputer", SimpleImputer(strategy="most_frequent")),
-        ("onehot", OneHotEncoder(drop="first", handle_unknown="ignore"))
-    ]), categorical_features)
-])
-
-# Probar 3 modelos con cross-validation
-modelos = {
-    "LogisticRegression": LogisticRegression(random_state=42, max_iter=1000),
-    "RandomForest": RandomForestClassifier(n_estimators=100, random_state=42),
-    # XGBoost requiere: pip install xgboost
-    # "XGBoost": xgb.XGBClassifier(random_state=42, eval_metric="logloss")
-}
-
-cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
-resultados = {}
-
-for nombre, modelo in modelos.items():
-    pipeline = Pipeline([
-        ("preprocessor", preprocessor),
-        ("classifier", modelo)
-    ])
-    cv_scores = cross_val_score(pipeline, X_train, y_train, cv=cv, scoring="roc_auc")
-    pipeline.fit(X_train, y_train)
-    test_proba = pipeline.predict_proba(X_test)[:, 1]
-    test_auc = roc_auc_score(y_test, test_proba)
-    resultados[nombre] = {
-        "cv_auc_mean": cv_scores.mean(),
-        "cv_auc_std": cv_scores.std(),
-        "test_auc": test_auc,
-        "pipeline": pipeline
-    }
-    print(f"\\n{nombre}:")
-    print(f"  CV AUC: {cv_scores.mean():.3f} ± {cv_scores.std():.3f}")
-    print(f"  Test AUC: {test_auc:.3f}")
-
-# Seleccionar mejor
-mejor_modelo = max(resultados, key=lambda k: resultados[k]["test_auc"])
-print(f"\\n✓ Mejor modelo: {mejor_modelo}")
-print(f"  Test AUC: {resultados[mejor_modelo]['test_auc']:.3f}")`,
-          output: `Dataset: (2000, 9)
-Churn rate: 27.0%
-
-LogisticRegression:
-  CV AUC: 0.612 ± 0.025
-  Test AUC: 0.598
-
-RandomForest:
-  CV AUC: 0.615 ± 0.022
-  Test AUC: 0.608
-
-✓ Mejor modelo: RandomForest
-  Test AUC: 0.608`,
+# al importar no corre main; lo invocamos explícito
+assert normalize("X") == "x"
+raise SystemExit(main(["  José Pérez "]))`,
+          output: `josé pérez`,
         },
-        why: 'Comparar múltiples modelos con CV es la práctica correcta. Cada modelo tiene sesgos distintos: LogisticRegression asume linealidad, RandomForest captura no-linealidades pero es propenso a overfit, XGBoost es el estado del arte para tabular. El patrón "entrenar 3+ modelos y comparar con CV" es lo que se espera en un take-home project serio.',
+        why: "La lógica vive en normalize; el entrypoint solo orquesta.",
       },
       {
-        description: 'Tune del mejor modelo + SHAP + persistencia',
+        demoId: "S10-T1-B-DEMO",
+        subtopicId: "S10-T1-B",
+        environment: "local-python",
+        description: "Fachada que exporta solo 4 símbolos públicos.",
         code: {
           language: 'python',
-          title: 'churn_pipeline.py',
-          code: `from sklearn.model_selection import RandomizedSearchCV
-from scipy.stats import randint
-import shap
-import joblib
-import matplotlib.pyplot as plt
+          title: "facade_exports.py",
+          code: `def _private_token(s: str) -> list[str]:
+    return s.split()
 
-# === TUNING del mejor modelo ===
-best_pipeline = resultados[mejor_modelo]["pipeline"]
-param_dist = {
-    "classifier__n_estimators": randint(50, 300),
-    "classifier__max_depth": [None, 10, 20, 30],
-    "classifier__min_samples_split": randint(2, 20),
-    "classifier__min_samples_leaf": randint(1, 10)
-}
+def normalize(s: str) -> str:
+    return " ".join(_private_token(s)).casefold()
 
-random_search = RandomizedSearchCV(
-    best_pipeline, param_dist, n_iter=30, cv=5,
-    scoring="roc_auc", n_jobs=-1, random_state=42, verbose=0
-)
-random_search.fit(X_train, y_train)
+def compare(a: str, b: str) -> float:
+    return 1.0 if normalize(a) == normalize(b) else 0.0
 
-print(f"Mejores params: {random_search.best_params_}")
-print(f"Mejor CV AUC: {random_search.best_score_:.3f}")
+def ingest_row(row: dict) -> dict:
+    return {**row, "name": normalize(row.get("name", ""))}
 
-# Evaluar en test
-best_model = random_search.best_estimator_
-y_proba = best_model.predict_proba(X_test)[:, 1]
-y_pred = best_model.predict(X_test)
-print(f"Test AUC: {roc_auc_score(y_test, y_proba):.3f}")
+def report(rows: list) -> int:
+    return len(rows)
 
-print("\\n=== Classification Report ===")
-print(classification_report(y_test, y_pred, target_names=["No churn", "Churn"]))
-
-# === SHAP ===
-# Extraer modelo y preprocessor
-preprocessor_fitted = best_model.named_steps["preprocessor"]
-rf_model = best_model.named_steps["classifier"]
-X_test_transformed = preprocessor_fitted.transform(X_test)
-
-explainer = shap.TreeExplainer(rf_model)
-shap_values = explainer.shap_values(X_test_transformed)
-
-# Beeswarm
-plt.figure(figsize=(10, 6))
-shap.summary_plot(shap_values[:,:,1] if len(shap_values.shape) == 3 else shap_values,
-                  X_test_transformed, show=False)
-plt.title("SHAP - Importancia de features (churn)")
-plt.tight_layout()
-plt.savefig("shap_churn_beeswarm.png", dpi=150, bbox_inches="tight")
-plt.show()
-
-# === PERSISTENCIA ===
-joblib.dump(best_model, "churn_pipeline_v1.joblib")
-print("\\n✓ Modelo guardado: churn_pipeline_v1.joblib")
-
-# Predicción de ejemplo
-nuevo = pd.DataFrame({
-    "edad": [35], "ingreso_mensual": [2500], "meses_antiguedad": [3],
-    "num_productos": [1], "cargos_totales": [200],
-    "region": ["Lima"], "tipo_plan": ["Basico"], "metodo_pago": ["Efectivo"]
-})
-prob = best_model.predict_proba(nuevo)[0, 1]
-print(f"\\nCliente de ejemplo: prob churn = {prob:.1%}")
-print(f"Recomendación: {'RETENER con oferta' if prob > 0.5 else 'No requiere acción'}")`,
-          output: `Mejores params: {'classifier__max_depth': 10, 'classifier__min_samples_leaf': 5, 'classifier__min_samples_split': 12, 'classifier__n_estimators': 150}
-Mejor CV AUC: 0.628
-Test AUC: 0.615
-
-=== Classification Report ===
-              precision    recall  f1-score   support
-   No churn       0.79      0.83      0.81       292
-      Churn       0.51      0.45      0.48       108
-
-✓ Modelo guardado: churn_pipeline_v1.joblib
-
-Cliente de ejemplo: prob churn = 72.3%
-Recomendación: RETENER con oferta`,
+__all__ = ["normalize", "compare", "ingest_row", "report"]
+print("exports", __all__)
+print(compare("Ana", " ana "))
+print(report([ingest_row({"name": " Luis "})]))`,
+          output: `exports ['normalize', 'compare', 'ingest_row', 'report']
+1.0
+1`,
         },
-        why: 'Este pipeline completo (3 modelos → CV → tuning → SHAP → persistencia) es EXACTAMENTE lo que se espera en un take-home project de Data Scientist. Las empresas evalúan: (1) ¿usaste Pipeline para evitar leakage? (2) ¿comparaste múltiples modelos con CV? (3) ¿tuneaste hiperparámetros? (4) ¿explicaste el modelo con SHAP? (5) ¿persististe el modelo para deployment? Si respondes sí a las 5, pasas.',
+        why: "Cuatro símbolos estables; helpers con _ fuera de la API.",
+      },
+      {
+        demoId: "S10-T2-A-DEMO",
+        subtopicId: "S10-T2-A",
+        environment: "local-python",
+        description: "Modelo mínimo de layout src + metadatos instalables.",
+        code: {
+          language: 'python',
+          title: "src_layout.py",
+          code: `from pathlib import PurePosixPath
+
+layout = [
+    "src/familiarity_core/__init__.py",
+    "src/familiarity_core/normalize.py",
+    "src/familiarity_core/cli.py",
+    "pyproject.toml",
+    "README.md",
+]
+for p in layout:
+    print(PurePosixPath(p))
+meta = {"name": "familiarity-core", "version": "0.1.0"}
+print("editable_install", f"pip install -e .  # {meta}")`,
+          output: `src/familiarity_core/__init__.py
+src/familiarity_core/normalize.py
+src/familiarity_core/cli.py
+pyproject.toml
+README.md
+editable_install pip install -e .  # {'name': 'familiarity-core', 'version': '0.1.0'}`,
+        },
+        why: "El layout src + pyproject es el contrato de packaging del curso.",
+      },
+      {
+        demoId: "S10-T2-B-DEMO",
+        subtopicId: "S10-T2-B",
+        environment: "local-python",
+        description: "Bump 0.1.0 → 0.2.0 por subcomando nuevo (minor).",
+        code: {
+          language: 'python',
+          title: "version_bump_demo.py",
+          code: `def classify_change(description: str) -> str:
+    d = description.lower()
+    if "breaking" in d or "rename api" in d:
+        return "major"
+    if "add" in d or "subcomando" in d or "feature" in d:
+        return "minor"
+    return "patch"
+
+def bump(v: str, kind: str) -> str:
+    a, b, c = map(int, v.split("."))
+    return {
+        "major": f"{a+1}.0.0",
+        "minor": f"{a}.{b+1}.0",
+        "patch": f"{a}.{b}.{c+1}",
+    }[kind]
+
+ch = "add subcomando report"
+kind = classify_change(ch)
+print(ch, "->", kind, bump("0.1.0", kind))`,
+          output: `add subcomando report -> minor 0.2.0`,
+        },
+        why: "Feature compatible sube minor; documenta en CHANGELOG.",
+      },
+      {
+        demoId: "S10-T3-A-DEMO",
+        subtopicId: "S10-T3-A",
+        environment: "local-python",
+        description: "CLI con subcomandos ingest|normalize|compare|report y exit codes.",
+        code: {
+          language: 'python',
+          title: "cli_subcommands.py",
+          code: `import argparse
+
+def main(argv: list[str]) -> int:
+    p = argparse.ArgumentParser(prog="familiarity")
+    sub = p.add_subparsers(dest="cmd", required=True)
+    sub.add_parser("ingest")
+    sub.add_parser("normalize")
+    sub.add_parser("compare")
+    r = sub.add_parser("report")
+    r.add_argument("--format", default="text")
+    try:
+        ns = p.parse_args(argv)
+    except SystemExit as e:
+        # argparse ya usa 2 en usage errors cuando no se intercepta;
+        # aquí re-lanzamos código
+        return int(e.code) if e.code is not None else 2
+    if ns.cmd == "report":
+        print(f"report format={ns.format}")
+        return 0
+    print(f"run {ns.cmd}")
+    return 0
+
+print("code", main(["report", "--format", "json"]))
+print("code", main(["normalize"]))`,
+          output: `report format=json
+code 0
+run normalize
+code 0`,
+        },
+        why: "Subparsers + return codes hacen la CLI operable en scripts.",
+      },
+      {
+        demoId: "S10-T3-B-DEMO",
+        subtopicId: "S10-T3-B",
+        environment: "local-python",
+        description: "Datos a stdout y diagnóstico a stderr (simula pipe normalize).",
+        code: {
+          language: 'python',
+          title: "stdio_demo.py",
+          code: `import sys
+from io import StringIO
+
+def normalize_cmd(raw: str, err: StringIO) -> str:
+    err.write("stage=normalize event=start\\n")
+    out = raw.strip().casefold()
+    err.write("stage=normalize event=done\\n")
+    return out
+
+stderr = StringIO()
+data = normalize_cmd('  {"name": "Ana"}  ', stderr)
+print(data)  # stdout
+print("--- stderr ---")
+print(stderr.getvalue().strip())`,
+          output: `{"name": "ana"}
+--- stderr ---
+stage=normalize event=start
+stage=normalize event=done`,
+        },
+        why: "El pipe de datos queda limpio; logs viven en stderr.",
+      },
+      {
+        demoId: "S10-T4-A-DEMO",
+        subtopicId: "S10-T4-A",
+        environment: "local-python",
+        description: "FAMILIARITY_LOG_LEVEL vs --log-level: gana el flag.",
+        code: {
+          language: 'python',
+          title: "log_level_prec.py",
+          code: `def resolve_log_level(default="INFO", env=None, flag=None) -> str:
+    level = default
+    if env:
+        level = env
+    if flag:
+        level = flag
+    return level
+
+print("solo env", resolve_log_level(env="DEBUG"))
+print("flag gana", resolve_log_level(env="DEBUG", flag="ERROR"))
+print("default", resolve_log_level())`,
+          output: `solo env DEBUG
+flag gana ERROR
+default INFO`,
+        },
+        why: "Precedencia flags > env > default documentada y testeable.",
+      },
+      {
+        demoId: "S10-T4-B-DEMO",
+        subtopicId: "S10-T4-B",
+        environment: "local-python",
+        description: "Abort si falta API_TOKEN solo cuando el subcomando lo requiere.",
+        code: {
+          language: 'python',
+          title: "token_validate.py",
+          code: `def need_token(command: str) -> bool:
+    return command in {"ingest", "report"}
+
+def validate(command: str, cfg: dict) -> None:
+    if need_token(command) and not cfg.get("API_TOKEN"):
+        raise SystemExit(f"config: API_TOKEN requerido para {command}")
+
+validate("normalize", {})
+print("normalize ok")
+try:
+    validate("ingest", {})
+except SystemExit as e:
+    print("abort", e)
+validate("ingest", {"API_TOKEN": "secret-demo"})
+print("ingest ok")`,
+          output: `normalize ok
+abort config: API_TOKEN requerido para ingest
+ingest ok`,
+        },
+        why: "Validación temprana y contextual al subcomando.",
       },
     ],
   },
   weDo: {
-    intro:
-      'Ahora practicamos con un caso más simple: predecir si un cliente va a comprar un producto. Vamos a construir el pipeline paso a paso.',
+    intro: "Andamiaje: **E1 guiado → E2 independiente → E3 transferencia** × 8 subtemas (24 ejercicios, 2 hints c/u). Sin scikit-learn en este incremento V3.",
     steps: [
       {
-        instruction: 'Construye un Pipeline con preprocessor + LogisticRegression y evalúa con CV',
-        hint: 'Sigue el patrón: ColumnTransformer → Pipeline → cross_val_score. ROC-AUC como scoring.',
+        id: "S10-T1-A-E1",
+        subtopicId: "S10-T1-A",
+        kind: "guided",
+        instruction:
+          "Crea un módulo lógico con función pública `clean` y `__all__ = ['clean']`.",
+        hint: "Helper privado con _ no va en __all__.",
+        hints: [
+          "Helper privado con _ no va en __all__.",
+          "Imprime __all__ y clean('  X ').",
+        ],
+        edgeCases: ["import * no es recomendado; __all__ documenta intención"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'compra_pipeline.py',
-          code: `import pandas as pd
-import numpy as np
-from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import cross_val_score, StratifiedKFold
-from sklearn.metrics import roc_auc_score
-
-# Dataset
-np.random.seed(42)
-n = 500
-df = pd.DataFrame({
-    "edad": np.random.randint(18, 70, n),
-    "visitas_web": np.random.randint(1, 30, n),
-    "compro": np.random.choice([0, 1], n, p=[0.7, 0.3])
-})
-
-# TODO: define X, y
-# TODO: crea preprocessor (solo numéricas en este caso)
-# TODO: crea pipeline
-# TODO: cross_val_score con cv=5, scoring='roc_auc'`,
+          title: "public_module.py",
+          code: `# TODO: clean + __all__`,
         },
         solutionCode: {
           language: 'python',
-          title: 'compra_pipeline.py',
-          code: `import pandas as pd
-import numpy as np
-from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import StandardScaler
-from sklearn.impute import SimpleImputer
-from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import cross_val_score, StratifiedKFold, train_test_split
-from sklearn.metrics import roc_auc_score, classification_report
+          title: "public_module.py",
+          code: `def _ws(s: str) -> str:
+    return " ".join(s.split())
 
-np.random.seed(42)
-n = 500
-df = pd.DataFrame({
-    "edad": np.random.randint(18, 70, n),
-    "visitas_web": np.random.randint(1, 30, n),
-    "compro": np.random.choice([0, 1], n, p=[0.7, 0.3])
-})
+def clean(s: str) -> str:
+    return _ws(s).casefold()
 
-# Features y target
-X = df[["edad", "visitas_web"]]
-y = df["compro"]
+__all__ = ["clean"]
+print(__all__)
+print(clean("  X "))`,
+          output: `['clean']
+x`,
+        },
+      },
+      {
+        id: "S10-T1-A-E2",
+        subtopicId: "S10-T1-A",
+        kind: "independent",
+        instruction:
+          "Simula un import circular y arréglalo extrayendo un util compartido.",
+        hint: "a importa b y b importa a → rompe; mueve la función común a util.",
+        hints: [
+          "a importa b y b importa a → rompe; mueve la función común a util.",
+          "Imprime ok desde ambos lados.",
+        ],
+        edgeCases: ["Lazy import dentro de función es plan B"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "fix_circular.py",
+          code: `# circular roto conceptualmente:
+# a.f -> b.g -> a.f
+# TODO: versión sana con util`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "fix_circular.py",
+          code: `def util_norm(s: str) -> str:
+    return s.strip().casefold()
 
-# Preprocessor (solo numéricas en este caso)
-preprocessor = ColumnTransformer([
-    ("num", Pipeline([
-        ("imputer", SimpleImputer(strategy="median")),
-        ("scaler", StandardScaler())
-    ]), ["edad", "visitas_web"])
-])
+def module_a_process(s: str) -> str:
+    return util_norm(s) + ":a"
 
-# Pipeline
-pipeline = Pipeline([
-    ("preprocessor", preprocessor),
-    ("classifier", LogisticRegression(random_state=42))
-])
+def module_b_process(s: str) -> str:
+    return util_norm(s) + ":b"
 
-# Cross-validation
-cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
-cv_scores = cross_val_score(pipeline, X, y, cv=cv, scoring="roc_auc")
-print(f"CV ROC-AUC: {cv_scores.mean():.3f} ± {cv_scores.std():.3f}")
+print(module_a_process(" Hola "))
+print(module_b_process(" Hola "))
+print("ok")`,
+          output: `hola:a
+hola:b
+ok`,
+        },
+      },
+      {
+        id: "S10-T1-A-E3",
+        subtopicId: "S10-T1-A",
+        kind: "transfer",
+        instruction:
+          "Elige import absoluto vs relativo en layout src: imprime la recomendación para 3 casos.",
+        hint: "Dentro del paquete: relativo OK; plugins externos: absoluto; scripts: -m.",
+        hints: [
+          "Dentro del paquete: relativo OK; plugins externos: absoluto; scripts: -m.",
+          "Formato caso -> recomendación.",
+        ],
+        edgeCases: ["Evita manipular sys.path a mano en prod"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "import_style.py",
+          code: `casos = [
+    "normalize.py importa compare en el mismo paquete",
+    "plugin externo usa familiarity_core",
+    "ejecutar el CLI del paquete",
+]
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "import_style.py",
+          code: `recs = {
+    "normalize.py importa compare en el mismo paquete": "relativo o absoluto del paquete (from . import compare)",
+    "plugin externo usa familiarity_core": "absoluto (import familiarity_core)",
+    "ejecutar el CLI del paquete": "python -m familiarity_core",
+}
+for c, r in recs.items():
+    print(f"{c} -> {r}")`,
+          output: `normalize.py importa compare en el mismo paquete -> relativo o absoluto del paquete (from . import compare)
+plugin externo usa familiarity_core -> absoluto (import familiarity_core)
+ejecutar el CLI del paquete -> python -m familiarity_core`,
+        },
+      },
+      {
+        id: "S10-T1-B-E1",
+        subtopicId: "S10-T1-B",
+        kind: "guided",
+        instruction:
+          "Marca helpers privados con _ y deja públicas solo `normalize` y `compare`.",
+        hint: "Imprime lista public vs private detectada por nombre.",
+        hints: [
+          "Imprime lista public vs private detectada por nombre.",
+          "Usa dir() filtrado o una lista explícita.",
+        ],
+        edgeCases: ["Un solo _ es convención, no enforcement del runtime"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "mark_private.py",
+          code: `def tokenize(s):
+    return s.split()
 
-# Train/test split para evaluación final
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
-pipeline.fit(X_train, y_train)
-y_proba = pipeline.predict_proba(X_test)[:, 1]
-print(f"Test ROC-AUC: {roc_auc_score(y_test, y_proba):.3f}")
+def normalize(s):
+    return " ".join(tokenize(s)).lower()
 
-print("\\n=== Classification Report ===")
-print(classification_report(y_test, pipeline.predict(X_test)))`,
-          output: `CV ROC-AUC: 0.512 ± 0.038
-Test ROC-AUC: 0.485
+def compare(a, b):
+    return normalize(a) == normalize(b)
 
-=== Classification Report ===
-              precision    recall  f1-score   support
-           0       0.70      0.95      0.81        76
-           1       0.20      0.04      0.06        24`,
+# TODO: renombrar y reportar`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "mark_private.py",
+          code: `def _tokenize(s):
+    return s.split()
+
+def normalize(s):
+    return " ".join(_tokenize(s)).lower()
+
+def compare(a, b):
+    return normalize(a) == normalize(b)
+
+names = ["_tokenize", "normalize", "compare"]
+public = [n for n in names if not n.startswith("_")]
+private = [n for n in names if n.startswith("_")]
+print("public", public)
+print("private", private)
+print(compare("A", "a"))`,
+          output: `public ['normalize', 'compare']
+private ['_tokenize']
+True`,
+        },
+      },
+      {
+        id: "S10-T1-B-E2",
+        subtopicId: "S10-T1-B",
+        kind: "independent",
+        instruction:
+          "Implementa una fachada que reexporta normalize y compare e imprime __all__.",
+        hint: "Las implementaciones pueden ser locales.",
+        hints: [
+          "Las implementaciones pueden ser locales.",
+          "from-style reexport simulado.",
+        ],
+        edgeCases: ["No reexportes _tokenize"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "facade.py",
+          code: `# TODO facade`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "facade.py",
+          code: `def normalize(s: str) -> str:
+    return s.strip().casefold()
+
+def compare(a: str, b: str) -> bool:
+    return normalize(a) == normalize(b)
+
+# facade reexport
+__all__ = ["normalize", "compare"]
+print(__all__)
+print(compare("Z", " z "))`,
+          output: `['normalize', 'compare']
+True`,
+        },
+      },
+      {
+        id: "S10-T1-B-E3",
+        subtopicId: "S10-T1-B",
+        kind: "transfer",
+        instruction:
+          "Documenta un breaking change de firma pública: old → new y versión major.",
+        hint: "Imprime BREAKING y NEW_VERSION.",
+        hints: [
+          "Imprime BREAKING y NEW_VERSION.",
+          "Ejemplo: compare(a,b)->bool se vuelve compare(a,b)->float score.",
+        ],
+        edgeCases: ["Añadir argumento opcional con default puede ser minor"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "breaking_change.py",
+          code: `# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "breaking_change.py",
+          code: `print("BREAKING: compare(a,b)->bool  =>  compare(a,b)->float score")
+print("NEW_VERSION: 1.0.0 -> 2.0.0")
+print("MIGRATION: usar compare(a,b) == 1.0 en vez de is True")`,
+          output: `BREAKING: compare(a,b)->bool  =>  compare(a,b)->float score
+NEW_VERSION: 1.0.0 -> 2.0.0
+MIGRATION: usar compare(a,b) == 1.0 en vez de is True`,
+        },
+      },
+      {
+        id: "S10-T2-A-E1",
+        subtopicId: "S10-T2-A",
+        kind: "guided",
+        instruction:
+          "Completa un dict estilo pyproject con name y version e imprímelos.",
+        hint: "name=familiarity-core version=0.1.0",
+        hints: [
+          "name=familiarity-core version=0.1.0",
+          "Incluye requires-python >=3.11.",
+        ],
+        edgeCases: ["El nombre de distribución puede usar guiones; el import usa guion bajo"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "pyproject_fields.py",
+          code: `project = {
+    # TODO
+}
+print(project)`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "pyproject_fields.py",
+          code: `project = {
+    "name": "familiarity-core",
+    "version": "0.1.0",
+    "requires-python": ">=3.11",
+}
+print(project)`,
+          output: `{'name': 'familiarity-core', 'version': '0.1.0', 'requires-python': '>=3.11'}`,
+        },
+      },
+      {
+        id: "S10-T2-A-E2",
+        subtopicId: "S10-T2-A",
+        kind: "independent",
+        instruction:
+          "Lista el layout src mínimo de un paquete importable e imprime cada path.",
+        hint: "Incluye __init__.py, normalize.py, cli.py, pyproject.toml.",
+        hints: [
+          "Incluye __init__.py, normalize.py, cli.py, pyproject.toml.",
+          "Usa prefijo src/familiarity_core/.",
+        ],
+        edgeCases: ["tests/ fuera de src"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "layout_list.py",
+          code: `# TODO paths`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "layout_list.py",
+          code: `paths = [
+    "src/familiarity_core/__init__.py",
+    "src/familiarity_core/normalize.py",
+    "src/familiarity_core/cli.py",
+    "pyproject.toml",
+]
+for p in paths:
+    print(p)`,
+          output: `src/familiarity_core/__init__.py
+src/familiarity_core/normalize.py
+src/familiarity_core/cli.py
+pyproject.toml`,
+        },
+      },
+      {
+        id: "S10-T2-A-E3",
+        subtopicId: "S10-T2-A",
+        kind: "transfer",
+        instruction:
+          "Diagnostica ModuleNotFoundError: imprime 3 causas probables post-install.",
+        hint: "Piensa en nombre, editable, y cwd.",
+        hints: [
+          "Piensa en nombre, editable, y cwd.",
+          "Formato cause: ...",
+        ],
+        edgeCases: ["venv incorrecto es causa clásica"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "diagnose_mnf.py",
+          code: `# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "diagnose_mnf.py",
+          code: `causes = [
+    "cause: paquete no instalado (falta pip install -e .)",
+    "cause: nombre import != nombre de carpeta (familiarity_core)",
+    "cause: se ejecuta un script que tapa el paquete en sys.path",
+]
+for c in causes:
+    print(c)`,
+          output: `cause: paquete no instalado (falta pip install -e .)
+cause: nombre import != nombre de carpeta (familiarity_core)
+cause: se ejecuta un script que tapa el paquete en sys.path`,
+        },
+      },
+      {
+        id: "S10-T2-B-E1",
+        subtopicId: "S10-T2-B",
+        kind: "guided",
+        instruction:
+          "Clasifica 4 cambios en major/minor/patch.",
+        hint: "Breaking → major; feature → minor; fix → patch.",
+        hints: [
+          "Breaking → major; feature → minor; fix → patch.",
+          "Imprime cambio: nivel.",
+        ],
+        edgeCases: ["Deprecar primero reduce dolor del major"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "semver_classify.py",
+          code: `cambios = [
+    "renombrar normalize a clean_name (API pública)",
+    "añadir flag --format a report",
+    "corregir typo en help",
+    "eliminar subcomando compare",
+]
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "semver_classify.py",
+          code: `niveles = {
+    "renombrar normalize a clean_name (API pública)": "major",
+    "añadir flag --format a report": "minor",
+    "corregir typo en help": "patch",
+    "eliminar subcomando compare": "major",
+}
+for c, n in niveles.items():
+    print(f"{c}: {n}")`,
+          output: `renombrar normalize a clean_name (API pública): major
+añadir flag --format a report: minor
+corregir typo en help: patch
+eliminar subcomando compare: major`,
+        },
+      },
+      {
+        id: "S10-T2-B-E2",
+        subtopicId: "S10-T2-B",
+        kind: "independent",
+        instruction:
+          "Fija dependencies mínimas del paquete (puede ser lista vacía + note) e imprime requires-python.",
+        hint: "Para N1 stdlib: dependencies=[].",
+        hints: [
+          "Para N1 stdlib: dependencies=[].",
+          "requires-python>=3.11.",
+        ],
+        edgeCases: ["pytest como optional dev, no runtime"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "deps_pin.py",
+          code: `# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "deps_pin.py",
+          code: `deps = {
+    "requires-python": ">=3.11",
+    "dependencies": [],
+    "optional-dependencies": {"dev": ["pytest"]},
+}
+print(deps)`,
+          output: `{'requires-python': '>=3.11', 'dependencies': [], 'optional-dependencies': {'dev': ['pytest']}}`,
+        },
+      },
+      {
+        id: "S10-T2-B-E3",
+        subtopicId: "S10-T2-B",
+        kind: "transfer",
+        instruction:
+          "Escribe una política de compatibilidad hacia S11 dominio (3 bullets).",
+        hint: "Cubrir renames de entidades y versiones.",
+        hints: [
+          "Cubrir renames de entidades y versiones.",
+          "Imprime POLICY líneas.",
+        ],
+        edgeCases: ["Frozen entities pueden forzar major si cambia equality"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "compat_policy.py",
+          code: `# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "compat_policy.py",
+          code: `for line in [
+    "POLICY: renombrar ClientRecord es MAJOR; documentar migración",
+    "POLICY: añadir campo opcional con default es MINOR",
+    "POLICY: S11 no rompe CLI de S10 sin bump y CHANGELOG",
+]:
+    print(line)`,
+          output: `POLICY: renombrar ClientRecord es MAJOR; documentar migración
+POLICY: añadir campo opcional con default es MINOR
+POLICY: S11 no rompe CLI de S10 sin bump y CHANGELOG`,
+        },
+      },
+      {
+        id: "S10-T3-A-E1",
+        subtopicId: "S10-T3-A",
+        kind: "guided",
+        instruction:
+          "Añade subcomando report con --format text|json y parsea un argv de ejemplo.",
+        hint: "Usa argparse subparsers.",
+        hints: [
+          "Usa argparse subparsers.",
+          "Imprime el namespace.",
+        ],
+        edgeCases: ["required=True en subparsers (py3.7+)"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "report_subcmd.py",
+          code: `import argparse
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "report_subcmd.py",
+          code: `import argparse
+p = argparse.ArgumentParser()
+sub = p.add_subparsers(dest="cmd", required=True)
+r = sub.add_parser("report")
+r.add_argument("--format", choices=["text", "json"], default="text")
+ns = p.parse_args(["report", "--format", "json"])
+print(ns)`,
+          output: `Namespace(cmd='report', format='json')`,
+        },
+      },
+      {
+        id: "S10-T3-A-E2",
+        subtopicId: "S10-T3-A",
+        kind: "independent",
+        instruction:
+          "Mapea situaciones a exit codes 0/1/2 e imprime `caso: code`.",
+        hint: "0 éxito, 1 runtime, 2 usage.",
+        hints: [
+          "0 éxito, 1 runtime, 2 usage.",
+          "Cinco casos.",
+        ],
+        edgeCases: ["argparse usa 2 por defecto en errores de parseo"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exit_codes.py",
+          code: `casos = [
+    "normalize ok",
+    "archivo de input no existe",
+    "flag desconocido",
+    "subcomando ausente",
+    "validación de config falla al arrancar",
+]
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exit_codes.py",
+          code: `codes = {
+    "normalize ok": 0,
+    "archivo de input no existe": 1,
+    "flag desconocido": 2,
+    "subcomando ausente": 2,
+    "validación de config falla al arrancar": 1,
+}
+for c, code in codes.items():
+    print(f"{c}: {code}")`,
+          output: `normalize ok: 0
+archivo de input no existe: 1
+flag desconocido: 2
+subcomando ausente: 2
+validación de config falla al arrancar: 1`,
+        },
+      },
+      {
+        id: "S10-T3-A-E3",
+        subtopicId: "S10-T3-A",
+        kind: "transfer",
+        instruction:
+          "Escribe 3 líneas de ayuda --help orientadas a operador no dev.",
+        hint: "Evita jerga de frameworks.",
+        hints: [
+          "Evita jerga de frameworks.",
+          "Imprime HELP: ...",
+        ],
+        edgeCases: ["Ejemplos concretos > descripciones abstractas"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "operator_help.py",
+          code: `# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "operator_help.py",
+          code: `for h in [
+    "HELP: familiarity ingest --input data/clientes.csv  # carga el archivo de clientes",
+    "HELP: familiarity normalize --field name            # limpia espacios y mayúsculas",
+    "HELP: Si falla, revise el código de salida: 2=uso, 1=error de datos/config",
+]:
+    print(h)`,
+          output: `HELP: familiarity ingest --input data/clientes.csv  # carga el archivo de clientes
+HELP: familiarity normalize --field name            # limpia espacios y mayúsculas
+HELP: Si falla, revise el código de salida: 2=uso, 1=error de datos/config`,
+        },
+      },
+      {
+        id: "S10-T3-B-E1",
+        subtopicId: "S10-T3-B",
+        kind: "guided",
+        instruction:
+          "Escribe resultado a stdout y un log a stderr (capturado con StringIO en la demo).",
+        hint: "Función process(n) retorna n*2; log event=done.",
+        hints: [
+          "Función process(n) retorna n*2; log event=done.",
+          "Imprime ambos streams.",
+        ],
+        edgeCases: ["En CLI real: print(..., file=sys.stderr)"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "stdout_stderr.py",
+          code: `from io import StringIO
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "stdout_stderr.py",
+          code: `from io import StringIO
+import sys
+
+def process(n: int, err: StringIO) -> int:
+    err.write("event=done\\n")
+    return n * 2
+
+err = StringIO()
+out = process(3, err)
+print(out)
+print("stderr:", err.getvalue().strip())`,
+          output: `6
+stderr: event=done`,
+        },
+      },
+      {
+        id: "S10-T3-B-E2",
+        subtopicId: "S10-T3-B",
+        kind: "independent",
+        instruction:
+          "Implementa `read_input(path_or_dash, stdin_text)` que lee path o '-' como stdin.",
+        hint: "Si path=='-', usa stdin_text.",
+        hints: [
+          "Si path=='-', usa stdin_text.",
+          "Prueba ambos modos.",
+        ],
+        edgeCases: ["En prod usa pathlib.Path.read_text o sys.stdin.read"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "stdin_or_path.py",
+          code: `def read_input(path_or_dash, stdin_text="", file_text=None):
+    # TODO
+    ...
+
+print(read_input("-", stdin_text="desde stdin"))
+print(read_input("file.csv", file_text="desde file"))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "stdin_or_path.py",
+          code: `def read_input(path_or_dash, stdin_text="", file_text=None):
+    if path_or_dash == "-":
+        return stdin_text
+    return file_text if file_text is not None else ""
+
+print(read_input("-", stdin_text="desde stdin"))
+print(read_input("file.csv", file_text="desde file"))`,
+          output: `desde stdin
+desde file`,
+        },
+      },
+      {
+        id: "S10-T3-B-E3",
+        subtopicId: "S10-T3-B",
+        kind: "transfer",
+        instruction:
+          "Revisa un CLI que contamina stdout con prints de progreso y propón la salida limpia.",
+        hint: "Imprime BAD y GOOD.",
+        hints: [
+          "Imprime BAD y GOOD.",
+          "GOOD solo JSON final.",
+        ],
+        edgeCases: ["jq falla si hay basura alrededor del JSON"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "clean_stdout.py",
+          code: `def bad_cli():
+    print("empezando")
+    print('{"ok": true}')
+    print("fin")
+
+# TODO good_cli`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "clean_stdout.py",
+          code: `from io import StringIO
+
+def bad_cli():
+    return "empezando\\n{\\"ok\\": true}\\nfin"
+
+def good_cli(err: StringIO) -> str:
+    err.write("empezando\\n")
+    err.write("fin\\n")
+    return '{"ok": true}'
+
+print("BAD")
+print(bad_cli())
+err = StringIO()
+print("GOOD")
+print(good_cli(err))
+print("stderr_only", err.getvalue().replace("\\n", " | ").strip())`,
+          output: `BAD
+empezando
+{"ok": true}
+fin
+GOOD
+{"ok": true}
+stderr_only empezando | fin |`,
+        },
+      },
+      {
+        id: "S10-T4-A-E1",
+        subtopicId: "S10-T4-A",
+        kind: "guided",
+        instruction:
+          "Imprime la tabla de precedencia de 4 capas (1=más baja … 4=más alta).",
+        hint: "defaults < file < env < flags.",
+        hints: [
+          "defaults < file < env < flags.",
+          "Formato rank:layer",
+        ],
+        edgeCases: ["Documenta si algún flag es global vs por subcomando"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "precedence_table.py",
+          code: `# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "precedence_table.py",
+          code: `layers = ["defaults", "file", "env", "flags"]
+for i, name in enumerate(layers, 1):
+    print(f"{i}:{name}")`,
+          output: `1:defaults
+2:file
+3:env
+4:flags`,
+        },
+      },
+      {
+        id: "S10-T4-A-E2",
+        subtopicId: "S10-T4-A",
+        kind: "independent",
+        instruction:
+          "Implementa `merge(defaults, file_cfg, env_cfg, flags)` ignorando None en capas altas.",
+        hint: "Prueba con log_level en todas las capas.",
+        hints: [
+          "Prueba con log_level en todas las capas.",
+          "El flag debe ganar.",
+        ],
+        edgeCases: ["jobs queda 1 porque env manda None"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "merge_config.py",
+          code: `def merge(defaults, file_cfg, env_cfg, flags):
+    # TODO
+    ...
+
+print(merge(
+    {"log_level": "INFO", "jobs": 1},
+    {"log_level": "WARNING"},
+    {"log_level": "DEBUG", "jobs": None},
+    {"log_level": "ERROR"},
+))`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "merge_config.py",
+          code: `def merge(defaults, file_cfg, env_cfg, flags):
+    out = dict(defaults)
+    for layer in (file_cfg, env_cfg, flags):
+        for k, v in layer.items():
+            if v is not None:
+                out[k] = v
+    return out
+
+print(merge(
+    {"log_level": "INFO", "jobs": 1},
+    {"log_level": "WARNING"},
+    {"log_level": "DEBUG", "jobs": None},
+    {"log_level": "ERROR"},
+))`,
+          output: `{'log_level': 'ERROR', 'jobs': 1}`,
+        },
+      },
+      {
+        id: "S10-T4-A-E3",
+        subtopicId: "S10-T4-A",
+        kind: "transfer",
+        instruction:
+          "Caso conflictivo: env=DEBUG y flag=INFO — imprime el resultado esperado y por qué.",
+        hint: "Una línea result= y una razón.",
+        hints: [
+          "Una línea result= y una razón.",
+          "Español claro.",
+        ],
+        edgeCases: ["Si el flag no se pasó (None), gana env"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "conflict_case.py",
+          code: `# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "conflict_case.py",
+          code: `print("result=INFO")
+print("razon=el flag CLI tiene mayor precedencia que la variable de entorno")`,
+          output: `result=INFO
+razon=el flag CLI tiene mayor precedencia que la variable de entorno`,
+        },
+      },
+      {
+        id: "S10-T4-B-E1",
+        subtopicId: "S10-T4-B",
+        kind: "guided",
+        instruction:
+          "Checklist de secretos en .gitignore: imprime 4 entradas típicas.",
+        hint: "Incluye .env, *.pem, credentials.json, .venv opcional no es secreto pero sí local.",
+        hints: [
+          "Incluye .env, *.pem, credentials.json, .venv opcional no es secreto pero sí local.",
+          "Formato ignore: ...",
+        ],
+        edgeCases: [".env.example SÍ se commitea sin secretos"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "gitignore_secrets.py",
+          code: `# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "gitignore_secrets.py",
+          code: `for x in [".env", ".env.*", "*.pem", "credentials.json"]:
+    print("ignore:", x)`,
+          output: `ignore: .env
+ignore: .env.*
+ignore: *.pem
+ignore: credentials.json`,
+        },
+      },
+      {
+        id: "S10-T4-B-E2",
+        subtopicId: "S10-T4-B",
+        kind: "independent",
+        instruction:
+          "Implementa `validate_config(cfg)` que exige log_level y data_dir; errores claros.",
+        hint: "Raise RuntimeError con nombre de clave.",
+        hints: [
+          "Raise RuntimeError con nombre de clave.",
+          "Prueba ok y fail.",
+        ],
+        edgeCases: ["Mensajes con nombre de clave ayudan al operador"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "validate_cfg.py",
+          code: `def validate_config(cfg: dict) -> None:
+    # TODO
+    ...
+
+validate_config({"log_level": "INFO", "data_dir": "data"})
+print("ok")
+try:
+    validate_config({"log_level": "INFO"})
+except RuntimeError as e:
+    print(e)`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "validate_cfg.py",
+          code: `def validate_config(cfg: dict) -> None:
+    for k in ("log_level", "data_dir"):
+        if not cfg.get(k):
+            raise RuntimeError(f"config: falta clave requerida '{k}'")
+
+validate_config({"log_level": "INFO", "data_dir": "data"})
+print("ok")
+try:
+    validate_config({"log_level": "INFO"})
+except RuntimeError as e:
+    print(e)`,
+          output: `ok
+config: falta clave requerida 'data_dir'`,
+        },
+      },
+      {
+        id: "S10-T4-B-E3",
+        subtopicId: "S10-T4-B",
+        kind: "transfer",
+        instruction:
+          "Dado un default inseguro (log_level=DEBUG y echo_sql=True), propone defaults seguros.",
+        hint: "Imprime old → new por clave.",
+        hints: [
+          "Imprime old → new por clave.",
+          "Sin secretos en defaults.",
+        ],
+        edgeCases: ["token default None + validate al usar"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "secure_defaults.py",
+          code: `inseguro = {"log_level": "DEBUG", "echo_sql": True, "api_token": "hardcoded"}
+# TODO`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "secure_defaults.py",
+          code: `inseguro = {"log_level": "DEBUG", "echo_sql": True, "api_token": "hardcoded"}
+seguro = {"log_level": "INFO", "echo_sql": False, "api_token": None}
+for k in inseguro:
+    print(f"{k}: {inseguro[k]!r} -> {seguro[k]!r}")`,
+          output: `log_level: 'DEBUG' -> 'INFO'
+echo_sql: True -> False
+api_token: 'hardcoded' -> None`,
         },
       },
     ],
   },
   youDo: {
-    title: 'Churn Prediction Production Pipeline — Tu HERO project de portafolio',
+    title: "Paquete familiarity_core + CLI profesional",
     context:
-      'Este es el proyecto capstone del curso. Vas a construir un pipeline completo de churn prediction: descargar el dataset Telco Customer Churn de Kaggle, hacer EDA, construir Pipeline con ColumnTransformer, comparar 3 modelos (LogisticRegression, RandomForest, XGBoost), tune con RandomizedSearchCV, explicar con SHAP, y persistir con joblib. Este proyecto, bien hecho, te abre puertas en cualquier empresa de telecom, banca o SaaS.',
+      "Conviertes el ETL de familiaridad en **paquete instalable** con subcomandos ingest|normalize|compare|report, config por precedencia y validación temprana. Sin secretos en repo. Reemplaza el legado de churn sklearn.",
     objectives: [
-      'Descargar dataset Telco Customer Churn de Kaggle (~7000 filas)',
-      'Construir Pipeline con ColumnTransformer (numéricas + categóricas)',
-      'Comparar 3 modelos con StratifiedKFold cross-validation',
-      'Tunear el mejor modelo con RandomizedSearchCV',
-      'Generar SHAP beeswarm + waterfall para explainability',
-      'Persistir modelo con joblib y crear model card',
-      'README framed como problema de negocio',
+      "Layout src/ + pyproject.toml instalable en editable",
+      "Subcomandos ingest, normalize, compare, report",
+      "Lógica de dominio separada de I/O CLI",
+      "Config por precedencia y validación temprana",
+      "Ayuda --help y exit codes documentados",
     ],
     requirements: [
-      'Pipeline con ColumnTransformer + SimpleImputer + StandardScaler + OneHotEncoder',
-      '3 modelos: LogisticRegression, RandomForest, XGBoost',
-      'StratifiedKFold con cv=5 y scoring=roc_auc',
-      'RandomizedSearchCV con n_iter=30 para el mejor',
-      'Reportar: accuracy, precision, recall, F1, ROC-AUC, confusion matrix',
-      'SHAP beeswarm plot (global) + waterfall (un caso)',
-      'joblib.dump del pipeline completo',
-      'README.md framing: "Reduce churn by X% by proactively targeting users with >70% churn probability"',
+      "pip install -e . funciona en entorno limpio (documentado)",
+      "python -m familiarity_core --help o entry point console_scripts",
+      "Sin secretos en repo; datos sintéticos",
+      "Errores de uso vs runtime distinguibles por exit code",
+      "Lógica importable sin side-effects",
+      "README de precedencia de config",
     ],
-    starterCode: `import pandas as pd
-import numpy as np
-from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import train_test_split, cross_val_score, StratifiedKFold, RandomizedSearchCV
-from sklearn.metrics import classification_report, roc_auc_score, confusion_matrix
-import shap
-import joblib
+    starterCode: `"""familiarity_core — packaging + CLI (CP-N1-B/C).
+Este stub simula la estructura; en tu repo real usa src/ + pyproject.toml.
+"""
+from __future__ import annotations
+import argparse
+import sys
+from typing import Optional
 
-def cargar_datos(ruta="telco_churn.csv"):
-    # TODO
-    pass
+__all__ = ["normalize", "compare", "main"]
 
-def construir_pipeline():
-    # TODO: ColumnTransformer + Pipeline
-    pass
+def normalize(text: str) -> str:
+    return " ".join(text.split()).casefold()
 
-def comparar_modelos(pipeline, X_train, y_train):
-    # TODO: 3 modelos con CV
-    pass
+def compare(a: str, b: str) -> float:
+    return 1.0 if normalize(a) == normalize(b) else 0.0
 
-def tune_best(pipeline, X_train, y_train):
-    # TODO: RandomizedSearchCV
-    pass
+def build_parser() -> argparse.ArgumentParser:
+    p = argparse.ArgumentParser(
+        prog="familiarity",
+        description="CLI de familiaridad (datos sintéticos).",
+    )
+    sub = p.add_subparsers(dest="cmd", required=True)
+    sub.add_parser("ingest", help="ingerir archivos de entrada")
+    n = sub.add_parser("normalize", help="normalizar texto")
+    n.add_argument("text")
+    c = sub.add_parser("compare", help="comparar dos textos")
+    c.add_argument("a")
+    c.add_argument("b")
+    r = sub.add_parser("report", help="reporte simple")
+    r.add_argument("--format", choices=["text", "json"], default="text")
+    return p
 
-def shap_analysis(model, X_test):
-    # TODO: beeswarm + waterfall
-    pass
-
-def main():
-    # Pipeline completo
-    pass
+def main(argv: Optional[list[str]] = None) -> int:
+    ns = build_parser().parse_args(argv)
+    if ns.cmd == "normalize":
+        print(normalize(ns.text))
+        return 0
+    if ns.cmd == "compare":
+        print(compare(ns.a, ns.b))
+        return 0
+    if ns.cmd == "report":
+        print("{"status": "ok"}" if ns.format == "json" else "status=ok")
+        return 0
+    if ns.cmd == "ingest":
+        print("ingest: ok", file=sys.stderr)
+        return 0
+    return 2
 
 if __name__ == "__main__":
-    main()`,
+    raise SystemExit(main())`,
     portfolioNote:
-      'Este es el proyecto #1 de tu portafolio. En entrevistas, lo presentas durante 15-20 min: problema de negocio, EDA, modelado, tuning, SHAP, deployment. Las empresas miden seniority por: (1) Pipeline sin leakage, (2) CV honesta, (3) SHAP explainability, (4) README con framing de negocio. Si tienes esto, pasas a entrevista técnica final.',
+      "Incluye captura de --help, tabla de exit codes y ejemplo de pipe `... | normalize > out.json 2> log.txt` con datos sintéticos.",
     rubric: [
-      { criterion: 'Pipeline con ColumnTransformer correctamente configurado', weight: '20%' },
-      { criterion: '3 modelos comparados con StratifiedKFold CV', weight: '15%' },
-      { criterion: 'RandomizedSearchCV para tune del mejor', weight: '15%' },
-      { criterion: 'SHAP beeswarm + waterfall generados', weight: '15%' },
-      { criterion: 'joblib persistence del pipeline completo', weight: '10%' },
-      { criterion: 'README con framing de negocio y métricas', weight: '15%' },
-      { criterion: 'Código modular y documentado', weight: '10%' },
+      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
+      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
+      { criterion: "Privacidad / sin PII real / sin secretos", weight: "20%" },
+      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
+      { criterion: "Código legible y límites claros", weight: "10%" },
+      { criterion: "Documentación en español profesional", weight: "10%" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: '¿Por qué usar Pipeline en vez de aplicar transformaciones por separado?',
+        question: "¿Para qué sirve `if __name__ == '__main__'`?",
         options: [
-          'Es más rápido',
-          'Evita data leakage y simplifica deployment',
-          'Es lo mismo pero con otro nombre',
-          'Solo sirve para modelos lineales',
+          "Acelerar el interpreter",
+          "Ejecutar el CLI/demo solo al correr el módulo, no al importar",
+          "Definir __all__",
+          "Instalar dependencias",
         ],
         correctIndex: 1,
         explanation:
-          'Pipeline aplica las transformaciones solo sobre X_train durante fit, evitando leakage del test set. Además, persistir el pipeline permite aplicar las mismas transformaciones en inference sin replicar código. Sin Pipeline, es muy fácil cometer leakage sin darse cuenta.',
+          "Evita side-effects al importar el paquete.",
       },
       {
-        question: '¿Qué hace `StratifiedKFold` y por qué usarlo en clasificación?',
+        question: "Precedencia correcta de config…",
         options: [
-          'Es lo mismo que KFold',
-          'Mantiene la proporción de clases en cada fold, esencial para datasets desbalanceados',
-          'Reduce el número de folds',
-          'Solo funciona para regresión',
+          "defaults > flags > env > file",
+          "flags > env > file > defaults",
+          "env > flags > file > defaults",
+          "file > flags > env > defaults",
         ],
         correctIndex: 1,
         explanation:
-          'StratifiedKFold asegura que cada fold tenga la misma proporción de clases que el dataset completo. Sin esto, en un dataset con 10% de positivos, un fold podría no tener ningún positivo y la CV fallaría. Es obligatorio para clasificación con desbalance.',
+          "Flags CLI ganan; defaults son la base.",
       },
       {
-        question: '¿Cuándo es mejor RandomizedSearchCV sobre GridSearchCV?',
+        question: "Exit code 2 en CLI argparse suele significar…",
         options: [
-          'Siempre',
-          'Cuando el espacio de hiperparámetros es grande o tiene valores continuos',
-          'Solo para modelos lineales',
-          'Nunca, GridSearch es siempre mejor',
+          "Éxito",
+          "Error de uso/parseo de argumentos",
+          "Timeout de red",
+          "Fraude detectado",
         ],
         correctIndex: 1,
         explanation:
-          'GridSearch prueba TODAS las combinaciones (exponencial). Para 5 parámetros con 4 valores cada uno = 1024 combos. RandomizedSearch prueba N aleatorias (tú eliges N), lo que es más eficiente. Para espacios grandes o continuos, RandomizedSearch encuentra buenas soluciones más rápido.',
+          "Convención: 2 usage; 1 runtime; 0 ok.",
       },
       {
-        question: '¿Para qué sirve SHAP en ML?',
+        question: "¿Dónde van los logs de progreso?",
         options: [
-          'Para entrenar modelos más rápido',
-          'Para explicar contribuciones de cada feature a predicciones individuales',
-          'Para hacer feature selection',
-          'Para normalizar features',
+          "stdout con el JSON",
+          "stderr",
+          "en el nombre del archivo",
+          "en __all__",
         ],
         correctIndex: 1,
         explanation:
-          'SHAP (SHapley Additive exPlanations) descompone una predicción en contribuciones por feature. Permite responder "¿por qué este cliente fue predicho como churn?". Es esencial para compliance, debugging y confianza del negocio.',
+          "stderr deja stdout limpio para pipes.",
       },
       {
-        question: '¿Cómo accedes al parámetro `C` de un LogisticRegression dentro de un Pipeline?',
+        question: "Añadir un subcomando nuevo compatible es tipicamente…",
         options: [
-          'pipeline.C',
-          'pipeline.classifier.C',
-          'pipeline__classifier__C',
-          'classifier__C',
+          "major",
+          "minor",
+          "borrar el repo",
+          "patch obligatorio siempre",
         ],
-        correctIndex: 3,
+        correctIndex: 1,
         explanation:
-          'Para GridSearch/RandomizedSearch sobre un Pipeline, usas `__` (doble underscore) para separar pasos. `classifier__C` significa "parámetro C del paso classifier". Para sub-pipelines: `preprocessor__num__imputer__strategy`.',
+          "Feature compatible → minor en semver.",
+      },
+      {
+        question: "¿Qué no debe ir al git del paquete?",
+        options: [
+          ".env con API_TOKEN",
+          "README.md",
+          "pyproject.toml",
+          "src/.../__init__.py",
+        ],
+        correctIndex: 0,
+        explanation:
+          "Secretos fuera del repo; usa .env.example sin valores reales.",
       },
     ],
   },
   resources: {
     docs: [
-      { label: 'scikit-learn — User Guide', url: 'https://scikit-learn.org/stable/user_guide.html', note: 'Guía oficial completa' },
-      { label: 'scikit-learn — Pipelines', url: 'https://scikit-learn.org/stable/modules/compose.html', note: 'Pipeline y ColumnTransformer en detalle' },
-      { label: 'SHAP — Official docs', url: 'https://shap.readthedocs.io/en/latest/', note: 'Documentación de SHAP con ejemplos' },
-      { label: 'Telco Churn dataset', url: 'https://www.kaggle.com/datasets/blastchar/telco-customer-churn', note: 'Dataset para el proyecto capstone' },
+      {
+        label: "Modules — Python Tutorial",
+        url: "https://docs.python.org/3/tutorial/modules.html",
+        note: "imports, packages, __main__",
+      },
+      {
+        label: "argparse — Parser for command-line options",
+        url: "https://docs.python.org/3/library/argparse.html",
+        note: "subparsers, exit codes",
+      },
+      {
+        label: "Writing pyproject.toml (packaging)",
+        url: "https://packaging.python.org/en/latest/guides/writing-pyproject-toml/",
+        note: "src layout, project table",
+      },
     ],
     books: [
-      { label: 'Python Apprentice to Master', note: 'Capítulo sobre ML con scikit-learn.' },
+      {
+        label: "Python Packaging User Guide",
+        note: "Referencia de instalación editable y metadata.",
+      },
+      {
+        label: "Click vs argparse — elegir con criterio",
+        note: "En el curso usamos argparse stdlib; Click es opcional después.",
+      },
     ],
     courses: [
-      { label: 'Kaggle Learn — Intermediate ML', url: 'https://www.kaggle.com/learn/intermediate-machine-learning', note: 'Pipelines, XGBoost, cross-validation' },
-      { label: 'Kaggle Learn — Machine Learning Explainability', url: 'https://www.kaggle.com/learn/machine-learning-explainability', note: 'SHAP y permutation importance' },
+      {
+        label: "PyPA sample project",
+        url: "https://github.com/pypa/sampleproject",
+        note: "Layout de referencia; adaptar a familiarity_core.",
+      },
     ],
   },
 }

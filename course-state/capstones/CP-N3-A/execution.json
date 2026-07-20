@@ -1,0 +1,11 @@
+{
+  "id": "CP-N3-A",
+  "status": "pass",
+  "exit_code": 0,
+  "stdout": "METRICS_JSON: {\"capstone_id\": \"CP-N3-A\", \"status\": \"pass\", \"n_records\": 5, \"n_all_pairs\": 10, \"n_blocked_pairs\": 2, \"blocking_reduction\": 0.8, \"precision\": 1.0, \"recall\": 0.5, \"n_review_queue\": 0, \"disclaimer\": \"Identity match candidates only; not fraud/kinship\"}\nCP-N3-A ER OK — P=1.00 R=0.50\n",
+  "stderr": "",
+  "command": "python3 demo.py",
+  "cwd": "course-state/capstones/CP-N3-A",
+  "executed_at": "2026-07-20T14:53:43Z",
+  "python": "3.9.6"
+}

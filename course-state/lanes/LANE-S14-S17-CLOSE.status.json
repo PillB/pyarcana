@@ -1,0 +1,196 @@
+{
+  "lane_id": "LANE-S14-S17-CLOSE",
+  "status": "completed",
+  "phase": "PHASE_5_EXAM_BANK + PHASE_6_VALIDATION",
+  "generated_at": "2026-07-20T20:30:00Z",
+  "prompt_version": "3.2",
+  "scope": [
+    "S14",
+    "S15",
+    "S16",
+    "S17"
+  ],
+  "phase5": {
+    "security": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s14_phase5_exam_bank.json",
+      "concept_slugs": [
+        "ndarray-dtype-shape",
+        "create-index-masks",
+        "ufuncs-reductions",
+        "broadcasting-shapes",
+        "views-copies-mutability",
+        "nan-inf-stability",
+        "vectorize-vs-loops",
+        "memory-measure-tol-tests"
+      ]
+    },
+    "stdlib-deep": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s15_phase5_exam_bank.json",
+      "concept_slugs": [
+        "series-dataframe-index",
+        "read-csv-excel-parser",
+        "loc-iloc-filters-assign",
+        "chained-assignment-copy",
+        "strings-nullable-dates-cats",
+        "explicit-coercion-schema",
+        "csv-parquet-excel-export",
+        "index-format-provenance-memory"
+      ]
+    },
+    "wxpython-gui": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s16_phase5_exam_bank.json",
+      "concept_slugs": [
+        "nulls-field-policies",
+        "indicators-imputation-limits",
+        "exact-vs-conflict-dups",
+        "keys-cardinality-evidence",
+        "normalize-strings-nums-dates-cats",
+        "outliers-plausible-vs-error",
+        "schema-crossfield-rules",
+        "metrics-quarantine-audit"
+      ]
+    },
+    "packaging": {
+      "concepts": 8,
+      "variants_total": 24,
+      "status": "authored",
+      "artifact": "course-state/s17_phase5_exam_bank.json",
+      "concept_slugs": [
+        "keys-cardinality-joins",
+        "validate-dup-antijoin",
+        "concat-melt-pivot",
+        "long-wide-stable-names",
+        "groupby-agg-transform",
+        "windows-dates-cohorts",
+        "denominators-totals",
+        "temporal-leakage-controls"
+      ]
+    }
+  },
+  "phase6": {
+    "S14": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s14_phase6_validation.json"
+    },
+    "S15": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s15_phase6_validation.json"
+    },
+    "S16": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s16_phase6_validation.json"
+    },
+    "S17": {
+      "authorized_to_close_section": true,
+      "status": "passed",
+      "counts": {
+        "subtopics": 8,
+        "demos": 8,
+        "exercises": 24,
+        "exam": 24
+      },
+      "snippets_ok": 3,
+      "artifact": "course-state/s17_phase6_validation.json"
+    }
+  },
+  "sections_authorized_to_close": [
+    "S14",
+    "S15",
+    "S16",
+    "S17"
+  ],
+  "sections_blocked": [],
+  "pass_fail_table": [
+    {
+      "section": "S14",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S15",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S16",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    },
+    {
+      "section": "S17",
+      "subtopics": "8/8",
+      "demos": "8/8",
+      "exercises": "24/24",
+      "exam": "24/24",
+      "snippets_ok": 3,
+      "fields_ok": true,
+      "result": "PASS"
+    }
+  ],
+  "files_changed": [
+    "prisma/seed.ts",
+    "course-state/s14_phase5_exam_bank.json",
+    "course-state/s15_phase5_exam_bank.json",
+    "course-state/s16_phase5_exam_bank.json",
+    "course-state/s17_phase5_exam_bank.json",
+    "course-state/s14_phase6_validation.json",
+    "course-state/s15_phase6_validation.json",
+    "course-state/s16_phase6_validation.json",
+    "course-state/s17_phase6_validation.json",
+    "course-state/lanes/LANE-S14-S17-CLOSE.status.json"
+  ],
+  "files_not_edited": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json"
+  ],
+  "next_action": "Orchestrator: merge authorized S14–S17 into checkpoint/section_ledger; db:seed updated banks."
+}

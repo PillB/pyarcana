@@ -1,0 +1,320 @@
+{
+  "version": "3.2",
+  "section": "S14",
+  "section_id": "security",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S14-S17-P4",
+  "generated_at": "2026-07-20T07:30:56Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget security section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s14-security.ts",
+      "course-state/s14_phase4_progress.json",
+      "course-state/lanes/LANE-S14-S17-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "security",
+    "index": 14,
+    "title": "NumPy y cómputo vectorizado",
+    "shortTitle": "NumPy vectorizado",
+    "tagline": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+    "estimatedHours": 10,
+    "learningOutcomes": 8,
+    "youDo": "Métricas de calidad y señales por pares vectorizadas (inicio CP-N2-A)",
+    "icon": "ShieldCheck",
+    "legacy_note": "Seguridad/IA demoted; target is NumPy vectorizado for CP-N2-A start",
+    "capstone": "CP-N2-A (inicio)"
+  },
+  "subtopics_authored": {
+    "S14-T1-A": {
+      "slug": "ndarray-dtype-shape",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S14-T1-A-DEMO",
+      "exercises": [
+        "S14-T1-A-E1",
+        "S14-T1-A-E2",
+        "S14-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S14-T1-B": {
+      "slug": "create-index-masks",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S14-T1-B-DEMO",
+      "exercises": [
+        "S14-T1-B-E1",
+        "S14-T1-B-E2",
+        "S14-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S14-T2-A": {
+      "slug": "ufuncs-reductions",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S14-T2-A-DEMO",
+      "exercises": [
+        "S14-T2-A-E1",
+        "S14-T2-A-E2",
+        "S14-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S14-T2-B": {
+      "slug": "broadcasting-shapes",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S14-T2-B-DEMO",
+      "exercises": [
+        "S14-T2-B-E1",
+        "S14-T2-B-E2",
+        "S14-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S14-T3-A": {
+      "slug": "views-copies-mutability",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S14-T3-A-DEMO",
+      "exercises": [
+        "S14-T3-A-E1",
+        "S14-T3-A-E2",
+        "S14-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S14-T3-B": {
+      "slug": "nan-inf-stability",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S14-T3-B-DEMO",
+      "exercises": [
+        "S14-T3-B-E1",
+        "S14-T3-B-E2",
+        "S14-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S14-T4-A": {
+      "slug": "vectorize-vs-loops",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S14-T4-A-DEMO",
+      "exercises": [
+        "S14-T4-A-E1",
+        "S14-T4-A-E2",
+        "S14-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S14-T4-B": {
+      "slug": "memory-measure-tol-tests",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S14-T4-B-DEMO",
+      "exercises": [
+        "S14-T4-B-E1",
+        "S14-T4-B-E2",
+        "S14-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Métricas de calidad y señales por pares vectorizadas (inicio CP-N2-A)",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S14-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S14-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true
+}

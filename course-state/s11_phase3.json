@@ -1,0 +1,1022 @@
+{
+  "version": "3.2",
+  "section": "S11",
+  "section_id": "testing",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1B-FACTORY",
+  "prompt_version": "3.2",
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N1B-FACTORY — S09–S13 research blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N1B-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S11 blueprint: 4 topics × 2 subtopics with full artifact specs and canonical counts before PHASE 4 authorship.",
+    "scope_in": [
+      "S11 only (within N1B factory batch)",
+      "Blueprint: outcomes, demos, exercises E1/E2/E3, topic evals, A/B/C slots, capstone notes",
+      "Count validation vs invariant vector",
+      "Platform gap notes (legacy retention)"
+    ],
+    "scope_out": [
+      "Writing full theory paragraphs / complete exercise bodies (PHASE 4)",
+      "Writing full A/B/C item stems (PHASE 5)",
+      "Editing large .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s11-testing.ts",
+      "prisma/seed.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/course_requirements.json",
+      "src/lib/course/index.ts"
+    ]
+  },
+  "section_meta": {
+    "id": "testing",
+    "index": 11,
+    "title_platform": "Testing Your Python Code",
+    "title_v3": "OOP y modelo de dominio",
+    "title_decision": "KEEP platform id 'testing' (learning_roadmap.md). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+    "estimatedHours": 10,
+    "level": "Principiante avanzado",
+    "phase": 0,
+    "prerequisites": [
+      "S10"
+    ],
+    "environment": "local-python",
+    "project_capstone": "CP-N1-C (modelo de dominio)"
+  },
+  "learning_outcomes_section": [
+    "El estudiante modela entidades del dominio con class/dataclass y crea instancias válidas.",
+    "El estudiante impone invariantes en construcción y rechaza estados inválidos sin side-effects de negocio externos.",
+    "El estudiante encapsula campos sensibles con properties y métodos de consulta sin exponer mutación peligrosa.",
+    "El estudiante define igualdad/hash seguros y elige mutabilidad o frozen según el rol de la entidad.",
+    "El estudiante prefiere composición para ensamblar evidencia y evita jerarquías frágiles de herencia.",
+    "El estudiante usa Protocol/duck typing para puertos del dominio (p.ej. repositorio) sin over-engineering.",
+    "El estudiante separa dominio de I/O mediante repositorio/servicio y serializa a dict/JSON sin filtrar PII innecesaria.",
+    "El estudiante prueba el dominio sin red/DB real y documenta que ninguna clase emite veredicto de fraude o parentesco."
+  ],
+  "topics": [
+    {
+      "topic_id": "S11-T1",
+      "title": "Objetos",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S11-T1-A",
+          "slug": "classes-instances-dataclass",
+          "title": "Clases, instancias y dataclass",
+          "outcome": "El estudiante modela entidades del dominio con class/dataclass y crea instancias válidas.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Clases, instancias y dataclass",
+              "must_cover": [
+                "class vs instance",
+                "@dataclass",
+                "fields",
+                "default_factory",
+                "type hints"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S11-T1-A-DEMO",
+              "title": "ClientRecord dataclass desde dict sintético",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S11-T1-A-E1",
+                "kind": "guided",
+                "title": "Completar dataclass ClientRecord",
+                "skill": "dataclass",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S11-T1-A-E2",
+                "kind": "independent",
+                "title": "Transaction con campos obligatorios",
+                "skill": "instancias",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S11-T1-A-E3",
+                "kind": "transfer",
+                "title": "Migrar dict anónimo a tipo de dominio",
+                "skill": "modelado",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S11-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S11-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S11-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S11-T1-B",
+          "slug": "invariants-valid-states",
+          "title": "Invariantes y estados válidos",
+          "outcome": "El estudiante impone invariantes en construcción y rechaza estados inválidos sin side-effects de negocio externos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Invariantes y estados válidos",
+              "must_cover": [
+                "__post_init__",
+                "validate()",
+                "estados válidos",
+                "fail on invalid construct"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S11-T1-B-DEMO",
+              "title": "ClientRecord rechaza document_id vacío",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S11-T1-B-E1",
+                "kind": "guided",
+                "title": "Añadir invariante de fechas de transacción",
+                "skill": "invariantes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S11-T1-B-E2",
+                "kind": "independent",
+                "title": "Factory from_dict con validación",
+                "skill": "estados",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S11-T1-B-E3",
+                "kind": "transfer",
+                "title": "Lista de invariantes del dominio en español",
+                "skill": "especificación",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S11-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S11-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S11-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S11-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S11-T1-EVAL-1",
+            "title": "Dataclass ClientRecord + Transaction válidos",
+            "authentic": true
+          },
+          {
+            "id": "S11-T1-EVAL-2",
+            "title": "Invariantes y rechazo de estado inválido",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S11-T2",
+      "title": "Encapsulación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S11-T2-A",
+          "slug": "properties-methods",
+          "title": "Propiedades y métodos",
+          "outcome": "El estudiante encapsula campos sensibles con properties y métodos de consulta sin exponer mutación peligrosa.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Propiedades y métodos",
+              "must_cover": [
+                "@property",
+                "métodos de instancia",
+                "no public mutable PII raw si se puede evitar",
+                "computed fields"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S11-T2-A-DEMO",
+              "title": "display_name y masked_email como properties",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S11-T2-A-E1",
+                "kind": "guided",
+                "title": "Property full_name desde nombres",
+                "skill": "property",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S11-T2-A-E2",
+                "kind": "independent",
+                "title": "Método age_days_since(tx)",
+                "skill": "métodos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S11-T2-A-E3",
+                "kind": "transfer",
+                "title": "Encapsular mutación de score con setter validado",
+                "skill": "encapsulación",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S11-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S11-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S11-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S11-T2-B",
+          "slug": "equality-hash-mutability",
+          "title": "Igualdad, hash y mutabilidad consciente",
+          "outcome": "El estudiante define igualdad/hash seguros y elige mutabilidad o frozen según el rol de la entidad.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Igualdad, hash y mutabilidad consciente",
+              "must_cover": [
+                "__eq__",
+                "__hash__",
+                "frozen dataclass",
+                "mutable vs identity",
+                "usar en sets/dicts"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S11-T2-B-DEMO",
+              "title": "ResolvedEntity frozen por entity_id; set de entidades",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S11-T2-B-E1",
+                "kind": "guided",
+                "title": "eq por business key document_id",
+                "skill": "igualdad",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S11-T2-B-E2",
+                "kind": "independent",
+                "title": "frozen Evidence value object",
+                "skill": "hash",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S11-T2-B-E3",
+                "kind": "transfer",
+                "title": "Bug: entidad mutable como key de dict",
+                "skill": "mutabilidad",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S11-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S11-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S11-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S11-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S11-T2-EVAL-1",
+            "title": "Properties de presentación enmascarada",
+            "authentic": true
+          },
+          {
+            "id": "S11-T2-EVAL-2",
+            "title": "Equality/hash con frozen value object",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S11-T3",
+      "title": "Diseño",
+      "bloom_focus": [
+        "Aplicar",
+        "Comprender",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S11-T3-A",
+          "slug": "composition-over-inheritance",
+          "title": "Composición antes que herencia",
+          "outcome": "El estudiante prefiere composición para ensamblar evidencia y evita jerarquías frágiles de herencia.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Composición antes que herencia",
+              "must_cover": [
+                "composition",
+                "has-a vs is-a",
+                "herencia solo si subtipo real",
+                "mixins caution"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S11-T3-A-DEMO",
+              "title": "CaseFile compone list[RelationshipEvidence] + ResolvedEntity",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S11-T3-A-E1",
+                "kind": "guided",
+                "title": "Reemplazar herencia innecesaria por composición",
+                "skill": "composición",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S11-T3-A-E2",
+                "kind": "independent",
+                "title": "CaseFile agrega evidencias",
+                "skill": "agregación",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S11-T3-A-E3",
+                "kind": "transfer",
+                "title": "Justificar no heredar Client de Person",
+                "skill": "diseño",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S11-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S11-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S11-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S11-T3-B",
+          "slug": "protocols-purposeful-polymorphism",
+          "title": "Protocolos y polimorfismo con propósito",
+          "outcome": "El estudiante usa Protocol/duck typing para puertos del dominio (p.ej. repositorio) sin over-engineering.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Protocolos y polimorfismo con propósito",
+              "must_cover": [
+                "typing.Protocol",
+                "duck typing",
+                "polimorfismo por interfaz",
+                "evitar ABC si Protocol basta"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S11-T3-B-DEMO",
+              "title": "Protocol EntityStore con get/save; FakeStore en memoria",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S11-T3-B-E1",
+                "kind": "guided",
+                "title": "Definir Protocol Scorer con score(pair)",
+                "skill": "protocol",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S11-T3-B-E2",
+                "kind": "independent",
+                "title": "Dos implementaciones de normalizer",
+                "skill": "polimorfismo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S11-T3-B-E3",
+                "kind": "transfer",
+                "title": "Cuándo NO introducir Protocol aún",
+                "skill": "juicio",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S11-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S11-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S11-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S11-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S11-T3-EVAL-1",
+            "title": "CaseFile por composición",
+            "authentic": true
+          },
+          {
+            "id": "S11-T3-EVAL-2",
+            "title": "Protocol + 2 implementaciones de store",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S11-T4",
+      "title": "Límites",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S11-T4-A",
+          "slug": "repositories-services-serialization",
+          "title": "Repositorios/servicios y serialización",
+          "outcome": "El estudiante separa dominio de I/O mediante repositorio/servicio y serializa a dict/JSON sin filtrar PII innecesaria.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Repositorios/servicios y serialización",
+              "must_cover": [
+                "repository pattern light",
+                "service layer light",
+                "to_dict/from_dict",
+                "boundary DTO"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S11-T4-A-DEMO",
+              "title": "InMemoryClientRepository + service que no decide fraude",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S11-T4-A-E1",
+                "kind": "guided",
+                "title": "to_dict de ClientRecord sin password fields",
+                "skill": "serialización",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S11-T4-A-E2",
+                "kind": "independent",
+                "title": "Repository save/get con dict store",
+                "skill": "repositorio",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S11-T4-A-E3",
+                "kind": "transfer",
+                "title": "Dibujar frontera dominio vs CLI I/O",
+                "skill": "límites",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S11-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S11-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S11-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S11-T4-B",
+          "slug": "domain-deps-tests",
+          "title": "Dependencias y pruebas del dominio",
+          "outcome": "El estudiante prueba el dominio sin red/DB real y documenta que ninguna clase emite veredicto de fraude o parentesco.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Dependencias y pruebas del dominio",
+              "must_cover": [
+                "pure domain tests",
+                "fakes",
+                "assert no fraud method",
+                "separación ER vs relationship scores como datos no veredictos"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S11-T4-B-DEMO",
+              "title": "Tests de RelationshipEvidence solo almacenan señales; sin is_fraud()",
+              "environment": "local-python",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — see phase1"
+            },
+            "exercises": [
+              {
+                "id": "S11-T4-B-E1",
+                "kind": "guided",
+                "title": "Test de invariante ClientRecord",
+                "skill": "tests dominio",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S11-T4-B-E2",
+                "kind": "independent",
+                "title": "Fake repo en 3 tests de servicio",
+                "skill": "fakes",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S11-T4-B-E3",
+                "kind": "transfer",
+                "title": "Revisar clase con decide_fraud y proponer extracción",
+                "skill": "ética de modelo",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S11-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S11-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S11-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S11-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S11-T4-EVAL-1",
+            "title": "Repositorio en memoria + to_dict seguro",
+            "authentic": true
+          },
+          {
+            "id": "S11-T4-EVAL-2",
+            "title": "Suite de tests que prueba ausencia de veredicto fraude/parentesco",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S11-PROJ",
+    "title": "Modelo de dominio Cliente–Transacción–Evidencia",
+    "replaces_legacy": "Test Suite for Churn Project — se reubica testing como soporte; TARGET es el modelo de dominio de familiaridad",
+    "objectives": [
+      "Implementar ClientRecord, ResolvedEntity, Transaction, RelationshipEvidence",
+      "Invariantes en construcción y equality consciente",
+      "Ningún método is_fraud / is_related_family automático",
+      "Serialización + repositorio en memoria",
+      "Tests unitarios del dominio con datos sintéticos"
+    ],
+    "requirements": [
+      "Cuatro tipos explícitos con type hints",
+      "entity_resolution_score y relationship_signal_score como campos de datos si existen — no veredictos",
+      "README de límites del modelo",
+      "pytest verde en dominio puro"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "Base de objetos para CP-N1-C dashboard en S13"
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'testing' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s11-testing.ts; orphans: ['src/lib/course/sections/s11-advanced-topics.ts']"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N1-C (modelo de dominio)",
+    "increment_gate": "modelo que distingue ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence; ninguna clase decide fraude o parentesco",
+    "project_id": "S11-PROJ",
+    "section_passed": false,
+    "notes": "S11 contributes to CP-N1-C (modelo de dominio). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "capstone_increment_specified": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Factory blueprint quality aligned to S03 phase3 pattern. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 topic split gives clear 4×2 ownership for N1 second half",
+    "risk": "Display title still 'Testing Your Python Code' until product rename; large topic mismatch may confuse learners if tagline not updated in PHASE 4",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S11-T1-A first"
+  }
+}

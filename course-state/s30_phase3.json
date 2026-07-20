@@ -1,0 +1,1080 @@
+{
+  "version": "3.2",
+  "section": "S30",
+  "section_id": "security-infra",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S30 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S30 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s30-security-infra.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "security-infra",
+    "index": 30,
+    "title_platform": "Seguridad Avanzada e Infraestructura",
+    "title_v3": "Entity resolution probabilístico",
+    "title_decision": "KEEP platform id 'security-infra' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "Testable Entity Resolution Engine con benchmark etiquetado, blocking medido, comparadores explicables y cola de revisión",
+    "estimatedHours": 16,
+    "level": "Competente a experto",
+    "phase": 2,
+    "prerequisites": [
+      "S7",
+      "S13",
+      "S29"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N3-A (cierre)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "security-infra",
+    "platform_title": "Seguridad Avanzada e Infraestructura",
+    "v3_title": "Entity resolution probabilístico",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante compara exact/edit/token/fecha.",
+    "El estudiante trata missingness y frecuencia.",
+    "El estudiante diseña blocking con recall medido.",
+    "El estudiante controla costo y pares imposibles.",
+    "El estudiante estima pesos y umbrales.",
+    "El estudiante opera review y consistencia de cluster.",
+    "El estudiante parte datos por entidad sin leakage.",
+    "El estudiante reporta métricas pairwise/cluster y slices."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S30-T1-A",
+      "slug": "exact-edit-token-date",
+      "title": "exact, edit/token y fecha"
+    },
+    {
+      "subtopic_id": "S30-T1-B",
+      "slug": "missingness-frequency",
+      "title": "missingness informativa y frecuencia"
+    },
+    {
+      "subtopic_id": "S30-T2-A",
+      "slug": "rules-candidate-recall",
+      "title": "reglas y candidate recall"
+    },
+    {
+      "subtopic_id": "S30-T2-B",
+      "slug": "combos-cost-impossible",
+      "title": "combinaciones, costo y pares imposibles"
+    },
+    {
+      "subtopic_id": "S30-T3-A",
+      "slug": "weights-prob-thresholds",
+      "title": "pesos/probabilidad y thresholds"
+    },
+    {
+      "subtopic_id": "S30-T3-B",
+      "slug": "train-clerical-cluster",
+      "title": "entrenamiento, clerical review y cluster consistency"
+    },
+    {
+      "subtopic_id": "S30-T4-A",
+      "slug": "labeled-splits-by-entity",
+      "title": "labeled pairs y splits por entidad"
+    },
+    {
+      "subtopic_id": "S30-T4-B",
+      "slug": "pr-pairwise-cluster-slices",
+      "title": "precision/recall, pairwise/cluster metrics y error slices"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S30-T1",
+      "title": "Normalización/comparadores",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S30-T1-A",
+          "slug": "exact-edit-token-date",
+          "title": "exact, edit/token y fecha",
+          "outcome": "El estudiante compara exact/edit/token/fecha.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "exact, edit/token y fecha",
+              "must_cover": [
+                "exact match",
+                "edit distance",
+                "token",
+                "date"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S30-T1-A-DEMO",
+              "title": "Demo: exact, edit/token y fecha",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S30-T1-A-E1",
+                "kind": "guided",
+                "title": "exact, edit/token y fecha — guided",
+                "skill": "exact",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S30-T1-A-E2",
+                "kind": "independent",
+                "title": "exact, edit/token y fecha — independent",
+                "skill": "exact",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S30-T1-A-E3",
+                "kind": "transfer",
+                "title": "exact, edit/token y fecha — transfer",
+                "skill": "exact",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S30-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S30-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S30-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S30-T1-B",
+          "slug": "missingness-frequency",
+          "title": "missingness informativa y frecuencia",
+          "outcome": "El estudiante trata missingness y frecuencia.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "missingness informativa y frecuencia",
+              "must_cover": [
+                "missingness",
+                "frequency weights"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S30-T1-B-DEMO",
+              "title": "Demo: missingness informativa y frecuencia",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S30-T1-B-E1",
+                "kind": "guided",
+                "title": "missingness informativa y frecuencia — guided",
+                "skill": "missingness",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S30-T1-B-E2",
+                "kind": "independent",
+                "title": "missingness informativa y frecuencia — independent",
+                "skill": "missingness",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S30-T1-B-E3",
+                "kind": "transfer",
+                "title": "missingness informativa y frecuencia — transfer",
+                "skill": "missingness",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S30-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S30-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S30-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S30-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S30-T1-EVAL-1",
+            "title": "exact, edit/token y fecha — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S30-T1-EVAL-2",
+            "title": "missingness informativa y frecuencia — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S30-T2",
+      "title": "Blocking",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S30-T2-A",
+          "slug": "rules-candidate-recall",
+          "title": "reglas y candidate recall",
+          "outcome": "El estudiante diseña blocking con recall medido.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "reglas y candidate recall",
+              "must_cover": [
+                "blocking rules",
+                "recall"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S30-T2-A-DEMO",
+              "title": "Demo: reglas y candidate recall",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S30-T2-A-E1",
+                "kind": "guided",
+                "title": "reglas y candidate recall — guided",
+                "skill": "rules",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S30-T2-A-E2",
+                "kind": "independent",
+                "title": "reglas y candidate recall — independent",
+                "skill": "rules",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S30-T2-A-E3",
+                "kind": "transfer",
+                "title": "reglas y candidate recall — transfer",
+                "skill": "rules",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S30-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S30-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S30-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S30-T2-B",
+          "slug": "combos-cost-impossible",
+          "title": "combinaciones, costo y pares imposibles",
+          "outcome": "El estudiante controla costo y pares imposibles.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "combinaciones, costo y pares imposibles",
+              "must_cover": [
+                "cost",
+                "impossible pairs"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S30-T2-B-DEMO",
+              "title": "Demo: combinaciones, costo y pares imposibles",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S30-T2-B-E1",
+                "kind": "guided",
+                "title": "combinaciones, costo y pares imposibles — guided",
+                "skill": "combos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S30-T2-B-E2",
+                "kind": "independent",
+                "title": "combinaciones, costo y pares imposibles — independent",
+                "skill": "combos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S30-T2-B-E3",
+                "kind": "transfer",
+                "title": "combinaciones, costo y pares imposibles — transfer",
+                "skill": "combos",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S30-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S30-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S30-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S30-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S30-T2-EVAL-1",
+            "title": "reglas y candidate recall — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S30-T2-EVAL-2",
+            "title": "combinaciones, costo y pares imposibles — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S30-T3",
+      "title": "Matching",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S30-T3-A",
+          "slug": "weights-prob-thresholds",
+          "title": "pesos/probabilidad y thresholds",
+          "outcome": "El estudiante estima pesos y umbrales.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "pesos/probabilidad y thresholds",
+              "must_cover": [
+                "Fellegi-Sunter",
+                "threshold"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S30-T3-A-DEMO",
+              "title": "Demo: pesos/probabilidad y thresholds",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S30-T3-A-E1",
+                "kind": "guided",
+                "title": "pesos/probabilidad y thresholds — guided",
+                "skill": "weights",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S30-T3-A-E2",
+                "kind": "independent",
+                "title": "pesos/probabilidad y thresholds — independent",
+                "skill": "weights",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S30-T3-A-E3",
+                "kind": "transfer",
+                "title": "pesos/probabilidad y thresholds — transfer",
+                "skill": "weights",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S30-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S30-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S30-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S30-T3-B",
+          "slug": "train-clerical-cluster",
+          "title": "entrenamiento, clerical review y cluster consistency",
+          "outcome": "El estudiante opera review y consistencia de cluster.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "entrenamiento, clerical review y cluster consistency",
+              "must_cover": [
+                "clerical review",
+                "cluster"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S30-T3-B-DEMO",
+              "title": "Demo: entrenamiento, clerical review y cluster consistency",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S30-T3-B-E1",
+                "kind": "guided",
+                "title": "entrenamiento, clerical review y cluster consistency — guided",
+                "skill": "train",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S30-T3-B-E2",
+                "kind": "independent",
+                "title": "entrenamiento, clerical review y cluster consistency — independent",
+                "skill": "train",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S30-T3-B-E3",
+                "kind": "transfer",
+                "title": "entrenamiento, clerical review y cluster consistency — transfer",
+                "skill": "train",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S30-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S30-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S30-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S30-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S30-T3-EVAL-1",
+            "title": "pesos/probabilidad y thresholds — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S30-T3-EVAL-2",
+            "title": "entrenamiento, clerical review y cluster consistency — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S30-T4",
+      "title": "Evaluación",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S30-T4-A",
+          "slug": "labeled-splits-by-entity",
+          "title": "labeled pairs y splits por entidad",
+          "outcome": "El estudiante parte datos por entidad sin leakage.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "labeled pairs y splits por entidad",
+              "must_cover": [
+                "labeled pairs",
+                "entity split"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S30-T4-A-DEMO",
+              "title": "Demo: labeled pairs y splits por entidad",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S30-T4-A-E1",
+                "kind": "guided",
+                "title": "labeled pairs y splits por entidad — guided",
+                "skill": "labeled",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S30-T4-A-E2",
+                "kind": "independent",
+                "title": "labeled pairs y splits por entidad — independent",
+                "skill": "labeled",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S30-T4-A-E3",
+                "kind": "transfer",
+                "title": "labeled pairs y splits por entidad — transfer",
+                "skill": "labeled",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S30-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S30-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S30-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S30-T4-B",
+          "slug": "pr-pairwise-cluster-slices",
+          "title": "precision/recall, pairwise/cluster metrics y error slices",
+          "outcome": "El estudiante reporta métricas pairwise/cluster y slices.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "precision/recall, pairwise/cluster metrics y error slices",
+              "must_cover": [
+                "precision",
+                "recall",
+                "error slices"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S30-T4-B-DEMO",
+              "title": "Demo: precision/recall, pairwise/cluster metrics y error slices",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S30-T4-B-E1",
+                "kind": "guided",
+                "title": "precision/recall, pairwise/cluster metrics y error slices — guided",
+                "skill": "pr",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S30-T4-B-E2",
+                "kind": "independent",
+                "title": "precision/recall, pairwise/cluster metrics y error slices — independent",
+                "skill": "pr",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S30-T4-B-E3",
+                "kind": "transfer",
+                "title": "precision/recall, pairwise/cluster metrics y error slices — transfer",
+                "skill": "pr",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S30-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S30-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S30-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S30-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S30-T4-EVAL-1",
+            "title": "labeled pairs y splits por entidad — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S30-T4-EVAL-2",
+            "title": "precision/recall, pairwise/cluster metrics y error slices — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S30-PROJ",
+    "title": "Entity resolution probabilístico (CP-N3-A (cierre))",
+    "replaces_legacy": "Legacy You Do de 'Seguridad Avanzada e Infraestructura' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Testable Entity Resolution Engine con benchmark etiquetado sintético, blocking medido, comparadores explicables y cola de revisión. ER solo decide “misma entidad”; no relación ni riesgo.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N3-A (cierre)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N3-A (cierre)",
+    "increment_gate": "Testable Entity Resolution Engine con benchmark etiquetado sintético, blocking medido, comparadores explicables y cola de revisión. ER solo decide “misma entidad”; no relación ni riesgo."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'security-infra' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s30-security-infra.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Seguridad Avanzada e Infraestructura' vs 'Entity resolution probabilístico'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N3-A (cierre)",
+    "increment_gate": "Testable Entity Resolution Engine con benchmark etiquetado sintético, blocking medido, comparadores explicables y cola de revisión. ER solo decide “misma entidad”; no relación ni riesgo.",
+    "project_id": "S30-PROJ",
+    "section_passed": false,
+    "notes": "S30 contributes to CP-N3-A (cierre). No passed states written by factory lane.",
+    "capstone_gate": "CP-N3-A",
+    "gate_role": "CLOSE",
+    "promotion_requires": [
+      "CP-N3-A completion evidence"
+    ],
+    "blocks": "S31 until CP-N3-A PASS",
+    "cp_n3_a": "PLANNED_NOT_PASSED"
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S30",
+    "risk": "Display title still 'Seguridad Avanzada e Infraestructura' until product rename; topic mismatch vs V3 'Entity resolution probabilístico'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S30-T1-A first"
+  }
+}

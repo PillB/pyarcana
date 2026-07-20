@@ -1,0 +1,1073 @@
+{
+  "version": "3.2",
+  "section": "S38",
+  "section_id": "performance-extreme",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S38 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S38 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s38-performance-extreme.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "performance-extreme",
+    "index": 38,
+    "title_platform": "Performance Extrema — Numba, Cython, Vectorización",
+    "title_v3": "Concurrencia, observabilidad y workflows resilientes",
+    "title_decision": "KEEP platform id 'performance-extreme' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "pipeline reanudable con trace por caso, métricas de cola y manejo de proveedor lento, proceso caído y reejecución",
+    "estimatedHours": 14,
+    "level": "Competente a experto",
+    "phase": 2,
+    "prerequisites": [
+      "S37"
+    ],
+    "environment": "local/cloud controlado",
+    "project_capstone": "CP-N3-C (operación)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "performance-extreme",
+    "platform_title": "Performance Extrema — Numba, Cython, Vectorización",
+    "v3_title": "Concurrencia, observabilidad y workflows resilientes",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante elige threads/processes/async.",
+    "El estudiante razona I/O vs CPU y serialización.",
+    "El estudiante aplica pools y backpressure.",
+    "El estudiante cancela, timeout y libera recursos.",
+    "El estudiante emite logs/metrics/traces.",
+    "El estudiante correlaciona, redacta y define SLI/SLO.",
+    "El estudiante checkpoint e idempotencia de workflows.",
+    "El estudiante opera retry/DLQ/replay con runbook."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S38-T1-A",
+      "slug": "threads-processes-async",
+      "title": "threads/processes/async"
+    },
+    {
+      "subtopic_id": "S38-T1-B",
+      "slug": "io-vs-cpu-gil-serialize",
+      "title": "I/O vs CPU, GIL y serialización"
+    },
+    {
+      "subtopic_id": "S38-T2-A",
+      "slug": "pools-backpressure-rate",
+      "title": "pools, backpressure y rate limits"
+    },
+    {
+      "subtopic_id": "S38-T2-B",
+      "slug": "cancel-timeout-resources",
+      "title": "cancelación, timeout y recursos"
+    },
+    {
+      "subtopic_id": "S38-T3-A",
+      "slug": "logs-metrics-traces",
+      "title": "logs, metrics y traces"
+    },
+    {
+      "subtopic_id": "S38-T3-B",
+      "slug": "correlation-redact-sli-slo",
+      "title": "correlation, redacción y SLI/SLO"
+    },
+    {
+      "subtopic_id": "S38-T4-A",
+      "slug": "states-checkpoint-idempotency",
+      "title": "states, checkpoint e idempotencia"
+    },
+    {
+      "subtopic_id": "S38-T4-B",
+      "slug": "retry-dlq-replay-runbook",
+      "title": "retry, dead-letter, replay y runbook"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S38-T1",
+      "title": "Concurrencia",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S38-T1-A",
+          "slug": "threads-processes-async",
+          "title": "threads/processes/async",
+          "outcome": "El estudiante elige threads/processes/async.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "threads/processes/async",
+              "must_cover": [
+                "threading",
+                "multiprocessing",
+                "asyncio"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S38-T1-A-DEMO",
+              "title": "Demo: threads/processes/async",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S38-T1-A-E1",
+                "kind": "guided",
+                "title": "threads/processes/async — guided",
+                "skill": "threads",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S38-T1-A-E2",
+                "kind": "independent",
+                "title": "threads/processes/async — independent",
+                "skill": "threads",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S38-T1-A-E3",
+                "kind": "transfer",
+                "title": "threads/processes/async — transfer",
+                "skill": "threads",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S38-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S38-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S38-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S38-T1-B",
+          "slug": "io-vs-cpu-gil-serialize",
+          "title": "I/O vs CPU, GIL y serialización",
+          "outcome": "El estudiante razona I/O vs CPU y serialización.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "I/O vs CPU, GIL y serialización",
+              "must_cover": [
+                "GIL",
+                "pickling"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S38-T1-B-DEMO",
+              "title": "Demo: I/O vs CPU, GIL y serialización",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S38-T1-B-E1",
+                "kind": "guided",
+                "title": "I/O vs CPU, GIL y serialización — guided",
+                "skill": "io",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S38-T1-B-E2",
+                "kind": "independent",
+                "title": "I/O vs CPU, GIL y serialización — independent",
+                "skill": "io",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S38-T1-B-E3",
+                "kind": "transfer",
+                "title": "I/O vs CPU, GIL y serialización — transfer",
+                "skill": "io",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S38-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S38-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S38-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S38-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S38-T1-EVAL-1",
+            "title": "threads/processes/async — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S38-T1-EVAL-2",
+            "title": "I/O vs CPU, GIL y serialización — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S38-T2",
+      "title": "Control",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S38-T2-A",
+          "slug": "pools-backpressure-rate",
+          "title": "pools, backpressure y rate limits",
+          "outcome": "El estudiante aplica pools y backpressure.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "pools, backpressure y rate limits",
+              "must_cover": [
+                "pool",
+                "backpressure",
+                "rate limit"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S38-T2-A-DEMO",
+              "title": "Demo: pools, backpressure y rate limits",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S38-T2-A-E1",
+                "kind": "guided",
+                "title": "pools, backpressure y rate limits — guided",
+                "skill": "pools",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S38-T2-A-E2",
+                "kind": "independent",
+                "title": "pools, backpressure y rate limits — independent",
+                "skill": "pools",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S38-T2-A-E3",
+                "kind": "transfer",
+                "title": "pools, backpressure y rate limits — transfer",
+                "skill": "pools",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S38-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S38-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S38-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S38-T2-B",
+          "slug": "cancel-timeout-resources",
+          "title": "cancelación, timeout y recursos",
+          "outcome": "El estudiante cancela, timeout y libera recursos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "cancelación, timeout y recursos",
+              "must_cover": [
+                "timeout",
+                "cancellation"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S38-T2-B-DEMO",
+              "title": "Demo: cancelación, timeout y recursos",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S38-T2-B-E1",
+                "kind": "guided",
+                "title": "cancelación, timeout y recursos — guided",
+                "skill": "cancel",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S38-T2-B-E2",
+                "kind": "independent",
+                "title": "cancelación, timeout y recursos — independent",
+                "skill": "cancel",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S38-T2-B-E3",
+                "kind": "transfer",
+                "title": "cancelación, timeout y recursos — transfer",
+                "skill": "cancel",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S38-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S38-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S38-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S38-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S38-T2-EVAL-1",
+            "title": "pools, backpressure y rate limits — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S38-T2-EVAL-2",
+            "title": "cancelación, timeout y recursos — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S38-T3",
+      "title": "Observabilidad",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S38-T3-A",
+          "slug": "logs-metrics-traces",
+          "title": "logs, metrics y traces",
+          "outcome": "El estudiante emite logs/metrics/traces.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "logs, metrics y traces",
+              "must_cover": [
+                "structured logs",
+                "metrics",
+                "traces"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S38-T3-A-DEMO",
+              "title": "Demo: logs, metrics y traces",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S38-T3-A-E1",
+                "kind": "guided",
+                "title": "logs, metrics y traces — guided",
+                "skill": "logs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S38-T3-A-E2",
+                "kind": "independent",
+                "title": "logs, metrics y traces — independent",
+                "skill": "logs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S38-T3-A-E3",
+                "kind": "transfer",
+                "title": "logs, metrics y traces — transfer",
+                "skill": "logs",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S38-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S38-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S38-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S38-T3-B",
+          "slug": "correlation-redact-sli-slo",
+          "title": "correlation, redacción y SLI/SLO",
+          "outcome": "El estudiante correlaciona, redacta y define SLI/SLO.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "correlation, redacción y SLI/SLO",
+              "must_cover": [
+                "trace id",
+                "redaction",
+                "SLO"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S38-T3-B-DEMO",
+              "title": "Demo: correlation, redacción y SLI/SLO",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S38-T3-B-E1",
+                "kind": "guided",
+                "title": "correlation, redacción y SLI/SLO — guided",
+                "skill": "correlation",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S38-T3-B-E2",
+                "kind": "independent",
+                "title": "correlation, redacción y SLI/SLO — independent",
+                "skill": "correlation",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S38-T3-B-E3",
+                "kind": "transfer",
+                "title": "correlation, redacción y SLI/SLO — transfer",
+                "skill": "correlation",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S38-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S38-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S38-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S38-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S38-T3-EVAL-1",
+            "title": "logs, metrics y traces — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S38-T3-EVAL-2",
+            "title": "correlation, redacción y SLI/SLO — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S38-T4",
+      "title": "Resiliencia",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S38-T4-A",
+          "slug": "states-checkpoint-idempotency",
+          "title": "states, checkpoint e idempotencia",
+          "outcome": "El estudiante checkpoint e idempotencia de workflows.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "states, checkpoint e idempotencia",
+              "must_cover": [
+                "checkpoint",
+                "idempotency"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S38-T4-A-DEMO",
+              "title": "Demo: states, checkpoint e idempotencia",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S38-T4-A-E1",
+                "kind": "guided",
+                "title": "states, checkpoint e idempotencia — guided",
+                "skill": "states",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S38-T4-A-E2",
+                "kind": "independent",
+                "title": "states, checkpoint e idempotencia — independent",
+                "skill": "states",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S38-T4-A-E3",
+                "kind": "transfer",
+                "title": "states, checkpoint e idempotencia — transfer",
+                "skill": "states",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S38-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S38-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S38-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S38-T4-B",
+          "slug": "retry-dlq-replay-runbook",
+          "title": "retry, dead-letter, replay y runbook",
+          "outcome": "El estudiante opera retry/DLQ/replay con runbook.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "retry, dead-letter, replay y runbook",
+              "must_cover": [
+                "retry",
+                "DLQ",
+                "runbook"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S38-T4-B-DEMO",
+              "title": "Demo: retry, dead-letter, replay y runbook",
+              "environment": "local/cloud controlado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S38-T4-B-E1",
+                "kind": "guided",
+                "title": "retry, dead-letter, replay y runbook — guided",
+                "skill": "retry",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S38-T4-B-E2",
+                "kind": "independent",
+                "title": "retry, dead-letter, replay y runbook — independent",
+                "skill": "retry",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S38-T4-B-E3",
+                "kind": "transfer",
+                "title": "retry, dead-letter, replay y runbook — transfer",
+                "skill": "retry",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S38-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S38-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S38-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S38-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S38-T4-EVAL-1",
+            "title": "states, checkpoint e idempotencia — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S38-T4-EVAL-2",
+            "title": "retry, dead-letter, replay y runbook — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S38-PROJ",
+    "title": "Concurrencia, observabilidad y workflows resilientes",
+    "replaces_legacy": "Legacy You Do de 'Performance Extrema — Numba, Cython, Vectorización' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "pipeline reanudable con trace por caso, métricas de cola y manejo probado de proveedor lento, proceso caído y reejecución.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N3-C (operación)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N3-C (operación)",
+    "increment_gate": "pipeline reanudable con trace por caso, métricas de cola y manejo probado de proveedor lento, proceso caído y reejecución."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'performance-extreme' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s38-performance-extreme.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Performance Extrema — Numba, Cython, Vectorización' vs 'Concurrencia, observabilidad y workflows resilientes'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N3-C (operación)",
+    "increment_gate": "pipeline reanudable con trace por caso, métricas de cola y manejo probado de proveedor lento, proceso caído y reejecución.",
+    "project_id": "S38-PROJ",
+    "section_passed": false,
+    "notes": "S38 contributes to CP-N3-C (operación). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S38",
+    "risk": "Display title still 'Performance Extrema — Numba, Cython, Vectorización' until product rename; topic mismatch vs V3 'Concurrencia, observabilidad y workflows resilientes'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S38-T1-A first"
+  }
+}

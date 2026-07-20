@@ -1,0 +1,109 @@
+{
+  "version": "3.2",
+  "section": "S13",
+  "section_id": "rpa-automation",
+  "phase": "PHASE_5",
+  "lane": "LANE-N1-FINISH",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "rpa-automation"
+  },
+  "retired_from_bank": [
+    "playwright-vs-selenium",
+    "ollama-local-llm",
+    "ocr-tesseract",
+    "prefect-orchestration"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S13.",
+  "families": [
+    {
+      "family_id": "S13-T1-A-EX",
+      "concept": "normalize-blocking-er",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S13-T1-B-EX",
+      "concept": "labeled-truth-precision-recall-clerical",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S13-T2-A-EX",
+      "concept": "shared-contact-distance-surnames",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S13-T2-B-EX",
+      "concept": "direct-tx-common-counterparties",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S13-T3-A-EX",
+      "concept": "evidence-score-uncertainty-explanation",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S13-T3-B-EX",
+      "concept": "review-threshold-abstention-no-auto-inference",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S13-T4-A-EX",
+      "concept": "dashboard-map-case-sheet",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S13-T4-B-EX",
+      "concept": "privacy-access-tests-demo-runbook",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (rpa-automation key)",
+    "course-state/s13_phase5_exam_bank.json"
+  ]
+}

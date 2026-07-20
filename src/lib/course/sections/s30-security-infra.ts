@@ -1,158 +1,1388 @@
 import type { CourseSection } from '../../types'
 
 export const section30: CourseSection = {
-  id: 'security-infra',
+  id: "security-infra",
   index: 30,
-  title: 'Seguridad Avanzada e Infraestructura',
-  shortTitle: 'Seguridad Avanzada e Infraestr',
-  tagline: 'En producción, la seguridad no es opcional — es el plano sobre el que todo lo demás se construye.',
-  estimatedHours: 12,
-  level: 'Senior',
+  title: "Entity resolution probabilístico",
+  shortTitle: "ER probabilístico",
+  tagline: "Testable Entity Resolution Engine con benchmark etiquetado, blocking medido, comparadores explicables y cola de revisión",
+  estimatedHours: 16,
+  level: "Competente",
   phase: 2,
-  icon: 'Lock',
-  accentColor: 'bg-gradient-to-br from-purple-500 to-fuchsia-600',
-  jobRelevance: 'Roles Senior/Staff requieren diseñar seguridad desde la arquitectura: Identity Providers, TLS/mTLS, secrets management a escala, SAST/SCA en CI/CD y pentesting básico. Continúa la sección 14 con foco en infraestructura y patrones Zero Trust.',
+  icon: "GitMerge",
+  accentColor: "bg-gradient-to-br from-fuchsia-500 to-purple-900",
+  jobRelevance:
+    "Cierras **CP-N3-A** con un **Testable Entity Resolution Engine**: comparadores, blocking con recall medido, pesos/umbrales, clerical review y métricas pairwise/cluster sobre datos sintéticos etiquetados. Id de plataforma `security-infra` conservado; retemática V3 **Entity resolution probabilístico**. ER solo decide **misma entidad** — no relación ni riesgo/fraude.",
   learningOutcomes: [
-    { text: 'OAuth2/OIDC flows completos con Keycloak o Auth0 como Identity Provider' },
-    { text: 'HTTPS/TLS en producción con Let\'s Encrypt y nginx reverse proxy' },
-    { text: 'Secrets management con HashiCorp Vault o AWS Secrets Manager' },
-    { text: 'Implementar Zero Trust con mTLS entre microservicios' },
-    { text: 'SAST con bandit + SCA con safety en CI/CD pipeline' },
-    { text: 'Pentesting básico de APIs propias con OWASP ZAP' },
-    { text: 'Rate limiting, WAF patterns, y DDoS mitigation en FastAPI' },
+    { text: "Comparar exact/edit/token/fecha" },
+    { text: "Tratar missingness y frecuencia" },
+    { text: "Diseñar blocking con recall medido" },
+    { text: "Controlar costo y pares imposibles" },
+    { text: "Estimar pesos y umbrales" },
+    { text: "Operar review y consistencia de cluster" },
+    { text: "Partir datos por entidad sin leakage" },
+    { text: "Reportar métricas pairwise/cluster y slices" },
   ],
   theory: [
     {
-      heading: 'Seguridad de red y Zero Trust Architecture para pipelines de IA',
+      heading: "Cierre CP-N3-A: Testable Entity Resolution Engine",
       paragraphs: [
-        'Zero Trust Architecture (ZTA) elimina el modelo de "castle and moat" donde todo dentro de la red corporativa era confiable. En ZTA, cada request debe autenticarse y autorizarse sin importar su origen. Para pipelines de IA, esto significa mTLS entre microservicios con certificados firmados por una CA interna, JWT firmados con RS256 para autenticación, y RBAC estricto en cada endpoint. Herramientas como HashiCorp Vault centralizan la gestión de secretos con rotación automática, eliminando el riesgo de API keys hardcodeadas en código o variables de entorno.',
-        'El OWASP API Top 10 (2023) identifica BOLA (Broken Object Level Authorization) como la vulnerabilidad #1 en APIs. En pipelines de IA, esto significa que un usuario no debe poder acceder a predicciones de otro usuario sin autorización explícita. La mitigación implementa checks de autorización a nivel de objeto en cada endpoint, no solo a nivel de endpoint. En Python FastAPI, esto se logra con dependencies que verifican ownership antes de retornar datos: `if resource.owner_id != current_user.id: raise HTTPException(403)`.',
-        'El logging de auditoría con structlog es esencial para compliance y forense. structlog produce logs JSON estructurados con campos como timestamp, user_id, endpoint, ip, response_code, y duration_ms. Esto permite queries eficientes en ELK/Datadog: "muéstrame todos los requests al endpoint /predict desde IP X en las últimas 24h". Sin logs estructurados, investigar un incidente de seguridad es como buscar una aguja en un pajar de texto plano. La regla: cada acción de seguridad (login, acceso a datos sensibles, cambio de configuración) debe loggearse con nivel INFO mínimo.',
+        "En V3, **S30 cierra CP-N3-A**. Entregas un motor **testeable**: benchmark etiquetado sintético, blocking medido, comparadores explicables y cola de revisión.",
+        "ER responde solo **¿misma entidad?** No infiere parentesco, colusión ni fraude. Scores son evidencia para humanos o para auto-match conservador.",
+        "Orden: **T1 Comparadores** → **T2 Blocking** → **T3 Matching** → **T4 Evaluación**. Integra contratos de S27–S29.",
       ],
+      callout: {
+        type: "info",
+        title: "Gate CP-N3-A",
+        content:
+          "Promoción conceptual del incremento: motor ER testeable. Esta lane de autoría **no** marca section_passed ni escribe ledger/checkpoint.",
+      },
+    },
+    {
+      heading: "exact, edit/token y fecha",
+      subtopicId: "S30-T1-A",
+      paragraphs: [
+        "**Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha**: distancia en días con tolerancia.",
+        "Cada comparador devuelve score en [0,1] o nivel ordinal (agree/disagree) para pesos tipo Fellegi–Sunter simplificado.",
+        "Explica el score: guarda qué campo y qué función produjeron el valor (auditoría).",
+      ],
+      code: {
+        language: 'python',
+        title: "comparators.py",
+        code: `def exact(a, b):
+    return 1.0 if a == b else 0.0
+
+def token_jaccard(a, b):
+    ta, tb = set(a.casefold().split()), set(b.casefold().split())
+    if not ta and not tb:
+        return 1.0
+    if not ta or not tb:
+        return 0.0
+    return len(ta & tb) / len(ta | tb)
+
+def edit_sim(a, b):
+    # distancia de Levenshtein normalizada (simple)
+    la, lb = len(a), len(b)
+    if la == 0 and lb == 0:
+        return 1.0
+    dp = list(range(lb + 1))
+    for i, ca in enumerate(a, 1):
+        prev, dp[0] = dp[0], i
+        for j, cb in enumerate(b, 1):
+            cur = dp[j]
+            dp[j] = prev if ca == cb else 1 + min(prev, dp[j], dp[j - 1])
+            prev = cur
+    dist = dp[lb]
+    return 1.0 - dist / max(la, lb)
+
+def date_sim(d1, d2, tol_days=3):
+    delta = abs((d1 - d2).days)
+    if delta == 0:
+        return 1.0
+    if delta <= tol_days:
+        return 0.5
+    return 0.0
+
+from datetime import date
+print("exact", exact("ana@example.pe", "ana@example.pe"))
+print("token", round(token_jaccard("Ana López", "López Ana"), 3))
+print("edit", round(edit_sim("María", "Maria"), 3))
+print("date", date_sim(date(2020, 1, 1), date(2020, 1, 2)))`,
+        output: `exact 1.0
+token 1.0
+edit 0.8
+date 0.5`,
+      },
+      callout: {
+        type: "tip",
+        title: "Explicabilidad",
+        content:
+          "Guarda vector de aportes por campo; el clerical reviewer debe ver por qué el score es alto.",
+      },
+    },
+    {
+      heading: "missingness informativa y frecuencia",
+      subtopicId: "S30-T1-B",
+      paragraphs: [
+        "**Missingness**: un campo vacío no es desacuerdo fuerte ni acuerdo. Usa estado `missing` en la comparación.",
+        "Missingness puede ser **informativa** (ciertas fuentes nunca traen teléfono) — modela por fuente, no asumas MCAR sin evidencia.",
+        "**Frecuencia**: valores muy comunes (nombre “María”, dominio genérico) bajan el peso de un acuerdo exacto (u-probability alta en FS).",
+      ],
+      code: {
+        language: 'python',
+        title: "missing_freq.py",
+        code: `def compare_field(a, b):
+    if a is None or a == "" or b is None or b == "":
+        return "missing"
+    return "agree" if a.casefold() == b.casefold() else "disagree"
+
+def frequency_weight(value, freq_table, base=1.0):
+    # valores frecuentes → menos peso de acuerdo
+    f = freq_table.get(value.casefold(), 1)
+    return base / f
+
+freq = {"maría": 50, "ximena": 2}
+print("cmp_miss", compare_field("", "Ana"))
+print("cmp_ok", compare_field("Ana", "ana"))
+print("w_common", frequency_weight("María", freq))
+print("w_rare", frequency_weight("Ximena", freq))`,
+        output: `cmp_miss missing
+cmp_ok agree
+w_common 0.02
+w_rare 0.5`,
+      },
+      callout: {
+        type: "warning",
+        title: "Missing ≠ disagree",
+        content:
+          "Penalizar missing como desacuerdo infla non-matches espurios.",
+      },
+    },
+    {
+      heading: "reglas y candidate recall",
+      subtopicId: "S30-T2-A",
+      paragraphs: [
+        "**Blocking** reduce pares: misma clave (apellido normalizado + CP, email local-part, teléfono últimos 6, etc.).",
+        "**Candidate recall**: de los pares verdaderamente match en el gold, ¿qué fracción pasó el blocking? Mide con etiquetas sintéticas.",
+        "Reglas múltiples en unión (OR) suben recall; intersección (AND) baja candidatos pero puede matar recall.",
+      ],
+      code: {
+        language: 'python',
+        title: "blocking_recall.py",
+        code: `def block_key(rec):
+    name = " ".join(rec["name"].casefold().split())
+    last = name.split()[-1] if name else ""
+    return f"{last}|{rec.get('city','')[:3].casefold()}"
+
+records = [
+    {"id": "r1", "name": "Ana López", "city": "Lima"},
+    {"id": "r2", "name": "ANA lopez", "city": "Lima"},
+    {"id": "r3", "name": "Bob Díaz", "city": "Cusco"},
+]
+from collections import defaultdict
+buckets = defaultdict(list)
+for r in records:
+    buckets[block_key(r)].append(r["id"])
+# gold match (r1,r2)
+gold = {frozenset(("r1", "r2"))}
+candidates = set()
+for ids in buckets.values():
+    for i in range(len(ids)):
+        for j in range(i + 1, len(ids)):
+            candidates.add(frozenset((ids[i], ids[j])))
+recall = len(gold & candidates) / len(gold)
+print("buckets", {k: v for k, v in buckets.items()})
+print("candidate_recall", recall)
+print("n_cand", len(candidates))`,
+        output: `buckets {'lópez|lim': ['r1'], 'lopez|lim': ['r2'], 'díaz|cus': ['r3']}
+candidate_recall 0.0
+n_cand 0`,
+      },
+      callout: {
+        type: "tip",
+        title: "Mide recall de blocking",
+        content:
+          "Sin gold sintético no sabes si tu regla deja fuera verdaderos matches.",
+      },
+    },
+    {
+      heading: "combinaciones, costo y pares imposibles",
+      subtopicId: "S30-T2-B",
+      paragraphs: [
+        "El **costo** es O(suma n_b^2) por bloque. Bloques enormes (clave débil) explotan CPU/memoria.",
+        "**Pares imposibles**: reglas de exclusión (tipo persona vs empresa, fechas de nacimiento incompatibles sintéticas) evitan comparar lo incomparable.",
+        "Combina blocking + filtros imposibles antes del scorer pesado.",
+      ],
+      code: {
+        language: 'python',
+        title: "cost_impossible.py",
+        code: `def pair_cost(block_sizes):
+    return sum(n * (n - 1) // 2 for n in block_sizes)
+
+def impossible(a, b):
+    # sintético: tipos distintos no se comparan
+    return a.get("type") != b.get("type")
+
+sizes = [3, 10, 100]
+print("cost", pair_cost(sizes))
+a, b = {"type": "person"}, {"type": "org"}
+print("skip", impossible(a, b))
+print("policy", "filter_before_score")`,
+        output: `cost 4998
+skip True
+policy filter_before_score`,
+      },
+      callout: {
+        type: "danger",
+        title: "Bloque de 100k",
+        content:
+          "Una clave demasiado gruesa puede generar miles de millones de pares. Monitorea tamaño de bloque.",
+      },
+    },
+    {
+      heading: "pesos/probabilidad y thresholds",
+      subtopicId: "S30-T3-A",
+      paragraphs: [
+        "Modelo simple: score = suma de pesos por acuerdo/desacuerdo de campos (Fellegi–Sunter didáctico) o promedio ponderado de similitudes.",
+        "**Thresholds**: auto_match ≥ t_high; non_match ≤ t_low; en medio → **review**.",
+        "Estima pesos con frecuencias o a mano con documentación; valida en gold sintético (S30-T4).",
+      ],
+      code: {
+        language: 'python',
+        title: "weights_thresh.py",
+        code: `def pair_score(sims, weights):
+    num = sum(sims[k] * weights[k] for k in weights)
+    den = sum(weights.values())
+    return num / den if den else 0.0
+
+def decide(score, t_high=0.9, t_low=0.5):
+    if score >= t_high:
+        return "auto_match"
+    if score <= t_low:
+        return "non_match"
+    return "review"
+
+sims = {"name": 0.95, "email": 1.0, "phone": 0.0}
+weights = {"name": 0.5, "email": 0.4, "phone": 0.1}
+s = pair_score(sims, weights)
+print("score", round(s, 3))
+print("decision", decide(s))
+print("explain", sims)`,
+        output: `score 0.875
+decision review
+explain {'name': 0.95, 'email': 1.0, 'phone': 0.0}`,
+      },
+      callout: {
+        type: "warning",
+        title: "Auto-match conservador",
+        content:
+          "t_high alto reduce falsos positivos que molestan a operaciones; el resto va a review.",
+      },
+    },
+    {
+      heading: "entrenamiento, clerical review y cluster consistency",
+      subtopicId: "S30-T3-B",
+      paragraphs: [
+        "**Entrenamiento/estimación**: ajusta pesos o umbrales con pares etiquetados sintéticos (no PII real).",
+        "**Clerical review**: cola con score, explicación y acciones match/non-match/uncertain + actor y timestamp.",
+        "**Cluster consistency**: si A=B y B=C entonces A=C en la misma entidad; resuelve con Union-Find y revisa contradicciones.",
+      ],
+      code: {
+        language: 'python',
+        title: "review_cluster.py",
+        code: `class UnionFind:
+    def __init__(self):
+        self.p = {}
+    def find(self, x):
+        self.p.setdefault(x, x)
+        if self.p[x] != x:
+            self.p[x] = self.find(self.p[x])
+        return self.p[x]
+    def union(self, a, b):
+        ra, rb = self.find(a), self.find(b)
+        if ra != rb:
+            self.p[rb] = ra
+
+uf = UnionFind()
+# auto matches
+for a, b in [("e1", "e2"), ("e2", "e3")]:
+    uf.union(a, b)
+review_queue = [
+    {"pair": ("e3", "e4"), "score": 0.72, "explain": {"name": 0.8, "email": 0.5}}
+]
+# clerical: aprueba e3-e4
+uf.union("e3", "e4")
+print("same_cluster", uf.find("e1") == uf.find("e4"))
+print("queue_n", len(review_queue))
+print("note", "ER_not_fraud")`,
+        output: `same_cluster True
+queue_n 1
+note ER_not_fraud`,
+      },
+      callout: {
+        type: "info",
+        title: "Consistencia transitiva",
+        content:
+          "Clusters incoherentes (A=B, B≠C, A=C) son bugs de postproceso o de labels.",
+      },
+    },
+    {
+      heading: "labeled pairs y splits por entidad",
+      subtopicId: "S30-T4-A",
+      paragraphs: [
+        "El **benchmark etiquetado** tiene pares match/non-match sintéticos. Nunca uses el mismo par en train y test de umbrales sin control.",
+        "**Split por entidad**: si una entidad aparece en train, sus pares no deben filtrar a test (leakage de identidad).",
+        "Documenta tamaños de split y prevalencia de matches (suele ser baja).",
+      ],
+      code: {
+        language: 'python',
+        title: "splits_entity.py",
+        code: `pairs = [
+    {"a": "e1", "b": "e2", "y": 1},
+    {"a": "e1", "b": "e3", "y": 0},
+    {"a": "e4", "b": "e5", "y": 1},
+    {"a": "e4", "b": "e6", "y": 0},
+]
+# entidades train: e1,e2,e3
+train_entities = {"e1", "e2", "e3"}
+
+def entity_split(pairs, train_entities):
+    train, test = [], []
+    for p in pairs:
+        ents = {p["a"], p["b"]}
+        if ents & train_entities and not ents <= train_entities:
+            # spill: un extremo en train y otro fuera → test o drop; aquí drop de train
+            test.append(p)
+        elif ents <= train_entities:
+            train.append(p)
+        else:
+            test.append(p)
+    return train, test
+
+tr, te = entity_split(pairs, train_entities)
+print("train_n", len(tr))
+print("test_n", len(te))
+print("leakage_guard", True)`,
+        output: `train_n 2
+test_n 2
+leakage_guard True`,
+      },
+      callout: {
+        type: "danger",
+        title: "Leakage por entidad",
+        content:
+          "Partir al azar pares con entidades compartidas infla métricas del motor.",
+      },
+    },
+    {
+      heading: "precision/recall, pairwise/cluster metrics y error slices",
+      subtopicId: "S30-T4-B",
+      paragraphs: [
+        "**Pairwise**: precision/recall/F1 sobre pares predichos vs gold. **Cluster**: métricas a nivel entidad (p.ej. pair completeness/quality simplificado).",
+        "**Error slices**: corta por fuente, apellido frecuente, missing phone, ciudad — encuentra fallas sistemáticas.",
+        "Reporta con datos sintéticos; no conviertas errores en acusaciones de fraude.",
+      ],
+      code: {
+        language: 'python',
+        title: "metrics_slices.py",
+        code: `def prf(y_true, y_pred):
+    tp = sum(1 for t, p in zip(y_true, y_pred) if t == 1 and p == 1)
+    fp = sum(1 for t, p in zip(y_true, y_pred) if t == 0 and p == 1)
+    fn = sum(1 for t, p in zip(y_true, y_pred) if t == 1 and p == 0)
+    prec = tp / (tp + fp) if tp + fp else 0.0
+    rec = tp / (tp + fn) if tp + fn else 0.0
+    f1 = 2 * prec * rec / (prec + rec) if prec + rec else 0.0
+    return prec, rec, f1
+
+y_true = [1, 1, 0, 0, 1]
+y_pred = [1, 0, 0, 1, 1]
+p, r, f = prf(y_true, y_pred)
+# slice: errores donde pred!=true
+errors = [i for i, (t, pr) in enumerate(zip(y_true, y_pred)) if t != pr]
+print("precision", round(p, 3))
+print("recall", round(r, 3))
+print("f1", round(f, 3))
+print("error_idx", errors)`,
+        output: `precision 0.667
+recall 0.667
+f1 0.667
+error_idx [1, 3]`,
+      },
+      callout: {
+        type: "tip",
+        title: "Pairwise vs cluster",
+        content:
+          "Un cluster partido en dos castiga recall pairwise y métricas de entidad; reporta ambas vistas.",
+      },
     },
   ],
   iDo: {
-    intro: 'Te muestro paso a paso cómo aplicar los conceptos de esta sección con ejemplos prácticos.',
+    intro: "Te muestro el cierre de CP-N3-A: comparadores, blocking con recall, pesos y umbrales, review/clusters y métricas pairwise con split por entidad — sin inferir fraude.",
     steps: [
       {
-        description: 'Configurar HashiCorp Vault para gestión centralizada de secretos',
+        demoId: "S30-T1-A-DEMO",
+        subtopicId: "S30-T1-A",
+        environment: "local-python",
+        description: "Compara exact email, token name y edit simple sobre registros sintéticos.",
         code: {
           language: 'python',
-          title: 'demo.py',
-          code: '"""Seguridad Zero Trust: Vault + Fernet + structlog."""\nimport structlog\nfrom cryptography.fernet import Fernet\nimport hashlib, os\n\nlogger = structlog.get_logger()\nkey = Fernet.generate_key()\ncipher = Fernet(key)\n\ndef encrypt_pii(data: str) -> bytes:\n    """Cifra datos personales antes de almacenarlos."""\n    return cipher.encrypt(data.encode())\n\ndef hash_password(password: str) -> tuple:\n    """PBKDF2 con salt aleatorio."""\n    salt = os.urandom(32)\n    key = hashlib.pbkdf2_hmac("sha256", password.encode(), salt, 100000)\n    return key, salt\n\nemail_enc = encrypt_pii("ana@python.pe")\nprint(f"Email cifrado: {email_enc[:30]}...")\nprint(f"Email descifrado: {cipher.decrypt(email_enc).decode()}")\nlog_security_event("login_success", user_id="u123", ip="190.x.x.x")',
+          title: "cmp_demo.py",
+          code: `def exact(a,b):
+    return float(a==b)
+def jac(a,b):
+    ta,tb=set(a.lower().split()),set(b.lower().split())
+    return len(ta&tb)/len(ta|tb) if ta|tb else 1.0
+print(exact('a@example.pe','a@example.pe'), round(jac('Ana Lopez','Lopez Ana'),2))
+print('comparators', 'exact+token')`,
+          output: `1.0 1.0
+comparators exact+token`,
         },
-        why: 'Vault centraliza secretos con rotacion automatica. Fernet cifra PII con AES-128-CBC + HMAC. PBKDF2 hashea passwords con salt aleatorio. structlog registra eventos JSON para forense. Sin estas capas, un atacante con acceso a la DB ve todos los datos en claro.',
+        why: "Comparadores base del motor ER.",
+      },
+      {
+        demoId: "S30-T1-B-DEMO",
+        subtopicId: "S30-T1-B",
+        environment: "local-python",
+        description: "Clasifica missing vs agree y baja peso por frecuencia de 'maría'.",
+        code: {
+          language: 'python',
+          title: "miss_demo.py",
+          code: `def cmp(a,b):
+    if not a or not b: return 'missing'
+    return 'agree' if a.lower()==b.lower() else 'disagree'
+freq={'maría':40,'zoe':1}
+w=lambda v: 1/freq.get(v.lower(),1)
+print(cmp('','x'), cmp('Ana','ana'), round(w('María'),3), round(w('Zoe'),3))`,
+          output: `missing agree 0.025 1.0`,
+        },
+        why: "Missing y frecuencia calibran acuerdos.",
+      },
+      {
+        demoId: "S30-T2-A-DEMO",
+        subtopicId: "S30-T2-A",
+        environment: "local-python",
+        description: "Blocking por apellido|ciudad y candidate recall sobre gold sintético.",
+        code: {
+          language: 'python',
+          title: "block_demo.py",
+          code: `from collections import defaultdict
+recs=[('r1','lopez','lima'),('r2','lopez','lima'),('r3','diaz','cusco')]
+gold={frozenset(('r1','r2'))}
+b=defaultdict(list)
+for i,last,city in recs:
+    b[f'{last}|{city}'].append(i)
+cand=set()
+for ids in b.values():
+    for i in range(len(ids)):
+        for j in range(i+1,len(ids)):
+            cand.add(frozenset((ids[i],ids[j])))
+print('recall', len(gold&cand)/len(gold), 'ncand', len(cand))`,
+          output: `recall 1.0 ncand 1`,
+        },
+        why: "Recall de blocking es métrica de diseño.",
+      },
+      {
+        demoId: "S30-T2-B-DEMO",
+        subtopicId: "S30-T2-B",
+        environment: "local-python",
+        description: "Costo de bloques y filtro de pares imposibles person/org.",
+        code: {
+          language: 'python',
+          title: "cost_demo.py",
+          code: `cost=lambda sizes: sum(n*(n-1)//2 for n in sizes)
+print('cost', cost([5,20]))
+print('impossible', {'type':'person'}!={'type':'org'})`,
+          output: `cost 200
+impossible True`,
+        },
+        why: "Control de costo antes del scorer.",
+      },
+      {
+        demoId: "S30-T3-A-DEMO",
+        subtopicId: "S30-T3-A",
+        environment: "local-python",
+        description: "Score ponderado y decisión auto/review/non con umbrales.",
+        code: {
+          language: 'python',
+          title: "thresh_demo.py",
+          code: `sims={'name':0.9,'email':1.0}
+w={'name':0.6,'email':0.4}
+s=sum(sims[k]*w[k] for k in w)/sum(w.values())
+dec='auto_match' if s>=0.9 else ('review' if s>0.5 else 'non_match')
+print(round(s,3), dec)`,
+          output: `0.94 auto_match`,
+        },
+        why: "Thresholds separan auto y cola humana.",
+      },
+      {
+        demoId: "S30-T3-B-DEMO",
+        subtopicId: "S30-T3-B",
+        environment: "local-python",
+        description: "Union-Find cluster tras auto-match y un clerical approve.",
+        code: {
+          language: 'python',
+          title: "cluster_demo.py",
+          code: `p={}
+def find(x):
+    p.setdefault(x,x)
+    if p[x]!=x: p[x]=find(p[x])
+    return p[x]
+def union(a,b):
+    p[find(b)]=find(a)
+union('e1','e2'); union('e2','e3'); union('e3','e4')
+print(find('e1')==find('e4'), 'review_applied')`,
+          output: `True review_applied`,
+        },
+        why: "Clusters transitivos + review.",
+      },
+      {
+        demoId: "S30-T4-A-DEMO",
+        subtopicId: "S30-T4-A",
+        environment: "local-python",
+        description: "Split por entidad: train solo con {e1,e2,e3}.",
+        code: {
+          language: 'python',
+          title: "split_demo.py",
+          code: `pairs=[('e1','e2',1),('e4','e5',1),('e1','e3',0)]
+train_e={'e1','e2','e3'}
+tr=[p for p in pairs if set(p[:2])<=train_e]
+te=[p for p in pairs if not set(p[:2])<=train_e]
+print('train',len(tr),'test',len(te))`,
+          output: `train 2 test 1`,
+        },
+        why: "Evita leakage de identidad en evaluación.",
+      },
+      {
+        demoId: "S30-T4-B-DEMO",
+        subtopicId: "S30-T4-B",
+        environment: "local-python",
+        description: "Precision/recall/F1 pairwise y lista de índices de error.",
+        code: {
+          language: 'python',
+          title: "metrics_demo.py",
+          code: `yt=[1,1,0,0]; yp=[1,0,0,0]
+tp=sum(t==1 and p==1 for t,p in zip(yt,yp))
+fp=sum(t==0 and p==1 for t,p in zip(yt,yp))
+fn=sum(t==1 and p==0 for t,p in zip(yt,yp))
+prec=tp/(tp+fp) if tp+fp else 0
+rec=tp/(tp+fn) if tp+fn else 0
+print(round(prec,2), round(rec,2), [i for i,(t,p) in enumerate(zip(yt,yp)) if t!=p])`,
+          output: `1.0 0.5 [1]`,
+        },
+        why: "Métricas y slices para el gate CP-N3-A.",
       },
     ],
   },
   weDo: {
-    intro: 'Ahora te toca a ti practicar con guía. Lee cada instrucción, intenta escribir el código, y si te trabas revisa la solución.',
+    intro: "24 ejercicios de comparadores, missing/frecuencia, blocking, costo, matching, review y evaluación.",
     steps: [
       {
-        instruction: 'Implementa una función que cifre datos PII usando Fernet de cryptography',
-        hint: 'Revisa la teoría y el I Do antes de intentar este ejercicio.',
+        id: "S30-T1-A-E1",
+        subtopicId: "S30-T1-A",
+        kind: "guided",
+        instruction:
+          "Exact: imprime 1.0 si 'a'=='a' else 0.0.",
+        hint: "float comparación",
+        hints: [
+          "float comparación",
+          "exact",
+        ],
+        edgeCases: ["post-normalize"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'ejercicio.py',
-          code: '# Tu código aquí\n',
+          title: "exercise.py",
+          code: `a=b='a'
+# TODO
+`,
         },
         solutionCode: {
           language: 'python',
-          title: 'solucion.py',
-          code: '"""Middleware de seguridad para FastAPI."""\nfrom fastapi import Request\nimport time, structlog\n\nlogger = structlog.get_logger()\n\nasync def security_middleware(request: Request, call_next):\n    start = time.time()\n    ip = request.client.host\n    response = await call_next(request)\n    duration_ms = (time.time() - start) * 1000\n    logger.info("request_completed", ip=ip, path=request.url.path,\n                status=response.status_code, duration_ms=round(duration_ms, 2))\n    return response\n\nprint("Middleware de seguridad implementado")',
+          title: "exercise.py",
+          code: `a=b='a'
+print(1.0 if a == b else 0.0)`,
+          output: `1.0`,
+        },
+      },
+      {
+        id: "S30-T1-A-E2",
+        subtopicId: "S30-T1-A",
+        kind: "independent",
+        instruction:
+          "Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx.",
+        hint: "sets",
+        hints: [
+          "sets",
+          "inter/union",
+        ],
+        edgeCases: ["orden de tokens"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `ta,tb=set('a b'.split()),set('b c'.split())
+print(len(ta&tb)/len(ta|tb))`,
+          output: `0.3333333333333333`,
+        },
+      },
+      {
+        id: "S30-T1-A-E3",
+        subtopicId: "S30-T1-A",
+        kind: "transfer",
+        instruction:
+          "date_sim: mismo día → 1.0; imprime para dos date(2026,1,1).",
+        hint: "datetime.date",
+        hints: [
+          "datetime.date",
+          "igualdad",
+        ],
+        edgeCases: ["tolerancia en días"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `from datetime import date
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `from datetime import date
+d=date(2026,1,1)
+print(1.0 if d == d else 0.0)`,
+          output: `1.0`,
+        },
+      },
+      {
+        id: "S30-T1-B-E1",
+        subtopicId: "S30-T1-B",
+        kind: "guided",
+        instruction:
+          "Si a=='' o b=='' imprime 'missing'.",
+        hint: "guard",
+        hints: [
+          "guard",
+          "missingness",
+        ],
+        edgeCases: ["None"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `a,b='', 'x'
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `a,b='', 'x'
+print('missing' if (not a or not b) else 'cmp')`,
+          output: `missing`,
+        },
+      },
+      {
+        id: "S30-T1-B-E2",
+        subtopicId: "S30-T1-B",
+        kind: "independent",
+        instruction:
+          "Peso 1/freq para freq=10 → 0.1.",
+        hint: "división",
+        hints: [
+          "división",
+          "frecuencia",
+        ],
+        edgeCases: ["suavizado en prod"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `freq=10
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `freq=10
+print(1 / freq)`,
+          output: `0.1`,
+        },
+      },
+      {
+        id: "S30-T1-B-E3",
+        subtopicId: "S30-T1-B",
+        kind: "transfer",
+        instruction:
+          "Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phone.",
+        hint: "string",
+        hints: [
+          "string",
+          "MCAR vs informativa",
+        ],
+        edgeCases: ["por source_system"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('informative_missing')`,
+          output: `informative_missing`,
+        },
+      },
+      {
+        id: "S30-T2-A-E1",
+        subtopicId: "S30-T2-A",
+        kind: "guided",
+        instruction:
+          "block_key = last + '|' + city para last='lopez' city='lima'.",
+        hint: "f-string",
+        hints: [
+          "f-string",
+          "blocking",
+        ],
+        edgeCases: ["normaliza before"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `last,city='lopez','lima'
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `last,city='lopez','lima'
+print(f'{last}|{city}')`,
+          output: `lopez|lima`,
+        },
+      },
+      {
+        id: "S30-T2-A-E2",
+        subtopicId: "S30-T2-A",
+        kind: "independent",
+        instruction:
+          "Candidate recall: gold 2, found 1 → 0.5.",
+        hint: "división",
+        hints: [
+          "división",
+          "recall",
+        ],
+        edgeCases: ["unión de reglas"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `found,gold_n=1,2
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `found,gold_n=1,2
+print(found / gold_n)`,
+          output: `0.5`,
+        },
+      },
+      {
+        id: "S30-T2-A-E3",
+        subtopicId: "S30-T2-A",
+        kind: "transfer",
+        instruction:
+          "Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4.",
+        hint: "combinatoria",
+        hints: [
+          "combinatoria",
+          "costo bloque",
+        ],
+        edgeCases: ["múltiples bloques"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `n=4
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `n=4
+print(n*(n-1)//2)`,
+          output: `6`,
+        },
+      },
+      {
+        id: "S30-T2-B-E1",
+        subtopicId: "S30-T2-B",
+        kind: "guided",
+        instruction:
+          "Costo total bloques [3,5] → 3+10=13.",
+        hint: "sum n(n-1)/2",
+        hints: [
+          "sum n(n-1)/2",
+          "costo",
+        ],
+        edgeCases: ["monitor max block"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `sizes=[3,5]
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `sizes=[3,5]
+print(sum(n*(n-1)//2 for n in sizes))`,
+          output: `13`,
+        },
+      },
+      {
+        id: "S30-T2-B-E2",
+        subtopicId: "S30-T2-B",
+        kind: "independent",
+        instruction:
+          "Impossible si types difieren; imprime True para person vs org.",
+        hint: "!=",
+        hints: [
+          "!=",
+          "filtro",
+        ],
+        edgeCases: ["fechas incompatibles"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `ta,tb='person','org'
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `ta,tb='person','org'
+print(ta != tb)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S30-T2-B-E3",
+        subtopicId: "S30-T2-B",
+        kind: "transfer",
+        instruction:
+          "Política: imprime 'filter_before_score'.",
+        hint: "string",
+        hints: [
+          "string",
+          "pipeline",
+        ],
+        edgeCases: ["ahorra CPU"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('filter_before_score')`,
+          output: `filter_before_score`,
+        },
+      },
+      {
+        id: "S30-T3-A-E1",
+        subtopicId: "S30-T3-A",
+        kind: "guided",
+        instruction:
+          "Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75.",
+        hint: "suma w*s / suma w",
+        hints: [
+          "suma w*s / suma w",
+          "score",
+        ],
+        edgeCases: ["pesos suman 1 opcional"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))`,
+          output: `0.75`,
+        },
+      },
+      {
+        id: "S30-T3-A-E2",
+        subtopicId: "S30-T3-A",
+        kind: "independent",
+        instruction:
+          "score=0.7 con t_high=0.9 t_low=0.5 → 'review'.",
+        hint: "umbrales",
+        hints: [
+          "umbrales",
+          "decide",
+        ],
+        edgeCases: ["calibrar con gold"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `s,t_high,t_low=0.7,0.9,0.5
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `s,t_high,t_low=0.7,0.9,0.5
+print('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))`,
+          output: `review`,
+        },
+      },
+      {
+        id: "S30-T3-A-E3",
+        subtopicId: "S30-T3-A",
+        kind: "transfer",
+        instruction:
+          "Imprime explicación dict {'name':0.9,'email':1.0}.",
+        hint: "dict",
+        hints: [
+          "dict",
+          "explicable",
+        ],
+        edgeCases: ["clerical UI"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print({'name': 0.9, 'email': 1.0})`,
+          output: `{'name': 0.9, 'email': 1.0}`,
+        },
+      },
+      {
+        id: "S30-T3-B-E1",
+        subtopicId: "S30-T3-B",
+        kind: "guided",
+        instruction:
+          "Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple.",
+        hint: "parent dict",
+        hints: [
+          "parent dict",
+          "cluster",
+        ],
+        edgeCases: ["path compression opcional"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `p={1:1,2:2,3:3}
+def find(x):
+    while p[x]!=x: x=p[x]
+    return x
+# TODO unions and print
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `p={1:1,2:2,3:3}
+def find(x):
+    while p[x]!=x: x=p[x]
+    return x
+def union(a,b):
+    p[find(b)]=find(a)
+union(1,2); union(2,3)
+print(find(1)==find(3))`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S30-T3-B-E2",
+        subtopicId: "S30-T3-B",
+        kind: "independent",
+        instruction:
+          "Review queue item: imprime action options match/non_match/uncertain.",
+        hint: "lista",
+        hints: [
+          "lista",
+          "clerical",
+        ],
+        edgeCases: ["actor+timestamp"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['match', 'non_match', 'uncertain'])`,
+          output: `['match', 'non_match', 'uncertain']`,
+        },
+      },
+      {
+        id: "S30-T3-B-E3",
+        subtopicId: "S30-T3-B",
+        kind: "transfer",
+        instruction:
+          "Imprime regla de privacidad: 'ER_only_same_entity'.",
+        hint: "string",
+        hints: [
+          "string",
+          "gate",
+        ],
+        edgeCases: ["no fraud labels"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('ER_only_same_entity')`,
+          output: `ER_only_same_entity`,
+        },
+      },
+      {
+        id: "S30-T4-A-E1",
+        subtopicId: "S30-T4-A",
+        kind: "guided",
+        instruction:
+          "Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}.",
+        hint: "subset",
+        hints: [
+          "subset",
+          "split",
+        ],
+        edgeCases: ["leakage"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `a,b='e1','e2'
+train_e={'e1','e2','e3'}
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `a,b='e1','e2'
+train_e={'e1','e2','e3'}
+print('train' if {a,b} <= train_e else 'test')`,
+          output: `train`,
+        },
+      },
+      {
+        id: "S30-T4-A-E2",
+        subtopicId: "S30-T4-A",
+        kind: "independent",
+        instruction:
+          "Prevalencia matches: 1 match de 5 pares → 0.2.",
+        hint: "división",
+        hints: [
+          "división",
+          "base rate",
+        ],
+        edgeCases: ["desbalance"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `matches,n=1,5
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `matches,n=1,5
+print(matches / n)`,
+          output: `0.2`,
+        },
+      },
+      {
+        id: "S30-T4-A-E3",
+        subtopicId: "S30-T4-A",
+        kind: "transfer",
+        instruction:
+          "Imprime 'entity_split' como política anti-leakage.",
+        hint: "string",
+        hints: [
+          "string",
+          "eval",
+        ],
+        edgeCases: ["group/time splits luego"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('entity_split')`,
+          output: `entity_split`,
+        },
+      },
+      {
+        id: "S30-T4-B-E1",
+        subtopicId: "S30-T4-B",
+        kind: "guided",
+        instruction:
+          "tp=2 fp=1 → precision 2/3 approx print round 2 decimals.",
+        hint: "tp/(tp+fp)",
+        hints: [
+          "tp/(tp+fp)",
+          "precision",
+        ],
+        edgeCases: ["recall simétrico"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `tp,fp=2,1
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `tp,fp=2,1
+print(round(tp/(tp+fp), 2))`,
+          output: `0.67`,
+        },
+      },
+      {
+        id: "S30-T4-B-E2",
+        subtopicId: "S30-T4-B",
+        kind: "independent",
+        instruction:
+          "tp=2 fn=2 → recall 0.5.",
+        hint: "tp/(tp+fn)",
+        hints: [
+          "tp/(tp+fn)",
+          "recall",
+        ],
+        edgeCases: ["F1 harmonic"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `tp,fn=2,2
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `tp,fn=2,2
+print(tp/(tp+fn))`,
+          output: `0.5`,
+        },
+      },
+      {
+        id: "S30-T4-B-E3",
+        subtopicId: "S30-T4-B",
+        kind: "transfer",
+        instruction:
+          "Slice error: imprime ['missing_phone'] como slice con más errores sintéticos.",
+        hint: "lista",
+        hints: [
+          "lista",
+          "error analysis",
+        ],
+        edgeCases: ["no acusar fraude"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['missing_phone'])`,
+          output: `['missing_phone']`,
         },
       },
     ],
   },
   youDo: {
-    title: 'Security Hardened API',
-    context: 'La API de la sección 21 con: OAuth2 OIDC, secrets en Vault, mTLS entre servicios, pipeline CI/CD con bandit + safety, y reporte de OWASP ZAP.',
+    title: "Testable Entity Resolution Engine — cierre CP-N3-A",
+    context:
+      "Implementa el motor ER sintético de cierre de **CP-N3-A**: comparadores explicables, blocking con candidate recall medido, scorer con umbrales auto/review/non, cola clerical, clusters (Union-Find) y evaluación pairwise con split por entidad y error slices. Benchmark etiquetado sintético only. ER = misma entidad; **no** relación ni riesgo/fraude. No editar seed/checkpoint/ledger ni marcar passed.",
     objectives: [
-      'Aplicar los conceptos aprendidos en un proyecto real',
-      'Demostrar dominio del tema con un entregable de portafolio',
-      'Documentar el proceso y los resultados',
+      "Comparadores exact/edit/token/fecha + missing/frecuencia",
+      "Blocking medido (recall) y control de costo/imposibles",
+      "Pesos, thresholds, review y cluster consistency",
+      "Gold sintético, split por entidad, P/R/F1 y slices",
+      "Suite ejecutable alineada a contratos S27–S29",
     ],
     requirements: [
-      'Código funcional y documentado',
-      'Tests que validen el funcionamiento',
-      'README con instrucciones de uso',
+      "Datos sintéticos etiquetados; sin PII real",
+      "Candidate recall y métricas reportadas en demo",
+      "Explicación por campo en cola de review",
+      "Cero labels de fraude/parentesco automáticos",
+      "Documentación es-PE del gate CP-N3-A",
     ],
-    portfolioNote: 'Este proyecto es ideal para mostrar en entrevistas técnicas y agregar a tu portafolio de GitHub.',
+    starterCode: `# CP-N3-A cierre — Testable ER Engine (esqueleto)
+from collections import defaultdict
+
+def normalize(s: str) -> str:
+    return " ".join(s.casefold().split())
+
+def block_key(rec: dict) -> str:
+    parts = normalize(rec.get("name", "")).split()
+    last = parts[-1] if parts else ""
+    return f"{last}|{rec.get('city', '').casefold()[:3]}"
+
+def decide(score: float, t_high=0.9, t_low=0.5) -> str:
+    if score >= t_high:
+        return "auto_match"
+    if score <= t_low:
+        return "non_match"
+    return "review"
+
+# TODO: comparators, candidate pairs, UF clusters, metrics, review queue
+if __name__ == "__main__":
+    print(decide(0.95), block_key({"name": "Ana López", "city": "Lima"}))
+`,
+    portfolioNote:
+      "Cierre CP-N3-A: motor ER testeable con blocking medido, review y métricas. Otra lane califica PASS del gate; esta autoría no escribe checkpoint/ledger/seed.",
     rubric: [
-      { criterion: 'Funcionalidad', weight: '40%' },
-      { criterion: 'Calidad de código', weight: '20%' },
-      { criterion: 'Documentación', weight: '20%' },
-      { criterion: 'Tests', weight: '20%' },
+      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
+      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
+      { criterion: "Privacidad / sin PII real / sin secretos / sin inferencia de fraude", weight: "20%" },
+      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
+      { criterion: "Código legible y límites claros", weight: "10%" },
+      { criterion: "Documentación en español profesional", weight: "10%" },
+      { criterion: "Candidate recall + P/R reportados y split por entidad sin leakage", weight: "bonus checklist" },
+      { criterion: "ER solo misma entidad (sin fraude/relación)", weight: "gate privacy" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: '¿Qué es Zero Trust Architecture?',
+        question: "El motor ER de CP-N3-A debe decidir:",
         options: [
-          'Requiere autenticar y autorizar cada request sin importar su origen — no asume que la red interna es confiable',
-          'ZTA es un antivirus',
-          'ZTA es un firewall de hardware',
-          'ZTA es un sistema de backup',
+          "Fraude automático",
+          "Parentescos",
+          "Si dos registros son la misma entidad",
+          "Riesgo crediticio",
         ],
-        correctIndex: 0,
-        explanation: 'ZTA dice "nunca confíes, siempre verifica": cada request lleva JWT, cada conexión usa mTLS, cada acceso a DB requiere RBAC. Previene movimiento lateral si un atacante compromete un servicio.',
+        correctIndex: 2,
+        explanation:
+          "ER ≠ relación ≠ riesgo.",
       },
       {
-        question: '¿Qué es mTLS (mutual TLS)?',
+        question: "Candidate recall de blocking mide:",
         options: [
-          'Tanto el cliente como el servidor presentan certificados — ambos se autentican mutuamente, no solo el servidor',
-          'mTLS es más rápido que TLS',
-          'mTLS solo funciona en localhost',
-          'mTLS es TLS con doble encriptación',
+          "Solo CPU",
+          "Fracción de verdaderos matches que sobreviven al blocking",
+          "Precisión del scorer final únicamente",
+          "Tamaño del disco",
         ],
-        correctIndex: 0,
-        explanation: 'TLS normal: el cliente verifica al servidor. mTLS: el servidor TAMBIÉN verifica al cliente. En microservicios, solo servicios con certificados válidos pueden llamarse entre sí.',
+        correctIndex: 1,
+        explanation:
+          "Recall sobre gold de candidatos.",
       },
       {
-        question: '¿Qué es HashiCorp Vault?',
+        question: "Scores entre t_low y t_high van a:",
         options: [
-          'Gestor centralizado de secretos con rotación automática, auditoría y control de acceso — elimina secretos hardcodeados',
-          'Un sistema de almacenamiento',
-          'Un servidor de bases de datos',
-          'Un firewall de aplicación web',
+          "auto_match",
+          "non_match",
+          "clerical review",
+          "borrado",
         ],
-        correctIndex: 0,
-        explanation: 'Vault centraliza secretos: API keys, credenciales DB, certificados TLS. Los servicios los piden via API, Vault los rota automáticamente. Audita quién accedió a qué.',
+        correctIndex: 2,
+        explanation:
+          "Banda gris = humanos.",
       },
       {
-        question: '¿Qué es el principio de mínimo privilegio?',
+        question: "Split por entidad evita:",
         options: [
-          'Cada servicio/usuario tiene solo los permisos estrictamente necesarios — un servicio de inferencia no necesita acceso a la tabla de usuarios',
-          'Dar a todos acceso admin',
-          'Usar un solo usuario para toda la app',
-          'Deshabilitar toda autenticación',
+          "Usar sqlite",
+          "Leakage de identidad entre train y test",
+          "Blocking",
+          "Review",
         ],
-        correctIndex: 0,
-        explanation: 'Mínimo privilegio: el servicio de scoring solo lee features y escribe predicciones. Si se compromete, el daño se limita. Sin esto, un servicio comprometido = acceso total.',
-      },
-      {
-        question: '¿Por qué structlog es mejor que print() para logging de seguridad?',
-        options: [
-          'Produce logs JSON estructurados con campos (ip, user_id, endpoint) — permite queries eficientes en ELK/Datadog para investigación forense',
-          'structlog es más rápido',
-          'structlog encripta los logs',
-          'structlog es un sistema de alertas',
-        ],
-        correctIndex: 0,
-        explanation: 'structlog emite JSON: {"ip": "190.x.x.x", "endpoint": "/predict", "status": 200}. En Datadog puedes buscar requests por IP/endpoint/tiempo. Con print() tendrías texto plano sin estructura.',
+        correctIndex: 1,
+        explanation:
+          "Entidades no deben contaminar evaluación.",
       },
     ],
   },
   resources: {
     docs: [
-      { label: 'Documentación oficial', url: 'https://docs.python.org/3/' },
+      {
+        label: "Record linkage (overview)",
+        url: "https://en.wikipedia.org/wiki/Record_linkage",
+        note: "Contexto de ER/blocking",
+      },
+      {
+        label: "splink documentation",
+        url: "https://moj-analytical-services.github.io/splink/",
+        note: "Referencia moderna de probabilistic linkage",
+      },
     ],
     books: [
-      { label: 'Python 201 — Michael Driscoll', note: 'Capítulos relevantes para esta sección' },
+      {
+        label: "Data Matching (Peter Christen)",
+        note: "Blocking, comparación y evaluación",
+      },
+      {
+        label: "Entity Resolution papers / Fellegi–Sunter",
+        note: "Pesos y umbrales clásicos",
+      },
     ],
     courses: [
-      { label: 'Real Python', url: 'https://realpython.com', note: 'Tutoriales complementarios' },
+      {
+        label: "PyPI rapidfuzz (similitud)",
+        url: "https://github.com/rapidfuzz/RapidFuzz",
+        note: "Edit/token similarity en la práctica",
+      },
     ],
   },
 }

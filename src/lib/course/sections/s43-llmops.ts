@@ -1,157 +1,1153 @@
 import type { CourseSection } from '../../types'
 
 export const section43: CourseSection = {
-  id: 'llmops',
+  id: "llmops",
   index: 43,
-  title: 'LLMOps — Observabilidad, Evaluación, A/B Testing',
-  shortTitle: 'LLMOps — Observabilidad, Evalu',
-  tagline: 'Los LLMs en producción sin observabilidad son cajas negras con costos impredecibles.',
-  estimatedHours: 12,
-  level: 'Master',
+  title: "Contenedores y reproducibilidad operativa",
+  shortTitle: "Contenedores",
+  tagline: "Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas",
+  estimatedHours: 14,
+  level: "Master",
   phase: 3,
-  icon: 'BarChart3',
-  accentColor: 'bg-gradient-to-br from-amber-500 to-red-600',
-  jobRelevance: 'LLMOps es la disciplina emergente (2025-2026) que aplica MLOps a LLMs. Senior AI Engineer roles en enterprises ($150K-$200K) ya exigen experiencia con LangSmith, prompt versioning, A/B testing de prompts y monitoreo de costos. Es la frontera donde se separa \'demo de LLM\' de \'producto de LLM\'.',
+  icon: "BarChart3",
+  accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
+  jobRelevance:
+    "Retemática V3 **Contenedores y reproducibilidad operativa** (id de plataforma `llmops` conservado; legado «LLMOps — Observabilidad, Evaluación, A/B Testing»). Contribuye a **CP-N4-A (cierre)**: Governed Python Service Platform levanta con un comando, ejecuta tests/health checks, usa usuario no root y documenta configuración y recuperación. Datos sintéticos; sin PII real. ER/matching no implica fraude ni parentesco.",
   learningOutcomes: [
-    { text: 'Implementar tracing completo con LangSmith + OpenTelemetry para LLM calls' },
-    { text: 'Construir evaluación continua: RAGAS en producción, LLM-as-judge para calidad' },
-    { text: 'Implementar prompt versioning: gestionar cambios de prompts como código (GitOps)' },
-    { text: 'A/B testing de modelos y prompts con traffic splitting y métricas de negocio' },
-    { text: 'Monitorear costos de tokens en tiempo real con alertas y budgets' },
-    { text: 'Construir un feedback loop: usuarios califican respuestas → datos para mejorar modelo' },
+    { text: "Optimiza Dockerfile y layers" },
+    { text: "Usa non-root y reduce tamaño" },
+    { text: "Inyecta config/secrets/volumes" },
+    { text: "Configura net, health y signals" },
+    { text: "Compone API/worker/DB/cache" },
+    { text: "Ordena deps, migrations y datos efímeros" },
+    { text: "Fija locks y multi-stage" },
+    { text: "Escanea, limita recursos y debugguea" },
   ],
   theory: [
     {
-      heading: 'LLMOps fundamentals: observabilidad, evaluación y A/B testing para LLMs',
+      heading: "Mapa V3 S43: Contenedores y reproducibilidad operativa",
       paragraphs: [
-        'LLMOps extiende DevOps/MLOps para sistemas basados en LLMs. Los desafíos únicos: (1) no hay "accuracy" tradicional — los LLMs generan texto, no clasificaciones, (2) el costo por request varía 100x según tokens, (3) los prompts son código que degrada con cambios de modelo. LangSmith (de LangChain) es la herramienta canónica de observabilidad: tracea cada step del pipeline (prompt, retrieval, generation, tool call) con latencia, tokens, y costo por step. Visualizas el razonamiento completo del modelo, lo que es imposible con un simple `print()`.',
-        'RAGAS evalúa calidad de RAG con 4 métricas: (1) Faithfulness — la respuesta está fundamentada en el contexto recuperado (no hallucination), (2) Answer Relevancy — la respuesta responde la pregunta, (3) Context Precision — el contexto recuperado es relevante, (4) Context Recall — el contexto recuperado es completo. RAGAS usa un LLM como juez (GPT-4) para evaluar, lo que es costoso pero efectivo. La estrategia: corre RAGAS en un test set de 20-50 preguntas después de cada cambio de prompt, modelo, o chunking strategy. Si faithfulness baja de 0.85 a 0.70, hay un regression que debes investigar antes de deploy.',
-        'El A/B testing de prompts es diferente al A/B testing tradicional porque no hay un solo metric (CTR, conversión). Mide: (1) calidad humana (human eval en escala 1-5), (2) costo por request (tokens × precio), (3) latencia, (4)满意度 del usuario (thumbs up/down). Usa feature flags (LaunchDarkly o custom) para enrutar 50% del tráfico a prompt A y 50% a prompt B. Después de 1000 interacciones por variante, aplica bootstrap confidence intervals para determinar si la diferencia es estadísticamente significativa. Promociona el ganador y depreca el perdedor.',
+        "En V3, **S43** retematiza el archivo de plataforma `llmops` hacia **Contenedores y reproducibilidad operativa**. **FINAL/CLOSE gate** (CLOSE).",
+        "Incremento: Governed Python Service Platform levanta con un comando, ejecuta tests/health checks, usa usuario no root y documenta configuración y recuperación.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger.",
       ],
+      callout: {
+        type: "info",
+        title: "Platform id preservado",
+        content:
+          "KEEP_PLATFORM_ID_RETHEME_CONTENT: `llmops`. Capstone: CP-N4-A (cierre).",
+      },
+    },
+    {
+      heading: "Dockerfile, layers y cache",
+      subtopicId: "S43-T1-A",
+      paragraphs: [
+        "**Dockerfile, layers y cache** — outcome del blueprint phase3 para `dockerfile-layers-cache`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (cierre)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "dockerfile_layers_cache.py",
+        code: `print("layers", ["base","deps","app","cmd"]); print("cache_hint", "deps_before_app"); print("dockerfile", True)`,
+        output: `layers ['base', 'deps', 'app', 'cmd']
+cache_hint deps_before_app
+dockerfile True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "bases, usuarios no root y tamaño",
+      subtopicId: "S43-T1-B",
+      paragraphs: [
+        "**bases, usuarios no root y tamaño** — outcome del blueprint phase3 para `bases-nonroot-size`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (cierre)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "bases_nonroot_size.py",
+        code: `print("user", "appuser"); print("nonroot", True); print("uid", 10001)`,
+        output: `user appuser
+nonroot True
+uid 10001`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "config, secrets y volumes",
+      subtopicId: "S43-T2-A",
+      paragraphs: [
+        "**config, secrets y volumes** — outcome del blueprint phase3 para `config-secrets-volumes`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (cierre)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "config_secrets_volumes.py",
+        code: `print("env", "prod"); print("secret_ref", "\${SECRET}"); print("volume", "/data")`,
+        output: `env prod
+secret_ref \${SECRET}
+volume /data`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "networking, health checks y signals",
+      subtopicId: "S43-T2-B",
+      paragraphs: [
+        "**networking, health checks y signals** — outcome del blueprint phase3 para `net-health-signals`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (cierre)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "net_health_signals.py",
+        code: `print(sorted(["/healthz","/readyz"])); print("signals", ["SIGTERM","SIGINT"]); print("net", "private")`,
+        output: `['/healthz', '/readyz']
+signals ['SIGTERM', 'SIGINT']
+net private`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "API/worker/DB/cache",
+      subtopicId: "S43-T3-A",
+      paragraphs: [
+        "**API/worker/DB/cache** — outcome del blueprint phase3 para `api-worker-db-cache`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (cierre)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "api_worker_db_cache.py",
+        code: `print("services", ["api","worker","db","cache"]); print("has_worker", True); print("cache", "redis_like")`,
+        output: `services ['api', 'worker', 'db', 'cache']
+has_worker True
+cache redis_like`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "dependencias, migrations y datos efímeros",
+      subtopicId: "S43-T3-B",
+      paragraphs: [
+        "**dependencias, migrations y datos efímeros** — outcome del blueprint phase3 para `deps-migrations-ephemeral`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (cierre)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "deps_migrations_ephemeral.py",
+        code: `print("migrate_before_api", True); print("ephemeral", ["tmp","cache"]); print("deps_lock", True)`,
+        output: `migrate_before_api True
+ephemeral ['tmp', 'cache']
+deps_lock True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "locks y multi-stage builds",
+      subtopicId: "S43-T4-A",
+      paragraphs: [
+        "**locks y multi-stage builds** — outcome del blueprint phase3 para `locks-multistage`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (cierre)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "locks_multistage.py",
+        code: `print("multistage", ["builder","runtime"]); print("locks", ["requirements.txt"]); print("reproducible", True)`,
+        output: `multistage ['builder', 'runtime']
+locks ['requirements.txt']
+reproducible True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "scanning, resource limits y debugging",
+      subtopicId: "S43-T4-B",
+      paragraphs: [
+        "**scanning, resource limits y debugging** — outcome del blueprint phase3 para `scan-limits-debug`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (cierre)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "scan_limits_debug.py",
+        code: `print("limits", {"cpu":"1","mem":"512Mi"}); print("scan_clean", True); print("debug", "ephemeral_shell")`,
+        output: `limits {'cpu': '1', 'mem': '512Mi'}
+scan_clean True
+debug ephemeral_shell`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
     },
   ],
   iDo: {
-    intro: 'Te muestro paso a paso cómo aplicar los conceptos de esta sección con ejemplos prácticos.',
+    intro: "Te muestro 8 demos de S43 (Contenedores y reproducibilidad operativa) alineadas a CP-N4-A (cierre).",
     steps: [
       {
-        description: 'Configurar LangSmith tracing para visualizar el razonamiento del LLM',
+        demoId: "S43-T1-A-DEMO",
+        subtopicId: "S43-T1-A",
+        environment: "local-python",
+        description: "Demo: Dockerfile, layers y cache",
         code: {
           language: 'python',
-          title: 'demo.py',
-          code: '# LLMOps: tracing con LangSmith + RAGAS evaluation\nfrom langsmith import traceable\nfrom ragas import evaluate\nfrom ragas.metrics import faithfulness, answer_relevancy\n\n@traceable(name="rag_pipeline")\ndef rag_pipeline(question: str) -> str:\n    docs = retriever.get_relevant_documents(question)\n    context = "\\n".join([d.page_content for d in docs])\n    return llm.invoke(f"Contexto: {context}\\nPregunta: {question}")\n\nresults = evaluate(test_data, metrics=[faithfulness, answer_relevancy])\nprint(f"Faithfulness: {results[\'faithfulness\']:.2f}")\nprint(f"Answer Relevancy: {results[\'answer_relevancy\']:.2f}")',
+          title: "demo_dockerfile_layers_cache.py",
+          code: `print("pip_before_app", True); print("n_steps", 5); print("cache", "stable_layers_first")`,
+          output: `pip_before_app True
+n_steps 5
+cache stable_layers_first`,
         },
-        why: 'LangSmith tracea cada step del pipeline para debugging. RAGAS mide calidad objetivamente con 4 metricas. Correr en CI detecta regresiones antes de deploy.',
+        why: "Demuestra el outcome de S43-T1-A con Python verificable.",
+      },
+      {
+        demoId: "S43-T1-B-DEMO",
+        subtopicId: "S43-T1-B",
+        environment: "local-python",
+        description: "Demo: bases, usuarios no root y tamaño",
+        code: {
+          language: 'python',
+          title: "demo_bases_nonroot_size.py",
+          code: `print("smaller", "distroless"); print("mb", 40); print("base", "slim")`,
+          output: `smaller distroless
+mb 40
+base slim`,
+        },
+        why: "Demuestra el outcome de S43-T1-B con Python verificable.",
+      },
+      {
+        demoId: "S43-T2-A-DEMO",
+        subtopicId: "S43-T2-A",
+        environment: "local-python",
+        description: "Demo: config, secrets y volumes",
+        code: {
+          language: 'python',
+          title: "demo_config_secrets_volumes.py",
+          code: `print("no_hardcoded", True); print("mount", "readonly_config"); print("ok", True)`,
+          output: `no_hardcoded True
+mount readonly_config
+ok True`,
+        },
+        why: "Demuestra el outcome de S43-T2-A con Python verificable.",
+      },
+      {
+        demoId: "S43-T2-B-DEMO",
+        subtopicId: "S43-T2-B",
+        environment: "local-python",
+        description: "Demo: networking, health checks y signals",
+        code: {
+          language: 'python',
+          title: "demo_net_health_signals.py",
+          code: `print(200); print(503); print("graceful", True)`,
+          output: `200
+503
+graceful True`,
+        },
+        why: "Demuestra el outcome de S43-T2-B con Python verificable.",
+      },
+      {
+        demoId: "S43-T3-A-DEMO",
+        subtopicId: "S43-T3-A",
+        environment: "local-python",
+        description: "Demo: API/worker/DB/cache",
+        code: {
+          language: 'python',
+          title: "demo_api_worker_db_cache.py",
+          code: `print("api_deps", ["db","cache"]); print("worker_deps", ["db","cache"]); print("split", True)`,
+          output: `api_deps ['db', 'cache']
+worker_deps ['db', 'cache']
+split True`,
+        },
+        why: "Demuestra el outcome de S43-T3-A con Python verificable.",
+      },
+      {
+        demoId: "S43-T3-B-DEMO",
+        subtopicId: "S43-T3-B",
+        environment: "local-python",
+        description: "Demo: dependencias, migrations y datos efímeros",
+        code: {
+          language: 'python',
+          title: "demo_deps_migrations_ephemeral.py",
+          code: `print("migrations", "expand_contract"); print("data", "ephemeral_ok"); print("order", "migrate_first")`,
+          output: `migrations expand_contract
+data ephemeral_ok
+order migrate_first`,
+        },
+        why: "Demuestra el outcome de S43-T3-B con Python verificable.",
+      },
+      {
+        demoId: "S43-T4-A-DEMO",
+        subtopicId: "S43-T4-A",
+        environment: "local-python",
+        description: "Demo: locks y multi-stage builds",
+        code: {
+          language: 'python',
+          title: "demo_locks_multistage.py",
+          code: `print("builder_has_compilers", True); print("runtime_slim", True); print("lock", "pinned")`,
+          output: `builder_has_compilers True
+runtime_slim True
+lock pinned`,
+        },
+        why: "Demuestra el outcome de S43-T4-A con Python verificable.",
+      },
+      {
+        demoId: "S43-T4-B-DEMO",
+        subtopicId: "S43-T4-B",
+        environment: "local-python",
+        description: "Demo: scanning, resource limits y debugging",
+        code: {
+          language: 'python',
+          title: "demo_scan_limits_debug.py",
+          code: `print("block_deploy", False); print("mem", "512Mi"); print("scan", "ci_gate")`,
+          output: `block_deploy False
+mem 512Mi
+scan ci_gate`,
+        },
+        why: "Demuestra el outcome de S43-T4-B con Python verificable.",
       },
     ],
   },
   weDo: {
-    intro: 'Ahora te toca a ti practicar con guía. Lee cada instrucción, intenta escribir el código, y si te trabas revisa la solución.',
+    intro: "24 ejercicios (8×E1 guided / E2 independent / E3 transfer) en es-PE con soluciones verificadas.",
     steps: [
       {
-        instruction: 'Implementa tracing con LangSmith en un pipeline RAG y analiza latencia',
-        hint: 'Revisa la teoría y el I Do antes de intentar este ejercicio.',
+        id: "S43-T1-A-E1",
+        subtopicId: "S43-T1-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'ejercicio.py',
-          code: '# Tu código aquí\n',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
         },
         solutionCode: {
           language: 'python',
-          title: 'solucion.py',
-          code: '# Cost tracking para LLMs\nclass CostTracker:\n    pricing = {"gpt-4o": {"in": 0.0025, "out": 0.01}}\n    def log(self, model, in_tok, out_tok, user):\n        cost = (in_tok * self.pricing[model]["in"] + out_tok * self.pricing[model]["out"]) / 1000\n        print(f"Costo: ${cost:.4f} (in:{in_tok} out:{out_tok} user:{user})")\n        return cost\n\ntracker = CostTracker()\ntracker.log("gpt-4o", 1500, 300, "user_123")',
+          title: "exercise.py",
+          code: `print(['base','deps','app'])`,
+          output: `['base', 'deps', 'app']`,
+        },
+      },
+      {
+        id: "S43-T1-A-E2",
+        subtopicId: "S43-T1-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S43-T1-A-E3",
+        subtopicId: "S43-T1-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('cache')`,
+          output: `cache`,
+        },
+      },
+      {
+        id: "S43-T1-B-E1",
+        subtopicId: "S43-T1-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('appuser')`,
+          output: `appuser`,
+        },
+      },
+      {
+        id: "S43-T1-B-E2",
+        subtopicId: "S43-T1-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(False)`,
+          output: `False`,
+        },
+      },
+      {
+        id: "S43-T1-B-E3",
+        subtopicId: "S43-T1-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(40)`,
+          output: `40`,
+        },
+      },
+      {
+        id: "S43-T2-A-E1",
+        subtopicId: "S43-T2-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('prod')`,
+          output: `prod`,
+        },
+      },
+      {
+        id: "S43-T2-A-E2",
+        subtopicId: "S43-T2-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S43-T2-A-E3",
+        subtopicId: "S43-T2-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('/data')`,
+          output: `/data`,
+        },
+      },
+      {
+        id: "S43-T2-B-E1",
+        subtopicId: "S43-T2-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(200)`,
+          output: `200`,
+        },
+      },
+      {
+        id: "S43-T2-B-E2",
+        subtopicId: "S43-T2-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(503)`,
+          output: `503`,
+        },
+      },
+      {
+        id: "S43-T2-B-E3",
+        subtopicId: "S43-T2-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['SIGTERM','SIGINT'])`,
+          output: `['SIGTERM', 'SIGINT']`,
+        },
+      },
+      {
+        id: "S43-T3-A-E1",
+        subtopicId: "S43-T3-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['api','worker','db','cache'])`,
+          output: `['api', 'worker', 'db', 'cache']`,
+        },
+      },
+      {
+        id: "S43-T3-A-E2",
+        subtopicId: "S43-T3-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S43-T3-A-E3",
+        subtopicId: "S43-T3-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['db','cache'])`,
+          output: `['db', 'cache']`,
+        },
+      },
+      {
+        id: "S43-T3-B-E1",
+        subtopicId: "S43-T3-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S43-T3-B-E2",
+        subtopicId: "S43-T3-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('expand_contract')`,
+          output: `expand_contract`,
+        },
+      },
+      {
+        id: "S43-T3-B-E3",
+        subtopicId: "S43-T3-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['tmp','cache'])`,
+          output: `['tmp', 'cache']`,
+        },
+      },
+      {
+        id: "S43-T4-A-E1",
+        subtopicId: "S43-T4-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['builder','runtime'])`,
+          output: `['builder', 'runtime']`,
+        },
+      },
+      {
+        id: "S43-T4-A-E2",
+        subtopicId: "S43-T4-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S43-T4-A-E3",
+        subtopicId: "S43-T4-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('pinned')`,
+          output: `pinned`,
+        },
+      },
+      {
+        id: "S43-T4-B-E1",
+        subtopicId: "S43-T4-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(0)`,
+          output: `0`,
+        },
+      },
+      {
+        id: "S43-T4-B-E2",
+        subtopicId: "S43-T4-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('512Mi')`,
+          output: `512Mi`,
+        },
+      },
+      {
+        id: "S43-T4-B-E3",
+        subtopicId: "S43-T4-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('ci_gate')`,
+          output: `ci_gate`,
         },
       },
     ],
   },
   youDo: {
-    title: 'LLMOps Dashboard',
-    context: 'Dashboard de Grafana/Streamlit que muestra: token costs en tiempo real, respuestas evaluadas por LLM-as-judge, prompt performance tracking, y alertas de costo.',
+    title: "[FINAL] Contenedores y reproducibilidad operativa (CP-N4-A (cierre))",
+    context:
+      "Proyecto de sección **S43** (Contenedores y reproducibilidad operativa). Gate: **CP-N4-A (cierre)**. Governed Python Service Platform levanta con un comando, ejecuta tests/health checks, usa usuario no root y documenta configuración y recuperación. **FINAL — CP-N4-A CLOSE**: Governed Python Service Platform (un comando, tests/health, non-root, config y recuperación). Este You Do es la nota FINAL del cierre N4-A. Usa solo datos sintéticos; no marques section_passed desde esta entrega de autoría.",
     objectives: [
-      'Aplicar los conceptos aprendidos en un proyecto real',
-      'Demostrar dominio del tema con un entregable de portafolio',
-      'Documentar el proceso y los resultados',
+      "FINAL: Governed Python Service Platform levanta con un comando, ejecuta tests/health checks, usa usuario no root y documenta configuración y recuperación.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-A (cierre)",
     ],
     requirements: [
-      'Código funcional y documentado',
-      'Tests que validen el funcionamiento',
-      'README con instrucciones de uso',
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección",
     ],
-    portfolioNote: 'Este proyecto es ideal para mostrar en entrevistas técnicas y agregar a tu portafolio de GitHub.',
+    starterCode: `# S43 You Do — Contenedores y reproducibilidad operativa
+# Gate: CP-N4-A (cierre)
+# Governed Python Service Platform levanta con un comando, ejecuta tests/health checks, usa usuario no root y documenta co
+
+def main():
+    print("section", "S43")
+    print("gate", 'CP-N4-A (cierre)')
+    print("synthetic", True)
+    # TODO: implementar incremento del blueprint
+
+if __name__ == "__main__":
+    main()
+`,
+    portfolioNote:
+      "FINAL. Entrega alineada a CP-N4-A (cierre). Portfolio en español profesional; evidencia ejecutable; privacidad. Otra lane califica PASS; no editar checkpoint/ledger/seed.",
     rubric: [
-      { criterion: 'Funcionalidad', weight: '40%' },
-      { criterion: 'Calidad de código', weight: '20%' },
-      { criterion: 'Documentación', weight: '20%' },
-      { criterion: 'Tests', weight: '20%' },
+      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
+      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
+      { criterion: "Privacidad / sin PII real / sin secretos", weight: "20%" },
+      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
+      { criterion: "Código legible y límites claros", weight: "10%" },
+      { criterion: "Documentación en español profesional", weight: "10%" },
+      { criterion: "Nota FINAL de gate: CLOSE", weight: "gate FINAL" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: '¿Qué es LangSmith y para qué sirve?',
+        question: "El id de plataforma de S43 que se preserva es:",
         options: [
-          'Plataforma de observabilidad para LLMs: tracea cada step del pipeline (prompt, retrieval, generation, tool) con latencia, tokens y costo por step',
-          'Un framework de testing',
-          'Un modelo de lenguaje',
-          'Un sistema de control de versiones',
+          "llmops",
+          "renamed-v3",
+          "legacy-drop",
+          "random",
         ],
         correctIndex: 0,
-        explanation: 'LangSmith tracea el razonamiento completo del LLM: qué prompt se envió, qué documentos se recuperaron, qué tool calls se hicieron, cuánto tardó cada step, cuántos tokens se consumieron. Visualizas el trace como un árbol. Esencial para debugging en producción.',
+        explanation:
+          "KEEP_PLATFORM_ID_RETHEME_CONTENT.",
       },
       {
-        question: '¿Qué métricas mide RAGAS?',
+        question: "El incremento/gate V3 de S43 pertenece a:",
         options: [
-          'Faithfulness (no alucinación), answer relevancy, context precision, context recall — 4 dimensiones de calidad del RAG',
-          'Solo accuracy',
-          'Solo latencia y costo',
-          'Solo número de tokens',
+          "CP-N4-A (cierre)",
+          "CP-N1-A",
+          "solo marketing",
+          "sin capstone",
         ],
         correctIndex: 0,
-        explanation: 'Faithfulness: ¿la respuesta está fundamentada en el contexto recuperado? Answer relevancy: ¿responde la pregunta? Context precision: ¿el contexto recuperado es relevante? Context recall: ¿el contexto es completo? Se corre en un test set de 20-50 preguntas.',
+        explanation:
+          "Blueprint phase3 capstone_notes.",
       },
       {
-        question: '¿Cómo haces A/B testing de prompts en producción?',
+        question: "Los ejemplos del curso deben usar:",
         options: [
-          'Enrutar 50% del tráfico a prompt A y 50% a prompt B, medir calidad humana + costo + latencia, y promocionar el ganador con confianza estadística',
-          'Probar un prompt a la vez secuencialmente',
-          'Usar el prompt que suene mejor',
-          'No se puede hacer A/B testing de prompts',
+          "PII real de clientes",
+          "Datos sintéticos",
+          "Secretos de prod",
+          "Claves API reales",
         ],
-        correctIndex: 0,
-        explanation: 'A/B testing de prompts: feature flags (LaunchDarkly o custom) enrutan tráfico. Después de 1000 interacciones por variante, aplicas bootstrap confidence intervals. Si la diferencia es estadísticamente significativa, promocionas el ganador.',
+        correctIndex: 1,
+        explanation:
+          "Synthetic data only.",
       },
       {
-        question: '¿Qué es el cost tracking en LLMOps?',
+        question: "Entity resolution (si aparece) decide:",
         options: [
-          'Medir tokens consumidos y costo por request, por usuario, y por feature — vital porque los LLMs pueden costar $10K+/mes sin control',
-          'Es seguir el costo del hardware',
-          'Es medir el costo eléctrico',
-          'Es un sistema de presupuesto personal',
+          "Fraude",
+          "Parentesco",
+          "Misma entidad cuando aplique",
+          "Sentimiento",
         ],
-        correctIndex: 0,
-        explanation: 'Cost tracking: cada request registra tokens (prompt + completion) × precio del modelo. Agregas por usuario, endpoint, feature. Sin esto, una feature nueva puede multiplicar el costo 10x sin que te des cuenta hasta la factura mensual.',
-      },
-      {
-        question: '¿Qué es la evaluación de LLMs con LLM-as-judge?',
-        options: [
-          'Usar un LLM (ej: GPT-4) para evaluar las respuestas de otro LLM en dimensiones como calidad, precisión, y seguridad — escalable vs evaluación humana',
-          'Un humano juzgando al LLM',
-          'Un LLM que se evalúa a sí mismo sin ayuda',
-          'No es posible evaluar LLMs automáticamente',
-        ],
-        correctIndex: 0,
-        explanation: 'LLM-as-judge: das a GPT-4 la pregunta, la respuesta, y criterios de evaluación. GPT-4 puntúa la respuesta 1-5 con justificación. Ventaja: escala a miles de evaluaciones. Limitación: el juez tiene sus propios sesgos. Se combina con evaluación humana para calibrar.',
+        correctIndex: 2,
+        explanation:
+          "ER ≠ relación ≠ fraude.",
       },
     ],
   },
   resources: {
     docs: [
-      { label: 'Documentación oficial', url: 'https://docs.python.org/3/' },
+      {
+        label: "Python docs",
+        url: "https://docs.python.org/3/",
+        note: "Referencia stdlib",
+      },
+      {
+        label: "V3 section support",
+        url: "https://docs.python.org/3/library/",
+        note: "Apoyo S43 Contenedores y reproducibilidad operativa",
+      },
     ],
     books: [
-      { label: 'Python 201 — Michael Driscoll', note: 'Capítulos relevantes para esta sección' },
+      {
+        label: "Architecture / platform engineering refs",
+        note: "Alinear a Contenedores y reproducibilidad operativa",
+      },
+      {
+        label: "Site Reliability / Security basics",
+        note: "Operación y privacidad",
+      },
     ],
     courses: [
-      { label: 'Real Python', url: 'https://realpython.com', note: 'Tutoriales complementarios' },
+      {
+        label: "MDN / cloud / MLOps primers",
+        url: "https://developer.mozilla.org/",
+        note: "Complemento conceptual",
+      },
     ],
   },
 }

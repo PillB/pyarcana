@@ -1,0 +1,825 @@
+{
+  "version": "3.2",
+  "section": "S06",
+  "section_id": "numpy",
+  "phase": "PHASE_2_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1-FACTORY",
+  "prompt_version": "3.2",
+  "preamble": {
+    "objective": "PHASE 2 research dossier light de S06: 8 subtemas V3 listos para blueprint.",
+    "scope_in": [
+      "S06",
+      "fuentes oficiales ≥4",
+      "mapeo 4×2",
+      "contradicciones plataforma"
+    ],
+    "scope_out": [
+      "autoría larga",
+      "banco A/B/C completo",
+      "edits a .ts de sección",
+      "marcar passed"
+    ],
+    "stop_criterion": "8 subtemas con fuentes, patrones y notas pedagógicas"
+  },
+  "pre_round_research": {
+    "executed_at": "2026-07-20",
+    "findings": [
+      "V3 S6 — Colecciones y estructuras de datos es TARGET pedagógico; platform 'NumPy: Vectorized Computing' es legado.",
+      "Capstone link: CP-N1-B — Modelo tabular en memoria (CP-N1-B)",
+      "Legacy destination: Todo NumPy de plataforma → V3 S14 (NumPy y cómputo vectorizado). Contenido list/dict de s03-data-structures.ts también alimenta este slot V3.",
+      "Stdlib Python 3.12+ docs vigentes Jul 2026; no deprecaciones bloqueantes en T1–T4 V3."
+    ],
+    "source_registry": [
+      {
+        "id": "SRC-S06-001",
+        "title": "Python Tutorial — Data Structures",
+        "url": "https://docs.python.org/3/tutorial/datastructures.html",
+        "official": true
+      },
+      {
+        "id": "SRC-S06-002",
+        "title": "Built-in Types — Sequence/Mapping/Set",
+        "url": "https://docs.python.org/3/library/stdtypes.html",
+        "official": true
+      },
+      {
+        "id": "SRC-S06-003",
+        "title": "copy — Shallow and deep copy",
+        "url": "https://docs.python.org/3/library/copy.html",
+        "official": true
+      },
+      {
+        "id": "SRC-S06-004",
+        "title": "Sorting HOW TO",
+        "url": "https://docs.python.org/3/howto/sorting.html",
+        "official": true
+      },
+      {
+        "id": "SRC-S06-005",
+        "title": "TimeComplexity wiki (CPython)",
+        "url": "https://wiki.python.org/moin/TimeComplexity",
+        "official": true
+      },
+      {
+        "id": "SRC-S06-006",
+        "title": "json — sort_keys determinism",
+        "url": "https://docs.python.org/3/library/json.html",
+        "official": true
+      }
+    ],
+    "deprecation_check": {
+      "note": "APIs core de esta sección (stdlib loops/functions/collections/str/re/pathlib/csv/json) NO deprecadas",
+      "avoid": "pandas/numpy/OOP deep APIs en TARGET V3 de estos slots aunque vivan en archivos legacy"
+    }
+  },
+  "canonical_subtopic_map": {
+    "source": "learning_roadmap_52_V3.md §06",
+    "platform_id_authority": "learning_roadmap.md → numpy",
+    "v3_title": "Colecciones y estructuras de datos",
+    "platform_title": "NumPy: Vectorized Computing",
+    "topics": [
+      {
+        "topic_id": "S06-T1",
+        "title": "Secuencias",
+        "subtopics": [
+          {
+            "subtopic_id": "S06-T1-A",
+            "slug": "list-tuple-slicing",
+            "title": "Listas, tuplas y slicing",
+            "v3_text": "listas y tuplas; slicing",
+            "exam_skill": "El estudiante usa list/tuple y slicing para ventanas de registros sin copiar de más.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          },
+          {
+            "subtopic_id": "S06-T1-B",
+            "slug": "unpacking-aliasing-copy",
+            "title": "Unpacking, aliasing y copia",
+            "v3_text": "unpacking, aliasing y copia",
+            "exam_skill": "El estudiante desempaqueta secuencias y distingue alias vs copia superficial/profunda al nivel necesario.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          }
+        ]
+      },
+      {
+        "topic_id": "S06-T2",
+        "title": "Mapeos y conjuntos",
+        "subtopics": [
+          {
+            "subtopic_id": "S06-T2-A",
+            "slug": "dicts-membership",
+            "title": "Diccionarios y pertenencia",
+            "v3_text": "diccionarios; pertenencia",
+            "exam_skill": "El estudiante modela registros con dict, accede con get, y usa keys de forma idiomática.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          },
+          {
+            "subtopic_id": "S06-T2-B",
+            "slug": "sets-dedup",
+            "title": "Deduplicación y operaciones de set",
+            "v3_text": "deduplicación, pertenencia y operaciones de set",
+            "exam_skill": "El estudiante deduplica claves con set y usa unión/intersección para comparar cohortes sin borrar conflictos.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          }
+        ]
+      },
+      {
+        "topic_id": "S06-T3",
+        "title": "Composición",
+        "subtopics": [
+          {
+            "subtopic_id": "S06-T3-A",
+            "slug": "nested-traversal",
+            "title": "Estructuras anidadas y recorridos",
+            "v3_text": "estructuras anidadas; recorridos",
+            "exam_skill": "El estudiante navega list[dict] y dict anidados representando cliente→contactos→transacciones.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          },
+          {
+            "subtopic_id": "S06-T3-B",
+            "slug": "safe-access-missing",
+            "title": "Acceso seguro y valores faltantes",
+            "v3_text": "acceso seguro y valores faltantes",
+            "exam_skill": "El estudiante accede campos opcionales sin KeyError y modela missing vs vacío explícito.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          }
+        ]
+      },
+      {
+        "topic_id": "S06-T4",
+        "title": "Elección",
+        "subtopics": [
+          {
+            "subtopic_id": "S06-T4-A",
+            "slug": "sort-key",
+            "title": "Ordenamiento y key",
+            "v3_text": "ordenamiento y key",
+            "exam_skill": "El estudiante ordena registros con sorted(..., key=) de forma estable y explicable.",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          },
+          {
+            "subtopic_id": "S06-T4-B",
+            "slug": "structure-choice-determinism",
+            "title": "Estructura adecuada, complejidad y determinismo",
+            "v3_text": "estructura adecuada, complejidad intuitiva y determinismo",
+            "exam_skill": "El estudiante elige list/dict/set según operación dominante y produce salidas deterministas (ordenar ids).",
+            "exists_in_content": false,
+            "exists_in_exam": false
+          }
+        ]
+      }
+    ]
+  },
+  "research_dossier": {
+    "S06-T1-A": {
+      "title": "Listas, tuplas y slicing",
+      "slug": "list-tuple-slicing",
+      "v3_text": "listas y tuplas; slicing",
+      "exam_skill": "El estudiante usa list/tuple y slicing para ventanas de registros sin copiar de más.",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — Data Structures",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Listas, tuplas y slicing"
+          ]
+        },
+        {
+          "source": "Built-in Types — Sequence/Mapping/Set",
+          "url": "https://docs.python.org/3/library/stdtypes.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Listas, tuplas y slicing"
+          ]
+        },
+        {
+          "source": "copy — Shallow and deep copy",
+          "url": "https://docs.python.org/3/library/copy.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Listas, tuplas y slicing"
+          ]
+        },
+        {
+          "source": "Sorting HOW TO",
+          "url": "https://docs.python.org/3/howto/sorting.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Listas, tuplas y slicing"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Comprender']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Ventana de transacciones con slicing y tupla de keys estables",
+          "must_cover": [
+            "list mutable",
+            "tuple inmutable",
+            "slicing [i:j:k]",
+            "concat/extend",
+            "in membership"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Ventana de transacciones con slicing y tupla de keys estables",
+        "E1: Slice de últimos N",
+        "E2: Convertir list↔tuple con motivo",
+        "E3: Corregir mutación accidental de tupla intentada"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Listas, tuplas y slicing",
+        "Contexto capstone: CP-N1-B",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S06-T1-B": {
+      "title": "Unpacking, aliasing y copia",
+      "slug": "unpacking-aliasing-copy",
+      "v3_text": "unpacking, aliasing y copia",
+      "exam_skill": "El estudiante desempaqueta secuencias y distingue alias vs copia superficial/profunda al nivel necesario.",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — Data Structures",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Unpacking, aliasing y copia"
+          ]
+        },
+        {
+          "source": "Built-in Types — Sequence/Mapping/Set",
+          "url": "https://docs.python.org/3/library/stdtypes.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Unpacking, aliasing y copia"
+          ]
+        },
+        {
+          "source": "copy — Shallow and deep copy",
+          "url": "https://docs.python.org/3/library/copy.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Unpacking, aliasing y copia"
+          ]
+        },
+        {
+          "source": "Sorting HOW TO",
+          "url": "https://docs.python.org/3/howto/sorting.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Unpacking, aliasing y copia"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Comprender']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Bug de alias al 'copiar' lista de dicts de clientes",
+          "must_cover": [
+            "a,b = ",
+            "*rest",
+            "alias L2=L1",
+            "list.copy / [:]",
+            "copy.deepcopy intro",
+            "cuando shallow basta"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Bug de alias al 'copiar' lista de dicts de clientes",
+        "E1: Unpacking de fila",
+        "E2: Demostrar alias vs copy",
+        "E3: Elegir shallow vs deep en caso anidado"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Unpacking, aliasing y copia",
+        "Contexto capstone: CP-N1-B",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S06-T2-A": {
+      "title": "Diccionarios y pertenencia",
+      "slug": "dicts-membership",
+      "v3_text": "diccionarios; pertenencia",
+      "exam_skill": "El estudiante modela registros con dict, accede con get, y usa keys de forma idiomática.",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — Data Structures",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Diccionarios y pertenencia"
+          ]
+        },
+        {
+          "source": "Built-in Types — Sequence/Mapping/Set",
+          "url": "https://docs.python.org/3/library/stdtypes.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Diccionarios y pertenencia"
+          ]
+        },
+        {
+          "source": "copy — Shallow and deep copy",
+          "url": "https://docs.python.org/3/library/copy.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Diccionarios y pertenencia"
+          ]
+        },
+        {
+          "source": "Sorting HOW TO",
+          "url": "https://docs.python.org/3/howto/sorting.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Diccionarios y pertenencia"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Analizar']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Índice id→cliente y lookup seguro",
+          "must_cover": [
+            "dict literal",
+            "get/default",
+            "keys/values/items",
+            "in keys",
+            "setdefault/update intro"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Índice id→cliente y lookup seguro",
+        "E1: Construir dict desde pares",
+        "E2: get vs KeyError",
+        "E3: Fusionar configs con update sin pisar sin querer"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Diccionarios y pertenencia",
+        "Contexto capstone: CP-N1-B",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S06-T2-B": {
+      "title": "Deduplicación y operaciones de set",
+      "slug": "sets-dedup",
+      "v3_text": "deduplicación, pertenencia y operaciones de set",
+      "exam_skill": "El estudiante deduplica claves con set y usa unión/intersección para comparar cohortes sin borrar conflictos.",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — Data Structures",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Deduplicación y operaciones de set"
+          ]
+        },
+        {
+          "source": "Built-in Types — Sequence/Mapping/Set",
+          "url": "https://docs.python.org/3/library/stdtypes.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Deduplicación y operaciones de set"
+          ]
+        },
+        {
+          "source": "copy — Shallow and deep copy",
+          "url": "https://docs.python.org/3/library/copy.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Deduplicación y operaciones de set"
+          ]
+        },
+        {
+          "source": "Sorting HOW TO",
+          "url": "https://docs.python.org/3/howto/sorting.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Deduplicación y operaciones de set"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Analizar']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: ids únicos; intersección de dos lotes; conflictos = duplicados con datos distintos",
+          "must_cover": [
+            "set",
+            "add/discard",
+            "| & -",
+            "frozenset intro",
+            "dedup no ordenado",
+            "estabilidad: ordenar para salida determinista"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: ids únicos; intersección de dos lotes; conflictos = duplicados con datos distintos",
+        "E1: Deduplicar lista de emails",
+        "E2: Intersección de contactos",
+        "E3: Reportar conflictos sin eliminar filas"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Deduplicación y operaciones de set",
+        "Contexto capstone: CP-N1-B",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S06-T3-A": {
+      "title": "Estructuras anidadas y recorridos",
+      "slug": "nested-traversal",
+      "v3_text": "estructuras anidadas; recorridos",
+      "exam_skill": "El estudiante navega list[dict] y dict anidados representando cliente→contactos→transacciones.",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — Data Structures",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Estructuras anidadas y recorridos"
+          ]
+        },
+        {
+          "source": "Built-in Types — Sequence/Mapping/Set",
+          "url": "https://docs.python.org/3/library/stdtypes.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Estructuras anidadas y recorridos"
+          ]
+        },
+        {
+          "source": "copy — Shallow and deep copy",
+          "url": "https://docs.python.org/3/library/copy.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Estructuras anidadas y recorridos"
+          ]
+        },
+        {
+          "source": "Sorting HOW TO",
+          "url": "https://docs.python.org/3/howto/sorting.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Estructuras anidadas y recorridos"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Analizar']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Modelo en memoria Client con contacts[] y txs[]",
+          "must_cover": [
+            "list[dict]",
+            "dict de listas",
+            "for anidado controlado",
+            "paths de acceso",
+            "normalizar a filas planas intro"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Modelo en memoria Client con contacts[] y txs[]",
+        "E1: Contar contactos por cliente",
+        "E2: Aplanar transacciones a filas",
+        "E3: Detectar shape inconsistente"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Estructuras anidadas y recorridos",
+        "Contexto capstone: CP-N1-B",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S06-T3-B": {
+      "title": "Acceso seguro y valores faltantes",
+      "slug": "safe-access-missing",
+      "v3_text": "acceso seguro y valores faltantes",
+      "exam_skill": "El estudiante accede campos opcionales sin KeyError y modela missing vs vacío explícito.",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — Data Structures",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Acceso seguro y valores faltantes"
+          ]
+        },
+        {
+          "source": "Built-in Types — Sequence/Mapping/Set",
+          "url": "https://docs.python.org/3/library/stdtypes.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Acceso seguro y valores faltantes"
+          ]
+        },
+        {
+          "source": "copy — Shallow and deep copy",
+          "url": "https://docs.python.org/3/library/copy.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Acceso seguro y valores faltantes"
+          ]
+        },
+        {
+          "source": "Sorting HOW TO",
+          "url": "https://docs.python.org/3/howto/sorting.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Acceso seguro y valores faltantes"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Aplicar', 'Analizar']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Extraer teléfono opcional de contacto anidado",
+          "must_cover": [
+            "get encadenado",
+            "sentinels",
+            "None vs ''",
+            "schema mínimo",
+            "no confundir missing con 0"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Extraer teléfono opcional de contacto anidado",
+        "E1: get anidado helper",
+        "E2: Marcar missing en reporte",
+        "E3: Tabla missing vs falsy"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Acceso seguro y valores faltantes",
+        "Contexto capstone: CP-N1-B",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S06-T4-A": {
+      "title": "Ordenamiento y key",
+      "slug": "sort-key",
+      "v3_text": "ordenamiento y key",
+      "exam_skill": "El estudiante ordena registros con sorted(..., key=) de forma estable y explicable.",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — Data Structures",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Ordenamiento y key"
+          ]
+        },
+        {
+          "source": "Built-in Types — Sequence/Mapping/Set",
+          "url": "https://docs.python.org/3/library/stdtypes.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Ordenamiento y key"
+          ]
+        },
+        {
+          "source": "copy — Shallow and deep copy",
+          "url": "https://docs.python.org/3/library/copy.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Ordenamiento y key"
+          ]
+        },
+        {
+          "source": "Sorting HOW TO",
+          "url": "https://docs.python.org/3/howto/sorting.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Ordenamiento y key"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Analizar', 'Aplicar']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Ordenar clientes por región luego nombre",
+          "must_cover": [
+            "sorted vs sort",
+            "key=lambda / itemgetter",
+            "reverse",
+            "estabilidad",
+            "orden multi-criterio tuple"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Ordenar clientes por región luego nombre",
+        "E1: sorted por monto",
+        "E2: key multi-campo",
+        "E3: Explicar por qué sort in-place muta"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Ordenamiento y key",
+        "Contexto capstone: CP-N1-B",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    },
+    "S06-T4-B": {
+      "title": "Estructura adecuada, complejidad y determinismo",
+      "slug": "structure-choice-determinism",
+      "v3_text": "estructura adecuada, complejidad intuitiva y determinismo",
+      "exam_skill": "El estudiante elige list/dict/set según operación dominante y produce salidas deterministas (ordenar ids).",
+      "round_1_primary": [
+        {
+          "source": "Python Tutorial — Data Structures",
+          "url": "https://docs.python.org/3/tutorial/datastructures.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Estructura adecuada, complejidad y determinismo"
+          ]
+        },
+        {
+          "source": "Built-in Types — Sequence/Mapping/Set",
+          "url": "https://docs.python.org/3/library/stdtypes.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Estructura adecuada, complejidad y determinismo"
+          ]
+        },
+        {
+          "source": "copy — Shallow and deep copy",
+          "url": "https://docs.python.org/3/library/copy.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Estructura adecuada, complejidad y determinismo"
+          ]
+        },
+        {
+          "source": "Sorting HOW TO",
+          "url": "https://docs.python.org/3/howto/sorting.html",
+          "date_accessed": "2026-07-20",
+          "key_facts": [
+            "Fuente oficial para Estructura adecuada, complejidad y determinismo"
+          ]
+        }
+      ],
+      "round_2_curricular": [
+        "Andamiaje: theory → I Do → E1 guiado → E2 independiente → E3 transferencia → eval tema",
+        "Bloom focus topic: ['Analizar', 'Aplicar']",
+        "Español peruano profesional; datos sintéticos latam"
+      ],
+      "round_3_practical": [
+        {
+          "pattern": "Demo: Mismo input → mismo JSON dump con sort_keys",
+          "must_cover": [
+            "lookup O(1) dict/set vs O(n) list",
+            "cuándo list ordenada",
+            "determinismo: sorted(keys)",
+            "no depender de hash randomization para tests"
+          ]
+        },
+        {
+          "anti_pattern": "Copiar ejemplos de docs sin adaptación a intake/ETL sintético"
+        }
+      ],
+      "round_4_pedagogy": [
+        "I Do: Mismo input → mismo JSON dump con sort_keys",
+        "E1: Elegir estructura para 3 jobs",
+        "E2: Hacer salida determinista",
+        "E3: Justificar tradeoff memoria/tiempo"
+      ],
+      "authoring_notes": [
+        "Título pedagógico ES: Estructura adecuada, complejidad y determinismo",
+        "Contexto capstone: CP-N1-B",
+        "No long-form en PHASE 2"
+      ],
+      "risks": [
+        "Ver deprecation_check de sección; no APIs deprecadas en stdlib core"
+      ],
+      "exists_in_platform_content": false
+    }
+  },
+  "decisions": [
+    {
+      "id": "DEC-S06-R01",
+      "decision": "Retheme pedagógico a V3 'Colecciones y estructuras de datos' sin renombrar id 'numpy'"
+    },
+    {
+      "id": "DEC-S06-R02",
+      "decision": "Proyecto TARGET: Modelo tabular en memoria (CP-N1-B)"
+    },
+    {
+      "id": "DEC-S06-R03",
+      "decision": "Conservar archivo .ts legacy hasta PHASE 4 verified replacement"
+    },
+    {
+      "id": "DEC-S06-R04",
+      "decision": "8 demos browser-pyodide o local-python según environment V3"
+    },
+    {
+      "id": "DEC-S06-R05",
+      "decision": "Entorno declarado: browser/local"
+    },
+    {
+      "id": "DEC-S06-R06",
+      "decision": "Español en títulos de ejercicios/demos; slugs en inglés kebab-case"
+    },
+    {
+      "id": "DEC-S06-R07",
+      "decision": "Datos sintéticos latam; no PII real"
+    },
+    {
+      "id": "DEC-S06-R08",
+      "decision": "Exam families = 8 slugs de subtemas; seed legacy reubicable"
+    }
+  ],
+  "phase_2_gate": {
+    "research_complete": true,
+    "min_official_sources": 6,
+    "eight_subtopics_documented": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_3"
+  }
+}

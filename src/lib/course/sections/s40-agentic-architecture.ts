@@ -1,270 +1,1196 @@
 import type { CourseSection } from '../../types'
 
 export const section40: CourseSection = {
-  id: 'agentic-architecture',
+  id: "agentic-architecture",
   index: 40,
-  title: 'Arquitectura de Sistemas Agénticos a Escala',
-  shortTitle: 'Arquitectura de Sistemas Agént',
-  tagline: 'Los sistemas que toman decisiones por sí solos, a escala industrial.',
-  estimatedHours: 14,
-  level: 'Master',
+  title: "Arquitectura, DDD y decisiones técnicas",
+  shortTitle: "Arquitectura y DDD",
+  tagline: "mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos",
+  estimatedHours: 12,
+  level: "Master",
   phase: 3,
-  icon: 'Network',
-  accentColor: 'bg-gradient-to-br from-amber-500 to-red-600',
-  jobRelevance: 'Los roles de Principal/Staff AI Engineer en USA (2026, $180K-$250K) requieren diseñar arquitecturas de sistemas agénticos completos. Cubre los patrones arquitecturales avanzados que usan empresas como OpenAI, Anthropic, y startups AI de primer nivel.',
+  icon: "Network",
+  accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
+  jobRelevance:
+    "Retemática V3 **Arquitectura, DDD y decisiones técnicas** (id de plataforma `agentic-architecture` conservado; legado «Arquitectura de Sistemas Agénticos a Escala»). Contribuye a **CP-N4-A (inicio)**: mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos. Datos sintéticos; sin PII real. ER/matching no implica fraude ni parentesco.",
   learningOutcomes: [
-    { text: 'Diseñar arquitecturas multi-agent a escala: Network, Supervisor, Hierarchical, Swarm patterns' },
-    { text: 'Implementar agent-to-agent communication con Model Context Protocol (MCP)' },
-    { text: 'Construir sistemas de evaluación automática de agentes (LLM-as-judge)' },
-    { text: 'Gestionar recursos de agentes: token budgets, tool quotas, timeout hierarchies' },
-    { text: 'Implementar checkpointing y resumption de workflows largos (LangGraph persistence)' },
-    { text: 'Diseñar para fault tolerance: qué pasa cuando un sub-agent falla, retries, compensación' },
-    { text: 'Construir observabilidad completa de sistemas agénticos con LangSmith + custom metrics' },
+    { text: "Captura FR y quality attributes" },
+    { text: "Documenta trade-offs y riesgos medibles" },
+    { text: "Diseña capas con baja coupling" },
+    { text: "Aplica ports/adapters hacia dominio" },
+    { text: "Delinea bounded contexts" },
+    { text: "Modela entities, VO y servicios" },
+    { text: "Documenta C4 y ADRs" },
+    { text: "Evoluciona APIs/eventos con compatibilidad" },
   ],
   theory: [
     {
-      heading: 'Patrones multi-agent avanzados: Network (peer-to-peer), Supervisor (centralizado), Hierarchical (árbol), Swarm (dinámico con handoffs)',
+      heading: "Mapa V3 S40: Arquitectura, DDD y decisiones técnicas",
       paragraphs: [
-        'En esta lección vamos a explorar patrones multi-agent avanzados: network (peer-to-peer), supervisor (centralizado), hierarchical (árbol), swarm (dinámico con handoffs) en profundidad. Este concepto es fundamental para tu crecimiento como profesional de Data Science y automatización. En el mercado laboral peruano e internacional, dominar este tema te diferencia claramente de otros candidatos.',
-
-        'La clave para entender patrones multi-agent avanzados: network (peer-to-peer), supervisor (centralizado), hierarchical (árbol), swarm (dinámico con handoffs) es practicar con ejemplos reales. No basta con leer la teoría — necesitas escribir código, cometer errores, y aprender de ellos. Por eso cada concepto viene acompañado de ejemplos prácticos que puedes ejecutar en el editor interactivo.',
-
-        'En producción, patrones multi-agent avanzados: network (peer-to-peer), supervisor (centralizado), hierarchical (árbol), swarm (dinámico con handoffs) se usa diario en empresas como Interbank, BBVA, Mercado Libre y Rimac. Los equipos de data science y automatización dependen de este conocimiento para construir pipelines robustos y escalables.',
+        "En V3, **S40** retematiza el archivo de plataforma `agentic-architecture` hacia **Arquitectura, DDD y decisiones técnicas**.",
+        "Incremento: mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger.",
       ],
+      callout: {
+        type: "info",
+        title: "Platform id preservado",
+        content:
+          "KEEP_PLATFORM_ID_RETHEME_CONTENT: `agentic-architecture`. Capstone: CP-N4-A (inicio).",
+      },
     },
     {
-      heading: 'Model Context Protocol (MCP): estándar emergente de Anthropic para tool/resource sharing entre agents',
+      heading: "requisitos funcionales y quality attributes",
+      subtopicId: "S40-T1-A",
       paragraphs: [
-        'En esta lección vamos a explorar model context protocol (mcp): estándar emergente de anthropic para tool/resource sharing entre agents en profundidad. Este concepto es fundamental para tu crecimiento como profesional de Data Science y automatización. En el mercado laboral peruano e internacional, dominar este tema te diferencia claramente de otros candidatos.',
-
-        'La clave para entender model context protocol (mcp): estándar emergente de anthropic para tool/resource sharing entre agents es practicar con ejemplos reales. No basta con leer la teoría — necesitas escribir código, cometer errores, y aprender de ellos. Por eso cada concepto viene acompañado de ejemplos prácticos que puedes ejecutar en el editor interactivo.',
-
-        'En producción, model context protocol (mcp): estándar emergente de anthropic para tool/resource sharing entre agents se usa diario en empresas como Interbank, BBVA, Mercado Libre y Rimac. Los equipos de data science y automatización dependen de este conocimiento para construir pipelines robustos y escalables.',
+        "**requisitos funcionales y quality attributes** — outcome del blueprint phase3 para `functional-quality-attrs`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (inicio)** sin exponer secretos ni PII real.",
       ],
+      code: {
+        language: 'python',
+        title: "functional_quality_attrs.py",
+        code: `frs=[{"id":"FR-01"},{"id":"FR-02"}]
+qas=[{"attr":"latency_p95_ms","target":300}]
+print("fr_count", len(frs))
+print("qa_attr", qas[0]["attr"])
+print("target", qas[0]["target"])`,
+        output: `fr_count 2
+qa_attr latency_p95_ms
+target 300`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
     },
     {
-      heading: 'Agent evaluation: LLM-as-judge, pairwise evaluation, trajectory evaluation, benchmark construction',
+      heading: "trade-offs, riesgos y criterios medibles",
+      subtopicId: "S40-T1-B",
       paragraphs: [
-        'En esta lección vamos a explorar agent evaluation: llm-as-judge, pairwise evaluation, trajectory evaluation, benchmark construction en profundidad. Este concepto es fundamental para tu crecimiento como profesional de Data Science y automatización. En el mercado laboral peruano e internacional, dominar este tema te diferencia claramente de otros candidatos.',
-
-        'La clave para entender agent evaluation: llm-as-judge, pairwise evaluation, trajectory evaluation, benchmark construction es practicar con ejemplos reales. No basta con leer la teoría — necesitas escribir código, cometer errores, y aprender de ellos. Por eso cada concepto viene acompañado de ejemplos prácticos que puedes ejecutar en el editor interactivo.',
-
-        'En producción, agent evaluation: llm-as-judge, pairwise evaluation, trajectory evaluation, benchmark construction se usa diario en empresas como Interbank, BBVA, Mercado Libre y Rimac. Los equipos de data science y automatización dependen de este conocimiento para construir pipelines robustos y escalables.',
+        "**trade-offs, riesgos y criterios medibles** — outcome del blueprint phase3 para `tradeoffs-risks-measurable`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (inicio)** sin exponer secretos ni PII real.",
       ],
+      code: {
+        language: 'python',
+        title: "tradeoffs_risks_measurable.py",
+        code: `opts=[{"n":"sync","score":3.8},{"n":"async","score":2.2}]
+print("best", min(opts,key=lambda x:x["score"])["n"])
+print("scores", {o["n"]:o["score"] for o in opts})
+print("criterion", "min_score")`,
+        output: `best async
+scores {'sync': 3.8, 'async': 2.2}
+criterion min_score`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
     },
     {
-      heading: 'Resource management: per-agent token budgets, circuit breakers para tools costosas',
+      heading: "cohesión/coupling y capas",
+      subtopicId: "S40-T2-A",
       paragraphs: [
-        'En esta lección vamos a explorar resource management: per-agent token budgets, circuit breakers para tools costosas en profundidad. Este concepto es fundamental para tu crecimiento como profesional de Data Science y automatización. En el mercado laboral peruano e internacional, dominar este tema te diferencia claramente de otros candidatos.',
-
-        'La clave para entender resource management: per-agent token budgets, circuit breakers para tools costosas es practicar con ejemplos reales. No basta con leer la teoría — necesitas escribir código, cometer errores, y aprender de ellos. Por eso cada concepto viene acompañado de ejemplos prácticos que puedes ejecutar en el editor interactivo.',
-
-        'En producción, resource management: per-agent token budgets, circuit breakers para tools costosas se usa diario en empresas como Interbank, BBVA, Mercado Libre y Rimac. Los equipos de data science y automatización dependen de este conocimiento para construir pipelines robustos y escalables.',
+        "**cohesión/coupling y capas** — outcome del blueprint phase3 para `cohesion-coupling-layers`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (inicio)** sin exponer secretos ni PII real.",
       ],
+      code: {
+        language: 'python',
+        title: "cohesion_coupling_layers.py",
+        code: `layers=["presentation","application","domain","infrastructure"]
+print("layers", layers)
+print("domain_pure", True)
+print("skip_forbidden", True)`,
+        output: `layers ['presentation', 'application', 'domain', 'infrastructure']
+domain_pure True
+skip_forbidden True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
     },
     {
-      heading: 'Long-running workflows: LangGraph checkpointing, human approval gates, resumption after failures',
+      heading: "ports/adapters y dependencia hacia dominio",
+      subtopicId: "S40-T2-B",
       paragraphs: [
-        'En esta lección vamos a explorar long-running workflows: langgraph checkpointing, human approval gates, resumption after failures en profundidad. Este concepto es fundamental para tu crecimiento como profesional de Data Science y automatización. En el mercado laboral peruano e internacional, dominar este tema te diferencia claramente de otros candidatos.',
-
-        'La clave para entender long-running workflows: langgraph checkpointing, human approval gates, resumption after failures es practicar con ejemplos reales. No basta con leer la teoría — necesitas escribir código, cometer errores, y aprender de ellos. Por eso cada concepto viene acompañado de ejemplos prácticos que puedes ejecutar en el editor interactivo.',
-
-        'En producción, long-running workflows: langgraph checkpointing, human approval gates, resumption after failures se usa diario en empresas como Interbank, BBVA, Mercado Libre y Rimac. Los equipos de data science y automatización dependen de este conocimiento para construir pipelines robustos y escalables.',
+        "**ports/adapters y dependencia hacia dominio** — outcome del blueprint phase3 para `ports-adapters-domain-dep`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (inicio)** sin exponer secretos ni PII real.",
       ],
+      code: {
+        language: 'python',
+        title: "ports_adapters_domain_dep.py",
+        code: `class Repo:
+    def get(self, cid): return {"status":"open"}
+print("status", Repo().get("CASE-1")["status"])
+print("dep", "domain<-adapters")
+print("port_ok", True)`,
+        output: `status open
+dep domain<-adapters
+port_ok True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
     },
     {
-      heading: 'Distributed agent state: Redis para estado compartido, locks, consensus entre agentes',
+      heading: "bounded contexts y lenguaje ubicuo",
+      subtopicId: "S40-T3-A",
       paragraphs: [
-        'En esta lección vamos a explorar distributed agent state: redis para estado compartido, locks, consensus entre agentes en profundidad. Este concepto es fundamental para tu crecimiento como profesional de Data Science y automatización. En el mercado laboral peruano e internacional, dominar este tema te diferencia claramente de otros candidatos.',
-
-        'La clave para entender distributed agent state: redis para estado compartido, locks, consensus entre agentes es practicar con ejemplos reales. No basta con leer la teoría — necesitas escribir código, cometer errores, y aprender de ellos. Por eso cada concepto viene acompañado de ejemplos prácticos que puedes ejecutar en el editor interactivo.',
-
-        'En producción, distributed agent state: redis para estado compartido, locks, consensus entre agentes se usa diario en empresas como Interbank, BBVA, Mercado Libre y Rimac. Los equipos de data science y automatización dependen de este conocimiento para construir pipelines robustos y escalables.',
+        "**bounded contexts y lenguaje ubicuo** — outcome del blueprint phase3 para `bounded-contexts-ubiquitous`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (inicio)** sin exponer secretos ni PII real.",
       ],
+      code: {
+        language: 'python',
+        title: "bounded_contexts_ubiquitous.py",
+        code: `ctx={"Intake":["Case"],"ER":["Record","Score"]}
+print("contexts", sorted(ctx))
+print("er_terms", ctx["ER"])
+print("case_not_in_er", "Case" not in ctx["ER"])`,
+        output: `contexts ['ER', 'Intake']
+er_terms ['Record', 'Score']
+case_not_in_er True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
     },
     {
-      heading: 'Cost management: modelo cascading (cheap → expensive), prompt caching, output caching',
+      heading: "entities, value objects y servicios",
+      subtopicId: "S40-T3-B",
       paragraphs: [
-        'En esta lección vamos a explorar cost management: modelo cascading (cheap → expensive), prompt caching, output caching en profundidad. Este concepto es fundamental para tu crecimiento como profesional de Data Science y automatización. En el mercado laboral peruano e internacional, dominar este tema te diferencia claramente de otros candidatos.',
-
-        'La clave para entender cost management: modelo cascading (cheap → expensive), prompt caching, output caching es practicar con ejemplos reales. No basta con leer la teoría — necesitas escribir código, cometer errores, y aprender de ellos. Por eso cada concepto viene acompañado de ejemplos prácticos que puedes ejecutar en el editor interactivo.',
-
-        'En producción, cost management: modelo cascading (cheap → expensive), prompt caching, output caching se usa diario en empresas como Interbank, BBVA, Mercado Libre y Rimac. Los equipos de data science y automatización dependen de este conocimiento para construir pipelines robustos y escalables.',
+        "**entities, value objects y servicios** — outcome del blueprint phase3 para `entities-vo-services`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (inicio)** sin exponer secretos ni PII real.",
       ],
+      code: {
+        language: 'python',
+        title: "entities_vo_services.py",
+        code: `print("CASE-1:150PEN")
+print("vo_frozen", True)
+print("entity", "CASE-1")`,
+        output: `CASE-1:150PEN
+vo_frozen True
+entity CASE-1`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "diagramas C4/flujo y ADRs",
+      subtopicId: "S40-T4-A",
+      paragraphs: [
+        "**diagramas C4/flujo y ADRs** — outcome del blueprint phase3 para `c4-flow-adr`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "c4_flow_adr.py",
+        code: `print("containers", ["api","worker","db","object_store"])
+print("adr", "ADR-001", "accepted")
+print("has_consequences", True)`,
+        output: `containers ['api', 'worker', 'db', 'object_store']
+adr ADR-001 accepted
+has_consequences True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "APIs, eventos, deuda y evolución compatible",
+      subtopicId: "S40-T4-B",
+      paragraphs: [
+        "**APIs, eventos, deuda y evolución compatible** — outcome del blueprint phase3 para `apis-events-debt-compat`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-A (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "apis_events_debt_compat.py",
+        code: `v1={"case_id":"CASE-1","status":"open"}
+v11={**v1,"priority":"normal"}
+print("v1", "CASE-1:open")
+print("compat", "CASE-1:open")
+print("additive", "priority" in v11)`,
+        output: `v1 CASE-1:open
+compat CASE-1:open
+additive True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
     },
   ],
   iDo: {
-    intro: 'Te muestro paso a paso cómo aplicar los conceptos de esta sección con ejemplos prácticos.',
+    intro: "Te muestro 8 demos de S40 (Arquitectura, DDD y decisiones técnicas) alineadas a CP-N4-A (inicio).",
     steps: [
       {
-        description: 'Construir una arquitectura Hierarchical con 3 niveles: Orchestrator → Domain Supervisors → Specialist Agents',
+        demoId: "S40-T1-A-DEMO",
+        subtopicId: "S40-T1-A",
+        environment: "local-python",
+        description: "Demo: requisitos funcionales y quality attributes",
         code: {
           language: 'python',
-          title: 'ejemplo.py',
-          code: '# Ejemplo de: Construir una arquitectura Hierarchical con 3 niveles: Orchestrator → Domain Supervisors → Specialist Agents\n# TODO: Implementar el código completo\nprint("Implementar este ejemplo")',
+          title: "demo_functional_quality_attrs.py",
+          code: `qas={"latency_p95_ms":250}
+print("owners", ["intake","er"])
+print("budget_ok", qas["latency_p95_ms"]<=300)
+print("qa_n", len(qas))`,
+          output: `owners ['intake', 'er']
+budget_ok True
+qa_n 1`,
         },
-        why: 'Este paso es importante porque demuestra el concepto en acción y te muestra el patrón correcto a seguir.',
+        why: "Demuestra el outcome de S40-T1-A con Python verificable.",
       },
       {
-        description: 'Implementar MCP tool server con recursos compartidos accesibles por múltiples agentes',
+        demoId: "S40-T1-B-DEMO",
+        subtopicId: "S40-T1-B",
+        environment: "local-python",
+        description: "Demo: trade-offs, riesgos y criterios medibles",
         code: {
           language: 'python',
-          title: 'ejemplo.py',
-          code: '# Ejemplo de: Implementar MCP tool server con recursos compartidos accesibles por múltiples agentes\n# TODO: Implementar el código completo\nprint("Implementar este ejemplo")',
+          title: "demo_tradeoffs_risks_measurable.py",
+          code: `risks=[{"id":"R1","sev":1.5},{"id":"R2","sev":0.4}]
+print("top", max(risks,key=lambda x:x["sev"])["id"])
+print("sevs", [r["sev"] for r in risks])
+print("measurable", True)`,
+          output: `top R1
+sevs [1.5, 0.4]
+measurable True`,
         },
-        why: 'Este paso es importante porque demuestra el concepto en acción y te muestra el patrón correcto a seguir.',
+        why: "Demuestra el outcome de S40-T1-B con Python verificable.",
       },
       {
-        description: 'Construir un LLM-as-judge evaluator que evalúa la calidad de respuestas de un agente en producción',
+        demoId: "S40-T2-A-DEMO",
+        subtopicId: "S40-T2-A",
+        environment: "local-python",
+        description: "Demo: cohesión/coupling y capas",
         code: {
           language: 'python',
-          title: 'ejemplo.py',
-          code: '# Ejemplo de: Construir un LLM-as-judge evaluator que evalúa la calidad de respuestas de un agente en producción\n# TODO: Implementar el código completo\nprint("Implementar este ejemplo")',
+          title: "demo_cohesion_coupling_layers.py",
+          code: `mods={"intake":1,"er":2,"reporting":1}
+print("bc_count", len(mods))
+print("er_n", mods["er"])
+print("no_mixed", True)`,
+          output: `bc_count 3
+er_n 2
+no_mixed True`,
         },
-        why: 'Este paso es importante porque demuestra el concepto en acción y te muestra el patrón correcto a seguir.',
+        why: "Demuestra el outcome de S40-T2-A con Python verificable.",
+      },
+      {
+        demoId: "S40-T2-B-DEMO",
+        subtopicId: "S40-T2-B",
+        environment: "local-python",
+        description: "Demo: ports/adapters y dependencia hacia dominio",
+        code: {
+          language: 'python',
+          title: "demo_ports_adapters_domain_dep.py",
+          code: `print("queued:closed:CASE-9")
+print("adapter", "fake")
+print("no_smtp_in_domain", True)`,
+          output: `queued:closed:CASE-9
+adapter fake
+no_smtp_in_domain True`,
+        },
+        why: "Demuestra el outcome de S40-T2-B con Python verificable.",
+      },
+      {
+        demoId: "S40-T3-A-DEMO",
+        subtopicId: "S40-T3-A",
+        environment: "local-python",
+        description: "Demo: bounded contexts y lenguaje ubicuo",
+        code: {
+          language: 'python',
+          title: "demo_bounded_contexts_ubiquitous.py",
+          code: `print({"case_id":"T-100","source":"email"})
+print("acl", True)
+print("no_leak", True)`,
+          output: `{'case_id': 'T-100', 'source': 'email'}
+acl True
+no_leak True`,
+        },
+        why: "Demuestra el outcome de S40-T3-A con Python verificable.",
+      },
+      {
+        demoId: "S40-T3-B-DEMO",
+        subtopicId: "S40-T3-B",
+        environment: "local-python",
+        description: "Demo: entities, value objects y servicios",
+        code: {
+          language: 'python',
+          title: "demo_entities_vo_services.py",
+          code: `print("merged", 0.7)
+print("service", "stateless")
+print("not_entity", True)`,
+          output: `merged 0.7
+service stateless
+not_entity True`,
+        },
+        why: "Demuestra el outcome de S40-T3-B con Python verificable.",
+      },
+      {
+        demoId: "S40-T4-A-DEMO",
+        subtopicId: "S40-T4-A",
+        environment: "local-python",
+        description: "Demo: diagramas C4/flujo y ADRs",
+        code: {
+          language: 'python',
+          title: "demo_c4_flow_adr.py",
+          code: `print("steps", 5)
+print("head", "intake -> validate -> enqueue")
+print("doc", "C4+ADR")`,
+          output: `steps 5
+head intake -> validate -> enqueue
+doc C4+ADR`,
+        },
+        why: "Demuestra el outcome de S40-T4-A con Python verificable.",
+      },
+      {
+        demoId: "S40-T4-B-DEMO",
+        subtopicId: "S40-T4-B",
+        environment: "local-python",
+        description: "Demo: APIs, eventos, deuda y evolución compatible",
+        code: {
+          language: 'python',
+          title: "demo_apis_events_debt_compat.py",
+          code: `print("debt", "D1")
+print("paydown", "async_job")
+print("events", "case.created")`,
+          output: `debt D1
+paydown async_job
+events case.created`,
+        },
+        why: "Demuestra el outcome de S40-T4-B con Python verificable.",
       },
     ],
   },
   weDo: {
-    intro: 'Ahora te toca a ti practicar con guía. Lee cada instrucción, intenta escribir el código, y si te trabas revisa la solución.',
+    intro: "24 ejercicios (8×E1 guided / E2 independent / E3 transfer) en es-PE con soluciones verificadas.",
     steps: [
       {
-        instruction: 'Implementar checkpointing con PostgreSQL para un workflow de 30 minutos que puede ser interrumpido y reanudado',
-        hint: 'Piensa en cómo descomponer el problema en pasos más pequeños.',
+        id: "S40-T1-A-E1",
+        subtopicId: "S40-T1-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'ejercicio.py',
-          code: '# Tu código aquí\n# Implementar checkpointing con PostgreSQL para un workflow de 30 minutos que puede ser interrumpido y reanudado\n',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
         },
         solutionCode: {
           language: 'python',
-          title: 'solucion.py',
-          code: '# Solución\n# Implementar checkpointing con PostgreSQL para un workflow de 30 minutos que puede ser interrumpido y reanudado\nprint("Solución implementada")',
+          title: "exercise.py",
+          code: `print(2)`,
+          output: `2`,
         },
       },
       {
-        instruction: 'Agregar per-agent token budget enforcement que hace fallback a modelo más barato',
-        hint: 'Piensa en cómo descomponer el problema en pasos más pequeños.',
+        id: "S40-T1-A-E2",
+        subtopicId: "S40-T1-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'ejercicio.py',
-          code: '# Tu código aquí\n# Agregar per-agent token budget enforcement que hace fallback a modelo más barato\n',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
         },
         solutionCode: {
           language: 'python',
-          title: 'solucion.py',
-          code: '# Solución\n# Agregar per-agent token budget enforcement que hace fallback a modelo más barato\nprint("Solución implementada")',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
         },
       },
       {
-        instruction: 'Construir dashboard de observabilidad que muestra: número de agentes activos, token consumption, task success rate',
-        hint: 'Piensa en cómo descomponer el problema en pasos más pequeños.',
+        id: "S40-T1-A-E3",
+        subtopicId: "S40-T1-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'ejercicio.py',
-          code: '# Tu código aquí\n# Construir dashboard de observabilidad que muestra: número de agentes activos, token consumption, task success rate\n',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
         },
         solutionCode: {
           language: 'python',
-          title: 'solucion.py',
-          code: '# Solución\n# Construir dashboard de observabilidad que muestra: número de agentes activos, token consumption, task success rate\nprint("Solución implementada")',
+          title: "exercise.py",
+          code: `print({'functional':3,'quality':2})`,
+          output: `{'functional': 3, 'quality': 2}`,
+        },
+      },
+      {
+        id: "S40-T1-B-E1",
+        subtopicId: "S40-T1-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(1.0)`,
+          output: `1.0`,
+        },
+      },
+      {
+        id: "S40-T1-B-E2",
+        subtopicId: "S40-T1-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('b')`,
+          output: `b`,
+        },
+      },
+      {
+        id: "S40-T1-B-E3",
+        subtopicId: "S40-T1-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('timeout')`,
+          output: `timeout`,
+        },
+      },
+      {
+        id: "S40-T2-A-E1",
+        subtopicId: "S40-T2-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['presentation','application','domain','infrastructure'])`,
+          output: `['presentation', 'application', 'domain', 'infrastructure']`,
+        },
+      },
+      {
+        id: "S40-T2-A-E2",
+        subtopicId: "S40-T2-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S40-T2-A-E3",
+        subtopicId: "S40-T2-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(3)`,
+          output: `3`,
+        },
+      },
+      {
+        id: "S40-T2-B-E1",
+        subtopicId: "S40-T2-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print({'ok': True})`,
+          output: `{'ok': True}`,
+        },
+      },
+      {
+        id: "S40-T2-B-E2",
+        subtopicId: "S40-T2-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('domain<-adapters')`,
+          output: `domain<-adapters`,
+        },
+      },
+      {
+        id: "S40-T2-B-E3",
+        subtopicId: "S40-T2-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('sent:hola')`,
+          output: `sent:hola`,
+        },
+      },
+      {
+        id: "S40-T3-A-E1",
+        subtopicId: "S40-T3-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(sorted(['EntityResolution','Intake']))`,
+          output: `['EntityResolution', 'Intake']`,
+        },
+      },
+      {
+        id: "S40-T3-A-E2",
+        subtopicId: "S40-T3-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print({'case_id':'T1'})`,
+          output: `{'case_id': 'T1'}`,
+        },
+      },
+      {
+        id: "S40-T3-A-E3",
+        subtopicId: "S40-T3-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S40-T3-B-E1",
+        subtopicId: "S40-T3-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(150)`,
+          output: `150`,
+        },
+      },
+      {
+        id: "S40-T3-B-E2",
+        subtopicId: "S40-T3-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('CASE-1')`,
+          output: `CASE-1`,
+        },
+      },
+      {
+        id: "S40-T3-B-E3",
+        subtopicId: "S40-T3-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(0.7)`,
+          output: `0.7`,
+        },
+      },
+      {
+        id: "S40-T4-A-E1",
+        subtopicId: "S40-T4-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['api','worker','db'])`,
+          output: `['api', 'worker', 'db']`,
+        },
+      },
+      {
+        id: "S40-T4-A-E2",
+        subtopicId: "S40-T4-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('accepted')`,
+          output: `accepted`,
+        },
+      },
+      {
+        id: "S40-T4-A-E3",
+        subtopicId: "S40-T4-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(2)`,
+          output: `2`,
+        },
+      },
+      {
+        id: "S40-T4-B-E1",
+        subtopicId: "S40-T4-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(sorted(['a','b']))`,
+          output: `['a', 'b']`,
+        },
+      },
+      {
+        id: "S40-T4-B-E2",
+        subtopicId: "S40-T4-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(2)`,
+          output: `2`,
+        },
+      },
+      {
+        id: "S40-T4-B-E3",
+        subtopicId: "S40-T4-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('async_job')`,
+          output: `async_job`,
         },
       },
     ],
   },
   youDo: {
-    title: 'Agentic Platform Architecture',
-    context: 'agentic-platform-v2: arquitectura Hierarchical con 3 niveles y 6+ agentes especializados; MCP integration para recursos compartidos (base de conocimiento, herramientas de análisis); sistema de evaluación automática con LLM-as-judge + dashboard de métricas; checkpointing persistente en PostgreSQL; load testing del sistema (100 tareas concurrentes, métricas de throughput y costo); white paper técnico de 5 páginas describiendo la arquitectura, decisiones de diseño y benchmarks.',
+    title: "Arquitectura, DDD y decisiones técnicas",
+    context:
+      "Proyecto de sección **S40** (Arquitectura, DDD y decisiones técnicas). Gate: **CP-N4-A (inicio)**. mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos. Usa solo datos sintéticos; no marques section_passed desde esta entrega de autoría.",
     objectives: [
-      'Aplicar los conceptos aprendidos en un proyecto real',
-      'Demostrar dominio del tema con un entregable de portafolio',
-      'Documentar el proceso y los resultados',
+      "mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-A (inicio)",
     ],
     requirements: [
-      'Código funcional y documentado',
-      'Tests que validen el funcionamiento',
-      'README con instrucciones de uso',
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección",
     ],
-    portfolioNote: 'Este proyecto es ideal para mostrar en entrevistas técnicas y agregar a tu portafolio de GitHub.',
+    starterCode: `# S40 You Do — Arquitectura, DDD y decisiones técnicas
+# Gate: CP-N4-A (inicio)
+# mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA, con contratos y responsables explícitos.
+
+def main():
+    print("section", "S40")
+    print("gate", 'CP-N4-A (inicio)')
+    print("synthetic", True)
+    # TODO: implementar incremento del blueprint
+
+if __name__ == "__main__":
+    main()
+`,
+    portfolioNote:
+      "Entrega alineada a CP-N4-A (inicio). Portfolio en español profesional; evidencia ejecutable; privacidad. Otra lane califica PASS; no editar checkpoint/ledger/seed.",
     rubric: [
-      { criterion: 'Funcionalidad', weight: '40%' },
-      { criterion: 'Calidad de código', weight: '20%' },
-      { criterion: 'Documentación', weight: '20%' },
-      { criterion: 'Tests', weight: '20%' },
+      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
+      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
+      { criterion: "Privacidad / sin PII real / sin secretos", weight: "20%" },
+      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
+      { criterion: "Código legible y límites claros", weight: "10%" },
+      { criterion: "Documentación en español profesional", weight: "10%" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: '¿Qué es un sistema agéntico?',
+        question: "El id de plataforma de S40 que se preserva es:",
         options: [
-          'Sistema donde un LLM decide qué acciones tomar, usa herramientas, y razona en bucle hasta completar una tarea — va más allá de Q&A',
-          'Un sistema con un solo agente que responde preguntas',
-          'Un sistema de agentes de viajes',
-          'Un framework de testing',
+          "agentic-architecture",
+          "renamed-v3",
+          "legacy-drop",
+          "random",
         ],
         correctIndex: 0,
-        explanation: 'Un sistema agéntico: el LLM recibe un objetivo ("investiga la competencia y genera un reporte"), decide qué tools usar (web search, DB query, LLM), razona sobre los resultados, y itera hasta completar. Va más allá de chat: es automatización con IA.',
+        explanation:
+          "KEEP_PLATFORM_ID_RETHEME_CONTENT.",
       },
       {
-        question: '¿Qué es multi-agent orchestration?',
+        question: "El incremento/gate V3 de S40 pertenece a:",
         options: [
-          'Múltiples agentes especializados colaboran: uno investiga, otro analiza, otro escribe — cada uno con tools y prompts distintos',
-          'Un agente que hace todo',
-          'Múltiples LLMs ejecutándose en paralelo sin coordinación',
-          'Un sistema de colas con agentes',
+          "CP-N4-A (inicio)",
+          "CP-N1-A",
+          "solo marketing",
+          "sin capstone",
         ],
         correctIndex: 0,
-        explanation: 'Multi-agent: cada agente tiene un rol. Researcher (busca datos), Analyst (procesa con pandas), Writer (genera reporte). Se comunican via shared state. LangGraph orquesta el flujo. Más efectivo que un solo agente para tareas complejas.',
+        explanation:
+          "Blueprint phase3 capstone_notes.",
       },
       {
-        question: '¿Qué es el tool use en agentes?',
+        question: "Los ejemplos del curso deben usar:",
         options: [
-          'El agente llama funciones externas (API, DB, código) para obtener información o ejecutar acciones — amplía lo que el LLM puede hacer',
-          'Usar herramientas de desarrollo como IDE',
-          'Usar herramientas de oficina',
-          'Es lo mismo que function calling pero en agentes',
+          "PII real de clientes",
+          "Datos sintéticos",
+          "Secretos de prod",
+          "Claves API reales",
         ],
-        correctIndex: 0,
-        explanation: 'Tools amplían al LLM: search_web(), query_database(), execute_code(), send_email(). El agente decide cuándo usar cada tool basándose en el contexto. Sin tools, el LLM solo puede usar su conocimiento entrenado. Con tools, puede interactuar con el mundo real.',
+        correctIndex: 1,
+        explanation:
+          "Synthetic data only.",
       },
       {
-        question: '¿Qué es el razonamiento ReAct (Reason+Act)?',
+        question: "Entity resolution (si aparece) decide:",
         options: [
-          'Patrón donde el agente razona ("necesito buscar X"), actúa (llama tool), observa el resultado, y repite hasta completar la tarea',
-          'Un framework de React.js',
-          'Un algoritmo de recomendación',
-          'Un tipo de red neuronal',
+          "Fraude",
+          "Parentesco",
+          "Misma entidad cuando aplique",
+          "Sentimiento",
         ],
-        correctIndex: 0,
-        explanation: 'ReAct: Thought ("necesito buscar los precios de la competencia") → Action (search_web("precios competencia")) → Observation (resultados) → Thought ("ahora necesito comparar") → Action (compare_prices()). El agente razona y actúa en bucle hasta completar.',
-      },
-      {
-        question: '¿Cómo se previene que un agente entre en bucle infinito?',
-        options: [
-          'Límite de iteraciones (max_iterations=10), timeout por tool call, y detección de respuestas repetitivas — sin esto, el agente puede gastar tokens indefinidamente',
-          'Es imposible que un agente entre en bucle',
-          'Apagando el servidor',
-          'Usando un modelo más pequeño',
-        ],
-        correctIndex: 0,
-        explanation: 'Sin límites, un agente puede llamar tools en bucle: "buscar" → "buscar de nuevo" → "buscar otra vez". Mitigaciones: max_iterations=10 (fuerza parar), timeout por tool (30s), y system prompt que dice "si no encuentras después de 3 intentos, di que no lo sabes".',
+        correctIndex: 2,
+        explanation:
+          "ER ≠ relación ≠ fraude.",
       },
     ],
   },
   resources: {
     docs: [
-      { label: 'LangGraph Multi-Agent docs', url: 'LangGraph Multi-Agent docs' },
-      { label: 'Model Context Protocol', url: 'Model Context Protocol' },
-      { label: 'State of Agent Engineering — LangChain', url: 'State of Agent Engineering — LangChain' },
-      { label: 'Building Production Multi-Agent Systems', url: 'Building Production Multi-Agent Systems' },
-      { label: 'Multi-agent with LangGraph + MCP (FreeCodeCamp)', url: 'Multi-agent with LangGraph + MCP (FreeCodeCamp)' },
+      {
+        label: "Python docs",
+        url: "https://docs.python.org/3/",
+        note: "Referencia stdlib",
+      },
+      {
+        label: "V3 section support",
+        url: "https://docs.python.org/3/library/",
+        note: "Apoyo S40 Arquitectura, DDD y decisiones técnicas",
+      },
     ],
     books: [
-      { label: 'Python 201 — Michael Driscoll', note: 'Capítulos relevantes para esta sección' },
+      {
+        label: "Architecture / platform engineering refs",
+        note: "Alinear a Arquitectura, DDD y decisiones técnicas",
+      },
+      {
+        label: "Site Reliability / Security basics",
+        note: "Operación y privacidad",
+      },
     ],
     courses: [
-      { label: 'Real Python', url: 'https://realpython.com', note: 'Tutoriales complementarios' },
+      {
+        label: "MDN / cloud / MLOps primers",
+        url: "https://developer.mozilla.org/",
+        note: "Complemento conceptual",
+      },
     ],
   },
 }

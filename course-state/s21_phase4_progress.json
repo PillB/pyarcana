@@ -1,0 +1,320 @@
+{
+  "version": "3.2",
+  "section": "S21",
+  "section_id": "fastapi",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S18-S21-P4",
+  "generated_at": "2026-07-20T07:47:09Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget fastapi section TS to V3 roadmap; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s21-fastapi.ts",
+      "course-state/s21_phase4_progress.json",
+      "course-state/lanes/LANE-S18-S21-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "fastapi",
+    "index": 21,
+    "title": "Documentos, plantillas y reportes trazables",
+    "shortTitle": "Reportes trazables",
+    "tagline": "Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números reconciliados y revisión visual",
+    "estimatedHours": 14,
+    "learningOutcomes": 8,
+    "youDo": "Reporting Factory — cierre CP-N2-B",
+    "icon": "Server",
+    "legacy_note": "FastAPI demoted; target is traceable reports and CP-N2-B close",
+    "capstone": "CP-N2-B (cierre)"
+  },
+  "subtopics_authored": {
+    "S21-T1-A": {
+      "slug": "jinja-data-presentation",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S21-T1-A-DEMO",
+      "exercises": [
+        "S21-T1-A-E1",
+        "S21-T1-A-E2",
+        "S21-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S21-T1-B": {
+      "slug": "conditions-tables-safe-format",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S21-T1-B-DEMO",
+      "exercises": [
+        "S21-T1-B-E1",
+        "S21-T1-B-E2",
+        "S21-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S21-T2-A": {
+      "slug": "styles-sections-docx-pdf",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S21-T2-A-DEMO",
+      "exercises": [
+        "S21-T2-A-E1",
+        "S21-T2-A-E2",
+        "S21-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S21-T2-B": {
+      "slug": "pdf-digital-vs-image-ocr",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S21-T2-B-DEMO",
+      "exercises": [
+        "S21-T2-B-E1",
+        "S21-T2-B-E2",
+        "S21-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S21-T3-A": {
+      "slug": "exec-summary-method-findings",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S21-T3-A-DEMO",
+      "exercises": [
+        "S21-T3-A-E1",
+        "S21-T3-A-E2",
+        "S21-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S21-T3-B": {
+      "slug": "charts-tables-sources-limits",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S21-T3-B-DEMO",
+      "exercises": [
+        "S21-T3-B-E1",
+        "S21-T3-B-E2",
+        "S21-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S21-T4-A": {
+      "slug": "copy-a11y-consistency",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S21-T4-A-DEMO",
+      "exercises": [
+        "S21-T4-A-E1",
+        "S21-T4-A-E2",
+        "S21-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S21-T4-B": {
+      "slug": "visual-render-provenance-approval",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S21-T4-B-DEMO",
+      "exercises": [
+        "S21-T4-B-E1",
+        "S21-T4-B-E2",
+        "S21-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Reporting Factory — cierre CP-N2-B",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S21-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S21-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "section_passed": false,
+  "locale": "es-PE",
+  "synthetic_data_only": true
+}

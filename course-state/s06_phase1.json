@@ -1,0 +1,157 @@
+{
+  "version": "3.2",
+  "section": "S06",
+  "section_id": "numpy",
+  "phase": "PHASE_1_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1-FACTORY",
+  "content_inventory": {
+    "section_file": "src/lib/course/sections/s06-numpy.ts",
+    "total_lines": 646,
+    "structure": {
+      "id": "numpy",
+      "index": 6,
+      "title": "NumPy: Vectorized Computing",
+      "shortTitle": "NumPy",
+      "estimatedHours": 6,
+      "level": "Intermedio"
+    },
+    "theory_blocks": [
+      {
+        "block": 1,
+        "heading": "Arrays NumPy",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — maps V3 S14"
+      },
+      {
+        "block": 2,
+        "heading": "Vectorización",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — V3 S14"
+      },
+      {
+        "block": 3,
+        "heading": "Indexing",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — V3 S14"
+      },
+      {
+        "block": 4,
+        "heading": "Broadcasting",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — V3 S14"
+      },
+      {
+        "block": 5,
+        "heading": "Reshape/stats",
+        "paragraphs": 3,
+        "has_code": true,
+        "v3_alignment": "none — V3 S14"
+      }
+    ],
+    "learningOutcomes_count": 6,
+    "learningOutcomes_summary": [
+      "crear arrays NumPy",
+      "indexar/slicear",
+      "boolean masking",
+      "broadcasting",
+      "stats mean/std",
+      "reshape/transpose"
+    ],
+    "iDo_note": "Legacy multi-step demo blocks present; not 8 I Do demos V3",
+    "weDo_note": "Legacy guided exercises present; not 24 student exercises",
+    "youDo_project": {
+      "title": "Student Exam Score Analyzer — Análisis vectorizado completo",
+      "maps_to_capstone_current": "none explicit V3",
+      "maps_to_capstone_v3_target": "Modelo tabular en memoria (CP-N1-B)"
+    },
+    "selfCheck_questions": {
+      "total": 5,
+      "seed_exam_variants": 12,
+      "seed_concepts": [
+        "vectorization-speed",
+        "boolean-masking",
+        "broadcasting-shape",
+        "axis-arg"
+      ],
+      "v3_coverage": "0/8 subtopics"
+    }
+  },
+  "gap_analysis": {
+    "subtopics": "0 structured V3 → 8",
+    "demos": "legacy few → 8",
+    "exercises": "legacy few → 24",
+    "exam_variants": "12 → 24",
+    "topic_evaluations": "0 → 4",
+    "project_retheme": "Student Exam Score Analyzer — Análisis vectorizado completo → Modelo tabular en memoria (CP-N1-B)",
+    "title_retheme": "NumPy: Vectorized Computing → Colecciones y estructuras de datos (id 'numpy' stable)"
+  },
+  "canonical_subtopic_inventory_preview": [
+    {
+      "subtopic_id": "S06-T1-A",
+      "slug": "list-tuple-slicing",
+      "title": "Listas, tuplas y slicing",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S06-T1-B",
+      "slug": "unpacking-aliasing-copy",
+      "title": "Unpacking, aliasing y copia",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S06-T2-A",
+      "slug": "dicts-membership",
+      "title": "Diccionarios y pertenencia",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S06-T2-B",
+      "slug": "sets-dedup",
+      "title": "Deduplicación y operaciones de set",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S06-T3-A",
+      "slug": "nested-traversal",
+      "title": "Estructuras anidadas y recorridos",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S06-T3-B",
+      "slug": "safe-access-missing",
+      "title": "Acceso seguro y valores faltantes",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S06-T4-A",
+      "slug": "sort-key",
+      "title": "Ordenamiento y key",
+      "exists_in_content": false
+    },
+    {
+      "subtopic_id": "S06-T4-B",
+      "slug": "structure-choice-determinism",
+      "title": "Estructura adecuada, complejidad y determinismo",
+      "exists_in_content": false
+    }
+  ],
+  "do_not_delete": [
+    "src/lib/course/sections/s06-numpy.ts",
+    "prisma/seed.ts",
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json"
+  ],
+  "phase_1_gate": {
+    "inventory_complete": true,
+    "gaps_quantified": true,
+    "content_not_deleted": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_2"
+  }
+}

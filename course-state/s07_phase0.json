@@ -1,0 +1,260 @@
+{
+  "version": "3.2",
+  "section": "S07",
+  "section_id": "data-acquisition",
+  "phase": "PHASE_0_COMPLETE",
+  "generated_at": "2026-07-20T16:00:00Z",
+  "lane": "LANE-N1-FACTORY",
+  "prompt_version": "3.2",
+  "requirement_matrix": {
+    "global_requirements": [
+      {
+        "id": "REQ-GLOBAL-001",
+        "requirement": "Cada sección tiene exactamente 4 temas evaluables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Cada sección tiene exactamente 4 temas evaluables",
+        "status": "pass",
+        "evidence": "V3 S07 define T1–T4"
+      },
+      {
+        "id": "REQ-GLOBAL-002",
+        "requirement": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Cada tema tiene exactamente 2 subtemas evaluables",
+        "status": "blocked",
+        "evidence": "Contenido plataforma no estructurado 4×2 V3; blueprint lo planifica"
+      },
+      {
+        "id": "REQ-GLOBAL-003",
+        "requirement": "Cada subtema tiene 1 demo I Do y 3 ejercicios",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Cada subtema tiene 1 demo I Do y 3 ejercicios",
+        "status": "blocked",
+        "evidence": "Plataforma: demos/ejercicios legacy insuficientes vs 8+24"
+      },
+      {
+        "id": "REQ-GLOBAL-004",
+        "requirement": "Cada subtema tiene 3 variantes A/B/C",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Cada subtema tiene 3 variantes A/B/C",
+        "status": "blocked",
+        "evidence": "seed data-acquisition: 4 conceptos × 3 = 12; target 24"
+      },
+      {
+        "id": "REQ-GLOBAL-005",
+        "requirement": "Evaluación por tema + examen + proyecto",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Evaluación por tema + examen + proyecto",
+        "status": "partial",
+        "evidence": "selfCheck + youDo legacy; faltan 4 topic evals V3"
+      },
+      {
+        "id": "REQ-GLOBAL-006",
+        "requirement": "Idioma español peruano profesional",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Idioma español peruano profesional",
+        "status": "pass",
+        "evidence": "Contenido usa español profesional; V3 refuerza tono PE"
+      },
+      {
+        "id": "REQ-GLOBAL-007",
+        "requirement": "No equiparar coincidencia con parentesco/fraude",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "No equiparar coincidencia con parentesco/fraude",
+        "status": "partial",
+        "evidence": "S07 introduce similaridad textual — debe explicitar no-parentesco"
+      },
+      {
+        "id": "REQ-GLOBAL-008",
+        "requirement": "Código ejecutable o UNVERIFIED",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Código ejecutable o UNVERIFIED",
+        "status": "partial",
+        "evidence": "Código legacy embebido; re-verificación PHASE 7"
+      },
+      {
+        "id": "REQ-GLOBAL-009",
+        "requirement": "Datos sintéticos o legalmente reutilizables",
+        "source": "V3 prompt §3–4 / learning_roadmap_52_V3.md",
+        "acceptance_test": "Datos sintéticos o legalmente reutilizables",
+        "status": "pass",
+        "evidence": "Preferir sintético; You Do legacy puede mencionar datasets públicos"
+      }
+    ],
+    "section_requirements": [
+      {
+        "id": "REQ-S07-001",
+        "requirement": "S07 cubre Unicode: Code points, normalización y casefold; Tildes, ñ, partículas y apellidos compuestos",
+        "source": "V3 roadmap S07 T1",
+        "acceptance_test": "Contenido de S07 incluye subtemas de Unicode",
+        "status": "fail",
+        "evidence": "Archivo src/lib/course/sections/s07-data-acquisition.ts enseña 'Adquisición de Datos para Data Science', no V3 'Texto, Unicode y expresiones regulares'."
+      },
+      {
+        "id": "REQ-S07-002",
+        "requirement": "S07 cubre Strings: split/join/search/replace; Nombres, emails y teléfonos sin sobrevalidación",
+        "source": "V3 roadmap S07 T2",
+        "acceptance_test": "Contenido de S07 incluye subtemas de Strings",
+        "status": "fail",
+        "evidence": "Archivo src/lib/course/sections/s07-data-acquisition.ts enseña 'Adquisición de Datos para Data Science', no V3 'Texto, Unicode y expresiones regulares'."
+      },
+      {
+        "id": "REQ-S07-003",
+        "requirement": "S07 cubre Regex: Patrones, grupos y anchors; Compilación, extracción y límites de validación",
+        "source": "V3 roadmap S07 T3",
+        "acceptance_test": "Contenido de S07 incluye subtemas de Regex",
+        "status": "fail",
+        "evidence": "Archivo src/lib/course/sections/s07-data-acquisition.ts enseña 'Adquisición de Datos para Data Science', no V3 'Texto, Unicode y expresiones regulares'."
+      },
+      {
+        "id": "REQ-S07-004",
+        "requirement": "S07 cubre Similaridad inicial: Exacta y por tokens; FP/FN y conservación de evidencia",
+        "source": "V3 roadmap S07 T4",
+        "acceptance_test": "Contenido de S07 incluye subtemas de Similaridad inicial",
+        "status": "fail",
+        "evidence": "Archivo src/lib/course/sections/s07-data-acquisition.ts enseña 'Adquisición de Datos para Data Science', no V3 'Texto, Unicode y expresiones regulares'."
+      },
+      {
+        "id": "REQ-S07-005",
+        "requirement": "Incremento/gate: pipeline que conserva raw y normalized, registra transformaciones y maneja dos apellidos sin asumir una convención universal.",
+        "source": "V3 roadmap S07 Incremento/gate",
+        "acceptance_test": "You Do / project alinea con incremento V3",
+        "status": "fail",
+        "evidence": "You Do actual: Capstone: Data Acquisition Pipeline — 3 fuentes unificadas en un solo DataFrame"
+      },
+      {
+        "id": "REQ-S07-006",
+        "requirement": "Proyecto: normalización latinoamericana",
+        "source": "V3 + capstone_ledger",
+        "acceptance_test": "Proyecto documentado hacia capstone activo",
+        "status": "fail",
+        "evidence": "Legacy project no es incremento V3"
+      },
+      {
+        "id": "REQ-S07-007",
+        "requirement": "Entorno: browser/local",
+        "source": "V3 roadmap S07",
+        "acceptance_test": "Demos declaran entorno",
+        "status": "pass",
+        "evidence": "Target entorno browser/local; plataforma actual es browser-friendly en general"
+      },
+      {
+        "id": "REQ-S07-008",
+        "requirement": "Prerrequisito: S6",
+        "source": "V3 roadmap S07",
+        "acceptance_test": "Sección asume S6 cerrado",
+        "status": "pass",
+        "evidence": "index 7 después de prerrequisito en catálogo"
+      },
+      {
+        "id": "REQ-S07-009",
+        "requirement": "Contenido legado no se elimina; se inventaría y reubica (APIs/SQL/scraping → V3 S12; generators → performance later; regex partial reuse in S07 V3; collections → S06 V3. Orphan file s07-pandas.ts is duplicate of pandas (not in index).)",
+        "source": "LANE-N1-FACTORY + course_requirements authority",
+        "acceptance_test": "src/lib/course/sections/s07-data-acquisition.ts intacto en PHASE 0–3",
+        "status": "pass",
+        "evidence": "Factory solo escribe course-state JSON"
+      }
+    ],
+    "platform_requirements": [
+      {
+        "id": "REQ-PLATFORM-001",
+        "requirement": "S07 carga con id estable 'data-acquisition'",
+        "source": "src/lib/course/index.ts + learning_roadmap.md",
+        "acceptance_test": "id 'data-acquisition' en COURSE_SECTIONS",
+        "status": "pass",
+        "evidence": "src/lib/course/sections/s07-data-acquisition.ts export section07; id: 'data-acquisition'"
+      },
+      {
+        "id": "REQ-PLATFORM-002",
+        "requirement": "Exam bank seed para 'data-acquisition'",
+        "source": "prisma/seed.ts",
+        "acceptance_test": "≥ conceptos seed",
+        "status": "partial",
+        "evidence": "4 conceptos: ['generators-yield', 'sql-injection-safety', 'multiprocessing-vs-threads', 'logging-best-practices'] (12 variantes); target 24 V3"
+      },
+      {
+        "id": "REQ-PLATFORM-003",
+        "requirement": "Tabs theory/ido/wedo/youdo/quiz presentes",
+        "source": "CourseSection shape",
+        "acceptance_test": "Campos presentes en archivo",
+        "status": "pass",
+        "evidence": "1259 líneas con shape completo legacy"
+      }
+    ]
+  },
+  "contradictions_detected": [
+    {
+      "id": "CONTRADICTION-S07-001",
+      "issue": "V3 define S7 — Texto, Unicode y expresiones regulares (T1–T4 pedagógicos). Plataforma src/lib/course/sections/s07-data-acquisition.ts y learning_roadmap.md se titulan 'Adquisición de Datos para Data Science'.",
+      "resolution": "Mantener section_id 'data-acquisition'. TARGET de producción: topics V3 4×2. Contenido legado inventariado → APIs/SQL/scraping → V3 S12; generators → performance later; regex partial reuse in S07 V3; collections → S06 V3. Orphan file s07-pandas.ts is duplicate of pandas (not in index).. NO eliminar en research/factory.",
+      "authority": "learning_roadmap.md = primary IDs; V3 = counting + topics target + capstone gates",
+      "impact": "No bloquea PHASE 0–3. Bloquea claim 'section passed'.",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S07-002",
+      "issue": "You Do legacy 'Capstone: Data Acquisition Pipeline — 3 fuentes unificadas en un solo DataFrame' ≠ proyecto V3 'Normalización latinoamericana (CP-N1-B)'.",
+      "resolution": "Mapear legacy como inventario; TARGET = project_increment V3 en blueprint.",
+      "authority": "V3 Incremento/gate S07",
+      "impact": "You Do reescritura en PHASE 4",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S07-003",
+      "issue": "Exam seed 12 variantes (['generators-yield', 'sql-injection-safety', 'multiprocessing-vs-threads', 'logging-best-practices']) vs 24 V3; skills no alinean con Texto, Unicode y expresiones regulares.",
+      "resolution": "Banco provisional; PHASE 5 nuevas 8 familias A/B/C; legacy reasignado a sección destino.",
+      "authority": "V3 counting contract",
+      "impact": "0 cobertura de skills V3 en bank actual",
+      "status": "recorded"
+    },
+    {
+      "id": "CONTRADICTION-S07-004",
+      "issue": "Existe s07-pandas.ts (id pandas) no importado en index.ts; index usa s07-data-acquisition.ts. También s08-pandas.ts tiene id pandas.",
+      "resolution": "Autoridad de runtime: index.ts → data-acquisition para S07, pandas para S08. s07-pandas.ts es huérfano/duplicado a no editar en esta lane.",
+      "authority": "src/lib/course/index.ts",
+      "impact": "Evitar confusión de mapeo S07↔pandas",
+      "status": "recorded"
+    }
+  ],
+  "v3_section_snapshot": {
+    "v3_label": "S7 — Texto, Unicode y expresiones regulares",
+    "prerequisite": "S6",
+    "environment": "browser/local",
+    "project": "normalización latinoamericana",
+    "topics": {
+      "T1": "Unicode: code points, normalización y casefold; tildes, ñ, partículas y apellidos compuestos",
+      "T2": "Strings: split/join/search/replace; nombres, emails y teléfonos sin sobrevalidación",
+      "T3": "Regex: patrones, grupos y anchors; compilación, extracción y límites de validación",
+      "T4": "Similaridad inicial: exacta y por tokens; falsos positivos, falsos negativos y conservación de evidencia"
+    },
+    "increment_gate": "pipeline que conserva raw y normalized, registra transformaciones y maneja dos apellidos sin asumir una convención universal.",
+    "capstone_gate": null
+  },
+  "platform_section_snapshot": {
+    "section_id": "data-acquisition",
+    "index": 7,
+    "title": "Adquisición de Datos para Data Science",
+    "shortTitle": "Adquisición de Datos",
+    "file": "src/lib/course/sections/s07-data-acquisition.ts",
+    "lines": 1259,
+    "youDo": "Capstone: Data Acquisition Pipeline — 3 fuentes unificadas en un solo DataFrame",
+    "exam_concepts_seed": [
+      "generators-yield",
+      "sql-injection-safety",
+      "multiprocessing-vs-threads",
+      "logging-best-practices"
+    ],
+    "alt_files": [
+      "src/lib/course/sections/s07-pandas.ts"
+    ]
+  },
+  "phase_0_gate": {
+    "all_requirements_extracted": true,
+    "all_contradictions_recorded": true,
+    "requirement_matrix_complete": true,
+    "content_not_deleted": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_1"
+  }
+}

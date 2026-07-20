@@ -1,0 +1,73 @@
+{
+  "lane_id": "LANE-S02",
+  "section": "S02",
+  "section_id": "basics",
+  "mode": "PARALLEL_PRODUCTION",
+  "status": "PHASE_3_BLUEPRINT_COMPLETE",
+  "max_phase_authorized": "PHASE_3_BLUEPRINT",
+  "section_passed": false,
+  "updated_at": "2026-07-20T13:05:00Z",
+  "phases": {
+    "PHASE_0_REQUIREMENTS": {
+      "status": "complete",
+      "artifact": "course-state/s02_phase0.json"
+    },
+    "PHASE_1_INVENTORY": {
+      "status": "complete",
+      "artifact": "course-state/s02_phase1.json"
+    },
+    "PHASE_2_RESEARCH": {
+      "status": "complete",
+      "artifact": "course-state/s02_phase2.json"
+    },
+    "PHASE_3_BLUEPRINT": {
+      "status": "complete",
+      "artifact": "course-state/s02_phase3.json",
+      "count_validation_match": true
+    },
+    "PHASE_4_AUTHORING": {
+      "status": "not_started",
+      "note": "Blocked by lane max phase; await orchestrator"
+    },
+    "PHASE_5_EXAM": {
+      "status": "not_started"
+    }
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "exam_variants": 24,
+    "match": true
+  },
+  "gaps_summary": [
+    "P0 scope_mismatch: Absolute Basics (conditionals/loops/functions/comprehensions) vs V3 values/types/operators/I-O",
+    "P0 capstone: Budget Calculator vs intake parser gate",
+    "P1 counting: 2 exercises/5 demos/12 exams → need 24/8/24",
+    "P1 missing: Decimal, identity/mutability, structured parse+errors",
+    "P1 exam bank: 3/4 concepts out of S02 scope"
+  ],
+  "subtopic_slugs": [
+    "literals-types",
+    "type-inspect-convert",
+    "assignment-naming",
+    "identity-mutability",
+    "operators-precedence",
+    "decimal-money",
+    "io-fstrings",
+    "parse-error-messages"
+  ],
+  "do_not_edit": [
+    "course-state/checkpoint.json",
+    "course-state/section_ledger.json",
+    "course-state/issue_registry.json",
+    "course-state/parallel_orchestration.json",
+    "src/lib/course/sections/s01-setup.ts",
+    "prisma/seed.ts"
+  ],
+  "s02_basics_ts_touched": false,
+  "next_action_for_orchestrator": "Merge LANE-S02 phase 0–3 into ledger; do not mark S02 passed; authorize PHASE 4 when ready",
+  "blocked": false
+}

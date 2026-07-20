@@ -1,0 +1,11 @@
+{
+  "id": "CP-N1-C",
+  "status": "pass",
+  "exit_code": 0,
+  "stdout": "METRICS_JSON: {\"capstone_id\": \"CP-N1-C\", \"status\": \"pass\", \"n_entities\": 4, \"n_pairs\": 6, \"n_human_review\": 1, \"max_er\": 0.65, \"disclaimer\": \"Scores are evidence for review, not kinship/fraud proof\", \"pairs\": [{\"a\": \"E1\", \"b\": \"E2\", \"entity_resolution_score\": 0.65, \"relationship_signal_score\": 0.9934, \"geo_km\": 0.5515972483636988, \"decision\": \"human_review\"}, {\"a\": \"E1\", \"b\": \"E3\", \"entity_resolution_score\": 0.0, \"relationship_signal_score\": 0.0, \"geo_km\": 766.3810471902409, \"decision\": \"auto_distinct\"}, {\"a\": \"E1\", \"b\": \"E4\", \"entity_resolution_score\": 0.175, \"relationship_signal_score\": 0.526, \"geo_km\": 6.168669966626323, \"decision\": \"auto_distinct\"}, {\"a\": \"E2\", \"b\": \"E3\", \"entity_resolution_score\": 0.0, \"relationship_signal_score\": 0.0, \"geo_km\": 765.845444225845, \"decision\": \"auto_distinct\"}, {\"a\": \"E2\", \"b\": \"E4\", \"entity_resolution_score\": 0.0, \"relationship_signal_score\": 0.532, \"geo_km\": 5.665077456416589, \"decision\": \"auto_distinct\"}, {\"a\": \"E3\", \"b\": \"E4\", \"entity_resolution_score\": 0.0, \"relationship_signal_score\": 0.0, \"geo_km\": 761.4530958747376, \"decision\": \"auto_distinct\"}]}\nCP-N1-C Familiarity OK — pairs=6 review=1\n",
+  "stderr": "",
+  "command": "python3 demo.py",
+  "cwd": "course-state/capstones/CP-N1-C",
+  "executed_at": "2026-07-20T14:53:43Z",
+  "python": "3.9.6"
+}

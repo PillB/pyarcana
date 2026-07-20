@@ -1,0 +1,111 @@
+{
+  "version": "3.2",
+  "section": "S26",
+  "section_id": "integrator-phase1",
+  "phase": "PHASE_5",
+  "lane": "LANE-S22-S26-CLOSE",
+  "generated_at": "2026-07-20T23:30:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "integrator-phase1",
+    "title_v3": "Orquestación y VP RPA + AI Analyst",
+    "privacy_note": "matching/resolución de entidades no implica fraude, parentesco ni colusión"
+  },
+  "retired_from_bank": [
+    "integrar-backend-fastapi-(s21)",
+    "diseñar-arquitectura-de-micros",
+    "documentar-arquitectura-con-me",
+    "crear-tests-de-integración-par"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S26 (Orquestación y VP RPA + AI Analyst).",
+  "families": [
+    {
+      "family_id": "S26-T1-A-EX",
+      "concept": "tasks-flows-dag-states",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S26-T1-B-EX",
+      "concept": "limits-metadata-schedules",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S26-T2-A-EX",
+      "concept": "checkpoints-retry-backoff-dlq",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S26-T2-B-EX",
+      "concept": "idempotency-concurrency-rollback",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S26-T3-A-EX",
+      "concept": "review-analysis-report-recipient",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S26-T3-B-EX",
+      "concept": "approve-reject-edit-audit",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S26-T4-A-EX",
+      "concept": "slo-alerts-runbook",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S26-T4-B-EX",
+      "concept": "e2e-security-cost-value",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (integrator-phase1 key)",
+    "course-state/s26_phase5_exam_bank.json"
+  ]
+}

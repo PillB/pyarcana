@@ -1,0 +1,57 @@
+{
+  "ok": true,
+  "file": "src/lib/course/sections/s01-setup.ts",
+  "failures": [],
+  "warnings": [],
+  "counts": {
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "subtopic_ids": [
+      "S01-T1-A",
+      "S01-T1-B",
+      "S01-T2-A",
+      "S01-T2-B",
+      "S01-T3-A",
+      "S01-T3-B",
+      "S01-T4-A",
+      "S01-T4-B"
+    ],
+    "demo_ids": [
+      "S01-T1-A-DEMO",
+      "S01-T1-B-DEMO",
+      "S01-T2-A-DEMO",
+      "S01-T2-B-DEMO",
+      "S01-T3-A-DEMO",
+      "S01-T3-B-DEMO",
+      "S01-T4-A-DEMO",
+      "S01-T4-B-DEMO"
+    ],
+    "exercise_ids": [
+      "S01-T1-A-E1",
+      "S01-T1-A-E2",
+      "S01-T1-A-E3",
+      "S01-T1-B-E1",
+      "S01-T1-B-E2",
+      "S01-T1-B-E3",
+      "S01-T2-A-E1",
+      "S01-T2-A-E2",
+      "S01-T2-A-E3",
+      "S01-T2-B-E1",
+      "S01-T2-B-E2",
+      "S01-T2-B-E3",
+      "S01-T3-A-E1",
+      "S01-T3-A-E2",
+      "S01-T3-A-E3",
+      "S01-T3-B-E1",
+      "S01-T3-B-E2",
+      "S01-T3-B-E3",
+      "S01-T4-A-E1",
+      "S01-T4-A-E2",
+      "S01-T4-A-E3",
+      "S01-T4-B-E1",
+      "S01-T4-B-E2",
+      "S01-T4-B-E3"
+    ]
+  }
+}

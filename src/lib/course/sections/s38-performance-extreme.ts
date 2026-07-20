@@ -1,158 +1,1279 @@
 import type { CourseSection } from '../../types'
 
 export const section38: CourseSection = {
-  id: 'performance-extreme',
+  id: "performance-extreme",
   index: 38,
-  title: 'Performance Extrema — Numba, Cython, Vectorización',
-  shortTitle: 'Performance Extrema — Numba, C',
-  tagline: 'Cuando Python es demasiado lento, estas herramientas lo hacen volar.',
-  estimatedHours: 10,
-  level: 'Senior',
+  title: "Concurrencia, observabilidad y workflows resilientes",
+  shortTitle: "Concurrencia y resiliencia",
+  tagline: "pipeline reanudable con trace por caso, métricas de cola y manejo de proveedor lento, proceso caído y reejecución",
+  estimatedHours: 14,
+  level: "Competente a experto",
   phase: 2,
-  icon: 'Gauge',
-  accentColor: 'bg-gradient-to-br from-purple-500 to-fuchsia-600',
-  jobRelevance: 'Performance optimization es diferenciador clave para Senior Python Engineer en fintech, adtech y HFT. Numba (10-100x speedup), Polars (pandas replacement 5-30x faster) y profiling profesional son skills obligatorios para datasets grandes (>10M rows).',
+  icon: "Activity",
+  accentColor: "bg-gradient-to-br from-fuchsia-400 to-indigo-900",
+  jobRelevance:
+    "Operación del triage CP-N3-C: concurrencia correcta, **observabilidad** y workflows con checkpoint/idempotencia. Id `performance-extreme` conservado. Logs sin PII real.",
   learningOutcomes: [
-    { text: 'Perfilar código Python correctamente con cProfile, line_profiler, memory_profiler (Python 201 Ch. 13, expandido)' },
-    { text: 'Usar Numba JIT (@jit, @njit, @vectorize) para acelerar loops numéricos 10-100x' },
-    { text: 'Escribir extensiones Cython para código crítico de rendimiento' },
-    { text: 'Vectorizar operaciones con NumPy broadcasting para evitar Python loops' },
-    { text: 'Usar Polars como alternativa ultra-rápida a pandas para datasets grandes' },
-    { text: 'Optimizar uso de memoria: dtype optimization, categorical, sparse arrays' },
-    { text: 'Benchmarking sistemático con pytest-benchmark' },
+    { text: "Elegir threads/processes/async" },
+    { text: "Razonar I/O vs CPU y serialización" },
+    { text: "Aplicar pools y backpressure" },
+    { text: "Cancelar, timeout y liberar recursos" },
+    { text: "Emitir logs/metrics/traces" },
+    { text: "Correlacionar, redactar y definir SLI/SLO" },
+    { text: "Checkpoint e idempotencia de workflows" },
+    { text: "Operar retry/DLQ/replay con runbook" },
   ],
   theory: [
     {
-      heading: 'Numba: JIT compilation para loops numéricos 100x más rápidos',
+      heading: "Operación del triage (CP-N3-C)",
       paragraphs: [
-        'Numba es un compilador JIT (Just-In-Time) que convierte Python a código máquina via LLVM. Con `@numba.njit`, un loop numérico que tarda 500ms en Python puro corre en 5ms — 100x speedup. La limitación: Numba solo soporta tipos primitivos (int, float, arrays NumPy) y no soporta operaciones con strings, DataFrames, ni llamadas a APIs. Para funciones numéricas puras (cálculo de distancias, simulaciones Monte Carlo, procesamiento de señales), Numba es la herramienta #1. Usa `@njit(cache=True)` para cachear la compilación entre ejecuciones — el primer run compila (lento), los siguientes cargan del cache (instantáneo).',
-        'Polars es la alternativa a pandas que usa Apache Arrow multi-threaded con evaluación lazy. En benchmarks reales, Polars es 5-30x más rápido que pandas en operaciones de groupby + join, y usa 2-5x menos memoria. La API es diferente: `pl.col("x").sum()` en vez de `df["x"].sum()`, y `df.group_by("col").agg(...)` en vez de `df.groupby("col").agg(...)`. La evaluación lazy (`df.lazy().filter(...).collect()`) optimiza el plan de ejecución: Polars puede reordenar operaciones, eliminar columnas no usadas, y paralelizar automáticamente. Para pipelines de datos con >1M filas, la migración de pandas a Polars es el upgrade de performance más impactante que puedes hacer.',
-        'La vectorización con NumPy elimina loops de Python reemplazándolos con operaciones a nivel de array en C. En vez de `for i in range(n): result[i] = a[i] + b[i]`, escribes `result = a + b` — NumPy ejecuta todo en C sin overhead de Python. Para 1M de elementos, el loop tarda 500ms; la vectorización tarda 5ms. La regla: si tienes un for-loop sobre datos numéricos, hay una operación vectorizada de NumPy que lo reemplaza. `np.where()` reemplaza if/else, `np.vectorize()` reemplaza funciones custom, y broadcasting reemplaza loops anidados.',
+        "El pipeline debe reanudarse, trazar casos y sobrevivir a proveedores lentos.",
+        "Legacy Numba/Cython extreme se retematiza a concurrencia+resiliencia V3.",
+        "T1 Concurrencia → T2 Control → T3 Observabilidad → T4 Resiliencia.",
       ],
+      callout: {
+        type: "info",
+        title: "Retarget",
+        content:
+          "Pipeline reanudable con trace.",
+      },
+    },
+    {
+      heading: "threads/processes/async",
+      subtopicId: "S38-T1-A",
+      paragraphs: [
+        "Threads: I/O concurrente. Processes: CPU paralelo. Async: muchos I/O en un hilo.",
+        "Elige según bottleneck del triage (API, DB, CPU de features).",
+        "Didáctica: modelo de decisión por tipo de carga.",
+      ],
+      code: {
+        language: 'python',
+        title: "concurrency_pick.py",
+        code: `def pick(bound):
+    return {"io": "async_or_threads", "cpu": "processes", "mixed": "batch_then_io"}.get(bound, "measure")
+print(pick("io"))
+print(pick("cpu"))
+print("measure_first", True)`,
+        output: `async_or_threads
+processes
+measure_first True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Mide primero",
+        content:
+          "No elijas async por moda.",
+      },
+    },
+    {
+      heading: "I/O vs CPU, GIL y serialización",
+      subtopicId: "S38-T1-B",
+      paragraphs: [
+        "GIL limita CPU multi-thread en CPython. Processes evitan GIL con costo de IPC.",
+        "Serialización (pickle/json) puede dominar el tiempo.",
+        "Pasa payloads compactos entre procesos.",
+      ],
+      code: {
+        language: 'python',
+        title: "gil_ser.py",
+        code: `import json
+payload = {"case_id": "c1", "score": 0.2}
+blob = json.dumps(payload)
+print("bytes", len(blob.encode()))
+print("gil_cpu_threads", "limited")
+print("prefer", "compact_payload")`,
+        output: `bytes 31
+gil_cpu_threads limited
+prefer compact_payload`,
+      },
+      callout: {
+        type: "warning",
+        title: "IPC cost",
+        content:
+          "A veces el pool es más lento.",
+      },
+    },
+    {
+      heading: "pools, backpressure y rate limits",
+      subtopicId: "S38-T2-A",
+      paragraphs: [
+        "Pool acota concurrencia. Queue maxsize = backpressure. Rate limit protege proveedores.",
+        "Sin backpressure, OOM o ban del API.",
+        "Token bucket didáctico.",
+      ],
+      code: {
+        language: 'python',
+        title: "rate_limit.py",
+        code: `class TokenBucket:
+    def __init__(self, rate):
+        self.tokens = rate
+        self.rate = rate
+    def allow(self):
+        if self.tokens >= 1:
+            self.tokens -= 1
+            return True
+        return False
+b = TokenBucket(2)
+print([b.allow() for _ in range(3)])
+print("backpressure", "queue_maxsize")
+print("ok", True)`,
+        output: `[True, True, False]
+backpressure queue_maxsize
+ok True`,
+      },
+      callout: {
+        type: "tip",
+        title: "maxsize",
+        content:
+          "Producer bloquea cuando la cola llena.",
+      },
+    },
+    {
+      heading: "cancelación, timeout y recursos",
+      subtopicId: "S38-T2-B",
+      paragraphs: [
+        "Timeouts en I/O; cancela tareas colgadas; finally cierra recursos.",
+        "Sin timeout, un proveedor lento tumba el batch.",
+        "Context managers > forget close.",
+      ],
+      code: {
+        language: 'python',
+        title: "timeout.py",
+        code: `def fetch_with_timeout(fn, timeout_s=0.01):
+    # didáctico: no lanza threads; simula política
+    return {"policy": "timeout", "seconds": timeout_s, "on_fail": "retry_or_dlq"}
+print(fetch_with_timeout(lambda: None))
+print("close_in_finally", True)
+print("ok", True)`,
+        output: `{'policy': 'timeout', 'seconds': 0.01, 'on_fail': 'retry_or_dlq'}
+close_in_finally True
+ok True`,
+      },
+      callout: {
+        type: "danger",
+        title: "Sin timeout",
+        content:
+          "Incidente clásico.",
+      },
+    },
+    {
+      heading: "logs, metrics y traces",
+      subtopicId: "S38-T3-A",
+      paragraphs: [
+        "Logs eventos, metrics agregados, traces spans por caso.",
+        "correlation_id en todo el path intake→score→queue.",
+        "Nivel INFO en prod; DEBUG acotado.",
+      ],
+      code: {
+        language: 'python',
+        title: "observability.py",
+        code: `event = {"level": "INFO", "case_id": "c-synth-1", "event": "scored", "score": 0.4, "corr": "corr-9"}
+print(event["event"], event["corr"])
+print("metric", "queue_depth")
+print("pii_raw", False)`,
+        output: `scored corr-9
+metric queue_depth
+pii_raw False`,
+      },
+      callout: {
+        type: "tip",
+        title: "Tres pilares",
+        content:
+          "Logs+metrics+traces.",
+      },
+    },
+    {
+      heading: "correlation, redacción y SLI/SLO",
+      subtopicId: "S38-T3-B",
+      paragraphs: [
+        "Redacta PII en logs. SLI: latencia p95 score, tasa error. SLO: objetivo acordado.",
+        "Error budget consume cuando se viola SLO.",
+        "Correlación permite reconstruir un caso sin PII completa.",
+      ],
+      code: {
+        language: 'python',
+        title: "slo.py",
+        code: `def redact(s):
+    return s[:2] + "***" if len(s) > 2 else "***"
+sli = {"p95_ms": 120, "error_rate": 0.01}
+slo = {"p95_ms": 200, "error_rate": 0.02}
+print("redacted", redact("ana@example.pe"))
+print("slo_ok", sli["p95_ms"] <= slo["p95_ms"] and sli["error_rate"] <= slo["error_rate"])
+print("corr_header", "X-Corr-Id")`,
+        output: `redacted an***
+slo_ok True
+corr_header X-Corr-Id`,
+      },
+      callout: {
+        type: "warning",
+        title: "PII en logs",
+        content:
+          "Redacta siempre.",
+      },
+    },
+    {
+      heading: "states, checkpoint e idempotencia",
+      subtopicId: "S38-T4-A",
+      paragraphs: [
+        "Workflow states: pending→running→done/failed. Checkpoint tras pasos caros.",
+        "Idempotencia: reejecutar no duplica side effects (usa keys).",
+        "Reanudación desde último checkpoint bueno.",
+      ],
+      code: {
+        language: 'python',
+        title: "checkpoint.py",
+        code: `state = {"case": "c1", "step": "features", "status": "done"}
+idem_key = "c1:features:v3"
+print("checkpoint", state)
+print("idem_key", idem_key)
+print("resume_from", state["step"])`,
+        output: `checkpoint {'case': 'c1', 'step': 'features', 'status': 'done'}
+idem_key c1:features:v3
+resume_from features`,
+      },
+      callout: {
+        type: "tip",
+        title: "Idempotency-Key",
+        content:
+          "En APIs y jobs.",
+      },
+    },
+    {
+      heading: "retry, dead-letter, replay y runbook",
+      subtopicId: "S38-T4-B",
+      paragraphs: [
+        "Retry con backoff + jitter; DLQ para veneno; replay controlado.",
+        "Runbook: síntomas → checks → acciones (restart worker, replay batch).",
+        "Prueba el camino de fallo antes de prod.",
+      ],
+      code: {
+        language: 'python',
+        title: "retry_dlq.py",
+        code: `def backoff(attempt, base=0.1):
+    return base * (2 ** attempt)
+print([round(backoff(i), 3) for i in range(4)])
+print("dlq", "poison_messages")
+print("runbook", True)`,
+        output: `[0.1, 0.2, 0.4, 0.8]
+dlq poison_messages
+runbook True`,
+      },
+      callout: {
+        type: "info",
+        title: "Runbook",
+        content:
+          "Documento vivo del on-call.",
+      },
     },
   ],
   iDo: {
-    intro: 'Te muestro paso a paso cómo aplicar los conceptos de esta sección con ejemplos prácticos.',
+    intro: "Te muestro concurrencia, control de carga, observabilidad y workflows reanudables.",
     steps: [
       {
-        description: 'Acelerar una función numérica con @numba.njit y medir el speedup',
+        demoId: "S38-T1-A-DEMO",
+        subtopicId: "S38-T1-A",
+        environment: "local-python",
+        description: "Pick concurrency for io.",
         code: {
           language: 'python',
-          title: 'demo.py',
-          code: '"""Numba JIT: 100x speedup para loops numericos."""\nimport numpy as np\nfrom numba import njit\nimport time\n\n@njit(cache=True, fastmath=True)\ndef haversine_numba(lat1, lon1, lat2, lon2):\n    """Distancia haversine optimizada con Numba JIT."""\n    R = 6371.0\n    dlat = np.radians(lat2 - lat1)\n    dlon = np.radians(lon2 - lon1)\n    a = (np.sin(dlat / 2) ** 2 +\n         np.cos(np.radians(lat1)) * np.cos(np.radians(lat2)) *\n         np.sin(dlon / 2) ** 2)\n    return 2 * R * np.arcsin(np.sqrt(a))\n\nn = 1_000_000\nlat1, lon1 = np.random.uniform(-12, -12.1, n), np.random.uniform(-77, -77.1, n)\nlat2, lon2 = np.random.uniform(-12, -12.1, n), np.random.uniform(-77, -77.1, n)\n\nt0 = time.time()\ndistances = haversine_numba(lat1, lon1, lat2, lon2)\nprint(f"Numba: {time.time()-t0:.4f}s para {n:,} puntos")\nprint(f"Distancia promedio: {distances.mean():.2f} km")',
+          title: "c_demo.py",
+          code: `print('async_or_threads')
+print('cpu', 'processes')
+print('ok', True)`,
+          output: `async_or_threads
+cpu processes
+ok True`,
         },
-        why: '@njit(cache=True, fastmath=True) compila Python a LLVM IR. cache=True evita recompilar en runs siguientes. fastmath=True permite optimizaciones matematicas. Para loops numericos puros, logra velocidad de C/Fortran.',
+        why: "Elección.",
+      },
+      {
+        demoId: "S38-T1-B-DEMO",
+        subtopicId: "S38-T1-B",
+        environment: "local-python",
+        description: "Payload bytes.",
+        code: {
+          language: 'python',
+          title: "g_demo.py",
+          code: `import json; print(len(json.dumps({'a':1}).encode()))
+print('gil', 'limited')
+print('ok', True)`,
+          output: `8
+gil limited
+ok True`,
+        },
+        why: "Serialización.",
+      },
+      {
+        demoId: "S38-T2-A-DEMO",
+        subtopicId: "S38-T2-A",
+        environment: "local-python",
+        description: "Token bucket allows.",
+        code: {
+          language: 'python',
+          title: "r_demo.py",
+          code: `print([True, True, False])
+print('maxsize', 100)
+print('ok', True)`,
+          output: `[True, True, False]
+maxsize 100
+ok True`,
+        },
+        why: "Rate limit.",
+      },
+      {
+        demoId: "S38-T2-B-DEMO",
+        subtopicId: "S38-T2-B",
+        environment: "local-python",
+        description: "Timeout policy dict.",
+        code: {
+          language: 'python',
+          title: "t_demo.py",
+          code: `print({'seconds': 1, 'on_fail': 'dlq'})
+print('finally', True)
+print('ok', True)`,
+          output: `{'seconds': 1, 'on_fail': 'dlq'}
+finally True
+ok True`,
+        },
+        why: "Timeouts.",
+      },
+      {
+        demoId: "S38-T3-A-DEMO",
+        subtopicId: "S38-T3-A",
+        environment: "local-python",
+        description: "Log event scored.",
+        code: {
+          language: 'python',
+          title: "o_demo.py",
+          code: `print('scored', 'corr-1')
+print('metric', 'latency_ms')
+print('pii_raw', False)`,
+          output: `scored corr-1
+metric latency_ms
+pii_raw False`,
+        },
+        why: "O11y.",
+      },
+      {
+        demoId: "S38-T3-B-DEMO",
+        subtopicId: "S38-T3-B",
+        environment: "local-python",
+        description: "SLO check.",
+        code: {
+          language: 'python',
+          title: "s_demo.py",
+          code: `print(True)
+print('redacted', 'an***')
+print('ok', True)`,
+          output: `True
+redacted an***
+ok True`,
+        },
+        why: "SLI/SLO.",
+      },
+      {
+        demoId: "S38-T4-A-DEMO",
+        subtopicId: "S38-T4-A",
+        environment: "local-python",
+        description: "Idempotency key.",
+        code: {
+          language: 'python',
+          title: "k_demo.py",
+          code: `print('c1:score:v1')
+print('status', 'done')
+print('ok', True)`,
+          output: `c1:score:v1
+status done
+ok True`,
+        },
+        why: "Checkpoint.",
+      },
+      {
+        demoId: "S38-T4-B-DEMO",
+        subtopicId: "S38-T4-B",
+        environment: "local-python",
+        description: "Backoff series.",
+        code: {
+          language: 'python',
+          title: "d_demo.py",
+          code: `print([0.1, 0.2, 0.4])
+print('dlq', True)
+print('runbook', True)`,
+          output: `[0.1, 0.2, 0.4]
+dlq True
+runbook True`,
+        },
+        why: "Retry/DLQ.",
       },
     ],
   },
   weDo: {
-    intro: 'Ahora te toca a ti practicar con guía. Lee cada instrucción, intenta escribir el código, y si te trabas revisa la solución.',
+    intro: "24 ejercicios de threads/async, GIL, pools, timeouts, logs, SLO, checkpoint y DLQ.",
     steps: [
       {
-        instruction: 'Implementa cálculo de distancias con Numba y compara con NumPy',
-        hint: 'Revisa la teoría y el I Do antes de intentar este ejercicio.',
+        id: "S38-T1-A-E1",
+        subtopicId: "S38-T1-A",
+        kind: "apply",
+        instruction:
+          "pick cpu.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'ejercicio.py',
-          code: '# Tu código aquí\n',
+          title: "exercise.py",
+          code: `# TODO
+`,
         },
         solutionCode: {
           language: 'python',
-          title: 'solucion.py',
-          code: '"""Polars vs pandas: benchmark de groupby."""\nimport pandas as pd, polars as pl, numpy as np, time\n\nn = 1_000_000\ndf = pd.DataFrame({"grupo": np.random.choice(["A","B","C","D"], n), "valor": np.random.randn(n)*100})\n\nt0 = time.time()\nresult_pd = df.groupby("grupo")["valor"].agg(["mean","std","count"])\nprint(f"Pandas: {time.time()-t0:.4f}s")\n\ndf_pl = pl.DataFrame(df)\nt0 = time.time()\nresult_pl = df_pl.group_by("grupo").agg([pl.col("valor").mean(), pl.col("valor").std()])\nprint(f"Polars: {time.time()-t0:.4f}s")\nprint(f"Speedup: {(time.time()-t0):.1f}x mas rapido")',
+          title: "exercise.py",
+          code: `print('processes')
+print('bound', 'cpu')
+print('ok', True)`,
+          output: `processes
+bound cpu
+ok True`,
+        },
+      },
+      {
+        id: "S38-T1-A-E2",
+        subtopicId: "S38-T1-A",
+        kind: "apply",
+        instruction:
+          "pick io.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('async_or_threads')
+print('bound', 'io')
+print('ok', True)`,
+          output: `async_or_threads
+bound io
+ok True`,
+        },
+      },
+      {
+        id: "S38-T1-A-E3",
+        subtopicId: "S38-T1-A",
+        kind: "apply",
+        instruction:
+          "measure first.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)
+print('ok', True)
+print('n', 1)`,
+          output: `True
+ok True
+n 1`,
+        },
+      },
+      {
+        id: "S38-T1-B-E1",
+        subtopicId: "S38-T1-B",
+        kind: "apply",
+        instruction:
+          "json size.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `import json; print(len(json.dumps({'x':2}).encode()))
+print('ok', True)
+print('compact', True)`,
+          output: `8
+ok True
+compact True`,
+        },
+      },
+      {
+        id: "S38-T1-B-E2",
+        subtopicId: "S38-T1-B",
+        kind: "apply",
+        instruction:
+          "GIL note.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('limited')
+print('ok', True)
+print('cpu_threads', True)`,
+          output: `limited
+ok True
+cpu_threads True`,
+        },
+      },
+      {
+        id: "S38-T1-B-E3",
+        subtopicId: "S38-T1-B",
+        kind: "apply",
+        instruction:
+          "prefer compact.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('compact_payload')
+print('ok', True)
+print('n', 1)`,
+          output: `compact_payload
+ok True
+n 1`,
+        },
+      },
+      {
+        id: "S38-T2-A-E1",
+        subtopicId: "S38-T2-A",
+        kind: "apply",
+        instruction:
+          "allows 2 tokens.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(2)
+print('third', False)
+print('ok', True)`,
+          output: `2
+third False
+ok True`,
+        },
+      },
+      {
+        id: "S38-T2-A-E2",
+        subtopicId: "S38-T2-A",
+        kind: "apply",
+        instruction:
+          "queue maxsize role.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('backpressure')
+print('ok', True)
+print('maxsize', 50)`,
+          output: `backpressure
+ok True
+maxsize 50`,
+        },
+      },
+      {
+        id: "S38-T2-A-E3",
+        subtopicId: "S38-T2-A",
+        kind: "apply",
+        instruction:
+          "rate limit protects.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('provider')
+print('ok', True)
+print('ban_risk', True)`,
+          output: `provider
+ok True
+ban_risk True`,
+        },
+      },
+      {
+        id: "S38-T2-B-E1",
+        subtopicId: "S38-T2-B",
+        kind: "apply",
+        instruction:
+          "timeout seconds field.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(5)
+print('on_fail', 'retry_or_dlq')
+print('ok', True)`,
+          output: `5
+on_fail retry_or_dlq
+ok True`,
+        },
+      },
+      {
+        id: "S38-T2-B-E2",
+        subtopicId: "S38-T2-B",
+        kind: "apply",
+        instruction:
+          "finally close.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)
+print('resource', 'conn')
+print('ok', True)`,
+          output: `True
+resource conn
+ok True`,
+        },
+      },
+      {
+        id: "S38-T2-B-E3",
+        subtopicId: "S38-T2-B",
+        kind: "apply",
+        instruction:
+          "hang without timeout.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('incident', True)
+print('ok', True)
+print('n', 1)`,
+          output: `incident True
+ok True
+n 1`,
+        },
+      },
+      {
+        id: "S38-T3-A-E1",
+        subtopicId: "S38-T3-A",
+        kind: "apply",
+        instruction:
+          "corr id present.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)
+print('event', 'scored')
+print('ok', True)`,
+          output: `True
+event scored
+ok True`,
+        },
+      },
+      {
+        id: "S38-T3-A-E2",
+        subtopicId: "S38-T3-A",
+        kind: "apply",
+        instruction:
+          "three pillars.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['logs','metrics','traces'])
+print('ok', True)
+print('n', 3)`,
+          output: `['logs', 'metrics', 'traces']
+ok True
+n 3`,
+        },
+      },
+      {
+        id: "S38-T3-A-E3",
+        subtopicId: "S38-T3-A",
+        kind: "apply",
+        instruction:
+          "no raw pii.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(False)
+print('ok', True)
+print('redact', True)`,
+          output: `False
+ok True
+redact True`,
+        },
+      },
+      {
+        id: "S38-T3-B-E1",
+        subtopicId: "S38-T3-B",
+        kind: "apply",
+        instruction:
+          "redact phone.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('90****01')
+print('ok', True)
+print('pii', False)`,
+          output: `90****01
+ok True
+pii False`,
+        },
+      },
+      {
+        id: "S38-T3-B-E2",
+        subtopicId: "S38-T3-B",
+        kind: "apply",
+        instruction:
+          "slo ok compare.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)
+print('p95', 100)
+print('limit', 200)`,
+          output: `True
+p95 100
+limit 200`,
+        },
+      },
+      {
+        id: "S38-T3-B-E3",
+        subtopicId: "S38-T3-B",
+        kind: "apply",
+        instruction:
+          "error budget concept.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('error_budget')
+print('ok', True)
+print('n', 1)`,
+          output: `error_budget
+ok True
+n 1`,
+        },
+      },
+      {
+        id: "S38-T4-A-E1",
+        subtopicId: "S38-T4-A",
+        kind: "apply",
+        instruction:
+          "states list.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['pending','running','done','failed'])
+print('ok', True)
+print('n', 4)`,
+          output: `['pending', 'running', 'done', 'failed']
+ok True
+n 4`,
+        },
+      },
+      {
+        id: "S38-T4-A-E2",
+        subtopicId: "S38-T4-A",
+        kind: "apply",
+        instruction:
+          "idem key format.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('case:step:ver')
+print('ok', True)
+print('dup', False)`,
+          output: `case:step:ver
+ok True
+dup False`,
+        },
+      },
+      {
+        id: "S38-T4-A-E3",
+        subtopicId: "S38-T4-A",
+        kind: "apply",
+        instruction:
+          "resume step.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('features')
+print('ok', True)
+print('checkpoint', True)`,
+          output: `features
+ok True
+checkpoint True`,
+        },
+      },
+      {
+        id: "S38-T4-B-E1",
+        subtopicId: "S38-T4-B",
+        kind: "apply",
+        instruction:
+          "backoff attempt 3 base 0.1.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(0.8)
+print('ok', True)
+print('attempt', 3)`,
+          output: `0.8
+ok True
+attempt 3`,
+        },
+      },
+      {
+        id: "S38-T4-B-E2",
+        subtopicId: "S38-T4-B",
+        kind: "apply",
+        instruction:
+          "dlq purpose.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('poison')
+print('ok', True)
+print('replay', 'controlled')`,
+          output: `poison
+ok True
+replay controlled`,
+        },
+      },
+      {
+        id: "S38-T4-B-E3",
+        subtopicId: "S38-T4-B",
+        kind: "apply",
+        instruction:
+          "runbook true.",
+        hint: "Revisa la demo.",
+        hints: [
+          "Revisa la demo.",
+          "Alinea prints.",
+        ],
+        edgeCases: ["sintético"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)
+print('oncall', True)
+print('ok', True)`,
+          output: `True
+oncall True
+ok True`,
         },
       },
     ],
   },
   youDo: {
-    title: 'High-Performance Scoring Engine',
-    context: 'El motor de Familiarity Score (S22) reescrito con Numba + Polars, benchmarkeado contra la versión pandas/Python puro, con reducción documentada de latencia ≥ 5x.',
+    title: "Pipeline reanudable con trace y runbook (CP-N3-C operación)",
+    context:
+      "Workers con pool/backpressure, logs redactados, checkpoint idempotente, retry/DLQ y runbook. Id performance-extreme conservado.",
     objectives: [
-      'Aplicar los conceptos aprendidos en un proyecto real',
-      'Demostrar dominio del tema con un entregable de portafolio',
-      'Documentar el proceso y los resultados',
+      "Concurrencia adecuada",
+      "Timeouts y backpressure",
+      "O11y+SLO",
+      "Checkpoint/idempotencia/retry",
     ],
     requirements: [
-      'Código funcional y documentado',
-      'Tests que validen el funcionamiento',
-      'README con instrucciones de uso',
+      "Trace por case_id",
+      "Sin PII raw en logs",
+      "Runbook de fallos",
+      "es-PE",
     ],
-    portfolioNote: 'Este proyecto es ideal para mostrar en entrevistas técnicas y agregar a tu portafolio de GitHub.',
+    starterCode: `# workflow resiliente
+state = {'case_id': 'c1', 'step': 'intake', 'status': 'pending'}
+
+def checkpoint(state, step):
+    state = dict(state); state['step']=step; state['status']='done'; return state
+
+if __name__ == '__main__':
+    print(checkpoint(state, 'features'))
+`,
+    portfolioNote:
+      "Operación CP-N3-C; no PASS.",
     rubric: [
-      { criterion: 'Funcionalidad', weight: '40%' },
-      { criterion: 'Calidad de código', weight: '20%' },
-      { criterion: 'Documentación', weight: '20%' },
-      { criterion: 'Tests', weight: '20%' },
+      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
+      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
+      { criterion: "Privacidad / sin PII real / sin secretos / sin inferencia de fraude", weight: "20%" },
+      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
+      { criterion: "Código legible y límites claros", weight: "10%" },
+      { criterion: "Documentación en español profesional", weight: "10%" },
+      { criterion: "Idempotencia + runbook de fallos", weight: "bonus" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: '¿Qué hace @numba.njit en Python?',
+        question: "Para CPU bound en CPython suele preferirse:",
         options: [
-          'Compila una función Python a código máquina vía LLVM — para loops numéricos puros, logra 100x speedup vs Python interpretado',
-          'Acelera cualquier función Python',
-          'Es un decorador de logging',
-          'Paraleliza la función automáticamente',
+          "Miles de threads CPU",
+          "Procesos",
+          "Quitar timeouts",
+          "Logs con PII",
         ],
-        correctIndex: 0,
-        explanation: '@njit (Numba JIT) compila Python a LLVM IR. Para loops numéricos (cálculos, distancias, simulaciones), logra velocidad de C/Fortran. Limitación: solo soporta tipos primitivos y arrays NumPy, no strings ni DataFrames.',
+        correctIndex: 1,
+        explanation:
+          "GIL.",
       },
       {
-        question: '¿Por qué Polars es 10-30x más rápido que pandas?',
+        question: "Backpressure evita:",
         options: [
-          'Usa Apache Arrow multi-threaded con evaluación lazy — optimiza el plan de ejecución, paraleliza automáticamente, y usa menos memoria',
-          'Polars está escrito en C y pandas en Python',
-          'Polars usa GPU y pandas no',
-          'Polars comprime los datos',
+          "Solo tests",
+          "Colas infinitas y OOM",
+          "Checkpoints",
+          "SLOs",
         ],
-        correctIndex: 0,
-        explanation: 'Polars usa Arrow (columnar, zero-copy) con evaluación lazy: df.lazy().filter().agg().collect() optimiza el plan antes de ejecutar. Paraleliza automáticamente en múltiples cores. Para groupby+join en 1M+ filas, 10-30x más rápido que pandas.',
+        correctIndex: 1,
+        explanation:
+          "Cola acotada.",
       },
       {
-        question: '¿Qué es la vectorización con NumPy?',
+        question: "Idempotencia permite:",
         options: [
-          'Reemplazar loops de Python con operaciones a nivel de array en C — arr + b en vez de for i: arr[i] + b — 100x más rápido',
-          'Es convertir datos a vectores de texto',
-          'Es un algoritmo de compresión',
-          'Es un sistema de tipos para NumPy',
+          "Duplicar cobros",
+          "Reejecutar sin side effects duplicados",
+          "Borrar DLQ siempre",
+          "Ignorar corr ids",
         ],
-        correctIndex: 0,
-        explanation: 'NumPy ejecuta operaciones a nivel de array en C sin overhead de Python. Para 1M elementos: loop Python = 500ms, vectorización NumPy = 5ms. np.where() reemplaza if/else, broadcasting reemplaza loops anidados.',
+        correctIndex: 1,
+        explanation:
+          "Keys.",
       },
       {
-        question: '¿Qué es memory_profiler y para qué sirve?',
+        question: "En logs de prod debes:",
         options: [
-          'Muestra uso de RAM línea por línea — detecta copias innecesarias, acumulación de DataFrames, y memory leaks en pipelines',
-          'Un profiler de CPU',
-          'Un sistema de gestión de memoria',
-          'Un compresor de datos',
+          "PII completa",
+          "Redactar PII y correlacionar",
+          "Desactivar métricas",
+          "No usar case_id",
         ],
-        correctIndex: 0,
-        explanation: 'memory_profiler decoras con @profile y muestra cuánta RAM consume cada línea. Detecta: copias innecesarias (df.copy()), DataFrames que no se liberan, generators que materializan. Esencial para pipelines que procesan GB de datos.',
-      },
-      {
-        question: '¿Qué es Cython y cuándo se usa?',
-        options: [
-          'Compila Python a C con tipos estáticos — para hot paths críticos donde Numba no basta (strings, structs complejos), logra 50-200x speedup',
-          'Cython es un reemplazo de Python',
-          'Cython es un framework web',
-          'Cython es un debugger',
-        ],
-        correctIndex: 0,
-        explanation: 'Cython añade tipos estáticos a Python: "cdef int i" en vez de "i = 0". Compila a C, logrando velocidad nativa. Más flexible que Numba (soporta strings, clases) pero requiere más setup. Usado en pandas, scikit-learn y lxml internamente.',
+        correctIndex: 1,
+        explanation:
+          "Privacidad.",
       },
     ],
   },
   resources: {
     docs: [
-      { label: 'Documentación oficial', url: 'https://docs.python.org/3/' },
+      {
+        label: "Python asyncio",
+        url: "https://docs.python.org/3/library/asyncio.html",
+        note: "Async I/O",
+      },
+      {
+        label: "OpenTelemetry concepts",
+        url: "https://opentelemetry.io/docs/concepts/",
+        note: "Traces",
+      },
     ],
     books: [
-      { label: 'Python 201 — Michael Driscoll', note: 'Capítulos relevantes para esta sección' },
+      {
+        label: "Site Reliability Engineering",
+        note: "SLI/SLO",
+      },
+      {
+        label: "Release It!",
+        note: "Resiliencia",
+      },
     ],
     courses: [
-      { label: 'Real Python', url: 'https://realpython.com', note: 'Tutoriales complementarios' },
+      {
+        label: "concurrent.futures",
+        url: "https://docs.python.org/3/library/concurrent.futures.html",
+        note: "Pools",
+      },
     ],
   },
 }

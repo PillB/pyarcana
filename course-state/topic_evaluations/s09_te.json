@@ -1,0 +1,171 @@
+{
+  "version": "3.2",
+  "section": "S09",
+  "section_id": "visualization",
+  "section_title": "Excepciones, debugging y logging seguro",
+  "artifact": "topic_evaluations",
+  "platform_note": "Paquetes TE V3 (4 por sección). Datos estructurados para render TopicEvaluation; CourseSection.topicEvaluations es opcional.",
+  "generated_at": "2026-07-20T14:52:23Z",
+  "rubric_scale": "0-3 per criterion",
+  "language": "es-PE",
+  "synthetic_data_only": true,
+  "privacy_principle": "Coincidir en apellido, teléfono, email, dirección, distancia o transacciones es evidencia para revisión, no prueba de parentesco, colusión o fraude.",
+  "topic_evaluations": [
+    {
+      "id": "S09-T1-TE",
+      "topic_id": "S09-T1",
+      "title": "Evaluación formativa — Excepciones",
+      "subtopics_covered": [
+        "S09-T1-A",
+        "S09-T1-B"
+      ],
+      "topic_summary": "tipos específicos, `raise` y chaining; fronteras de recuperación y cleanup.",
+      "tasks": [
+        {
+          "id": "S09-T1-TE-1",
+          "title": "Tarea auténtica — Excepciones: tipos específicos, `raise` y chaining",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: tipos específicos, `raise` y chaining. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S09, tema T1. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S09-T1-TE-2",
+          "title": "Tarea auténtica — Excepciones: fronteras de recuperación y cleanup",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: fronteras de recuperación y cleanup. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S09, tema T1. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Excepciones» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S09-T2-TE",
+      "topic_id": "S09-T2",
+      "title": "Evaluación formativa — Diagnóstico",
+      "subtopics_covered": [
+        "S09-T2-A",
+        "S09-T2-B"
+      ],
+      "topic_summary": "traceback y debugger; reproducción mínima, hipótesis y causa raíz.",
+      "tasks": [
+        {
+          "id": "S09-T2-TE-1",
+          "title": "Tarea auténtica — Diagnóstico: traceback y debugger",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: traceback y debugger. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S09, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S09-T2-TE-2",
+          "title": "Tarea auténtica — Diagnóstico: reproducción mínima, hipótesis y causa raíz",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: reproducción mínima, hipótesis y causa raíz. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S09, tema T2. Matching/scores son evidencia para revisión humana; **no** prueba de fraude, parentesco ni colusión.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Diagnóstico» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S09-T3-TE",
+      "topic_id": "S09-T3",
+      "title": "Evaluación formativa — Logging",
+      "subtopics_covered": [
+        "S09-T3-A",
+        "S09-T3-B"
+      ],
+      "topic_summary": "niveles y estructura; correlation IDs y redacción de PII.",
+      "tasks": [
+        {
+          "id": "S09-T3-TE-1",
+          "title": "Tarea auténtica — Logging: niveles y estructura",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: niveles y estructura. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S09, tema T3.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S09-T3-TE-2",
+          "title": "Tarea auténtica — Logging: correlation IDs y redacción de PII",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: correlation IDs y redacción de PII. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S09, tema T3.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Logging» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    },
+    {
+      "id": "S09-T4-TE",
+      "topic_id": "S09-T4",
+      "title": "Evaluación formativa — Resiliencia inicial",
+      "subtopics_covered": [
+        "S09-T4-A",
+        "S09-T4-B"
+      ],
+      "topic_summary": "fallar rápido vs continuar; idempotencia, retries solo transitorios y cuarentena.",
+      "tasks": [
+        {
+          "id": "S09-T4-TE-1",
+          "title": "Tarea auténtica — Resiliencia inicial: fallar rápido vs continuar",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: fallar rápido vs continuar. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S09, tema T4.",
+          "synthetic_data_only": true
+        },
+        {
+          "id": "S09-T4-TE-2",
+          "title": "Tarea auténtica — Resiliencia inicial: idempotencia, retries solo transitorios y cuarentena",
+          "authentic": true,
+          "deliverable": "Artefacto ejecutable o documentado (script/notebook/README) sobre datos **sintéticos** que demuestra: idempotencia, retries solo transitorios y cuarentena. Incluye 3–6 oraciones de justificación en español peruano, comandos de reproducción y al menos un caso borde. Sección S09, tema T4.",
+          "synthetic_data_only": true
+        }
+      ],
+      "rubric_0_3": {
+        "correctness": "¿Las tareas demuestran dominio correcto de «Resiliencia inicial» con resultados verificables?",
+        "robustness": "¿Maneja casos vacíos, inválidos o de borde sin romper el flujo?",
+        "maintainability": "¿El artefacto es legible, reproducible y usable por un colega?",
+        "responsible_use": "¿Usa solo datos sintéticos o autorizados, sin secretos ni PII real? ¿Evita inferir fraude, parentesco o colusión desde matching/scores?"
+      },
+      "gate_provisional": {
+        "min_total": 9,
+        "max_total": 12,
+        "min_per_criterion": 2,
+        "note": "Gate provisional V3: ≥9/12, ningún criterio crítico <2, pruebas críticas en verde."
+      }
+    }
+  ],
+  "counts": {
+    "topic_evaluations": 4,
+    "tasks": 8
+  }
+}

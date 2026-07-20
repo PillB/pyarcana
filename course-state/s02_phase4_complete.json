@@ -1,0 +1,142 @@
+{
+  "version": "3.2",
+  "section": "S02",
+  "section_id": "basics",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S02-FINISH",
+  "generated_at": "2026-07-20T22:00:00Z",
+  "prompt_version": "3.2",
+  "authority": "LANE-S02-FINISH — PHASE 4 remaining subtopics + youDo refine; does not mark section passed; does not edit checkpoint/ledger/orchestration/s01",
+
+  "preamble": {
+    "objective": "Complete S02-T3-A/T3-B/T4-A/T4-B theory+demo+E1/E2/E3 and refine You Do intake parser.",
+    "scope_in": [
+      "src/lib/course/sections/s02-basics.ts",
+      "course-state/s02_phase4_complete.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "s01-setup.ts"
+    ]
+  },
+
+  "subtopics_authored": {
+    "S02-T1-A": {
+      "slug": "literals-types",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S02-T1-A-DEMO",
+      "exercises": ["S02-T1-A-E1", "S02-T1-A-E2", "S02-T1-A-E3"],
+      "executed": true
+    },
+    "S02-T1-B": {
+      "slug": "type-inspect-convert",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S02-T1-B-DEMO",
+      "exercises": ["S02-T1-B-E1", "S02-T1-B-E2", "S02-T1-B-E3"],
+      "executed": true
+    },
+    "S02-T2-A": {
+      "slug": "assignment-naming",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S02-T2-A-DEMO",
+      "exercises": ["S02-T2-A-E1", "S02-T2-A-E2", "S02-T2-A-E3"],
+      "executed": true
+    },
+    "S02-T2-B": {
+      "slug": "identity-mutability",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S02-T2-B-DEMO",
+      "exercises": ["S02-T2-B-E1", "S02-T2-B-E2", "S02-T2-B-E3"],
+      "executed": true
+    },
+    "S02-T3-A": {
+      "slug": "operators-precedence",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S02-T3-A-DEMO",
+      "exercises": ["S02-T3-A-E1", "S02-T3-A-E2", "S02-T3-A-E3"],
+      "executed": true
+    },
+    "S02-T3-B": {
+      "slug": "decimal-money",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S02-T3-B-DEMO",
+      "exercises": ["S02-T3-B-E1", "S02-T3-B-E2", "S02-T3-B-E3"],
+      "executed": true,
+      "notes": "Decimal from str only; quantize 0.01; no float for money"
+    },
+    "S02-T4-A": {
+      "slug": "io-fstrings",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S02-T4-A-DEMO",
+      "exercises": ["S02-T4-A-E1", "S02-T4-A-E2", "S02-T4-A-E3"],
+      "executed": true
+    },
+    "S02-T4-B": {
+      "slug": "parse-error-messages",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S02-T4-B-DEMO",
+      "exercises": ["S02-T4-B-E1", "S02-T4-B-E2", "S02-T4-B-E3"],
+      "executed": true
+    }
+  },
+
+  "youDo": {
+    "title": "Parser de intake — registro sintético de cliente",
+    "status": "COMPLETE_REFERENCE",
+    "notes": "Starter filled with executable parse_client + safe_int + mostrar_resumen; suite vacío/Unicode/edad inválida passes"
+  },
+
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+
+  "execution_log": {
+    "runtime": "python3.9 local",
+    "executed_at": "2026-07-20",
+    "items": [
+      {"id": "S02-T3-A-DEMO", "status": "VERIFIED", "notes": "// % ** and -3**2 vs (-3)**2; IGV float demo"},
+      {"id": "S02-T3-A-E1", "status": "VERIFIED", "notes": "17//5=3, 17%5=2, 2**4=16, 17/5=3.4"},
+      {"id": "S02-T3-A-E2", "status": "VERIFIED", "notes": "-3**2=-9; (-3)**2=9"},
+      {"id": "S02-T3-A-E3", "status": "VERIFIED", "notes": "subtotal 80; float total shows precision quirk → lead-in Decimal"},
+      {"id": "S02-T3-B-DEMO", "status": "VERIFIED", "notes": "IGV 18% Decimal quantize 118.00"},
+      {"id": "S02-T3-B-E1", "status": "VERIFIED", "notes": "0.1+0.2 float vs Decimal"},
+      {"id": "S02-T3-B-E2", "status": "VERIFIED", "notes": "propina 8.55 total 94.05"},
+      {"id": "S02-T3-B-E3", "status": "VERIFIED", "notes": "parse_monto empty/abc/happy"},
+      {"id": "S02-T4-A-DEMO", "status": "VERIFIED", "notes": "f-string nombre+monto"},
+      {"id": "S02-T4-A-E1", "status": "VERIFIED", "notes": "saludo José"},
+      {"id": "S02-T4-A-E2", "status": "VERIFIED", "notes": "reporte 4 campos :.2f"},
+      {"id": "S02-T4-A-E3", "status": "VERIFIED", "notes": "simular_intake all str"},
+      {"id": "S02-T4-B-DEMO", "status": "VERIFIED", "notes": "3 tests OK raw/unicode/bad age"},
+      {"id": "S02-T4-B-E1", "status": "VERIFIED", "notes": "empty nombres"},
+      {"id": "S02-T4-B-E2", "status": "VERIFIED", "notes": "Ñahui strip"},
+      {"id": "S02-T4-B-E3", "status": "VERIFIED", "notes": "full parse_client suite"},
+      {"id": "youDo", "status": "VERIFIED", "notes": "tests OK + mostrar_resumen"}
+    ],
+    "unverified": []
+  },
+
+  "language": "es-PE professional",
+  "files_changed": [
+    "src/lib/course/sections/s02-basics.ts",
+    "course-state/s02_phase4_complete.json"
+  ]
+}

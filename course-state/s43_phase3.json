@@ -1,0 +1,1075 @@
+{
+  "version": "3.2",
+  "section": "S43",
+  "section_id": "llmops",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S43 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S43 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s43-llmops.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "llmops",
+    "index": 43,
+    "title_platform": "LLMOps — Observabilidad, Evaluación, A/B Testing",
+    "title_v3": "Contenedores y reproducibilidad operativa",
+    "title_decision": "KEEP platform id 'llmops' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "Governed Python Service Platform: un comando, tests/health, non-root, config y recuperación documentadas",
+    "estimatedHours": 14,
+    "level": "Experto a máster",
+    "phase": 3,
+    "prerequisites": [
+      "S42"
+    ],
+    "environment": "local con contenedores",
+    "project_capstone": "CP-N4-A (cierre)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "llmops",
+    "platform_title": "LLMOps — Observabilidad, Evaluación, A/B Testing",
+    "v3_title": "Contenedores y reproducibilidad operativa",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante optimiza Dockerfile y layers.",
+    "El estudiante usa non-root y reduce tamaño.",
+    "El estudiante inyecta config/secrets/volumes.",
+    "El estudiante configura net, health y signals.",
+    "El estudiante compone API/worker/DB/cache.",
+    "El estudiante ordena deps, migrations y datos efímeros.",
+    "El estudiante fija locks y multi-stage.",
+    "El estudiante escanea, limita recursos y debugguea."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S43-T1-A",
+      "slug": "dockerfile-layers-cache",
+      "title": "Dockerfile, layers y cache"
+    },
+    {
+      "subtopic_id": "S43-T1-B",
+      "slug": "bases-nonroot-size",
+      "title": "bases, usuarios no root y tamaño"
+    },
+    {
+      "subtopic_id": "S43-T2-A",
+      "slug": "config-secrets-volumes",
+      "title": "config, secrets y volumes"
+    },
+    {
+      "subtopic_id": "S43-T2-B",
+      "slug": "net-health-signals",
+      "title": "networking, health checks y signals"
+    },
+    {
+      "subtopic_id": "S43-T3-A",
+      "slug": "api-worker-db-cache",
+      "title": "API/worker/DB/cache"
+    },
+    {
+      "subtopic_id": "S43-T3-B",
+      "slug": "deps-migrations-ephemeral",
+      "title": "dependencias, migrations y datos efímeros"
+    },
+    {
+      "subtopic_id": "S43-T4-A",
+      "slug": "locks-multistage",
+      "title": "locks y multi-stage builds"
+    },
+    {
+      "subtopic_id": "S43-T4-B",
+      "slug": "scan-limits-debug",
+      "title": "scanning, resource limits y debugging"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S43-T1",
+      "title": "Imágenes",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S43-T1-A",
+          "slug": "dockerfile-layers-cache",
+          "title": "Dockerfile, layers y cache",
+          "outcome": "El estudiante optimiza Dockerfile y layers.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Dockerfile, layers y cache",
+              "must_cover": [
+                "Dockerfile",
+                "layer cache"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S43-T1-A-DEMO",
+              "title": "Demo: Dockerfile, layers y cache",
+              "environment": "local con contenedores",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S43-T1-A-E1",
+                "kind": "guided",
+                "title": "Dockerfile, layers y cache — guided",
+                "skill": "dockerfile",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S43-T1-A-E2",
+                "kind": "independent",
+                "title": "Dockerfile, layers y cache — independent",
+                "skill": "dockerfile",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S43-T1-A-E3",
+                "kind": "transfer",
+                "title": "Dockerfile, layers y cache — transfer",
+                "skill": "dockerfile",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S43-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S43-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S43-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S43-T1-B",
+          "slug": "bases-nonroot-size",
+          "title": "bases, usuarios no root y tamaño",
+          "outcome": "El estudiante usa non-root y reduce tamaño.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "bases, usuarios no root y tamaño",
+              "must_cover": [
+                "non-root",
+                "image size"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S43-T1-B-DEMO",
+              "title": "Demo: bases, usuarios no root y tamaño",
+              "environment": "local con contenedores",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S43-T1-B-E1",
+                "kind": "guided",
+                "title": "bases, usuarios no root y tamaño — guided",
+                "skill": "bases",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S43-T1-B-E2",
+                "kind": "independent",
+                "title": "bases, usuarios no root y tamaño — independent",
+                "skill": "bases",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S43-T1-B-E3",
+                "kind": "transfer",
+                "title": "bases, usuarios no root y tamaño — transfer",
+                "skill": "bases",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S43-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S43-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S43-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S43-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S43-T1-EVAL-1",
+            "title": "Dockerfile, layers y cache — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S43-T1-EVAL-2",
+            "title": "bases, usuarios no root y tamaño — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S43-T2",
+      "title": "Runtime",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S43-T2-A",
+          "slug": "config-secrets-volumes",
+          "title": "config, secrets y volumes",
+          "outcome": "El estudiante inyecta config/secrets/volumes.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "config, secrets y volumes",
+              "must_cover": [
+                "env config",
+                "secrets",
+                "volumes"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S43-T2-A-DEMO",
+              "title": "Demo: config, secrets y volumes",
+              "environment": "local con contenedores",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S43-T2-A-E1",
+                "kind": "guided",
+                "title": "config, secrets y volumes — guided",
+                "skill": "config",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S43-T2-A-E2",
+                "kind": "independent",
+                "title": "config, secrets y volumes — independent",
+                "skill": "config",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S43-T2-A-E3",
+                "kind": "transfer",
+                "title": "config, secrets y volumes — transfer",
+                "skill": "config",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S43-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S43-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S43-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S43-T2-B",
+          "slug": "net-health-signals",
+          "title": "networking, health checks y signals",
+          "outcome": "El estudiante configura net, health y signals.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "networking, health checks y signals",
+              "must_cover": [
+                "healthcheck",
+                "SIGTERM"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S43-T2-B-DEMO",
+              "title": "Demo: networking, health checks y signals",
+              "environment": "local con contenedores",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S43-T2-B-E1",
+                "kind": "guided",
+                "title": "networking, health checks y signals — guided",
+                "skill": "net",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S43-T2-B-E2",
+                "kind": "independent",
+                "title": "networking, health checks y signals — independent",
+                "skill": "net",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S43-T2-B-E3",
+                "kind": "transfer",
+                "title": "networking, health checks y signals — transfer",
+                "skill": "net",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S43-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S43-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S43-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S43-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S43-T2-EVAL-1",
+            "title": "config, secrets y volumes — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S43-T2-EVAL-2",
+            "title": "networking, health checks y signals — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S43-T3",
+      "title": "Compose",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S43-T3-A",
+          "slug": "api-worker-db-cache",
+          "title": "API/worker/DB/cache",
+          "outcome": "El estudiante compone API/worker/DB/cache.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "API/worker/DB/cache",
+              "must_cover": [
+                "compose services"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S43-T3-A-DEMO",
+              "title": "Demo: API/worker/DB/cache",
+              "environment": "local con contenedores",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S43-T3-A-E1",
+                "kind": "guided",
+                "title": "API/worker/DB/cache — guided",
+                "skill": "api",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S43-T3-A-E2",
+                "kind": "independent",
+                "title": "API/worker/DB/cache — independent",
+                "skill": "api",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S43-T3-A-E3",
+                "kind": "transfer",
+                "title": "API/worker/DB/cache — transfer",
+                "skill": "api",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S43-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S43-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S43-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S43-T3-B",
+          "slug": "deps-migrations-ephemeral",
+          "title": "dependencias, migrations y datos efímeros",
+          "outcome": "El estudiante ordena deps, migrations y datos efímeros.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "dependencias, migrations y datos efímeros",
+              "must_cover": [
+                "depends_on",
+                "migrations"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S43-T3-B-DEMO",
+              "title": "Demo: dependencias, migrations y datos efímeros",
+              "environment": "local con contenedores",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S43-T3-B-E1",
+                "kind": "guided",
+                "title": "dependencias, migrations y datos efímeros — guided",
+                "skill": "deps",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S43-T3-B-E2",
+                "kind": "independent",
+                "title": "dependencias, migrations y datos efímeros — independent",
+                "skill": "deps",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S43-T3-B-E3",
+                "kind": "transfer",
+                "title": "dependencias, migrations y datos efímeros — transfer",
+                "skill": "deps",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S43-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S43-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S43-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S43-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S43-T3-EVAL-1",
+            "title": "API/worker/DB/cache — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S43-T3-EVAL-2",
+            "title": "dependencias, migrations y datos efímeros — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S43-T4",
+      "title": "Reproducibilidad",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S43-T4-A",
+          "slug": "locks-multistage",
+          "title": "locks y multi-stage builds",
+          "outcome": "El estudiante fija locks y multi-stage.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "locks y multi-stage builds",
+              "must_cover": [
+                "lockfile",
+                "multi-stage"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S43-T4-A-DEMO",
+              "title": "Demo: locks y multi-stage builds",
+              "environment": "local con contenedores",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S43-T4-A-E1",
+                "kind": "guided",
+                "title": "locks y multi-stage builds — guided",
+                "skill": "locks",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S43-T4-A-E2",
+                "kind": "independent",
+                "title": "locks y multi-stage builds — independent",
+                "skill": "locks",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S43-T4-A-E3",
+                "kind": "transfer",
+                "title": "locks y multi-stage builds — transfer",
+                "skill": "locks",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S43-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S43-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S43-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S43-T4-B",
+          "slug": "scan-limits-debug",
+          "title": "scanning, resource limits y debugging",
+          "outcome": "El estudiante escanea, limita recursos y debugguea.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "scanning, resource limits y debugging",
+              "must_cover": [
+                "image scan",
+                "resources"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S43-T4-B-DEMO",
+              "title": "Demo: scanning, resource limits y debugging",
+              "environment": "local con contenedores",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S43-T4-B-E1",
+                "kind": "guided",
+                "title": "scanning, resource limits y debugging — guided",
+                "skill": "scan",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S43-T4-B-E2",
+                "kind": "independent",
+                "title": "scanning, resource limits y debugging — independent",
+                "skill": "scan",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S43-T4-B-E3",
+                "kind": "transfer",
+                "title": "scanning, resource limits y debugging — transfer",
+                "skill": "scan",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S43-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S43-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S43-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S43-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S43-T4-EVAL-1",
+            "title": "locks y multi-stage builds — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S43-T4-EVAL-2",
+            "title": "scanning, resource limits y debugging — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S43-PROJ",
+    "title": "Contenedores y reproducibilidad operativa (CP-N4-A (cierre))",
+    "replaces_legacy": "Legacy You Do de 'LLMOps — Observabilidad, Evaluación, A/B Testing' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Governed Python Service Platform levanta con un comando, ejecuta tests/health checks, usa usuario no root y documenta configuración y recuperación.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-A (cierre)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N4-A (cierre)",
+    "increment_gate": "Governed Python Service Platform levanta con un comando, ejecuta tests/health checks, usa usuario no root y documenta configuración y recuperación."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'llmops' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s43-llmops.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'LLMOps — Observabilidad, Evaluación, A/B Testing' vs 'Contenedores y reproducibilidad operativa'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N4-A (cierre)",
+    "increment_gate": "Governed Python Service Platform levanta con un comando, ejecuta tests/health checks, usa usuario no root y documenta configuración y recuperación.",
+    "project_id": "S43-PROJ",
+    "section_passed": false,
+    "notes": "S43 contributes to CP-N4-A (cierre). No passed states written by factory lane.",
+    "capstone_gate": "CP-N4-A",
+    "gate_role": "CLOSE",
+    "promotion_requires": [
+      "CP-N4-A completion evidence"
+    ],
+    "blocks": "S44 until CP-N4-A PASS",
+    "cp_n4_a": "PLANNED_NOT_PASSED"
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S43",
+    "risk": "Display title still 'LLMOps — Observabilidad, Evaluación, A/B Testing' until product rename; topic mismatch vs V3 'Contenedores y reproducibilidad operativa'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S43-T1-A first"
+  }
+}

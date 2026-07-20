@@ -1,0 +1,540 @@
+{
+  "canonical": {
+    "sections": 52,
+    "topics_per_section": 4,
+    "subtopics_per_topic": 2,
+    "subtopics_per_section": 8,
+    "demos_per_section": 8,
+    "exercises_per_section": 24,
+    "exam_variants_per_section": 24,
+    "concepts_per_section": 8,
+    "variants_per_concept": 3
+  },
+  "section_files": 57,
+  "v3_tagged_sections": [
+    "setup",
+    "basics",
+    "data-structures",
+    "functions-modules",
+    "oop",
+    "numpy",
+    "data-acquisition",
+    "pandas",
+    "visualization",
+    "sklearn",
+    "testing",
+    "performance",
+    "rpa-automation",
+    "security",
+    "stdlib-deep",
+    "wxpython-gui",
+    "packaging",
+    "data-engineering",
+    "databases-orm",
+    "rag",
+    "fastapi",
+    "rapidfuzz-entity",
+    "computer-vision",
+    "rpa-advanced",
+    "streamlit-dashboards",
+    "integrator-phase1",
+    "async-concurrency",
+    "llm-agents",
+    "mlops",
+    "security-infra",
+    "streaming-data",
+    "microservices",
+    "advanced-models",
+    "cv-ai-integration",
+    "system-design",
+    "ai-apis-advanced",
+    "dbt-bigquery",
+    "performance-extreme",
+    "integrator-phase2",
+    "agentic-architecture",
+    "llm-finetuning",
+    "graph-rag",
+    "llmops",
+    "multimodal",
+    "iac",
+    "gpu-computing",
+    "opensource",
+    "ai-governance",
+    "data-contracts",
+    "tech-leadership",
+    "integrator-final",
+    "career-strategy"
+  ],
+  "reports": [
+    {
+      "section_id": "setup",
+      "file": "src/lib/course/sections/s01-setup.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "basics",
+      "file": "src/lib/course/sections/s02-basics.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "data-structures",
+      "file": "src/lib/course/sections/s03-data-structures.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "functions-modules",
+      "file": "src/lib/course/sections/s04-functions-modules.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "oop",
+      "file": "src/lib/course/sections/s05-oop.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "numpy",
+      "file": "src/lib/course/sections/s06-numpy.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "data-acquisition",
+      "file": "src/lib/course/sections/s07-data-acquisition.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "pandas",
+      "file": "src/lib/course/sections/s07-pandas.ts",
+      "subtopics": 0,
+      "demos": 0,
+      "exercises": 0,
+      "v3_tagged": false
+    },
+    {
+      "section_id": "pandas",
+      "file": "src/lib/course/sections/s08-pandas.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "visualization",
+      "file": "src/lib/course/sections/s08-visualization.ts",
+      "subtopics": 0,
+      "demos": 0,
+      "exercises": 0,
+      "v3_tagged": false
+    },
+    {
+      "section_id": "sklearn",
+      "file": "src/lib/course/sections/s09-sklearn.ts",
+      "subtopics": 0,
+      "demos": 0,
+      "exercises": 0,
+      "v3_tagged": false
+    },
+    {
+      "section_id": "visualization",
+      "file": "src/lib/course/sections/s09-visualization.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "sklearn",
+      "file": "src/lib/course/sections/s10-sklearn.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "testing",
+      "file": "src/lib/course/sections/s10-testing.ts",
+      "subtopics": 0,
+      "demos": 0,
+      "exercises": 0,
+      "v3_tagged": false
+    },
+    {
+      "section_id": "advanced-topics",
+      "file": "src/lib/course/sections/s11-advanced-topics.ts",
+      "subtopics": 0,
+      "demos": 0,
+      "exercises": 0,
+      "v3_tagged": false
+    },
+    {
+      "section_id": "testing",
+      "file": "src/lib/course/sections/s11-testing.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "performance",
+      "file": "src/lib/course/sections/s12-performance.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "rpa-automation",
+      "file": "src/lib/course/sections/s13-rpa-automation.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "security",
+      "file": "src/lib/course/sections/s14-security.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "wxpython-gui",
+      "file": "src/lib/course/sections/s16-wxpython-gui.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "packaging",
+      "file": "src/lib/course/sections/s17-packaging.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "data-engineering",
+      "file": "src/lib/course/sections/s18-data-engineering.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "databases-orm",
+      "file": "src/lib/course/sections/s19-databases-orm.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "rag",
+      "file": "src/lib/course/sections/s20-rag.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "fastapi",
+      "file": "src/lib/course/sections/s21-fastapi.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "rapidfuzz-entity",
+      "file": "src/lib/course/sections/s22-rapidfuzz-entity.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "computer-vision",
+      "file": "src/lib/course/sections/s23-computer-vision.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "rpa-advanced",
+      "file": "src/lib/course/sections/s24-rpa-advanced.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "streamlit-dashboards",
+      "file": "src/lib/course/sections/s25-streamlit-dashboards.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "integrator-phase1",
+      "file": "src/lib/course/sections/s26-integrator-phase1.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "async-concurrency",
+      "file": "src/lib/course/sections/s27-async-concurrency.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "llm-agents",
+      "file": "src/lib/course/sections/s28-llm-agents.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "mlops",
+      "file": "src/lib/course/sections/s29-mlops.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "security-infra",
+      "file": "src/lib/course/sections/s30-security-infra.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "streaming-data",
+      "file": "src/lib/course/sections/s31-streaming-data.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "microservices",
+      "file": "src/lib/course/sections/s32-microservices.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "advanced-models",
+      "file": "src/lib/course/sections/s33-advanced-models.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "cv-ai-integration",
+      "file": "src/lib/course/sections/s34-cv-ai-integration.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "system-design",
+      "file": "src/lib/course/sections/s35-system-design.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "ai-apis-advanced",
+      "file": "src/lib/course/sections/s36-ai-apis-advanced.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "dbt-bigquery",
+      "file": "src/lib/course/sections/s37-dbt-bigquery.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "performance-extreme",
+      "file": "src/lib/course/sections/s38-performance-extreme.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "integrator-phase2",
+      "file": "src/lib/course/sections/s39-integrator-phase2.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "agentic-architecture",
+      "file": "src/lib/course/sections/s40-agentic-architecture.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "llm-finetuning",
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "graph-rag",
+      "file": "src/lib/course/sections/s42-graph-rag.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "llmops",
+      "file": "src/lib/course/sections/s43-llmops.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "multimodal",
+      "file": "src/lib/course/sections/s44-multimodal.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "iac",
+      "file": "src/lib/course/sections/s45-iac.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "gpu-computing",
+      "file": "src/lib/course/sections/s46-gpu-computing.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "opensource",
+      "file": "src/lib/course/sections/s47-opensource.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "ai-governance",
+      "file": "src/lib/course/sections/s48-ai-governance.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "data-contracts",
+      "file": "src/lib/course/sections/s49-data-contracts.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "tech-leadership",
+      "file": "src/lib/course/sections/s50-tech-leadership.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "integrator-final",
+      "file": "src/lib/course/sections/s51-integrator-final.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    },
+    {
+      "section_id": "career-strategy",
+      "file": "src/lib/course/sections/s52-career-strategy.ts",
+      "subtopics": 8,
+      "demos": 8,
+      "exercises": 24,
+      "v3_tagged": true
+    }
+  ],
+  "seed_concepts_per_section": {
+    "setup": 8,
+    "basics": 8,
+    "oop": 8,
+    "numpy": 8,
+    "pandas": 8,
+    "visualization": 8,
+    "sklearn": 8,
+    "testing": 8
+  },
+  "failures": [],
+  "warnings": [],
+  "warning_count": 0,
+  "ok": true
+}

@@ -1,0 +1,318 @@
+{
+  "version": "3.2",
+  "section": "S11",
+  "section_id": "testing",
+  "phase": "PHASE_4_COMPLETE",
+  "lane": "LANE-S09-S11-P4",
+  "generated_at": "2026-07-20T07:17:28Z",
+  "prompt_version": "3.2",
+  "authority": "PARALLEL_PRODUCTION author agent — does not mark section passed; does not edit checkpoint/ledger/seed/orchestration",
+  "preamble": {
+    "objective": "Retarget testing section TS to V3 OOP domain model; author full packages for all 8 subtopics.",
+    "scope_in": [
+      "src/lib/course/sections/s11-testing.ts",
+      "course-state/s11_phase4_progress.json",
+      "course-state/lanes/LANE-S09-S11-P4.status.json"
+    ],
+    "scope_out": [
+      "checkpoint.json",
+      "section_ledger.json",
+      "issue_registry.json",
+      "parallel_orchestration.json",
+      "prisma/seed.ts",
+      "PHASE 5 exam A/B/C stems",
+      "section_passed"
+    ]
+  },
+  "meta_updates": {
+    "id": "testing",
+    "index": 11,
+    "title": "OOP y modelo de dominio",
+    "shortTitle": "OOP dominio",
+    "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+    "estimatedHours": 10,
+    "learningOutcomes": 8,
+    "youDo": "Modelo de dominio Cliente–Transacción–Evidencia",
+    "icon": "Boxes",
+    "gate": "CP-N1-C (modelo de dominio)",
+    "legacy_note": "pytest/CI demoted to quality support; target is domain model without fraud/kinship verdicts"
+  },
+  "subtopics_authored": {
+    "S11-T1-A": {
+      "slug": "classes-instances-dataclass",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S11-T1-A-DEMO",
+      "exercises": [
+        "S11-T1-A-E1",
+        "S11-T1-A-E2",
+        "S11-T1-A-E3"
+      ],
+      "executed": true
+    },
+    "S11-T1-B": {
+      "slug": "invariants-valid-states",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S11-T1-B-DEMO",
+      "exercises": [
+        "S11-T1-B-E1",
+        "S11-T1-B-E2",
+        "S11-T1-B-E3"
+      ],
+      "executed": true
+    },
+    "S11-T2-A": {
+      "slug": "properties-methods",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S11-T2-A-DEMO",
+      "exercises": [
+        "S11-T2-A-E1",
+        "S11-T2-A-E2",
+        "S11-T2-A-E3"
+      ],
+      "executed": true
+    },
+    "S11-T2-B": {
+      "slug": "equality-hash-mutability",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S11-T2-B-DEMO",
+      "exercises": [
+        "S11-T2-B-E1",
+        "S11-T2-B-E2",
+        "S11-T2-B-E3"
+      ],
+      "executed": true
+    },
+    "S11-T3-A": {
+      "slug": "composition-over-inheritance",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S11-T3-A-DEMO",
+      "exercises": [
+        "S11-T3-A-E1",
+        "S11-T3-A-E2",
+        "S11-T3-A-E3"
+      ],
+      "executed": true
+    },
+    "S11-T3-B": {
+      "slug": "protocols-purposeful-polymorphism",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S11-T3-B-DEMO",
+      "exercises": [
+        "S11-T3-B-E1",
+        "S11-T3-B-E2",
+        "S11-T3-B-E3"
+      ],
+      "executed": true
+    },
+    "S11-T4-A": {
+      "slug": "repositories-services-serialization",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S11-T4-A-DEMO",
+      "exercises": [
+        "S11-T4-A-E1",
+        "S11-T4-A-E2",
+        "S11-T4-A-E3"
+      ],
+      "executed": true
+    },
+    "S11-T4-B": {
+      "slug": "domain-deps-tests",
+      "status": "COMPLETE",
+      "theory": true,
+      "demo": "S11-T4-B-DEMO",
+      "exercises": [
+        "S11-T4-B-E1",
+        "S11-T4-B-E2",
+        "S11-T4-B-E3"
+      ],
+      "executed": true
+    }
+  },
+  "counts": {
+    "subtopics_done": 8,
+    "subtopics_target": 8,
+    "demos_done": 8,
+    "demos_target": 8,
+    "exercises_done": 24,
+    "exercises_target": 24,
+    "hints_per_exercise": 2,
+    "theory_blocks_with_subtopicId": 8,
+    "intro_theory_blocks": 1
+  },
+  "youDo": "Modelo de dominio Cliente–Transacción–Evidencia",
+  "execution_log": {
+    "runtime": "python3 local",
+    "executed_at": "2026-07-20",
+    "UNVERIFIED": [],
+    "items": [
+      {
+        "id": "S11-T1-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T1-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T2-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T2-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T3-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T3-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T4-A-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T4-B-DEMO",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T1-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T1-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T1-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T1-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T1-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T1-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T2-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T2-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T2-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T2-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T2-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T2-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T3-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T3-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T3-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T3-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T3-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T3-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T4-A-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T4-A-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T4-A-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T4-B-E1",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T4-B-E2",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      },
+      {
+        "id": "S11-T4-B-E3",
+        "status": "VERIFIED",
+        "notes": "python3 executed; output embedded"
+      }
+    ]
+  },
+  "next_action": "PHASE 5 exam bank for testing V3 slugs. Do not mark S11 passed from this lane."
+}

@@ -1,0 +1,11 @@
+{
+  "id": "CP-N4-C",
+  "status": "pass",
+  "exit_code": 0,
+  "stdout": "METRICS_JSON: {\"capstone_id\": \"CP-N4-C\", \"status\": \"pass\", \"audit_events\": 5, \"denied\": 2, \"pending_human\": 1, \"executed\": 2, \"eval\": {\"n\": 3, \"hits\": 3, \"score\": 1.0}, \"trace\": [{\"tool\": \"search_docs\", \"policy\": \"allow\", \"args\": {\"q\": \"rollback model\"}, \"executed\": true, \"result\": [{\"doc_id\": \"rollback\", \"text\": \"Rollback restores previous production model version after gate failure.\"}]}, {\"tool\": \"delete_records\", \"policy\": \"deny\", \"args\": {\"id\": \"X\"}, \"executed\": false, \"result\": \"denied\"}, {\"tool\": \"send_email\", \"policy\": \"require_human\", \"args\": {\"to\": \"a@example.test\"}, \"executed\": false, \"result\": \"pending_human_approval\"}, {\"tool\": \"send_email\", \"policy\": \"require_human\", \"args\": {\"to\": \"a@example.test\"}, \"executed\": true, \"result\": {\"queued\": true, \"sent\": false}}, {\"tool\": \"unknown_tool\", \"policy\": \"deny\", \"args\": {}, \"executed\": false, \"result\": \"denied\"}]}\nCP-N4-C Copilot OK — eval=1.00\n",
+  "stderr": "",
+  "command": "python3 demo.py",
+  "cwd": "course-state/capstones/CP-N4-C",
+  "executed_at": "2026-07-20T14:53:43Z",
+  "python": "3.9.6"
+}

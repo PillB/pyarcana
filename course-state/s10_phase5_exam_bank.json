@@ -1,0 +1,109 @@
+{
+  "version": "3.2",
+  "section": "S10",
+  "section_id": "sklearn",
+  "phase": "PHASE_5",
+  "lane": "LANE-N1-FINISH",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "prompt_version": "3.2",
+  "summary": {
+    "concepts": 8,
+    "variants_per_concept": 3,
+    "variants_total": 24,
+    "format": "MCQ-4",
+    "language": "es-PE professional",
+    "seed_path": "prisma/seed.ts",
+    "seed_key": "sklearn"
+  },
+  "retired_from_bank": [
+    "pipeline-purpose",
+    "stratified-kfold",
+    "random-vs-grid-search",
+    "shap-purpose"
+  ],
+  "retired_note": "Legacy bank replaced with V3 slugs for S10.",
+  "families": [
+    {
+      "family_id": "S10-T1-A-EX",
+      "concept": "imports-namespaces-main",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S10-T1-B-EX",
+      "concept": "public-api-dependencies",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S10-T2-A-EX",
+      "concept": "src-layout-pyproject",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S10-T2-B-EX",
+      "concept": "versioning-compatibility",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S10-T3-A-EX",
+      "concept": "argparse-subcommands-exitcodes",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S10-T3-B-EX",
+      "concept": "stdio-streams-help",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S10-T4-A-EX",
+      "concept": "config-precedence",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    },
+    {
+      "family_id": "S10-T4-B-EX",
+      "concept": "secrets-defaults-early-validation",
+      "variants": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "counts_validated": {
+    "concepts": 8,
+    "variants_total": 24,
+    "matches_phase3_slugs": true,
+    "legacy_concepts_removed": true
+  },
+  "files_changed": [
+    "prisma/seed.ts (sklearn key)",
+    "course-state/s10_phase5_exam_bank.json"
+  ]
+}

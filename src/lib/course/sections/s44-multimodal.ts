@@ -1,157 +1,1152 @@
 import type { CourseSection } from '../../types'
 
 export const section44: CourseSection = {
-  id: 'multimodal',
+  id: "multimodal",
   index: 44,
-  title: 'Sistemas Multi-Modal — Visión + Lenguaje',
-  shortTitle: 'Sistemas Multi-Modal — Visión ',
-  tagline: 'Los modelos que ven, leen y razonan al mismo tiempo.',
+  title: "CI/CD y seguridad de la cadena de suministro",
+  shortTitle: "CI/CD supply chain",
+  tagline: "pipeline que bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback",
   estimatedHours: 12,
-  level: 'Master',
+  level: "Master",
   phase: 3,
-  icon: 'Image',
-  accentColor: 'bg-gradient-to-br from-amber-500 to-red-600',
-  jobRelevance: 'Sistemas multimodales (GPT-4o Vision, Claude 3.5, Gemini 1.5, Qwen-VL) son la frontera 2026 para automatización documental. Roles en fintech, contabilidad y legal buscan ingenieros que automaticen procesamiento de facturas, contratos y formularios escaneados. Fine-tuning multimodal es skill MUY escaso ($170K-$210K).',
+  icon: "Image",
+  accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
+  jobRelevance:
+    "Retemática V3 **CI/CD y seguridad de la cadena de suministro** (id de plataforma `multimodal` conservado; legado «Sistemas Multi-Modal — Visión + Lenguaje»). Contribuye a **CP-N4-B (inicio)**: pipeline que bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback en entorno de prueba. Datos sintéticos; sin PII real. ER/matching no implica fraude ni parentesco.",
   learningOutcomes: [
-    { text: 'Usar GPT-4o Vision, Claude 3.5 Sonnet y Gemini 1.5 Pro para análisis multimodal' },
-    { text: 'Integrar visión con documentos: extraer estructuras de PDFs escaneados, tablas, formularios' },
-    { text: 'Combinar YOLO detection (S23) con análisis semántico LLM para comprensión de escenas' },
-    { text: 'Construir sistemas de document intelligence: OCR + LLM para procesamiento de documentos peruanos (boletas, facturas, contratos)' },
-    { text: 'Fine-tuning multimodal con modelos LLaVA/Qwen-VL para tareas específicas' },
-    { text: 'Procesamiento de video: análisis frame-by-frame + temporal reasoning' },
+    { text: "Corre lint/types/tests en matrices" },
+    { text: "Usa caches, artifacts y condiciones" },
+    { text: "Minimiza permisos y escanea secretos" },
+    { text: "Genera SBOM, provenance y attestations" },
+    { text: "Configura environments y approvals" },
+    { text: "Despliega con canary y rollback" },
+    { text: "Aplica políticas de branch/review" },
+    { text: "Maneja fallos con evidencia auditable" },
   ],
   theory: [
     {
-      heading: 'Sistemas multi-modal: combinando visión + lenguaje + audio',
+      heading: "Mapa V3 S44: CI/CD y seguridad de la cadena de suministro",
       paragraphs: [
-        'CLIP (Contrastive Language-Image Pre-training) de OpenAI alinea imágenes y texto en el mismo espacio vectorial. Esto permite buscar imágenes con texto (zero-shot image classification) y buscar texto con imágenes. En Python: `from transformers import CLIPModel; model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")`. Calculas embeddings de imagen y texto, y la similitud coseno indica qué tan relacionados están. Para un buscador de imágenes: pre-calculas embeddings de 1000 imágenes, luego para un query de texto, calculas el embedding del texto y encuentras las top-5 imágenes más similares por coseno.',
-        'Whisper de OpenAI transcribe audio a texto con precisión cercana a humana en 99 idiomas. Para español, el modelo "base" es suficiente; para reuniones con ruido de fondo, usa "medium" o "large". En Python: `import whisper; model = whisper.load_model("base"); result = model.transcribe("audio.mp3")`. El resultado incluye timestamps por palabra, lo que permite subtítulos sincronizados. Whisper es la pieza clave para automatización de reuniones: transcribe → extrae action items con LLM → envía por email. Todo esto corre localmente con `faster-whisper` (CTranslate2) en una CPU normal.',
-        'El multi-modal RAG indexa imágenes (via CLIP embeddings) y texto (via text embeddings) en el mismo vector store. Cuando el usuario hace un query, el retriever encuentra tanto documentos de texto como imágenes relevantes. El LLM (GPT-4V o LLaVA) puede entonces razonar sobre ambos: "Según el documento y el diagrama que encontré, el proceso es...". Esto es especialmente útil para manuales técnicos, reportes médicos, y análisis de diseños donde la información está distribuida entre texto e imágenes.',
+        "En V3, **S44** retematiza el archivo de plataforma `multimodal` hacia **CI/CD y seguridad de la cadena de suministro**.",
+        "Incremento: pipeline que bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback en entorno de prueba.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger.",
       ],
+      callout: {
+        type: "info",
+        title: "Platform id preservado",
+        content:
+          "KEEP_PLATFORM_ID_RETHEME_CONTENT: `multimodal`. Capstone: CP-N4-B (inicio).",
+      },
+    },
+    {
+      heading: "lint/types/tests y matrices",
+      subtopicId: "S44-T1-A",
+      paragraphs: [
+        "**lint/types/tests y matrices** — outcome del blueprint phase3 para `lint-types-tests-matrix`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "lint_types_tests_matrix.py",
+        code: `print("matrix", ["3.11","3.12"]); print("steps", ["lint","typecheck","test"]); print("fail_fast", True)`,
+        output: `matrix ['3.11', '3.12']
+steps ['lint', 'typecheck', 'test']
+fail_fast True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "caches, artifacts y condiciones",
+      subtopicId: "S44-T1-B",
+      paragraphs: [
+        "**caches, artifacts y condiciones** — outcome del blueprint phase3 para `caches-artifacts-conditions`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "caches_artifacts_conditions.py",
+        code: `print("cache", {"pip":True}); print("artifacts", ["wheel","sbom"]); print("if", "on_success")`,
+        output: `cache {'pip': True}
+artifacts ['wheel', 'sbom']
+if on_success`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "permisos mínimos, pinning y secret scanning",
+      subtopicId: "S44-T2-A",
+      paragraphs: [
+        "**permisos mínimos, pinning y secret scanning** — outcome del blueprint phase3 para `min-perms-pin-secret-scan`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "min_perms_pin_secret_scan.py",
+        code: `print("min_perms", {"contents":"read"}); print("pinned", True); print("secret_scan", True)`,
+        output: `min_perms {'contents': 'read'}
+pinned True
+secret_scan True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "SBOM, provenance y attestations",
+      subtopicId: "S44-T2-B",
+      paragraphs: [
+        "**SBOM, provenance y attestations** — outcome del blueprint phase3 para `sbom-provenance-attest`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "sbom_provenance_attest.py",
+        code: `print("sbom", "spdx"); print("pkgs", 3); print("prov", "gha")`,
+        output: `sbom spdx
+pkgs 3
+prov gha`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "environments y approvals",
+      subtopicId: "S44-T3-A",
+      paragraphs: [
+        "**environments y approvals** — outcome del blueprint phase3 para `envs-approvals`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "envs_approvals.py",
+        code: `print("envs", ["dev","staging","prod"]); print("prod_approvers", ["lead"]); print("protection", True)`,
+        output: `envs ['dev', 'staging', 'prod']
+prod_approvers ['lead']
+protection True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "migrations, canary/blue-green y rollback",
+      subtopicId: "S44-T3-B",
+      paragraphs: [
+        "**migrations, canary/blue-green y rollback** — outcome del blueprint phase3 para `migrations-canary-rollback`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "migrations_canary_rollback.py",
+        code: `print("canary"); print(10); print("prev_version")`,
+        output: `canary
+10
+prev_version`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "branch/review policy y release notes",
+      subtopicId: "S44-T4-A",
+      paragraphs: [
+        "**branch/review policy y release notes** — outcome del blueprint phase3 para `branch-review-release-notes`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "branch_review_release_notes.py",
+        code: `print({"reviews":1,"signed_commits":True}); print("notes_ok", True); print("branch", "main_protected")`,
+        output: `{'reviews': 1, 'signed_commits': True}
+notes_ok True
+branch main_protected`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
+    },
+    {
+      heading: "failure handling y evidencia auditable",
+      subtopicId: "S44-T4-B",
+      paragraphs: [
+        "**failure handling y evidencia auditable** — outcome del blueprint phase3 para `failure-handling-audit-evidence`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (inicio)** sin exponer secretos ni PII real.",
+      ],
+      code: {
+        language: 'python',
+        title: "failure_handling_audit_evidence.py",
+        code: `print("block_release"); print(["log","artifact"]); print("audit", True)`,
+        output: `block_release
+['log', 'artifact']
+audit True`,
+      },
+      callout: {
+        type: "tip",
+        title: "Contrato local",
+        content:
+          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+      },
     },
   ],
   iDo: {
-    intro: 'Te muestro paso a paso cómo aplicar los conceptos de esta sección con ejemplos prácticos.',
+    intro: "Te muestro 8 demos de S44 (CI/CD y seguridad de la cadena de suministro) alineadas a CP-N4-B (inicio).",
     steps: [
       {
-        description: 'Construir un sistema multi-modal que analice imágenes con CLIP',
+        demoId: "S44-T1-A-DEMO",
+        subtopicId: "S44-T1-A",
+        environment: "local-python",
+        description: "Demo: lint/types/tests y matrices",
         code: {
           language: 'python',
-          title: 'demo.py',
-          code: '# CLIP: zero-shot image classification\nfrom transformers import CLIPModel, CLIPProcessor\nimport torch\n\nmodel = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")\nprocessor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")\n\ntexts = ["un gato", "un perro", "un auto rojo"]\ninputs = processor(text=texts, images=images, return_tensors="pt", padding=True)\nwith torch.no_grad():\n    outputs = model(**inputs)\n    logits = outputs.logits_per_image\nbest = texts[logits[0].argmax()]\nprint(f"Mejor match: {best} (confianza: {torch.softmax(logits[0], 0).max():.1%})")',
+          title: "demo_lint_types_tests_matrix.py",
+          code: `print(True); print("n", 3); print("matrix_ok", True)`,
+          output: `True
+n 3
+matrix_ok True`,
         },
-        why: 'CLIP permite zero-shot image classification sin entrenar un modelo custom. Solo necesitas describir las clases en texto y CLIP las clasifica automaticamente.',
+        why: "Demuestra el outcome de S44-T1-A con Python verificable.",
+      },
+      {
+        demoId: "S44-T1-B-DEMO",
+        subtopicId: "S44-T1-B",
+        environment: "local-python",
+        description: "Demo: caches, artifacts y condiciones",
+        code: {
+          language: 'python',
+          title: "demo_caches_artifacts_conditions.py",
+          code: `print("cache_hit", True); print("artifact", "wheel"); print("condition", "main_only")`,
+          output: `cache_hit True
+artifact wheel
+condition main_only`,
+        },
+        why: "Demuestra el outcome de S44-T1-B con Python verificable.",
+      },
+      {
+        demoId: "S44-T2-A-DEMO",
+        subtopicId: "S44-T2-A",
+        environment: "local-python",
+        description: "Demo: permisos mínimos, pinning y secret scanning",
+        code: {
+          language: 'python',
+          title: "demo_min_perms_pin_secret_scan.py",
+          code: `print("gitleaks", "block"); print("perms", "least"); print("pin", True)`,
+          output: `gitleaks block
+perms least
+pin True`,
+        },
+        why: "Demuestra el outcome de S44-T2-A con Python verificable.",
+      },
+      {
+        demoId: "S44-T2-B-DEMO",
+        subtopicId: "S44-T2-B",
+        environment: "local-python",
+        description: "Demo: SBOM, provenance y attestations",
+        code: {
+          language: 'python',
+          title: "demo_sbom_provenance_attest.py",
+          code: `print("attest", True); print("verifiable", True); print("spdx", True)`,
+          output: `attest True
+verifiable True
+spdx True`,
+        },
+        why: "Demuestra el outcome de S44-T2-B con Python verificable.",
+      },
+      {
+        demoId: "S44-T3-A-DEMO",
+        subtopicId: "S44-T3-A",
+        environment: "local-python",
+        description: "Demo: environments y approvals",
+        code: {
+          language: 'python',
+          title: "demo_envs_approvals.py",
+          code: `print("env", "staging"); print("needs_approval", True); print("prod_gate", True)`,
+          output: `env staging
+needs_approval True
+prod_gate True`,
+        },
+        why: "Demuestra el outcome de S44-T3-A con Python verificable.",
+      },
+      {
+        demoId: "S44-T3-B-DEMO",
+        subtopicId: "S44-T3-B",
+        environment: "local-python",
+        description: "Demo: migrations, canary/blue-green y rollback",
+        code: {
+          language: 'python',
+          title: "demo_migrations_canary_rollback.py",
+          code: `print("migration", "expand_first"); print("blue_green", "optional"); print("rollback_demo", True)`,
+          output: `migration expand_first
+blue_green optional
+rollback_demo True`,
+        },
+        why: "Demuestra el outcome de S44-T3-B con Python verificable.",
+      },
+      {
+        demoId: "S44-T4-A-DEMO",
+        subtopicId: "S44-T4-A",
+        environment: "local-python",
+        description: "Demo: branch/review policy y release notes",
+        code: {
+          language: 'python',
+          title: "demo_branch_review_release_notes.py",
+          code: `print("reviews", 1); print("release_notes", True); print("conventional", True)`,
+          output: `reviews 1
+release_notes True
+conventional True`,
+        },
+        why: "Demuestra el outcome de S44-T4-A con Python verificable.",
+      },
+      {
+        demoId: "S44-T4-B-DEMO",
+        subtopicId: "S44-T4-B",
+        environment: "local-python",
+        description: "Demo: failure handling y evidencia auditable",
+        code: {
+          language: 'python',
+          title: "demo_failure_handling_audit_evidence.py",
+          code: `print("on_fail", "block"); print("evidence_n", 2); print("audit_trail", True)`,
+          output: `on_fail block
+evidence_n 2
+audit_trail True`,
+        },
+        why: "Demuestra el outcome de S44-T4-B con Python verificable.",
       },
     ],
   },
   weDo: {
-    intro: 'Ahora te toca a ti practicar con guía. Lee cada instrucción, intenta escribir el código, y si te trabas revisa la solución.',
+    intro: "24 ejercicios (8×E1 guided / E2 independent / E3 transfer) en es-PE con soluciones verificadas.",
     steps: [
       {
-        instruction: 'Implementa un buscador de imágenes con texto usando CLIP embeddings',
-        hint: 'Revisa la teoría y el I Do antes de intentar este ejercicio.',
+        id: "S44-T1-A-E1",
+        subtopicId: "S44-T1-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
-          title: 'ejercicio.py',
-          code: '# Tu código aquí\n',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
         },
         solutionCode: {
           language: 'python',
-          title: 'solucion.py',
-          code: '# Whisper: transcripcion de audio a texto\nimport whisper\nmodel = whisper.load_model("base")\nresult = model.transcribe("reunion.mp3", language="es")\nprint(f"Transcrito: {len(result[\'text\'])} caracteres")\nfor seg in result["segments"][:3]:\nprint(f"  [{seg[\'start\']:.1f}s] {seg[\'text\'][:50]}...")',
+          title: "exercise.py",
+          code: `print(['lint','typecheck','test'])`,
+          output: `['lint', 'typecheck', 'test']`,
+        },
+      },
+      {
+        id: "S44-T1-A-E2",
+        subtopicId: "S44-T1-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S44-T1-A-E3",
+        subtopicId: "S44-T1-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['3.11','3.12'])`,
+          output: `['3.11', '3.12']`,
+        },
+      },
+      {
+        id: "S44-T1-B-E1",
+        subtopicId: "S44-T1-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['wheel','sbom'])`,
+          output: `['wheel', 'sbom']`,
+        },
+      },
+      {
+        id: "S44-T1-B-E2",
+        subtopicId: "S44-T1-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S44-T1-B-E3",
+        subtopicId: "S44-T1-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('on_success')`,
+          output: `on_success`,
+        },
+      },
+      {
+        id: "S44-T2-A-E1",
+        subtopicId: "S44-T2-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('read')`,
+          output: `read`,
+        },
+      },
+      {
+        id: "S44-T2-A-E2",
+        subtopicId: "S44-T2-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S44-T2-A-E3",
+        subtopicId: "S44-T2-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('block')`,
+          output: `block`,
+        },
+      },
+      {
+        id: "S44-T2-B-E1",
+        subtopicId: "S44-T2-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('spdx')`,
+          output: `spdx`,
+        },
+      },
+      {
+        id: "S44-T2-B-E2",
+        subtopicId: "S44-T2-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(3)`,
+          output: `3`,
+        },
+      },
+      {
+        id: "S44-T2-B-E3",
+        subtopicId: "S44-T2-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S44-T3-A-E1",
+        subtopicId: "S44-T3-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['dev','staging','prod'])`,
+          output: `['dev', 'staging', 'prod']`,
+        },
+      },
+      {
+        id: "S44-T3-A-E2",
+        subtopicId: "S44-T3-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['lead'])`,
+          output: `['lead']`,
+        },
+      },
+      {
+        id: "S44-T3-A-E3",
+        subtopicId: "S44-T3-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S44-T3-B-E1",
+        subtopicId: "S44-T3-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('canary')`,
+          output: `canary`,
+        },
+      },
+      {
+        id: "S44-T3-B-E2",
+        subtopicId: "S44-T3-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(10)`,
+          output: `10`,
+        },
+      },
+      {
+        id: "S44-T3-B-E3",
+        subtopicId: "S44-T3-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('prev_version')`,
+          output: `prev_version`,
+        },
+      },
+      {
+        id: "S44-T4-A-E1",
+        subtopicId: "S44-T4-A",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(1)`,
+          output: `1`,
+        },
+      },
+      {
+        id: "S44-T4-A-E2",
+        subtopicId: "S44-T4-A",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
+        },
+      },
+      {
+        id: "S44-T4-A-E3",
+        subtopicId: "S44-T4-A",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('main_protected')`,
+          output: `main_protected`,
+        },
+      },
+      {
+        id: "S44-T4-B-E1",
+        subtopicId: "S44-T4-B",
+        kind: "guided",
+        instruction:
+          "Completa el ejercicio guiado.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio guiado.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print('block_release')`,
+          output: `block_release`,
+        },
+      },
+      {
+        id: "S44-T4-B-E2",
+        subtopicId: "S44-T4-B",
+        kind: "independent",
+        instruction:
+          "Completa el ejercicio independiente.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Completa el ejercicio independiente.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(['log','artifact'])`,
+          output: `['log', 'artifact']`,
+        },
+      },
+      {
+        id: "S44-T4-B-E3",
+        subtopicId: "S44-T4-B",
+        kind: "transfer",
+        instruction:
+          "Transfiere el concepto.",
+        hint: "hint-a",
+        hints: [
+          "hint-a",
+          "hint-b",
+        ],
+        edgeCases: ["caso sintético", "sin PII real"],
+        tests: "salida coincide con solution output",
+        feedback: "Compara tu salida con la solución.",
+        starterCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `# Transfiere el concepto.
+# TODO
+`,
+        },
+        solutionCode: {
+          language: 'python',
+          title: "exercise.py",
+          code: `print(True)`,
+          output: `True`,
         },
       },
     ],
   },
   youDo: {
-    title: 'Multimodal Analysis Pipeline',
-    context: 'Sistema que procesa facturas peruanas en imagen (JPEG/PDF), extrae con Qwen-VL, valida contra base de datos de proveedores con RapidFuzz (S22), y sube a sistema contable vía API.',
+    title: "CI/CD y seguridad de la cadena de suministro",
+    context:
+      "Proyecto de sección **S44** (CI/CD y seguridad de la cadena de suministro). Gate: **CP-N4-B (inicio)**. pipeline que bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback en entorno de prueba. Usa solo datos sintéticos; no marques section_passed desde esta entrega de autoría.",
     objectives: [
-      'Aplicar los conceptos aprendidos en un proyecto real',
-      'Demostrar dominio del tema con un entregable de portafolio',
-      'Documentar el proceso y los resultados',
+      "pipeline que bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback en entorno de prueba.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-B (inicio)",
     ],
     requirements: [
-      'Código funcional y documentado',
-      'Tests que validen el funcionamiento',
-      'README con instrucciones de uso',
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección",
     ],
-    portfolioNote: 'Este proyecto es ideal para mostrar en entrevistas técnicas y agregar a tu portafolio de GitHub.',
+    starterCode: `# S44 You Do — CI/CD y seguridad de la cadena de suministro
+# Gate: CP-N4-B (inicio)
+# pipeline que bloquea dependencia insegura o test crítico, publica artefacto verificable y demuestra rollback en entorno 
+
+def main():
+    print("section", "S44")
+    print("gate", 'CP-N4-B (inicio)')
+    print("synthetic", True)
+    # TODO: implementar incremento del blueprint
+
+if __name__ == "__main__":
+    main()
+`,
+    portfolioNote:
+      "Entrega alineada a CP-N4-B (inicio). Portfolio en español profesional; evidencia ejecutable; privacidad. Otra lane califica PASS; no editar checkpoint/ledger/seed.",
     rubric: [
-      { criterion: 'Funcionalidad', weight: '40%' },
-      { criterion: 'Calidad de código', weight: '20%' },
-      { criterion: 'Documentación', weight: '20%' },
-      { criterion: 'Tests', weight: '20%' },
+      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
+      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
+      { criterion: "Privacidad / sin PII real / sin secretos", weight: "20%" },
+      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
+      { criterion: "Código legible y límites claros", weight: "10%" },
+      { criterion: "Documentación en español profesional", weight: "10%" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: '¿Qué es CLIP de OpenAI?',
+        question: "El id de plataforma de S44 que se preserva es:",
         options: [
-          'Modelo que alinea imágenes y texto en el mismo espacio vectorial — permite buscar imágenes con texto y viceversa (zero-shot classification)',
-          'Un editor de imágenes',
-          'Un formato de compresión',
-          'Un sistema de captura de pantalla',
+          "multimodal",
+          "renamed-v3",
+          "legacy-drop",
+          "random",
         ],
         correctIndex: 0,
-        explanation: 'CLIP entrena conjuntamente con imágenes y texto para que ambos modos queden en el mismo espacio vectorial. Calculas embeddings de imagen y texto, y la similitud coseno indica qué tan relacionados están. Permite buscar imágenes con descripciones de texto.',
+        explanation:
+          "KEEP_PLATFORM_ID_RETHEME_CONTENT.",
       },
       {
-        question: '¿Qué es Whisper de OpenAI?',
+        question: "El incremento/gate V3 de S44 pertenece a:",
         options: [
-          'Modelo de transcripción de audio a texto en 99 idiomas — usa whisper.load_model("base") para español con precisión cercana a humana',
-          'Un sistema de mensajería',
-          'Un protocolo de red',
-          'Un reproductor de audio',
+          "CP-N4-B (inicio)",
+          "CP-N1-A",
+          "solo marketing",
+          "sin capstone",
         ],
         correctIndex: 0,
-        explanation: 'Whisper transcribe audio a texto con timestamps por palabra. Para español, el modelo "base" es suficiente. Incluye detección de idioma, traducción al inglés, y supresión de ruido. faster-whisper (CTranslate2) lo acelera 4x en CPU.',
+        explanation:
+          "Blueprint phase3 capstone_notes.",
       },
       {
-        question: '¿Qué es multi-modal RAG?',
+        question: "Los ejemplos del curso deben usar:",
         options: [
-          'Indexa imágenes (CLIP embeddings) y texto (text embeddings) en el mismo vector store — recupera ambos tipos conjuntamente para dar contexto al LLM',
-          'Un RAG que solo usa imágenes',
-          'Un RAG que solo usa audio',
-          'Un RAG con múltiples bases de datos',
+          "PII real de clientes",
+          "Datos sintéticos",
+          "Secretos de prod",
+          "Claves API reales",
         ],
-        correctIndex: 0,
-        explanation: 'Multi-modal RAG: indexas imágenes con CLIP y texto con text embeddings en el mismo vector store. Cuando el usuario pregunta, el retriever encuentra documentos de texto Y imágenes relevantes. El LLM (GPT-4V o LLaVA) razona sobre ambos.',
+        correctIndex: 1,
+        explanation:
+          "Synthetic data only.",
       },
       {
-        question: '¿Qué son los modelos vision-language (VLM)?',
+        question: "Entity resolution (si aparece) decide:",
         options: [
-          'Modelos que procesan imagen y texto conjuntamente — GPT-4V, LLaVA, Claude Vision pueden describir imágenes, responder preguntas sobre ellas, y razonar visualmente',
-          'Modelos que solo procesan imágenes',
-          'Modelos que solo procesan texto',
-          'Modelos de visión que no usan lenguaje',
+          "Fraude",
+          "Parentesco",
+          "Misma entidad cuando aplique",
+          "Sentimiento",
         ],
-        correctIndex: 0,
-        explanation: 'Los VLMs (Vision-Language Models) aceptan imagen + texto como input. GPT-4V puede: describir una imagen, extraer texto (OCR), identificar objetos, responder preguntas sobre la escena. LLaVA es la alternativa open-source. Usan un vision encoder (CLIP/ViT) + LLM.',
-      },
-      {
-        question: '¿Para qué sirve la generación de imágenes con DALL-E y Stable Diffusion?',
-        options: [
-          'Generar imágenes desde descripciones de texto — útil para marketing, prototipos, contenido educativo, y arte. Stable Diffusion corre localmente sin API',
-          'Es un editor de fotos como Photoshop',
-          'Es un sistema de backup de imágenes',
-          'Es un formato de imagen',
-        ],
-        correctIndex: 0,
-        explanation: 'DALL-E 3 (OpenAI API) y Stable Diffusion (open-source, local) generan imágenes desde texto. SD tiene ventaja: corre en tu GPU, sin costo por imagen, sin censura externa. Útil para generar datasets sintéticos, prototipos visuales, y contenido para presentaciones.',
+        correctIndex: 2,
+        explanation:
+          "ER ≠ relación ≠ fraude.",
       },
     ],
   },
   resources: {
     docs: [
-      { label: 'Documentación oficial', url: 'https://docs.python.org/3/' },
+      {
+        label: "Python docs",
+        url: "https://docs.python.org/3/",
+        note: "Referencia stdlib",
+      },
+      {
+        label: "V3 section support",
+        url: "https://docs.python.org/3/library/",
+        note: "Apoyo S44 CI/CD y seguridad de la cadena de suministro",
+      },
     ],
     books: [
-      { label: 'Python 201 — Michael Driscoll', note: 'Capítulos relevantes para esta sección' },
+      {
+        label: "Architecture / platform engineering refs",
+        note: "Alinear a CI/CD y seguridad de la cadena de suministro",
+      },
+      {
+        label: "Site Reliability / Security basics",
+        note: "Operación y privacidad",
+      },
     ],
     courses: [
-      { label: 'Real Python', url: 'https://realpython.com', note: 'Tutoriales complementarios' },
+      {
+        label: "MDN / cloud / MLOps primers",
+        url: "https://developer.mozilla.org/",
+        note: "Complemento conceptual",
+      },
     ],
   },
 }

@@ -1,0 +1,1071 @@
+{
+  "version": "3.2",
+  "section": "S41",
+  "section_id": "llm-finetuning",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T18:00:00Z",
+  "lane": "LANE-N34-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N34-FACTORY — S27–S52 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N34-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S41 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S41 only (within N3/N4 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s41-llm-finetuning.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "llm-finetuning",
+    "index": 41,
+    "title_platform": "Fine-Tuning de LLMs (QLoRA, LoRA, SFT)",
+    "title_v3": "APIs con FastAPI y contratos HTTP",
+    "title_decision": "KEEP platform id 'llm-finetuning' (learning_roadmap.md / index.ts). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "API versionada que crea jobs y consulta resultados/evidencia, sin exponer PII ni claves internas",
+    "estimatedHours": 14,
+    "level": "Experto a máster",
+    "phase": 3,
+    "prerequisites": [
+      "S40"
+    ],
+    "environment": "local",
+    "project_capstone": "CP-N4-A (servicio)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "llm-finetuning",
+    "platform_title": "Fine-Tuning de LLMs (QLoRA, LoRA, SFT)",
+    "v3_title": "APIs con FastAPI y contratos HTTP",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "src/lib/course/index.ts order + section file ids; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante diseña recursos HTTP y status.",
+    "El estudiante versiona, pagina e idempotiza.",
+    "El estudiante estructura routing y dependencies.",
+    "El estudiante valida, serializa y documenta.",
+    "El estudiante separa sync/async y background.",
+    "El estudiante maneja errores, timeouts y lifecycle.",
+    "El estudiante prueba unit/contract/integration.",
+    "El estudiante verifica compat, rate limit y obs."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S41-T1-A",
+      "slug": "resources-methods-status",
+      "title": "recursos, métodos y status"
+    },
+    {
+      "subtopic_id": "S41-T1-B",
+      "slug": "idempotency-pagination-versioning",
+      "title": "idempotencia, paginación y versionado"
+    },
+    {
+      "subtopic_id": "S41-T2-A",
+      "slug": "routing-deps-models",
+      "title": "routing, dependencies y modelos"
+    },
+    {
+      "subtopic_id": "S41-T2-B",
+      "slug": "validation-serialize-docs",
+      "title": "validación, serialización y documentación"
+    },
+    {
+      "subtopic_id": "S41-T3-A",
+      "slug": "sync-async-background",
+      "title": "sync/async y background boundaries"
+    },
+    {
+      "subtopic_id": "S41-T3-B",
+      "slug": "errors-timeouts-lifecycle",
+      "title": "errores, timeouts y lifecycle"
+    },
+    {
+      "subtopic_id": "S41-T4-A",
+      "slug": "unit-contract-integration",
+      "title": "unit/contract/integration"
+    },
+    {
+      "subtopic_id": "S41-T4-B",
+      "slug": "compat-ratelimit-observability",
+      "title": "compatibility, rate limit y observabilidad"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S41-T1",
+      "title": "HTTP/OpenAPI",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S41-T1-A",
+          "slug": "resources-methods-status",
+          "title": "recursos, métodos y status",
+          "outcome": "El estudiante diseña recursos HTTP y status.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "recursos, métodos y status",
+              "must_cover": [
+                "REST",
+                "status codes"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S41-T1-A-DEMO",
+              "title": "Demo: recursos, métodos y status",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S41-T1-A-E1",
+                "kind": "guided",
+                "title": "recursos, métodos y status — guided",
+                "skill": "resources",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S41-T1-A-E2",
+                "kind": "independent",
+                "title": "recursos, métodos y status — independent",
+                "skill": "resources",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S41-T1-A-E3",
+                "kind": "transfer",
+                "title": "recursos, métodos y status — transfer",
+                "skill": "resources",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S41-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S41-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S41-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S41-T1-B",
+          "slug": "idempotency-pagination-versioning",
+          "title": "idempotencia, paginación y versionado",
+          "outcome": "El estudiante versiona, pagina e idempotiza.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "idempotencia, paginación y versionado",
+              "must_cover": [
+                "Idempotency-Key",
+                "pagination",
+                "API version"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S41-T1-B-DEMO",
+              "title": "Demo: idempotencia, paginación y versionado",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S41-T1-B-E1",
+                "kind": "guided",
+                "title": "idempotencia, paginación y versionado — guided",
+                "skill": "idempotency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S41-T1-B-E2",
+                "kind": "independent",
+                "title": "idempotencia, paginación y versionado — independent",
+                "skill": "idempotency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S41-T1-B-E3",
+                "kind": "transfer",
+                "title": "idempotencia, paginación y versionado — transfer",
+                "skill": "idempotency",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S41-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S41-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S41-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S41-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S41-T1-EVAL-1",
+            "title": "recursos, métodos y status — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S41-T1-EVAL-2",
+            "title": "idempotencia, paginación y versionado — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S41-T2",
+      "title": "FastAPI",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S41-T2-A",
+          "slug": "routing-deps-models",
+          "title": "routing, dependencies y modelos",
+          "outcome": "El estudiante estructura routing y dependencies.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "routing, dependencies y modelos",
+              "must_cover": [
+                "APIRouter",
+                "Depends",
+                "Pydantic"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S41-T2-A-DEMO",
+              "title": "Demo: routing, dependencies y modelos",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S41-T2-A-E1",
+                "kind": "guided",
+                "title": "routing, dependencies y modelos — guided",
+                "skill": "routing",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S41-T2-A-E2",
+                "kind": "independent",
+                "title": "routing, dependencies y modelos — independent",
+                "skill": "routing",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S41-T2-A-E3",
+                "kind": "transfer",
+                "title": "routing, dependencies y modelos — transfer",
+                "skill": "routing",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S41-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S41-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S41-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S41-T2-B",
+          "slug": "validation-serialize-docs",
+          "title": "validación, serialización y documentación",
+          "outcome": "El estudiante valida, serializa y documenta.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "validación, serialización y documentación",
+              "must_cover": [
+                "validation",
+                "OpenAPI"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S41-T2-B-DEMO",
+              "title": "Demo: validación, serialización y documentación",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S41-T2-B-E1",
+                "kind": "guided",
+                "title": "validación, serialización y documentación — guided",
+                "skill": "validation",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S41-T2-B-E2",
+                "kind": "independent",
+                "title": "validación, serialización y documentación — independent",
+                "skill": "validation",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S41-T2-B-E3",
+                "kind": "transfer",
+                "title": "validación, serialización y documentación — transfer",
+                "skill": "validation",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S41-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S41-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S41-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S41-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S41-T2-EVAL-1",
+            "title": "routing, dependencies y modelos — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S41-T2-EVAL-2",
+            "title": "validación, serialización y documentación — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S41-T3",
+      "title": "Ejecución",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S41-T3-A",
+          "slug": "sync-async-background",
+          "title": "sync/async y background boundaries",
+          "outcome": "El estudiante separa sync/async y background.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "sync/async y background boundaries",
+              "must_cover": [
+                "async",
+                "BackgroundTasks"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S41-T3-A-DEMO",
+              "title": "Demo: sync/async y background boundaries",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S41-T3-A-E1",
+                "kind": "guided",
+                "title": "sync/async y background boundaries — guided",
+                "skill": "sync",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S41-T3-A-E2",
+                "kind": "independent",
+                "title": "sync/async y background boundaries — independent",
+                "skill": "sync",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S41-T3-A-E3",
+                "kind": "transfer",
+                "title": "sync/async y background boundaries — transfer",
+                "skill": "sync",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S41-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S41-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S41-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S41-T3-B",
+          "slug": "errors-timeouts-lifecycle",
+          "title": "errores, timeouts y lifecycle",
+          "outcome": "El estudiante maneja errores, timeouts y lifecycle.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "errores, timeouts y lifecycle",
+              "must_cover": [
+                "HTTPException",
+                "timeout",
+                "lifespan"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S41-T3-B-DEMO",
+              "title": "Demo: errores, timeouts y lifecycle",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S41-T3-B-E1",
+                "kind": "guided",
+                "title": "errores, timeouts y lifecycle — guided",
+                "skill": "errors",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S41-T3-B-E2",
+                "kind": "independent",
+                "title": "errores, timeouts y lifecycle — independent",
+                "skill": "errors",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S41-T3-B-E3",
+                "kind": "transfer",
+                "title": "errores, timeouts y lifecycle — transfer",
+                "skill": "errors",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S41-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S41-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S41-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S41-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S41-T3-EVAL-1",
+            "title": "sync/async y background boundaries — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S41-T3-EVAL-2",
+            "title": "errores, timeouts y lifecycle — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S41-T4",
+      "title": "Pruebas",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S41-T4-A",
+          "slug": "unit-contract-integration",
+          "title": "unit/contract/integration",
+          "outcome": "El estudiante prueba unit/contract/integration.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "unit/contract/integration",
+              "must_cover": [
+                "TestClient",
+                "contract"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S41-T4-A-DEMO",
+              "title": "Demo: unit/contract/integration",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S41-T4-A-E1",
+                "kind": "guided",
+                "title": "unit/contract/integration — guided",
+                "skill": "unit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S41-T4-A-E2",
+                "kind": "independent",
+                "title": "unit/contract/integration — independent",
+                "skill": "unit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S41-T4-A-E3",
+                "kind": "transfer",
+                "title": "unit/contract/integration — transfer",
+                "skill": "unit",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S41-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S41-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S41-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S41-T4-B",
+          "slug": "compat-ratelimit-observability",
+          "title": "compatibility, rate limit y observabilidad",
+          "outcome": "El estudiante verifica compat, rate limit y obs.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "compatibility, rate limit y observabilidad",
+              "must_cover": [
+                "compat tests",
+                "rate limit"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S41-T4-B-DEMO",
+              "title": "Demo: compatibility, rate limit y observabilidad",
+              "environment": "local",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S41-T4-B-E1",
+                "kind": "guided",
+                "title": "compatibility, rate limit y observabilidad — guided",
+                "skill": "compat",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S41-T4-B-E2",
+                "kind": "independent",
+                "title": "compatibility, rate limit y observabilidad — independent",
+                "skill": "compat",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S41-T4-B-E3",
+                "kind": "transfer",
+                "title": "compatibility, rate limit y observabilidad — transfer",
+                "skill": "compat",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S41-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S41-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S41-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S41-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S41-T4-EVAL-1",
+            "title": "unit/contract/integration — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S41-T4-EVAL-2",
+            "title": "compatibility, rate limit y observabilidad — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S41-PROJ",
+    "title": "APIs con FastAPI y contratos HTTP",
+    "replaces_legacy": "Legacy You Do de 'Fine-Tuning de LLMs (QLoRA, LoRA, SFT)' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "API versionada que crea jobs y consulta resultados/evidencia, sin exponer PII ni claves internas.",
+      "Datos sintéticos; sin PII real ni secretos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3: CP-N4-A (servicio)"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N4-A (servicio)",
+    "increment_gate": "API versionada que crea jobs y consulta resultados/evidencia, sin exponer PII ni claves internas."
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'llm-finetuning' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s41-llm-finetuning.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Fine-Tuning de LLMs (QLoRA, LoRA, SFT)' vs 'APIs con FastAPI y contratos HTTP'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N4-A (servicio)",
+    "increment_gate": "API versionada que crea jobs y consulta resultados/evidencia, sin exponer PII ni claves internas.",
+    "project_id": "S41-PROJ",
+    "section_passed": false,
+    "notes": "S41 contributes to CP-N4-A (servicio). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N3/N4 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for S41",
+    "risk": "Display title still 'Fine-Tuning de LLMs (QLoRA, LoRA, SFT)' until product rename; topic mismatch vs V3 'APIs con FastAPI y contratos HTTP'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S41-T1-A first"
+  }
+}

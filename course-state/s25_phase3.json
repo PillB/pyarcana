@@ -1,0 +1,1081 @@
+{
+  "version": "3.2",
+  "section": "S25",
+  "section_id": "streamlit-dashboards",
+  "phase": "PHASE_3_COMPLETE",
+  "generated_at": "2026-07-20T17:30:00Z",
+  "lane": "LANE-N2-FACTORY",
+  "prompt_version": "3.2",
+  "lightweight": true,
+  "agent_roles": {
+    "orchestrator": "Principal — scope, gates, routing",
+    "factory_lane": "LANE-N2-FACTORY — S14–S26 lightweight blueprints batch",
+    "author_agent": "Blueprint design only (no long-form content)",
+    "report_agent": "Artifacts + LANE-N2-FACTORY.status.json"
+  },
+  "preamble": {
+    "objective": "Lock S25 lightweight blueprint: 4 topics × 2 subtopics with slug plan, counts, and capstone notes before PHASE 4.",
+    "scope_in": [
+      "S25 only (within N2 factory batch)",
+      "4×2 slug plan, outcomes, demo/exercise/exam slots",
+      "Count validation vs invariant vector",
+      "Platform id mapping conflict record"
+    ],
+    "scope_out": [
+      "Writing full theory / exercise bodies (PHASE 4)",
+      "Writing full A/B/C stems (PHASE 5)",
+      "Editing .ts content files",
+      "Editing checkpoint/section_ledger/issue_registry",
+      "Marking section passed"
+    ],
+    "stop_criterion": "Blueprint covers 8 subtopics; totals 8 demos / 24 exercises / 24 A/B/C; capstone notes; no long-form; not passed.",
+    "inputs_used": [
+      "learning_roadmap_52_V3.md",
+      "src/lib/course/sections/s25-streamlit-dashboards.ts",
+      "course-state/capstone_ledger.json",
+      "course-state/section_ledger.json"
+    ]
+  },
+  "section_meta": {
+    "id": "streamlit-dashboards",
+    "index": 25,
+    "title_platform": "Dashboards Interactivos y Streamlit",
+    "title_v3": "Endpoints de IA, Hugging Face y prompting evaluado",
+    "title_decision": "KEEP platform id 'streamlit-dashboards' (learning_roadmap.md). Production content rethemes to V3. Display title update optional in PHASE 4 UI pass.",
+    "tagline_target": "clasificador/extractor especializado y generador de narrativa con JSON validado; no se acepta una salida sin evidencia n",
+    "estimatedHours": 14,
+    "level": "Competente",
+    "phase": 1,
+    "prerequisites": [
+      "S21",
+      "S22",
+      "S23",
+      "S24"
+    ],
+    "environment": "local/cloud aprobado",
+    "project_capstone": "CP-N2-C (AI assist)"
+  },
+  "platform_id_mapping_conflict": {
+    "conflict": true,
+    "platform_section_id": "streamlit-dashboards",
+    "platform_title": "Dashboards Interactivos y Streamlit",
+    "v3_title": "Endpoints de IA, Hugging Face y prompting evaluado",
+    "decision": "KEEP_PLATFORM_ID_RETHEME_CONTENT",
+    "authority": "learning_roadmap.md for stable id; learning_roadmap_52_V3.md for topics/outcomes/counts"
+  },
+  "learning_outcomes_section": [
+    "El estudiante elige regla vs modelo especializado vs LLM.",
+    "El estudiante usa model cards, licencias y decide local/cloud.",
+    "El estudiante ejecuta pipelines/endpoints de Hugging Face.",
+    "El estudiante opera batching, timeout, cache, costo y fallback.",
+    "El estudiante diseña prompts con salida estructurada.",
+    "El estudiante usa thinking/tools/checkpoints de forma controlada.",
+    "El estudiante evalúa con golden set, schema y revisión humana.",
+    "El estudiante mitiga injection, exfiltración, sesgo y minimiza datos."
+  ],
+  "slug_plan_4x2": [
+    {
+      "subtopic_id": "S25-T1-A",
+      "slug": "rule-vs-specialized-vs-llm",
+      "title": "regla vs modelo especializado vs LLM"
+    },
+    {
+      "subtopic_id": "S25-T1-B",
+      "slug": "model-cards-licenses-local-cloud",
+      "title": "model cards, licencias y local/cloud"
+    },
+    {
+      "subtopic_id": "S25-T2-A",
+      "slug": "hf-pipelines-endpoints",
+      "title": "Hugging Face pipelines/endpoints"
+    },
+    {
+      "subtopic_id": "S25-T2-B",
+      "slug": "batch-timeout-cache-cost-fallback",
+      "title": "batching, timeout, cache, costo y fallback"
+    },
+    {
+      "subtopic_id": "S25-T3-A",
+      "slug": "objective-context-constraints-examples",
+      "title": "objetivo, contexto, restricciones, ejemplos y salida estructurada"
+    },
+    {
+      "subtopic_id": "S25-T3-B",
+      "slug": "glm-thinking-tools-checkpoints",
+      "title": "GLM‑5.2 thinking/tools/checkpoints"
+    },
+    {
+      "subtopic_id": "S25-T4-A",
+      "slug": "golden-schema-human-review",
+      "title": "golden set, schema y revisión humana"
+    },
+    {
+      "subtopic_id": "S25-T4-B",
+      "slug": "injection-exfil-bias-minimize",
+      "title": "prompt injection, exfiltración, sesgo y minimización de datos"
+    }
+  ],
+  "topics": [
+    {
+      "topic_id": "S25-T1",
+      "title": "Selección",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S25-T1-A",
+          "slug": "rule-vs-specialized-vs-llm",
+          "title": "regla vs modelo especializado vs LLM",
+          "outcome": "El estudiante elige regla vs modelo especializado vs LLM.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "regla vs modelo especializado vs LLM",
+              "must_cover": [
+                "rules first",
+                "specialized model",
+                "LLM when"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S25-T1-A-DEMO",
+              "title": "Elegir regla/modelo/LLM con justificación",
+              "environment": "local/cloud aprobado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S25-T1-A-E1",
+                "kind": "guided",
+                "title": "regla vs modelo especializado vs LLM — guided",
+                "skill": "rule",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S25-T1-A-E2",
+                "kind": "independent",
+                "title": "regla vs modelo especializado vs LLM — independent",
+                "skill": "rule",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S25-T1-A-E3",
+                "kind": "transfer",
+                "title": "regla vs modelo especializado vs LLM — transfer",
+                "skill": "rule",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S25-T1-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S25-T1-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S25-T1-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S25-T1-B",
+          "slug": "model-cards-licenses-local-cloud",
+          "title": "model cards, licencias y local/cloud",
+          "outcome": "El estudiante usa model cards, licencias y decide local/cloud.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "model cards, licencias y local/cloud",
+              "must_cover": [
+                "model card",
+                "license",
+                "deploy choice"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S25-T1-B-DEMO",
+              "title": "Leer model card y decidir local/cloud",
+              "environment": "local/cloud aprobado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S25-T1-B-E1",
+                "kind": "guided",
+                "title": "model cards, licencias y local/cloud — guided",
+                "skill": "model",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S25-T1-B-E2",
+                "kind": "independent",
+                "title": "model cards, licencias y local/cloud — independent",
+                "skill": "model",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S25-T1-B-E3",
+                "kind": "transfer",
+                "title": "model cards, licencias y local/cloud — transfer",
+                "skill": "model",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S25-T1-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S25-T1-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S25-T1-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S25-T1-EVAL",
+        "tasks": [
+          {
+            "id": "S25-T1-EVAL-1",
+            "title": "regla vs modelo especializado vs LLM — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S25-T1-EVAL-2",
+            "title": "model cards, licencias y local/cloud — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S25-T2",
+      "title": "Inferencia",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S25-T2-A",
+          "slug": "hf-pipelines-endpoints",
+          "title": "Hugging Face pipelines/endpoints",
+          "outcome": "El estudiante ejecuta pipelines/endpoints de Hugging Face.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "Hugging Face pipelines/endpoints",
+              "must_cover": [
+                "pipeline",
+                "Inference API",
+                "local load"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S25-T2-A-DEMO",
+              "title": "Correr pipeline o endpoint HF",
+              "environment": "local/cloud aprobado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S25-T2-A-E1",
+                "kind": "guided",
+                "title": "Hugging Face pipelines/endpoints — guided",
+                "skill": "hf",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S25-T2-A-E2",
+                "kind": "independent",
+                "title": "Hugging Face pipelines/endpoints — independent",
+                "skill": "hf",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S25-T2-A-E3",
+                "kind": "transfer",
+                "title": "Hugging Face pipelines/endpoints — transfer",
+                "skill": "hf",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S25-T2-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S25-T2-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S25-T2-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S25-T2-B",
+          "slug": "batch-timeout-cache-cost-fallback",
+          "title": "batching, timeout, cache, costo y fallback",
+          "outcome": "El estudiante opera batching, timeout, cache, costo y fallback.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "batching, timeout, cache, costo y fallback",
+              "must_cover": [
+                "batch",
+                "timeout",
+                "cache",
+                "cost",
+                "fallback"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S25-T2-B-DEMO",
+              "title": "Operar inferencia con costo y fallback",
+              "environment": "local/cloud aprobado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S25-T2-B-E1",
+                "kind": "guided",
+                "title": "batching, timeout, cache, costo y fallback — guided",
+                "skill": "batch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S25-T2-B-E2",
+                "kind": "independent",
+                "title": "batching, timeout, cache, costo y fallback — independent",
+                "skill": "batch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S25-T2-B-E3",
+                "kind": "transfer",
+                "title": "batching, timeout, cache, costo y fallback — transfer",
+                "skill": "batch",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S25-T2-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S25-T2-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S25-T2-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S25-T2-EVAL",
+        "tasks": [
+          {
+            "id": "S25-T2-EVAL-1",
+            "title": "Hugging Face pipelines/endpoints — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S25-T2-EVAL-2",
+            "title": "batching, timeout, cache, costo y fallback — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S25-T3",
+      "title": "Prompting",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S25-T3-A",
+          "slug": "objective-context-constraints-examples",
+          "title": "objetivo, contexto, restricciones, ejemplos y salida estructurada",
+          "outcome": "El estudiante diseña prompts con salida estructurada.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "objetivo, contexto, restricciones, ejemplos y salida estructurada",
+              "must_cover": [
+                "prompt structure",
+                "JSON schema",
+                "few-shot"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S25-T3-A-DEMO",
+              "title": "Prompt con salida JSON schema",
+              "environment": "local/cloud aprobado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S25-T3-A-E1",
+                "kind": "guided",
+                "title": "objetivo, contexto, restricciones, ejemplos y salida estructurada — guided",
+                "skill": "objective",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S25-T3-A-E2",
+                "kind": "independent",
+                "title": "objetivo, contexto, restricciones, ejemplos y salida estructurada — independent",
+                "skill": "objective",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S25-T3-A-E3",
+                "kind": "transfer",
+                "title": "objetivo, contexto, restricciones, ejemplos y salida estructurada — transfer",
+                "skill": "objective",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S25-T3-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S25-T3-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S25-T3-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S25-T3-B",
+          "slug": "glm-thinking-tools-checkpoints",
+          "title": "GLM‑5.2 thinking/tools/checkpoints",
+          "outcome": "El estudiante usa thinking/tools/checkpoints de forma controlada.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "GLM‑5.2 thinking/tools/checkpoints",
+              "must_cover": [
+                "thinking mode",
+                "tools",
+                "checkpoints"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S25-T3-B-DEMO",
+              "title": "Usar thinking/tools/checkpoints de forma controlada",
+              "environment": "local/cloud aprobado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S25-T3-B-E1",
+                "kind": "guided",
+                "title": "GLM‑5.2 thinking/tools/checkpoints — guided",
+                "skill": "glm",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S25-T3-B-E2",
+                "kind": "independent",
+                "title": "GLM‑5.2 thinking/tools/checkpoints — independent",
+                "skill": "glm",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S25-T3-B-E3",
+                "kind": "transfer",
+                "title": "GLM‑5.2 thinking/tools/checkpoints — transfer",
+                "skill": "glm",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S25-T3-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S25-T3-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S25-T3-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S25-T3-EVAL",
+        "tasks": [
+          {
+            "id": "S25-T3-EVAL-1",
+            "title": "objetivo, contexto, restricciones, ejemplos y salida estructurada — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S25-T3-EVAL-2",
+            "title": "GLM‑5.2 thinking/tools/checkpoints — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    },
+    {
+      "topic_id": "S25-T4",
+      "title": "Evals/seguridad",
+      "bloom_focus": [
+        "Aplicar",
+        "Analizar",
+        "Comprender"
+      ],
+      "subtopics": [
+        {
+          "subtopic_id": "S25-T4-A",
+          "slug": "golden-schema-human-review",
+          "title": "golden set, schema y revisión humana",
+          "outcome": "El estudiante evalúa con golden set, schema y revisión humana.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "golden set, schema y revisión humana",
+              "must_cover": [
+                "golden eval",
+                "schema validate",
+                "human review"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S25-T4-A-DEMO",
+              "title": "Evaluar vs golden y schema; revisión humana",
+              "environment": "local/cloud aprobado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S25-T4-A-E1",
+                "kind": "guided",
+                "title": "golden set, schema y revisión humana — guided",
+                "skill": "golden",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S25-T4-A-E2",
+                "kind": "independent",
+                "title": "golden set, schema y revisión humana — independent",
+                "skill": "golden",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S25-T4-A-E3",
+                "kind": "transfer",
+                "title": "golden set, schema y revisión humana — transfer",
+                "skill": "golden",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S25-T4-A-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S25-T4-A-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S25-T4-A-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        },
+        {
+          "subtopic_id": "S25-T4-B",
+          "slug": "injection-exfil-bias-minimize",
+          "title": "prompt injection, exfiltración, sesgo y minimización de datos",
+          "outcome": "El estudiante mitiga injection, exfiltración, sesgo y minimiza datos.",
+          "content_status": "new",
+          "components": {
+            "theory": {
+              "planned_blocks": 1,
+              "heading": "prompt injection, exfiltración, sesgo y minimización de datos",
+              "must_cover": [
+                "injection",
+                "exfil",
+                "bias",
+                "data min"
+              ]
+            },
+            "demo_ido": {
+              "demo_id": "S25-T4-B-DEMO",
+              "title": "Mitigar injection/exfil/sesgo y minimizar datos",
+              "environment": "local/cloud aprobado",
+              "language": "python",
+              "success_criterion": "Demo ejecuta y cumple el outcome del subtema",
+              "maps_existing": "none or partial legacy — retheme PHASE 4"
+            },
+            "exercises": [
+              {
+                "id": "S25-T4-B-E1",
+                "kind": "guided",
+                "title": "prompt injection, exfiltración, sesgo y minimización de datos — guided",
+                "skill": "injection",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S25-T4-B-E2",
+                "kind": "independent",
+                "title": "prompt injection, exfiltración, sesgo y minimización de datos — independent",
+                "skill": "injection",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              },
+              {
+                "id": "S25-T4-B-E3",
+                "kind": "transfer",
+                "title": "prompt injection, exfiltración, sesgo y minimización de datos — transfer",
+                "skill": "injection",
+                "starter": true,
+                "hints": 2,
+                "solution": true,
+                "edge_cases": [
+                  "borde documentado en PHASE 4"
+                ],
+                "tests": "assert or rubric",
+                "feedback": true
+              }
+            ],
+            "exam_variants": [
+              {
+                "family_id": "S25-T4-B-EX",
+                "variant": "A",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S25-T4-B-EX",
+                "variant": "B",
+                "bloom": "Aplicar",
+                "format": "mcq"
+              },
+              {
+                "family_id": "S25-T4-B-EX",
+                "variant": "C",
+                "bloom": "Analizar",
+                "format": "mcq"
+              }
+            ]
+          }
+        }
+      ],
+      "topic_evaluation": {
+        "id": "S25-T4-EVAL",
+        "tasks": [
+          {
+            "id": "S25-T4-EVAL-1",
+            "title": "golden set, schema y revisión humana — tarea auténtica",
+            "authentic": true
+          },
+          {
+            "id": "S25-T4-EVAL-2",
+            "title": "prompt injection, exfiltración, sesgo y minimización de datos — tarea auténtica",
+            "authentic": true
+          }
+        ],
+        "rubric_dimensions": [
+          "correctness",
+          "robustness",
+          "maintainability",
+          "responsible_use"
+        ],
+        "scale": "0-3"
+      }
+    }
+  ],
+  "project_increment": {
+    "id": "S25-PROJ",
+    "title": "Clasificador/extractor + narrativa JSON con eval",
+    "replaces_legacy": "Legacy You Do de 'Dashboards Interactivos y Streamlit' se conserva hasta migración; TARGET = gate V3",
+    "objectives": [
+      "Clasificador/extractor especializado + generador narrativa",
+      "JSON validado por schema",
+      "Ninguna salida sin evidencia",
+      "Eval contra baseline + human review"
+    ],
+    "requirements": [
+      "Dataset o fixtures sintéticos",
+      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
+      "Documentación en español profesional",
+      "Alineación al incremento/gate V3 de la sección"
+    ],
+    "rubric": [
+      {
+        "criterion": "Alineación al gate V3 de la sección",
+        "weight": "25%"
+      },
+      {
+        "criterion": "Correctitud técnica en entorno declarado",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Privacidad / sin PII real / sin secretos",
+        "weight": "20%"
+      },
+      {
+        "criterion": "Pruebas o casos de borde documentados",
+        "weight": "15%"
+      },
+      {
+        "criterion": "Código legible y límites claros",
+        "weight": "10%"
+      },
+      {
+        "criterion": "Documentación en español profesional",
+        "weight": "10%"
+      }
+    ],
+    "capstone_link": "CP-N2-C (AI assist)",
+    "increment_gate": "clasificador/extractor especializado y generador de narrativa con JSON validado; no se acepta una salida sin evidencia ni eval contra baseline"
+  },
+  "count_validation": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "student_exercises": 24,
+    "topic_evaluations": 4,
+    "topic_eval_tasks": 8,
+    "exam_families": 8,
+    "exam_variants": 24,
+    "section_exam": 1,
+    "project_increments": 1,
+    "matches_canonical_vector_slice": true,
+    "formula_check": {
+      "subtopics": "4 topics × 2 = 8",
+      "demos": "8 × 1 = 8",
+      "exercises": "8 × 3 = 24",
+      "variants": "8 × 3 = 24",
+      "topic_evals": "4 × 1 = 4"
+    }
+  },
+  "counts_planned": {
+    "topics": 4,
+    "subtopics": 8,
+    "demos": 8,
+    "exercises": 24,
+    "exam_variants_abc": 24,
+    "topic_evaluations": 4
+  },
+  "platform_extension_notes": [
+    "CourseSection shape may need nested subtopic IDs for 24 exercises — embed stable IDs until types extend",
+    "Topic evaluations not in current UI — store in section file or sidecar",
+    "Legacy theory/iDo/youDo remain until PHASE 4 replaces",
+    "seed.ts: add 8 concepts under 'streamlit-dashboards' in PHASE 5; rehome legacy slugs when destination section produced",
+    "Canonical file: src/lib/course/sections/s25-streamlit-dashboards.ts; no .ts rewrite in this lane",
+    "PLATFORM↔V3 title conflict recorded: 'Dashboards Interactivos y Streamlit' vs 'Endpoints de IA, Hugging Face y prompting evaluado'"
+  ],
+  "capstone_notes": {
+    "capstone_ids": "CP-N2-C (AI assist)",
+    "increment_gate": "clasificador/extractor especializado y generador de narrativa con JSON validado; no se acepta una salida sin evidencia ni eval contra baseline",
+    "project_id": "S25-PROJ",
+    "section_passed": false,
+    "notes": "S25 contributes to CP-N2-C (AI assist). No passed states written by factory lane."
+  },
+  "phase_3_gate": {
+    "blueprint_complete": true,
+    "counts_valid": true,
+    "eight_subtopics_specified": true,
+    "slug_plan_complete": true,
+    "capstone_increment_specified": true,
+    "platform_id_conflict_recorded": true,
+    "no_long_form_authored": true,
+    "section_not_marked_passed": true,
+    "blocked": false,
+    "authorized_to_proceed": "PHASE_4_CONTENT",
+    "notes": "Lightweight N2 factory blueprint. Authorship next; preserve legacy .ts."
+  },
+  "retrospection": {
+    "what_worked": "V3 T1–T4 split yields clear 4×2 ownership for N2",
+    "risk": "Display title still 'Dashboards Interactivos y Streamlit' until product rename; large topic mismatch vs V3 'Endpoints de IA, Hugging Face y prompting evaluado'",
+    "next_single_action": "PHASE 4 — Author theory/demos/exercises for S25-T1-A first"
+  }
+}
