@@ -1,0 +1,163 @@
+{
+  "title": "PyArcana Skeptical Functional Verification — Final Report & Handover",
+  "version": "1.0",
+  "completed_at": "2026-07-20T18:35:00Z",
+  "orchestrator_profile": "GLM-5.2 multi-agent skeptical QA",
+  "scope": "El Arte de Python V3 (52 sections) + Next.js platform (auth, exam, progress, admin, subscription, capstones)",
+
+  "phase_0": {
+    "preamble": "Establish skeptical methodology: only real execution, HTTP, DB counts, process exits count as evidence.",
+    "pre_round_research": [
+      "Google SRE production readiness — probe real SLOs",
+      "OWASP testing — no security-by-comment",
+      "Playwright 2025-2026 — assert DOM/state not logs",
+      "Microsoft well-architected — end-to-end dependency checks"
+    ],
+    "artifact": "course-state/skeptical_verification_playbook.json",
+    "retrospection": "Playbook + severity rubric established; prior course_complete not trusted until re-proven."
+  },
+
+  "phase_1": {
+    "preamble": "Complete inventory of claimed features and flows.",
+    "inventory": {
+      "course_sections": 52,
+      "demos_claimed": 416,
+      "exercises_claimed": 1248,
+      "exam_bank_questions": 1248,
+      "capstones": 13,
+      "api_routes": [
+        "auth/register", "auth/[...nextauth]", "progress",
+        "exam/start", "exam/submit", "exam/attempts",
+        "exercise/attempt", "admin/students", "admin/export",
+        "subscription/plans", "subscription/status", "subscription/checkout"
+      ],
+      "core_user_journeys": [
+        "Landing → register/login → dashboard → section theory/ido/wedo/youdo → exam → progress",
+        "Admin login → students list → CSV export",
+        "Free plan gate maxSections=5 → upgrade path",
+        "Capstone formal packages CP-N1-A … CP-FINAL"
+      ]
+    },
+    "artifact": "course-state/skeptical_feature_inventory.json",
+    "retrospection": "Map complete; admin completion denominator flagged for Phase 2/3."
+  },
+
+  "phase_2": {
+    "preamble": "Deeply mistrustful static audit for stubs, mocks, hardcodes, stale claims.",
+    "findings_real": [
+      "P1: admin totalSections 10 / export /10",
+      "P2: footer 11/13 secciones",
+      "P3: OAuth toast (honest non-config, not fake success)"
+    ],
+    "noise_discarded": "Spanish 'Todo', HTML placeholder attrs, pedagogical 'placeholder' in course content",
+    "retrospection": "One real P1 + one P2 user-facing stale copy; OAuth residual P3."
+  },
+
+  "phase_3": {
+    "preamble": "Prove behavior by live execution — no mocks.",
+    "evidence": {
+      "npm_test_all_gates": "PASS (v3 counts/structure/invariant + layout self-test + course_complete + 17 playwright)",
+      "db_question_bank": "1248 questions across 52 sectionIds",
+      "capstones_13": "all demo.py exit 0",
+      "course_complete_gate": "course_complete=true, open_p0_p1=[]",
+      "prior_http": "course-state/skeptical_phase3_evidence.json + skeptical_http_evidence.json"
+    },
+    "retrospection": "Core course + gates real; admin hardcode still present until Phase 5."
+  },
+
+  "phase_4": {
+    "preamble": "Root-cause and latent blast radius for open issues.",
+    "rca": [
+      {
+        "issue": "P1-ADMIN-TOTAL-SECTIONS-HARDCODE-10",
+        "what": "Wrong denominator 10 vs 52",
+        "why": "Incomplete migration from pre-V3 10-section product",
+        "impact": "Admin metrics/CSV wrong; mixed 10 label with /52 pct on students route",
+        "latent": "Any other hardcode of section count — grepped clean after fix; PdfReport already 52"
+      },
+      {
+        "issue": "P2-FOOTER-STALE-SECTION-COUNT",
+        "what": "Marketing footer understated course size",
+        "why": "i18n/page copy not wired to COURSE_META",
+        "impact": "User-facing incorrect claim",
+        "latent": "Other free-text counts — Dashboard/Pricing already 52"
+      }
+    ],
+    "retrospection": "Fixes are minimal SSOT import + copy updates."
+  },
+
+  "phase_5": {
+    "preamble": "Apply minimal complete fixes; re-validate with live probes.",
+    "fixes_applied": [
+      {
+        "files": [
+          "src/app/api/admin/students/route.ts",
+          "src/app/api/admin/export/route.ts"
+        ],
+        "change": "Use COURSE_META.totalSections instead of 10"
+      },
+      {
+        "files": ["src/lib/i18n.ts", "src/app/page.tsx"],
+        "change": "Footer section count 11/13 → 52"
+      }
+    ],
+    "revalidation_live": {
+      "admin_login": "admin@python-ds.pe → role ADMIN",
+      "GET_/api/admin/students": "totalSections=52 for all 14 students",
+      "GET_/api/admin/export": "CSV 200 text/csv 15 lines",
+      "admin_unauth": "403 No autorizado",
+      "demo_login": "demo@python-ds.pe STUDENT",
+      "POST_exam_start_setup": "8 questions",
+      "POST_exam_submit": "score=100 correctCount=8/8 passed=true",
+      "GET_progress": "progress,bookmarks,examAttempts,exerciseAttempts",
+      "GET_subscription_status": "free maxSections=5 intentional",
+      "GET_/": "52 secciones present; stale 11/13 absent",
+      "capstones": "13/13 exit 0",
+      "test_all_gates": "PASS"
+    },
+    "evidence_file": "course-state/skeptical_phase5_live_evidence.json",
+    "retrospection": "P1+P2 closed with live proof; no regressions in gates."
+  },
+
+  "phase_6": {
+    "preamble": "Full inventory re-check against live behavior.",
+    "feature_verification_status": [
+      {"id": "course_sections_52", "status": "PASS", "evidence": "test:v3-counts + COURSE_SECTIONS length"},
+      {"id": "s01_8_demos_24_ex", "status": "PASS", "evidence": "setup_demos=8 setup_exercises=24"},
+      {"id": "question_bank_1248", "status": "PASS", "evidence": "sqlite COUNT 1248/52"},
+      {"id": "auth_credentials", "status": "PASS", "evidence": "NextAuth credentials live login admin+demo"},
+      {"id": "exam_start_submit", "status": "PASS", "evidence": "8Q start + 100% submit"},
+      {"id": "progress_api", "status": "PASS", "evidence": "GET 200 with expected keys"},
+      {"id": "admin_students_export", "status": "PASS", "evidence": "totalSections 52 + CSV"},
+      {"id": "subscription_free_gate", "status": "PASS", "evidence": "maxSections=5 product intent"},
+      {"id": "capstones_13", "status": "PASS", "evidence": "all demo.py exit 0"},
+      {"id": "course_complete_gate", "status": "PASS", "evidence": "course_complete true"},
+      {"id": "oauth_social", "status": "RESIDUAL_P3", "evidence": "honest toast when unconfigured"}
+    ],
+    "placeholders_stubs_mocks_in_core_paths": "NONE remaining that claim success without work. OAuth is honest non-config.",
+    "retrospection": "Inventory re-verified; zero open P0/P1."
+  },
+
+  "phase_7": {
+    "success_criteria": [
+      {"criterion": "Every claimed core feature proven by real execution", "met": true},
+      {"criterion": "Zero placeholders/stubs/mocks faking success in core paths", "met": true},
+      {"criterion": "Critical integrations and user flows work E2E", "met": true},
+      {"criterion": "Full evidence trail for findings and fixes", "met": true},
+      {"criterion": "Multi-agent phases with preamble/retrospection", "met": true},
+      {"criterion": "No open P0 or P1", "met": true}
+    ],
+    "residual_risks": [
+      "OAuth requires production secrets before marketing social login",
+      "Free plan maxSections=5 is intentional — do not treat as bug",
+      "Rate limits on register may block automated mass signup (by design)",
+      ".env and SQLite DB intentionally excluded from git commits"
+    ],
+    "recommended_monitoring": [
+      "Assert admin.students[*].totalSections === COURSE_META.totalSections in CI smoke",
+      "Periodic course_complete_gate + question bank count == 1248",
+      "Synthetic exam start/submit smoke with seeded demo user"
+    ],
+    "declaration": "SUCCESS — skeptical functional verification complete with evidence; zero open P0/P1."
+  }
+}

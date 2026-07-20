@@ -1,0 +1,13 @@
+{
+  "refined_issue_count": 30,
+  "real_flags": [
+    {
+      "file": "src/components/course/SectionView.tsx",
+      "line": 1205,
+      "text": "# Extraer telefonos (formato XXX-XXX-XXX)"
+    }
+  ],
+  "real_flags_count": 1,
+  "api_mocks": [],
+  "api_mocks_count": 0
+}

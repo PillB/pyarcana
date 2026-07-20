@@ -1,0 +1,69 @@
+{
+  "generated_at": "2026-07-20T18:25:00Z",
+  "base_url": "http://localhost:3000",
+  "home": {
+    "status": 200,
+    "has_52": true,
+    "has_stale_11": false,
+    "has_stale_13": false
+  },
+  "csrf": { "status": 200, "has_token": true },
+  "admin_login": {
+    "status": 200,
+    "body_prefix": "{\"url\":\"http://localhost:3000\"}",
+    "set_cookie": true
+  },
+  "session_admin": {
+    "status": 200,
+    "user": {
+      "email": "admin@python-ds.pe",
+      "role": "ADMIN",
+      "name": "Admin Demo"
+    }
+  },
+  "admin_students": {
+    "status": 200,
+    "n": 14,
+    "sample_totalSections": 52,
+    "totalSections_values": [52],
+    "all_52": true
+  },
+  "admin_export": {
+    "status": 200,
+    "content_type": "text/csv; charset=utf-8",
+    "lines": 15,
+    "header": "ID,Email,Nombre,Fecha Registro,Secciones Completadas,% Completado,Intentos Exam,Score Promedio"
+  },
+  "admin_unauth": { "status": 403, "body": "{\"error\":\"No autorizado\"}" },
+  "demo_login": { "status": 200 },
+  "demo_session": {
+    "status": 200,
+    "user": "demo@python-ds.pe",
+    "role": "STUDENT"
+  },
+  "exam_start": {
+    "status": 200,
+    "n_questions": 8
+  },
+  "exam_submit": {
+    "status": 200,
+    "score": 100,
+    "correctCount": 8,
+    "totalQuestions": 8,
+    "passed": true
+  },
+  "progress": {
+    "status": 200,
+    "keys": ["progress", "bookmarks", "examAttempts", "exerciseAttempts"]
+  },
+  "subscription": {
+    "status": 200,
+    "planCode": "free",
+    "maxSections": 5,
+    "note": "intentional free-tier limit"
+  },
+  "plans": { "status": 200, "n": 3 },
+  "capstones_all_exit_0": true,
+  "test_all_gates": "PASS",
+  "source_hardcode_10_removed": true
+}

@@ -1,0 +1,77 @@
+{
+  "version": "2.0",
+  "generated_at": "2026-07-20T18:30:00Z",
+  "methodology": "Skeptical Functional Verification Playbook v1 — only real execution counts",
+  "severity_legend": {
+    "P0": "Broken core path, data loss, security hole, fake success",
+    "P1": "Feature claimed but non-functional for main users",
+    "P2": "Degraded UX, incomplete non-critical path",
+    "P3": "Docs/cosmetic/optional deploy"
+  },
+  "issues": [
+    {
+      "issue_id": "P1-ADMIN-TOTAL-SECTIONS-HARDCODE-10",
+      "severity": "P1",
+      "status": "closed",
+      "category": "hardcoded_wrong_denominator",
+      "title": "Admin students API hardcoded totalSections: 10 (course has 52)",
+      "locations": [
+        "src/app/api/admin/students/route.ts (totalSections: 10; completionPct used 52 inconsistently)",
+        "src/app/api/admin/export/route.ts (completionPct / 10)"
+      ],
+      "observed_before": {
+        "students_route": "totalSections: 10, completionPct: sectionsCompleted/52",
+        "export_route": "completionPct: sectionsCompleted/10"
+      },
+      "root_cause": "Legacy 10-section course denominator left after V3 expansion to 52 sections; students route mixed denominators (label 10, pct 52), export used /10 entirely.",
+      "blast_radius": "Admin dashboard progress bars, CSV export % Completado, any consumer of totalSections field. Free-plan maxSections=5 is intentional product limit (not this bug).",
+      "fix": "Import COURSE_META.totalSections (52) as single source of truth in both routes.",
+      "validation_after": {
+        "live_GET_admin_students": "totalSections_values=[52], all_52=true (14 students)",
+        "source_assert": "no totalSections: 10, no / 10) in admin routes",
+        "evidence_file": "course-state/skeptical_phase5_live_evidence.json"
+      },
+      "closed_at": "2026-07-20T18:20:00Z"
+    },
+    {
+      "issue_id": "P2-FOOTER-STALE-SECTION-COUNT",
+      "severity": "P2",
+      "status": "closed",
+      "category": "stale_user_facing_copy",
+      "title": "Footer/marketing claimed 11 or 13 sections instead of 52",
+      "locations": [
+        "src/lib/i18n.ts footer.method (es-PE and es-ES): '11 secciones'",
+        "src/app/page.tsx footer: '13 secciones'"
+      ],
+      "root_cause": "Copy not updated when COURSE_META.totalSections grew to 52.",
+      "fix": "Updated all three strings to '52 secciones'.",
+      "validation_after": {
+        "live_GET_/": "has_52=true, has_stale_11=false, has_stale_13=false"
+      },
+      "closed_at": "2026-07-20T18:20:00Z"
+    },
+    {
+      "issue_id": "P3-OAUTH-OPTIONAL-NOT-CONFIGURED",
+      "severity": "P3",
+      "status": "open_residual",
+      "category": "optional_integration",
+      "title": "Google/GitHub OAuth buttons show toast 'OAuth no configurado' without GOOGLE_CLIENT_ID",
+      "locations": ["src/components/course/AuthModal.tsx"],
+      "assessment": "NOT fake success: buttons honestly refuse and point to credentials demo. Core auth (credentials register/login) proven live. Residual deploy config, not ship-blocker for course.",
+      "recommended_monitoring": "Configure OAuth secrets in production env if social login is marketed as available."
+    }
+  ],
+  "false_positives_from_v1_scan": {
+    "note": "v1 registry flagged Spanish word 'Todo'/'Todos' and CSS placeholder: classes as TODOs — discarded as noise",
+    "count_discarded": "prior STATIC-todo-* entries"
+  },
+  "open_p0": [],
+  "open_p1": [],
+  "summary": {
+    "closed_p0": 0,
+    "closed_p1": 1,
+    "closed_p2": 1,
+    "open_p0_p1": 0,
+    "residual_p3": 1
+  }
+}

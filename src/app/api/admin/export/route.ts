@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { COURSE_META } from '@/lib/course'
 
 export async function GET(request: Request) {
   const session = await getServerSession(authOptions)
@@ -51,7 +52,9 @@ export async function GET(request: Request) {
           name: s.name || '',
           createdAt: s.createdAt.toISOString().split('T')[0],
           sectionsCompleted,
-          completionPct: Math.round((sectionsCompleted / 10) * 100),
+          completionPct: Math.round(
+            (sectionsCompleted / COURSE_META.totalSections) * 100
+          ),
           examAttempts: examAttempts.length,
           avgScore,
         }

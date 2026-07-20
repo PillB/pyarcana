@@ -1,0 +1,117 @@
+{
+  "generated_at": "2026-07-20T16:59:43.742773+00:00",
+  "section_files": 57,
+  "features": [
+    {
+      "id": "course_sections",
+      "claim": "52 CourseSection modules",
+      "path": "src/lib/course/sections"
+    },
+    {
+      "id": "nav_section_view",
+      "claim": "SectionView theory/ido/wedo/youdo/quiz",
+      "path": "src/components/course/SectionView.tsx"
+    },
+    {
+      "id": "exam_system",
+      "claim": "Exam start/submit with A/B/C variants",
+      "path": "src/app/api/exam"
+    },
+    {
+      "id": "auth",
+      "claim": "NextAuth + register",
+      "path": "src/app/api/auth"
+    },
+    {
+      "id": "progress",
+      "claim": "Progress API + store",
+      "path": "src/app/api/progress"
+    },
+    {
+      "id": "admin",
+      "claim": "Admin students/export",
+      "path": "src/app/api/admin"
+    },
+    {
+      "id": "subscription",
+      "claim": "Plans/checkout/status",
+      "path": "src/app/api/subscription"
+    },
+    {
+      "id": "playground",
+      "claim": "CodePlayground pyodide demos",
+      "path": "src/components/course/CodePlayground.tsx"
+    },
+    {
+      "id": "capstones",
+      "claim": "13 formal capstone demos",
+      "path": "course-state/capstones"
+    }
+  ],
+  "api_routes": [
+    "src/app/api/route.ts",
+    "src/app/api/progress/route.ts",
+    "src/app/api/auth/register/route.ts",
+    "src/app/api/auth/[...nextauth]/route.ts",
+    "src/app/api/admin/students/route.ts",
+    "src/app/api/admin/students/[id]/route.ts",
+    "src/app/api/admin/export/route.ts",
+    "src/app/api/subscription/plans/route.ts",
+    "src/app/api/subscription/status/route.ts",
+    "src/app/api/subscription/checkout/route.ts",
+    "src/app/api/exercise/attempt/route.ts",
+    "src/app/api/exam/submit/route.ts",
+    "src/app/api/exam/start/route.ts",
+    "src/app/api/exam/attempts/route.ts"
+  ],
+  "components_course": [
+    "LanguageToggle.tsx",
+    "FamiliarityDashboard.tsx",
+    "ProgressRing.tsx",
+    "Dashboard.tsx",
+    "ResourcesPage.tsx",
+    "AuthModal.tsx",
+    "ExamView.tsx",
+    "RichText.tsx",
+    "CodePlayground.tsx",
+    "PdfReport.tsx",
+    "SectionView.tsx",
+    "Sidebar.tsx",
+    "Callout.tsx",
+    "PricingPage.tsx",
+    "Glossary.tsx",
+    "AdminDashboard.tsx",
+    "CodeBlock.tsx"
+  ],
+  "content_vector": {
+    "exercises": 1248,
+    "demos": 416,
+    "weak_sections": [
+      {
+        "file": "s07-pandas.ts",
+        "demos": 0,
+        "ex": 0
+      },
+      {
+        "file": "s08-visualization.ts",
+        "demos": 0,
+        "ex": 0
+      },
+      {
+        "file": "s09-sklearn.ts",
+        "demos": 0,
+        "ex": 0
+      },
+      {
+        "file": "s10-testing.ts",
+        "demos": 0,
+        "ex": 0
+      },
+      {
+        "file": "s11-advanced-topics.ts",
+        "demos": 0,
+        "ex": 0
+      }
+    ]
+  }
+}

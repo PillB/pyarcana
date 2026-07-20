@@ -1,0 +1,38 @@
+{
+  "generated_at": "2026-07-20T17:00:17.564390+00:00",
+  "results": [
+    {
+      "name": "import_course_52",
+      "status": "PASS",
+      "detail": "{\"sections\":52,\"meta\":52,\"s01_demos\":8,\"s01_ex\":24,\"s01_te\":4,\"ids\":[\"setup\",\"basics\",\"data-structures\"]}\n"
+    },
+    {
+      "name": "db_question_bank",
+      "status": "PASS",
+      "detail": {
+        "total": 1248,
+        "sections": 52,
+        "setup": 24
+      }
+    },
+    {
+      "name": "capstones_13",
+      "status": "PASS",
+      "detail": {
+        "fails": [],
+        "n": 13
+      }
+    },
+    {
+      "name": "course_complete_gate",
+      "status": "PASS",
+      "detail": "{\n  \"sections_passed_52\": true,\n  \"capstones_formally_passed_13\": true,\n  \"open_p0_p1\": [],\n  \"vector_ok\": true,\n  \"exercises\": 1248,\n  \"demos\": 416,\n  \"course_complete\": true\n}\n"
+    },
+    {
+      "name": "npm_test_v3",
+      "status": "PASS",
+      "detail": "8\n}\n\n> nextjs_tailwind_shadcn_ts@0.2.0 test:v3-structure\n> python3 scripts/check_section_structure.py\n\n{\n  \"ok\": true,\n  \"failures\": [],\n  \"warnings\": [],\n  \"counts\": {\n    \"subtopics\": 8,\n    \"demos\": 8,\n    \"exercises\": 24\n  }\n}\n\n> nextjs_tailwind_shadcn_ts@0.2.0 test:v3-invariant\n> python3 scripts/v3_invariant_validator.py\n\n{\n  \"ok\": true,\n  \"failures\": [],\n  \"warnings\": 0,\n  \"v3_tagged\": 52\n}\n"
+    }
+  ],
+  "all_pass": true
+}

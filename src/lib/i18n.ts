@@ -173,7 +173,7 @@ const translations: Record<Language, Dict> = {
     'admin.completed': 'Completado',
 
     'footer.tagline': 'Python DS Perú · Curso online autónomo de Python para Data Analyst / Data Scientist',
-    'footer.method': 'Método I Do / We Do / You Do · 11 secciones · Exámenes con anti-plagio · Español peruano',
+    'footer.method': 'Método I Do / We Do / You Do · 52 secciones · Exámenes con anti-plagio · Español peruano',
 
     'common.close': 'Cerrar',
     'common.loading': 'Cargando...',
@@ -323,7 +323,7 @@ const translations: Record<Language, Dict> = {
     'admin.completed': 'Completado',
 
     'footer.tagline': 'Python DS Perú · Curso online autónomo de Python para Data Analyst / Data Scientist',
-    'footer.method': 'Método I Do / We Do / You Do · 11 secciones · Exámenes con anti-plagio · Español',
+    'footer.method': 'Método I Do / We Do / You Do · 52 secciones · Exámenes con anti-plagio · Español',
 
     'common.close': 'Cerrar',
     'common.loading': 'Cargando...',
