@@ -58,7 +58,8 @@
   --secondary: oklch(0.94 0.018 85);
   --secondary-foreground: oklch(0.32 0.04 50);
   --muted: oklch(0.95 0.012 85);
-  --muted-foreground: oklch(0.50 0.025 60);
+  /* Darkened for WCAG AA vs background (~4.5:1+ on light parchment) */
+  --muted-foreground: oklch(0.42 0.03 55);
   /* Terracotta accent */
   --accent: oklch(0.72 0.11 40);
   --accent-foreground: oklch(0.25 0.04 40);
@@ -99,7 +100,8 @@
   --secondary: oklch(0.28 0.025 60);
   --secondary-foreground: oklch(0.94 0.012 85);
   --muted: oklch(0.25 0.02 60);
-  --muted-foreground: oklch(0.72 0.02 85);
+  /* Lightened for WCAG AA on dark background */
+  --muted-foreground: oklch(0.78 0.02 85);
   --accent: oklch(0.72 0.11 40);
   --accent-foreground: oklch(0.94 0.012 85);
   --destructive: oklch(0.65 0.22 25);
@@ -136,6 +138,11 @@
   }
   ::selection {
     @apply bg-primary/20 text-foreground;
+  }
+  /* Glossary term hover affordance (also used with TermHint) */
+  abbr.term-hint,
+  button[data-testid^="term-hint-"] {
+    text-underline-offset: 3px;
   }
 }
 

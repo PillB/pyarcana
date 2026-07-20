@@ -1,30 +1,39 @@
 'use client'
 
+import { useMemo } from 'react'
 import { CodeBlock } from './CodeBlock'
 import { Callout } from './Callout'
 import { CodePlayground } from './CodePlayground'
+import { InlineAnnotated } from './InlineAnnotated'
 import type { TheoryBlock as TheoryBlockType, Callout as CalloutType, CodeExample } from '@/lib/types'
+import { termsAvailableAt, type GlossaryTerm } from '@/lib/glossary'
 
 interface RichTextProps {
   content: string
+  /** When set, only terms introduced in this or prior sections get hover hints */
+  sectionId?: string
 }
 
 /**
  * Renderiza texto enriquecido simple. Soporta:
- * - Párrafos separados por doble newlines
- * - Listas con - o *
- * - Bloques de código fenced ```lang ... ```
- * - Inline code `code`
- * - **bold** y *italic*
+ * - Párrafos / listas / code fences / bold / italic
+ * - Auto-anotación de jerga del glosario (hover/focus definition)
  */
-export function RichText({ content }: RichTextProps) {
+export function RichText({ content, sectionId }: RichTextProps) {
   const blocks = parseBlocks(content)
+  const available = useMemo(() => termsAvailableAt(sectionId), [sectionId])
+  const seen = useMemo(() => new Set<string>(), [content, sectionId])
+  const annotate = (text: string) =>
+    annotateGlossaryTerms(renderInline(text), available, seen)
+
   return (
     <div className="space-y-4 text-[15px] leading-relaxed text-foreground/90">
       {blocks.map((block, i) => {
         if (block.type === 'code') {
-          // Detect "python runnable" or "python interactive" to render CodePlayground
-          const isRunnable = block.lang === 'python-runnable' || block.lang === 'python-interactive' || (block.lang === 'python' && block.title?.toLowerCase().includes('runnable'))
+          const isRunnable =
+            block.lang === 'python-runnable' ||
+            block.lang === 'python-interactive' ||
+            (block.lang === 'python' && block.title?.toLowerCase().includes('runnable'))
           if (isRunnable) {
             return (
               <CodePlayground
@@ -48,20 +57,19 @@ export function RichText({ content }: RichTextProps) {
         if (block.type === 'callout') {
           return (
             <Callout key={i} type={block.calloutType} title={block.title}>
-              <div dangerouslySetInnerHTML={{ __html: renderInline(block.content) }} />
+              <InlineAnnotated html={annotate(block.content)} />
             </Callout>
           )
         }
         if (block.type === 'list') {
           return (
             <ul key={i} className="space-y-2 pl-1">
-              {block.items.map((item, j) => (
+              {block.items!.map((item, j) => (
                 <li key={j} className="flex gap-2.5">
                   <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/60" />
-                  <span
-                    className="flex-1 [&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[13px] [&_code]:font-mono"
-                    dangerouslySetInnerHTML={{ __html: renderInline(item) }}
-                  />
+                  <span className="flex-1 [&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[13px] [&_code]:font-mono">
+                    <InlineAnnotated html={annotate(item)} />
+                  </span>
                 </li>
               ))}
             </ul>
@@ -70,27 +78,26 @@ export function RichText({ content }: RichTextProps) {
         if (block.type === 'olist') {
           return (
             <ol key={i} className="space-y-2 pl-1">
-              {block.items.map((item, j) => (
+              {block.items!.map((item, j) => (
                 <li key={j} className="flex gap-3">
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-semibold text-primary">
                     {j + 1}
                   </span>
-                  <span
-                    className="flex-1 pt-0.5 [&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[13px] [&_code]:font-mono"
-                    dangerouslySetInnerHTML={{ __html: renderInline(item) }}
-                  />
+                  <span className="flex-1 pt-0.5 [&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[13px] [&_code]:font-mono">
+                    <InlineAnnotated html={annotate(item)} />
+                  </span>
                 </li>
               ))}
             </ol>
           )
         }
-        // paragraph
         return (
           <p
             key={i}
             className="[&_code]:rounded [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-[13px] [&_code]:font-mono"
-            dangerouslySetInnerHTML={{ __html: renderInline(block.content) }}
-          />
+          >
+            <InlineAnnotated html={annotate(block.content)} />
+          </p>
         )
       })}
     </div>
@@ -238,14 +245,63 @@ function renderInline(text: string): string {
   return out
 }
 
+/**
+ * Mark first occurrence of each glossary alias (outside HTML tags / code).
+ * Uses placeholders consumable by InlineAnnotated → TermHint.
+ */
+function annotateGlossaryTerms(
+  html: string,
+  terms: GlossaryTerm[],
+  seen: Set<string>
+): string {
+  if (!terms.length) return html
+  // Protect tags and code spans
+  const protectedParts: string[] = []
+  const withHoles = html.replace(/<[^>]+>|&[a-z]+;/gi, (m) => {
+    const i = protectedParts.length
+    protectedParts.push(m)
+    return `\u0000${i}\u0000`
+  })
+
+  let text = withHoles
+  const sorted = [...terms].sort((a, b) => {
+    const al = Math.max(...a.aliases.map((x) => x.length))
+    const bl = Math.max(...b.aliases.map((x) => x.length))
+    return bl - al
+  })
+
+  for (const term of sorted) {
+    if (seen.has(term.id)) continue
+    for (const alias of [...term.aliases].sort((a, b) => b.length - a.length)) {
+      if (alias.length < 3) continue
+      const escaped = alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      const re = new RegExp(`(?<![\\w/-])(${escaped})(?![\\w/-])`, 'i')
+      if (!re.test(text)) continue
+      text = text.replace(re, (match) => {
+        seen.add(term.id)
+        return `⟦TERM:${term.id}⟧${match}⟦/TERM⟧`
+      })
+      break
+    }
+  }
+
+  return text.replace(/\u0000(\d+)\u0000/g, (_, i) => protectedParts[Number(i)])
+}
+
 // === Sub-componentes para teoría estructurada ===
 
-export function TheoryBlockView({ block }: { block: TheoryBlockType }) {
+export function TheoryBlockView({
+  block,
+  sectionId,
+}: {
+  block: TheoryBlockType
+  sectionId?: string
+}) {
   return (
     <section className="space-y-3">
       <h3 className="text-lg font-semibold tracking-tight text-foreground">{block.heading}</h3>
       {block.paragraphs.map((p, i) => (
-        <RichText key={i} content={p} />
+        <RichText key={i} content={p} sectionId={sectionId} />
       ))}
       {block.code && (
         <CodeBlock

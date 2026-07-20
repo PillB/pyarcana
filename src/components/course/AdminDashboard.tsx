@@ -318,7 +318,7 @@ export function AdminDashboard() {
     : 0
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8" data-testid="admin-students">
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
@@ -345,11 +345,23 @@ export function AdminDashboard() {
 
       {/* Export buttons */}
       <div className="mt-6 flex flex-wrap gap-2">
-        <Button variant="outline" size="sm" onClick={() => exportCSV('students')} className="gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => exportCSV('students')}
+          className="gap-2"
+          data-testid="admin-export"
+        >
           <Download className="h-4 w-4" />
           Exportar estudiantes (CSV)
         </Button>
-        <Button variant="outline" size="sm" onClick={() => exportCSV('attempts')} className="gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => exportCSV('attempts')}
+          className="gap-2"
+          data-testid="admin-export-attempts"
+        >
           <Download className="h-4 w-4" />
           Exportar intentos de examen (CSV)
         </Button>
@@ -393,6 +405,7 @@ export function AdminDashboard() {
                   key={s.id}
                   className="cursor-pointer border-t border-border/60 transition-colors hover:bg-accent/30"
                   onClick={() => loadStudentDetail(s.id)}
+                  data-testid={`admin-student-row-${s.id}`}
                 >
                   <td className="px-4 py-3">
                     <div className="font-medium">{s.name || s.email.split('@')[0]}</div>

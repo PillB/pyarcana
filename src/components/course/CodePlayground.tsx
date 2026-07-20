@@ -76,6 +76,8 @@ interface CodePlaygroundProps {
   hint?: string
   title?: string
   className?: string
+  /** Stable selector for Playwright max suite */
+  testId?: string
 }
 
 interface OutputLine {
@@ -89,6 +91,7 @@ export function CodePlayground({
   hint,
   title = 'Editor interactivo',
   className,
+  testId,
 }: CodePlaygroundProps) {
   const [code, setCode] = useState(initialCode)
   const [output, setOutput] = useState<OutputLine[]>([])
@@ -252,7 +255,10 @@ export function CodePlayground({
   const lineCount = code.split('\n').length
 
   return (
-    <div className={cn('group relative overflow-hidden rounded-xl border border-border/60 shadow-card', className)}>
+    <div
+      className={cn('group relative overflow-hidden rounded-xl border border-border/60 shadow-card', className)}
+      data-testid={testId || 'code-playground'}
+    >
       {/* Header */}
       <div className="flex items-center justify-between border-b border-border/60 bg-muted/40 px-4 py-2">
         <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground">
@@ -277,6 +283,7 @@ export function CodePlayground({
             size="sm"
             onClick={reset}
             className="h-7 gap-1 px-2 text-xs"
+            data-testid={testId ? `${testId}-reset` : 'playground-reset'}
           >
             <RotateCcw className="h-3 w-3" />
             Reset
@@ -287,6 +294,7 @@ export function CodePlayground({
             onClick={runCode}
             disabled={!pyodideReady || loading}
             className="h-7 gap-1 px-3 text-xs"
+            data-testid={testId ? `${testId}-run` : 'playground-run'}
           >
             {loading ? (
               <Loader2 className="h-3 w-3 animate-spin" />

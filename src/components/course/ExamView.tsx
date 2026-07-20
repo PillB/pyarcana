@@ -170,7 +170,7 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
         <p className="mt-1 text-sm text-muted-foreground">
           El examen guarda tu score, intentos y tiempo. Necesitas una cuenta para tracking.
         </p>
-        <Button onClick={onAuthRequired} className="mt-4 gap-2">
+        <Button onClick={onAuthRequired} className="mt-4 gap-2" data-testid="exam-auth-required">
           Iniciar sesión
         </Button>
       </Card>
@@ -218,7 +218,7 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
         {exam.questions.map((q, qIdx) => {
           const userAnswer = answers[q.id]
           return (
-            <Card key={q.id} className="overflow-hidden">
+            <Card key={q.id} className="overflow-hidden" data-testid={`exam-q-${q.id}`}>
               <div className="p-5">
                 <div className="mb-3 flex items-start gap-2">
                   <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-rose-500/10 text-xs font-bold text-rose-600">
@@ -233,6 +233,7 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
                       <button
                         key={oIdx}
                         onClick={() => setAnswers((a) => ({ ...a, [q.id]: oIdx }))}
+                        data-testid={`exam-q-${q.id}-opt-${oIdx}`}
                         className={cn(
                           'flex w-full items-center gap-3 rounded-lg border p-3 text-left text-sm transition-all',
                           isSelected
@@ -265,6 +266,7 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
           disabled={loading || Object.keys(answers).length < exam.questions.length}
           className="w-full gap-2"
           size="lg"
+          data-testid="exam-submit"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
           Enviar respuestas ({Object.keys(answers).length}/{exam.questions.length})
@@ -416,7 +418,13 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
           </p>
         </Card>
       ) : (
-        <Button onClick={handleStartExam} disabled={loading} className="w-full gap-2" size="lg">
+        <Button
+          onClick={handleStartExam}
+          disabled={loading}
+          className="w-full gap-2"
+          size="lg"
+          data-testid="exam-start"
+        >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <HelpCircle className="h-4 w-4" />}
           {previousAttempts.length === 0 ? 'Iniciar primer intento' : `Iniciar intento ${previousAttempts.filter(a => a.completedAt).length + 1}`}
         </Button>

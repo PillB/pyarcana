@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-07-20T22:10:37.077Z",
+  "counts": {
+    "es-PE": 135,
+    "es-ES": 135,
+    "en": 135
+  },
+  "missing": {
+    "es-PE": [],
+    "es-ES": [],
+    "en": []
+  },
+  "ok": true,
+  "hardcoded_chrome_candidates": [
+    {
+      "file": "ExamView.tsx",
+      "note": "Spanish chrome strings without useI18n (heuristic)"
+    },
+    {
+      "file": "Sidebar.tsx",
+      "note": "Spanish chrome strings without useI18n (heuristic)"
+    }
+  ],
+  "hardcoded_ok": false
+}

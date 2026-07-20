@@ -1,0 +1,29 @@
+{
+  "generated_at": "2026-07-20T22:10:37.656Z",
+  "method": "Token presence for light/dark. Pixel AA validated in Playwright via getComputedStyle RGB.",
+  "themes": {
+    ":root": {
+      "present": 9,
+      "missing": [],
+      "sample": {
+        "background": "oklch(0.97 0.012 85)",
+        "foreground": "oklch(0.27 0.025 50)",
+        "muted-foreground": "oklch(0.42 0.03 55)"
+      }
+    },
+    ".dark": {
+      "present": 9,
+      "missing": [],
+      "sample": {
+        "background": "oklch(0.18 0.012 60)",
+        "foreground": "oklch(0.94 0.012 85)",
+        "muted-foreground": "oklch(0.78 0.02 85)"
+      }
+    }
+  },
+  "notes": [
+    "muted-foreground darkened in light theme (0.50→0.42 oklch L) for better secondary text.",
+    "muted-foreground lightened in dark theme (0.72→0.78 oklch L)."
+  ],
+  "ok": true
+}

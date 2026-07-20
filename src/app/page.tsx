@@ -40,32 +40,37 @@ export default function Home() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true)
-    // Sync with URL hash for shareable links
-    const hash = window.location.hash.slice(1)
-    if (hash === 'resources') {
 
-      setView('resources')
-    } else if (hash === 'admin') {
-
-      setView('admin')
-    } else if (hash === 'familiarity') {
-
-      setView('familiarity')
-    } else if (hash === 'pricing') {
-
-      setView('pricing')
-    } else if (hash === 'home' || hash === '') {
-
-      setView('home')
-    } else {
-      const section = COURSE_SECTIONS.find((s) => s.id === hash)
-      if (section) {
-
-        setActiveSectionId(hash)
-
-        setView('section')
+    // Sync with URL hash for shareable links (also on hashchange for SPA navigations)
+    const syncFromHash = () => {
+      const hash = window.location.hash.slice(1)
+      if (hash === 'resources') {
+        setView('resources')
+        setActiveSectionId(null)
+      } else if (hash === 'admin') {
+        setView('admin')
+        setActiveSectionId(null)
+      } else if (hash === 'familiarity') {
+        setView('familiarity')
+        setActiveSectionId(null)
+      } else if (hash === 'pricing') {
+        setView('pricing')
+        setActiveSectionId(null)
+      } else if (hash === 'home' || hash === '') {
+        setView('home')
+        setActiveSectionId(null)
+      } else {
+        const section = COURSE_SECTIONS.find((s) => s.id === hash)
+        if (section) {
+          setActiveSectionId(hash)
+          setView('section')
+        }
       }
     }
+
+    syncFromHash()
+    window.addEventListener('hashchange', syncFromHash)
+    return () => window.removeEventListener('hashchange', syncFromHash)
   }, [])
 
   const updateUrl = (id: string | null, newView: View) => {
@@ -187,6 +192,7 @@ export default function Home() {
               onClick={() => setGlossaryOpen(true)}
               className="h-9 w-9"
               aria-label="Glosario"
+              data-testid="nav-glossary"
             >
               <BookOpen className="h-4 w-4" />
             </Button>

@@ -105,7 +105,12 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
   )
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-4 sm:px-6 lg:px-8 pb-32 lg:pb-24" id="section-content">
+    <div
+      className="mx-auto max-w-5xl px-4 py-4 sm:px-6 lg:px-8 pb-32 lg:pb-24"
+      id="section-content"
+      data-testid="section-root"
+      data-section-id={section.id}
+    >
       {/* Compact sticky top bar — replaces 500px preamble stack */}
       <div className="sticky top-14 z-30 -mx-4 mb-3 bg-background/85 backdrop-blur-md border-b border-border/60 px-4 py-2.5">
         <div className="flex items-center gap-2.5">
@@ -201,6 +206,7 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
               <TabsTrigger
                 key={step}
                 value={step}
+                data-testid={`tab-${step}`}
                 className="flex flex-row items-center justify-center gap-1.5 py-2 data-[state=active]:bg-background data-[state=active]:shadow-sm"
               >
                 <Icon className={cn('h-3.5 w-3.5', meta.color, done && 'opacity-100')} />
@@ -328,7 +334,11 @@ function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: 
         <h2 className="text-xl font-semibold">Teoría</h2>
       </div>
       {section.theory.map((block, i) => (
-        <RichText key={i} content={block.heading + '\n\n' + block.paragraphs.join('\n\n')} />
+        <RichText
+          key={i}
+          sectionId={section.id}
+          content={block.heading + '\n\n' + block.paragraphs.join('\n\n')}
+        />
       ))}
       {/* Renderizar bloques estructurados si existen */}
       {section.theory.map((block, i) => (
@@ -368,9 +378,13 @@ function IDoTab({ section, onDone, done }: { section: CourseSection; onDone: () 
       <Callout type="info" title="¿Qué hace el profe?">
         Te muestro paso a paso cómo se resuelve un problema real con los conceptos de esta sección. Fíjate en el <strong>por qué</strong> de cada línea, no solo en el qué. Esta es la fase <strong>I Do</strong> del método Gradual Release of Responsibility.
       </Callout>
-      <RichText content={section.iDo.intro} />
+      <RichText content={section.iDo.intro} sectionId={section.id} />
       {section.iDo.steps.map((step, i) => (
-        <Card key={i} className="overflow-hidden border-violet-500/20">
+        <Card
+          key={i}
+          className="overflow-hidden border-violet-500/20"
+          data-testid={step.demoId ? `demo-${step.demoId}` : `demo-step-${i}`}
+        >
           <div className="border-b border-border/60 bg-violet-500/5 px-5 py-3">
             <div className="flex items-center gap-2">
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-violet-500 text-xs font-bold text-white">
@@ -414,11 +428,16 @@ function WeDoTab({ section, onDone, done }: { section: CourseSection; onDone: ()
       <Callout type="tip" title="Manos a la obra, en pareja">
         Ahora te toca a ti escribir el código, pero con mi guía. Lee la instrucción, intenta completar el starter code, y si te trabas, revisa la solución. <strong>La magia ocurre cuando escribes el código tú mismo</strong> — no copies sin entender.
       </Callout>
-      <RichText content={section.weDo.intro} />
+      <RichText content={section.weDo.intro} sectionId={section.id} />
       {section.weDo.steps.map((step, i) => {
         const showSol = showSolutions[i] || false
+        const exId = step.id || `step-${i}`
         return (
-          <Card key={i} className="overflow-hidden border-amber-500/20">
+          <Card
+            key={i}
+            className="overflow-hidden border-amber-500/20"
+            data-testid={`exercise-${exId}`}
+          >
             <div className="border-b border-border/60 bg-amber-500/5 px-5 py-3">
               <div className="flex items-center gap-2">
                 <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500 text-xs font-bold text-white">
@@ -464,6 +483,7 @@ function WeDoTab({ section, onDone, done }: { section: CourseSection; onDone: ()
                   size="sm"
                   onClick={() => setShowSolutions((s) => ({ ...s, [i]: !s[i] }))}
                   className="gap-2"
+                  data-testid={`exercise-check-${exId}`}
                 >
                   {showSol ? (
                     <>
@@ -483,6 +503,7 @@ function WeDoTab({ section, onDone, done }: { section: CourseSection; onDone: ()
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   className="space-y-3"
+                  data-testid={`exercise-feedback-${exId}`}
                 >
                   <div className="mb-2 text-xs font-medium text-muted-foreground">Solución:</div>
                   <CodeBlock
@@ -712,7 +733,7 @@ function QuizTab({
         const userAnswer = answers[qIdx]
         const isCorrect = userAnswer === q.correctIndex
         return (
-          <Card key={qIdx} className="overflow-hidden">
+          <Card key={qIdx} className="overflow-hidden" data-testid={`sc-q-${qIdx}`}>
             <div className="p-5">
               <div className="mb-3 flex items-start gap-2">
                 <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-rose-500/10 text-xs font-bold text-rose-600">
@@ -730,6 +751,7 @@ function QuizTab({
                       key={oIdx}
                       onClick={() => handleSelect(qIdx, oIdx)}
                       disabled={submitted}
+                      data-testid={`sc-q-${qIdx}-opt-${oIdx}`}
                       className={cn(
                         'flex w-full items-center gap-3 rounded-lg border p-3 text-left text-sm transition-all',
                         showCorrect
@@ -789,12 +811,16 @@ function QuizTab({
           disabled={Object.keys(answers).length < total}
           className="w-full gap-2"
           size="lg"
+          data-testid="sc-submit"
         >
           <CheckCircle2 className="h-4 w-4" />
           Enviar respuestas ({Object.keys(answers).length}/{total})
         </Button>
       ) : (
-        <Card className={cn('p-5 text-center', pct >= 70 ? 'border-green-500/40 bg-green-500/5' : 'border-amber-500/40 bg-amber-500/5')}>
+        <Card
+          className={cn('p-5 text-center', pct >= 70 ? 'border-green-500/40 bg-green-500/5' : 'border-amber-500/40 bg-amber-500/5')}
+          data-testid="sc-result"
+        >
           <div className="mb-2 flex justify-center">
             <div className="relative">
               <ProgressRing progress={pct} size={72} />
@@ -4008,7 +4034,7 @@ print(f"  Overlap: {overlap}/{total} ({overlap/total:.0%})")`,
   if (!demo) return null
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3" data-testid={`demo-playground-${sectionId}`}>
       <div className="flex items-center gap-2 border-t border-border pt-6">
         <Sparkles className="h-5 w-5 text-gold" />
         <h3 className="text-lg font-semibold" style={{ fontFamily: 'var(--font-subdisplay)' }}>Pruébalo tú mismo</h3>
@@ -4021,6 +4047,7 @@ print(f"  Overlap: {overlap}/{total} ({overlap/total:.0%})")`,
         expectedOutput={demo.expectedOutput}
         hint={demo.hint}
         title={demo.title}
+        testId={`demo-run-${sectionId}`}
       />
     </div>
   )

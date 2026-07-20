@@ -174,6 +174,7 @@ export function AuthModal({ open, onClose, defaultTab = 'login' }: AuthModalProp
                     onChange={(e) => setLoginEmail(e.target.value)}
                     className="pl-9"
                     required
+                    data-testid="auth-email"
                   />
                 </div>
               </div>
@@ -189,10 +190,11 @@ export function AuthModal({ open, onClose, defaultTab = 'login' }: AuthModalProp
                     onChange={(e) => setLoginPassword(e.target.value)}
                     className="pl-9"
                     required
+                    data-testid="auth-password"
                   />
                 </div>
               </div>
-              <Button type="submit" disabled={loading} className="w-full gap-2">
+              <Button type="submit" disabled={loading} className="w-full gap-2" data-testid="auth-login">
                 {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                 Entrar
               </Button>
@@ -207,11 +209,21 @@ export function AuthModal({ open, onClose, defaultTab = 'login' }: AuthModalProp
               </div>
             </div>
 
-            <Button variant="outline" className="w-full gap-2" onClick={() => handleDemoLogin('student')}>
+            <Button
+              variant="outline"
+              className="w-full gap-2"
+              onClick={() => handleDemoLogin('student')}
+              data-testid="auth-demo-student"
+            >
               <GraduationCap className="h-4 w-4" />
               Probar con cuenta demo (estudiante)
             </Button>
-            <Button variant="outline" className="w-full gap-2" onClick={() => handleDemoLogin('admin')}>
+            <Button
+              variant="outline"
+              className="w-full gap-2"
+              onClick={() => handleDemoLogin('admin')}
+              data-testid="auth-demo-admin"
+            >
               <ShieldCheck className="h-4 w-4" />
               Probar con cuenta demo (admin)
             </Button>

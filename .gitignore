@@ -66,3 +66,9 @@ server.log
 docs/TEST_ACCOUNTS.md
 db/*.db
 db/*.db-journal
+
+# e2e max run logs
+course-state/e2e_max_logs/
+test-results/
+playwright-report-e2e-max/
+playwright-report/

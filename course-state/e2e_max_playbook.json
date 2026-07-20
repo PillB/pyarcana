@@ -1,0 +1,24 @@
+{
+  "version": "1.0",
+  "scope": "Playwright max suite — 52 sections full interaction coverage",
+  "combinatorics": {
+    "buttons": "every enabled control per page state once",
+    "exercises": "open + show solution/check once each",
+    "self_check": "each option once + correct submit",
+    "exam": "each option clickable + correct/wrong/partial submits when attempts allow",
+    "not": "full 4^8 exam path enumeration"
+  },
+  "shards": 13,
+  "base_url_env": "BASE_URL",
+  "default_base_url": "http://localhost:3000",
+  "accounts": {
+    "student": "demo@python-ds.pe / demo1234",
+    "admin": "admin@python-ds.pe / admin123"
+  },
+  "timeouts_ms": {
+    "test": 120000,
+    "expect": 30000,
+    "pyodide_run": 60000
+  },
+  "evidence": "course-state/e2e_max_report.json"
+}
