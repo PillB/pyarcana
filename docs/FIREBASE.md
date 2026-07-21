@@ -1,59 +1,81 @@
 # Firebase Spark (Firestore) dual-write
 
-PyArcana keeps **SQLite + Prisma** as the primary runtime database (auth, exams, local dev).  
-When you configure a **Firebase Spark** (free) project, the API **also mirrors** user-generated data to **Cloud Firestore**.
+PyArcana keeps **SQLite + Prisma** as the primary runtime database.  
+User-generated data is **mirrored** to **Cloud Firestore** when Firebase Admin credentials are configured.
 
-## What is synced
+## Active project (MCP setup)
 
-| Collection            | Source API                                      | Notes                                      |
-|-----------------------|-------------------------------------------------|--------------------------------------------|
-| `users`               | `POST /api/auth/register`                       | **No** password hashes                     |
-| `progress`            | `POST/PATCH /api/progress`                      | Doc id: `userId__sectionId__subStep`     |
-| `examAttempts`        | `POST /api/exam/start`, `POST /api/exam/submit` | Full attempt + score                       |
-| `exerciseAttempts`    | `POST /api/exercise/attempt`                    | Hint + correct flags                       |
-| `feedbackReports`     | `POST/PATCH /api/feedback`                      | Bugs, ideas, recommendations               |
+| Item | Value |
+|------|--------|
+| Firebase project | `coderhouse-react-8063a` (alias `default`) |
+| Display name | Coderhouse-React |
+| Firestore DB | `(default)` — **FIRESTORE_NATIVE**, location `nam5`, free tier |
+| Authenticated CLI user | `pillescasdies@gmail.com` |
 
-Reads still use Prisma. Firestore is a **durable cloud mirror** for ops, analytics, and Spark-tier backup.
-
-## Setup (Spark free tier)
-
-1. Create a project at [Firebase Console](https://console.firebase.google.com/).
-2. Enable **Cloud Firestore** (production or test mode; lock rules for production).
-3. Project settings → **Service accounts** → Generate new private key (JSON).
-4. Add to `.env` (never commit):
+Also created (empty, **billing required** for Firestore): project `pyarcana`. Switch later with:
 
 ```bash
-# Option A — discrete fields
+firebase use pyarcana
+# after linking a billing account in Google Cloud
+firebase firestore:databases:create "(default)" --location=nam5
+```
+
+## Collections (“tables”)
+
+| Collection | Document ID | Fields (main) |
+|------------|-------------|----------------|
+| `users` | user cuid | email, name, role, country, createdAt, updatedAt (**no passwordHash**) |
+| `progress` | `{userId}__{sectionId}__{subStep}` | completed, completedAt, bookmarked |
+| `examAttempts` | attempt cuid | sectionId, attemptNumber, score, answers, times |
+| `exerciseAttempts` | attempt cuid | exerciseId, usedHint, correct |
+| `feedbackReports` | report cuid | type, status, title, body, email, adminNote |
+| `_schema` | `pyarcana_v1` | meta description of schema |
+
+Seed docs (`_seed: true`) were written via Firebase MCP so collections show in the console.
+
+**Note:** This project also has legacy collections `items` and `orders` (Coderhouse). Do **not** deploy closed client rules that would break them without coordinating.
+
+## App dual-write env
+
+Add to **local** `.env` (never commit). Create a service account key:
+
+Console → Project settings → Service accounts → Generate new private key  
+for project **coderhouse-react-8063a**.
+
+```bash
 FIREBASE_SYNC_ENABLED=true
-FIREBASE_PROJECT_ID=your-project-id
-FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@your-project-id.iam.gserviceaccount.com
-FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nMIIE...\n-----END PRIVATE KEY-----\n"
-
-# Option B — full JSON on one line
-# FIREBASE_SERVICE_ACCOUNT_JSON={"type":"service_account","project_id":"...",...}
+FIREBASE_PROJECT_ID=coderhouse-react-8063a
+FIREBASE_CLIENT_EMAIL=firebase-adminsdk-xxxxx@coderhouse-react-8063a.iam.gserviceaccount.com
+FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
 ```
 
-5. Restart `npm run dev`. Writes should appear in Firestore console under the collections above.
-
-Without credentials, the app **no-ops** the Firebase layer (local SQLite only).
-
-## Security notes
-
-- Service account JSON is **server-only** (Next.js API routes / Node). Never expose it to the browser.
-- Firestore security rules should deny public client access if you only use Admin SDK.
-- Do not store `passwordHash` in Firestore (sync helpers omit it).
-
-## Spark quotas (approx.)
-
-Firestore free tier has daily read/write/storage limits. Dual-write volume is modest for a course LMS (progress + exams + feedback). Monitor the Firebase console if traffic grows.
-
-## Verify
+Restart `npm run dev`, then:
 
 ```bash
-# With env configured:
-curl -X POST http://localhost:3000/api/feedback \
+curl -s http://localhost:3000/api/firebase/status
+# expect: syncEnabled true, firestoreReady true
+
+curl -s -X POST http://localhost:3000/api/feedback \
   -H 'Content-Type: application/json' \
-  -d '{"type":"IDEA","title":"Firebase mirror test","body":"This should land in feedbackReports.","email":"you@example.com"}'
+  -d '{"type":"IDEA","title":"Live dual-write test","body":"Should appear in feedbackReports collection.","email":"you@example.com"}'
 ```
 
-Then open Firestore → `feedbackReports` and confirm the document id matches the API response.
+Confirm in Firestore console or MCP `firestore_list_documents`.
+
+## MCP (Grok)
+
+Configured in `~/.grok/config.toml`:
+
+```toml
+[mcp_servers.firebase]
+command = "firebase"
+args = ["mcp", "--dir", "/Users/pabloillescas/Projects/PyArcana", "--only", "core,firestore"]
+```
+
+Useful tools: `firebase_login`, `firestore_list_collections`, `firestore_add_document`, `firestore_query_collection`, `firestore_create_index`.
+
+## Security
+
+- Server dual-write uses **Admin SDK** (bypasses security rules).
+- Never store `passwordHash` in Firestore.
+- Prefer not changing production client rules on shared projects without review.

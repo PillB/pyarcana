@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-07-21T05:09:30Z",
+  "ok": true,
+  "authenticated_user": "pillescasdies@gmail.com",
+  "projects": {
+    "primary": {
+      "projectId": "coderhouse-react-8063a",
+      "reason": "Existing Spark free-tier Firestore already present",
+      "database": {
+        "id": "(default)",
+        "type": "FIRESTORE_NATIVE",
+        "locationId": "nam5",
+        "freeTier": true
+      }
+    },
+    "also_created": {
+      "projectId": "pyarcana",
+      "displayName": "PyArcana",
+      "firestore": "blocked: billing required to create DB"
+    }
+  },
+  "collections_seeded": [
+    "_schema/pyarcana_v1",
+    "users/seed_schema_user",
+    "progress/__schema_seed____setup__theory",
+    "examAttempts/seed_schema_exam",
+    "exerciseAttempts/seed_schema_ex",
+    "feedbackReports/seed_schema_fb"
+  ],
+  "indexes_started": [
+    "feedbackReports: status ASC + createdAt DESC",
+    "examAttempts: userId ASC + sectionId ASC + startedAt DESC"
+  ],
+  "app_dual_write": {
+    "code": "present (src/lib/firebase + API routes)",
+    "env_required": [
+      "FIREBASE_SYNC_ENABLED=true",
+      "FIREBASE_PROJECT_ID=coderhouse-react-8063a",
+      "FIREBASE_CLIENT_EMAIL",
+      "FIREBASE_PRIVATE_KEY"
+    ],
+    "status": "awaiting service account in .env"
+  },
+  "legacy_collections_untouched": ["items", "orders"],
+  "rules_deploy": "skipped (shared project; avoid deny-all on items/orders)"
+}
