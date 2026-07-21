@@ -1,0 +1,496 @@
+{
+  "agent": "a",
+  "section_index": 4,
+  "recorded_at": "2026-07-21T16:54:54.598550+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "chosen_text": "[1,2,3]",
+        "confidence": 0.25,
+        "blocked_on": [],
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Empareja solo (1,10) y (2,20); el 3 se pierde en silencio",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          4.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "n_total de registros procesados (intentados)",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Salta al siguiente ciclo del bucle",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          4.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 3,
+        "chosen_text": "O(log n)",
+        "confidence": 0.42,
+        "blocked_on": [],
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S04-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "regiones = [\"Lima\", \"Cusco\", \"Piura\"]\n# TODO: for + print cada región\n# TODO: print list(range(3))",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "luego",
+          "dada",
+          "propia",
+          "guiado",
+          "línea",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "edades = [30, 17, 45, 22]\nn = 0\n# TODO\nprint(n)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "comprehension",
+          "todavía",
+          "cuántas",
+          "uses",
+          "independiente",
+          "contador",
+          "cuenta",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "lote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0}, {\"id\": \"C3\", \"monto\": -2}, {\"id\": \"C4\", \"monto\": 5}]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "usando",
+          "mutes",
+          "lista",
+          "mini",
+          "sea",
+          "cuyo",
+          "transferencia",
+          "dicts"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "ids = [\"A\", \"B\", \"C\"]\n# TODO enumerate start=1",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "usa",
+          "guiado",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "nombres = [\"Ana\", \"Luis\", \"María\"]\nedades = [30, 25, 40]\n# TODO zip print\n# TODO zip con edades[:1]",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "longitud",
+          "luego",
+          "emparéjalos",
+          "silencioso",
+          "elemento",
+          "list",
+          "igual",
+          "pasa"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "def zip_strict(a, b):\n    # TODO\n    ...\ntry:\n    zip_strict([1, 2, 3], [10, 20])\nexcept ValueError:\n    print(\"DESALINEADO\")\ntry:\n    zip_strict([1, 2], [3, 4])\n    print(\"OK\")\nexcept ValueError:\n    print(\"DESALINEADO\")",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "equivalente",
+          "true",
+          "lance",
+          "implementa",
+          "pedagógico",
+          "transferencia",
+          "strict",
+          "prueba"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "lines = [\"r1\", \"r2\", \"\", \"r3\"]\ni = 0\nout = []\n# TODO while\nprint(out)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "índice",
+          "string",
+          "lista",
+          "incluirlo",
+          "vacío",
+          "hasta",
+          "buffer",
+          "guiado"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "intentos = 0\nMAX = 3\n# TODO\nprint(\"done\", intentos)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "reintentos",
+          "incrementa",
+          "independiente",
+          "salir",
+          "intento",
+          "valor",
+          "final",
+          "simula"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "cola = [\"job1\", \"job2\", \"job3\"]\n# TODO\nprint(\"rest\", cola)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "simulada",
+          "PAUSE",
+          "esté",
+          "restante",
+          "mientras",
+          "transferencia",
+          "imprímelo",
+          "primero"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "raw = [\"  \", \"Lima\", \"\", \"Cusco\"]\nfor x in raw:\n    # TODO\n    print(x)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "usa",
+          "guiado",
+          "regiones",
+          "válidas",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "codes = [200, 200, 500, 200]\nn_ok = 0\n# TODO\nprint(\"n_ok\", n_ok)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "recorre",
+          "stop",
+          "cuántos",
+          "code",
+          "STOP",
+          "independiente",
+          "imprimiste",
+          "cuenta"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "buf = [\"a\", \"b\", \"END\"]\ni = 0\nout = []\n# TODO while True\nprint(out)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "lea",
+          "índice",
+          "escribe",
+          "valores",
+          "RuntimeError",
+          "raise",
+          "transferencia",
+          "runtimeerror"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "sts = [\"accept\", \"reject\", \"accept\"]\nn_accept = n_reject = n_total = 0\n# TODO\nprint(n_accept, n_reject, n_total)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "inicializa",
+          "contadores",
+          "incrementa",
+          "guiado",
+          "for",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "def tasa_reject(sts):\n    # TODO\n    ...\nprint(tasa_reject([\"accept\", \"reject\", \"accept\"]))\nprint(tasa_reject([]))",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "zerodivisionerror",
+          "luego",
+          "lista",
+          "ZeroDivisionError",
+          "n_reject",
+          "vacía",
+          "calcula",
+          "independiente"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "rows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"review\"}, {\"id\": \"C3\", \"status\": \"review\"}]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "índice",
+          "lista",
+          "primer",
+          "hay",
+          "transferencia",
+          "busca",
+          "dicts",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "nums = [1, 2, 3, 4, 5]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "crea",
+          "lista",
+          "comprehension",
+          "cuadrados",
+          "guiado",
+          "imprímelas"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "rows = [{\"status\": \"reject\"}, {\"status\": \"accept\"}, {\"status\": \"reject\"}, {\"status\": \"review\"}]\n# TODO print sorted set",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "ordenados",
+          "obtén",
+          "reporte",
+          "independiente",
+          "distintos",
+          "alfabéticamente",
+          "statuses"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "rows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"}, {\"id\": \"C3\", \"status\": \"accept\"}, {\"id\": \"C4\", \"status\": \"reject\"}]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "otra",
+          "usando",
+          "comprehension",
+          "construye",
+          "transferencia",
+          "calcula",
+          "len",
+          "dict"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "vals = [2, -1, 3]\ns = 0\n# TODO traza\nprint(\"final\", s)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "después",
+          "sumar",
+          "cada",
+          "acumulador",
+          "positivos",
+          "guiado",
+          "paso",
+          "solo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "filas = [\"a\", \"b\", \"c\"]\nn = 0\nfor f in filas:\n    n += 1\n    n += 1  # BUG?\nprint(n)  # debería ser 3",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "corregido",
+          "debe",
+          "veces",
+          "dos",
+          "fila",
+          "identifica",
+          "traza",
+          "hay"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "regs = [\"accept\", \"reject\", \"accept\"]\ncounts = {\"accept\": 0, \"reject\": 0}\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "completo",
+          "registro",
+          "tres",
+          "contadores",
+          "estado",
+          "registros",
+          "transferencia",
+          "simula"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "n = 5\nlin = quad = 0\n# TODO\nprint(lin, quad)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "anidado",
+          "pasos",
+          "simple",
+          "números",
+          "ambos",
+          "guiado",
+          "doble",
+          "cuenta"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "data = [\"r0\", \"r1\", \"r2\"]\nfor i in range(1, len(data) + 1):  # BUG intencional — corrige el off-by-one\n    print(data[i])  # TODO: index error hasta que arregles el range",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "IndexError",
+          "recorrer",
+          "elemento",
+          "cada",
+          "usa",
+          "hace",
+          "código",
+          "índices"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S04-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "sts = [\"reject\", \"accept\", \"reject\", \"reject\", \"accept\"]\n# versión ingenua (no la uses en la solución final):\n# pairs = 0\n# for i in range(len(sts)):\n#     for j in range(i+1, len(sts)):\n#         if sts[i]==\"reject\" and sts[j]==\"reject\": pairs += 1\n# TODO O(n)\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "conteo",
+          "basta",
+          "print",
+          "transferencia",
+          "comenta",
+          "rejects",
+          "reescribe",
+          "ingenuo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "3f760c2b942b7a46"
+  }
+}

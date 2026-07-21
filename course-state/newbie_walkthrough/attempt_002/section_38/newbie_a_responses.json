@@ -1,0 +1,361 @@
+{
+  "agent": "a",
+  "section_index": 38,
+  "recorded_at": "2026-07-21T16:57:17.801564+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "chosen_text": "Miles de threads CPU",
+        "confidence": 0.7,
+        "blocked_on": [],
+        "scores": [
+          3.3,
+          3.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Colas infinitas y OOM",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          3.0,
+          0.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Reejecutar sin side effects duplicados",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          5.0,
+          4.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "chosen_text": "PII completa",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          4.0,
+          2.0,
+          2.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S38-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "cpu",
+          "pick"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "pick"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "measure",
+          "first"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "size",
+          "json"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "gil",
+          "note",
+          "GIL"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "prefer",
+          "compact"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "tokens",
+          "allows"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "maxsize",
+          "role",
+          "queue"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "limit",
+          "protects",
+          "rate"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "field",
+          "seconds",
+          "timeout"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "finally",
+          "close"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "without",
+          "hang",
+          "timeout"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "corr",
+          "present"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "pillars",
+          "three"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "raw",
+          "pii"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "redact",
+          "phone"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "slo",
+          "compare"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "error",
+          "budget",
+          "concept"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "list",
+          "states"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "idem",
+          "key",
+          "format"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "step",
+          "resume"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "attempt",
+          "backoff",
+          "base"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "purpose",
+          "dlq"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S38-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "true",
+          "runbook"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "2a7a3dc6b36bd456"
+  }
+}

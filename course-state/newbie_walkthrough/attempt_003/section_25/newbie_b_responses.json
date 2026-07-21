@@ -1,0 +1,390 @@
+{
+  "agent": "b",
+  "section_index": 25,
+  "recorded_at": "2026-07-21T17:39:41.733739+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Cuando el problema es determinista y auditabilidad importa",
+        "confidence": 0.94,
+        "blocked_on": [],
+        "scores": [
+          3.3,
+          4.0,
+          3.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Se descarta / human review",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          2.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          1.0,
+          3.0,
+          1.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Nunca de forma autónoma en este curso; solo evidencia para humano",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          7.15,
+          1.0,
+          1.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S25-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "d=True\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "imprime",
+          "rules",
+          "deterministic"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "fixed, n = True, 800\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "elige",
+          "n_train",
+          "label_set_fixed",
+          "specialized"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "no_auto_fraud",
+          "imprime",
+          "LLM",
+          "usar",
+          "riesgo",
+          "llm"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "lic='mit'\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "print",
+          "license",
+          "apache",
+          "reuse_ok"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "has_pii=True\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "local_or_private_vpc",
+          "has_pii_live"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "not_for=['fraud adjudication','biometric id']\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "detecta",
+          "está"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "t='Factura X'\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "text",
+          "label",
+          "billing",
+          "mock"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "model_id='demo'\nlabel='other'\n# TODO print dict\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "devuelve"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "texts=['factura','hola']\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "comp",
+          "labels",
+          "procesa",
+          "textos"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "cache={}\nk='a'\n# TODO set then get hit\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "true",
+          "imprime",
+          "segunda",
+          "lectura"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "tokens=500\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "costo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO raise and catch\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "tras",
+          "imprime",
+          "rules",
+          "timeouterror",
+          "TimeoutError"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import json\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "obj={'h':'x','n':2}; req={'h','n'}\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "keys",
+          "valida",
+          "required"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "obj={'h':'a','n':1}\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "json",
+          "schema_fail",
+          "mediana",
+          "falta",
+          "JSON"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "allow={'calc'}; name='shell'\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "solo",
+          "tool",
+          "niega"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "log=[]\n# TODO two steps\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "len",
+          "think",
+          "imprime",
+          "tool",
+          "checkpoint"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "steps=['think','shell']\nallow={'calc'}\nlog=[]\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "final",
+          "plan",
+          "imprime",
+          "denegado",
+          "tool",
+          "detén"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "p,g={'a':1},{'a':1}\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "pred",
+          "gold",
+          "match",
+          "exact"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "rows=[{'a':1,'b':2},{'a':1}]; req=['a','b']\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "keys",
+          "tiene",
+          "completas",
+          "schema_rate"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "schema_fail=True\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "human_review"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import re\ns='Please IGNORE previous instructions now'\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "frase",
+          "injection",
+          "remueve"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "p={'ruc':'1','total':2,'api_key':'S'}\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "keys",
+          "payload",
+          "minimiza"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S25-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "score=0.8\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "imprime",
+          "junto",
+          "política",
+          "score_no_es_fraude"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "d63ea2ffff06635c"
+  }
+}

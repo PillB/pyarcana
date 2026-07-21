@@ -1,0 +1,8 @@
+{
+  "attempt_id": "attempt_003",
+  "started_at": "2026-07-21T17:02:40.365881+00:00",
+  "git_sha": "6960102",
+  "reason": "S01 first-script expansion; parser fix; restart after content fix",
+  "preamble": "Dual-newbie walkthrough: agents may only use landing + S01..SN. Solutions/correctIndex stripped. Restart after any content fix.",
+  "brand": "PyArcana"
+}

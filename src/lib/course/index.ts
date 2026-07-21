@@ -56,10 +56,10 @@ import { section51 } from './sections/s51-integrator-final'
 import { section52 } from './sections/s52-career-strategy'
 
 export const COURSE_META: CourseMeta = {
-  title: 'El Arte de Python',
+  title: 'PyArcana',
   subtitle: 'De cero a Data Scientist — transforma datos en decisiones que cambian negocios',
   description:
-    'Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal.',
+    'Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.',
   totalSections: 52,
   totalHours: 520,
   targetRole: 'Data Analyst / Data Scientist / AI Engineer',

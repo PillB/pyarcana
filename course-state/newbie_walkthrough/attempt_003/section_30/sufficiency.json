@@ -1,0 +1,26 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Si dos registros son la misma entidad"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 0.6,
+    "correct_preview": "Fracción de verdaderos matches que sobreviven al blocking"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "clerical review"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Leakage de identidad entre train y test"
+  }
+]

@@ -1,0 +1,297 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 1,
+  "recorded_at": "2026-07-21T20:15:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory: un proyecto = un entorno = dependencias aisladas; evita conflictos de versiones entre proyectos."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "chosen_text": ".venv/ (o venv/)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory + .gitignore section: .venv/ and venv/ must be ignored; never upload the env to GitHub. requirements.txt and README are committed."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "chosen_text": "feat: agregar cálculo de churn por segmento",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Conventional Commits: prefijo feat:/fix:/docs: + imperativo. Theory explicitly rejects 'cambios', 'wip', 'arreglé algo'."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "chosen_text": "pip install -r requirements.txt",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "note": "Theory/demos: replicate env with python -m pip install -r requirements.txt. Option text matches the taught install -r contract (packet also shows python -m form)."
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 1,
+        "chosen_text": "Porque suele contener credenciales (API keys, passwords, tokens) que son secretos",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory: .env holds secrets; never goes to the repo; .env.example is the safe versioned template."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S01-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "# Completa las líneas marcadas con ____\n# Esto NO se ejecuta como script: cópialo al REPL línea por línea.\n\n# >>> 2 + 2\n# 4\n\n# >>> type(\"x\")\n# <class 'str'>\n\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.x.y'\n\n# >>> quit()   # salir del REPL",
+        "blocked_on": [],
+        "confidence": 0.92,
+        "concepts_used": ["REPL", ">>>", "type", "import sys", "sys.version.split", "quit()"],
+        "note": "All symbols appear in theory (REPL) and demo S01-T1-B-DEMO."
+      },
+      {
+        "exercise_id": "S01-T1-A-E2",
+        "answer": null,
+        "code": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT:def/functions",
+          "UNTAUGHT_CONCEPT:if __name__ == \"__main__\"",
+          "UNTAUGHT_CONCEPT:f-strings",
+          "UNTAUGHT_CONCEPT:type_annotation_->_None"
+        ],
+        "confidence": 0.15,
+        "concepts_used": ["import sys", "sys.version"],
+        "note": "Packet teaches sys.version.split()[0] and running python file.py, but never teaches def, f-strings, type hints, or the __name__ entrypoint guard in theory/demos (only appears inside this exercise/youDo starter). Refuse to invent language mechanics."
+      },
+      {
+        "exercise_id": "S01-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "# Diagnóstico: intérprete no encontrado\n\n## Contexto\n- Caso A (Windows): `python --version` → no se reconoce\n- Caso B (macOS/Linux): `python` falla; `python3 --version` OK\n\n## Mi procedimiento\n1. En Windows: reinstalar desde https://www.python.org/downloads/ y marcar \"Add Python to PATH\" (demo lo dice explícitamente).\n2. Cerrar y reabrir la terminal después de cambiar PATH (hint del ejercicio + verificación con --version en demos).\n3. Verificar con `python --version` o, si falla, `python3 --version` (theory/demos: Windows PATH; macOS/Linux suele usar python3).\n4. En macOS/Linux: usar `python3` de forma consistente para el curso (3.12+).\n5. Verificar pip atado al mismo intérprete: `python -m pip --version` o `python3 -m pip --version`.\n6. Solo entonces crear proyecto: mkdir + cd; no instalar paquetes hasta confirmar intérprete.\n\n## Verificación final\n- Comando: python --version  (o python3 --version)\n- Resultado esperado: Python 3.12+ (o 3.x del curso)",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["PATH", "python --version", "python3", "python.org", "python -m pip"],
+        "note": "PATH/Windows checkbox and python vs python3 are in theory + demos. No inventé instalaciones no oficiales."
+      },
+      {
+        "exercise_id": "S01-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "# Completa los ____ y ejecuta en tu shell\n\n# 1) Éxito\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"    # bash/zsh: $?  |  PowerShell: $LASTEXITCODE\n\n# 2) Fallo controlado\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n\n# 3) Anota tu shell: bash | zsh | powershell\n# SHELL_USADA=zsh",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["sys.exit", "echo $?", "$LASTEXITCODE", "exit 0", "exit 1"],
+        "note": "Matches demo S01-T2-A (exit codes) almost verbatim."
+      },
+      {
+        "exercise_id": "S01-T1-B-E2",
+        "answer": null,
+        "code": null,
+        "blocked_on": [
+          "UNTAUGHT_API:sys.argv",
+          "UNTAUGHT_API:sys.stderr",
+          "UNTAUGHT_API:print(..., file=)",
+          "UNTAUGHT_CONCEPT:len()",
+          "UNTAUGHT_CONCEPT:list_slicing_argv[1:]"
+        ],
+        "confidence": 0.12,
+        "concepts_used": ["sys.exit", "import sys"],
+        "note": "Theory/demos teach sys.exit and exit codes, not sys.argv, CLI argc checks, or print to stderr. Those appear only in this exercise instruction/hints/starter — not taught before the blank."
+      },
+      {
+        "exercise_id": "S01-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "# Diagnóstico pip / ModuleNotFoundError\n\n## Escenario A — \"pip no se reconoce como comando\"\n- Clasificación: PATH / ejecutable ausente (la shell no encuentra `pip`), análogo a `python` no en PATH.\n### 3 pasos\n1. Preguntar qué falló: el shell no encuentra el comando `pip`.\n2. Verificar intérprete: `python --version` o `python3 --version`.\n3. Preferir `python -m pip --version` / `python -m pip install ...` para no depender de un `pip` suelto en PATH.\n\n## Escenario B — pip corre pero `import pandas` → ModuleNotFoundError\n- Clasificación: pip e intérprete no son la misma instalación / venv no activado / paquete en otro env.\n### 3 pasos\n1. Confirmar venv activo y `python -c \"import sys; print(sys.prefix)\"` (demo venv).\n2. Instalar con el mismo intérprete: `python -m pip install pandas` (no un `pip` global suelto).\n3. Reprobar `python -c \"import pandas\"` con ese mismo `python`; si `pip list` muestra el paquete pero import falla → dos Pythons.\n\nNota: pandas es de terceros (necesita pip); no es stdlib.",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["PATH", "python -m pip", "ModuleNotFoundError", "venv", "sys.prefix"],
+        "note": "Wrong-interpreter and ModuleNotFoundError diagnostic order are explicit in pip/requirements theory."
+      },
+      {
+        "exercise_id": "S01-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "mkdir -p lab_venv_t2a && cd lab_venv_t2a\n\n# 1) Crear\npython3 -m venv .venv\n\n# 2) Activar (Unix)\nsource .venv/bin/activate\n# Windows: .venv\\Scripts\\Activate.ps1\n\n# 3) Verificar\npython -c \"import sys; print(sys.prefix)\"\n\n# 4) Salir\ndeactivate",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["python -m venv", ".venv", "source activate", "sys.prefix", "deactivate"],
+        "note": "Fully covered by venv theory + S01-T2-B-DEMO."
+      },
+      {
+        "exercise_id": "S01-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "# Supón que ya tienes hello.py en el proyecto y un .venv roto.\n# Completa:\n\n# 0) Asegúrate de no estar usando el venv viejo\ndeactivate 2>/dev/null || true\n\n# 1) Eliminar entorno roto (borrar carpeta .venv; no toca .py del proyecto)\n# Unix: rm -rf .venv   |  PowerShell: Remove-Item -Recurse -Force .venv\n# (theory: \"borras la carpeta .venv y la recreas\"; delete folder = basic tech)\n\n# 2) Recrear\npython3 -m venv .venv\n\n# 3) Activar y verificar\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\n# hello.py u otros .py NO se borran",
+        "blocked_on": [],
+        "confidence": 0.8,
+        "concepts_used": ["deactivate", "python -m venv .venv", "sys.prefix"],
+        "note": "Theory: if env is broken, delete .venv folder and recreate — do not reinstall system Python. Shell delete names appear only in exercise hints; conceptual step is taught."
+      },
+      {
+        "exercise_id": "S01-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "# ¿Por qué no instalar pandas en el Python global?\n\n## Escenario de conflicto\nProyecto A necesita una versión de pandas y Proyecto B otra (p. ej. 1.x vs 2.x). Un solo site-packages global no puede satisfacer ambos: al actualizar para B se rompe A. Theory: instalar en el Python global lleva al caos en meses; \"a mí me funciona\" aparece cuando los entornos no están aislados.\n\n## Flujo recomendado (este curso)\n1. python -m venv .venv  (un proyecto = un entorno)\n2. source .venv/bin/activate  (o Activate.ps1 en Windows)\n3. python -m pip install ...  solo dentro del venv; freeze a requirements.txt\n\n## Nota sobre la herramienta\n- venv es stdlib (viene con Python; no requiere descarga extra como conda)\n- Nombre canónico de carpeta: .venv",
+        "blocked_on": [],
+        "confidence": 0.92,
+        "concepts_used": ["venv", ".venv", "dependencias", "stdlib", "python -m pip"],
+        "note": "Directly restates golden rule and venv-vs-global from theory."
+      },
+      {
+        "exercise_id": "S01-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "source .venv/bin/activate   # o Activate.ps1 en Windows\n\npython -m pip install requests==2.32.3\npython -m pip freeze > requirements.txt\n\n# Verifica:\ngrep -i \"requests==\" requirements.txt\npython -c \"import requests; print(requests.__version__)\"",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["python -m pip install", "freeze", "requirements.txt", "requests==2.32.3"],
+        "note": "Matches demo S01-T3-A-DEMO pin + freeze flow."
+      },
+      {
+        "exercise_id": "S01-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "# Parte de un requirements.txt existente en la raíz\npython3 -m venv .venv_replica\nsource .venv_replica/bin/activate\npython -m pip install -r requirements.txt\npython -m pip list | head\npython -c \"import requests; print('ok', requests.__version__)\"",
+        "blocked_on": [],
+        "confidence": 0.92,
+        "concepts_used": ["venv limpio", "install -r", "pip list"],
+        "note": "Demo shows .venv_clean + install -r replication pattern."
+      },
+      {
+        "exercise_id": "S01-T2-B-E3",
+        "answer": null,
+        "code": null,
+        "blocked_on": [
+          "UNTAUGHT_API:sys.executable"
+        ],
+        "confidence": 0.2,
+        "concepts_used": ["python -m pip", "ModuleNotFoundError", "stdlib vs terceros", "sys.prefix"],
+        "note": "Instruction requires a 5-step protocol that uses sys.executable. Packet teaches sys.version, sys.exit, sys.prefix — never sys.executable in theory/demos. Can diagnose with prefix/python -m pip, but refuse to invent sys.executable."
+      },
+      {
+        "exercise_id": "S01-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "mkdir -p lab_git_t3a && cd lab_git_t3a\ngit init\necho \"# lab\" > README.md\ngit add README.md\ngit commit -m \"docs: agregar README de practica\"\ngit log -1 --oneline",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["git init", "git add", "git commit -m", "Conventional Commits", "docs:"],
+        "note": "Demo S01-T3-B-DEMO is the same flow; git log --oneline taught (log -1 is the same family)."
+      },
+      {
+        "exercise_id": "S01-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "# Lectura de diff\n\n## Comandos usados\ngit add README.md && git commit -m \"docs: ampliar README\"\ngit show HEAD\n\n## 1) ¿Qué líneas aparecen con + en git show HEAD?\nLas líneas que se añadieron en el último commit (contenido nuevo o líneas tocadas con +).\n\n## 2) ¿Archivo nuevo o modificado? ¿Cómo se nota?\nModificado: solo las líneas cambiadas con +/−. Archivo nuevo: todo el contenido aparece con + (theory/demos).\n\n## 3) Resumen en una frase\nEl commit documenta el cambio al README con líneas + visibles en git show.",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["git show", "+", "-", "commit"],
+        "note": "Diff reading is taught in Git theory + demo git show HEAD --stat."
+      },
+      {
+        "exercise_id": "S01-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "# Mejor mensaje de commit\n\nCandidatos:\n- A: `wip`\n- B: `feat: agregar smoke hello_env`\n- C: `Actualicé cosas del setup`\n\n## Elección\nB\n\n## Justificación\nTheory: Conventional Commits con prefijo + descripción imperativa. Ejemplos del paquete incluyen `feat: agregar script hello_env`. `wip` y mensajes vagos se rechazan explícitamente porque el historial deja de ser legible. B nombra el valor observable (smoke hello_env) y el tipo feat.\n\n## Reescritura de A (si fuera un commit temporal local que luego se limpia)\nchore: checkpoint local antes de limpiar historial\n\n## Reescritura de C\ndocs: documentar pasos de instalación del setup",
+        "blocked_on": [],
+        "confidence": 0.94,
+        "concepts_used": ["feat:", "docs:", "chore:", "Conventional Commits"],
+        "note": "B matches demo commit style; A/C rejected by theory wording."
+      },
+      {
+        "exercise_id": "S01-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "git switch main\ngit switch -c feat/practica-s01\necho \"ok\" > nota.txt\ngit add nota.txt\ngit commit -m \"feat: agregar nota de practica\"\ngit branch",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["git switch -c", "feat/", "git branch", "no force-push"],
+        "note": "Branch flow taught in theory + S01-T4-A-DEMO."
+      },
+      {
+        "exercise_id": "S01-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "# Título del PR\nfeat: smoke hello_env y README de instalación\n\n## Resumen\n- Agrega `scripts/hello_env.py` como smoke del entorno\n- Actualiza README con install (venv + pip -r) y uso\n- Mantiene secretos fuera del repo (.env ignorado)\n\n## Plan de prueba\n1. python -m venv .venv && source .venv/bin/activate\n2. python -m pip install -r requirements.txt\n3. python scripts/hello_env.py  (exit 0)\n\n## Seguridad\n- [ ] No incluye `.env` ni secretos\n- [ ] `.env.example` solo con claves vacías/ficticias",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["PR", "Conventional Commits title", "install -r", ".env"],
+        "note": "PR purpose, install commands, and security notes are in theory/demos; body is prose assembly of taught steps."
+      },
+      {
+        "exercise_id": "S01-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "# Recuperación no destructiva\n\n## Situación\nREADME.md modificado, sin commit, cambio indeseado.\n\n## Procedimiento con restore\n1. Revisar con `git status` / `git diff` qué cambió sin stage.\n2. `git restore README.md` para descartar el cambio no commiteado y volver a la última versión commiteada/staged.\n\n## ¿Cuándo stash en su lugar?\nCuando el cambio no es basura: quieres guardar un WIP temporal (`git stash` / `git stash pop`) y dejar el árbol limpio sin descartarlo.\n\n## Por qué NO force-push a main\nCourse rule: never `git push --force` to main; rewrites shared history and is forbidden in onboarding.\n\n## Por qué no reset --hard como default\n`reset --hard` can erase uncommitted work easily; prefer restore/stash first (theory).",
+        "blocked_on": [],
+        "confidence": 0.94,
+        "concepts_used": ["git restore", "git stash", "no force-push main", "reset --hard"],
+        "note": "Non-destructive recovery section maps 1:1 to this exercise."
+      },
+      {
+        "exercise_id": "S01-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "[tool.ruff]\nline-length = 88\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"E\", \"F\", \"I\"]",
+        "blocked_on": [],
+        "confidence": 0.96,
+        "concepts_used": ["pyproject.toml", "tool.ruff", "E", "F", "I"],
+        "note": "Exact minimal config appears in theory code block and Ruff demo."
+      },
+      {
+        "exercise_id": "S01-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "from datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n\n# ruff check: removed unused imports sys and os (F401). Kept datetime (used).",
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT:def/functions_and___name___assumed_in_starter"
+        ],
+        "confidence": 0.55,
+        "concepts_used": ["ruff check", "F401", "python -m pip install ruff"],
+        "note": "Ruff F401 unused-import fix is taught. Starter already contains def/__name__/datetime.now which S01 never teaches; I only remove dead imports as the exercise asks, but flag the language presupposition."
+      },
+      {
+        "exercise_id": "S01-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "# Select mínimo para repo de datos (S01)\n\n## Propuesta\n`select = [\"E\", \"F\", \"I\"]`\n\n## Por qué no ALL el día 1\nTheory: `select = [\"ALL\"]` genera ruido; el equipo deja de mirar el linter. Un mínimo respetado vale más que un máximo ignorado.\n\n## Qué cubren E, F, I\nE: pycodestyle errores; F: pyflakes (p. ej. F401 import sin usar); I: isort/orden de imports.\n\n## Cuándo ampliar\nCuando el check limpio en E/F/I ya es hábito y hay acuerdo de equipo (theory/hint).",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["select E F I", "ALL noise", "F401"],
+        "note": "Argument against ALL is explicit in Ruff theory."
+      },
+      {
+        "exercise_id": "S01-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "# Entornos\n.venv/\nvenv/\n\n# Bytecode\n__pycache__/\n*.pyc\n\n# Secretos\n.env\n\n# Jupyter\n.ipynb_checkpoints/",
+        "blocked_on": [],
+        "confidence": 0.96,
+        "concepts_used": [".gitignore", ".venv/", "venv/", ".env", "__pycache__"],
+        "note": "Minimum ignore list is listed in theory + demo."
+      },
+      {
+        "exercise_id": "S01-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "# Copia a .env y completa valores locales (nunca commitees .env)\nAPI_URL=\nDB_HOST=\nLOG_LEVEL=\n# placeholders only — no real tokens",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": [".env.example", "empty keys", "never commit .env"],
+        "note": "Theory: .env.example lists keys with empty/fictitious values; starter already has 3 keys."
+      },
+      {
+        "exercise_id": "S01-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "# Checklist máquina limpia — esqueleto CP-N1-A\n\n- [ ] 1. Clonar repo y entrar al directorio del proyecto\n- [ ] 2. `python -m venv .venv` + activate (`source .venv/bin/activate` o Activate.ps1)\n- [ ] 3. `python -m pip install -r requirements.txt`\n- [ ] 4. `python scripts/hello_env.py` → exit 0 / imprime versión Python\n- [ ] 5. `git check-ignore -v .env` confirma que `.env` no se trackea; `.env.example` sí versionado\n\n## Datos\n- [ ] data/clients_synthetic.csv es sintético\n- [ ] data/data_dictionary.md describe columnas\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["clone", "venv", "install -r", "hello_env", "check-ignore", "data dictionary"],
+        "note": "README/onboarding + ignore demo + youDo skeleton list the same verificables (used only as taught structure in theory README bullet)."
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "b521cbe66f9f432a",
+    "summary": {
+      "n_exercises": 24,
+      "n_blocked_exercises": 4,
+      "n_selfcheck": 5,
+      "n_blocked_selfcheck": 0,
+      "top_gaps": [
+        "S01-T1-A-E2 assumes def, f-strings, type hints, and if __name__ == \"__main__\" without teaching them in theory/demos",
+        "S01-T1-B-E2 requires sys.argv / stderr / len — never shown in theory or iDo demos",
+        "S01-T2-B-E3 mandates sys.executable in the protocol though only sys.version/sys.exit/sys.prefix appear in packet teaching",
+        "S01-T4-A-E2 Ruff task is teachable for F401, but starter still presupposes untaught Python function/entrypoint syntax"
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+[
+  {
+    "tag": "UNTAUGHT_CONCEPT",
+    "severity": "P1",
+    "exercise_id": "S05-T4-B-E2",
+    "detail": "Instruction references lambda not clearly taught in prior+active demos/theory",
+    "section_id": "oop"
+  }
+]

@@ -1,0 +1,407 @@
+{
+  "agent": "a",
+  "section_index": 32,
+  "recorded_at": "2026-07-21T17:40:34.099470+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "chosen_text": "Todo el dataset sin split",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          4.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "chosen_text": "Obligatoria",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          2.0,
+          3.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "chosen_text": "Train",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          1.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Overlap 0 de entidades",
+        "confidence": 0.54,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          2.0,
+          2.0,
+          1.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S32-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "schema={'a':'num','b':'cat','c':'num'}\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "numéricas",
+          "type",
+          "sorted",
+          "desde",
+          "features",
+          "dict",
+          "col",
+          "lista"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "t='hola mundo pe'\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "sintético",
+          "note_len",
+          "calcula",
+          "token_count",
+          "simple",
+          "texto"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "row={'a':1,'b':2}; cat={'a','b','c'}\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "keys",
+          "todas",
+          "catálogo",
+          "están",
+          "valida"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "xs=[1.0,None,3.0]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "indicator",
+          "mediana",
+          "missing",
+          "fill"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO one-hot",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "manual",
+          "unknown",
+          "app",
+          "web",
+          "canal"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "xs=[2.0,4.0]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "score"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "a,b='av-1','av-1'\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "address",
+          "binario",
+          "shared",
+          "entre",
+          "entidades",
+          "dos"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "adj={'E1':['E2','E3'],'E2':['E1']}\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "cuenta",
+          "degree",
+          "vecinos",
+          "feature"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "pl={('E1','E2'):1}\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "min",
+          "path",
+          "len",
+          "dict",
+          "conocido",
+          "missing",
+          "default"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "ev=[1,2,3,5]; t=5; W=3\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "cuenta",
+          "int",
+          "eventos"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "rows=[('app',1),('app',2),('web',2)]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "frecuencia",
+          "canal",
+          "ventana"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "ev=[(5,10),(4,1)]; t=5\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "excluye",
+          "half",
+          "política",
+          "open"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "xs=['a','b','a',None]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "fit",
+          "moda",
+          "categorica",
+          "transform"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO pipe",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "secuencial",
+          "pipeline",
+          "luego",
+          "fill"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "fitted",
+          "transform",
+          "flag",
+          "falla"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import json\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "median",
+          "trip",
+          "state",
+          "round"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "v1={'app'}; v2={'app','web'}\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "bump",
+          "version",
+          "vocab",
+          "cambia"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "med=10.0; batch=[None,12.0]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "serve",
+          "apply",
+          "saved"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "rows=[{'ts':'2026-01-01'},{'ts':'2026-02-15'}]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "split",
+          "time",
+          "train"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "rows=['E1','E1','E2']\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "entity",
+          "sizes",
+          "group"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "tr,te={'A','B'},{'C'}\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "overlap",
+          "entidades",
+          "verifica"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "names=['amt','label_y','reviewer_decision']\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "containing",
+          "leakage",
+          "decision",
+          "label",
+          "flag"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "tr,se=0.0,0.8\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "alerta",
+          "skew",
+          "serve_mean",
+          "desvía",
+          "train_mean"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S32-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "ver=3\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "set",
+          "format",
+          "feature"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "2a2ec95152fc933d"
+  }
+}

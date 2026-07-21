@@ -136,14 +136,14 @@ const translations: Record<Language, Dict> = {
     'exam.perConceptBadge': '1 por concepto',
 
     'sidebar.tagline': 'De cero a Data Scientist',
-    'sidebar.brand': 'El Arte de Python',
+    'sidebar.brand': 'PyArcana',
     'sidebar.sectionsDone': '{done} de {total} secciones completadas',
     'sidebar.phase1': 'Fase 1 — Competente',
     'sidebar.phase2': 'Fase 2 — Senior',
     'sidebar.phase3': 'Fase 3 — Master',
     'sidebar.bookmark': 'Marcar como favorito',
 
-    'glossary.title': 'Glosario Python DS',
+    'glossary.title': 'Glosario PyArcana',
     'glossary.search': 'Buscar término, definición o categoría... (Cmd+K)',
     'glossary.all': 'Todos',
     'glossary.terms': 'términos',
@@ -222,7 +222,7 @@ const translations: Record<Language, Dict> = {
     'feedback.successDesc': 'Tu reporte se guardó. El equipo lo revisará.',
     'feedback.error': 'No se pudo enviar. Intenta de nuevo.',
 
-    'footer.tagline': 'Python DS Perú · Curso online autónomo de Python para Data Analyst / Data Scientist',
+    'footer.tagline': 'PyArcana · Curso online autónomo de Python para Data Analyst / Data Scientist',
     'footer.method': 'Método I Do / We Do / You Do · 52 secciones · Exámenes con anti-plagio · Español peruano',
 
     'common.close': 'Cerrar',
@@ -336,14 +336,14 @@ const translations: Record<Language, Dict> = {
     'exam.perConceptBadge': '1 por concepto',
 
     'sidebar.tagline': 'De cero a Data Scientist',
-    'sidebar.brand': 'El Arte de Python',
+    'sidebar.brand': 'PyArcana',
     'sidebar.sectionsDone': '{done} de {total} secciones completadas',
     'sidebar.phase1': 'Fase 1 — Competente',
     'sidebar.phase2': 'Fase 2 — Senior',
     'sidebar.phase3': 'Fase 3 — Master',
     'sidebar.bookmark': 'Marcar como favorito',
 
-    'glossary.title': 'Glosario Python DS',
+    'glossary.title': 'Glosario PyArcana',
     'glossary.search': 'Buscar término, definición o categoría... (Cmd+K)',
     'glossary.all': 'Todos',
     'glossary.terms': 'términos',
@@ -422,7 +422,7 @@ const translations: Record<Language, Dict> = {
     'feedback.successDesc': 'Tu reporte se guardó. El equipo lo revisará.',
     'feedback.error': 'No se pudo enviar. Inténtalo de nuevo.',
 
-    'footer.tagline': 'Python DS Perú · Curso online autónomo de Python para Data Analyst / Data Scientist',
+    'footer.tagline': 'PyArcana · Curso online autónomo de Python para Data Analyst / Data Scientist',
     'footer.method': 'Método I Do / We Do / You Do · 52 secciones · Exámenes con anti-plagio · Español',
 
     'common.close': 'Cerrar',
@@ -536,14 +536,14 @@ const translations: Record<Language, Dict> = {
     'exam.perConceptBadge': '1 per concept',
 
     'sidebar.tagline': 'From zero to Data Scientist',
-    'sidebar.brand': 'The Art of Python',
+    'sidebar.brand': 'PyArcana',
     'sidebar.sectionsDone': '{done} of {total} sections completed',
     'sidebar.phase1': 'Phase 1 — Competent',
     'sidebar.phase2': 'Phase 2 — Senior',
     'sidebar.phase3': 'Phase 3 — Master',
     'sidebar.bookmark': 'Bookmark',
 
-    'glossary.title': 'Python DS Glossary',
+    'glossary.title': 'PyArcana Glossary',
     'glossary.search': 'Search term, definition or category... (Cmd+K)',
     'glossary.all': 'All',
     'glossary.terms': 'terms',
@@ -622,8 +622,8 @@ const translations: Record<Language, Dict> = {
     'feedback.successDesc': 'Your report was saved. The team will review it.',
     'feedback.error': 'Could not send. Please try again.',
 
-    'footer.tagline': 'Python DS Peru · Autonomous online Python course for Data Analyst / Data Scientist',
-    'footer.method': 'I Do / We Do / You Do method · 11 sections · Anti-plagiarism exams',
+    'footer.tagline': 'PyArcana · Autonomous online Python course for Data Analyst / Data Scientist',
+    'footer.method': 'I Do / We Do / You Do method · 52 sections · Anti-plagiarism exams',
 
     'common.close': 'Close',
     'common.loading': 'Loading...',

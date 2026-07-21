@@ -87,7 +87,7 @@ export function Glossary({ open, onClose }: GlossaryProps) {
         <DialogHeader className="border-b border-border px-6 py-4">
           <DialogTitle className="flex items-center gap-2">
             <BookOpen className="h-5 w-5 text-primary" />
-            Glosario Python DS
+            Glosario PyArcana
             <Badge variant="secondary" className="ml-2 text-[10px]">
               {GLOSSARY.length} términos
             </Badge>

@@ -1,0 +1,473 @@
+{
+  "agent": "a",
+  "section_index": 10,
+  "recorded_at": "2026-07-21T16:55:11.125718+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Ejecutar el CLI/demo solo al correr el módulo, no al importar",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          8.0,
+          2.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "defaults > flags > env > file",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.0,
+          4.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "chosen_text": "Timeout de red",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          4.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "chosen_text": "stdout con el JSON",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 0,
+        "chosen_text": "major",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 1,
+        "chosen_text": "README.md",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          4.0,
+          4.0,
+          2.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S10-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO: clean + __all__",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "crea",
+          "función",
+          "módulo",
+          "lógico",
+          "pública"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# circular roto conceptualmente:\n# a.f -> b.g -> a.f\n# TODO: versión sana con util",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "import",
+          "arréglalo",
+          "compartido",
+          "simula",
+          "extrayendo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "casos = [\n    \"normalize.py importa compare en el mismo paquete\",\n    \"plugin externo usa familiarity_core\",\n    \"ejecutar el CLI del paquete\",\n]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "src",
+          "layout",
+          "import",
+          "elige",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "def tokenize(s):\n    return s.split()\n\ndef normalize(s):\n    return \" \".join(tokenize(s)).lower()\n\ndef compare(a, b):\n    return normalize(a) == normalize(b)\n\n# TODO: renombrar y reportar",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "públicas",
+          "helpers",
+          "privados",
+          "marca",
+          "solo",
+          "deja"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO facade",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "reexporta",
+          "compare",
+          "implementa",
+          "__all__",
+          "fachada",
+          "normalize",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "old",
+          "documenta",
+          "change",
+          "new",
+          "firma",
+          "pública",
+          "major",
+          "versión"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "project = {\n    # TODO\n}\nprint(project)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "completa",
+          "estilo",
+          "dict",
+          "imprímelos",
+          "pyproject"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO paths",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "path",
+          "paquete",
+          "lista",
+          "cada",
+          "layout",
+          "mínimo",
+          "importable",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "install",
+          "probables",
+          "modulenotfounderror",
+          "diagnostica",
+          "ModuleNotFoundError",
+          "causas",
+          "post",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "cambios = [\n    \"renombrar normalize a clean_name (API pública)\",\n    \"añadir flag --format a report\",\n    \"corregir typo en help\",\n    \"eliminar subcomando compare\",\n]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "clasifica"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "mínimas",
+          "paquete",
+          "note",
+          "lista",
+          "ser",
+          "fija",
+          "vacía",
+          "puede"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "hacia",
+          "bullets",
+          "compatibilidad",
+          "política",
+          "dominio",
+          "s11",
+          "escribe"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import argparse\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "argv",
+          "json",
+          "format",
+          "añade",
+          "parsea",
+          "ejemplo",
+          "text",
+          "subcomando"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "casos = [\n    \"normalize ok\",\n    \"archivo de input no existe\",\n    \"flag desconocido\",\n    \"subcomando ausente\",\n    \"validación de config falla al arrancar\",\n]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "exit",
+          "caso",
+          "code",
+          "situaciones",
+          "codes",
+          "mapea",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "orientadas",
+          "dev",
+          "operador",
+          "ayuda",
+          "líneas",
+          "escribe"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "from io import StringIO\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "demo",
+          "stderr",
+          "capturado",
+          "stdout",
+          "resultado",
+          "escribe"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "def read_input(path_or_dash, stdin_text=\"\", file_text=None):\n    # TODO\n    ...\n\nprint(read_input(\"-\", stdin_text=\"desde stdin\"))\nprint(read_input(\"file.csv\", file_text=\"desde file\"))",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "lee",
+          "implementa"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "def bad_cli():\n    print(\"empezando\")\n    print('{\"ok\": true}')\n    print(\"fin\")\n\n# TODO good_cli",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "salida",
+          "CLI",
+          "contamina",
+          "cli",
+          "progreso",
+          "revisa",
+          "limpia",
+          "prints"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "precedencia",
+          "tabla",
+          "baja",
+          "capas",
+          "alta",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "def merge(defaults, file_cfg, env_cfg, flags):\n    # TODO\n    ...\n\nprint(merge(\n    {\"log_level\": \"INFO\", \"jobs\": 1},\n    {\"log_level\": \"WARNING\"},\n    {\"log_level\": \"DEBUG\", \"jobs\": None},\n    {\"log_level\": \"ERROR\"},\n))",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "ignorando",
+          "altas",
+          "implementa"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "debug",
+          "INFO",
+          "caso",
+          "flag",
+          "conflictivo",
+          "info",
+          "esperado",
+          "DEBUG"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "gitignore",
+          "checklist",
+          "secretos",
+          "típicas",
+          "entradas",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "def validate_config(cfg: dict) -> None:\n    # TODO\n    ...\n\nvalidate_config({\"log_level\": \"INFO\", \"data_dir\": \"data\"})\nprint(\"ok\")\ntry:\n    validate_config({\"log_level\": \"INFO\"})\nexcept RuntimeError as e:\n    print(e)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "exige",
+          "errores",
+          "claros",
+          "implementa"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S10-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "inseguro = {\"log_level\": \"DEBUG\", \"echo_sql\": True, \"api_token\": \"hardcoded\"}\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "dado",
+          "default",
+          "propone",
+          "seguros"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "adf1b4b46fb5db1b"
+  }
+}

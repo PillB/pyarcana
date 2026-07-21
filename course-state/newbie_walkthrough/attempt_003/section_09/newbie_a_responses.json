@@ -1,0 +1,484 @@
+{
+  "agent": "a",
+  "section_index": 9,
+  "recorded_at": "2026-07-21T17:05:00.530717+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Encadenar la causa en __cause__ sin perder contexto",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          6.0,
+          4.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 3,
+        "chosen_text": "Loguear el row completo con PII",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          4.15,
+          3.0,
+          5.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "chosen_text": "Logs DEBUG y el JSON de salida mezclados",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          6.0,
+          4.0,
+          2.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "chosen_text": "ana@ejemplo.pe sin cambios",
+        "confidence": 0.82,
+        "blocked_on": [],
+        "scores": [
+          4.3,
+          3.15,
+          3.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 1,
+        "chosen_text": "Puede reintentarse con backoff; ValueError de datos no",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          5.0,
+          3.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 0,
+        "chosen_text": "Todo el CSV de producción",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          3.0,
+          3.0,
+          2.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S09-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "fallos = [\n    \"int('x')\",\n    \"sumar str + int\",\n    \"dict sin clave email\",\n    \"abrir archivo inexistente\",\n    \"regla de negocio: monto < 0\",\n]\n# TODO: imprimir fallo -> ExceptionType",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "sintéticos",
+          "adecuado",
+          "excepción",
+          "imprime",
+          "mapea"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "def parse_monto(raw):\n    # TODO\n    ...\n\nfor v in [\"10.5\", \"3,25\", \"abc\", \"-1\"]:\n    try:\n        print(v, \"->\", parse_monto(v))\n    except ValueError as e:\n        print(v, \"ERR\", e)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "implementa",
+          "raise",
+          "hace",
+          "parsea",
+          "accionable"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "class DataLoadError(Exception):\n    pass\n\ndef load_text(path_fn):\n    # TODO\n    ...\n\ndef bad_reader():\n    raise OSError(\"no such file: data/clientes.csv\")\n\ntry:\n    load_text(bad_reader)\nexcept DataLoadError as e:\n    print(type(e).__name__, e)\n    print(type(e.__cause__).__name__, e.__cause__)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "lector",
+          "from",
+          "define",
+          "captura",
+          "lanza"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "state = {\"closed\": False}\n\ndef work(fail: bool):\n    try:\n        if fail:\n            raise RuntimeError(\"boom\")\n        return \"ok\"\n    finally:\n        # TODO: cerrar\n        pass\n\nprint(work(False), state)\ntry:\n    work(True)\nexcept RuntimeError:\n    print(\"err\", state)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "cerrado",
+          "aunque",
+          "marcar",
+          "recurso",
+          "haya",
+          "completa"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "errores = [\n    \"delimiter vacío en config\",\n    \"monto no numérico en fila\",\n    \"schema_path no existe\",\n    \"email mal formado en fila\",\n    \"API_TOKEN ausente\",\n    \"timeout leyendo un record remoto\",\n]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "nombre",
+          "imprime",
+          "clasifica",
+          "política"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "def bad_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except:  # noqa: E722 — malo a propósito\n        return (\"swallowed\", None)\n\ndef good_handler(fn):\n    # TODO\n    ...\n\ndef v():\n    raise ValueError(\"fila\")\n\ndef r():\n    raise RuntimeError(\"config\")\n\nprint(\"bad\", bad_handler(v), bad_handler(r))\nprint(\"good_v\", good_handler(v))\ntry:\n    print(good_handler(r))\nexcept RuntimeError as e:\n    print(\"good_r raised\", e)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "cuarentena",
+          "refactoriza",
+          "propagar",
+          "deja",
+          "captura",
+          "bare",
+          "handler",
+          "resto"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "tb = '''Traceback (most recent call last):\n  File \"cli.py\", line 10, in main\n    run()\n  File \"pipeline.py\", line 4, in run\n    normalize(row)\n  File \"normalize.py\", line 2, in normalize\n    return row[\"email\"]\nKeyError: 'email'\n'''\n# TODO: extraer main, run, normalize",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "frames",
+          "sintético",
+          "hacia",
+          "string",
+          "adentro",
+          "anota",
+          "dado",
+          "afuera"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "DEBUG = True\n\ndef normalize(row: dict) -> str:\n    # TODO\n    ...\n\ntry:\n    print(normalize({\"id\": \"C009\"}))\nexcept KeyError as e:\n    print(\"raised\", e)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "simula",
+          "seguros",
+          "imprime",
+          "locals",
+          "falta",
+          "email",
+          "breakpoint",
+          "lanza"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "tb = '''Traceback (most recent call last):\n  File \"app.py\", line 1, in <module>\n    normalize({\"id\": 1})\n  File \"app.py\", line 1, in normalize\n    return row[\"email\"].lower()\nKeyError: 'email'\n'''\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "causa",
+          "raíz",
+          "faltante",
+          "imprime",
+          "frase",
+          "función",
+          "solo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "def parse_dni(d: str) -> str:\n    if not (d.isdigit() and len(d) == 8):\n        raise ValueError(f\"dni inválido: {d!r}\")\n    return d\n\nfixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"]\n# TODO: minimal repro del primer fallo",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "ser",
+          "debe",
+          "hace",
+          "fila",
+          "fallar",
+          "recorta",
+          "mínima",
+          "dígitos"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "def normalize_phone(p: str) -> str:\n    # bug: se come el +\n    return \"\".join(c for c in p if c.isdigit())\n\n# TODO: hipótesis + experimentos",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "falsifica",
+          "escribe",
+          "borra"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "def bad_title(s: str) -> str:\n    return s.title()\n\ndef good_title(s: str) -> str:\n    # TODO: no capitalizar partículas de/del/la\n    ...\n\ndef test(fn):\n    out = fn(\"juan de la cruz\")\n    assert out == \"Juan de la Cruz\", out\n    return \"pass\"\n\n# TODO: red then green",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "rojo",
+          "falla",
+          "pasa",
+          "bugueada",
+          "tras",
+          "regresión",
+          "añade",
+          "fix"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "eventos = [\n    \"job iniciado\",\n    \"valor de variable i en loop\",\n    \"fila sin email opcional\",\n    \"no se pudo parsear monto\",\n    \"archivo de config ilegible\",\n    \"lote terminado con conteos\",\n]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "nivel",
+          "asigna",
+          "correcto",
+          "imprime",
+          "evento",
+          "NIVEL"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import logging, io\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "stringio",
+          "StringIO",
+          "info",
+          "módulo",
+          "streamhandler",
+          "StreamHandler",
+          "emite",
+          "configura"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import logging, io, sys\n\ndef cli_stub_bad(n):\n    print(\"empezando\")\n    print(\"sumando\")\n    print(n + 1)\n\n# TODO: cli_stub_good",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "final",
+          "logs",
+          "prints",
+          "convierte",
+          "CLI",
+          "cli",
+          "stub",
+          "solo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "def mask_email(email: str) -> str:\n    ...\n\ndef mask_phone(phone: str) -> str:\n    ...\n\nprint(mask_email(\"carlos@ejemplo.pe\"))\nprint(mask_phone(\"+51 988 777 666\"))",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "sintéticos",
+          "demuéstralos",
+          "implementa",
+          "peruanos",
+          "datos"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "def repo_save(corr, item):\n    ...\n\ndef service_upsert(corr, item):\n    ...\n\ndef cli_main(corr, item):\n    ...\n\ncli_main(\"corr-42\", {\"id\": \"C001\"})",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "propaga",
+          "repo",
+          "correlation_id",
+          "imprime",
+          "service",
+          "cada",
+          "cli",
+          "capas"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "def unsafe_log(row):\n    return f\"error en {row['email']} tel={row['phone']}\"\n\nrow = {\"email\": \"a@ejemplo.pe\", \"phone\": \"999111222\"}\nprint(\"UNSAFE\", unsafe_log(row))\n# TODO safe_log",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "audita",
+          "PII",
+          "segura",
+          "reescríbelo",
+          "forma",
+          "snippet",
+          "loguea",
+          "pii"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "fallos = [\n    \"monto NaN en CSV\",\n    \"YAML de config corrupto\",\n    \"timeout S3\",\n    \"email vacío en fila\",\n    \"required_fields no definido\",\n    \"HTTP 503 del proveedor\",\n    \"dni con letras\",\n    \"variable de entorno ROOT_PATH vacía\",\n]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "imprime",
+          "clasifica",
+          "clase",
+          "fallo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "def process_batch(rows):\n    # TODO\n    ...\n\nrows = [{\"id\": 1}, {}, {\"id\": 2}]\nprint(process_batch(rows))",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "sin",
+          "filas",
+          "envía",
+          "quarantine",
+          "retorna",
+          "implementa",
+          "conteos"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO: imprimir 3 reglas",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "POLICY",
+          "líneas",
+          "cuándo",
+          "imprime",
+          "política",
+          "job",
+          "policy",
+          "escribe"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "errores = [\"TimeoutError\", \"ValueError\", \"ConnectionError\", \"KeyError\", \"PermissionError\"]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "retry",
+          "tabla",
+          "yes",
+          "imprime",
+          "tipos",
+          "error"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "def retry_call(fn, max_attempts=3):\n    # TODO\n    ...\n\nn = {\"c\": 0}\n\ndef flaky():\n    n[\"c\"] += 1\n    if n[\"c\"] < 3:\n        raise TimeoutError(\"x\")\n    return \"done\"\n\nprint(retry_call(flaky), \"calls\", n[\"c\"])",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "solo",
+          "reintenta",
+          "implementa"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S09-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "record = {\"source\": \"banco_a\", \"id\": \"C001\", \"version\": 3, \"payload\": {\"m\": 1}}\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "diseña",
+          "idempotencia",
+          "imprímela",
+          "clave",
+          "ejemplo",
+          "ingesta"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "19174f9beb57c8bf"
+  }
+}

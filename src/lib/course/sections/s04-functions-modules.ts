@@ -1345,8 +1345,8 @@ print(lin, quad)`,
           language: 'python',
           title: "fix_range_obo.py",
           code: `data = ["r0", "r1", "r2"]
-for i in range(1, len(data) + 1):  # BUG
-    print(data[i])`,
+for i in range(1, len(data) + 1):  # BUG intencional — corrige el off-by-one
+    print(data[i])  # TODO: index error hasta que arregles el range`,
         },
         solutionCode: {
           language: 'python',

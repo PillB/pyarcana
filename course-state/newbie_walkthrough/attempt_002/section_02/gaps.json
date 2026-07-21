@@ -1,0 +1,23 @@
+[
+  {
+    "tag": "UNTAUGHT_CONCEPT",
+    "severity": "P1",
+    "exercise_id": "selfcheck-3",
+    "detail": "Correct option poorly supported by packet: [1, 2, 3]",
+    "section_index": 2
+  },
+  {
+    "tag": "UNTAUGHT_API",
+    "severity": "P1",
+    "exercise_id": "S02-T1-B-E3",
+    "detail": "['STARTER_BROKEN']",
+    "section_index": 2
+  },
+  {
+    "tag": "UNTAUGHT_API",
+    "severity": "P1",
+    "exercise_id": "S02-T4-B-E3",
+    "detail": "['STARTER_BROKEN']",
+    "section_index": 2
+  }
+]

@@ -1,0 +1,490 @@
+{
+  "agent": "b",
+  "section_index": 7,
+  "recorded_at": "2026-07-21T16:55:02.146681+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Formas Unicode distintas (NFC vs NFD)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          7.0,
+          2.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          4.0,
+          4.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.0,
+          4.0,
+          2.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "None (no es full match)",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          2.0,
+          0.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          1.0,
+          4.0,
+          4.0,
+          3.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S07-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import unicodedata\nnames = ['José', 'Jose\\u0301', '']\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "normaliza",
+          "lista",
+          "cada",
+          "vacío",
+          "guiado",
+          "permanece",
+          "resultado",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "a, b = 'MAÑANA', 'mañana'\n# TODO\nprint(match)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "false",
+          "decidir",
+          "true",
+          "usa",
+          "matchean",
+          "independiente",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import unicodedata\na = 'José'\nb = 'Jose\\u0301'\n# TODO diagnóstico",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "fallan",
+          "NFC",
+          "igualdad",
+          "mensaje",
+          "diagnostica",
+          "cruda",
+          "residual",
+          "nfc"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "raw = 'Ana María Quispe Huamán'\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "extrae",
+          "dos",
+          "últimos",
+          "guiado",
+          "apellidos",
+          "imprímelos"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "raw = 'María del Carmen Quispe Ríos'\n# TODO\nprint(given)\nprint(ap1, ap2)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "debe",
+          "preserva",
+          "partículas",
+          "incluir",
+          "independiente"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "def parse_nombre(raw):\n    # TODO return dict\n    ...\nfor s in ['Madonna', 'Luis Quispe Huamán']:\n    print(parse_nombre(s))",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "inventes",
+          "completo",
+          "tokens",
+          "hay",
+          "transferencia",
+          "prueba",
+          "menos",
+          "nombre"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "line = 'C001, Ana , Lima'\n# TODO\nprint(fields)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "csv",
+          "simple",
+          "lista",
+          "like",
+          "CSV",
+          "strippeados",
+          "campos",
+          "guiado"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "toks = ['Jr.', 'Unión', '450']\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "luego",
+          "espacio",
+          "estable",
+          "independiente",
+          "une",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "raw = '999.000-111'\n# TODO print digits",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "normaliza",
+          "guiones",
+          "solo",
+          "demo",
+          "vacío",
+          "dígitos",
+          "encadenado",
+          "transferencia"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "def normalize_email(raw):\n    # TODO\n    ...\nprint(normalize_email('  A@B.COM '))",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "guiado",
+          "resultado",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "raw = '(+51) 999-000-111'\n# TODO\nprint(digits)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "teléfono",
+          "independiente",
+          "dígitos"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import re\nemail = 'user+tag@example.com'\npat = r'^[a-z]+@[a-z]+\\.com$'\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "rejected",
+          "rechaza",
+          "true",
+          "check",
+          "transferencia",
+          "regex",
+          "recomendada",
+          "muestra"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import re\npat = r'^[A-Z]{3}$'\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "sobre",
+          "lim",
+          "LIM",
+          "código",
+          "lima",
+          "guiado",
+          "bools",
+          "región"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import re\npat = re.compile(r'^(?P<nom>\\w+) (?P<ap>\\w+)$')\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "extrae",
+          "sobre",
+          "grupos",
+          "apellido",
+          "quispe",
+          "independiente",
+          "nombre",
+          "ana"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import re\ntext = 'DNI 12345678'\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "usarías",
+          "patrón",
+          "corto",
+          "sobre",
+          "cada",
+          "ambos",
+          "print",
+          "transferencia"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import re\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "findall",
+          "sobre",
+          "cada",
+          "dos",
+          "compila",
+          "reutiliza",
+          "uno",
+          "guiado"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import re\nlog = 'ok LIM-01 y CUS-02 fin'\n# TODO\nprint(codes)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "códigos",
+          "dos",
+          "independiente",
+          "sintético"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "print('patrón peligroso: (a+)+b sobre strings largos de a\\'s')\n# TODO más líneas de mitigación",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "explica",
+          "necesitas",
+          "conceptual",
+          "backtracking",
+          "proceso",
+          "malo",
+          "prints",
+          "documenta"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "def norm(s):\n    # TODO\n    ...\nprint(norm('  Juan  PEREZ ') == norm('juan perez'))",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "collapse",
+          "tras",
+          "match",
+          "guiado",
+          "normalize",
+          "exact"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "def token_jaccard(a, b):\n    # TODO\n    ...\nprint(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "score",
+          "decimales",
+          "tokens",
+          "implementa",
+          "calcula",
+          "independiente",
+          "jaccard",
+          "redondeado"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "a, b, score = 'Juan Perez', 'Juan P Perez', 0.67\n# TODO decision\nprint(decision, a, b, score)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "decide",
+          "no_match",
+          "está",
+          "transferencia",
+          "exact",
+          "raws",
+          "aplica",
+          "decisión"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "cases = [\n    {'pred': 'match', 'truth': 'no'},\n    {'pred': 'no', 'truth': 'match'},\n]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "clasifica",
+          "dos",
+          "sintéticos",
+          "casos",
+          "guiado"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO evidence = {...}\nprint(evidence)",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "score",
+          "decision",
+          "raw_b",
+          "raw_a",
+          "empaqueta",
+          "par",
+          "evidencia",
+          "independiente"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S07-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO prints de política ética/producto",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "legal",
+          "pipeline",
+          "afirma",
+          "redacta",
+          "transferencia",
+          "parentesco",
+          "partir",
+          "jaccard"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "8c4859070b267af7"
+  }
+}

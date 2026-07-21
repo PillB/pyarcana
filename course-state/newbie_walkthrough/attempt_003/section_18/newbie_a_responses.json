@@ -1,0 +1,446 @@
+{
+  "agent": "a",
+  "section_index": 18,
+  "recorded_at": "2026-07-21T17:06:14.195016+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Mediana (y opcionalmente IQR)",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          4.0,
+          2.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Asociación observada (no causal por sí sola)",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          4.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Origen, filtros, n y límites de cobertura",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          4.0,
+          0.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "La muestra no representa la población de interés",
+        "confidence": 0.68,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.15,
+          2.0,
+          0.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S18-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "imprime",
+          "redondeada",
+          "decimales"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "calcula",
+          "imprímelos",
+          "redondeados",
+          "decimales",
+          "montos"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO resumen\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "devuelva",
+          "pruébalo",
+          "redondeados",
+          "dict",
+          "escribe"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "imprime",
+          "razón",
+          "redondeada"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "respecto",
+          "mediana",
+          "calcula",
+          "imprímelo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "imprime",
+          "decimales",
+          "redondeado",
+          "lista"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "cusco",
+          "pob",
+          "lima",
+          "muestra",
+          "imprime",
+          "dada",
+          "share"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "tiene",
+          "cusco",
+          "calcula",
+          "pob",
+          "lima",
+          "share_muestra",
+          "muestra",
+          "bias_pp"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "cusco",
+          "pob",
+          "devuelva",
+          "lima",
+          "max_bias",
+          "pruébalo",
+          "escribe",
+          "máximo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import math\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "media",
+          "imprime",
+          "redondeado"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "mean",
+          "trat",
+          "redondeado",
+          "ctrl",
+          "imprime",
+          "cohen"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "tupla",
+          "redondeada",
+          "dado",
+          "imprime",
+          "ic95"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "imprime",
+          "calcula",
+          "redondeado",
+          "pearson"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "r = 0.82\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "causa",
+          "imprime",
+          "uses",
+          "asociacion_observada",
+          "string"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "r_raw",
+          "confusor",
+          "grado",
+          "tras",
+          "dado",
+          "muestra",
+          "imprime",
+          "redondeados"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "calcula",
+          "imprime",
+          "cuántos",
+          "montos",
+          "IQR",
+          "superan",
+          "iqr"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "cusco",
+          "anomalia",
+          "tasa",
+          "anomalías",
+          "dado",
+          "imprime",
+          "regiones"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "tukey",
+          "booleana",
+          "anomalías",
+          "imprime",
+          "marca",
+          "lista"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "resultado",
+          "median",
+          "imprime",
+          "hipotesis",
+          "crea",
+          "claves"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "median = 12\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "solo_hallazgo",
+          "alcanza",
+          "hallazgo",
+          "dado",
+          "umbral",
+          "negocio",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "valor",
+          "líneas",
+          "etiquetadas",
+          "implementa",
+          "pregunta",
+          "imprima",
+          "traza",
+          "metrica"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "data",
+          "claves",
+          "tras",
+          "imprime",
+          "monto",
+          "esas",
+          "note",
+          "filtro"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import hashlib\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "calcula",
+          "caracteres",
+          "muestra",
+          "primeros",
+          "hex"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S18-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "filas",
+          "genera",
+          "filtra",
+          "n_final",
+          "dado",
+          "n_raw",
+          "imprime",
+          "monto"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "d6f28abf9fd69818"
+  }
+}

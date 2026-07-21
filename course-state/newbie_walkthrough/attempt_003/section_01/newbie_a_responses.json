@@ -1,0 +1,500 @@
+{
+  "agent": "a",
+  "section_index": 1,
+  "recorded_at": "2026-07-21T17:04:16.291082+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.15,
+          5.0,
+          3.0,
+          3.15
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "requirements.txt",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.0,
+          1.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "\"wip\"",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          3.0,
+          2.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "chosen_text": "pip install -r requirements.txt",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          2.0,
+          6.0,
+          6.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 1,
+        "chosen_text": "Porque suele contener credenciales (API keys, passwords, tokens) que son secretos",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          8.0,
+          6.3,
+          5.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S01-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa las líneas marcadas con ____\n# Esto NO se ejecuta como script: cópialo al REPL línea por línea.\n\n# >>> ____ + ____\n# 4\n\n# >>> type(\"____\")\n# <class 'str'>\n\n# >>> import ____\n# >>> sys.version.____()[0]\n# '3.x.y'\n\n# >>> ____()   # salir del REPL",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "crees",
+          "guiado",
+          "simula",
+          "diálogo",
+          "sesión",
+          "real",
+          "pruébalo",
+          "archivo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import sys\n\ndef main() -> None:\n    nombre = \"____\"  # usa un nombre sintético, no datos reales de terceros\n    version = sys.____.split()[0]\n    print(f\"Hola, soy {nombre}\")\n    print(f\"Python {version}\")\n\n# Completa el entrypoint profesional (no dejes el script sin if __name__)\nif ____ == \"____\":\n    ____()",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "crea",
+          "repl",
+          "debe",
+          "REPL",
+          "código",
+          "imprima",
+          "correrse",
+          "independiente"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Diagnóstico: intérprete no encontrado\n\n## Contexto\n- Caso A (Windows): `python --version` → no se reconoce\n- Caso B (macOS/Linux): `python` falla; `python3 --version` OK\n\n## Mi procedimiento\n1. ____\n2. ____\n3. ____\n4. ____\n5. ____ (opcional)\n6. ____ (opcional)\n\n## Verificación final\n- Comando: ____\n- Resultado esperado: Python 3.12+ (o 3.x del curso)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "obtiene",
+          "oficiales",
+          "comentarios",
+          "transferencia",
+          "descargas",
+          "usuario",
+          "verificable",
+          "escribe"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa los ____ y ejecuta en tu shell\n\n# 1) Éxito\npython3 -c \"import sys; print('ok'); sys.exit(____)\"\necho \"codigo_ok=$____\"    # bash/zsh: $?  |  PowerShell: $LASTEXITCODE\n\n# 2) Fallo controlado\npython3 -c \"import sys; print('fail'); sys.exit(____)\"\necho \"codigo_fail=$____\"\n\n# 3) Anota tu shell: bash | zsh | powershell\n# SHELL_USADA=____",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "usuario",
+          "otro",
+          "guiado",
+          "python",
+          "terminal",
+          "secretos",
+          "entrega",
+          "sale"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import sys\n\ndef main() -> None:\n    # sys.argv: [script, arg1, arg2, ...]\n    args = sys.argv[1:]\n    if ____(args) != ____:\n        print(\"Uso: python check_arg.py <un_valor>\", file=sys.____)\n        sys.exit(____)\n    print(f\"OK:{args[0]}\")\n    sys.exit(____)\n\nif __name__ == \"__main__\":\n    main()",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "exactamente",
+          "uno",
+          "usa",
+          "código",
+          "recibe",
+          "arg",
+          "imprime",
+          "argumento"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T1-B-E3",
+        "answer": "would_write_from_instruction_and_hints",
+        "code": "# from instruction/hints only\n# E3 (transferencia) — Caso: un colega corre `pip install pandas` y ve error. En un escenario el mensaje es \"pip no se rec",
+        "blocked_on": [],
+        "confidence": 0.35,
+        "note": "no starter — narrative/transfer exercise"
+      },
+      {
+        "exercise_id": "S01-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "mkdir -p lab_venv_t2a && cd lab_venv_t2a\n\n# 1) Crear\npython3 -m venv ____\n\n# 2) Activar (Unix)\nsource ____/bin/activate\n# Windows: .venv\\Scripts\\Activate.ps1\n\n# 3) Verificar\npython -c \"import sys; print(sys.____)\"\n\n# 4) Salir\n____",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "entorno",
+          "deactivate",
+          "crea",
+          "guiado",
+          "esa",
+          "actívalo",
+          "práctica",
+          "carpeta"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Supón que ya tienes hello.py en el proyecto y un .venv roto.\n# Completa:\n\n# 0) Asegúrate de no estar usando el venv viejo\n____ 2>/dev/null || true\n\n# 1) Eliminar entorno roto\n____ .venv\n\n# 2) Recrear\npython3 -m venv ____\n\n# 3) Activar y verificar\nsource .venv/bin/activate\npython -c \"import sys; print(sys.prefix)\"\n# hello.py u otros .py NO se borran",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "sin",
+          "documenta",
+          "recrea",
+          "conda",
+          "simula",
+          "limpio",
+          "creado",
+          "uses"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# ¿Por qué no instalar pandas en el Python global?\n\n## Escenario de conflicto\n____\n\n## Flujo recomendado (este curso)\n1. ____\n2. ____\n3. ____\n\n## Nota sobre la herramienta\n- venv es ____ (stdlib / terceros)\n- Nombre canónico de carpeta: ____",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "sin",
+          "explique",
+          "extra",
+          "dos",
+          "transferencia",
+          "descarga",
+          "corto",
+          "proponga"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "source .venv/bin/activate   # o Activate.ps1 en Windows\n\npython -m pip install requests==____\npython -m ____ freeze > ____.txt\n\n# Verifica:\ngrep -i \"requests==\" requirements.txt\npython -c \"import requests; print(requests.____)\"",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "terceros",
+          "activado",
+          "genera",
+          "guiado",
+          "paquete",
+          "pinneado",
+          "uses",
+          "global"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Parte de un requirements.txt existente en la raíz\npython3 -m venv .venv_replica\nsource .venv_replica/bin/activate\npython -m pip install -r ____\npython -m pip list | head\npython -c \"import requests; print('ok', requests.__version__)\"",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "entorno",
+          "puede",
+          "ser",
+          "recrea",
+          "crea",
+          "confirma",
+          "paquete",
+          "está"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Forense ModuleNotFoundError\n\n## Hipótesis A — nunca instalado\n____\n\n## Hipótesis B — instalado en otro intérprete\n____\n\n## Protocolo (5 pasos)\n1. ____\n2. ____\n3. ____\n4. ____\n5. ____\n\n## ¿stdlib o terceros?\n- requests: ____\n- datetime: ____",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "transferencia",
+          "sin",
+          "distinga",
+          "usuario",
+          "corre",
+          "reinstalls",
+          "use",
+          "executable"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "mkdir -p lab_git_t3a && cd lab_git_t3a\ngit init\necho \"# lab\" > README.md\ngit ____ README.md\ngit commit -m \"____: agregar README de practica\"\ngit log -1 --oneline",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "mensajes",
+          "haz",
+          "guiado",
+          "mensaje",
+          "carpeta",
+          "commits",
+          "feat",
+          "wip"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Lectura de diff\n\n## Comandos usados\n____\n\n## 1) ¿Qué líneas aparecen con + en git show HEAD?\n____\n\n## 2) ¿Archivo nuevo o modificado? ¿Cómo se nota?\n____\n\n## 3) Resumen en una frase\n____",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "haz",
+          "readme",
+          "corto",
+          "agrega",
+          "responde",
+          "muestra",
+          "línea",
+          "cambió"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Mejor mensaje de commit\n\nCandidatos:\n- A: `wip`\n- B: `feat: agregar smoke hello_env`\n- C: `Actualicé cosas del setup`\n\n## Elección\n____\n\n## Justificación\n____\n\n## Reescritura de A (si fuera un commit temporal local que luego se limpia)\n____\n\n## Reescritura de C\n____",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "cambios",
+          "mensajes",
+          "otros",
+          "estilo",
+          "cambio",
+          "dos",
+          "transferencia",
+          "oraciones"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "git switch main\ngit switch -c ____/practica-s01\necho \"ok\" > nota.txt\ngit add nota.txt\ngit commit -m \"____: agregar nota de practica\"\ngit branch",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "force",
+          "menos",
+          "guiado",
+          "basta",
+          "flujo",
+          "ramas",
+          "repo",
+          "local"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Título del PR\n____\n\n## Resumen\n- ____\n- ____\n- ____\n\n## Plan de prueba\n1. ____\n2. ____\n3. ____\n\n## Seguridad\n- [ ] No incluye `.env` ni secretos\n- [ ] ____",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "sin",
+          "bullets",
+          "agrega",
+          "rama",
+          "remote",
+          "redacta",
+          "readme",
+          "hace"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Recuperación no destructiva\n\n## Situación\nREADME.md modificado, sin commit, cambio indeseado.\n\n## Procedimiento con restore\n1. ____\n2. ____\n\n## ¿Cuándo stash en su lugar?\n____\n\n## Por qué NO force-push a main\n____\n\n## Por qué no reset --hard como default\n____",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "transferencia",
+          "git",
+          "otro",
+          "escribe",
+          "escenario",
+          "dice",
+          "usa",
+          "usarías"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "[tool.____]\nline-length = ____\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"____\", \"____\", \"____\"]",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "publicar",
+          "guiado",
+          "hace",
+          "config",
+          "pypi",
+          "local",
+          "pyproject",
+          "PyPI"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T4-A-E2",
+        "answer": "run_starter_as_baseline",
+        "code": "import sys\nimport os\nfrom datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n\n# Tarea del estudiante: ruff check → quitar imports sin usar (sys, os)",
+        "blocked_on": [],
+        "confidence": 0.5,
+        "concepts_used": [
+          "corrige",
+          "corre",
+          "script",
+          "hasta",
+          "exit",
+          "limpio",
+          "dado",
+          "venv"
+        ]
+      },
+      {
+        "exercise_id": "S01-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Select mínimo para repo de datos (S01)\n\n## Propuesta\n`select = [____]`\n\n## Por qué no ALL el día 1\n____\n\n## Qué cubren E, F, I\n____\n\n## Cuándo ampliar\n____",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "transferencia",
+          "set",
+          "justifica",
+          "analytics",
+          "ganas",
+          "escrito",
+          "otro",
+          "reglas"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Entornos\n____/\n____/\n\n# Bytecode\n____/\n____\n\n# Secretos\n____\n\n# Jupyter\n.ipynb_checkpoints/",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "guiado",
+          "pyc",
+          "check",
+          "checkpoints",
+          "data",
+          "python",
+          "prueba",
+          "repo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Copia a .env y completa valores locales (nunca commitees .env)\nAPI_URL=\nDB_HOST=\nLOG_LEVEL=\n# TODO: añade solo placeholders",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "intake",
+          "proyecto",
+          "menos",
+          "confirma",
+          "sensibles",
+          "ficticios",
+          "real",
+          "commitea"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S01-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Checklist máquina limpia — esqueleto CP-N1-A\n\n- [ ] 1. ____\n- [ ] 2. ____\n- [ ] 3. ____\n- [ ] 4. ____\n- [ ] 5. ____\n\n## Datos\n- [ ] data/clients_synthetic.csv es sintético\n- [ ] data/data_dictionary.md describe columnas\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "transferencia",
+          "dataset",
+          "revisor",
+          "smoke",
+          "pueda",
+          "tildar",
+          "venv",
+          "mención"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "79e4efe4d6053f89"
+  }
+}

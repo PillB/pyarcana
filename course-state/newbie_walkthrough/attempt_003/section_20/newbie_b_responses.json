@@ -1,0 +1,452 @@
+{
+  "agent": "b",
+  "section_index": 20,
+  "recorded_at": "2026-07-21T17:06:29.093351+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "No; suele devolver la fórmula o cache si existe",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          5.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Escribir en la celda ancla (top-left)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.15,
+          5.15,
+          1.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Estados de batch, conciliación y backups",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          4.0,
+          0.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          5.0,
+          5.0,
+          2.0,
+          1.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S20-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "from openpyxl import Workbook\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "crea",
+          "sheetnames",
+          "hoja",
+          "entrada",
+          "pon",
+          "título",
+          "imprime",
+          "region"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "from openpyxl import Workbook\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "imprime",
+          "lima",
+          "fila"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "from openpyxl import Workbook\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "creación",
+          "ordenados",
+          "sheetnames",
+          "imprime",
+          "salida",
+          "datos",
+          "crea",
+          "hojas"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "from openpyxl import Workbook\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "print",
+          "asigna",
+          "startswith",
+          "fórmula"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "from openpyxl import Workbook\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "evaluar",
+          "sin",
+          "calcula",
+          "fórmula",
+          "python",
+          "imprime",
+          "excel"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "true",
+          "empieza",
+          "prueba",
+          "es_formula",
+          "función"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "imprime",
+          "pon"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "from openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "solid",
+          "fgcolor",
+          "fgColor",
+          "imprime",
+          "fill",
+          "aplica",
+          "F4E79",
+          "none"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "aplícalo",
+          "cell",
+          "fill",
+          "print",
+          "bold",
+          "escribe",
+          "header_style"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "from openpyxl import Workbook\nfrom datetime import date\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "imprime",
+          "escribe"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "from openpyxl import Workbook\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "merge",
+          "valor",
+          "esperado",
+          "imprime",
+          "value",
+          "none"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "from openpyxl import Workbook\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "merge",
+          "int",
+          "tras",
+          "cuenta",
+          "print",
+          "cuántos",
+          "hay"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "sum",
+          "true",
+          "tol",
+          "portada",
+          "detalle",
+          "reconcile"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "cusco",
+          "región",
+          "lima",
+          "pivot",
+          "dict",
+          "print",
+          "montos",
+          "suma"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "det_sum",
+          "prueba",
+          "bool",
+          "portada",
+          "reconcile",
+          "devuelve"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "expected=['region','monto']; got=['region','monto']\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "print",
+          "headers",
+          "equality"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "cusco",
+          "bad",
+          "lima",
+          "filtra",
+          "piura",
+          "permitidas",
+          "allowed",
+          "regiones"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "validate_rows",
+          "retorna",
+          "prueba",
+          "rows",
+          "allowed",
+          "inválida",
+          "inválidas",
+          "regiones"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "st=['ok','corrupt','ok']\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "cuenta",
+          "statuses"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "name='report.lock'\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "nombre",
+          "clasifica",
+          "contiene",
+          "xlsx",
+          "status",
+          "file",
+          "endswith"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "from collections import Counter\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "input",
+          "batch_status",
+          "corrupt",
+          "estado",
+          "conteos",
+          "files_dict",
+          "devuelve"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "backup",
+          "path",
+          "true",
+          "manifest",
+          "imprime",
+          "idempotent"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import hashlib\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "idempotente",
+          "build",
+          "ordenado",
+          "muestra",
+          "rows",
+          "same",
+          "distinto",
+          "hash"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S20-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "sheetnames",
+          "need",
+          "true",
+          "subset",
+          "prueba",
+          "entrada",
+          "salida",
+          "structural_ok"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "cecd7c28c679cace"
+  }
+}

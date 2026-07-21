@@ -31,23 +31,23 @@ const marcellus = Marcellus({
 });
 
 export const metadata: Metadata = {
-  title: "El Arte de Python · De cero a Data Scientist",
-  description: "Curso online de Python para Data Analysis y Data Science. En español peruano, con método I Do / We Do / You Do, ejercicios prácticos y proyectos de portafolio.",
-  keywords: ["Python", "Data Science", "Data Analyst", "Pandas", "NumPy", "scikit-learn", "curso online", "Perú"],
-  authors: [{ name: "Python DS Perú" }],
+  title: "PyArcana · De cero a Data Scientist",
+  description: "PyArcana — curso online de Python para Data Analysis y Data Science. En español peruano, con método I Do / We Do / You Do, ejercicios prácticos y proyectos de portafolio.",
+  keywords: ["PyArcana", "Python", "Data Science", "Data Analyst", "Pandas", "NumPy", "scikit-learn", "curso online", "Perú", "Art Nouveau"],
+  authors: [{ name: "PyArcana" }],
   icons: {
     icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
   },
   openGraph: {
-    title: "Python DS Perú · De cero a Data Analyst/Scientist",
-    description: "Curso online de Python para Data Analysis y Data Science en español peruano.",
-    siteName: "Python DS Perú",
+    title: "PyArcana · De cero a Data Analyst/Scientist",
+    description: "PyArcana — curso online de Python para Data Analysis y Data Science en español peruano.",
+    siteName: "PyArcana",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Python DS Perú",
-    description: "Curso online de Python para Data Analysis y Data Science.",
+    title: "PyArcana",
+    description: "PyArcana — curso online de Python para Data Analysis y Data Science.",
   },
 };
 

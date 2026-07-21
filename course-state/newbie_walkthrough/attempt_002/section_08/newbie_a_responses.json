@@ -1,0 +1,486 @@
+{
+  "agent": "a",
+  "section_index": 8,
+  "recorded_at": "2026-07-21T16:55:05.009273+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Evita depender del locale del SO (p. ej. Windows)",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          3.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "open(dest,'w') y escribir directo siempre",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          4.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Rellenarse con None sin traza",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          3.0,
+          2.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "n_in == n_clean + n_quarantine",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          5.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 0,
+        "chosen_text": "Publicar clean igual",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          2.0,
+          2.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S08-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "from pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "false",
+          "crea",
+          "demo",
+          "true",
+          "txt",
+          "guiado",
+          "dir",
+          "hola"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "from pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'lines.txt'\n# TODO write 3 lines y leer",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "strip",
+          "luego",
+          "lista",
+          "independiente",
+          "lee",
+          "readlines",
+          "líneas",
+          "escribe"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "from pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'bad.txt'\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "error",
+          "content",
+          "latin",
+          "escribe",
+          "read_text",
+          "transferencia",
+          "encoding",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "win = b'a\\r\\nb\\r\\n'\nunix = b'a\\nb\\n'\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "false",
+          "sample",
+          "windows",
+          "detecta",
+          "crlf",
+          "true",
+          "CRLF",
+          "bytes"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "from pathlib import Path\nimport os, tempfile\n\ndef write_atomic(path, text):\n    # TODO\n    ...\ntd = Path(tempfile.mkdtemp())\np = td / 'out.txt'\nwrite_atomic(p, 'ok\\n')\nprint(p.read_text(encoding='utf-8'))",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "contenido",
+          "verifica",
+          "implementa",
+          "independiente",
+          "final"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "from pathlib import Path\nimport os, tempfile\ntd = Path(tempfile.mkdtemp())\ndest = td / 'f.txt'\n# TODO parcial luego atomic",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "fallo",
+          "completo",
+          "COMPLETO",
+          "mid",
+          "replace",
+          "ambos",
+          "deja",
+          "PARCIAL"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import csv, io\nraw = 'id,nombre\\nC001,Ana\\n'\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "filas",
+          "sobre",
+          "header",
+          "guiado",
+          "dict",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import csv, io\nbuf = io.StringIO()\n# TODO write y read\nprint(n)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "datos",
+          "filas",
+          "CSV",
+          "header",
+          "DictWriter",
+          "contando",
+          "independiente",
+          "relee"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "vals = ['10', 'x', '3.5']\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "reject",
+          "procesa",
+          "transferencia",
+          "falla",
+          "cast",
+          "motivo",
+          "monto",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "header = ['id', 'nombre']\nrow = ['C1', 'Ana', 'x']\n# TODO\nprint(irregular)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "true",
+          "detecta",
+          "fila",
+          "guiado"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "from pathlib import Path\nimport csv, tempfile\ntd = Path(tempfile.mkdtemp())\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "fila",
+          "CSV",
+          "imprimiendo",
+          "independiente",
+          "relee",
+          "cuarentena",
+          "temp",
+          "escribe"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "reasons = ['col_count', 'cast_monto', 'col_count', 'schema']\n# TODO resumen",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "lista",
+          "dada",
+          "reason",
+          "transferencia",
+          "contador",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import json\n# TODO\nprint(obj['id'])",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "c001",
+          "guiado",
+          "fixture",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import json\n# TODO\nprint(s)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "dumps",
+          "verse",
+          "debe",
+          "josé",
+          "independiente",
+          "nombre",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import json\nfrom datetime import datetime\nobj = {'ts': datetime(2026, 1, 15, 10, 0, 0)}\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "dumps",
+          "captura",
+          "intenta",
+          "TypeError",
+          "reintenta",
+          "typeerror",
+          "transferencia",
+          "dict"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "def validate_schema(obj, required):\n    # TODO\n    ...\nprint(validate_schema({'id': 'C1'}, ['id', 'email']))",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "false",
+          "rechaza",
+          "sin",
+          "guiado"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "obj = {'id': 'C1', 'email': None}\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "tiene",
+          "presente",
+          "clave",
+          "independiente",
+          "explícito",
+          "valor",
+          "null",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "a = {'id': 'C1'}\nb = {'id': 'C2', 'segment': 'vip'}\n# TODO setdefault ambos\nprint(a)\nprint(b)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "standard",
+          "default",
+          "dos",
+          "existe",
+          "campo",
+          "pisar",
+          "vía",
+          "transferencia"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "from pathlib import Path\nimport hashlib, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'f.bin'\np.write_bytes(b'abc')\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "hex",
+          "contenido",
+          "chars",
+          "digest",
+          "archivo",
+          "conocido",
+          "primeros",
+          "calcula"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "from pathlib import Path\nimport shutil, tempfile\ntd = Path(tempfile.mkdtemp())\nsrc = td / 'in.csv'\nsrc.write_text('a\\n', encoding='utf-8')\n# TODO bak",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "verifica",
+          "igualdad",
+          "copia",
+          "bytes",
+          "independiente",
+          "backup"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "from pathlib import Path\nimport hashlib, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'clients.csv'\np.write_text('id\\nC1\\n', encoding='utf-8')\n# TODO provenance",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "arma",
+          "file",
+          "transferencia",
+          "bytes",
+          "dict",
+          "imprímelo",
+          "name",
+          "temp"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "manifest = {\n    # TODO\n}\nprint(sorted(manifest))",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "n_clean",
+          "run_id",
+          "n_in",
+          "mínimos",
+          "campos",
+          "guiado",
+          "dict",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "def reconcile(n_in, n_clean, n_quar):\n    # TODO\n    ...\nprint(reconcile(5, 3, 2))\nprint(reconcile(5, 3, 1))",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "reconcilia",
+          "bool",
+          "función",
+          "independiente",
+          "conteos"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S08-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "def run(n_in, n_clean, n_quar):\n    # TODO\n    ...\nrun(4, 2, 2)\nrun(4, 2, 1)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "error",
+          "SystemExit",
+          "exit",
+          "usa",
+          "code",
+          "print",
+          "systemexit",
+          "reconcile"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "fe2162fb46a292f0"
+  }
+}

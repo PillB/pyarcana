@@ -1,0 +1,490 @@
+{
+  "agent": "a",
+  "section_index": 6,
+  "recorded_at": "2026-07-21T16:54:59.495713+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 3,
+        "chosen_text": "Error",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "a también ve el append (alias)",
+        "confidence": 0.68,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          3.15,
+          2.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "chosen_text": "Listar conflicto en conflicts sin silenciar",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          4.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "None (muta in-place)",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 2,
+        "chosen_text": "validar schema JSON Schema",
+        "confidence": 0.8,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          2.0,
+          4.15,
+          2.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S06-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "txs = [10, 20, 30, 40, 50]\n# TODO\nempty = []\n# TODO empty",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "longitud",
+          "slicing",
+          "dada",
+          "últimos",
+          "caso",
+          "vacío",
+          "guiado",
+          "montos"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "headers = ['id', 'monto']\n# TODO\nprint('KEYS', KEYS)\n# TODO extend conceptual\nprint('KEYS sigue', KEYS)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "canal",
+          "otra",
+          "crea",
+          "convierte",
+          "mutar",
+          "inmutable",
+          "independiente",
+          "demuestra"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "ids = ('C001', 'C002')\ntry:\n    ids.append('C003')  # bug intencional si se ejecuta sobre tuple\nexcept Exception as e:\n    # TODO\n    ...",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "diagnóstico",
+          "captura",
+          "intenta",
+          "lista",
+          "mensaje",
+          "convierte",
+          "trata",
+          "hay"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "fila = ('C001', 'Lima', 10)\n# TODO unpack\nprint(cid, region, monto)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "fuerces",
+          "tres",
+          "valores",
+          "fallaría",
+          "unpacking",
+          "aquí",
+          "guiado",
+          "tuviera"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "xs = [1, 2]\n# TODO\nprint('xs', xs, 'copia', copia)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "luego",
+          "mutar",
+          "nuevo",
+          "independiente",
+          "demuestra",
+          "append",
+          "imprimir"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\n# TODO deep + mutaciones\nprint('orig', rows)\nprint('deep', deep)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "anidados",
+          "lista",
+          "aísla",
+          "usa",
+          "transferencia",
+          "muta",
+          "muestra",
+          "dicts"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "pares = [('C001', 'Lima'), ('C002', 'Cusco')]\n# TODO\nprint(d)\nprint(d['C002'])",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "construye",
+          "guiado",
+          "desde",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "idx = {'C001': 'Ana'}\n# TODO get\n# TODO KeyError",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "directo",
+          "luego",
+          "default",
+          "acceder",
+          "usa",
+          "independiente",
+          "muestra",
+          "except"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "defaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\n# TODO merged seguro\nprint('merged', merged)\n# TODO no mutar original defaults al fusionar",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "luego",
+          "usa",
+          "perder",
+          "transferencia",
+          "mutando",
+          "fusiona",
+          "muestra",
+          "peligro"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\n# TODO\nprint(unicos)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "devuelve",
+          "deduplica",
+          "lista",
+          "únicos",
+          "guiado",
+          "ordenada"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "lote_b",
+          "lote_a",
+          "diferencia",
+          "intersección",
+          "sets",
+          "simétrica",
+          "emails",
+          "independiente"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "def dedup_report(rows, key='id'):\n    # TODO\n    ...\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "filas",
+          "devuelve",
+          "distinto",
+          "eliminar",
+          "conflicts",
+          "implementa",
+          "sintéticas",
+          "reporte"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "clients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "cliente",
+          "guiado",
+          "contactos",
+          "cuenta",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "clients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\n# TODO flat\nprint(flat)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "filas",
+          "tx_id",
+          "lista",
+          "aplana",
+          "independiente",
+          "anidadas",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "clients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "inconsistente",
+          "detecta",
+          "falta",
+          "cliente",
+          "malo",
+          "review",
+          "transferencia",
+          "uno"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "def get_nested(d, *keys, default=None):\n    # TODO\n    ...\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "implementa",
+          "guiado",
+          "úsalo",
+          "sintético"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "clients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "ausente",
+          "cada",
+          "cliente",
+          "reporte",
+          "independiente",
+          "líneas",
+          "marca",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "vals = [None, '', 0, []]\n# TODO para cada: falsy? missing?",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "representan",
+          "indica",
+          "tabla",
+          "valores",
+          "construye",
+          "aquí",
+          "prints",
+          "transferencia"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\n# TODO\nprint([r['id'] for r in ordered])",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "ordena",
+          "guiado",
+          "ascendente",
+          "orden",
+          "ids",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "rows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "luego",
+          "pares",
+          "ordena",
+          "campo",
+          "multi",
+          "independiente",
+          "región",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "rows = [3, 1, 2]\nbase = [3, 1, 2]\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "retorno",
+          "otra",
+          "luego",
+          "obtener",
+          "lista",
+          "usa",
+          "copia",
+          "transferencia"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "jobs = [\n    'cola de llegada de filas',\n    'lookup frecuente por id',\n    'emails únicos de un lote',\n]\n# TODO print job → estructura",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "elegida",
+          "guiado",
+          "cohorte",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\n# TODO\nprint(s)",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "dumps",
+          "export",
+          "determinista",
+          "ordena",
+          "JSON",
+          "independiente",
+          "imprime",
+          "vez"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S06-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "ids = ['C001', 'C002', 'C003', 'C004', 'C005']\n# TODO set + membership + prints de complejidad",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "conceptual",
+          "tradeoff",
+          "true",
+          "mostrando",
+          "micro",
+          "transferencia",
+          "ejemplo",
+          "simula"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "54854c2439f22319"
+  }
+}

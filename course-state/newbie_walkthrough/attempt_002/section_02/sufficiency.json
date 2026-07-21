@@ -1,0 +1,32 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "NoneType"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "str y False"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.86,
+    "correct_preview": "Porque no es una cantidad aritmética y puede necesitar ceros o formato"
+  },
+  {
+    "i": 3,
+    "ok": false,
+    "support_ratio": 0.0,
+    "correct_preview": "[1, 2, 3]"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "if x is None:"
+  }
+]

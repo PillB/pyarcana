@@ -1,0 +1,32 @@
+[
+  {
+    "i": 0,
+    "ok": false,
+    "support_ratio": 0.0,
+    "correct_preview": "[3,4]"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "a también ve el append (alias)"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Listar conflicto en conflicts sin silenciar"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "None (muta in-place)"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 0.67,
+    "correct_preview": "salidas deterministas/reproducibles"
+  }
+]

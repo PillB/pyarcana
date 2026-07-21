@@ -1,0 +1,441 @@
+{
+  "agent": "a",
+  "section_index": 29,
+  "recorded_at": "2026-07-21T17:40:09.950781+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Evitar duplicar el mismo par en orden invertido",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          5.15,
+          4.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "UPDATE del label in place sin rastro",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          6.0,
+          4.0,
+          3.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "chosen_text": "Commitearse en transacciones separadas siempre",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.0,
+          1.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Encapsula acceso a datos y facilita tests con :memory:",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          6.0,
+          2.0,
+          3.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S29-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import sqlite3\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "entities",
+          "crea",
+          "tabla",
+          "memory",
+          "text",
+          "imprime",
+          "count",
+          "TEXT"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "bad_score",
+          "debe",
+          "imprime",
+          "fallar",
+          "integrityerror",
+          "IntegrityError",
+          "caza"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "true",
+          "imprime",
+          "par",
+          "orden",
+          "canónico"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "filas",
+          "historia",
+          "imprime",
+          "dos",
+          "inserta",
+          "labels",
+          "número"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "imprime",
+          "crm_synth",
+          "source",
+          "record"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "valid_to=None\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "open",
+          "imprime",
+          "null",
+          "significa",
+          "NULL",
+          "vigente"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\n# TODO print list\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "sin",
+          "decision",
+          "solo",
+          "decisión",
+          "ids",
+          "lista"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "scores=[0.2,0.9,0.5]\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "desc",
+          "ordena",
+          "imprime",
+          "window",
+          "top",
+          "conceptual"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "CTE",
+          "nombre",
+          "ranked",
+          "imprime",
+          "ejemplo",
+          "cte"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "n=5\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "sql",
+          "true",
+          "python",
+          "recuerda",
+          "imprime",
+          "SQL",
+          "joins",
+          "none"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "EXPLAIN",
+          "scan",
+          "elige",
+          "SCAN",
+          "imprime",
+          "search",
+          "didáctico",
+          "conciencia"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "ser",
+          "BEGIN",
+          "insert",
+          "debe",
+          "tras",
+          "count",
+          "begin",
+          "ROLLBACK"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "sin",
+          "finales",
+          "espacios",
+          "imprime",
+          "separadas",
+          "letras",
+          "raros",
+          "extra"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "evidence_ok=False\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "imprime",
+          "abort",
+          "hagas",
+          "conceptual",
+          "commit"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\n# TODO upsert to B and print\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "final",
+          "segunda",
+          "actualiza",
+          "imprime",
+          "mismo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "crash",
+          "tras",
+          "imprime",
+          "job",
+          "pending",
+          "recuperación",
+          "status"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "conflict=True\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "retry",
+          "conflicto",
+          "imprime",
+          "par",
+          "duplicado"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "add_index",
+          "max",
+          "imprime",
+          "migration",
+          "registra",
+          "version"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "sugerido",
+          "nombre",
+          "idx_pairs_block_key",
+          "imprime",
+          "índice"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "imprime",
+          "no_drop_without_backup",
+          "política"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "store={'e1':'Ana'}\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "imprime",
+          "repo",
+          "get"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "pool_size",
+          "imprime",
+          "pool",
+          "size",
+          "conceptual"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S29-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "pending_count=1\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "repo",
+          "imprime",
+          "count",
+          "pending",
+          "test"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "0ec7c075c2972c5b"
+  }
+}

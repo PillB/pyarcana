@@ -56,6 +56,38 @@ export const section01: CourseSection = {
         'Cuando instalas Python, lo que realmente instalas es un **intérprete**: un programa que lee tu código y lo ejecuta. En la terminal, ese programa suele llamarse `python` o `python3`. La primera habilidad profesional no es escribir un algoritmo: es **verificar qué intérprete estás usando**. En Windows a veces el comando `python` no está en el PATH (la lista de carpetas donde el sistema busca programas). En macOS/Linux es común tener `python3` como comando principal. Por eso siempre empiezas con `python --version` (o `python3 --version`) y anotas la respuesta. Para este curso apuntamos a **Python 3.12 o superior**.',
         'El **REPL** (Read–Eval–Print Loop) es el modo interactivo del intérprete. Lo abres escribiendo solo `python` (o `python3`) y Enter. Verás el prompt `>>>`. Ahí puedes escribir una expresión, presionar Enter, y Python la evalúa al instante: `2 + 2` devuelve `4`, `type("hola")` devuelve `<class \'str\'>`. Es ideal para probar una idea en 10 segundos sin crear un archivo. Para salir: `quit()` o `exit()`, o el carácter de fin de archivo (Ctrl-D en macOS/Linux, Ctrl-Z y Enter en Windows). Salir del REPL **no cierra** tu terminal: vuelves al prompt de la shell (`$` o `PS>`).',
         'Hay una diferencia crítica entre **sesión REPL** y **script `.py`**. En el REPL cada línea se ejecuta al presionar Enter. En un script, escribes el programa completo en un archivo y lo lanzas con `python hello.py`. El script es lo que subes a GitHub y lo que corre en producción o en un pipeline. El REPL es tu laboratorio de bolsillo. Cuando un colega dice "ábrelo en el intérprete y mira el tipo", te está pidiendo el REPL. Cuando dice "corre el entrypoint", te está pidiendo un archivo. Confundir ambos genera la sensación de que "a mí me funciona" en la laptop y falla en el servidor.',
+        'Tu primer script usa tres piezas mínimas: (1) **`print(...)`** escribe texto a la salida estándar (lo ves en la terminal). (2) **`def nombre():`** define una función — un bloque indentado que puedes reutilizar; por convención el entrypoint se llama `main`. (3) el guardián **`if __name__ == "__main__":`** solo corre `main()` cuando ejecutas el archivo con `python archivo.py` (no cuando alguien lo importa como módulo). Para la versión de Python dentro del script: `import sys` y `sys.version.split()[0]`. Un **f-string** formatea texto con variables: `print(f"Hola {nombre}")` — la `f` delante de las comillas permite `{expresiones}` dentro.',
+      ],
+      code: {
+        language: 'python',
+        title: 'hello_sys.py — primer script con entrypoint',
+        code: `import sys
+
+def main() -> None:
+    nombre = "Estudiante"
+    version = sys.version.split()[0]
+    print(f"Hola {nombre}")
+    print(version)
+
+if __name__ == "__main__":
+    main()
+# Ejecutar: python hello_sys.py  → exit 0 si no hay error`,
+        output: `Hola Estudiante
+3.12.3`,
+      },
+      // keep bash REPL demo as second visual via callout-adjacent; original bash block renamed below
+      callout: {
+        type: 'tip',
+        title: 'REPL vs script en un minuto',
+        content:
+          'En el REPL pruebas `2+2`. En un `.py` escribes def + if __name__ y lanzas `python archivo.py`. Ambos usan el mismo intérprete.',
+      },
+    },
+    {
+      heading: 'El intérprete en la terminal (comandos de verificación)',
+      subtopicId: 'S01-T1-A',
+      paragraphs: [
+        'Además del script, sigue verificando el intérprete desde la shell antes de crear venvs o instalar paquetes.',
       ],
       code: {
         language: 'bash',
@@ -89,6 +121,34 @@ python
         'La **terminal** (bash, zsh o PowerShell) es el lugar donde lanzas procesos: `python`, `git`, `mkdir`. Cada comando que escribes es un **proceso** hijo de la shell. Cuando termina, devuelve un **código de salida** (exit status): por convención, **0 significa éxito** y **cualquier valor distinto de 0 significa fallo**. En bash/zsh lo lees con `echo $?`. En PowerShell, con `echo $LASTEXITCODE`. CI, scripts y pipelines usan ese número para decidir si continúan o se detienen. Un mensaje de error en pantalla y un código 0 (o al revés) son cosas distintas: siempre mira el código cuando automatizas.',
         'No confundas el **directorio de trabajo actual** (cwd: dónde “estás” con `cd` y `pwd` / `Get-Location`) con el **PATH** (lista de carpetas donde el sistema busca ejecutables como `python`). Puedes estar en `~/proyectos/python-ds-journey` y aun así fallar `python` si ese ejecutable no está en el PATH. Al revés: puedes tener Python en el PATH y fallar al abrir un archivo si tu cwd no es la carpeta del proyecto. `mkdir` y `cd` mueven o crean rutas relativas al cwd; no “instalan” Python en el PATH.',
         'En Python, `sys.exit(n)` termina el proceso con código `n`. Es la forma limpia de señalizar éxito o error a la shell y a herramientas externas. Ejemplo: un script de validación sale con `0` si los argumentos son correctos y con `1` si faltan. En data ops verás el mismo contrato: un job ETL “failed” casi siempre es exit code distinto de cero, no solo un print rojo. Practica leer `$?` / `$LASTEXITCODE` después de cada comando crítico antes de culpar a la librería.',
+        '**Argumentos de línea de comandos:** `sys.argv` es una lista de strings. `sys.argv[0]` es el nombre del script; los argumentos del usuario empiezan en `sys.argv[1]`. **`len(sys.argv)`** cuenta cuántos elementos hay (incluye el nombre del script). Ejemplo: `python check_arg.py ok` → `sys.argv == ["check_arg.py", "ok"]` y `len(sys.argv) == 2`. Para errores al usuario usa `print("uso: ...", file=sys.stderr)` y luego `sys.exit(1)`.',
+        '**Qué intérprete es este proceso:** `sys.executable` es la ruta absoluta del binario Python que está corriendo tu script (ej. `.../.venv/bin/python`). Si `import requests` falla, compara `sys.executable` con el `pip` que usaste: la regla de oro es instalar con `python -m pip install ...` usando **el mismo** ejecutable. Así evitas el clásico "lo instalé pero ModuleNotFoundError".',
+      ],
+      code: {
+        language: 'python',
+        title: 'check_arg.py — argv, len y exit codes',
+        code: `import sys
+
+def main() -> None:
+    # sys.argv[0] = script; usuario desde [1]
+    if len(sys.argv) != 2:
+        print("uso: python check_arg.py <arg>", file=sys.stderr)
+        sys.exit(1)
+    print("OK:" + sys.argv[1])
+    print("executable:", sys.executable)
+    sys.exit(0)
+
+if __name__ == "__main__":
+    main()`,
+        output: `OK:hola
+executable: /ruta/a/python`,
+      },
+    },
+    {
+      heading: 'cwd, PATH y códigos de salida en la shell',
+      subtopicId: 'S01-T1-B',
+      paragraphs: [
+        'Desde la shell, confirma cwd, PATH conceptual y códigos de salida con los mismos números 0/1 que usa `sys.exit`.',
       ],
       code: {
         language: 'bash',
@@ -1738,7 +1798,9 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()`,
-          output: `All checks passed!`,
+          // Runtime prints today's date; ellipsis marks nondeterministic day.
+          output: `hola
+...`,
         },
       },
       {

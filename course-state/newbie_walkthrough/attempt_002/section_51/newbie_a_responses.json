@@ -1,0 +1,282 @@
+{
+  "agent": "a",
+  "section_index": 51,
+  "recorded_at": "2026-07-21T16:58:29.907142+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "chosen_text": "integrator-final",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          0.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "CP-N4-C (cierre) + CF-5 + Level-4 regression",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          5.0,
+          0.0,
+          1.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 0,
+        "chosen_text": "PII real de clientes",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          4.0,
+          2.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 0,
+        "chosen_text": "Fraude",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          3.0,
+          0.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S51-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa el ejercicio guiado.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa el ejercicio independiente.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Transfiere el concepto.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa el ejercicio guiado.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa el ejercicio independiente.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Transfiere el concepto.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa el ejercicio guiado.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa el ejercicio independiente.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Transfiere el concepto.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa el ejercicio guiado.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa el ejercicio independiente.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Transfiere el concepto.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa el ejercicio guiado.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa el ejercicio independiente.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Transfiere el concepto.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa el ejercicio guiado.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa el ejercicio independiente.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Transfiere el concepto.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa el ejercicio guiado.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa el ejercicio independiente.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Transfiere el concepto.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa el ejercicio guiado.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Completa el ejercicio independiente.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S51-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# Transfiere el concepto.\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "5a73979b2cf5bb07"
+  }
+}

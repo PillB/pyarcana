@@ -1,0 +1,431 @@
+{
+  "agent": "a",
+  "section_index": 23,
+  "recorded_at": "2026-07-21T17:12:55.908693+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Refleja la UI accesible y suele ser más estable",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          5.0,
+          4.3,
+          2.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "chosen_text": "Detenerse y hacer handoff humano",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          2.0,
+          3.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Buscar integración no-UI antes de automatizar el browser",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          4.0,
+          2.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Solo fallas transitorias (timeout/red), no captcha/403 de negocio",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          7.0,
+          1.0,
+          0.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S23-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "nodes=[{'role':'link','name':'Inicio','id':'n1'}]\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "imprime",
+          "nodos",
+          "encuentra",
+          "lista"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "strats=['css','role','testid']\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "imprime",
+          "priorizando",
+          "estrategias",
+          "ordena"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "nodes=[{'role':'img','name':'logo'}]\n# TODO buscar button\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "devuelve",
+          "hay",
+          "else",
+          "need_testid"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "simula",
+          "true",
+          "ready",
+          "imprime",
+          "intento",
+          "wait",
+          "vuelve"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "ready = False\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "imprime",
+          "intentos",
+          "tras",
+          "timeout"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "expected, actual = 'Portal demo', 'Portal demo'\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "assertion",
+          "título",
+          "imprime",
+          "fail",
+          "pass"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "form = {}\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "imprime",
+          "usuario",
+          "actualiza",
+          "ana"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import hashlib\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "calcula",
+          "sha256",
+          "data",
+          "hex",
+          "verificación",
+          "download"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "state={'token':'t'}\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "storage_state",
+          "simula",
+          "reutilizado",
+          "imprime",
+          "presente",
+          "reuse"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "class LoginPage:\n    pass  # TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "set",
+          "true",
+          "auth",
+          "password",
+          "prueba",
+          "imprime",
+          "sandbox"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "ctx={'auth':False}\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "denied",
+          "reportpage",
+          "ReportPage",
+          "open",
+          "imprime",
+          "captura",
+          "lanza"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "state='anonymous'\n# TODO login ok\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "estados",
+          "tras",
+          "imprime",
+          "transición",
+          "authenticated"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "ev={'trace':'a.zip','screenshot':'b.png','error':'x'}\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "imprime",
+          "evidencia",
+          "arma"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "logs=['ok','ERR timeout','nav']\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "líneas",
+          "console",
+          "contienen",
+          "imprime",
+          "solo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "ok=False\npkg={'step':'s1'}\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "final",
+          "path",
+          "trace",
+          "paquete",
+          "imprime",
+          "adjunta"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "def should_retry(k):\n    # TODO\n    pass\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "valores",
+          "tres",
+          "true",
+          "prueba",
+          "solo",
+          "timeout"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "err='stale'\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "goto_home",
+          "action",
+          "navega",
+          "imprime",
+          "recovery"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "errors=['timeout','timeout','timeout']\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "máx",
+          "intentos",
+          "resultado",
+          "imprime",
+          "cuenta",
+          "fail",
+          "luego"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "api=True\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "elección",
+          "elige",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "f={'api':False,'export':True,'rpa':True}\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "dado",
+          "preferencia",
+          "imprime",
+          "choice",
+          "human",
+          "orden"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "decision",
+          "imprime",
+          "cuando",
+          "caes",
+          "registra",
+          "no_api",
+          "rpa"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "captcha=True\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "imprime",
+          "human_handoff"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "sig={'tos_forbidden':True,'captcha':True}\n# TODO tos gana\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "action",
+          "abort",
+          "imprime",
+          "ToS",
+          "forbidden"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S23-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "step",
+          "arma",
+          "imprime",
+          "payload",
+          "handoff",
+          "url",
+          "screenshot"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "29c25f05db01caab"
+  }
+}

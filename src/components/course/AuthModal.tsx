@@ -139,7 +139,7 @@ export function AuthModal({ open, onClose, defaultTab = 'login' }: AuthModalProp
             </div>
           </div>
           <DialogTitle className="text-center text-2xl">
-            <span className="gradient-text">Python DS Perú</span>
+            <span className="gradient-text">PyArcana</span>
           </DialogTitle>
           <DialogDescription className="text-center">
             Inicia sesión para guardar tu progreso, rendir exámenes y ver tu dashboard

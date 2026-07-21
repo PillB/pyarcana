@@ -1,0 +1,463 @@
+{
+  "agent": "b",
+  "section_index": 19,
+  "recorded_at": "2026-07-21T16:55:44.273441+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 2,
+        "chosen_text": "Dual axis sin escala",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          2.0,
+          4.0,
+          0.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          3.0,
+          4.0,
+          4.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 2,
+        "chosen_text": "Un alt text correcto",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          2.0,
+          3.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Unidad, fuente y limitaciones",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          3.0,
+          0.0,
+          2.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S19-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "pregunta = 'comparar regiones'\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "comparación",
+          "entre",
+          "dada",
+          "recomendado",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "comparación",
+          "devuelve",
+          "audiencia",
+          "dict",
+          "ejecutivo",
+          "pregunta",
+          "totales"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "tendencia",
+          "else",
+          "elige_chart",
+          "line",
+          "bar",
+          "prueba",
+          "pregunta",
+          "devuelva"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "alturas",
+          "baseline",
+          "diferencia",
+          "valores",
+          "inflación",
+          "visual",
+          "ratio",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "ylim_bottom = 0\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "revisar",
+          "else",
+          "honesto",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "encoding = 'dual_axis'\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "riesgo_alto",
+          "dado",
+          "position",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import matplotlib\nmatplotlib.use('Agg')\nimport matplotlib.pyplot as plt\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "false",
+          "set_ylim",
+          "tras",
+          "verifica",
+          "crea",
+          "true",
+          "bar",
+          "get_ylim"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import matplotlib\nmatplotlib.use('Agg')\nimport matplotlib.pyplot as plt\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "PEN",
+          "ylabel",
+          "asigna",
+          "get_ylabel",
+          "print",
+          "axes",
+          "pen"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import matplotlib\nmatplotlib.use('Agg')\nimport matplotlib.pyplot as plt\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "devuelve",
+          "crea",
+          "labels",
+          "ylim0",
+          "chart",
+          "bar",
+          "print",
+          "función"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "png",
+          "fmt",
+          "dpi",
+          "imprime",
+          "export",
+          "panels"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "version = 3\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "png",
+          "construye",
+          "fig_cpn2b_v"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import matplotlib\nmatplotlib.use('Agg')\nimport matplotlib.pyplot as plt\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "devuelve",
+          "med",
+          "crea",
+          "lista",
+          "titles",
+          "print",
+          "vol",
+          "subplots"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "rows=[{'region':'Lima','median':28},{'region':'Cusco','median':22}]\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "filtra",
+          "primero",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "PEN",
+          "arma",
+          "region",
+          "lima",
+          "pen",
+          "tooltip"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "median",
+          "pruébalo",
+          "region",
+          "implementa",
+          "dict",
+          "row",
+          "tooltip"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "coinciden",
+          "region",
+          "table",
+          "chart",
+          "parity",
+          "lima",
+          "dado",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import json\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "filtro_region",
+          "dumps",
+          "string",
+          "compacto",
+          "serializa",
+          "JSON",
+          "lima",
+          "state"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "table=[{'region':'Lima','v':28},{'region':'Cusco','v':22}]\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "list",
+          "genera",
+          "alt_text",
+          "desde",
+          "dicts",
+          "une"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "PEN",
+          "caption",
+          "fuente",
+          "sintetico",
+          "pen",
+          "unidad",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "cap={'unidad':'PEN','fuente':'x','limitacion':'web'}\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "claves",
+          "caption",
+          "true",
+          "valida",
+          "dict",
+          "tenga",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "claves",
+          "string",
+          "devuelve",
+          "unido",
+          "cap",
+          "función",
+          "prueba",
+          "pie"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "claim = 'Lima es la mejor del Perú'\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "rechazado",
+          "muestra",
+          "contiene",
+          "RECHAZADO",
+          "sin",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "alt = 'Lima 28 PEN n=40'\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "debe",
+          "true",
+          "text",
+          "mencionar",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S19-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "RECHAZADO",
+          "classify_claim",
+          "else",
+          "textos",
+          "rechazado",
+          "PERMITIDO",
+          "muestra",
+          "prueba"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "9cf3216f6747a5b0"
+  }
+}

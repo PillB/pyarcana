@@ -1,0 +1,9 @@
+[
+  {
+    "tag": "UNTAUGHT_API",
+    "severity": "P1",
+    "exercise_id": "S01-T1-B-E3",
+    "detail": "['STARTER_BROKEN']",
+    "section_index": 1
+  }
+]

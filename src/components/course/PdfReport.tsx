@@ -409,7 +409,7 @@ function generateReportHTML(params: {
 </head>
 <body>
   <div class="header">
-    <h1>Python DS Perú</h1>
+    <h1>PyArcana</h1>
     <p>Reporte de Progreso Individual</p>
   </div>
 
@@ -462,7 +462,7 @@ function generateReportHTML(params: {
   </table>
 
   <div class="footer">
-    Generado por Python DS Perú · Curso online autónomo de Python para Data Analyst/Scientist<br>
+    Generado por PyArcana · Curso online autónomo de Python para Data Analyst/Scientist<br>
     ${new Date().toISOString()}
   </div>
 </body>
@@ -601,11 +601,11 @@ function generateCertificateHTML(params: {
   <div class="cert">
     <div class="badge-top">Py</div>
     <h1>Certificado de Finalización</h1>
-    <div class="subtitle">Python DS Perú</div>
+    <div class="subtitle">PyArcana</div>
     <div class="body-text">Se certifica que</div>
     <div class="name">${userName}</div>
     <div class="body-text">
-      ha completado satisfactoriamente el curso <strong>Python DS Perú</strong>,
+      ha completado satisfactoriamente el curso <strong>PyArcana</strong>,
       demostrando dominio de Python para Data Analysis y Data Science con método
       pedagógico I Do / We Do / You Do.
     </div>
@@ -632,7 +632,7 @@ function generateCertificateHTML(params: {
       </div>
       <div class="footer-item">
         <div class="footer-label">Firma</div>
-        <div class="footer-value">Python DS Perú</div>
+        <div class="footer-value">PyArcana</div>
       </div>
     </div>
 

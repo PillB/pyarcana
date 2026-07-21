@@ -229,6 +229,7 @@ print(normalize_record("  maría  josé ", "  X@Y.COM "))`,
         "Una función **pura** devuelve el mismo resultado para los mismos argumentos y **no tiene efectos** (no imprime, no lee disco, no muta globales ni los argumentos mutables del caller sin documentarlo).",
         "La **I/O** (stdin, archivos, red) se queda en el borde: `main`, CLI, o funciones `load_*` / `save_*`. Los normalizadores del gate deben ser puros e **idempotentes**: `f(f(x)) == f(x)` para entradas válidas.",
         "**Inyección**: pasar una función `reader` o un path como argumento en vez de hardcodear `open('data.csv')` dentro del core facilita tests con fakes.",
+        "**`lambda`**: una función anónima de una expresión. Sintaxis: `lambda args: expresión`. Ejemplo: `normalize_email = lambda s: s.strip().lower()` es equivalente a un `def` de una línea. Úsala para inyectar un normalizador rápido en tests o demos; si la lógica crece, prefiera un `def` con nombre. No es un reemplazo general de funciones: no admite múltiples statements ni es más rápida.",
       ],
       code: {
         language: 'python',
@@ -243,11 +244,12 @@ y = normalize_telefono(x)
 z = normalize_telefono(y)
 print(y, z, "idempotent=", y == z)
 
-# I/O al borde (simulado)
+# I/O al borde (simulado) + lambda como inyección puntual
 def process_line(line: str, norm=normalize_telefono) -> str:
     return norm(line)
 
-print(process_line(" (01) 234-5678 "))`,
+print(process_line(" (01) 234-5678 "))
+print(process_line(" A@B.COM ", norm=lambda s: s.strip().lower()))`,
         output: `999000111 999000111 idempotent= True
 012345678`,
       },

@@ -1,0 +1,453 @@
+{
+  "agent": "a",
+  "section_index": 15,
+  "recorded_at": "2026-07-21T16:55:28.937607+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "chosen_text": "iloc",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Asignación sobre slices que pueden ser view/copy (chained assignment)",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          9.0,
+          2.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Convierte inválidos a NaN",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          4.0,
+          2.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Filas, columnas y provenance/hash del artefacto",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          5.0,
+          1.0,
+          4.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S15-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "score",
+          "filas",
+          "DataFrame",
+          "crea",
+          "columnas",
+          "dataframe",
+          "pon",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "scores",
+          "score",
+          "crea",
+          "c001",
+          "c002",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "scores",
+          "alinea",
+          "dos",
+          "index",
+          "sumando",
+          "unión",
+          "imprime",
+          "series"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\nfrom io import StringIO\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "csv",
+          "cuántos",
+          "columnas",
+          "CSV",
+          "hay",
+          "lee",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\nfrom io import StringIO\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "csv",
+          "string",
+          "CSV",
+          "lee",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\nfrom io import StringIO\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "csv",
+          "CSV",
+          "columns",
+          "lee",
+          "desde",
+          "tolist",
+          "cliente_id",
+          "solo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\ndf = pd.DataFrame({'cliente_id':['C001','C002'], 'score':[0.4,0.9]})\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "scores",
+          "filas",
+          "usa",
+          "list",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\ndf = pd.DataFrame({'score':[1.0, 2.0]})\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "lista",
+          "crear",
+          "usa",
+          "col",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "valor",
+          "enteros",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\ndf = pd.DataFrame({'score':[0.2, 0.9]})\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "asigna",
+          "usa",
+          "list",
+          "nan",
+          "NaN",
+          "cuidado",
+          "donde",
+          "columna"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\ndf = pd.DataFrame({'score':[0.2, 0.9, 0.7]})\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "col",
+          "list",
+          "añade",
+          "haz",
+          "filtra",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "modificar",
+          "score",
+          "copia",
+          "cambia",
+          "mutar",
+          "demuestra",
+          "imprime",
+          "tras"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\ndf = pd.DataFrame({'region':['lima','Lima']})\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "tras",
+          "convierte",
+          "dtype",
+          "name",
+          "columna",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "lista",
+          "sobre",
+          "usa",
+          "where",
+          "floats",
+          "NaN",
+          "isna",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "coerce",
+          "to_datetime",
+          "errors",
+          "fecha"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\ndf = pd.DataFrame({'monto':['1','x']})\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "nuevos",
+          "introdujeron",
+          "cuántos",
+          "nan",
+          "NaN",
+          "reporta",
+          "aplica",
+          "fixture"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "lanza",
+          "falta",
+          "missing",
+          "schema",
+          "columna",
+          "monto",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "str",
+          "castea",
+          "cliente_id",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\nfrom io import StringIO\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "csv",
+          "exporta",
+          "CSV",
+          "columns",
+          "relee",
+          "sin",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\nfrom io import BytesIO\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "true",
+          "to_excel",
+          "bytes",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "emite",
+          "columnas",
+          "col",
+          "dos",
+          "dtype",
+          "clave",
+          "contrato",
+          "imprímelo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "simple",
+          "calcula",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "rows",
+          "construye",
+          "keys",
+          "manifest",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S15-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import pandas as pd, hashlib\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "false",
+          "hex",
+          "index",
+          "primeros",
+          "to_csv",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "0a7cc2a44a3dfd8e"
+  }
+}

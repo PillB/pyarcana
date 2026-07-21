@@ -1,0 +1,32 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Evita depender del locale del SO (p. ej. Windows)"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "escribir temp y os.replace al destino"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Ir a cuarentena con motivo"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "n_in == n_clean + n_quarantine"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 0.83,
+    "correct_preview": "Fallar (exit non-zero) / fail closed"
+  }
+]

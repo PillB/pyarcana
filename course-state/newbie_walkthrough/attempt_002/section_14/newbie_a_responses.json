@@ -1,0 +1,454 @@
+{
+  "agent": "a",
+  "section_index": 14,
+  "recorded_at": "2026-07-21T16:55:25.397019+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "chosen_text": "shape",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          3.0,
+          3.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Filtrar o seleccionar elementos que cumplen la condición",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          4.0,
+          3.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 3,
+        "chosen_text": "Nada; axis solo existe en pandas",
+        "confidence": 0.8,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          3.0,
+          2.0,
+          4.15
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Puede mutar el array base porque suele ser un view",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          2.0,
+          8.15,
+          3.0,
+          2.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S14-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO: flags\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "valores",
+          "ndarray",
+          "crea"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "scores",
+          "construye",
+          "reporta"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n\ndef validate(a):\n    # TODO\n    pass\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "array",
+          "float64",
+          "lanza",
+          "size",
+          "valida",
+          "contrato",
+          "válido",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "usando",
+          "based",
+          "índices",
+          "máscara",
+          "donde",
+          "dado",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "score",
+          "crea",
+          "mediana",
+          "c001",
+          "percentil",
+          "inferior",
+          "c004",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\na = np.array([10, 20, 30, 40])\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "vector",
+          "fancy",
+          "index",
+          "reordena",
+          "orden",
+          "resultado",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "ceros",
+          "decimales",
+          "matriz",
+          "listas",
+          "calcula",
+          "ambas",
+          "unos",
+          "redondeadas"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "scores",
+          "decimales",
+          "columna",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "normaliza",
+          "debe",
+          "media",
+          "fila",
+          "cada",
+          "ser",
+          "normalizar",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "ceros",
+          "usando",
+          "vector",
+          "suma",
+          "cada",
+          "fila",
+          "matriz",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\na = np.arange(4)\nb = np.arange(3)\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "crea",
+          "fila",
+          "shape",
+          "producto",
+          "multiplica",
+          "newaxis",
+          "columna",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "captura",
+          "intenta",
+          "sumar",
+          "detecta",
+          "incompatible",
+          "incompatibilidad",
+          "imprimiendo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "crea",
+          "dos",
+          "primeros",
+          "toma",
+          "pon",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "repite",
+          "queda",
+          "mutar",
+          "demuestra",
+          "tras"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "escribible",
+          "array",
+          "intenta",
+          "blocked",
+          "capturar",
+          "ValueError",
+          "marca",
+          "valueerror"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "hay",
+          "cuenta",
+          "NaN",
+          "cuántos"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "nan",
+          "decimales",
+          "calcula",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "reemplaza",
+          "luego",
+          "usa",
+          "inf",
+          "resultado",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "loop",
+          "sum",
+          "suma",
+          "diff",
+          "abs",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "arange",
+          "total",
+          "suma",
+          "cuadrados",
+          "implementa",
+          "vectorizada",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np, time\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "mean",
+          "sea",
+          "imprime",
+          "timed",
+          "vectorizado",
+          "resultado",
+          "mide"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "verifica",
+          "sea",
+          "dtype",
+          "zeros",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "entre",
+          "usa",
+          "booleano",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S14-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "import numpy as np\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "captura",
+          "debe",
+          "fallar",
+          "entre",
+          "atol",
+          "fail",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "713af9c68e66238e"
+  }
+}

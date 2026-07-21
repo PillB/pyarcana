@@ -1,0 +1,446 @@
+{
+  "agent": "b",
+  "section_index": 21,
+  "recorded_at": "2026-07-21T16:55:52.422924+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": null,
+        "blocked_on": [
+          "UNTAUGHT_CONCEPT"
+        ],
+        "confidence": 0.2,
+        "note": "Skeptic: insufficient packet support for any option",
+        "scores": [
+          5.0,
+          5.0,
+          3.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "OCR / tratamiento de imagen",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          3.0,
+          2.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Mismas métricas clave en dashboard, Excel y documento",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          6.0,
+          3.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Provenance, checklist visual y hallazgos trazables",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "scores": [
+          4.0,
+          5.0,
+          3.0,
+          3.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S21-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "from jinja2 import Template\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "renderiza",
+          "hola",
+          "nombre",
+          "ana",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "from jinja2 import Template\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "like",
+          "lima",
+          "median",
+          "render"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "from jinja2 import Template\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "median",
+          "ctx",
+          "fijo",
+          "usa",
+          "region",
+          "función",
+          "prueba",
+          "dict"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "median = None\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "número",
+          "else",
+          "prueba",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "x = 28.456\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "decimales",
+          "format",
+          "formatea",
+          "python",
+          "jinja"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "from jinja2 import Template\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "rows",
+          "lista",
+          "region",
+          "jinja",
+          "render",
+          "value",
+          "líneas"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "resumen",
+          "define",
+          "nombres",
+          "método",
+          "sections",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "sections=[{'h':1},{'h':2},{'h':1}]\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "hay",
+          "cuenta",
+          "mixtos",
+          "cuántos"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "devuelve",
+          "indentadas",
+          "render_outline",
+          "prueba",
+          "líneas"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "chars, pages = 10, 2\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "else",
+          "caso",
+          "needs_ocr",
+          "digital"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "classify",
+          "chars",
+          "needs_ocr",
+          "digital",
+          "pages",
+          "prueba",
+          "retorna"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "text = ''\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "flags",
+          "true",
+          "needs_ocr",
+          "dict",
+          "texto",
+          "dado",
+          "marca",
+          "extraído"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "hallazgo",
+          "crea",
+          "tabla1",
+          "evidencia",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "s = 'mediana 28 PEN n=40'\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "resumen",
+          "false",
+          "string",
+          "debe",
+          "true",
+          "incluir",
+          "valida",
+          "dado"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "resumen",
+          "claves",
+          "hallazgos",
+          "devuelve",
+          "pack_report",
+          "sorted",
+          "keys",
+          "metodo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "entre",
+          "true",
+          "dash",
+          "median_Lima",
+          "parity",
+          "dicts",
+          "doc",
+          "median_lima"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "cap = 'Fig1 | Fuente: sintetico | n=10'\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "contener",
+          "valida",
+          "caption",
+          "debe"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "fallo",
+          "iguales",
+          "tres",
+          "check_parity",
+          "true",
+          "éxito",
+          "prueba"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "vals=[28.04,28.0]\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "normaliza",
+          "decimal",
+          "lista"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "PEN",
+          "implementa",
+          "fmt_pen",
+          "pen",
+          "imprime"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "has_h1",
+          "a11y_min",
+          "true",
+          "alt",
+          "len",
+          "prueba",
+          "alts"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "pending_review",
+          "approval",
+          "imprime",
+          "status"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "import hashlib\n# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "hex",
+          "data_sha1_8",
+          "synthetic",
+          "primeros"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S21-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO\n",
+        "blocked_on": [],
+        "confidence": 0.4,
+        "concepts_used": [
+          "valores",
+          "true",
+          "xlsx",
+          "checklist",
+          "prueba",
+          "dashboard",
+          "ready",
+          "doc"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "c6d8c339a8e5e5c1"
+  }
+}

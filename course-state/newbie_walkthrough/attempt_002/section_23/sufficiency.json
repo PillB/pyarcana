@@ -1,0 +1,26 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Refleja la UI accesible y suele ser más estable"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "Detenerse y hacer handoff humano"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.8,
+    "correct_preview": "Buscar integración no-UI antes de automatizar el browser"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Solo fallas transitorias (timeout/red), no captcha/403 de negocio"
+  }
+]

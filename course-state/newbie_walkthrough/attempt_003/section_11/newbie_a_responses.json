@@ -1,0 +1,463 @@
+{
+  "agent": "a",
+  "section_index": 11,
+  "recorded_at": "2026-07-21T17:05:17.389468+00:00",
+  "responses": {
+    "persona": "explorer",
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Evita el default mutable compartido entre instancias",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          6.0,
+          2.0,
+          0.0
+        ]
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Una señal/dato numérico, no un veredicto de fraude o familia",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          5.0,
+          1.0,
+          4.0
+        ]
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Definir un puerto get/save implementable por fakes y adapters",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          5.0,
+          2.0,
+          1.0
+        ]
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "En la construcción (__post_init__/validate)",
+        "confidence": 0.66,
+        "blocked_on": [],
+        "scores": [
+          1.0,
+          3.0,
+          3.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 4,
+        "chosen_index": 1,
+        "chosen_text": "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          7.15,
+          1.0,
+          2.0
+        ]
+      },
+      {
+        "question_index": 5,
+        "chosen_index": 3,
+        "chosen_text": "Tests unitarios",
+        "confidence": 0.78,
+        "blocked_on": [],
+        "scores": [
+          3.0,
+          1.0,
+          3.0,
+          4.0
+        ]
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S11-T1-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "from dataclasses import dataclass, field\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "clientrecord",
+          "full_name",
+          "ClientRecord",
+          "client_id",
+          "phones",
+          "str",
+          "completa"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T1-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "from dataclasses import dataclass\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "tx_id",
+          "transaction",
+          "amount",
+          "float",
+          "define",
+          "client_id",
+          "str",
+          "currency"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T1-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "from dataclasses import dataclass\n\nraw = {\"client_id\": \"C007\", \"full_name\": \"Luis Ramos\"}\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "clientrecord",
+          "migra",
+          "anónimo",
+          "vía",
+          "ClientRecord",
+          "dict"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T1-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "from dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    amount: float\n    # TODO post_init",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "añade",
+          "ser",
+          "debe",
+          "invariante"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T1-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    @classmethod\n    def from_dict(cls, d: dict) -> \"ClientRecord\":\n        # TODO\n        ...",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "validación",
+          "vacíos",
+          "factory"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T1-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "español",
+          "dominio",
+          "invariantes",
+          "imprímelas",
+          "lista"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T2-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "from dataclasses import dataclass\n\n@dataclass\nclass Person:\n    first_name: str\n    last_name: str\n    # TODO property",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "desde"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T2-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "from dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    day_created: int\n    # TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "age_days_since",
+          "campo",
+          "sin",
+          "datetime",
+          "demo",
+          "método"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T2-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "class Signal:\n    def __init__(self):\n        self._score = 0.0\n    # TODO property score",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "encapsula",
+          "acepta",
+          "solo",
+          "mutación"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T2-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    # TODO eq",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "iguales",
+          "implementa",
+          "key",
+          "clientes",
+          "doc",
+          "dos",
+          "business",
+          "mismo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T2-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "from dataclasses import dataclass\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "evidence",
+          "crea",
+          "object",
+          "value",
+          "úsalo"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T2-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO demo bug + safe",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "entidad",
+          "demuestra",
+          "frozen",
+          "key",
+          "segura",
+          "dict",
+          "versión"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T3-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "# malo: class Client(Person): ...\n# TODO composición",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "innecesaria",
+          "reemplaza",
+          "herencia",
+          "tiene",
+          "objeto",
+          "dict",
+          "person_info"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T3-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    evidences: list = field(default_factory=list)\n    # TODO add_evidence",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "cuenta",
+          "agrega",
+          "evidencias"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T3-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "justifica",
+          "líneas",
+          "heredar",
+          "imprime",
+          "client",
+          "person",
+          "just",
+          "JUST"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T3-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "from typing import Protocol\n# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "fakescorer",
+          "float",
+          "scorer",
+          "define",
+          "pair",
+          "tuple",
+          "FakeScorer",
+          "str"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T3-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "def apply(norm, text):\n    return norm(text)\n\n# TODO dos normalizers",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "misma",
+          "strip",
+          "usables",
+          "casefold",
+          "implementaciones",
+          "función",
+          "normalizer"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T3-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "protocol",
+          "when_not",
+          "WHEN_NOT",
+          "introducir",
+          "imprime",
+          "escribe",
+          "aún",
+          "razones"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T4-A-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n    password: str = \"\"\n    # TODO to_dict",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "sin",
+          "campos",
+          "secret"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T4-A-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "class Repo:\n    # TODO\n    ...",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "repository",
+          "store",
+          "memoria"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T4-A-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "# TODO",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "dibuja",
+          "dominio",
+          "texto",
+          "frontera",
+          "CLI",
+          "capas"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T4-B-E1",
+        "answer": "attempt_incomplete_starter",
+        "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    def __post_init__(self):\n        if not self.document_id.strip():\n            raise ValueError(\"document_id vacío\")\n\n# TODO test",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "imprime",
+          "invariante",
+          "lanza"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T4-B-E2",
+        "answer": "attempt_incomplete_starter",
+        "code": "class FakeRepo:\n    def __init__(self):\n        self.d = {}\n    def save(self, row):\n        self.d[row[\"id\"]] = row\n    def get(self, id):\n        return self.d.get(id)\n\nclass Service:\n    def __init__(self, repo):\n        self.repo = repo\n    def register(self, id, name):\n        self.repo.save({\"id\": id, \"name\": name})\n        return self.repo.get(id)\n\n# TODO 3 tests",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "fake",
+          "missing",
+          "servicio"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      },
+      {
+        "exercise_id": "S11-T4-B-E3",
+        "answer": "attempt_incomplete_starter",
+        "code": "class BadClient:\n    def decide_fraud(self, score):\n        return score > 0.9\n# TODO propuesta",
+        "blocked_on": [],
+        "confidence": 0.55,
+        "concepts_used": [
+          "ANTES",
+          "propón",
+          "revisa",
+          "clase",
+          "imprime",
+          "extracción",
+          "después",
+          "DESPUÉS"
+        ],
+        "note": "Would fill blanks using hints/demos from packet"
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "cd42f96605437753"
+  }
+}

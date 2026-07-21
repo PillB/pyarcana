@@ -185,7 +185,7 @@ export default function Home() {
             <div className="flex h-7 w-7 items-center justify-center rounded-lg gradient-primary text-xs font-bold text-white">
               Py
             </div>
-            <span className="text-sm font-bold" style={{ fontFamily: 'var(--font-display)' }}>El Arte de Python</span>
+            <span className="text-sm font-bold" style={{ fontFamily: 'var(--font-display)' }}>PyArcana</span>
           </button>
           <div className="flex items-center gap-1">
             <Button
@@ -387,7 +387,7 @@ export default function Home() {
         <footer className="mt-auto border-t border-border bg-muted/30 py-6">
           <div className="mx-auto max-w-6xl px-4 text-center text-xs text-muted-foreground sm:px-6 lg:px-8">
             <p>
-              El Arte de Python · Curso online autónomo de Python para Data Analyst / Data Scientist
+              PyArcana · Curso online autónomo de Python para Data Analyst / Data Scientist
             </p>
             <p className="mt-1">
               Método I Do / We Do / You Do · 52 secciones · Exámenes con anti-plagio · Español peruano

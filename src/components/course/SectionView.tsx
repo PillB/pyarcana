@@ -869,13 +869,13 @@ function InteractivePlaygroundDemo({ sectionId, sectionTitle }: { sectionId: str
       code: `# Tu primer programa en Python
 # Escribe tu nombre y ejecuta con Run
 nombre = "Estudiante"
-print(f"Hola {nombre}, bienvenido a Python DS Perú!")
+print(f"Hola {nombre}, bienvenido a PyArcana!")
 
 # Calcula tu edad en meses
 edad_anos = 25
 edad_meses = edad_anos * 12
 print(f"Tu edad en meses: {edad_meses}")`,
-      expectedOutput: `Hola Estudiante, bienvenido a Python DS Perú!
+      expectedOutput: `Hola Estudiante, bienvenido a PyArcana!
 Tu edad en meses: 300`,
       hint: 'Cambia el valor de nombre y edad_anos por tus datos',
     },

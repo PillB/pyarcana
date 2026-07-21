@@ -1,0 +1,10 @@
+[
+  {
+    "tag": "UNTAUGHT_API",
+    "severity": "P1",
+    "exercise_id": "S10-T1-B-E1",
+    "detail": "Module 'absoluto' mentioned in instruction but not found in cumulative taught text",
+    "section_id": "sklearn",
+    "module": "absoluto"
+  }
+]

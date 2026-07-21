@@ -1,0 +1,415 @@
+{
+  "section_index": 45,
+  "agents": {
+    "newbie_a": {
+      "selfcheck": {
+        "correct": 2,
+        "total": 4,
+        "score_pct": 50.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "wrong",
+            "chosen": 0,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "wrong",
+            "chosen": 0,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S45-T1-A-E1",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-A-E2",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-A-E3",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-B-E1",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-B-E2",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-B-E3",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-A-E1",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-A-E2",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-A-E3",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-B-E1",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-B-E2",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-B-E3",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-A-E1",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-A-E2",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-A-E3",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-B-E1",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-B-E2",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-B-E3",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-A-E1",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-A-E2",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-A-E3",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-B-E1",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-B-E2",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-B-E3",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.55,
+          "status": "answered"
+        }
+      ],
+      "pass_selfcheck": false,
+      "all_exercises_attempted": true
+    },
+    "newbie_b": {
+      "selfcheck": {
+        "correct": 1,
+        "total": 4,
+        "score_pct": 25.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "wrong",
+            "chosen": null,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "wrong",
+            "chosen": null,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "wrong",
+            "chosen": null,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S45-T1-A-E1",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-A-E2",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-A-E3",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-B-E1",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-B-E2",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T1-B-E3",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-A-E1",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-A-E2",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-A-E3",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-B-E1",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-B-E2",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T2-B-E3",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-A-E1",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-A-E2",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-A-E3",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-B-E1",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-B-E2",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T3-B-E3",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-A-E1",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-A-E2",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-A-E3",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-B-E1",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-B-E2",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S45-T4-B-E3",
+          "attempted": true,
+          "blocked_on": [],
+          "confidence": 0.4,
+          "status": "answered"
+        }
+      ],
+      "pass_selfcheck": false,
+      "all_exercises_attempted": true
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "attempt_id": "attempt_003",
+  "finalized_at": "2026-07-21T17:46:14.653018+00:00",
+  "git_sha": "6960102",
+  "heuristic_gaps": 0,
+  "selfcheck_p0": 0,
+  "selfcheck_p1": 0,
+  "sections_graded": 52,
+  "newbie_a_selfcheck_pass_sections": 18,
+  "newbie_b_selfcheck_pass_sections": 12,
+  "clean_52": false
+}

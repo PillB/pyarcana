@@ -82,13 +82,16 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
         <div className="circuit-vine-bg pointer-events-none absolute inset-0" />
 
         <div className="relative z-10">
-          <Badge variant="outline" className="mb-4 gap-1.5 border-gold bg-background/70 backdrop-blur">
+          <Badge variant="outline" className="mb-4 gap-1.5 border-gold bg-background/70 backdrop-blur shadow-[0_0_0_1px_rgba(201,162,39,0.35)]">
             <Sparkles className="h-3 w-3 text-gold" />
-            Curso online · Español peruano
+            PyArcana · Curso online · Español peruano
           </Badge>
           <h1 className="font-display max-w-3xl text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl" style={{ fontFamily: 'var(--font-display)' }}>
             <span className="gradient-text">{meta.title}</span>
           </h1>
+          <p className="mt-1 max-w-xl text-xs uppercase tracking-[0.28em] text-gold/90 sm:text-sm" style={{ fontFamily: 'var(--font-subdisplay)' }}>
+            El arte de aprender Python
+          </p>
           <p className="font-subdisplay mt-4 max-w-2xl text-xl text-foreground/80 sm:text-2xl" style={{ fontFamily: 'var(--font-subdisplay)' }}>
             {meta.subtitle}
           </p>

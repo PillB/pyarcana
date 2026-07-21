@@ -1,5 +1,5 @@
 /**
- * Subscription plans configuration — "El Arte de Python"
+ * Subscription plans configuration — "PyArcana"
  *
  * 3 tiers: Free, Pro, Team
  * Multi-region pricing: Peru (PEN), US/EU/Rest (USD)

@@ -1,0 +1,36 @@
+{
+  "attempt_id": "attempt_003",
+  "finalized_at": "2026-07-21T17:46:57.145095+00:00",
+  "gates": {
+    "runtime_p0": 0,
+    "runtime_p1": 0,
+    "runtime_ok": true,
+    "exam_p0": 0,
+    "exam_p1": 0,
+    "exam_ok": true,
+    "heuristic_gaps": 0,
+    "selfcheck_integrity_p0": 0,
+    "dual_sim_sufficiency_52": true,
+    "live_s01_both_100": true
+  },
+  "clean_52_knowledge": true,
+  "live_s01": {
+    "newbie_a": {
+      "selfcheck_pct": 100,
+      "blocked_exercises": 0,
+      "exercises_attempted": 24
+    },
+    "newbie_b": {
+      "selfcheck_pct": 100,
+      "blocked_exercises": 0,
+      "exercises_attempted": 24
+    },
+    "previous_gaps_resolved": [
+      "def",
+      "sys.argv",
+      "len",
+      "sys.executable"
+    ]
+  },
+  "definition": "clean_52_knowledge = dual-sim packet sufficiency for all sections + zero heuristic/runtime/exam P0/P1 + live dual newbies complete S01 exercises/selfcheck after restart"
+}
