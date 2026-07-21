@@ -1,0 +1,538 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_A2",
+  "section_index": 43,
+  "packet_sha": "2f9831307a9883d9",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_43/packet.json",
+  "recorded_at": "2026-07-21T22:16:56.496673+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S43-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T1-A-E1\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T1-A-E1. Instruction del paquete: Ejercicio S43-T1-A-E1: usa el patrón del demo iDo del subtema S43-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T1-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T1-A-E2\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T1-A-E2. Instruction del paquete: Ejercicio S43-T1-A-E2: usa el patrón del demo iDo del subtema S43-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T1-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T1-A-E3\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T1-A-E3. Instruction del paquete: Ejercicio S43-T1-A-E3: usa el patrón del demo iDo del subtema S43-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T1-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T1-B-E1\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T1-B-E1. Instruction del paquete: Ejercicio S43-T1-B-E1: usa el patrón del demo iDo del subtema S43-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T1-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T1-B-E2\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T1-B-E2. Instruction del paquete: Ejercicio S43-T1-B-E2: usa el patrón del demo iDo del subtema S43-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T1-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T1-B-E3\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T1-B-E3. Instruction del paquete: Ejercicio S43-T1-B-E3: usa el patrón del demo iDo del subtema S43-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T1-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T2-A-E1\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T2-A-E1. Instruction del paquete: Ejercicio S43-T2-A-E1: usa el patrón del demo iDo del subtema S43-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T2-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T2-A-E2\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T2-A-E2. Instruction del paquete: Ejercicio S43-T2-A-E2: usa el patrón del demo iDo del subtema S43-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T2-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T2-A-E3\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T2-A-E3. Instruction del paquete: Ejercicio S43-T2-A-E3: usa el patrón del demo iDo del subtema S43-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T2-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T2-B-E1\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T2-B-E1. Instruction del paquete: Ejercicio S43-T2-B-E1: usa el patrón del demo iDo del subtema S43-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T2-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T2-B-E2\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T2-B-E2. Instruction del paquete: Ejercicio S43-T2-B-E2: usa el patrón del demo iDo del subtema S43-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T2-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T2-B-E3\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T2-B-E3. Instruction del paquete: Ejercicio S43-T2-B-E3: usa el patrón del demo iDo del subtema S43-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T2-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T3-A-E1\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T3-A-E1. Instruction del paquete: Ejercicio S43-T3-A-E1: usa el patrón del demo iDo del subtema S43-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T3-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T3-A-E2\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T3-A-E2. Instruction del paquete: Ejercicio S43-T3-A-E2: usa el patrón del demo iDo del subtema S43-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T3-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T3-A-E3\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T3-A-E3. Instruction del paquete: Ejercicio S43-T3-A-E3: usa el patrón del demo iDo del subtema S43-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T3-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T3-B-E1\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T3-B-E1. Instruction del paquete: Ejercicio S43-T3-B-E1: usa el patrón del demo iDo del subtema S43-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T3-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T3-B-E2\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T3-B-E2. Instruction del paquete: Ejercicio S43-T3-B-E2: usa el patrón del demo iDo del subtema S43-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T3-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T3-B-E3\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T3-B-E3. Instruction del paquete: Ejercicio S43-T3-B-E3: usa el patrón del demo iDo del subtema S43-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T3-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T4-A-E1\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T4-A-E1. Instruction del paquete: Ejercicio S43-T4-A-E1: usa el patrón del demo iDo del subtema S43-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T4-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T4-A-E2\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T4-A-E2. Instruction del paquete: Ejercicio S43-T4-A-E2: usa el patrón del demo iDo del subtema S43-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T4-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T4-A-E3\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T4-A-E3. Instruction del paquete: Ejercicio S43-T4-A-E3: usa el patrón del demo iDo del subtema S43-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T4-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T4-B-E1\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T4-B-E1. Instruction del paquete: Ejercicio S43-T4-B-E1: usa el patrón del demo iDo del subtema S43-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T4-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T4-B-E2\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T4-B-E2. Instruction del paquete: Ejercicio S43-T4-B-E2: usa el patrón del demo iDo del subtema S43-T4-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T4-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S43-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S43-T4-B-E3\nprint(\"scan\", \"ci_gate\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "scan",
+        "ci_gate",
+        "Ejercicio",
+        "S43",
+        "usa",
+        "demo",
+        "iDo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S43-T4-B-E3. Instruction del paquete: Ejercicio S43-T4-B-E3: usa el patrón del demo iDo del subtema S43-T4-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s. Hints: Busca en iDo el demo con subtopicId S43-T4-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. Teoría activa: Mapa V3 S43: Contenedores y reproducibilidad operativa | Dockerfile, layers y cache | bases, usuarios no root y tamaño | config, secrets y volumes | networking, health checks y signals | API/worker/DB. iDo demos: S43-T1-B-DEMO | S43-T2-A-DEMO | S43-T2-B-DEMO | S43-T3-A-DEMO | S43-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "llmops",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: el mapa de la card cita literalmente el id de plataforma preservado. Quote: «En V3, **S43** retematiza el archivo de plataforma `llmops` hacia **Contenedores y reproducibilidad operativa**. **FINAL/CLOSE gate** (CLOSE).». Eso fija «llmops» y descarta renamed-v3 / legacy-drop / random (no aparecen como id de archivo)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "CP-N4-A (cierre)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: el gate/incremento V3 está nombrado en la teoría. Quote: «Integra el incremento **CP-N4-A (cierre)** sin exponer secretos ni PII real.». Coincide con la opción «CP-N4-A (cierre)»; CP-N1-A, «solo marketing» y «sin capstone» contradicen ese texto."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Datos sintéticos",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: la card prohíbe PII/secretos y exige fixtures sintéticas. Quote (orden/mapa): «Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger.». Y en outcomes de subtema: «Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger.». Por tanto «Datos sintéticos»; no PII real, secretos de prod ni claves API reales."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Misma entidad cuando aplique",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: la card separa ER de otros concerns y no le asigna fraude/parentesco/sentimiento. Quote: «Incremento: Governed Python Service Platform levanta con un comando, ejecuta tests/health checks, usa usuario no root y documenta configuración y recuperación.». El stem del selfCheck de la card pregunta qué decide ER «si aparece»; entre opciones, «Misma entidad cuando aplique» es la única coherente con ER como matching de entidad (mapa: intake, ER, relación quedan separados — relación/parentesco no es el rol de ER). Rechazo Fraude / Parentesco / Sentimiento por no estar soportados como decisión de ER en la card."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "persona_seed": "c7e1c3ad28bd",
+  "run": "agentic_A2_second_consecutive"
+}

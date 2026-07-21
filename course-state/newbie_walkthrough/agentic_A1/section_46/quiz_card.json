@@ -1,0 +1,232 @@
+{
+  "section_index": 46,
+  "title": "Ingeniería de datos y orquestación de producción",
+  "outcomes": [
+    "Maneja ventanas y watermarks",
+    "Trata late data y exactly-once compuesto",
+    "Modela DAG/assets y deps",
+    "Programa backfills y recupera estado",
+    "Valida contracts y freshness",
+    "Registra lineage y ownership",
+    "Carga incremental por particiones",
+    "Opera SLO e incidentes de datos"
+  ],
+  "theory": [
+    {
+      "heading": "Mapa V3 S46: Ingeniería de datos y orquestación de producción",
+      "paragraphs": [
+        "En V3, **S46** retematiza el archivo de plataforma `gpu-computing` hacia **Ingeniería de datos y orquestación de producción**.",
+        "Incremento: pipeline incremental/backfillable cuya reejecución no duplica, registra lineage y alerta por dato tardío o contrato roto.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "ventanas, event time y watermarks",
+      "paragraphs": [
+        "**ventanas, event time y watermarks** — outcome del blueprint phase3 para `windows-event-time-watermarks`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (pipeline)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "late data y exactly-once como propiedad compuesta",
+      "paragraphs": [
+        "**late data y exactly-once como propiedad compuesta** — outcome del blueprint phase3 para `late-data-exactly-once`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (pipeline)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "DAG/assets y dependency",
+      "paragraphs": [
+        "**DAG/assets y dependency** — outcome del blueprint phase3 para `dag-assets-dependency`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (pipeline)** sin exponer secretos ni PII real."
+      ],
+      "code": "print({\"cron\":\"0 * * * *\",\"backfill\":True}); print(\"recover\", \"from_checkpoint\"); print(\"reentrant\", True)"
+    },
+    {
+      "heading": "schedules, backfills y state recovery",
+      "paragraphs": [
+        "**schedules, backfills y state recovery** — outcome del blueprint phase3 para `schedules-backfills-state`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (pipeline)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "contracts y freshness",
+      "paragraphs": [
+        "**contracts y freshness** — outcome del blueprint phase3 para `contracts-freshness`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (pipeline)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "lineage, observability y ownership",
+      "paragraphs": [
+        "**lineage, observability y ownership** — outcome del blueprint phase3 para `lineage-obs-ownership`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (pipeline)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "partitions e incremental loads",
+      "paragraphs": [
+        "**partitions e incremental loads** — outcome del blueprint phase3 para `partitions-incremental`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (pipeline)** sin exponer secretos ni PII real."
+      ],
+      "code": "print({\"freshness_min\":60,\"success_rate\":0.99}); print(\"replay_partition\"); print(\"recovery\", \"replay\")"
+    },
+    {
+      "heading": "SLO, incidentes y data recovery",
+      "paragraphs": [
+        "**SLO, incidentes y data recovery** — outcome del blueprint phase3 para `slo-incidents-data-recovery`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-B (pipeline)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S46-T1-B-DEMO",
+      "description": "Demo: ventanas, event time y watermarks",
+      "why": "Demuestra el outcome de S46-T1-A con Python verificable.",
+      "code": "print(\"window\", \"5min\"); print(\"wm_lag\", \"1min\"); print(\"vs_processing_time\", True)"
+    },
+    {
+      "demoId": "S46-T2-A-DEMO",
+      "description": "Demo: late data y exactly-once como propiedad compuesta",
+      "why": "Demuestra el outcome de S46-T1-B con Python verificable.",
+      "code": "print(\"late_policy\", \"side_output\"); print(\"eo\", \"composite\"); print(\"dedup_key\", \"event_id\")"
+    },
+    {
+      "demoId": "S46-T2-B-DEMO",
+      "description": "Demo: DAG/assets y dependency",
+      "why": "Demuestra el outcome de S46-T2-A con Python verificable.",
+      "code": "print(\"nodes\", 4); print(\"edge\", \"normalize->er\"); print(\"acyclic\", True)"
+    },
+    {
+      "demoId": "S46-T3-A-DEMO",
+      "description": "Demo: schedules, backfills y state recovery",
+      "why": "Demuestra el outcome de S46-T2-B con Python verificable.",
+      "code": "print(\"backfill_ok\", True); print(\"state\", \"checkpoints\"); print(\"schedule\", \"hourly\")"
+    },
+    {
+      "demoId": "S46-T3-B-DEMO",
+      "description": "Demo: contracts y freshness",
+      "why": "Demuestra el outcome de S46-T3-A con Python verificable.",
+      "code": "print(\"fresh\", True); print(\"schema_fail\", \"block\"); print(\"sla_min\", 60)"
+    },
+    {
+      "demoId": "S46-T4-A-DEMO",
+      "description": "Demo: lineage, observability y ownership",
+      "why": "Demuestra el outcome de S46-T3-B con Python verificable.",
+      "code": "print(\"owner\", \"data-platform\"); print(\"upstream\", [\"er\",\"cases\"]); print(\"page\", True)"
+    },
+    {
+      "demoId": "S46-T4-B-DEMO",
+      "description": "Demo: partitions e incremental loads",
+      "why": "Demuestra el outcome de S46-T4-A con Python verificable.",
+      "code": "print(\"merge_key\", \"id\"); print(\"load\", \"incremental\"); print(\"full_refresh\", \"rare\")"
+    },
+    {
+      "demoId": null,
+      "description": "Demo: SLO, incidentes y data recovery",
+      "why": "Demuestra el outcome de S46-T4-B con Python verificable.",
+      "code": "print(\"slo_breach\", False); print(\"incident\", \"page_owner\"); print(\"data_recovery\", True)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El id de plataforma de S46 que se preserva es:",
+      "options": [
+        "gpu-computing",
+        "renamed-v3",
+        "legacy-drop",
+        "random"
+      ]
+    },
+    {
+      "question": "El incremento/gate V3 de S46 pertenece a:",
+      "options": [
+        "CP-N4-B (pipeline)",
+        "CP-N1-A",
+        "solo marketing",
+        "sin capstone"
+      ]
+    },
+    {
+      "question": "Los ejemplos del curso deben usar:",
+      "options": [
+        "PII real de clientes",
+        "Datos sintéticos",
+        "Secretos de prod",
+        "Claves API reales"
+      ]
+    },
+    {
+      "question": "Entity resolution (si aparece) decide:",
+      "options": [
+        "Fraude",
+        "Parentesco",
+        "Misma entidad cuando aplique",
+        "Sentimiento"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales",
+    "Explicabilidad, equidad e incertidumbre",
+    "Clustering, anomalías y validación temporal",
+    "Profiling, algoritmos y rendimiento",
+    "Concurrencia, observabilidad y workflows resilientes",
+    "Responsible ML Case Triage y cierre de nivel",
+    "Arquitectura, DDD y decisiones técnicas",
+    "APIs con FastAPI y contratos HTTP",
+    "Schemas, seguridad y privacidad de servicios",
+    "Contenedores y reproducibilidad operativa",
+    "CI/CD y seguridad de la cadena de suministro",
+    "Cloud, almacenamiento, colas e infraestructura"
+  ]
+}

@@ -1,0 +1,225 @@
+{
+  "section_index": 39,
+  "title": "Responsible ML Case Triage y cierre de nivel",
+  "outcomes": [
+    "Ensamblar el flujo intake→modelo",
+    "Versionar contratos y ownership",
+    "Armar cola y evidence packet",
+    "Operar decisión, override y apelación",
+    "Mitigar privacidad/fairness/seguridad",
+    "Monitoreo, incidentes y control humano",
+    "Cumplir aceptación y demo",
+    "Publicar cards, valor y postmortem"
+  ],
+  "theory": [
+    {
+      "heading": "Cierre CP-N3-C + regresión N3 + CF-3",
+      "paragraphs": [
+        "En V3, **S39 cierra el nivel 3** con **Responsible ML Case Triage**. Integra S27–S38 en un sistema demoable.",
+        "**Promoción (conceptual):** CP-N3-A, CP-N3-B, CP-N3-C, **regresión S27–S39**, **CF-3**. CF-3 integra contratos ER/grafo/triage y regresión cruzada. **Esta lane de autoría no marca PASS** ni edita ledger/checkpoint/seed.",
+        "Orden: **T1 Arquitectura** → **T2 Revisor** → **T3 Riesgo** → **T4 Producto**."
+      ],
+      "code": "stages = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\npayload = {\"run_id\": \"n3-reg-001\", \"stage\": \"model_score\", \"score\": 0.66, \"label_space\": \"needs_review\"}\nprint(\"pipeline\", \" > \".join(stages))\nprint(\"label_space\", payload[\"label_space\"])\nprint(\"auto_fraud\", False)"
+    },
+    {
+      "heading": "intake → ER → relación → features → modelo",
+      "paragraphs": [
+        "Flujo canónico N3: intake de registros → ER (misma entidad) → grafo relacional → features sin leakage → score de prioridad.",
+        "Cada etapa tiene contrato de I/O y version. Fallas se aíslan.",
+        "ER no infiere relación familiar ni fraude; grafo no culpa; score no es veredicto legal."
+      ],
+      "code": "stages = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\npayload = {\"run_id\": \"n3-reg-001\", \"stage\": \"model_score\", \"score\": 0.66, \"label_space\": \"needs_review\"}\nprint(\"pipeline\", \" > \".join(stages))\nprint(\"label_space\", payload[\"label_space\"])\nprint(\"auto_fraud\", False)"
+    },
+    {
+      "heading": "contratos, versiones y ownership",
+      "paragraphs": [
+        "Cada artefacto: owner, version, compatibility policy. feature_set, model, thr, graph_schema.",
+        "Breaking change → bump major y plan de migración.",
+        "Ownership claro evita 'nadie on-call'."
+      ],
+      "code": "registry = {\n    \"er_engine\": {\"ver\": \"1.2.0\", \"owner\": \"data-quality\"},\n    \"graph_schema\": {\"ver\": \"3.0.0\", \"owner\": \"investigations\"},\n    \"feature_set\": {\"ver\": \"fs-v3\", \"owner\": \"ml-platform\"},\n    \"ranker\": {\"ver\": \"2.1.0\", \"owner\": \"ml-risk\"},\n}\nprint(sorted(registry))\nprint(\"owners\", len({v[\"owner\"] for v in registry.values()}))\nprint(\"compat\", \"semver\")"
+    },
+    {
+      "heading": "queue, evidence packet y explicación",
+      "paragraphs": [
+        "Cola ordenada por score calibrado/capacidad. Evidence packet: hechos, path de grafo, features top, incertidumbre.",
+        "Explicación en 4 capas (S35). UI/CLI didáctica en dicts.",
+        "El revisor ve evidencia, no solo un número."
+      ],
+      "code": "packet = {\n    \"case_id\": \"case-77\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\", \"tx_path_len_2\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n    \"uncertainty\": \"in_distribution\",\n    \"model_contrib\": {\"shared_phone\": 0.4},\n}\nprint(packet[\"case_id\"], packet[\"score\"])\nprint(\"path\", packet[\"graph_path\"])\nprint(\"layers\", 4)"
+    },
+    {
+      "heading": "decisión, override, feedback y apelación",
+      "paragraphs": [
+        "Decisiones: queue_action, skip, escalate. Override humano gana y se loguea.",
+        "Feedback reentrena o corrige reglas con cuidado (sin leakage).",
+        "Apelación reabre con nuevo reviewer o supervisor."
+      ],
+      "code": "log = []\ndef decide(case_id, score, human=None):\n    auto = \"queue\" if score >= 0.7 else \"skip\"\n    final = human or auto\n    log.append({\"case_id\": case_id, \"auto\": auto, \"final\": final, \"override\": human is not None})\n    return final\nprint(decide(\"c1\", 0.9))\nprint(decide(\"c2\", 0.9, human=\"skip\"))\nprint(\"overrides\", sum(1 for e in log if e[\"override\"]))"
+    },
+    {
+      "heading": "privacidad, fairness y seguridad",
+      "paragraphs": [
+        "Minimización PII, RBAC al packet, sin secretos en repo. Fairness: slices de daño de revisión.",
+        "Seguridad: validar inputs, límites de tamaño, no SSRF a URLs de evidence.",
+        "Checklist de release del triage."
+      ],
+      "code": "checklist = {\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\nprint(\"release_ok\", all([\n    checklist[\"pii_minimized\"], checklist[\"rbac\"], not checklist[\"secrets_in_repo\"],\n    checklist[\"slice_metrics\"], checklist[\"input_limits\"],\n]))\nprint(\"items\", len(checklist))\nprint(\"fraud_auto\", False)"
+    },
+    {
+      "heading": "drift, incidentes, rollback y human control",
+      "paragraphs": [
+        "Monitorea score dist, prevalencia proxy, calibration, latency. Drift → alerta.",
+        "Incidente: severidad, rollback de model/thr, human-only mode.",
+        "Control humano nunca se 'optimiza' fuera del sistema."
+      ],
+      "code": "def mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\nprint(mode(False, True))\nprint(mode(True, False))\nprint(\"rollback\", \"model_previous\")"
+    },
+    {
+      "heading": "aceptación y demo",
+      "paragraphs": [
+        "Criterios de aceptación: flujo e2e sintético, baseline visible, abstención, audit log, sin auto-fraude.",
+        "Demo: un caso feliz, un override, un OOD abstain, métricas de cola.",
+        "Regresión N3: smoke de contratos S27–S39 (lista de checks)."
+      ],
+      "code": "acceptance = [\n    \"e2e_synthetic_run\",\n    \"baseline_in_metrics\",\n    \"abstention_path\",\n    \"audit_log\",\n    \"no_auto_fraud_label\",\n    \"regression_smoke_s27_s39\",\n]\nprint(\"n_criteria\", len(acceptance))\nprint(\"demo_paths\", [\"happy\", \"override\", \"ood_abstain\"])\nprint(\"cf3_note\", \"separate_lane_for_pass\")"
+    },
+    {
+      "heading": "model/data/system cards, métricas de valor y postmortem",
+      "paragraphs": [
+        "Cards de modelo, datos y sistema. Métricas de valor: tiempo de review, precisión de cola, % overrides.",
+        "Postmortem blameless tras incidentes: timeline, causas, acciones.",
+        "Cierre de nivel: documentación lista para CF-3 y regresión formal."
+      ],
+      "code": "value = {\"precision_at_k\": 0.55, \"override_rate\": 0.12, \"median_review_s\": 90}\npostmortem = {\"severity\": \"T0-T3\", \"root_cause\": \"calib_drift\", \"actions\": [\"rollback\", \"recalibrate\"]}\nprint(value)\nprint(postmortem[\"root_cause\"])\nprint(\"cards\", [\"model\", \"data\", \"system\"])"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S39-T1-B-DEMO",
+      "description": "Pipeline stages join.",
+      "why": "Flujo N3.",
+      "code": "print(' > '.join(['intake','er','graph','features','model','queue']))\nprint('label_space', 'needs_review')\nprint('auto_fraud', False)"
+    },
+    {
+      "demoId": "S39-T2-A-DEMO",
+      "description": "Registry owners count.",
+      "why": "Ownership.",
+      "code": "print(2)\nprint('semver', True)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S39-T2-B-DEMO",
+      "description": "Evidence packet keys.",
+      "why": "Packet.",
+      "code": "print(sorted(['case_id','score','evidence','graph_path']))\nprint('layers', 4)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S39-T3-A-DEMO",
+      "description": "Override logged.",
+      "why": "Decision log.",
+      "code": "print({'final':'skip','override':True})\nprint('n_overrides', 1)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S39-T3-B-DEMO",
+      "description": "Release checklist ok.",
+      "why": "Riesgo.",
+      "code": "print(True)\nprint('secrets_in_repo', False)\nprint('auto_fraud', False)"
+    },
+    {
+      "demoId": "S39-T4-A-DEMO",
+      "description": "human_only on incident.",
+      "why": "Modos ops.",
+      "code": "print('human_only')\nprint('rollback', 'prev_model')\nprint('ok', True)"
+    },
+    {
+      "demoId": "S39-T4-B-DEMO",
+      "description": "Acceptance count + regression note.",
+      "why": "Aceptación y regresión.",
+      "code": "print(6)\nprint('regression', 'S27-S39')\nprint('cf3_pass_lane', 'separate')"
+    },
+    {
+      "demoId": null,
+      "description": "Value metrics + cards.",
+      "why": "Valor y cards.",
+      "code": "print(['precision_at_k','override_rate','median_review_s'])\nprint(sorted(['model','data','system']))\nprint('postmortem', True)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El label_space del triage N3 es preferentemente:",
+      "options": [
+        "fraud_certainty",
+        "needs_review / prioridad de cola",
+        "parentesco",
+        "culpable"
+      ]
+    },
+    {
+      "question": "CF-3 y regresión S27–S39 en esta lane de autoría:",
+      "options": [
+        "Marcan PASS solos",
+        "Se documentan; PASS lo califica otra lane",
+        "Se borran",
+        "Solo aplican a S01"
+      ]
+    },
+    {
+      "question": "Evidence packet debe incluir:",
+      "options": [
+        "Solo el score",
+        "Evidencia y path además del score",
+        "Solo el owner del repo",
+        "Claves de API"
+      ]
+    },
+    {
+      "question": "Ante incidente grave el modo seguro es:",
+      "options": [
+        "Ignorar",
+        "human_only / rollback",
+        "Subir contamination",
+        "Etiquetar fraude masivo"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales",
+    "Explicabilidad, equidad e incertidumbre",
+    "Clustering, anomalías y validación temporal",
+    "Profiling, algoritmos y rendimiento",
+    "Concurrencia, observabilidad y workflows resilientes"
+  ]
+}

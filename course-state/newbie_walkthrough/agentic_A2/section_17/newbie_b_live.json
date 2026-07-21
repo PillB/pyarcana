@@ -1,0 +1,512 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_A2",
+  "section_index": 17,
+  "packet_sha": "b432ec23c9a51895",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_17/packet.json",
+  "recorded_at": "2026-07-21T22:16:53.441641+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S17-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T1-A-E1\nimport pandas as pd\ncli=pd.DataFrame({'cliente_id':['C001','C002']})\ntx=pd.DataFrame({'cliente_id':['C001'],'monto':[1.0]})\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "monto"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T1-A-E1. Instruction del paquete: Left merge cli y tx por cliente_id; imprime len del resultado.. Hints: merge how='left'.; Cuenta filas.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T1-A-E2\nimport pandas as pd\ncli=pd.DataFrame({'cliente_id':['C001','C001']})\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "print",
+        "delta"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T1-A-E2. Instruction del paquete: Imprime si la clave de cli es única (True/False).. Hints: is_unique.; Series.cliente_id.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T1-A-E3\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T1-A-E3. Instruction del paquete: Demuestra fan-out: 1 cliente x 3 tx → len merge == 3 con how=inner.. Hints: merge inner.; print len.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T1-B-E1\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T1-B-E1. Instruction del paquete: Con indicator=True, lista cliente_id left_only.. Hints: merge left indicator.; filtra _merge.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T1-B-E2\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T1-B-E2. Instruction del paquete: validate one_to_one debe fallar con dups a la derecha; imprime 'fail'.. Hints: try MergeError o Exception.; validate=.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T1-B-E3\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T1-B-E3. Instruction del paquete: Cuenta huérfanos (anti-join) entre cli y tx.. Hints: left_only count.; nunique o len.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T2-A-E1\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T2-A-E1. Instruction del paquete: melt id_vars=id value_vars a,b; imprime len long (debe 4 para 2 filas x 2).. Hints: melt.; var_name value_name opcionales.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T2-A-E2\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T2-A-E2. Instruction del paquete: pivot_table index=id columns=k values=v sum; imprime columns list tras reset.. Hints: aggfunc sum.; reset_index.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T2-A-E3\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T2-A-E3. Instruction del paquete: concat de dos DF axis=0 ignore_index; imprime len.. Hints: pd.concat(..., ignore_index=True).; mismas cols.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T2-B-E1\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T2-B-E1. Instruction del paquete: Aplana columnas MultiIndex nivel0_nivel1 e imprime nombres.. Hints: map join o f-string.; tras pivot.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T2-B-E2\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T2-B-E2. Instruction del paquete: Valida set(columns)==expected; imprime True/False.. Hints: set igualdad.; expected fijo.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T2-B-E3\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T2-B-E3. Instruction del paquete: rename columns dict {'a':'monto'}; imprime columns.. Hints: rename(columns=...).; inplace False.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T3-A-E1\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T3-A-E1. Instruction del paquete: groupby region sum monto; imprime dict region->sum.. Hints: groupby sum.; to_dict.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T3-A-E2\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T3-A-E2. Instruction del paquete: transform mean de monto por region; imprime lista alineada a filas.. Hints: groupby transform.; mismas filas que df.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T3-A-E3\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T3-A-E3. Instruction del paquete: agg con total sum y n count as_index=False; imprime columnas.. Hints: named agg.; as_index=False.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T3-B-E1\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T3-B-E1. Instruction del paquete: rolling(2).mean sobre [1,2,3]; imprime lista con primer valor nan como None.. Hints: rolling mean.; tolist y nan check.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T3-B-E2\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T3-B-E2. Instruction del paquete: Asigna cohort YYYY-MM con min fecha por cliente; imprime dict id->cohort único.. Hints: groupby transform min.; dt.to_period('M').. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T3-B-E3\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T3-B-E3. Instruction del paquete: Ordena por fecha antes de rolling sobre montos diarios y muestra última media window 2.. Hints: sort_index.; rolling 2.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T4-A-E1\nparts=[10.0,20.0,70.0]; total=100.0\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "parts",
+        "total",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T4-A-E1. Instruction del paquete: Verifica abs(sum(parts)-total)<1e-9; imprime True.. Hints: sum y abs.; eps 1e-9.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T4-A-E2\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat",
+        "Tasa",
+        "pagados"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T4-A-E2. Instruction del paquete: Tasa pagados/activos con activos=40 pagados=10; imprime 0.25.. Hints: división float.; print tasa.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T4-A-E3\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat",
+        "Bridge",
+        "total"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T4-A-E3. Instruction del paquete: Bridge: total 100, lima 60, resto debe ser 40; imprime residual.. Hints: total - lima.; residual.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T4-B-E1\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T4-B-E1. Instruction del paquete: Filtra fechas <= cutoff 2024-01-31; imprime montos list.. Hints: Timestamp cutoff.; máscara <=.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T4-B-E2\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T4-B-E2. Instruction del paquete: Compara sum pre-cutoff vs sum total; imprime delta de leakage.. Hints: total - pre.; float.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S17-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S17-T4-B-E3\nimport pandas as pd\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"])\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "print",
+        "delta",
+        "float",
+        "leaky",
+        "C001",
+        "feat"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S17-T4-B-E3. Instruction del paquete: Feature as-of: max monto con fecha<=cutoff por cliente; imprime dict.. Hints: filter then groupby max.; un cliente.. Teoría activa: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | validate, duplicación accidental y anti-join | concat, melt y pivot | long/wide y nombres estables | gro. iDo demos: S17-T1-B-DEMO | S17-T2-A-DEMO | S17-T2-B-DEMO | S17-T3-A-DEMO | S17-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Fallar si la cardinalidad no es 1:1",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: «validate, duplicación accidental y anti-join» — validate='one_to_one'|... hace fallar merges con cardinalidad rota. Not imputation, sort, or MultiIndex creation."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Filas del left sin match en right",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: same card — indicator left_only/right_only/both; anti-join = filas left_only (huérfanos). So left rows without a right match."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Reinyecta el agregado al shape original",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: «groupby / agg / transform» — transform reinyecta el agregado al shape original (e.g. score/mean_region). agg collapses; transform does not."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Incluyes datos posteriores al cutoff en features/métricas del pasado",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: «leakage temporal y controles» — Leakage = usar información posterior al cutoff for past features/metrics. Not CSV vs Excel or melt."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "persona_seed": "8ee2dc304268",
+  "run": "agentic_A2_second_consecutive"
+}

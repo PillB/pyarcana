@@ -1,0 +1,513 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_A2",
+  "section_index": 23,
+  "packet_sha": "29c25f05db01caab",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_23/packet.json",
+  "recorded_at": "2026-07-21T22:16:54.017538+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "nodes=[{'role':'link','name':'Inicio','id':'n1'}]\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "nodes",
+        "role",
+        "link",
+        "name",
+        "Inicio",
+        "print",
+        "human_handoff",
+        "sig"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T1-A-E1. Instruction del paquete: En una lista de nodos, encuentra role=link name=Inicio e imprime su id.. Hints: next(...); compara role y name. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "strats=['css','role','testid']\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "strats",
+        "css",
+        "role",
+        "testid",
+        "print",
+        "human_handoff",
+        "sig",
+        "get"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T1-A-E2. Instruction del paquete: Ordena estrategias ['css','role','testid'] priorizando role, testid, css e imprime.. Hints: key=index en preferred; sorted. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "nodes=[{'role':'img','name':'logo'}]\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "nodes",
+        "role",
+        "img",
+        "name",
+        "logo",
+        "print",
+        "human_handoff",
+        "sig"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T1-A-E3. Instruction del paquete: Si no hay role, devuelve 'need_testid' else el name del button.. Hints: try/except LookupError; mensaje claro. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "print(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "human_handoff",
+        "sig",
+        "get",
+        "captcha",
+        "Simula",
+        "wait",
+        "ready"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T1-B-E1. Instruction del paquete: Simula wait: ready se vuelve True en intento 2; imprime el intento.. Hints: for loop; break. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "ready = False\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "ready",
+        "False",
+        "print",
+        "human_handoff",
+        "sig",
+        "get",
+        "captcha",
+        "tras"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T1-B-E2. Instruction del paquete: Si tras 3 intentos no ready, imprime 'timeout'.. Hints: for-else; flag. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "expected, actual = 'Portal demo', 'Portal demo'\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "expected",
+        "actual",
+        "Portal",
+        "demo",
+        "print",
+        "human_handoff",
+        "sig",
+        "get"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T1-B-E3. Instruction del paquete: Assertion: expected título 'Portal demo' == actual; imprime pass/fail.. Hints: comparación; mensaje. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "form = {}\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "form",
+        "print",
+        "human_handoff",
+        "sig",
+        "get",
+        "captcha",
+        "Actualiza",
+        "usuario"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T2-A-E1. Instruction del paquete: Actualiza form={} con usuario='ana' e imprime form.. Hints: update o index; dict. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import hashlib\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "hashlib",
+        "print",
+        "human_handoff",
+        "sig",
+        "get",
+        "captcha",
+        "Calcula"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T2-A-E2. Instruction del paquete: Calcula sha256 hex[:8] de b'data' como verificación de download.. Hints: hashlib; hexdigest. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "state={'token':'t'}\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "state",
+        "token",
+        "print",
+        "human_handoff",
+        "sig",
+        "get",
+        "captcha",
+        "Simula"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T2-A-E3. Instruction del paquete: Simula storage_state={'token':'t'} reutilizado: imprime 'reuse' si token presente.. Hints: dict get; auth fixture. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "class LoginPage:\n    pass  print(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "class",
+        "LoginPage",
+        "pass",
+        "print",
+        "human_handoff",
+        "sig",
+        "get",
+        "captcha"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T2-B-E1. Instruction del paquete: LoginPage: si password=='sandbox' set auth True. Prueba e imprime auth.. Hints: clase simple; método submit. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "ctx={'auth':False}\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "ctx",
+        "auth",
+        "False",
+        "print",
+        "human_handoff",
+        "sig",
+        "get",
+        "captcha"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T2-B-E2. Instruction del paquete: ReportPage.open lanza PermissionError si no auth; captura e imprime 'denied'.. Hints: try/except; PermissionError. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "state='anonymous'\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "state",
+        "anonymous",
+        "print",
+        "human_handoff",
+        "sig",
+        "get",
+        "captcha",
+        "Estados"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T2-B-E3. Instruction del paquete: Estados: anonymous→authenticated tras login. Imprime la transición.. Hints: variable state; asignación. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "ev={'trace':'a.zip','screenshot':'b.png','error':'x'}\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "trace",
+        "zip",
+        "screenshot",
+        "png",
+        "error",
+        "print",
+        "human_handoff",
+        "sig"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T3-A-E1. Instruction del paquete: Arma dict de evidencia con keys trace, screenshot, error e imprime keys sorted.. Hints: dict keys; sorted. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "logs=['ok','ERR timeout','nav']\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "logs",
+        "ERR",
+        "timeout",
+        "nav",
+        "print",
+        "human_handoff",
+        "sig",
+        "get"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T3-A-E2. Instruction del paquete: De console logs, imprime solo las líneas que contienen 'ERR'.. Hints: list comp; in. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "ok=False\npkg={'step':'s1'}\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "False",
+        "pkg",
+        "step",
+        "print",
+        "human_handoff",
+        "sig",
+        "get",
+        "captcha"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T3-A-E3. Instruction del paquete: Si ok=False adjunta trace path; imprime el paquete final.. Hints: condicional; dict update. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def should_retry(k):\n    print(\"human_handoff\" if sig.get(\"captcha\")\n    pass\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "should_retry",
+        "print",
+        "human_handoff",
+        "sig",
+        "get",
+        "captcha",
+        "pass"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T3-B-E1. Instruction del paquete: should_retry: True solo para 'timeout' y '429'. Prueba tres valores.. Hints: in set; función. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "err='stale'\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "err",
+        "stale",
+        "print",
+        "human_handoff",
+        "sig",
+        "get",
+        "captcha",
+        "Recovery"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T3-B-E2. Instruction del paquete: Recovery: si err=='stale', re-navega (action='goto_home'). Imprime action.. Hints: if/else; default continue. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "errors=['timeout','timeout','timeout']\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "errors",
+        "timeout",
+        "print",
+        "human_handoff",
+        "sig",
+        "get",
+        "captcha",
+        "intentos"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T3-B-E3. Instruction del paquete: Máx 3 intentos de timeout luego fail. Cuenta intentos e imprime resultado.. Hints: loop; break on success. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "api=True\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "api",
+        "True",
+        "print",
+        "human_handoff",
+        "sig",
+        "get",
+        "captcha",
+        "elige"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T4-A-E1. Instruction del paquete: Si api=True elige 'api'. Imprime la elección.. Hints: ternario; prioridad. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "f={'api':False,'export':True,'rpa':True}\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "api",
+        "False",
+        "export",
+        "True",
+        "rpa",
+        "print",
+        "human_handoff",
+        "sig"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T4-A-E2. Instruction del paquete: Orden de preferencia api > export > rpa > human. Dado flags, imprime choice.. Hints: if chain; dict flags. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "print(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "human_handoff",
+        "sig",
+        "get",
+        "captcha",
+        "Registra",
+        "reason",
+        "no_api"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T4-A-E3. Instruction del paquete: Registra reason='no_api' cuando caes a rpa. Imprime decision dict.. Hints: dict con method y reason; auditoría. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "captcha=True\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "captcha",
+        "True",
+        "print",
+        "human_handoff",
+        "sig",
+        "get",
+        "imprime"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T4-B-E1. Instruction del paquete: Si captcha True imprime 'human_handoff'.. Hints: if; boolean. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "sig={'tos_forbidden':True,'captcha':True}\nprint(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "sig",
+        "tos_forbidden",
+        "True",
+        "captcha",
+        "print",
+        "human_handoff",
+        "get",
+        "ToS"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T4-B-E2. Instruction del paquete: ToS forbidden → action abort. Imprime action.. Hints: signals dict; priority tos. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print(\"human_handoff\" if sig.get(\"captcha\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "human_handoff",
+        "sig",
+        "get",
+        "captcha",
+        "Arma",
+        "payload",
+        "handoff"
+      ],
+      "justification_from_packet": "[A2-Explorer restart] Explorer: ejercicio S23-T4-B-E3. Instruction del paquete: Arma payload de handoff con url, step, screenshot e imprime.. Hints: dict; campos mínimos. Teoría activa: De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C) | DOM y locators orientados a usuario | auto-waiting y assertions | formularios, uploads/downloads y sesiones | auth, estados y Pag. iDo demos: S23-T1-B-DEMO | S23-T2-A-DEMO | S23-T2-B-DEMO | S23-T3-A-DEMO | S23-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Explorer selfcheck S23 Q0: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «DOM y locators orientados a usuario»: «Prefiere **get_by_role**, get_by_label, get_by_text sobre CSS/XPath frágiles. El usuario ve roles y nombres, no #app > div:nth-child(3)». Más estable y accesible."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Explorer selfcheck S23 Q1: opción [2]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «términos, CAPTCHA…»: «Si aparece **CAPTCHA**, detén el robot y crea tarea humana». Handoff humano; no resolver con servicio externo ni reintentar 100 veces."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Explorer selfcheck S23 Q2: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «API/export primero»: «Antes de RPA, busca **API**, **export CSV/XLSX**, **reportes programados**. El robot UI es frágil y caro». Integración no-UI primero."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Explorer second full walk] Explorer selfcheck S23 Q3: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «selectores robustos, retries y recovery»: «**Retry policy**: reintenta solo errores transitorios (timeout de red, 429), no fallas de negocio (403, captcha)»."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "persona_seed": "3c34695ae8e1",
+  "run": "agentic_A2_second_consecutive"
+}

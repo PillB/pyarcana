@@ -1,0 +1,200 @@
+{
+  "section_index": 5,
+  "title": "Funciones, contratos y descomposición",
+  "outcomes": [
+    "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+    "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+    "Documentar pre/postcondiciones con docstrings alineados al código",
+    "Anotar type hints graduales y modelar errores de dominio",
+    "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+    "Distinguir pureza de efectos e inyectar I/O en el borde",
+    "Explicar LEGB y escribir closures/factories simples",
+    "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+  ],
+  "theory": [
+    {
+      "heading": "De “OOP” a funciones y contratos (mapa de la sección)",
+      "paragraphs": [
+        "En V3, **S05 no es el path principal de clases, herencia ni dunders de sklearn**. Eso vive en **S11** (OOP y modelo de dominio). Aquí el estudiante domina **funciones con contratos claros**: definición, parámetros seguros, docstrings, type hints graduales, pureza y un poco de LEGB — todo al servicio de **normalizadores** del inicio de **CP-N1-B**.",
+        "El hilo conductor es un conjunto de **funciones puras** `normalize_nombre`, `normalize_email`, `normalize_telefono`, `normalize_direccion` que transforman texto sintético sin tocar disco ni red. La I/O se inyecta o se deja fuera. Datos ficticios únicamente.",
+        "Orden pedagógico: **T1 Funciones** (def/return → params/defaults) → **T2 Contratos** (pre/post/docstrings → hints y errores de dominio) → **T3 Diseño** (funciones pequeñas → pureza/I/O) → **T4 Alcance** (LEGB/closures → tests y refactor)."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Definición, llamada y retorno",
+      "paragraphs": [
+        "Una función se define con **`def nombre(params):`** y devuelve con **`return`**. Sin `return` explícito, Python devuelve **`None`**. Llamar es `nombre(args)`. El nombre debe ser un **verbo** o acción clara: `normalize_email`, no `email2`.",
+        "Las funciones son valores: puedes pasarlas, guardarlas en listas y devolverlas. En S05 nos basta con **definir, llamar y retornar** resultados de normalización.",
+        "Un solo `return` temprano por caso de error de dominio es legible; evita funciones de 100 líneas con muchos returns confusos — mejor descomponer (T3)."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Posicionales, keyword y defaults seguros",
+      "paragraphs": [
+        "Argumentos **posicionales** se atan por orden; **keyword** por nombre (`fn(x=1)`). Los **defaults** se evalúan **una vez** en la definición: **nunca uses lista/dict mutable como default** (`def f(xs=[])` es un bug clásico). Usa `None` y crea la lista dentro.",
+        "Orden recomendado: obligatorios posicionales, luego opcionales con default. En llamadas, los keyword tras posicionales mejoran la lectura en sites de llamada largos.",
+        "Para normalizadores: `def normalize_telefono(raw, *, country=\"PE\")` con keyword-only opcional documenta la política regional sin confundir posiciones."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Pre/postcondiciones y docstrings",
+      "paragraphs": [
+        "Una **precondición** es lo que debe cumplirse **antes** de llamar (p. ej. `raw` es str). Una **postcondición** es lo que garantiza el return (p. ej. sin espacios extremos, minúsculas en email local-domain policy).",
+        "El **docstring** (PEP 257) documenta contrato en español o inglés consistente del proyecto: qué hace, parámetros, retorno, errores. No copies la firma; explica la política de negocio.",
+        "En intake sintético: pre = tipo str o None; post = forma canónica o ValueError/resultado de error de dominio según el diseño elegido."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Type hints graduales y errores de dominio",
+      "paragraphs": [
+        "Los **type hints** (`def f(x: str) -> str`) no convierten en runtime (salvo herramientas externas). Son documentación verificable con checkers. En S05 usamos hints **graduales**: anota lo público; no atasques con genéricos avanzados.",
+        "Un **error de dominio** no es un bug de Python: es un valor de negocio inválido. Opciones: `raise ValueError`, devolver `(ok, value, error)`, o un dict de resultado. Sé consistente en el módulo.",
+        "`Optional[str]` / `str | None` documenta ausencia. No uses hints falsos (`-> str` si puedes devolver None)."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Funciones pequeñas y composición",
+      "paragraphs": [
+        "Una función debe hacer **una cosa** en el nivel de abstracción correcto. Si normalizas nombre y además escribes archivo y logueas, sepáralas. **Componer** es llamar funciones pequeñas desde una orquestadora delgada.",
+        "Beneficio: tests unitarios fáciles, reuso en CLI (S10) y en ETL (S08). El orquestador `normalize_record` llama a cuatro normalizadores y arma el dict.",
+        "Regla práctica: si necesitas un comentario de sección en medio de la función, probablemente es otra función."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Pureza, efectos e inyección de I/O",
+      "paragraphs": [
+        "Una función **pura** devuelve el mismo resultado para los mismos argumentos y **no tiene efectos** (no imprime, no lee disco, no muta globales ni los argumentos mutables del caller sin documentarlo).",
+        "La **I/O** (stdin, archivos, red) se queda en el borde: `main`, CLI, o funciones `load_*` / `save_*`. Los normalizadores del gate deben ser puros e **idempotentes**: `f(f(x)) == f(x)` para entradas válidas.",
+        "**Inyección**: pasar una función `reader` o un path como argumento en vez de hardcodear `open('data.csv')` dentro del core facilita tests con fakes."
+      ],
+      "code": "def normalize_telefono(raw: str) -> str:\n    digits = \"\".join(ch for ch in raw if ch.isdigit())\n    return digits\n\n# Idempotencia\nx = \"999-000-111\"\ny = normalize_telefono(x)\nz = normalize_telefono(y)\nprint(y, z, \"idempotent=\", y == z)\n\n# I/O al borde (simulado) + lambda como inyección puntual\ndef process_line(line: str, norm=normalize_telefono) -> str:\n    return norm(line)\n\nprint(process_line(\" ("
+    },
+    {
+      "heading": "LEGB y closures básicos",
+      "paragraphs": [
+        "**LEGB**: orden de búsqueda de nombres — **L**ocal, **E**nclosing (funciones anidadas), **G**lobal, **B**uiltin. Si Python no halla el nombre, `NameError`.",
+        "Un **closure** es una función interna que recuerda variables del enclosing scope. Útil para fabricar normalizadores configurados (`make_stripper(chars)`), sin clases todavía.",
+        "`global` y `nonlocal` existen pero en S05 casi no los necesitas: prefiere **return** de valores nuevos. Mutar globales complica tests."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Pruebas de ejemplo y refactor sin cambiar conducta",
+      "paragraphs": [
+        "Antes de refactorizar, fija **ejemplos ejecutables**: `assert normalize_email('A@B.COM') == 'a@b.com'`. Luego cambia la forma interna; si los asserts siguen verdes, la conducta se preservó.",
+        "El refactor típico de S05: extraer `strip_collapse`, unificar defaults, renombrar. **No** cambies la política de negocio “de paso” sin actualizar tests y docstring.",
+        "Idempotencia se prueba con un loop o doble llamada. Fronteras: vacío, solo espacios, Unicode (`Ñ`, tildes), None si el contrato lo admite."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S05-T1-B-DEMO",
+      "description": "def + return de normalize_nombre collapsando espacios",
+      "why": "Una función, un return, casos con espacios y Unicode simple.",
+      "code": "def normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\n\nfor s in [\"  Ana  \", \"María  José\", \"QUISPE\"]:\n    print(repr(s), \"→\", repr(normalize_nombre(s)))"
+    },
+    {
+      "demoId": "S05-T2-A-DEMO",
+      "description": "Defaults seguros vs default mutable bug",
+      "why": "good crea listas nuevas; bad comparte el default entre llamadas.",
+      "code": "def good(item, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\n\ndef bad(item, bucket=[]):\n    bucket.append(item)\n    return bucket\n\nprint(\"good\", good(1), good(2))\nprint(\"bad \", bad(1), bad(2))"
+    },
+    {
+      "demoId": "S05-T2-B-DEMO",
+      "description": "Docstring + pre/post en normalize_email",
+      "why": "El contrato está en el docstring y se enforce con raise.",
+      "code": "def normalize_email(raw: str) -> str:\n    \"\"\"Pre: str. Post: lower strip con @. Raises ValueError.\"\"\"\n    s = raw.strip().lower()\n    if \"@\" not in s:\n        raise ValueError(\"falta @\")\n    return s\n\nprint(normalize_email(\"  X@Y.COM \"))\ntry:\n    normalize_email(\"x\")\nexcept ValueError as e:\n    print(\"ValueError\", e)"
+    },
+    {
+      "demoId": "S05-T3-A-DEMO",
+      "description": "Type hints + resultado de dominio sin abortar el lote",
+      "why": "Hints documentan la tupla; el lote puede seguir tras un False.",
+      "code": "from typing import Optional, Tuple\n\ndef norm_tel(raw: str) -> Tuple[bool, Optional[str], Optional[str]]:\n    d = \"\".join(c for c in raw if c.isdigit())\n    if len(d) != 9:\n        return False, None, \"se esperan 9 dígitos\"\n    return True, d, None\n\nfor v in [\"999000111\", \"123\", \"999-000-111\"]:\n    print(v, norm_tel(v))"
+    },
+    {
+      "demoId": "S05-T3-B-DEMO",
+      "description": "Componer strip + lower + orquestador de registro",
+      "why": "Orquestador delgado reutiliza piezas pequeñas.",
+      "code": "def strip_collapse(s: str) -> str:\n    return \" \".join(s.strip().split())\n\ndef norm_email(s: str) -> str:\n    return s.strip().lower()\n\ndef normalize_pair(nombre: str, email: str) -> dict:\n    return {\"nombre\": strip_collapse(nombre).title(), \"email\": norm_email(email)}\n\nprint(normalize_pair(\"  ana  perez \", \"  Ana@Example.COM \"))"
+    },
+    {
+      "demoId": "S05-T4-A-DEMO",
+      "description": "Idempotencia de normalize_telefono puro",
+      "why": "f(f(x))==f(x) en los tres samples; sin I/O en la función.",
+      "code": "def normalize_telefono(raw: str) -> str:\n    return \"\".join(c for c in raw if c.isdigit())\n\nsamples = [\"999-000-111\", \"(999) 000 111\", \"999000111\"]\nfor s in samples:\n    once = normalize_telefono(s)\n    twice = normalize_telefono(once)\n    print(s, \"→\", once, \"idem=\", once == twice)"
+    },
+    {
+      "demoId": "S05-T4-B-DEMO",
+      "description": "Closure factory para prefijo de teléfono",
+      "why": "La interna recuerda prefix del enclosing scope sin global.",
+      "code": "def make_norm(prefix: str):\n    def norm(raw: str) -> str:\n        d = \"\".join(c for c in raw if c.isdigit())\n        return prefix + d\n    return norm\n\npe = make_norm(\"+51\")\nprint(pe(\"999000111\"))\nprint(pe(\"999-000-111\"))"
+    },
+    {
+      "demoId": null,
+      "description": "Ejemplos assert antes y después de micro-refactor",
+      "why": "Misma suite de ejemplos en verde tras cambiar la implementación.",
+      "code": "def normalize_direccion(raw: str) -> str:\n    return \" \".join(raw.strip().split()).upper()\n\ndef examples(fn):\n    assert fn(\"  av. larco 123 \") == \"AV. LARCO 123\"\n    assert fn(fn(\"Calle 1\")) == fn(\"Calle 1\")\n    return True\n\nassert examples(normalize_direccion)\n\ndef normalize_direccion(raw: str) -> str:\n    parts = raw.strip().split()\n    return \" \".join(parts).upper()\n\nassert examples(normalize_direccion)\nprint(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \"))"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "Si una función no tiene return, ¿qué devuelve la llamada?",
+      "options": [
+        "0",
+        "False",
+        "None",
+        "Error siempre"
+      ]
+    },
+    {
+      "question": "¿Por qué `def f(xs=[])` es peligroso?",
+      "options": [
+        "Python no permite defaults",
+        "El default mutable se comparte entre llamadas",
+        "Solo falla con type hints",
+        "Convierte xs en tupla"
+      ]
+    },
+    {
+      "question": "Una función pura…",
+      "options": [
+        "Siempre imprime el resultado",
+        "Lee un archivo de config global",
+        "Mismo input → mismo output, sin efectos colaterales",
+        "Solo puede usarse en clases"
+      ]
+    },
+    {
+      "question": "LEGB significa…",
+      "options": [
+        "Local, Enclosing, Global, Builtin",
+        "List, Else, Generator, Break",
+        "Loop, Eval, Global, Binary",
+        "Lambda, Except, Goto, Block"
+      ]
+    },
+    {
+      "question": "Idempotencia de un normalizador f significa…",
+      "options": [
+        "f se ejecuta solo una vez en la vida del proceso",
+        "f(f(x)) == f(x) para entradas del dominio",
+        "f no puede tener defaults",
+        "f siempre lanza ValueError"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales"
+  ]
+}

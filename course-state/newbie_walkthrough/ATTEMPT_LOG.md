@@ -14,3 +14,4 @@
 | attempt_007 | 2026-07-21T20:34:19 | - | - | - | RESTART after FIX_002: phase3 demo-scaffold starters; real dual-LLM only | start |
 | attempt_007b | 2026-07-21T20:45:08 | - | - | - | RESTART: content changed again (demo-aligned solutions) after attempt_007 init; real dual-LLM | start |
 | attempt_007b | CLEAN_52_LIVE | 52 | 0 | real dual-LLM + code_exec grade | A=52 B=52 COMPLETE |
+| agentic_A1 | 2026-07-21T21:57:24 | - | - | - | Phase2 pure agentic dual-newbie from landing; Validator justification gate (not code-exec) | start |

@@ -1,0 +1,237 @@
+{
+  "section_index": 51,
+  "title": "Observabilidad, gobernanza y UX del copiloto",
+  "outcomes": [
+    "Traza prompts, retrieval y tools",
+    "Mide tokens/costo/latency con redacción",
+    "Registra modelo/prompt/dataset",
+    "Controla cambios, acceso y auditoría",
+    "Opera SLO, feedback y drift",
+    "Responde incidentes y postmortems",
+    "Muestra incertidumbre, citas y confirmaciones",
+    "Diseña a11y, corrección y contestabilidad"
+  ],
+  "theory": [
+    {
+      "heading": "Mapa V3 S51: Observabilidad, gobernanza y UX del copiloto",
+      "paragraphs": [
+        "En V3, **S51** retematiza el archivo de plataforma `integrator-final` hacia **Observabilidad, gobernanza y UX del copiloto**. **FINAL/CLOSE gate** (CLOSE + Level-4 regression + CF-5).",
+        "Incremento: Auditable AI Operations Copilot aprobado con system card y dashboard operativo que permiten saber qué versión respondió, qué evidencia usó, qué tool llamó y cómo revertirla. CF-5 congela artefactos e interfaces para integración final.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "traces de prompts/retrieval/tools",
+      "paragraphs": [
+        "**traces de prompts/retrieval/tools** — outcome del blueprint phase3 para `traces-prompts-retrieval-tools`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "tokens, costo, latency y redacción",
+      "paragraphs": [
+        "**tokens, costo, latency y redacción** — outcome del blueprint phase3 para `tokens-cost-latency-redaction`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real."
+      ],
+      "code": "print([(\"dataset\",\"eval-v4\"),(\"model\",\"m-2\"),(\"prompt\",\"p3\")]); print(\"immutable\", True); print(\"system_card_link\", True)"
+    },
+    {
+      "heading": "registro de modelo/prompt/dataset",
+      "paragraphs": [
+        "**registro de modelo/prompt/dataset** — outcome del blueprint phase3 para `registry-model-prompt-dataset`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real."
+      ],
+      "code": "print({\"change\":\"rfc+approve\",\"retention_days\":180}); print(\"who_changed\", \"required\"); print(\"cf5\", \"freeze_interfaces\")"
+    },
+    {
+      "heading": "cambio, acceso, retención y auditoría",
+      "paragraphs": [
+        "**cambio, acceso, retención y auditoría** — outcome del blueprint phase3 para `change-access-retention-audit`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real."
+      ],
+      "code": "print({\"availability\":0.995}); print(\"drift_ok\", True); print(\"feedback\", \"thumbs+labels\")"
+    },
+    {
+      "heading": "SLO, feedback y drift",
+      "paragraphs": [
+        "**SLO, feedback y drift** — outcome del blueprint phase3 para `slo-feedback-drift`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real."
+      ],
+      "code": "print({\"sev\":\"P1\",\"rollback_to\":\"m-1\"}); print(\"page\", True); print(\"timeline\", \"required\")"
+    },
+    {
+      "heading": "incidents, rollback y postmortem",
+      "paragraphs": [
+        "**incidents, rollback y postmortem** — outcome del blueprint phase3 para `incidents-rollback-postmortem`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real."
+      ],
+      "code": "print({\"uncertainty\":\"low/med/high\",\"cites\":True}); print(\"show_cites\", True); print(\"confirm\", \"before_side_effects\")"
+    },
+    {
+      "heading": "incertidumbre, citas y confirmaciones",
+      "paragraphs": [
+        "**incertidumbre, citas y confirmaciones** — outcome del blueprint phase3 para `uncertainty-cites-confirm`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real."
+      ],
+      "code": "print({\"contrast\":\"AA\",\"keyboard\":True}); print({\"edit\":True,\"contest\":True}); print(\"human_rights\", \"contestability\")"
+    },
+    {
+      "heading": "accesibilidad, corrección y contestabilidad",
+      "paragraphs": [
+        "**accesibilidad, corrección y contestabilidad** — outcome del blueprint phase3 para `a11y-correction-contestability`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real."
+      ],
+      "code": "print({\"contrast\":\"AA\",\"keyboard\":True}); print({\"edit\":True,\"contest\":True}); print(\"human_rights\", \"contestability\")"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S51-T1-B-DEMO",
+      "description": "Demo: traces de prompts/retrieval/tools",
+      "why": "Demuestra el outcome de S51-T1-A con Python verificable.",
+      "code": "print(\"trace_id\", \"t-1\"); print(\"spans\", [\"prompt\",\"retrieve\",\"tool\"]); print(\"audit\", True)"
+    },
+    {
+      "demoId": "S51-T2-A-DEMO",
+      "description": "Demo: tokens, costo, latency y redacción",
+      "why": "Demuestra el outcome de S51-T1-B con Python verificable.",
+      "code": "print(\"tokens\", 1200); print(\"redaction\", True); print(\"latency_ms\", 900)"
+    },
+    {
+      "demoId": "S51-T2-B-DEMO",
+      "description": "Demo: registro de modelo/prompt/dataset",
+      "why": "Demuestra el outcome de S51-T2-A con Python verificable.",
+      "code": "print(\"registry\", True); print(\"versions\", {\"model\":\"m-2\"}); print(\"pin\", True)"
+    },
+    {
+      "demoId": "S51-T3-A-DEMO",
+      "description": "Demo: cambio, acceso, retención y auditoría",
+      "why": "Demuestra el outcome de S51-T2-B con Python verificable.",
+      "code": "print(\"access_log\", True); print(\"retention\", 180); print(\"change_control\", True)"
+    },
+    {
+      "demoId": "S51-T3-B-DEMO",
+      "description": "Demo: SLO, feedback y drift",
+      "why": "Demuestra el outcome de S51-T3-A con Python verificable.",
+      "code": "print(\"slo\", True); print(\"drift_watch\", True); print(\"feedback_loop\", True)"
+    },
+    {
+      "demoId": "S51-T4-A-DEMO",
+      "description": "Demo: incidents, rollback y postmortem",
+      "why": "Demuestra el outcome de S51-T3-B con Python verificable.",
+      "code": "print(\"rollback\", \"m-1\"); print(\"postmortem\", True); print(\"action_items\", True)"
+    },
+    {
+      "demoId": "S51-T4-B-DEMO",
+      "description": "Demo: incertidumbre, citas y confirmaciones",
+      "why": "Demuestra el outcome de S51-T4-A con Python verificable.",
+      "code": "print(\"uncertainty\", True); print(\"cites\", True); print(\"confirm_gate\", True)"
+    },
+    {
+      "demoId": null,
+      "description": "Demo: accesibilidad, corrección y contestabilidad",
+      "why": "Demuestra el outcome de S51-T4-B con Python verificable.",
+      "code": "print(\"a11y\", True); print(\"correction\", True); print(\"contest\", True)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El id de plataforma de S51 que se preserva es:",
+      "options": [
+        "integrator-final",
+        "renamed-v3",
+        "legacy-drop",
+        "random"
+      ]
+    },
+    {
+      "question": "El incremento/gate V3 de S51 pertenece a:",
+      "options": [
+        "CP-N4-C (cierre) + CF-5 + Level-4 regression",
+        "CP-N1-A",
+        "solo marketing",
+        "sin capstone"
+      ]
+    },
+    {
+      "question": "Los ejemplos del curso deben usar:",
+      "options": [
+        "PII real de clientes",
+        "Datos sintéticos",
+        "Secretos de prod",
+        "Claves API reales"
+      ]
+    },
+    {
+      "question": "Entity resolution (si aparece) decide:",
+      "options": [
+        "Fraude",
+        "Parentesco",
+        "Misma entidad cuando aplique",
+        "Sentimiento"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales",
+    "Explicabilidad, equidad e incertidumbre",
+    "Clustering, anomalías y validación temporal",
+    "Profiling, algoritmos y rendimiento",
+    "Concurrencia, observabilidad y workflows resilientes",
+    "Responsible ML Case Triage y cierre de nivel",
+    "Arquitectura, DDD y decisiones técnicas",
+    "APIs con FastAPI y contratos HTTP",
+    "Schemas, seguridad y privacidad de servicios",
+    "Contenedores y reproducibilidad operativa",
+    "CI/CD y seguridad de la cadena de suministro",
+    "Cloud, almacenamiento, colas e infraestructura",
+    "Ingeniería de datos y orquestación de producción",
+    "MLOps: experimentos, registro y serving",
+    "LLM applications y RAG con evidencia",
+    "Agentes, herramientas y context engineering",
+    "Evals, red teaming y fiabilidad de IA"
+  ]
+}

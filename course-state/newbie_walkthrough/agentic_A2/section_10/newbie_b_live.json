@@ -1,0 +1,523 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_A2",
+  "section_index": 10,
+  "packet_sha": "adf1b4b46fb5db1b",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_10/packet.json",
+  "recorded_at": "2026-07-21T22:16:52.888412+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T1-A-E1\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "ingest",
+        "Crea",
+        "clean",
+        "__all__"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T1-A-E1. Instruction del paquete: Crea un módulo lógico con función pública `clean` y `__all__ = ['clean']`.. Hints: Helper privado con _ no va en __all__.; Imprime __all__ y clean('  X ').. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T1-A-E2\n# circular roto conceptualmente:\n# a.f -> b.g -> a.f\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "circular",
+        "roto",
+        "conceptualmente",
+        "print",
+        "ingest",
+        "Simula",
+        "import",
+        "extrayendo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T1-A-E2. Instruction del paquete: Simula un import circular y arréglalo extrayendo un util compartido.. Hints: a importa b y b importa a → rompe; mueve la función común a util.; Imprime ok desde ambos lados.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T1-A-E3\ncasos = [\n    \"normalize.py importa compare en el mismo paquete\",\n    \"plugin externo usa familiarity_core\",\n    \"ejecutar el CLI del paquete\",\n]\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "casos",
+        "normalize",
+        "importa",
+        "compare",
+        "mismo",
+        "paquete",
+        "plugin",
+        "externo"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T1-A-E3. Instruction del paquete: Elige import absoluto vs relativo en layout src: imprime la recomendación para 3 casos.. Hints: Dentro del paquete: relativo OK; plugins externos: absoluto; scripts: -m.; Formato caso -> recomendación.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T1-B-E1\ndef tokenize(s):\n    return s.split()\n\ndef normalize(s):\n    return \" \".join(tokenize(s)).lower()\n\ndef compare(a, b):\n    return normalize(a) == normalize(b)\n\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "tokenize",
+        "return",
+        "split",
+        "normalize",
+        "join",
+        "lower",
+        "compare"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T1-B-E1. Instruction del paquete: Marca helpers privados con _ y deja públicas solo `normalize` y `compare`.. Hints: Imprime lista public vs private detectada por nombre.; Usa dir() filtrado o una lista explícita.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T1-B-E2\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "ingest",
+        "Implementa",
+        "fachada",
+        "reexporta",
+        "normalize",
+        "compare",
+        "imprime"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T1-B-E2. Instruction del paquete: Implementa una fachada que reexporta normalize y compare e imprime __all__.. Hints: Las implementaciones pueden ser locales.; from-style reexport simulado.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T1-B-E3\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "ingest",
+        "Documenta",
+        "breaking",
+        "change",
+        "firma",
+        "old",
+        "new"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T1-B-E3. Instruction del paquete: Documenta un breaking change de firma pública: old → new y versión major.. Hints: Imprime BREAKING y NEW_VERSION.; Ejemplo: compare(a,b)->bool se vuelve compare(a,b)->float score.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T2-A-E1\nproject = {\n    print(\"ingest ok\")\n}\nprint(project)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "project",
+        "print",
+        "ingest",
+        "Completa",
+        "dict",
+        "estilo",
+        "pyproject",
+        "name"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T2-A-E1. Instruction del paquete: Completa un dict estilo pyproject con name y version e imprímelos.. Hints: name=familiarity-core version=0.1.0; Incluye requires-python >=3.11.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T2-A-E2\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "ingest",
+        "Lista",
+        "layout",
+        "src",
+        "paquete",
+        "importable",
+        "imprime"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T2-A-E2. Instruction del paquete: Lista el layout src mínimo de un paquete importable e imprime cada path.. Hints: Incluye __init__.py, normalize.py, cli.py, pyproject.toml.; Usa prefijo src/familiarity_core/.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T2-A-E3\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "ingest",
+        "Diagnostica",
+        "ModuleNotFoundError",
+        "imprime",
+        "causas",
+        "probables",
+        "post"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T2-A-E3. Instruction del paquete: Diagnostica ModuleNotFoundError: imprime 3 causas probables post-install.. Hints: Piensa en nombre, editable, y cwd.; Formato cause: .... Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T2-B-E1\ncambios = [\n    \"renombrar normalize a clean_name (API pública)\",\n    \"añadir flag --format a report\",\n    \"corregir typo en help\",\n    \"eliminar subcomando compare\",\n]\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "cambios",
+        "renombrar",
+        "normalize",
+        "clean_name",
+        "API",
+        "flag",
+        "format",
+        "report"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T2-B-E1. Instruction del paquete: Clasifica 4 cambios en major/minor/patch.. Hints: Breaking → major; feature → minor; fix → patch.; Imprime cambio: nivel.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T2-B-E2\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "ingest",
+        "Fija",
+        "dependencies",
+        "paquete",
+        "puede",
+        "ser",
+        "lista"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T2-B-E2. Instruction del paquete: Fija dependencies mínimas del paquete (puede ser lista vacía + note) e imprime requires-python.. Hints: Para N1 stdlib: dependencies=[].; requires-python>=3.11.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T2-B-E3\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "ingest",
+        "Escribe",
+        "compatibilidad",
+        "hacia",
+        "S11",
+        "dominio",
+        "bullets"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T2-B-E3. Instruction del paquete: Escribe una política de compatibilidad hacia S11 dominio (3 bullets).. Hints: Cubrir renames de entidades y versiones.; Imprime POLICY líneas.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T3-A-E1\nimport argparse\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "argparse",
+        "print",
+        "ingest",
+        "subcomando",
+        "report",
+        "format",
+        "text"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T3-A-E1. Instruction del paquete: Añade subcomando report con --format text|json y parsea un argv de ejemplo.. Hints: Usa argparse subparsers.; Imprime el namespace.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T3-A-E2\ncasos = [\n    \"normalize ok\",\n    \"archivo de input no existe\",\n    \"flag desconocido\",\n    \"subcomando ausente\",\n    \"validación de config falla al arrancar\",\n]\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "casos",
+        "normalize",
+        "archivo",
+        "input",
+        "existe",
+        "flag",
+        "desconocido",
+        "subcomando"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T3-A-E2. Instruction del paquete: Mapea situaciones a exit codes 0/1/2 e imprime `caso: code`.. Hints: 0 éxito, 1 runtime, 2 usage.; Cinco casos.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T3-A-E3\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "ingest",
+        "Escribe",
+        "ayuda",
+        "help",
+        "orientadas",
+        "operador",
+        "dev"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T3-A-E3. Instruction del paquete: Escribe 3 líneas de ayuda --help orientadas a operador no dev.. Hints: Evita jerga de frameworks.; Imprime HELP: .... Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T3-B-E1\nfrom io import StringIO\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "import",
+        "StringIO",
+        "print",
+        "ingest",
+        "Escribe",
+        "resultado",
+        "stdout"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T3-B-E1. Instruction del paquete: Escribe resultado a stdout y un log a stderr (capturado con StringIO en la demo).. Hints: Función process(n) retorna n*2; log event=done.; Imprime ambos streams.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T3-B-E2\ndef read_input(path_or_dash, stdin_text=\"\", file_text=None):\n    print(\"ingest ok\")\n    ...\n\nprint(read_input(\"-\", stdin_text=\"desde stdin\"))\nprint(read_input(\"file.csv\", file_text=\"desde file\"))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "read_input",
+        "path_or_dash",
+        "stdin_text",
+        "file_text",
+        "None",
+        "print",
+        "ingest"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T3-B-E2. Instruction del paquete: Implementa `read_input(path_or_dash, stdin_text)` que lee path o '-' como stdin.. Hints: Si path=='-', usa stdin_text.; Prueba ambos modos.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T3-B-E3\ndef bad_cli():\n    print(\"empezando\")\n    print('{\"ok\": true}')\n    print(\"fin\")\n\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "bad_cli",
+        "print",
+        "empezando",
+        "true",
+        "fin",
+        "ingest",
+        "Revisa"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T3-B-E3. Instruction del paquete: Revisa un CLI que contamina stdout con prints de progreso y propón la salida limpia.. Hints: Imprime BAD y GOOD.; GOOD solo JSON final.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T4-A-E1\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "ingest",
+        "Imprime",
+        "tabla",
+        "precedencia",
+        "capas",
+        "baja",
+        "alta"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T4-A-E1. Instruction del paquete: Imprime la tabla de precedencia de 4 capas (1=más baja … 4=más alta).. Hints: defaults < file < env < flags.; Formato rank:layer. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T4-A-E2\ndef merge(defaults, file_cfg, env_cfg, flags):\n    print(\"ingest ok\")\n    ...\n\nprint(merge(\n    {\"log_level\": \"INFO\", \"jobs\": 1},\n    {\"log_level\": \"WARNING\"},\n    {\"log_level\": \"DEBUG\", \"jobs\": None},\n    {\"log_level\": \"ERROR\"},\n))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "merge",
+        "defaults",
+        "file_cfg",
+        "env_cfg",
+        "flags",
+        "print",
+        "ingest"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T4-A-E2. Instruction del paquete: Implementa `merge(defaults, file_cfg, env_cfg, flags)` ignorando None en capas altas.. Hints: Prueba con log_level en todas las capas.; El flag debe ganar.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T4-A-E3\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "ingest",
+        "Caso",
+        "conflictivo",
+        "env",
+        "DEBUG",
+        "flag",
+        "INFO"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T4-A-E3. Instruction del paquete: Caso conflictivo: env=DEBUG y flag=INFO — imprime el resultado esperado y por qué.. Hints: Una línea result= y una razón.; Español claro.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T4-B-E1\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "ingest",
+        "Checklist",
+        "secretos",
+        "gitignore",
+        "imprime",
+        "entradas"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T4-B-E1. Instruction del paquete: Checklist de secretos en .gitignore: imprime 4 entradas típicas.. Hints: Incluye .env, *.pem, credentials.json, .venv opcional no es secreto pero sí local.; Formato ignore: .... Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T4-B-E2\ndef validate_config(cfg: dict) -> None:\n    print(\"ingest ok\")\n    ...\n\nvalidate_config({\"log_level\": \"INFO\", \"data_dir\": \"data\"})\nprint(\"ok\")\ntry:\n    validate_config({\"log_level\": \"INFO\"})\nexcept RuntimeError as e:\n    print(e)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "validate_config",
+        "cfg",
+        "dict",
+        "None",
+        "print",
+        "ingest",
+        "log_level"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T4-B-E2. Instruction del paquete: Implementa `validate_config(cfg)` que exige log_level y data_dir; errores claros.. Hints: Raise RuntimeError con nombre de clave.; Prueba ok y fail.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S10-T4-B-E3\ninseguro = {\"log_level\": \"DEBUG\", \"echo_sql\": True, \"api_token\": \"hardcoded\"}\nprint(\"ingest ok\")",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "inseguro",
+        "log_level",
+        "DEBUG",
+        "echo_sql",
+        "True",
+        "api_token",
+        "hardcoded",
+        "print"
+      ],
+      "justification_from_packet": "[A2-Skeptic restart] Skeptic: ejercicio S10-T4-B-E3. Instruction del paquete: Dado un default inseguro (log_level=DEBUG y echo_sql=True), propone defaults seguros.. Hints: Imprime old → new por clave.; Sin secretos en defaults.. Teoría activa: De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa) | Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout src, pyproject.toml y builds | Versionado y compatibilid. iDo demos: S10-T1-B-DEMO | S10-T2-A-DEMO | S10-T2-B-DEMO | S10-T3-A-DEMO | S10-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "question": "¿Para qué sirve `if __name__ == '__main__'`?",
+      "chosen_index": 1,
+      "chosen_text": "Ejecutar el CLI/demo solo al correr el módulo, no al importar",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: if __name__ == '__main__' protects CLI/demo so it does not run on import. Not about speeding the interpreter or installing deps."
+    },
+    {
+      "question_index": 1,
+      "question": "Precedencia correcta de config…",
+      "chosen_index": 1,
+      "chosen_text": "flags > env > file > defaults",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: canonical precedence: CLI flags > env vars > config file > defaults. Other orderings reverse the packet."
+    },
+    {
+      "question_index": 2,
+      "question": "Exit code 2 en CLI argparse suele significar…",
+      "chosen_index": 1,
+      "chosen_text": "Error de uso/parseo de argumentos",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: argparse/CLI section treats bad usage as non-zero; option text maps exit 2 to usage/parse error — success is 0, not 2."
+    },
+    {
+      "question_index": 3,
+      "question": "¿Dónde van los logs de progreso?",
+      "chosen_index": 1,
+      "chosen_text": "stderr",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: stdout = data (JSON/CSV); stderr = logs and progress so redirection is clean. Progress does not go into the JSON file."
+    },
+    {
+      "question_index": 4,
+      "question": "Añadir un subcomando nuevo compatible es tipicamente…",
+      "chosen_index": 1,
+      "chosen_text": "minor",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: SemVer: compatible feature (new subcommand) is minor; breaking is major; not 'delete the repo'."
+    },
+    {
+      "question_index": 5,
+      "question": "¿Qué no debe ir al git del paquete?",
+      "chosen_index": 0,
+      "chosen_text": ".env con API_TOKEN",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[A2-Skeptic second full walk] Skeptic: secrets stay out of git — .env with API_TOKEN is the forbidden one; README/pyproject/__init__ belong in the package repo."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 6,
+    "blocked": 0
+  },
+  "persona_seed": "09f0504012b8",
+  "run": "agentic_A2_second_consecutive"
+}

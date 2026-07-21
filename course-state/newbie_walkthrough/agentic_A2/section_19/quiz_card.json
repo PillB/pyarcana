@@ -1,0 +1,205 @@
+{
+  "section_index": 19,
+  "title": "Visualización y comunicación accesible",
+  "outcomes": [
+    "Elegir charts por pregunta y audiencia",
+    "Diseñar ejes, escalas y encodings honestos",
+    "Producir figuras Matplotlib (estilo Seaborn opcional)",
+    "Anotar y exportar de forma reproducible",
+    "Construir vistas interactivas lógicas (filtros/tooltips simulados)",
+    "Proveer alternativas accesibles y cuidar performance",
+    "Documentar unidades, fuente y limitaciones",
+    "Aplicar contraste, alt text y no sobreclaim"
+  ],
+  "theory": [
+    {
+      "heading": "De “Bases de Datos y ORMs” a visualización accesible (mapa)",
+      "paragraphs": [
+        "En V3, **S19 no es el path principal de SQLAlchemy/Postgres avanzado**. Aquí construyes el **dashboard de CP-N2-B**: elección de chart, escalas honestas, figuras exportables, tooltips/filtros conceptuales y alternativas no visuales.",
+        "Hilo: dataset sintético de métricas por región (Lima/Arequipa/Cusco). Cada figura tiene **conclusión acotada** y **tabla o texto equivalente**.",
+        "Orden: **T1 Diseño** → **T2 Estático** → **T3 Interactivo/a11y** → **T4 Integridad visual**."
+      ],
+      "code": "spec = {\n    \"pregunta\": \"¿Qué región tiene mayor ticket mediano?\",\n    \"audiencia\": \"ejecutivo\",\n    \"chart\": \"bar_horizontal\",\n    \"evita\": \"pie_3d\",\n}\nprint(spec)\nprint(\"ok\", spec[\"chart\"] != \"pie_3d\")"
+    },
+    {
+      "heading": "pregunta, audiencia y chart choice",
+      "paragraphs": [
+        "Empieza por la **pregunta** y la **audiencia** (ejecutivo vs analista). Comparar magnitudes → barras; tendencia temporal → líneas; parte de un todo → cuidado con pie (preferir barras apiladas o tabla).",
+        "Una sola idea principal por chart. Si hay dos preguntas, dos charts.",
+        "Registra en metadata: pregunta, chart_type, audiencia."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "ejes, escalas y encodings honestos",
+      "paragraphs": [
+        "Ejes deben incluir **cero** en barras de magnitudes absolutas (salvo justificación). No recortes el eje Y para exagerar diferencias.",
+        "Encodings: posición > longitud > color > forma. Dual axis engaña con frecuencia.",
+        "Escala log solo con etiqueta explícita y justificación de órdenes de magnitud."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Matplotlib / Seaborn",
+      "paragraphs": [
+        "Matplotlib es la base reproducible (`Figure`/`Axes`). Seaborn aporta estilos y APIs estadísticas; aquí usamos Matplotlib puro (Agg) para portabilidad.",
+        "Siempre: título, etiquetas de ejes, unidades, leyenda si hay series múltiples.",
+        "Guarda con `bbox_inches='tight'` y dpi documentado; en demos imprimimos metadatos sin archivo binario obligatorio."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "composición, annotations y exportación",
+      "paragraphs": [
+        "Multi-panel (`subplots`) alinea comparaciones. Anota valores clave con `ax.annotate` o `bar_label` sin saturar.",
+        "Export: PNG para slides, SVG/PDF para impresión. Nombre de archivo con fecha/versión.",
+        "Reproduce con seed de datos y función `build_figure()` sin estado global sucio."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Plotly / filtros / tooltips (modelo de datos)",
+      "paragraphs": [
+        "En entornos sin Plotly instalado, modelamos la **vista interactiva** como especificación: campos de filtro, payload de tooltip y subset de filas.",
+        "Tooltips deben mostrar unidades y n, no solo el valor bonito. Filtros no deben ocultar el sesgo muestral.",
+        "La conclusión del viewport filtrado debe recalcularse, no reutilizar el texto global."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "estado, performance y alternativas accesibles",
+      "paragraphs": [
+        "El **estado** del dashboard (filtros activos) debe ser serializable. Evita recalcular todo el universo en cada hover si n es grande: preagrega.",
+        "Alternativa accesible: tabla ordenable + resumen textual con los mismos números que el chart.",
+        "Performance: limita puntos en scatter (sample o aggregate); documenta si hay sampling."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "unidades, fuente y limitaciones",
+      "paragraphs": [
+        "Cada eje y tooltip lleva **unidad** (PEN, %, tickets). Fuente: sistema sintético / corte de fecha. Limitaciones: cobertura, sesgo, n bajo.",
+        "Pie de figura: `Fuente: … | Corte: … | n=… | Limitación: …`.",
+        "Sin fuente, el gráfico no entra al portfolio de CP-N2-B."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "color, contraste, texto alternativo y no sobreclaim",
+      "paragraphs": [
+        "Contraste suficiente (texto/fondo). No uses solo color para codificar categorías críticas: añade patrón o etiqueta.",
+        "**Alt text**: describe el hallazgo principal y n, no “imagen de barras”.",
+        "No sobreclaim: “Lima lidera en la muestra web” ≠ “Lima es la mejor región del país”."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S19-T1-B-DEMO",
+      "description": "Elegir chart alineado a pregunta ejecutiva de comparación regional",
+      "why": "La elección de chart se documenta como decisión de diseño, no estética.",
+      "code": "pregunta = \"Comparar ticket mediano entre regiones\"\naudiencia = \"VP de operaciones\"\ncandidates = [\"bar\", \"line\", \"pie_3d\", \"scatter\"]\nscore = {\"bar\": 3, \"line\": 1, \"pie_3d\": 0, \"scatter\": 1}\nbest = max(candidates, key=lambda c: score[c])\nprint({\"pregunta\": pregunta, \"audiencia\": audiencia, \"chart\": best})\nprint(\"rechaza_pie_3d\", score[\"pie_3d\"] == 0)"
+    },
+    {
+      "demoId": "S19-T2-A-DEMO",
+      "description": "Cuantificar distorsión de un eje Y recortado en barras",
+      "why": "Mostrar el factor de inflación educa sobre encodings deshonestos.",
+      "code": "a, b = 100.0, 92.0\n# honesto baseline 0\nperc_h = (a - b) / a\n# truco baseline 90\nperc_t = (a - b) / (a - 90)\nprint(\"diff_abs\", a - b)\nprint(\"fraccion_altura_honesta\", round(perc_h, 3))\nprint(\"fraccion_altura_truco\", round(perc_t, 3))\nprint(\"factor_inflacion\", round(perc_t / perc_h, 2))"
+    },
+    {
+      "demoId": "S19-T2-B-DEMO",
+      "description": "Componer barra Matplotlib con ylim desde 0 y etiqueta de unidad",
+      "why": "Figura mínima viable para el dashboard estático.",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n\nreg = [\"Lima\", \"Arequipa\", \"Cusco\"]\nval = [28.0, 24.0, 22.5]\nfig, ax = plt.subplots()\nbars = ax.bar(reg, val, color=\"#2c5282\")\nax.set_ylabel(\"PEN\")\nax.set_title(\"Ticket mediano (sintético)\")\nax.set_ylim(0, max(val) * 1.2)\nax.bar_label(bars, fmt=\"%.1f\")\nprint(\"ylim0\", ax.get_ylim()[0] == 0)\nprint(\"ylabel\", ax.get_ylabel())\nplt.close(fig)"
+    },
+    {
+      "demoId": "S19-T3-A-DEMO",
+      "description": "Anotar y exportar metadata reproducible de figura multi-panel",
+      "why": "Composición + nombre versionado habilita re-render del portfolio.",
+      "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n\nfig, (ax0, ax1) = plt.subplots(1, 2, figsize=(8, 3))\nax0.bar([\"Lima\", \"Cusco\"], [40, 32])\nax0.set_title(\"n por región\")\nax0.set_ylim(0, 50)\nax1.barh([\"Lima\", \"Cusco\"], [28, 22.5])\nax1.set_title(\"mediana PEN\")\nax1.set_xlim(0, 35)\nexport = {\"file\": \"cp_n2b_dashboard_v1.png\", \"dpi\": 120, \"panels\": 2, \"seed_data\": 19}\nplt.close(fig)\nprint(export)"
+    },
+    {
+      "demoId": "S19-T3-B-DEMO",
+      "description": "Vista interactiva lógica con filtro y tooltip honesto",
+      "why": "Tooltip con unidad y n evita lecturas superficiales.",
+      "code": "data = [\n    {\"region\": \"Lima\", \"median\": 28.0, \"n\": 40},\n    {\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32},\n]\ndef view(region):\n    row = next(r for r in data if r[\"region\"] == region)\n    return {\n        \"tooltip\": f\"{row['region']}: {row['median']} PEN (n={row['n']})\",\n        \"filtro\": region,\n        \"unidad\": \"PEN\",\n    }\nprint(view(\"Lima\"))\nprint(view(\"Cusco\")[\"tooltip\"])"
+    },
+    {
+      "demoId": "S19-T4-A-DEMO",
+      "description": "Ofrecer alternativa tabular/textual con paridad al chart",
+      "why": "La versión no visual es requisito del gate de dashboard accesible.",
+      "code": "chart = {\"Lima\": 28.0, \"Cusco\": 22.5}\ntable = [{\"region\": k, \"ticket_mediano_pen\": v} for k, v in chart.items()]\ntext = \"; \".join(f\"{r['region']}={r['ticket_mediano_pen']} PEN\" for r in table)\nprint(table)\nprint(text)\nprint(\"parity\", all(chart[r[\"region\"]] == r[\"ticket_mediano_pen\"] for r in table))"
+    },
+    {
+      "demoId": "S19-T4-B-DEMO",
+      "description": "Etiquetar unidades, fuente y limitaciones en caption estructurado",
+      "why": "Caption completo es parte del entregable, no un extra.",
+      "code": "cap = {\n    \"titulo\": \"Ticket mediano por región\",\n    \"unidad\": \"PEN\",\n    \"fuente\": \"sintético CP-N2-B\",\n    \"corte\": \"2024-06-30\",\n    \"limitacion\": \"canal web; n bajo en Cusco\",\n}\nprint(\"pie\", f\"Unidad: {cap['unidad']} | Fuente: {cap['fuente']} | Corte: {cap['corte']} | Límite: {cap['limitacion']}\")"
+    },
+    {
+      "demoId": null,
+      "description": "Validar alt text y rechazar sobreclaim causal/nacional",
+      "why": "Contraste de claims entrena el lenguaje del dashboard.",
+      "code": "alt = \"Barras: Lima 28 PEN, Arequipa 24, Cusco 22.5; muestra web sintética n=100.\"\nclaims = [\n    (\"Lima lidera el ticket mediano en la muestra web\", True),\n    (\"Lima es la mejor región del Perú\", False),\n]\nfor c, ok in claims:\n    print(c[:40], \"=>\", \"PERMITIDO\" if ok else \"RECHAZADO\")\nprint(\"alt_words\", len(alt.split()))"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "Para comparar magnitudes entre categorías, ¿qué chart es usualmente preferible?",
+      "options": [
+        "Pie 3D",
+        "Barras con baseline 0",
+        "Dual axis sin escala",
+        "Word cloud"
+      ]
+    },
+    {
+      "question": "Una alternativa accesible debe:",
+      "options": [
+        "Ser opcional siempre",
+        "Repetir los mismos números clave del chart",
+        "Solo ser una imagen más grande",
+        "Eliminar las unidades"
+      ]
+    },
+    {
+      "question": "“Lima es la mejor región del Perú” a partir de una muestra web es:",
+      "options": [
+        "Un claim permitido",
+        "Sobreclaim / generalización indebida",
+        "Un alt text correcto",
+        "Una unidad"
+      ]
+    },
+    {
+      "question": "El caption de un gráfico de portfolio debe incluir:",
+      "options": [
+        "Solo el color favorito",
+        "Unidad, fuente y limitaciones",
+        "La contraseña del BI",
+        "Nada"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre"
+  ]
+}

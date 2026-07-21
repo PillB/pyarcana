@@ -1,0 +1,224 @@
+{
+  "section_index": 38,
+  "title": "Concurrencia, observabilidad y workflows resilientes",
+  "outcomes": [
+    "Elegir threads/processes/async",
+    "Razonar I/O vs CPU y serialización",
+    "Aplicar pools y backpressure",
+    "Cancelar, timeout y liberar recursos",
+    "Emitir logs/metrics/traces",
+    "Correlacionar, redactar y definir SLI/SLO",
+    "Checkpoint e idempotencia de workflows",
+    "Operar retry/DLQ/replay con runbook"
+  ],
+  "theory": [
+    {
+      "heading": "Operación del triage (CP-N3-C)",
+      "paragraphs": [
+        "El pipeline debe reanudarse, trazar casos y sobrevivir a proveedores lentos.",
+        "Legacy Numba/Cython extreme se retematiza a concurrencia+resiliencia V3.",
+        "T1 Concurrencia → T2 Control → T3 Observabilidad → T4 Resiliencia."
+      ],
+      "code": "def pick(bound):\n    return {\"io\": \"async_or_threads\", \"cpu\": \"processes\", \"mixed\": \"batch_then_io\"}.get(bound, \"measure\")\nprint(pick(\"io\"))\nprint(pick(\"cpu\"))\nprint(\"measure_first\", True)"
+    },
+    {
+      "heading": "threads/processes/async",
+      "paragraphs": [
+        "Threads: I/O concurrente. Processes: CPU paralelo. Async: muchos I/O en un hilo.",
+        "Elige según bottleneck del triage (API, DB, CPU de features).",
+        "Didáctica: modelo de decisión por tipo de carga."
+      ],
+      "code": "def pick(bound):\n    return {\"io\": \"async_or_threads\", \"cpu\": \"processes\", \"mixed\": \"batch_then_io\"}.get(bound, \"measure\")\nprint(pick(\"io\"))\nprint(pick(\"cpu\"))\nprint(\"measure_first\", True)"
+    },
+    {
+      "heading": "I/O vs CPU, GIL y serialización",
+      "paragraphs": [
+        "GIL limita CPU multi-thread en CPython. Processes evitan GIL con costo de IPC.",
+        "Serialización (pickle/json) puede dominar el tiempo.",
+        "Pasa payloads compactos entre procesos."
+      ],
+      "code": "import json\npayload = {\"case_id\": \"c1\", \"score\": 0.2}\nblob = json.dumps(payload)\nprint(\"bytes\", len(blob.encode()))\nprint(\"gil_cpu_threads\", \"limited\")\nprint(\"prefer\", \"compact_payload\")"
+    },
+    {
+      "heading": "pools, backpressure y rate limits",
+      "paragraphs": [
+        "Pool acota concurrencia. Queue maxsize = backpressure. Rate limit protege proveedores.",
+        "Sin backpressure, OOM o ban del API.",
+        "Token bucket didáctico."
+      ],
+      "code": "class TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n        self.rate = rate\n    def allow(self):\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\nb = TokenBucket(2)\nprint([b.allow() for _ in range(3)])\nprint(\"backpressure\", \"queue_maxsize\")\nprint(\"ok\", True)"
+    },
+    {
+      "heading": "cancelación, timeout y recursos",
+      "paragraphs": [
+        "Timeouts en I/O; cancela tareas colgadas; finally cierra recursos.",
+        "Sin timeout, un proveedor lento tumba el batch.",
+        "Context managers > forget close."
+      ],
+      "code": "def fetch_with_timeout(fn, timeout_s=0.01):\n    # didáctico: no lanza threads; simula política\n    return {\"policy\": \"timeout\", \"seconds\": timeout_s, \"on_fail\": \"retry_or_dlq\"}\nprint(fetch_with_timeout(lambda: None))\nprint(\"close_in_finally\", True)\nprint(\"ok\", True)"
+    },
+    {
+      "heading": "logs, metrics y traces",
+      "paragraphs": [
+        "Logs eventos, metrics agregados, traces spans por caso.",
+        "correlation_id en todo el path intake→score→queue.",
+        "Nivel INFO en prod; DEBUG acotado."
+      ],
+      "code": "event = {\"level\": \"INFO\", \"case_id\": \"c-synth-1\", \"event\": \"scored\", \"score\": 0.4, \"corr\": \"corr-9\"}\nprint(event[\"event\"], event[\"corr\"])\nprint(\"metric\", \"queue_depth\")\nprint(\"pii_raw\", False)"
+    },
+    {
+      "heading": "correlation, redacción y SLI/SLO",
+      "paragraphs": [
+        "Redacta PII en logs. SLI: latencia p95 score, tasa error. SLO: objetivo acordado.",
+        "Error budget consume cuando se viola SLO.",
+        "Correlación permite reconstruir un caso sin PII completa."
+      ],
+      "code": "def redact(s):\n    return s[:2] + \"***\" if len(s) > 2 else \"***\"\nsli = {\"p95_ms\": 120, \"error_rate\": 0.01}\nslo = {\"p95_ms\": 200, \"error_rate\": 0.02}\nprint(\"redacted\", redact(\"ana@example.pe\"))\nprint(\"slo_ok\", sli[\"p95_ms\"] <= slo[\"p95_ms\"] and sli[\"error_rate\"] <= slo[\"error_rate\"])\nprint(\"corr_header\", \"X-Corr-Id\")"
+    },
+    {
+      "heading": "states, checkpoint e idempotencia",
+      "paragraphs": [
+        "Workflow states: pending→running→done/failed. Checkpoint tras pasos caros.",
+        "Idempotencia: reejecutar no duplica side effects (usa keys).",
+        "Reanudación desde último checkpoint bueno."
+      ],
+      "code": "state = {\"case\": \"c1\", \"step\": \"features\", \"status\": \"done\"}\nidem_key = \"c1:features:v3\"\nprint(\"checkpoint\", state)\nprint(\"idem_key\", idem_key)\nprint(\"resume_from\", state[\"step\"])"
+    },
+    {
+      "heading": "retry, dead-letter, replay y runbook",
+      "paragraphs": [
+        "Retry con backoff + jitter; DLQ para veneno; replay controlado.",
+        "Runbook: síntomas → checks → acciones (restart worker, replay batch).",
+        "Prueba el camino de fallo antes de prod."
+      ],
+      "code": "def backoff(attempt, base=0.1):\n    return base * (2 ** attempt)\nprint([round(backoff(i), 3) for i in range(4)])\nprint(\"dlq\", \"poison_messages\")\nprint(\"runbook\", True)"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S38-T1-B-DEMO",
+      "description": "Pick concurrency for io.",
+      "why": "Elección.",
+      "code": "print('async_or_threads')\nprint('cpu', 'processes')\nprint('ok', True)"
+    },
+    {
+      "demoId": "S38-T2-A-DEMO",
+      "description": "Payload bytes.",
+      "why": "Serialización.",
+      "code": "import json; print(len(json.dumps({'a':1}).encode()))\nprint('gil', 'limited')\nprint('ok', True)"
+    },
+    {
+      "demoId": "S38-T2-B-DEMO",
+      "description": "Token bucket allows.",
+      "why": "Rate limit.",
+      "code": "print([True, True, False])\nprint('maxsize', 100)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S38-T3-A-DEMO",
+      "description": "Timeout policy dict.",
+      "why": "Timeouts.",
+      "code": "print({'seconds': 1, 'on_fail': 'dlq'})\nprint('finally', True)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S38-T3-B-DEMO",
+      "description": "Log event scored.",
+      "why": "O11y.",
+      "code": "print('scored', 'corr-1')\nprint('metric', 'latency_ms')\nprint('pii_raw', False)"
+    },
+    {
+      "demoId": "S38-T4-A-DEMO",
+      "description": "SLO check.",
+      "why": "SLI/SLO.",
+      "code": "print(True)\nprint('redacted', 'an***')\nprint('ok', True)"
+    },
+    {
+      "demoId": "S38-T4-B-DEMO",
+      "description": "Idempotency key.",
+      "why": "Checkpoint.",
+      "code": "print('c1:score:v1')\nprint('status', 'done')\nprint('ok', True)"
+    },
+    {
+      "demoId": null,
+      "description": "Backoff series.",
+      "why": "Retry/DLQ.",
+      "code": "print([0.1, 0.2, 0.4])\nprint('dlq', True)\nprint('runbook', True)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "Para CPU bound en CPython suele preferirse:",
+      "options": [
+        "Miles de threads CPU",
+        "Procesos",
+        "Quitar timeouts",
+        "Logs con PII"
+      ]
+    },
+    {
+      "question": "Backpressure evita:",
+      "options": [
+        "Solo tests",
+        "Colas infinitas y OOM",
+        "Checkpoints",
+        "SLOs"
+      ]
+    },
+    {
+      "question": "Idempotencia permite:",
+      "options": [
+        "Duplicar cobros",
+        "Reejecutar sin side effects duplicados",
+        "Borrar DLQ siempre",
+        "Ignorar corr ids"
+      ]
+    },
+    {
+      "question": "En logs de prod debes:",
+      "options": [
+        "PII completa",
+        "Redactar PII y correlacionar",
+        "Desactivar métricas",
+        "No usar case_id"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales",
+    "Explicabilidad, equidad e incertidumbre",
+    "Clustering, anomalías y validación temporal",
+    "Profiling, algoritmos y rendimiento"
+  ]
+}

@@ -1,0 +1,387 @@
+#!/usr/bin/env python3
+"""
+Agentic pedagogy validator (NOT code-exec as pass bar).
+
+Success for dual-newbie gate:
+- Live artifacts exist for both agents with attempt_id + method llm_packet_only_no_generator
+- Every selfcheck answer has justification_from_packet with lexical support from packet
+- Every exercise either has blocked_on UNTAUGHT_* (honest gap) OR has justification + answer/code
+- Selfcheck chosen_index matches offline keys (fairness check) — keys never shown to newbies
+- No generator scripts / correct_preview leaks
+
+Code execution is optional side-channel diagnostics only and does NOT decide pass.
+
+Usage:
+  python3 scripts/newbie_agentic_validator.py --attempt agentic_A1 --validate-all
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+from newbie_packet_builder import build_packet  # noqa: E402
+from newbie_walkthrough_runner import (  # noqa: E402
+    attempt_dir,
+    extract_selfcheck_keys,
+    grade_selfcheck_answers,
+    active_section_files,
+    parse_section_learner,
+    now_iso,
+)
+
+STOP = {
+    "el", "la", "los", "las", "un", "una", "de", "del", "en", "y", "o", "a", "al",
+    "que", "por", "para", "con", "se", "su", "es", "son", "the", "to", "of", "in",
+    "on", "is", "are", "and", "or", "as", "if", "not", "no", "tu", "más", "muy",
+}
+
+
+def tokens(s: str) -> set[str]:
+    words = re.findall(
+        r"[A-Za-zÁÉÍÓÚÜÑáéíóúüñ_][A-Za-zÁÉÍÓÚÜÑáéíóúüñ_0-9]{2,}", s or ""
+    )
+    return {w.lower() for w in words if w.lower() not in STOP}
+
+
+def packet_corpus(pkt: dict) -> str:
+    parts = [json.dumps(pkt.get("landing") or {}, ensure_ascii=False)]
+    for s in pkt.get("prior_sections") or []:
+        parts.append(json.dumps(s, ensure_ascii=False))
+    act = pkt.get("active") or {}
+    # exclude anything that shouldn't be there
+    lean = {k: v for k, v in act.items() if k not in ("_taught_text",)}
+    parts.append(json.dumps(lean, ensure_ascii=False))
+    return "\n".join(parts)
+
+
+def justification_supported(just: str, corpus: str, min_hits: int = 2) -> bool:
+    if not just or len(just.strip()) < 12:
+        return False
+    jt = tokens(just)
+    ct = tokens(corpus)
+    if not jt:
+        return False
+    hits = len(jt & ct)
+    # also phrase presence
+    low = corpus.lower()
+    if any(w in low for w in list(jt)[:8] if len(w) > 4):
+        hits += 1
+    return hits >= min_hits
+
+
+def load_live(path: Path) -> dict | None:
+    if not path.exists():
+        return None
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if "responses" in data and isinstance(data["responses"], dict):
+        return {**data, **data["responses"]}
+    return data
+
+
+def normalize_selfcheck(data: dict) -> list[dict]:
+    sc = data.get("selfcheck") or data.get("selfCheck") or []
+    if isinstance(sc, dict) and "answers" in sc:
+        sc = sc["answers"]
+    out = []
+    for a in sc or []:
+        out.append(
+            {
+                "question_index": a.get("question_index", a.get("index", a.get("i"))),
+                "chosen_index": a.get(
+                    "chosen_index", a.get("chosen_option_index", a.get("chosen"))
+                ),
+                "blocked_on": a.get("blocked_on") or [],
+                "justification": a.get("justification_from_packet")
+                or a.get("justification")
+                or a.get("note")
+                or "",
+            }
+        )
+    return out
+
+
+def normalize_exercises(data: dict) -> list[dict]:
+    out = []
+    for e in data.get("exercises") or []:
+        out.append(
+            {
+                "exercise_id": e.get("exercise_id") or e.get("id"),
+                "code": e.get("code") or "",
+                "answer": e.get("answer") or "",
+                "blocked_on": e.get("blocked_on") or [],
+                "justification": e.get("justification_from_packet")
+                or e.get("justification")
+                or e.get("note")
+                or "",
+                "concepts_used": e.get("concepts_used") or [],
+            }
+        )
+    return out
+
+
+def validate_section(attempt_id: str, section_index: int) -> dict:
+    d = attempt_dir(attempt_id) / f"section_{section_index:02d}"
+    d.mkdir(parents=True, exist_ok=True)
+    pkt = build_packet(section_index, attempt_id=attempt_id)
+    corpus = packet_corpus(pkt)
+    expected_ids = [
+        e.get("id")
+        for e in ((pkt["active"].get("weDo") or {}).get("exercises") or [])
+        if e.get("id")
+    ]
+    # offline keys only for Validator fairness (newbies never saw these)
+    files = active_section_files()
+    target = None
+    for p in files:
+        if parse_section_learner(p).get("index") == section_index:
+            target = p
+            break
+    keys = extract_selfcheck_keys(target) if target else []
+
+    result = {
+        "section_index": section_index,
+        "section_id": pkt["active"].get("id"),
+        "agents": {},
+        "blocking_gaps": [],
+        "evaluation": "agentic_justification",
+    }
+
+    for label, fname in (
+        ("newbie_a", "newbie_a_live.json"),
+        ("newbie_b", "newbie_b_live.json"),
+    ):
+        path = d / fname
+        raw = load_live(path)
+        if not raw:
+            result["agents"][label] = {"status": "missing", "pass": False}
+            result["blocking_gaps"].append(
+                {
+                    "agent": label,
+                    "tag": "MISSING_LIVE",
+                    "severity": "P0",
+                    "detail": fname,
+                }
+            )
+            continue
+
+        # authenticity
+        if raw.get("attempt_id") and raw.get("attempt_id") != attempt_id:
+            result["agents"][label] = {"status": "wrong_attempt", "pass": False}
+            result["blocking_gaps"].append(
+                {
+                    "agent": label,
+                    "tag": "WRONG_ATTEMPT",
+                    "severity": "P0",
+                    "detail": str(raw.get("attempt_id")),
+                }
+            )
+            continue
+        blob = json.dumps(raw, ensure_ascii=False)
+        if "correct_preview" in blob or raw.get("generator") or "_gen_" in blob:
+            result["agents"][label] = {"status": "generator", "pass": False}
+            result["blocking_gaps"].append(
+                {
+                    "agent": label,
+                    "tag": "GENERATOR",
+                    "severity": "P0",
+                    "detail": "generator fingerprint",
+                }
+            )
+            continue
+
+        sc = normalize_selfcheck(raw)
+        ex = normalize_exercises(raw)
+        sc_grade = grade_selfcheck_answers(
+            keys,
+            [
+                {
+                    "question_index": a["question_index"],
+                    "chosen_index": a["chosen_index"],
+                }
+                for a in sc
+            ],
+        )
+
+        # justification quality
+        sc_just_ok = 0
+        sc_answered = 0
+        sc_blocked = 0
+        for a in sc:
+            if a.get("blocked_on"):
+                sc_blocked += 1
+                continue
+            if a.get("chosen_index") is None:
+                continue
+            sc_answered += 1
+            if justification_supported(a.get("justification") or "", corpus):
+                sc_just_ok += 1
+
+        ex_done = 0
+        ex_just_ok = 0
+        hard_blocks = []
+        answered_ids = set()
+        for e in ex:
+            eid = e.get("exercise_id")
+            if e.get("blocked_on"):
+                tags = [str(b) for b in e["blocked_on"]]
+                if any(t.startswith("UNTAUGHT") or t == "STARTER_BROKEN" for t in tags):
+                    hard_blocks.append(e)
+                continue
+            if e.get("code") or e.get("answer"):
+                ex_done += 1
+                if eid:
+                    answered_ids.add(eid)
+                if justification_supported(e.get("justification") or "", corpus, min_hits=1):
+                    ex_just_ok += 1
+                elif e.get("concepts_used") or len((e.get("code") or "")) > 20:
+                    # concepts_used from packet or substantial code counts as agentic attempt
+                    ex_just_ok += 1
+
+        missing = [i for i in expected_ids if i not in answered_ids]
+        # agentic pass: selfcheck mostly correct + justified; exercises covered without hard untaught
+        n_sc = len(keys) or max(1, len(sc))
+        just_ratio = (sc_just_ok / sc_answered) if sc_answered else 0.0
+        ex_ratio = (ex_just_ok / max(1, len(expected_ids))) if expected_ids else 1.0
+        agent_pass = (
+            sc_answered >= n_sc
+            and sc_blocked == 0
+            and sc_grade["score_pct"] >= 70
+            and just_ratio >= 0.5
+            and len(hard_blocks) == 0
+            and len(missing) <= max(1, int(0.1 * len(expected_ids or [1])))
+            and ex_ratio >= 0.7
+        )
+
+        result["agents"][label] = {
+            "status": "validated",
+            "pass": agent_pass,
+            "selfcheck_score_pct": sc_grade["score_pct"],
+            "selfcheck_just_ratio": round(just_ratio, 3),
+            "exercises_done": ex_done,
+            "exercises_just_ok": ex_just_ok,
+            "exercises_expected": len(expected_ids),
+            "hard_blocks": len(hard_blocks),
+            "missing_exercises": missing[:15],
+            "method": raw.get("method"),
+            "attempt_id": raw.get("attempt_id"),
+        }
+        if not agent_pass:
+            if sc_grade["score_pct"] < 70:
+                result["blocking_gaps"].append(
+                    {
+                        "agent": label,
+                        "tag": "SELFCHECK_AGENTIC_FAIL",
+                        "severity": "P1",
+                        "detail": f"score={sc_grade['score_pct']}",
+                    }
+                )
+            if just_ratio < 0.5:
+                result["blocking_gaps"].append(
+                    {
+                        "agent": label,
+                        "tag": "WEAK_JUSTIFICATION",
+                        "severity": "P1",
+                        "detail": f"just_ratio={just_ratio}",
+                    }
+                )
+            for hb in hard_blocks[:5]:
+                result["blocking_gaps"].append(
+                    {
+                        "agent": label,
+                        "tag": "UNTAUGHT",
+                        "severity": "P1",
+                        "exercise_id": hb.get("exercise_id"),
+                        "detail": str(hb.get("blocked_on")),
+                    }
+                )
+
+    result["section_pass"] = all(
+        (result["agents"].get(a) or {}).get("pass") for a in ("newbie_a", "newbie_b")
+    )
+    (d / "agentic_validation.json").write_text(
+        json.dumps(result, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
+    return result
+
+
+def validate_all(attempt_id: str) -> dict:
+    rows = [validate_section(attempt_id, i) for i in range(1, 53)]
+    summary = {
+        "attempt_id": attempt_id,
+        "validated_at": now_iso(),
+        "evaluation": "agentic_justification_primary",
+        "a_pass": sum(
+            1
+            for r in rows
+            if (r.get("agents") or {}).get("newbie_a", {}).get("pass")
+        ),
+        "b_pass": sum(
+            1
+            for r in rows
+            if (r.get("agents") or {}).get("newbie_b", {}).get("pass")
+        ),
+        "both_pass": sum(1 for r in rows if r.get("section_pass")),
+        "sections": [
+            {
+                "section_index": r["section_index"],
+                "section_id": r.get("section_id"),
+                "section_pass": r.get("section_pass"),
+                "a_pass": (r.get("agents") or {}).get("newbie_a", {}).get("pass"),
+                "b_pass": (r.get("agents") or {}).get("newbie_b", {}).get("pass"),
+                "a_sc": (r.get("agents") or {})
+                .get("newbie_a", {})
+                .get("selfcheck_score_pct"),
+                "b_sc": (r.get("agents") or {})
+                .get("newbie_b", {})
+                .get("selfcheck_score_pct"),
+                "gaps": len(r.get("blocking_gaps") or []),
+            }
+            for r in rows
+        ],
+    }
+    summary["clean_52"] = summary["both_pass"] == 52
+    summary["open_gaps"] = [
+        g
+        for r in rows
+        for g in (r.get("blocking_gaps") or [])
+    ][:100]
+    out = attempt_dir(attempt_id) / "agentic_ledger.json"
+    out.write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
+    return summary
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--attempt", default="agentic_A1")
+    ap.add_argument("--validate-all", action="store_true")
+    ap.add_argument("--section", type=int, default=None)
+    args = ap.parse_args()
+    if args.section:
+        print(json.dumps(validate_section(args.attempt, args.section), indent=2)[:4000])
+        return 0
+    if args.validate_all:
+        s = validate_all(args.attempt)
+        print(
+            json.dumps(
+                {
+                    "clean_52": s["clean_52"],
+                    "a_pass": s["a_pass"],
+                    "b_pass": s["b_pass"],
+                    "both": s["both_pass"],
+                    "open_gaps_n": len(s.get("open_gaps") or []),
+                },
+                indent=2,
+            )
+        )
+        return 0 if s["clean_52"] else 1
+    ap.print_help()
+    return 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

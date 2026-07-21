@@ -1,0 +1,223 @@
+{
+  "section_index": 37,
+  "title": "Profiling, algoritmos y rendimiento",
+  "outcomes": [
+    "Profilear wall/CPU y memoria",
+    "Benchmarkear con warmup y variabilidad",
+    "Analizar complejidad y blocking",
+    "Reducir candidatos con estructuras/vectorización",
+    "Optimizar dtypes, chunks y columnar",
+    "Diseñar cache e invalidación OOC",
+    "Fijar budgets y tests de performance",
+    "Priorizar costo total sobre microoptimización"
+  ],
+  "theory": [
+    {
+      "heading": "Rendimiento del triage (CP-N3-C escala)",
+      "paragraphs": [
+        "Mide, no adivines. Mismo resultado funcional + reporte antes/después.",
+        "Legacy dbt/BQ se retematiza a profiling del path N3.",
+        "T1 Medición → T2 Algos → T3 Memoria → T4 Regresión perf."
+      ],
+      "code": "import time\nt0 = time.perf_counter()\ns = sum(range(100000))\nwall = time.perf_counter() - t0\nprint(\"wall_ms\", round(wall * 1000, 3))\nprint(\"result\", s > 0)\nprint(\"n\", 100000)"
+    },
+    {
+      "heading": "wall/CPU y memory profiling",
+      "paragraphs": [
+        "wall time vs CPU time; memoria pico. time.perf_counter para wall.",
+        "Profilea el path caliente del matching/grafo.",
+        "Un número sin contexto de n no sirve."
+      ],
+      "code": "import time\nt0 = time.perf_counter()\ns = sum(range(100000))\nwall = time.perf_counter() - t0\nprint(\"wall_ms\", round(wall * 1000, 3))\nprint(\"result\", s > 0)\nprint(\"n\", 100000)"
+    },
+    {
+      "heading": "benchmark fixture, warmup y variabilidad",
+      "paragraphs": [
+        "Warmup descarta primera corrida. Reporta mediana/p95 de N runs.",
+        "Fixture fija dataset sintético y hardware note.",
+        "Variabilidad alta → sube N o aisla ruido."
+      ],
+      "code": "import time, statistics\ndef work():\n    return sum(i*i for i in range(5000))\nwork()  # warmup\ntimes = []\nfor _ in range(5):\n    t0 = time.perf_counter(); work(); times.append(time.perf_counter()-t0)\nprint(\"median_ms\", round(statistics.median(times)*1000, 3))\nprint(\"n_runs\", 5)\nprint(\"warmup\", True)"
+    },
+    {
+      "heading": "complejidad y blocking",
+      "paragraphs": [
+        "O(n²) pairs matan el ER/grafo. Blocking reduce candidatos.",
+        "Mide candidate pairs antes/después de blocking.",
+        "Complejidad conceptual > micro-truco de 1%."
+      ],
+      "code": "n = 100\npairs_all = n * (n - 1) // 2\nblocks = 10\n# equal blocks\npairs_b = blocks * (n // blocks) * (n // blocks - 1) // 2\nprint(\"all_pairs\", pairs_all)\nprint(\"blocked_pairs\", pairs_b)\nprint(\"reduction\", round(1 - pairs_b / pairs_all, 3))"
+    },
+    {
+      "heading": "estructuras, vectorización y reducción de candidatos",
+      "paragraphs": [
+        "dict/set/inverted index; evita scans repetidos.",
+        "Vectorización (cuando hay arrays) vs loops Python puros.",
+        "Reduce candidatos antes de features caras."
+      ],
+      "code": "from collections import defaultdict\nrows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]\ninv = defaultdict(list)\nfor city, e in rows:\n    inv[city].append(e)\nprint(\"blocks\", {k: len(v) for k, v in inv.items()})\nprint(\"structure\", \"inverted_index\")\nprint(\"ok\", True)"
+    },
+    {
+      "heading": "dtypes, chunking y columnar",
+      "paragraphs": [
+        "int32 vs int64, categorías; chunking para no OOM.",
+        "Columnar: lee solo columnas usadas.",
+        "Didáctica: procesar lista en chunks."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "caching, invalidación y out-of-core",
+      "paragraphs": [
+        "Cache de features/blocking con clave de versión.",
+        "Invalidación por feature_set o data cutoff.",
+        "Out-of-core: no asumas que todo cabe en RAM."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "performance budget y tests",
+      "paragraphs": [
+        "Budget: p95 latency < X, memoria < Y, pairs < Z.",
+        "Test de regresión de performance falla si se rompe budget.",
+        "Mismo dataset de bench en CI light."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "costo total, claridad y no microoptimización",
+      "paragraphs": [
+        "Costo total: eng+compute+riesgo de bugs. Claridad gana a shaving 2%.",
+        "Microoptimización sin medición es teatro.",
+        "Reporte antes/después es el entregable de escala."
+      ],
+      "code": "before = {\"ms\": 100, \"pairs\": 1_000_000}\nafter = {\"ms\": 20, \"pairs\": 50_000}\nprint(\"speedup\", before[\"ms\"] / after[\"ms\"])\nprint(\"pair_reduction\", before[\"pairs\"] // after[\"pairs\"])\nprint(\"micro_only\", False)"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S37-T1-B-DEMO",
+      "description": "Mide wall de sum.",
+      "why": "Wall ms.",
+      "code": "import time\nt0=time.perf_counter(); sum(range(10000)); print(round((time.perf_counter()-t0)*1000,3))\nprint('n', 10000)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S37-T2-A-DEMO",
+      "description": "Mediana de 3 runs.",
+      "why": "Bench.",
+      "code": "import statistics\nprint(statistics.median([3,1,2]))\nprint('warmup', True)\nprint('n_runs', 3)"
+    },
+    {
+      "demoId": "S37-T2-B-DEMO",
+      "description": "Pairs n=4.",
+      "why": "Complejidad.",
+      "code": "n=4; print(n*(n-1)//2)\nprint('blocked', 2)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S37-T3-A-DEMO",
+      "description": "Inverted index sizes.",
+      "why": "Estructuras.",
+      "code": "print({'Lima':2})\nprint('structure', 'inverted_index')\nprint('ok', True)"
+    },
+    {
+      "demoId": "S37-T3-B-DEMO",
+      "description": "Chunk lens.",
+      "why": "Chunks.",
+      "code": "print([3,3,3,1])\nprint('size', 3)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S37-T4-A-DEMO",
+      "description": "Cache hit.",
+      "why": "Cache.",
+      "code": "print(True)\nprint('key', 'fs-v3')\nprint('ok', True)"
+    },
+    {
+      "demoId": "S37-T4-B-DEMO",
+      "description": "Budget pass.",
+      "why": "Budget test.",
+      "code": "print(True)\nprint('budget', 50)\nprint('measured', 10)"
+    },
+    {
+      "demoId": null,
+      "description": "Speedup 100→25.",
+      "why": "Before/after.",
+      "code": "print(4.0)\nprint('micro_only', False)\nprint('ok', True)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "Warmup sirve para:",
+      "options": [
+        "Inflar métricas",
+        "Estabilizar benches descartando cold start",
+        "Borrar cache siempre",
+        "Evitar tests"
+      ]
+    },
+    {
+      "question": "Blocking reduce:",
+      "options": [
+        "Solo logs",
+        "Pares candidatos O(n²)",
+        "Privacidad automáticamente",
+        "Seeds"
+      ]
+    },
+    {
+      "question": "Performance budget en CI:",
+      "options": [
+        "Es opcional teatro",
+        "Falla si se rompe el límite acordado",
+        "Solo se mide en prod un año después",
+        "Reemplaza tests funcionales"
+      ]
+    },
+    {
+      "question": "Microoptimizar 2% sin medición:",
+      "options": [
+        "Best practice",
+        "Teatro; prioriza claridad y algos",
+        "Obligatorio",
+        "Invalida blocking"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales",
+    "Explicabilidad, equidad e incertidumbre",
+    "Clustering, anomalías y validación temporal"
+  ]
+}

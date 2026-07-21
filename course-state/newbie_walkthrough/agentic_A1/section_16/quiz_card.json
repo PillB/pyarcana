@@ -1,0 +1,202 @@
+{
+  "section_index": 16,
+  "title": "Calidad, limpieza y contratos de datos",
+  "outcomes": [
+    "Definir políticas de null por campo",
+    "Limitar imputación y usar indicadores de ausencia",
+    "Distinguir duplicados exactos de conflictos",
+    "Conservar evidencia al resolver claves/cardinalidad",
+    "Normalizar strings/números/fechas/categorías",
+    "Clasificar outliers plausibles vs errores",
+    "Implementar contratos de schema y cross-field",
+    "Cuarentenar fallos con métricas y audit trail"
+  ],
+  "theory": [
+    {
+      "heading": "De “GUI wxPython” a calidad y contratos de datos (mapa)",
+      "paragraphs": [
+        "En V3, **S16 no es el path de wx.Frame ni sizers**. Aquí construyes el **quality gate de CP-N2-A**: políticas de null, imputación limitada, duplicados, normalización, outliers, contratos y cuarentena con audit trail.",
+        "Regla de oro: **nunca “arreglar” silenciosamente**. Toda transformación deja métrica o rastro.",
+        "Orden: **T1 Ausencia** → **T2 Duplicados** → **T3 Normalización** → **T4 Contratos**."
+      ],
+      "code": "import pandas as pd\n\npolicy = {\"cliente_id\": \"required\", \"email\": \"optional\", \"monto\": \"required\"}\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", None, \"C003\"],\n    \"email\": [None, \"a@example.com\", \"b@example.com\"],\n    \"monto\": [10.0, 5.0, None],\n})\nviolations = {}\nfor col, pol in policy.items():\n    n = int(df[col].isna().sum())\n    if pol == \"required\" and n:\n        violations[col] = n\nprint(\""
+    },
+    {
+      "heading": "nulls y políticas por campo",
+      "paragraphs": [
+        "Cada campo tiene política: **required** (null ⇒ cuarentena/falla) u **optional** (null permitido con indicador).",
+        "`isna` / `notna` cuantifican ausencia. No imputes un required sin regla explícita.",
+        "Documenta la política en un dict `{campo: 'required'|'optional'}`."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "indicadores y límites de imputación",
+      "paragraphs": [
+        "Un **indicador de ausencia** (`monto_was_null`) preserva señal cuando imputas.",
+        "Límites: no imputar más del X% de una columna; no imputar llaves; usa mediana/constante documentada.",
+        "Si superas el cap, falla el gate."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "duplicados exactos vs conflictos",
+      "paragraphs": [
+        "**Exacto**: filas idénticas en todas las columnas relevantes. **Conflicto**: misma clave, valores distintos en atributos.",
+        "`duplicated` detecta exactos; groupby por clave + nunique detecta conflictos.",
+        "Políticas keep='first'|'last' solo tras clasificar."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "claves, cardinalidad y conservación de evidencia",
+      "paragraphs": [
+        "Define la **clave de negocio** y la cardinalidad esperada (1 fila por cliente).",
+        "Duplicados de clave van a **cuarentena** con evidencia (todas las versiones), no se borran sin log.",
+        "El set limpio contiene una fila resuelta; el audit guarda el resto."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "normalización de strings, números, fechas y categorías",
+      "paragraphs": [
+        "Strings: strip, casefold/title, espacios dobles. Números: decimal latino, símbolos. Fechas: formatos múltiples. Cats: mapa de sinónimos.",
+        "Conserva **raw** en columna lateral si el valor normalizado puede disputarse.",
+        "Normalizar ≠ imputar."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "outliers plausibles vs errores",
+      "paragraphs": [
+        "Un outlier **plausible** está lejos estadísticamente pero dentro del dominio (monto alto legítimo). Un **error** viola bounds de negocio (edad 200, lat 999).",
+        "IQR/z-score señalan candidatos; **domain bounds** deciden error vs flag.",
+        "Flag vs drop: por defecto flag + cuarentena, no drop silencioso."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "reglas de schema y cross-field",
+      "paragraphs": [
+        "Contrato de **schema**: columnas presentes, dtypes, nullability. **Cross-field**: fecha_fin >= fecha_ini, monto>0 si estado=pagado.",
+        "Cada regla devuelve máscara de fallos + código de error.",
+        "Ante schema drift (columna faltante/extra), el gate falla con mensaje claro."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "métricas, cuarentena y audit trail",
+      "paragraphs": [
+        "Métricas: %null, %dup, %fail_schema, filas in/out, filas en cuarentena.",
+        "Cuarentena = tabla de filas rechazadas + razón. Audit trail = append-only de eventos.",
+        "El gate publica métricas aunque falle."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S16-T1-B-DEMO",
+      "description": "Aplicar políticas de null por campo y listar violaciones required",
+      "why": "Required vs optional se traduce en fail/cuarentena vs continuar.",
+      "code": "import pandas as pd\npolicy = {\"cliente_id\": \"required\", \"telefono\": \"optional\", \"monto\": \"required\"}\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", None, \"C003\"],\n    \"telefono\": [None, \"999\", \"998\"],\n    \"monto\": [1.0, 2.0, None],\n})\nviol = {c: int(df[c].isna().sum()) for c, p in policy.items() if p == \"required\" and df[c].isna().any()}\nprint(viol)\nprint(\"optional_nulls\", int(df[\"telefono\"].isna().sum()))"
+    },
+    {
+      "demoId": "S16-T2-A-DEMO",
+      "description": "Imputar mediana solo si null_rate <= cap; marcar indicador",
+      "why": "Cap + indicador evitan imputación masiva silenciosa.",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [10.0, None, 12.0, 11.0]})\ncap = 0.5\nrate = float(df[\"monto\"].isna().mean())\ndf = df.copy()\ndf[\"monto_was_null\"] = df[\"monto\"].isna()\nif rate <= cap:\n    df[\"monto\"] = df[\"monto\"].fillna(df[\"monto\"].median())\n    status = \"imputed\"\nelse:\n    status = \"blocked\"\nprint(status, rate, df.to_dict(orient=\"list\"))"
+    },
+    {
+      "demoId": "S16-T2-B-DEMO",
+      "description": "Detectar duplicados exactos vs conflictos de región por cliente_id",
+      "why": "Clasificar exacto vs conflicto cambia la acción de limpieza.",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\", \"C002\", \"C003\"],\n    \"region\": [\"Lima\", \"Lima\", \"Cusco\", \"Arequipa\", \"Lima\"],\n    \"score\": [0.5, 0.5, 0.7, 0.7, 0.9],\n})\nexact_n = int(df.duplicated(keep=False).sum())\nconf = df.groupby(\"cliente_id\").filter(lambda g: g[\"region\"].nunique() > 1)\nprint(\"exact_dup_rows\", exact_n)\nprint(\"conflict_ids\", conf[\"cliente_id\"].unique().tolist())"
+    },
+    {
+      "demoId": "S16-T3-A-DEMO",
+      "description": "Preservar evidencia en cuarentena al resolver clave duplicada",
+      "why": "keep=first solo sobre el set limpio; evidencia completa en cuarentena.",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"score\": [0.9, 0.1, 0.5],\n    \"batch\": [\"b1\", \"b2\", \"b1\"],\n})\nq = df[df.duplicated(\"cliente_id\", keep=False)].copy()\nclean = df.drop_duplicates(\"cliente_id\", keep=\"first\")\nprint(\"clean_ids\", clean[\"cliente_id\"].tolist())\nprint(\"quarantine\", q.to_dict(orient=\"list\"))"
+    },
+    {
+      "demoId": "S16-T3-B-DEMO",
+      "description": "Normalizar región y montos conservando columnas raw",
+      "why": "Raw + normalizado permite disputar transformaciones.",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"region_raw\": [\" lima\", \"AREQUIPA \"],\n    \"monto_raw\": [\"S/12.5\", \"3.0\"],\n})\ndf[\"region\"] = df[\"region_raw\"].str.strip().str.title()\ndf[\"monto\"] = (\n    df[\"monto_raw\"].str.replace(\"S/\", \"\", regex=False).str.strip().astype(float)\n)\nprint(df.to_dict(orient=\"list\"))"
+    },
+    {
+      "demoId": "S16-T4-A-DEMO",
+      "description": "Clasificar outlier estadístico vs error de dominio en montos",
+      "why": "Dominio manda sobre IQR para etiquetar error.",
+      "code": "import pandas as pd\ns = pd.Series([5, 6, 7, 6, 1000, -3])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nstat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\ndomain_err = (s < 0) | (s > 1e6)\nprint(\"stat\", s[stat].tolist())\nprint(\"error\", s[domain_err].tolist())\nprint(\"plausible\", s[stat & ~domain_err].tolist())"
+    },
+    {
+      "demoId": "S16-T4-B-DEMO",
+      "description": "Validar schema required y regla cross-field fin>=inicio",
+      "why": "Schema + cross-field forman el contrato del quality gate.",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-04-01\"]),\n    \"monto\": [10.0, 20.0],\n})\nrequired = [\"inicio\", \"fin\", \"monto\"]\nmissing = [c for c in required if c not in df.columns]\ncross_fail = df.index[df[\"fin\"] < df[\"inicio\"]].tolist()\nprint(\"missing\", missing, \"cross_fail\", cross_fail)"
+    },
+    {
+      "demoId": null,
+      "description": "Cuarentenar fallos con métricas y audit trail append-only",
+      "why": "Métricas + audit permiten operar el gate aunque falle.",
+      "code": "import json\nrows_in = 5\nquarantine = [{\"id\": \"C002\", \"reason\": \"schema_drift\"}, {\"id\": \"C004\", \"reason\": \"domain_error\"}]\nclean_n = rows_in - len(quarantine)\naudit = []\naudit.append({\"event\": \"start\", \"rows_in\": rows_in})\naudit.append({\"event\": \"quarantine\", \"n\": len(quarantine)})\nmetrics = {\"rows_in\": rows_in, \"rows_clean\": clean_n, \"rows_quarantine\": len(quarantine), \"pass\": False}\nprint(json.dumps(metrics, sort_keys=True))\nprint(len(audit), audit[-1][\"event\"])"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "Un campo required con null debe:",
+      "options": [
+        "Rellenarse siempre con 0",
+        "Generar violación/cuarentena o fail del gate",
+        "Ignorarse",
+        "Convertirse en category"
+      ]
+    },
+    {
+      "question": "Conflicto de duplicados significa:",
+      "options": [
+        "Misma clave con atributos distintos",
+        "Siempre filas idénticas",
+        "Solo NaNs",
+        "Schema drift de columnas"
+      ]
+    },
+    {
+      "question": "La cuarentena debe:",
+      "options": [
+        "Borrar evidencia",
+        "Conservar filas rechazadas con razón",
+        "Enviarse a producción sin marca",
+        "Imputar siempre"
+      ]
+    },
+    {
+      "question": "Ante schema drift (columna required faltante):",
+      "options": [
+        "Continuar con defaults ocultos",
+        "Fallar de forma explicable con el nombre de la columna",
+        "Inventar la columna con random",
+        "Silenciar logs"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos"
+  ]
+}

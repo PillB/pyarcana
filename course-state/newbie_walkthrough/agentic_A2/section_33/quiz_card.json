@@ -1,0 +1,219 @@
+{
+  "section_index": 33,
+  "title": "ML supervisado y baselines responsables",
+  "outcomes": [
+    "Definir unidad, target y horizonte",
+    "Fijar baseline de regla y dummy",
+    "Entrenar modelos lineales regularizados",
+    "Interpretar coeficientes y supuestos",
+    "Entrenar árboles y ensambles",
+    "Controlar overfit y reproducibilidad",
+    "Registrar experimentos mínimos",
+    "Hacer CV y análisis de errores"
+  ],
+  "theory": [
+    {
+      "heading": "De modelos avanzados legado a baselines responsables",
+      "paragraphs": [
+        "En V3, **S33** no empuja stacking por deporte: define **unidad de scoring**, **target** y **horizonte**, y conserva un **baseline determinista**.",
+        "Target típico del workbench: necesita_revision (0/1) sintético — **no** 'es fraude'.",
+        "Orden: **T1 Framing** → **T2 Lineales** → **T3 Árboles** → **T4 Experimento**."
+      ],
+      "code": "unit = \"entity_pair_at_t0\"\ntarget = \"needs_review_7d\"\nhorizon_days = 7\nrows = [\n    {\"pair\": \"E1-E2\", \"t0\": \"2026-01-01\", \"y\": 1},\n    {\"pair\": \"E3-E4\", \"t0\": \"2026-01-01\", \"y\": 0},\n]\nprev = sum(r[\"y\"] for r in rows) / len(rows)\nprint(\"unit\", unit)\nprint(\"target\", target)\nprint(\"prevalence\", prev)"
+    },
+    {
+      "heading": "unidad, target y horizonte",
+      "paragraphs": [
+        "Unidad: par de entidades, caso, o cuenta en t. Target: etiqueta observable en horizonte h (p.ej. mandado a review en 7d).",
+        "Si el horizonte es confuso, el modelo aprende basura. Documenta t0 y h.",
+        "Sintético: y en {0,1} con prevalencia conocida."
+      ],
+      "code": "unit = \"entity_pair_at_t0\"\ntarget = \"needs_review_7d\"\nhorizon_days = 7\nrows = [\n    {\"pair\": \"E1-E2\", \"t0\": \"2026-01-01\", \"y\": 1},\n    {\"pair\": \"E3-E4\", \"t0\": \"2026-01-01\", \"y\": 0},\n]\nprev = sum(r[\"y\"] for r in rows) / len(rows)\nprint(\"unit\", unit)\nprint(\"target\", target)\nprint(\"prevalence\", prev)"
+    },
+    {
+      "heading": "costos, baseline de regla y dummy estimator",
+      "paragraphs": [
+        "Costos: FN y FP no son simétricos en capacidad de revisión. El baseline de **regla** (if shared_phone then review) debe quedar en el leaderboard.",
+        "Dummy: predice clase mayoritaria o prevalencia. Si el ML no gana al dummy/regla, no despliegues.",
+        "Comparación honesta en la misma métrica y split."
+      ],
+      "code": "y = [0, 0, 0, 1, 0]\n# dummy majority\nmaj = 0 if y.count(0) >= y.count(1) else 1\ndummy_acc = sum(yi == maj for yi in y) / len(y)\n# rule: x>0 → 1\nx = [0, 0, 1, 1, 0]\nrule = [1 if xi > 0 else 0 for xi in x]\nrule_acc = sum(a == b for a, b in zip(rule, y)) / len(y)\nprint(\"dummy_acc\", dummy_acc)\nprint(\"rule_acc\", rule_acc)\nprint(\"keep_baseline\", True)"
+    },
+    {
+      "heading": "regresión/logística y regularización",
+      "paragraphs": [
+        "Logística con L2 reduce coeficientes; útil con features correlacionadas de grafo.",
+        "Implementación didáctica: score lineal + sigmoid + umbral 0.5; pesos con decay conceptual.",
+        "Regularización no es opcional en alta dimensión relativa a n."
+      ],
+      "code": "import math\ndef sigmoid(z):\n    return 1 / (1 + math.exp(-z))\nw, b = 1.2, -0.5\nxs = [0.0, 0.5, 1.0]\nprobs = [sigmoid(w * x + b) for x in xs]\npreds = [1 if p >= 0.5 else 0 for p in probs]\nprint(\"probs\", [round(p, 3) for p in probs])\nprint(\"preds\", preds)\nprint(\"L2_idea\", \"shrink_w\")"
+    },
+    {
+      "heading": "coeficientes, supuestos y scaling",
+      "paragraphs": [
+        "Coeficientes se interpretan ceteris paribus solo con scaling y sin multicolinealidad fuerte.",
+        "Supuestos: linealidad en log-odds, independencia condicional aproximada — en grafo hay dependencia; sé humilde.",
+        "Reporta top coefs con dirección, no como prueba causal."
+      ],
+      "code": "# features scaled ~ N(0,1) sintéticas\ncoefs = {\"shared_phone\": 0.9, \"amount_7d\": 0.3, \"region_LIM\": -0.1}\ntop = sorted(coefs, key=lambda k: abs(coefs[k]), reverse=True)\nprint(\"top\", top[0], coefs[top[0]])\nprint(\"causal\", False)\nprint(\"scaled\", True)"
+    },
+    {
+      "heading": "decisiones y random forest/boosting",
+      "paragraphs": [
+        "Árboles capturan no linealidades; RF reduce varianza; boosting reduce sesgo con cuidado de overfit.",
+        "Didáctica: árbol de un nivel (stump) por feature threshold.",
+        "En workbench, a menudo la regla + logística bastan; boosting es opción, no vanidad."
+      ],
+      "code": "def stump(x, thr=0.5):\n    return 1 if x >= thr else 0\nX = [0.1, 0.6, 0.9]\ny = [0, 1, 1]\npred = [stump(x) for x in X]\nacc = sum(p == t for p, t in zip(pred, y)) / len(y)\nprint(\"acc\", acc)\nprint(\"thr\", 0.5)\nprint(\"model\", \"stump\")"
+    },
+    {
+      "heading": "overfit, profundidad y reproducibilidad",
+      "paragraphs": [
+        "Profundidad alta memoriza. Limita depth/min_samples. Fija random_state.",
+        "Curva train vs valid: si train→1 y valid baja, overfit.",
+        "Reproduce con seed y log de hiperparámetros."
+      ],
+      "code": "import random\nrandom.seed(42)\ntrain_acc = [0.7, 0.85, 0.99]\nvalid_acc = [0.68, 0.72, 0.60]\ndepth = [1, 3, 10]\nbest = max(range(3), key=lambda i: valid_acc[i])\nprint(\"best_depth\", depth[best])\nprint(\"valid\", valid_acc[best])\nprint(\"seed\", 42)"
+    },
+    {
+      "heading": "pipeline y tracking mínimo",
+      "paragraphs": [
+        "Pipeline: preprocess → model. Tracking: run_id, params, metrics, feature_set, data_cutoff.",
+        "Un JSON lines de experimentos supera a 'mejores pesos en mi laptop'.",
+        "Compara siempre vs baseline_rule y dummy en el mismo run."
+      ],
+      "code": "import json\nrun = {\n    \"run_id\": \"exp-001\",\n    \"feature_set\": \"fs-v3\",\n    \"model\": \"logreg_l2\",\n    \"params\": {\"C\": 1.0},\n    \"metrics\": {\"pr_auc\": 0.61, \"baseline_rule_pr_auc\": 0.55, \"dummy_pr_auc\": 0.50},\n}\nprint(json.dumps(run[\"metrics\"], sort_keys=True))\nprint(\"beats_rule\", run[\"metrics\"][\"pr_auc\"] > run[\"metrics\"][\"baseline_rule_pr_auc\"])\nprint(\"run_id\", run[\"run_id\"])"
+    },
+    {
+      "heading": "validación cruzada apropiada y error analysis",
+      "paragraphs": [
+        "CV por grupo/entidad o time-series split — no KFold i.i.d. ingenuo si hay leakage.",
+        "Error analysis: slices por región, tipo de enlace, prevalencia; FP/FN sintéticos revisados.",
+        "Documenta fallas sistemáticas antes de subir complejidad."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S33-T1-B-DEMO",
+      "description": "Define unit/target/horizon y prevalencia.",
+      "why": "Framing claro.",
+      "code": "print(\"unit\", \"case_at_t0\")\nprint(\"target\", \"needs_review_7d\")\nprint(\"prevalence\", 0.2)"
+    },
+    {
+      "demoId": "S33-T2-A-DEMO",
+      "description": "Dummy majority vs regla x>0.",
+      "why": "Baseline en leaderboard.",
+      "code": "y=[0,0,1]; x=[0,1,1]\nmaj=0\nprint(\"dummy\", sum(yi==maj for yi in y)/3)\nprint(\"rule\", sum((1 if xi>0 else 0)==yi for xi,yi in zip(x,y))/3)\nprint(\"keep\", True)"
+    },
+    {
+      "demoId": "S33-T2-B-DEMO",
+      "description": "Sigmoid scores para 3 x.",
+      "why": "Logística simple.",
+      "code": "import math\nw,b=2.0,-1.0\nps=[1/(1+math.exp(-(w*x+b))) for x in (0,0.5,1)]\nprint([round(p,3) for p in ps])\nprint(\"thr\", 0.5)\nprint(\"ok\", True)"
+    },
+    {
+      "demoId": "S33-T3-A-DEMO",
+      "description": "Top coeficiente por valor absoluto.",
+      "why": "Interpretación limitada.",
+      "code": "c={\"a\":0.2,\"b\":-0.9,\"c\":0.1}\nt=max(c, key=lambda k: abs(c[k]))\nprint(\"top\", t, c[t])\nprint(\"causal\", False)\nprint(\"n\", len(c))"
+    },
+    {
+      "demoId": "S33-T3-B-DEMO",
+      "description": "Stump threshold accuracy.",
+      "why": "Árbol mínimo.",
+      "code": "X,y=[0.2,0.8],[0,1]\npred=[1 if x>=0.5 else 0 for x in X]\nprint(\"acc\", sum(p==t for p,t in zip(pred,y))/2)\nprint(\"thr\", 0.5)\nprint(\"ok\", True)"
+    },
+    {
+      "demoId": "S33-T4-A-DEMO",
+      "description": "Elige depth por valid no train.",
+      "why": "Anti-overfit.",
+      "code": "tr=[0.9,0.99]; va=[0.7,0.65]; d=[2,8]\ni=max(range(2), key=lambda j: va[j])\nprint(\"depth\", d[i])\nprint(\"valid\", va[i])\nprint(\"seed\", 0)"
+    },
+    {
+      "demoId": "S33-T4-B-DEMO",
+      "description": "Run log beats_rule.",
+      "why": "Tracking mínimo.",
+      "code": "m={\"model\":0.62,\"rule\":0.55,\"dummy\":0.5}\nprint(\"beats_rule\", m[\"model\"]>m[\"rule\"])\nprint(\"beats_dummy\", m[\"model\"]>m[\"dummy\"])\nprint(\"run\", \"exp-1\")"
+    },
+    {
+      "demoId": null,
+      "description": "CV mean y worst slice por fp.",
+      "why": "Error analysis.",
+      "code": "folds=[0.6,0.5,0.7]\nprint(\"mean\", round(sum(folds)/3,3))\nprint(\"worst\", \"slice_B\")\nprint(\"n_folds\", 3)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El target del workbench debe ser preferentemente:",
+      "options": [
+        "fraud_auto",
+        "needs_review u objetivo de cola",
+        "parentesco",
+        "culpa"
+      ]
+    },
+    {
+      "question": "Si el modelo no gana a la regla:",
+      "options": [
+        "Despliega igual",
+        "Conserva regla y no vendas humo",
+        "Borra baseline",
+        "Sube depth a 100"
+      ]
+    },
+    {
+      "question": "Coeficientes logísticos prueban:",
+      "options": [
+        "Causalidad de fraude",
+        "Asociación en el modelo, no causa legal",
+        "Parentesco",
+        "Que el grafo miente"
+      ]
+    },
+    {
+      "question": "Elegir hiperparámetros por train_acc alto:",
+      "options": [
+        "Es best practice",
+        "Riesgo de overfit; usa valid",
+        "Ignora seed",
+        "Borra dummy"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage"
+  ]
+}

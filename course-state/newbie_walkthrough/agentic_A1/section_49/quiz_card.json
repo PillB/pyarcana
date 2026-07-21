@@ -1,0 +1,235 @@
+{
+  "section_index": 49,
+  "title": "Agentes, herramientas y context engineering",
+  "outcomes": [
+    "Elige workflow vs agente",
+    "Diseña routing planner/evaluator",
+    "Define tools de responsabilidad única",
+    "Esquema, permisos e idempotencia de tools",
+    "Minimiza contexto con JIT y checkpoints",
+    "Compacta memoria y conserva LKG",
+    "Define stops y budgets",
+    "Sandbox, aprobación humana y recovery"
+  ],
+  "theory": [
+    {
+      "heading": "Mapa V3 S49: Agentes, herramientas y context engineering",
+      "paragraphs": [
+        "En V3, **S49** retematiza el archivo de plataforma `data-contracts` hacia **Agentes, herramientas y context engineering**.",
+        "Incremento: agente acotado puede consultar casos/reportes y preparar una propuesta, pero no enviar, modificar producción ni decidir riesgo sin aprobación.",
+        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "workflow vs agente",
+      "paragraphs": [
+        "**workflow vs agente** — outcome del blueprint phase3 para `workflow-vs-agent`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (tools)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "routing, planner/worker y evaluator–optimizer",
+      "paragraphs": [
+        "**routing, planner/worker y evaluator–optimizer** — outcome del blueprint phase3 para `routing-planner-evaluator`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (tools)** sin exponer secretos ni PII real."
+      ],
+      "code": "print([\"get_case\",\"search_docs\"]); print(\"srp\", True); print(\"no_god_tool\", True)"
+    },
+    {
+      "heading": "funciones de responsabilidad única",
+      "paragraphs": [
+        "**funciones de responsabilidad única** — outcome del blueprint phase3 para `single-responsibility-fns`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (tools)** sin exponer secretos ni PII real."
+      ],
+      "code": "print({\"ok\":True,\"idempotency_key\":\"k\"}); print({\"error\":\"forbidden\"}); print(\"idempotent\", True)"
+    },
+    {
+      "heading": "schema, permisos, idempotencia y errores",
+      "paragraphs": [
+        "**schema, permisos, idempotencia y errores** — outcome del blueprint phase3 para `schema-perms-idempotency-errors`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (tools)** sin exponer secretos ni PII real."
+      ],
+      "code": "print([{\"text\":\"caso C1 abierto\"}]); print(\"checkpoint\", \"after_tool\"); print(\"min_context\", True)"
+    },
+    {
+      "heading": "contexto mínimo, retrieval JIT y checkpoints",
+      "paragraphs": [
+        "**contexto mínimo, retrieval JIT y checkpoints** — outcome del blueprint phase3 para `min-context-jit-checkpoints`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (tools)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "memoria, compaction y last-known-good",
+      "paragraphs": [
+        "**memoria, compaction y last-known-good** — outcome del blueprint phase3 para `memory-compaction-lkg`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (tools)** sin exponer secretos ni PII real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "stopping conditions y budgets",
+      "paragraphs": [
+        "**stopping conditions y budgets** — outcome del blueprint phase3 para `stopping-budgets`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (tools)** sin exponer secretos ni PII real."
+      ],
+      "code": "print(\"sandbox_ok\"); print(\"needs_human\"); print(\"sandbox_ok\")"
+    },
+    {
+      "heading": "sandbox, human approval y recuperación",
+      "paragraphs": [
+        "**sandbox, human approval y recuperación** — outcome del blueprint phase3 para `sandbox-human-approval-recovery`.",
+        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
+        "Integra el incremento **CP-N4-C (tools)** sin exponer secretos ni PII real."
+      ],
+      "code": "print(\"sandbox_ok\"); print(\"needs_human\"); print(\"sandbox_ok\")"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S49-T1-B-DEMO",
+      "description": "Demo: workflow vs agente",
+      "why": "Demuestra el outcome de S49-T1-A con Python verificable.",
+      "code": "print(\"agent_when\", \"open_ended\"); print(\"workflow_when\", \"fixed_steps\"); print(\"safety\", \"prefer_workflow\")"
+    },
+    {
+      "demoId": "S49-T2-A-DEMO",
+      "description": "Demo: routing, planner/worker y evaluator–optimizer",
+      "why": "Demuestra el outcome de S49-T1-B con Python verificable.",
+      "code": "print(\"route\", \"planner\"); print(\"eval\", True); print(\"max_loops\", 3)"
+    },
+    {
+      "demoId": "S49-T2-B-DEMO",
+      "description": "Demo: funciones de responsabilidad única",
+      "why": "Demuestra el outcome de S49-T2-A con Python verificable.",
+      "code": "print(\"one_tool_one_job\", True); print(\"tools_n\", 2); print(\"compose\", \"agent\")"
+    },
+    {
+      "demoId": "S49-T3-A-DEMO",
+      "description": "Demo: schema, permisos, idempotencia y errores",
+      "why": "Demuestra el outcome de S49-T2-B con Python verificable.",
+      "code": "print(\"schema\", True); print(\"perms\", \"allowlist\"); print(\"errors\", \"typed\")"
+    },
+    {
+      "demoId": "S49-T3-B-DEMO",
+      "description": "Demo: contexto mínimo, retrieval JIT y checkpoints",
+      "why": "Demuestra el outcome de S49-T3-A con Python verificable.",
+      "code": "print(\"jit\", True); print(\"k\", 2); print(\"checkpoint\", True)"
+    },
+    {
+      "demoId": "S49-T4-A-DEMO",
+      "description": "Demo: memoria, compaction y last-known-good",
+      "why": "Demuestra el outcome de S49-T3-B con Python verificable.",
+      "code": "print(\"compaction\", True); print(\"lkg\", True); print(\"memory_bound\", 2)"
+    },
+    {
+      "demoId": "S49-T4-B-DEMO",
+      "description": "Demo: stopping conditions y budgets",
+      "why": "Demuestra el outcome de S49-T4-A con Python verificable.",
+      "code": "print(\"budget_tokens\", 2000); print(\"budget_steps\", 5); print(\"stop_on\", \"limit\")"
+    },
+    {
+      "demoId": null,
+      "description": "Demo: sandbox, human approval y recuperación",
+      "why": "Demuestra el outcome de S49-T4-B con Python verificable.",
+      "code": "print(\"sandbox\", True); print(\"human_gate\", True); print(\"recovery\", \"resume_checkpoint\")"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El id de plataforma de S49 que se preserva es:",
+      "options": [
+        "data-contracts",
+        "renamed-v3",
+        "legacy-drop",
+        "random"
+      ]
+    },
+    {
+      "question": "El incremento/gate V3 de S49 pertenece a:",
+      "options": [
+        "CP-N4-C (tools)",
+        "CP-N1-A",
+        "solo marketing",
+        "sin capstone"
+      ]
+    },
+    {
+      "question": "Los ejemplos del curso deben usar:",
+      "options": [
+        "PII real de clientes",
+        "Datos sintéticos",
+        "Secretos de prod",
+        "Claves API reales"
+      ]
+    },
+    {
+      "question": "Entity resolution (si aparece) decide:",
+      "options": [
+        "Fraude",
+        "Parentesco",
+        "Misma entidad cuando aplique",
+        "Sentimiento"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales",
+    "Explicabilidad, equidad e incertidumbre",
+    "Clustering, anomalías y validación temporal",
+    "Profiling, algoritmos y rendimiento",
+    "Concurrencia, observabilidad y workflows resilientes",
+    "Responsible ML Case Triage y cierre de nivel",
+    "Arquitectura, DDD y decisiones técnicas",
+    "APIs con FastAPI y contratos HTTP",
+    "Schemas, seguridad y privacidad de servicios",
+    "Contenedores y reproducibilidad operativa",
+    "CI/CD y seguridad de la cadena de suministro",
+    "Cloud, almacenamiento, colas e infraestructura",
+    "Ingeniería de datos y orquestación de producción",
+    "MLOps: experimentos, registro y serving",
+    "LLM applications y RAG con evidencia"
+  ]
+}

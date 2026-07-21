@@ -1,0 +1,17 @@
+{
+  "created_at": "2026-07-21T21:56:30.215647+00:00",
+  "rule": "agentic_justification_primary",
+  "forbidden_for_pass_bar": [
+    "code_exec_only",
+    "dual_sim_lexical_only",
+    "generator_scripts"
+  ],
+  "updated_at": "2026-07-21T22:25:04.770777+00:00",
+  "clean_runs": [
+    "agentic_A1",
+    "agentic_A2"
+  ],
+  "consecutive_clean": 2,
+  "branding": "PyArcana",
+  "adversarial": "green"
+}

@@ -1,0 +1,512 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_A1",
+  "section_index": 5,
+  "packet_sha": "ba9721e06369d0f4",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_05/packet.json",
+  "recorded_at": "2026-07-21T22:09:16.580635+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S05-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T1-A-E1\ndef doble(n):\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\nprint(doble(21))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "doble",
+        "print",
+        "refactor",
+        "normalize_direccion",
+        "guiado",
+        "Escribe",
+        "retorne"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T1-A-E1. Instruction del paquete: E1 (guiado) — Escribe `def doble(n):` que retorne `n*2`. Imprime doble(21).. Hints: return n * 2; No uses print dentro de doble.. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T1-A-E2\ndef normalize_nombre(raw):\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\nprint(normalize_nombre('  Juan   Pérez '))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "normalize_nombre",
+        "raw",
+        "print",
+        "refactor",
+        "normalize_direccion",
+        "Juan",
+        "independiente"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T1-A-E2. Instruction del paquete: E2 (independiente) — `normalize_nombre(raw)` colapsa espacios internos y strip. Prueba con `'  Juan   Pérez '`.. Hints: \" \".join(raw.strip().split()); title() es opcional; aquí solo colapsar.. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T1-A-E3\ndef saluda(nombre):\n    f'Hola {nombre}'  # BUG?\nprint(saluda('Ana'))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "saluda",
+        "nombre",
+        "Hola",
+        "BUG",
+        "print",
+        "Ana",
+        "transferencia"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T1-A-E3. Instruction del paquete: E3 (transferencia) — Función `saluda(nombre)` que retorne el string; en main imprime el return. Demuestra que sin return print(saluda(...)) muestra None si olvidas return (arregla para que no sea None. Hints: Si ves None, falta return.; return f'Hola {nombre}'. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T1-B-E1\ndef present(nombre, titulo='Cliente'):\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\nprint(present('Quispe'))\nprint(present('Quispe', titulo='VIP'))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "present",
+        "nombre",
+        "titulo",
+        "Cliente",
+        "print",
+        "refactor",
+        "normalize_direccion"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T1-B-E1. Instruction del paquete: E1 (guiado) — `def present(nombre, titulo='Cliente'):` retorna `f'{titulo}: {nombre}'`. Llama posicional y con keyword titulo=.. Hints: default solo se usa si omites el arg; Dos prints distintos. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T1-B-E2\ndef good_add(item, bucket=None):\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\nprint(good_add(1))\nprint(good_add(2))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "good_add",
+        "item",
+        "bucket",
+        "None",
+        "print",
+        "refactor",
+        "normalize_direccion"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T1-B-E2. Instruction del paquete: E2 (independiente) — Reescribe un `bad_add` con default mutable a la versión segura con None. Muestra dos llamadas good(1), good(2) independientes.. Hints: if bucket is None: bucket = []; No deben compartir lista.. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T1-B-E3\ndef normalize_telefono(raw, *, digits_only=True):\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\nprint(normalize_telefono(' 999-000 '))\nprint(normalize_telefono(' 999-000 ', digits_only=False))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "normalize_telefono",
+        "raw",
+        "digits_only",
+        "True",
+        "print",
+        "refactor",
+        "normalize_direccion"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T1-B-E3. Instruction del paquete: E3 (transferencia) — `normalize_telefono(raw, *, digits_only=True)` keyword-only. Si digits_only, deja solo dígitos; si False, solo strip. Demuestra ambas llamadas por keyword.. Hints: El * fuerza keyword para digits_only.; normalize_telefono(' 999-1 ', digits_only=False). Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T2-A-E1\ndef area(w, h):\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    return w * h\nprint(area.__doc__)\nprint(area(3, 4))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "area",
+        "print",
+        "refactor",
+        "normalize_direccion",
+        "return",
+        "__doc__",
+        "guiado"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T2-A-E1. Instruction del paquete: E1 (guiado) — Añade docstring de una línea a `def area(w, h): return w*h` e imprime `area.__doc__`.. Hints: Triple comillas justo bajo def; Docstring no es un comentario #. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T2-A-E2\ndef normalize_email(raw: str) -> str:\n    \"\"\"print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \") pre/post\"\"\"\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\nprint(normalize_email('  A@B.COM '))\ntry:\n    normalize_email('x')\nexcept ValueError as e:\n    print('err', e)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "normalize_email",
+        "raw",
+        "str",
+        "print",
+        "refactor",
+        "normalize_direccion",
+        "pre"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T2-A-E2. Instruction del paquete: E2 (independiente) — `normalize_email` con pre/post en docstring: strip+lower; ValueError si no hay @. Prueba OK y error.. Hints: if '@' not in s: raise ValueError; Mensaje accionable en español.. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T2-A-E3\ndef normalize_nombre(raw: str) -> str:\n    \"\"\"Post: sin extremos ni dobles espacios.\"\"\"\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\nr = normalize_nombre('  Ana  María  ')\nprint(r)\nassert r == r.strip() and '  ' not in r\nprint('post OK')",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "normalize_nombre",
+        "raw",
+        "str",
+        "Post",
+        "sin",
+        "extremos",
+        "dobles"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T2-A-E3. Instruction del paquete: E3 (transferencia) — Documenta y escribe `normalize_nombre` con postcondición: no empiezan/terminan espacios y no hay dobles espacios. Assert de la postcondición en un ejemplo.. Hints: assert result == result.strip() and '  ' not in result; La post se puede chequear en tests.. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T2-B-E1\ndef len_safe(s: str) -> int:\n    return len(s)\nprint(len_safe('abc'))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "len_safe",
+        "str",
+        "int",
+        "return",
+        "len",
+        "print",
+        "abc"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T2-B-E1. Instruction del paquete: E1 (guiado) — Anota `def len_safe(s: str) -> int` y retorna len. Imprime el resultado y un comentario mental de que el hint no valida en runtime.. Hints: hints no ejecutan isinstance mágicamente; len_safe(123) fallaría en runtime igual. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T2-B-E2\nfrom typing import Optional, Tuple\n\ndef parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\nfor v in ['0', '10', '-1', 'x']:\n    print(v, parse_monto(v))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "typing",
+        "import",
+        "Optional",
+        "Tuple",
+        "def",
+        "parse_monto",
+        "raw"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T2-B-E2. Instruction del paquete: E2 (independiente) — `parse_monto(raw: str) -> tuple` (ok, value, err). Acepta enteros >=0; error de dominio si negativo o no int.. Hints: try int; if n<0 dominio; 0 es válido.. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T2-B-E3\ndef normalize_email(raw: str) -> str:\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\nfor e in ['ok@ex.com', 'malo']:\n    # print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \") try/except print",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "normalize_email",
+        "raw",
+        "str",
+        "print",
+        "refactor",
+        "normalize_direccion",
+        "for"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T2-B-E3. Instruction del paquete: E3 (transferencia) — Elige raise ValueError **o** tupla para `normalize_email` y documenta por qué en un print. Implementa la opción raise y captura en el caller del lote (for de 2 emails).. Hints: Lote: try/except por fila para no abortar todo; Una fila mala no impide la buena. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T3-A-E1\ndef strip_collapse(s):\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\ndef normalize_nombre(raw):\n    # print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\nprint(normalize_nombre('  ana  maría '))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "strip_collapse",
+        "print",
+        "refactor",
+        "normalize_direccion",
+        "normalize_nombre",
+        "raw",
+        "ana"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T3-A-E1. Instruction del paquete: E1 (guiado) — Extrae `strip_collapse` y úsalo dentro de `normalize_nombre` que además hace .title().. Hints: def strip_collapse; return strip_collapse(raw).title(); Composición de dos pasos.. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T3-A-E2\ndef norm_n(s):\n    return ' '.join(s.strip().split()).title()\ndef norm_e(s):\n    return s.strip().lower()\ndef normalize_contact(nombre, email):\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\nprint(normalize_contact('  luis ', '  L@E.COM '))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "norm_n",
+        "return",
+        "join",
+        "strip",
+        "split",
+        "title",
+        "norm_e"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T3-A-E2. Instruction del paquete: E2 (independiente) — Orquestador `normalize_contact(nombre, email)` devuelve dict usando dos helpers.. Hints: return {'nombre': ..., 'email': ...}; email lower strip. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T3-A-E3\n# monstruo a reemplazar conceptualmente\ndef normalize_all(n, e, t):\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\nprint(normalize_all('  Ana ', 'A@B.COM', '999-1'))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "monstruo",
+        "reemplazar",
+        "conceptualmente",
+        "def",
+        "normalize_all",
+        "print",
+        "refactor",
+        "normalize_direccion"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T3-A-E3. Instruction del paquete: E3 (transferencia) — Parte una función monstruo de 10 líneas (nombre+email+tel en un solo def con comentarios) en 3 funciones + orquestador. Misma salida.. Hints: Cada campo = una función; Salida dict con 3 claves. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T3-B-E1\ndef normalize_tel(raw):\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\nx = '999-000'\nonce = normalize_tel(x)\nprint(once, normalize_tel(once) == once)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "normalize_tel",
+        "raw",
+        "print",
+        "refactor",
+        "normalize_direccion",
+        "once",
+        "guiado"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T3-B-E1. Instruction del paquete: E1 (guiado) — Escribe `normalize_tel` puro (solo dígitos). Demuestra idempotencia con dos llamadas encadenadas.. Hints: once = f(x); twice = f(once); print once==twice; Sin print dentro de normalize_tel.. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T3-B-E2\ndef normalize_email(raw):\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\ndef print_report(raw):\n    # print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \") efecto\n    ...\nprint_report('  Z@W.COM ')",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "normalize_email",
+        "raw",
+        "print",
+        "refactor",
+        "normalize_direccion",
+        "print_report",
+        "efecto"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T3-B-E2. Instruction del paquete: E2 (independiente) — Separa: `normalize_email` puro + `print_report(email)` con efecto de print. No imprimas dentro del normalizador.. Hints: print solo en print_report; Core testeable sin capturar stdout. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T3-B-E3\ndef normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\ndef process(line, norm=normalize_tel):\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\nprint(process(' 999-a '))\nprint(process(' 999-a ', norm=lambda s: s.strip().upper()))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "normalize_tel",
+        "raw",
+        "return",
+        "join",
+        "for",
+        "isdigit",
+        "process"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T3-B-E3. Instruction del paquete: E3 (transferencia) — Inyecta un normalizador: `process(line, norm=normalize_tel)` usa la fn inyectada. Llama con default y con un norm alternativo que deja todo upper strip.. Hints: norm es parámetro con default; Demuestra dos comportamientos. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T4-A-E1\nx = 1\ndef f():\n    x = 2\n    print('in', x)\nf()\nprint('out', x)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "print",
+        "out",
+        "guiado",
+        "Predice",
+        "LEGB",
+        "global",
+        "dentro"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T4-A-E1. Instruction del paquete: E1 (guiado) — Predice LEGB: global x=1; dentro de f, x=2 local; print dentro y fuera.. Hints: Local no pisa global sin global keyword; Fuera sigue 1. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T4-A-E2\ndef make_multiplier(k):\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\nm3 = make_multiplier(3)\nm10 = make_multiplier(10)\nprint(m3(4), m10(4))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "make_multiplier",
+        "print",
+        "refactor",
+        "normalize_direccion",
+        "m10",
+        "independiente",
+        "devuelve"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T4-A-E2. Instruction del paquete: E2 (independiente) — `make_multiplier(k)` devuelve función que multiplica por k (closure). Crea *3 y *10.. Hints: def inner(n): return n*k; return inner; print(m3(4), m10(4)). Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T4-A-E3\ndef make_normalizer(mode):\n    print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\nd = make_normalizer('digits')\nlo = make_normalizer('lower')\nprint(d('A-1-B-2'), lo('  Hola '))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "make_normalizer",
+        "mode",
+        "print",
+        "refactor",
+        "normalize_direccion",
+        "digits",
+        "lower"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T4-A-E3. Instruction del paquete: E3 (transferencia) — Factory `make_normalizer(mode)` donde mode 'digits' o 'lower' devuelve la fn adecuada. Úsala en dos prints.. Hints: if mode=='digits': return lambda o def digits...; Sin global mode. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T4-B-E1\ndef normalize_email(s):\n    return s.strip().lower()\nprint(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\nprint('OK')",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "normalize_email",
+        "return",
+        "strip",
+        "lower",
+        "print",
+        "refactor",
+        "normalize_direccion"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T4-B-E1. Instruction del paquete: E1 (guiado) — Escribe 2 asserts de ejemplo para `normalize_email = lambda s: s.strip().lower()` e imprime OK.. Hints: assert normalize_email('A@B.COM')=='a@b.com'; Incluye idempotencia. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T4-B-E2\ndef normalize_dir(raw):\n    return ' '.join(raw.strip().split()).upper()\nassert normalize_dir('  av 1 ') == 'AV 1'\nassert normalize_dir(normalize_dir('x')) == normalize_dir('x')\nprint(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\ndef normalize_dir(raw):\n    # print(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\n    ...\nassert normalize_dir('  av 1 ') == 'AV 1'\nprint(normalize_dir(' jr 2 '))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "normalize_dir",
+        "raw",
+        "return",
+        "join",
+        "strip",
+        "split",
+        "upper"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T4-B-E2. Instruction del paquete: E2 (independiente) — Refactoriza `normalize_dir` de una línea densa a dos pasos (strip_collapse + upper) sin romper asserts dados.. Hints: Corre asserts antes y después mentalmente; Misma salida. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S05-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S05-T4-B-E3\ndef normalize_nombre(raw):\n    return ' '.join(raw.strip().split())\ncases = [('  a  b ', 'a b'), ('X', 'X')]\nprint(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \")\nprint('all PASS')",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "normalize_nombre",
+        "raw",
+        "return",
+        "join",
+        "strip",
+        "split",
+        "cases"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S05-T4-B-E3. Instruction del paquete: E3 (transferencia) — Suite mínima: lista de (input, expected) para normalize_nombre; loop assert. Luego cambia implementación a title-case y actualiza expected si la política cambia conscientemente — . Hints: No cambies política sin actualizar tests; Todos PASS. Teoría activa: De “OOP” a funciones y contratos (mapa de la sección) | Definición, llamada y retorno | Posicionales, keyword y defaults seguros | Pre/postcondiciones y docstrings | Type hints graduales y errores de . iDo demos: S05-T1-B-DEMO | S05-T2-A-DEMO | S05-T2-B-DEMO | S05-T3-A-DEMO | S05-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "question": "Si una función no tiene return, ¿qué devuelve la llamada?",
+      "chosen_index": 2,
+      "chosen_text": "None",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: 'Definición, llamada y retorno' — without explicit return, Python returns None. Not 0/False/always-error."
+    },
+    {
+      "question_index": 1,
+      "question": "¿Por qué `def f(xs=[])` es peligroso?",
+      "chosen_index": 1,
+      "chosen_text": "El default mutable se comparte entre llamadas",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: defaults are evaluated once at definition; never use mutable list default def f(xs=[]) — shared across calls. Use None and create inside."
+    },
+    {
+      "question_index": 2,
+      "question": "Una función pura…",
+      "chosen_index": 2,
+      "chosen_text": "Mismo input → mismo output, sin efectos colaterales",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: pure function = same args → same result, no side effects (no print/disk/globals). Printing or reading global config breaks purity in this packet."
+    },
+    {
+      "question_index": 3,
+      "question": "LEGB significa…",
+      "chosen_index": 0,
+      "chosen_text": "Local, Enclosing, Global, Builtin",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: LEGB section expands Local, Enclosing, Global, Builtin as name lookup order. Other expansions are invented nonsense."
+    },
+    {
+      "question_index": 4,
+      "question": "Idempotencia de un normalizador f significa…",
+      "chosen_index": 1,
+      "chosen_text": "f(f(x)) == f(x) para entradas del dominio",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: normalizers must be pure and idempotent: f(f(x)) == f(x) for valid inputs. Not 'runs once in process lifetime'."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "persona_seed": "c7649717b79d"
+}

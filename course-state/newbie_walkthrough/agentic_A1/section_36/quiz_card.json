@@ -1,0 +1,222 @@
+{
+  "section_index": 36,
+  "title": "Clustering, anomalías y validación temporal",
+  "outcomes": [
+    "Aplicar clustering con escalamiento",
+    "Elegir k y reportar límites de métricas",
+    "Proyectar con PCA para explorar",
+    "Interpretar proyecciones con prudencia",
+    "Detectar anomalías con IF/LOF/reglas",
+    "Distinguir novelty vs outlier",
+    "Validar con backtests temporales",
+    "Evaluar con labels escasos y review"
+  ],
+  "theory": [
+    {
+      "heading": "Señales no supervisadas para triage (CP-N3-C)",
+      "paragraphs": [
+        "Clustering y anomalías son **señales**, no veredictos. Se evalúan por utilidad de revisión.",
+        "Legacy tool-use APIs se retematiza a este path V3.",
+        "Orden: T1 Clustering → T2 Dimensión → T3 Anomalías → T4 Tiempo."
+      ],
+      "code": "xs = [1.0, 1.2, 5.0, 5.2, 5.1]\n# 2 clusters by mid\nc1 = sum(xs[:2])/2; c2 = sum(xs[2:])/3\nprint(\"c1\", round(c1, 2), \"c2\", round(c2, 2))\nprint(\"scaled\", True)\nprint(\"verdict\", False)"
+    },
+    {
+      "heading": "escalamiento y k-means/density",
+      "paragraphs": [
+        "Escala features antes de k-means. Density (conceptual) busca regiones densas.",
+        "Centroides son resúmenes, no etiquetas morales.",
+        "Didáctica: 1D k-means por umbrales."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "elección, estabilidad y métricas limitadas",
+      "paragraphs": [
+        "Elige k con estabilidad entre seeds y sentido de negocio, no solo silhouette.",
+        "Métricas internas tienen límites con formas raras y desbalance.",
+        "Reporta sensibilidad a seed."
+      ],
+      "code": "scores = {2: 0.4, 3: 0.55, 4: 0.52}\nbest = max(scores, key=scores.get)\nprint(\"k\", best)\nprint(\"score\", scores[best])\nprint(\"stable_check\", \"multi_seed\")"
+    },
+    {
+      "heading": "PCA y visualización",
+      "paragraphs": [
+        "PCA proyecta a 2D para explorar; no es el modelo de decisión final.",
+        "Varianza explicada informa compresión, no causalidad.",
+        "Didáctica: proyección manual por pesos."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "interpretación prudente de proyecciones",
+      "paragraphs": [
+        "Ejes PC no tienen nombre de negocio automático.",
+        "Outliers visuales pueden ser escala o error de datos.",
+        "Documenta: 'exploratorio'."
+      ],
+      "code": "print(\"axis_named_by_business\", False)\nprint(\"use\", \"exploratory\")\nprint(\"auto_label\", False)"
+    },
+    {
+      "heading": "Isolation Forest/LOF y reglas",
+      "paragraphs": [
+        "IF/LOF (conceptual) y reglas (monto>µ+3σ) generan scores de rareza.",
+        "Combina con reglas legibles para el revisor.",
+        "Score alto → candidatos a review, no culpa."
+      ],
+      "code": "import statistics\nxs = [10, 11, 10, 12, 50]\nmu = statistics.mean(xs[:-1]); sd = statistics.pstdev(xs[:-1]) or 1\nrule = [1 if x > mu + 3 * sd else 0 for x in xs]\nprint(\"mu\", mu, \"flags\", rule)\nprint(\"method\", \"rule_sigma\")\nprint(\"misconduct\", False)"
+    },
+    {
+      "heading": "novelty vs outlier y contamination",
+      "paragraphs": [
+        "Outlier: raro en train. Novelty: punto nuevo vs modelo de normalidad.",
+        "contamination es hipótesis de fracción rara; no es prevalencia de fraude.",
+        "Ajusta contamination con capacidad de review."
+      ],
+      "code": "contamination = 0.05\nn = 200\nprint(\"expected_flags\", int(n * contamination))\nprint(\"contamination_is_fraud_rate\", False)\nprint(\"use\", \"capacity_tuning\")"
+    },
+    {
+      "heading": "splits/backtests y ventanas",
+      "paragraphs": [
+        "Valida señales con backtest temporal: fit en pasado, score en futuro.",
+        "Ventanas deslizantes miden estabilidad.",
+        "Sin labels, usa proxy de utilidad (click de review sintético)."
+      ],
+      "code": "windows = [(\"2026-01\", 0.1), (\"2026-02\", 0.12), (\"2026-03\", 0.09)]\nprint(\"mean_flag_rate\", round(sum(r for _, r in windows)/3, 3))\nprint(\"backtest\", True)\nprint(\"leakage\", False)"
+    },
+    {
+      "heading": "labels escasos, precision@k y revisión humana",
+      "paragraphs": [
+        "Con pocas etiquetas, precision@k y acuerdo humano importan más que ROC fantasma.",
+        "El revisor valida si la señal ahorra tiempo.",
+        "Nunca: anomalía → conducta indebida automática."
+      ],
+      "code": "ranked = [1, 0, 1, 0, 0]  # utilidad sintética en top\nk = 3\nprint(\"precision_at_k\", sum(ranked[:k])/k)\nprint(\"human_in_loop\", True)\nprint(\"auto_guilt\", False)"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S36-T1-B-DEMO",
+      "description": "Centroides 1D dos grupos.",
+      "why": "k-means toy.",
+      "code": "print('c1', 1.0)\nprint('c2', 5.0)\nprint('scaled', True)"
+    },
+    {
+      "demoId": "S36-T2-A-DEMO",
+      "description": "Elige k por score.",
+      "why": "k selection.",
+      "code": "s={2:0.3,3:0.5}; print('k', max(s,key=s.get))\nprint('score', 0.5)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S36-T2-B-DEMO",
+      "description": "PC score 0.8x+0.2y.",
+      "why": "PCA toy.",
+      "code": "print(round(0.8*2+0.2*4,2))\nprint('exploratory', True)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S36-T3-A-DEMO",
+      "description": "Límites de interpretación.",
+      "why": "Prudencia.",
+      "code": "print('business_axis', False)\nprint('use', 'explore')\nprint('ok', True)"
+    },
+    {
+      "demoId": "S36-T3-B-DEMO",
+      "description": "Flag sigma rule.",
+      "why": "Regla rara.",
+      "code": "print('flags', [0,0,1])\nprint('misconduct', False)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S36-T4-A-DEMO",
+      "description": "expected flags.",
+      "why": "Contamination.",
+      "code": "print(int(100*0.05))\nprint('is_fraud_rate', False)\nprint('ok', True)"
+    },
+    {
+      "demoId": "S36-T4-B-DEMO",
+      "description": "Backtest flag rates.",
+      "why": "Temporal.",
+      "code": "print(round((0.1+0.2)/2,2))\nprint('backtest', True)\nprint('ok', True)"
+    },
+    {
+      "demoId": null,
+      "description": "P@2 labels.",
+      "why": "Labels escasos.",
+      "code": "print(0.5)\nprint('human', True)\nprint('auto_guilt', False)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "Una anomalía en el triage significa:",
+      "options": [
+        "Fraude probado",
+        "Señal de rareza a revisar",
+        "Parentesco",
+        "Despido"
+      ]
+    },
+    {
+      "question": "contamination representa:",
+      "options": [
+        "Tasa de fraude real",
+        "Hipótesis de fracción rara a flaggear",
+        "Accuracy",
+        "Kafka lag"
+      ]
+    },
+    {
+      "question": "PCA en este curso se usa para:",
+      "options": [
+        "Etiquetar culpa",
+        "Exploración/visualización prudente",
+        "Reemplazar el workbench",
+        "Borrar features"
+      ]
+    },
+    {
+      "question": "Con labels escasos prioriza:",
+      "options": [
+        "Solo accuracy global",
+        "precision@k y feedback humano",
+        "Aumentar contamination a 0.9",
+        "Eliminar reglas"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional",
+    "Feature engineering y pipelines sin leakage",
+    "ML supervisado y baselines responsables",
+    "Métricas, desbalance, calibración y umbrales",
+    "Explicabilidad, equidad e incertidumbre"
+  ]
+}

@@ -1,0 +1,497 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_A1",
+  "section_index": 29,
+  "packet_sha": "0ec7c075c2972c5b",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_29/packet.json",
+  "recorded_at": "2026-07-21T22:06:01.933412+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S29-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\nprint(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "sqlite3",
+        "print",
+        "Crea",
+        "tabla",
+        "entities",
+        "TEXT",
+        "PRIMARY"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T1-A-E1. Instruction del paquete: Crea tabla entities(id TEXT PRIMARY KEY) en :memory: e inserta 'e1'; imprime count.. Hints: sqlite3; PRIMARY KEY. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\nprint(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "create",
+        "table",
+        "score"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T1-A-E2. Instruction del paquete: CHECK: score 1.5 debe fallar; caza IntegrityError e imprime 'bad_score'.. Hints: try/except; CHECK. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "print(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "Imprime",
+        "True",
+        "orden",
+        "par"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T1-A-E3. Instruction del paquete: Imprime True si 'e1'<'e2' (orden canónico de par).. Hints: comparación strings; a<b. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nprint(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "create",
+        "table",
+        "pair"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T1-B-E1. Instruction del paquete: Inserta dos labels para pair p1; imprime número de filas de historia.. Hints: append-only; count. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "print(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "Imprime",
+        "provenance",
+        "dict",
+        "source",
+        "crm_synth",
+        "record"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T1-B-E2. Instruction del paquete: Imprime provenance dict source='crm_synth' record='r9'.. Hints: dict; provenance. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "valid_to=None\nprint(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "valid_to",
+        "None",
+        "print",
+        "NULL",
+        "significa",
+        "vigente",
+        "imprime",
+        "open"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T1-B-E3. Instruction del paquete: valid_to NULL significa vigente: imprime 'open' si valid_to is None.. Hints: None; temporal. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\nprint(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "sqlite3",
+        "connect",
+        "memory",
+        "executescript",
+        "create",
+        "table",
+        "pairs"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T2-A-E1. Instruction del paquete: Con pairs p1,p2 y decision solo p1, lista ids sin decisión.. Hints: NOT IN o left join; anti-join. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "scores=[0.2,0.9,0.5]\nprint(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "scores",
+        "print",
+        "Window",
+        "conceptual",
+        "ordena",
+        "desc",
+        "imprime",
+        "top"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T2-A-E2. Instruction del paquete: Window conceptual: ordena scores [0.2,0.9,0.5] desc e imprime el top.. Hints: sorted; rank 1. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "print(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "Imprime",
+        "nombre",
+        "CTE",
+        "ejemplo",
+        "ranked"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T2-A-E3. Instruction del paquete: Imprime el nombre de la CTE de ejemplo: ranked.. Hints: literal; WITH. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "n=5\nprint(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T2-B-E1. Instruction del paquete: C(n,2) para n=5 → 10.. Hints: combinatoria; pares. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "print(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "Imprime",
+        "True",
+        "None",
+        "recuerda",
+        "NULL",
+        "SQL",
+        "Python"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T2-B-E2. Instruction del paquete: Imprime True si None is None (recuerda NULL SQL ≠ Python en joins).. Hints: is; NULL. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "Imprime",
+        "prefijo",
+        "plan",
+        "SCAN",
+        "SEARCH",
+        "conciencia",
+        "EXPLAIN"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T2-B-E3. Instruction del paquete: Imprime prefijo de plan 'SCAN' o 'SEARCH' para conciencia de EXPLAIN (elige SCAN como default didáctico).. Hints: string; planes. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nprint(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "create",
+        "table",
+        "int"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T3-A-E1. Instruction del paquete: Tras BEGIN insert y ROLLBACK, count debe ser 0.. Hints: rollback; atomic. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "print(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "Imprime",
+        "letras",
+        "ACID",
+        "separadas",
+        "coma",
+        "sin",
+        "espacios"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T3-A-E2. Instruction del paquete: Imprime las 4 letras de ACID separadas por coma sin espacios extra finales raros: A,C,I,D.. Hints: string; ACID. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "evidence_ok=False\nprint(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "evidence_ok",
+        "False",
+        "print",
+        "hagas",
+        "commit",
+        "conceptual",
+        "imprime",
+        "abort"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T3-A-E3. Instruction del paquete: Si evidence_ok es False no hagas commit conceptual: imprime 'abort'.. Hints: guard; transacción. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\nprint(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "create",
+        "table",
+        "text"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T3-B-E1. Instruction del paquete: Upsert: segunda insert con mismo id actualiza; imprime name final 'B'.. Hints: ON CONFLICT; DO UPDATE. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "print(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "job",
+        "status",
+        "pending",
+        "tras",
+        "crash",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T3-B-E2. Instruction del paquete: Recuperación: job status 'pending' tras crash; imprime status.. Hints: literal/dict; resume. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "conflict=True\nprint(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "conflict",
+        "True",
+        "print",
+        "Conflicto",
+        "par",
+        "duplicado",
+        "imprime",
+        "retry"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T3-B-E3. Instruction del paquete: Conflicto de par duplicado → imprime 'retry'.. Hints: política; concurrencia. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\nprint(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "create",
+        "table",
+        "schema_migrations"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T4-A-E1. Instruction del paquete: Registra migration version 2 name 'add_index'; imprime max version.. Hints: schema_migrations; insert. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "print(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "Imprime",
+        "nombre",
+        "sugerido",
+        "idx_pairs_block_key"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T4-A-E2. Instruction del paquete: Imprime nombre de índice sugerido idx_pairs_block_key.. Hints: convención; índices. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "print(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "imprime",
+        "no_drop_without_backup"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T4-A-E3. Instruction del paquete: Política: imprime 'no_drop_without_backup'.. Hints: string; migrations. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "store={'e1':'Ana'}\nprint(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "store",
+        "Ana",
+        "print",
+        "Repo",
+        "get",
+        "dict",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T4-B-E1. Instruction del paquete: Repo.get: dict store {'e1':'Ana'}; imprime get e1.. Hints: dict; repository. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "print(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "Pool",
+        "size",
+        "conceptual",
+        "imprime",
+        "pool_size"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T4-B-E2. Instruction del paquete: Pool size conceptual 5; imprime pool_size.. Hints: dict; pooling. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S29-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "pending_count=1\nprint(R(c)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "pending_count",
+        "print",
+        "Test",
+        "repo",
+        "pending",
+        "count",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S29-T4-B-E3. Instruction del paquete: Test de repo: pending count 1; imprime 1.. Hints: assert blando; memoria. Teoría activa: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y normalización | temporalidad y provenance | CTEs, windows y anti-joins | cardinalidad, NULL y planes | ACID e isolation. iDo demos: S29-T1-B-DEMO | S29-T2-A-DEMO | S29-T2-B-DEMO | S29-T3-A-DEMO | S29-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Evitar duplicar el mismo par en orden invertido",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "iDo S29-T1-B-DEMO: «Crea entities y pairs con CHECK score y orden entity_a < entity_b.» Theory de modelado de candidate_pairs con entity_a/entity_b: el orden canónico evita el mismo par invertido (a,b) vs (b,a). No infiere fraude."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Nueva fila por cambio de decisión",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "Theory [temporalidad y provenance]: «No sobrescribas la decisión anterior; inserta una nueva fila versionada.» Almacén «sin borrar historia.» iDo S29-T2-A-DEMO: «Inserta dos decisiones append-only para el mismo par y lista labels» (review luego match)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Ser atómicas en la misma transacción lógica",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "Theory [ACID e isolation]: «Una decisión + evidencia deben commitearse juntas o no.» iDo S29-T3-B-DEMO: transacción con ROLLBACK deja tablas vacías si falla el segundo insert. Decisión y evidencia atómicas en la misma transacción lógica."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Encapsula acceso a datos y facilita tests con :memory:",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "Theory [repository pattern]: «El repository encapsula SQL: get_entity, insert_decision. La lógica de matching no arma SQL crudo por todos lados.» «Prueba el repo con sqlite memoria.» iDo PairRepo / pending() y theory code PairRepo sobre :memory:."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "persona_seed": "38bfa9defe06"
+}

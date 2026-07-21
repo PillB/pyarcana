@@ -1,0 +1,208 @@
+{
+  "section_index": 22,
+  "title": "Email, identidad y aprobación humana",
+  "outcomes": [
+    "Construir mensajes MIME con encoding y attachments",
+    "Sanitizar templates HTML de correo",
+    "Configurar OAuth/service account con scopes mínimos",
+    "Crear drafts vía adaptadores con expiración",
+    "Resolver y verificar destinatarios",
+    "Aplicar privacidad y mínima divulgación en listas",
+    "Implementar approval queue y state machine",
+    "Garantizar idempotencia, audit log y reintentos seguros"
+  ],
+  "theory": [
+    {
+      "heading": "De “RapidFuzz/ER” a email con aprobación humana (mapa e inicio CP-N2-C)",
+      "paragraphs": [
+        "En V3, **S22 no es el path principal de entity resolution con RapidFuzz**. Ese material se reubica conceptualmente. Aquí **inicias CP-N2-C**: construir mensajes MIME, sanitizar HTML, scopes mínimos, drafts con expiración, resolver destinatarios y encolar aprobación humana.",
+        "El hilo conductor es un **borrador sintético** (run_id `cpn2c-01`, contactos fakes `@example.pe`). **Ningún correo real se envía**: solo archivos `.eml` o drafts en sandbox.",
+        "Orden: **T1 Mensaje** → **T2 Proveedor** → **T3 Destinatario** → **T4 Workflow**. Matching de contactos es para **entrega correcta**, nunca para inferir fraude o parentesco."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "MIME, encoding, HTML/text y attachments",
+      "paragraphs": [
+        "**MIME** (`email.mime`) arma mensajes multiparte: texto plano + HTML + adjuntos. El **charset** (UTF-8) evita mojibake en nombres y acentos del español peruano.",
+        "`MIMEMultipart('alternative')` ofrece text/plain y text/html; el cliente elige. Los attachments van en `MIMEBase` con Content-Disposition.",
+        "Nunca embeds secretos en el cuerpo. Marca adjuntos sintéticos y limita tamaño."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "templates y sanitización",
+      "paragraphs": [
+        "Los **templates** de correo interpolan variables (nombre, run_id, montos). Cualquier input no confiable debe **sanitizarse** antes de HTML.",
+        "Política de links: allowlist de dominios o solo rutas relativas; bloquea `javascript:` y `data:`.",
+        "Autoescape o escape manual (`html.escape`) previene XSS en el cuerpo del correo."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "OAuth/service account y scopes",
+      "paragraphs": [
+        "**OAuth** y **service accounts** autorizan APIs de correo. Aplica **least privilege**: solo scopes de draft/read necesarios, nunca `mail.full` si basta `compose`.",
+        "Modela credenciales como objetos con `client_id`, `scopes` y `expires_at` — **nunca** commits de secretos reales.",
+        "En sandbox del curso usamos tokens sintéticos y un registro de scopes pedidos vs concedidos."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "drafts, expiración y adaptadores",
+      "paragraphs": [
+        "Un **adaptador** de proveedor (`GmailAdapter`, `SmtpFileAdapter`) expone `create_draft` / `get_draft` sin acoplar el dominio al SDK.",
+        "Los drafts llevan **expiración**: tras `expires_at` no se pueden promover a envío sin regenerar y re-aprobar.",
+        "En el curso, el adaptador de archivo escribe `.eml` bajo `out/drafts/` (simulado en memoria)."
+      ],
+      "code": "from datetime import datetime, timezone, timedelta\nfrom email.mime.text import MIMEText\n\nclass FileDraftAdapter:\n    def __init__(self):\n        self.store = {}\n    def create_draft(self, to, subject, body, ttl_hours=24):\n        draft_id = f\"d{len(self.store)+1:03d}\"\n        msg = MIMEText(body, \"plain\", \"utf-8\")\n        msg[\"To\"], msg[\"Subject\"] = to, subject\n        exp = datetime.now(timezone."
+    },
+    {
+      "heading": "resolución y verificación",
+      "paragraphs": [
+        "**Resolver** un destinatario mapea un id interno o alias a un email canónico. **Verificar** chequea formato, dominio allowlist y señales de bounce sintéticas.",
+        "Un match fuzzy de nombres/emails es **evidencia de contacto**, no de identidad legal ni de fraude. Requiere confirmación humana antes de incluir en To.",
+        "Estados: `unresolved` → `candidate` → `verified` | `rejected`."
+      ],
+      "code": "import re\n\nDIRECTORY = {\n    \"C001\": {\"name\": \"Ana Rojas\", \"email\": \"ana.rojas@example.pe\", \"status\": \"active\"},\n    \"C002\": {\"name\": \"Luis Quispe\", \"email\": \"lquispe@ejemplo.invalid\", \"status\": \"active\"},\n}\nALLOW = {\"example.pe\"}\n\ndef resolve(contact_id):\n    return DIRECTORY.get(contact_id)\n\ndef verify(rec):\n    if not rec or rec[\"status\"] != \"active\":\n        return \"rejected\", \"missing_or_inac"
+    },
+    {
+      "heading": "listas, CC/BCC, privacidad y mínima divulgación",
+      "paragraphs": [
+        "**CC** expone destinatarios entre sí; **BCC** oculta la lista. Prefiere BCC o envíos individuales cuando hay terceros.",
+        "**Mínima divulgación**: no pongas PII extra en el cuerpo (DNI, teléfono) si el informe ya está adjunto con controles.",
+        "Higiene de listas: dedupe, opt-out sintético, y tope de tamaño."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "approval queue y state machine",
+      "paragraphs": [
+        "La **cola de aprobación** modela estados: `draft` → `pending_review` → `approved` | `rejected` | `needs_edit`.",
+        "Transiciones explícitas con actor y timestamp. Sin transición, no hay envío ni promoción de draft.",
+        "En CP-N2-C, la aprobación humana es **obligatoria** antes de cualquier acción de envío (aunque el curso no envía)."
+      ],
+      "code": "TRANSITIONS = {\n    \"draft\": {\"submit\": \"pending_review\"},\n    \"pending_review\": {\"approve\": \"approved\", \"reject\": \"rejected\", \"request_edit\": \"needs_edit\"},\n    \"needs_edit\": {\"submit\": \"pending_review\"},\n    \"approved\": {},\n    \"rejected\": {},\n}\n\ndef apply(state, action, actor, log):\n    nxt = TRANSITIONS.get(state, {}).get(action)\n    if not nxt:\n        raise ValueError(f\"invalid {state}->{act"
+    },
+    {
+      "heading": "idempotencia, audit log y reintento sin duplicar",
+      "paragraphs": [
+        "Una **idempotency key** (p. ej. hash de run_id+destinatario+versión del cuerpo) evita drafts duplicados al reintentar.",
+        "El **audit log** registra create/submit/approve/retry con quién y cuándo. Es evidencia de cumplimiento.",
+        "Reintento seguro: si la key ya existe en estado terminal, devuelve el id previo; no crea otro mensaje."
+      ],
+      "code": "import hashlib\n\nstore = {}  # key -> draft_id\naudit = []\n\ndef idem_key(run_id, to, body_ver):\n    raw = f\"{run_id}|{to}|{body_ver}\".encode()\n    return hashlib.sha256(raw).hexdigest()[:16]\n\ndef create_draft_once(run_id, to, body_ver):\n    k = idem_key(run_id, to, body_ver)\n    if k in store:\n        audit.append({\"event\": \"retry_hit\", \"key\": k, \"draft_id\": store[k]})\n        return store[k], True\n"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S22-T1-B-DEMO",
+      "description": "Construir mensaje MIME multi-parte seguro (text+HTML+adjunto sintético).",
+      "why": "MIME bien formado es la base de drafts auditables.",
+      "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nfrom email.mime.application import MIMEApplication\n\nmsg = MIMEMultipart(\"mixed\")\nmsg[\"Subject\"] = \"Demo MIME sintético\"\nmsg[\"From\"] = \"bot@example.pe\"\nmsg[\"To\"] = \"human@example.pe\"\nalt = MIMEMultipart(\"alternative\")\nalt.attach(MIMEText(\"Versión texto\", \"plain\", \"utf-8\"))\nalt.attach(MIMEText(\"<p>Versión <i>HTML</i></p>\", \"html\", \"utf-8\"))\nmsg.attach(alt)\natt = MIMEApplication(b'{\"run_id\":\"cpn2c-01\"}', Name=\"run.j"
+    },
+    {
+      "demoId": "S22-T2-A-DEMO",
+      "description": "Sanitizar HTML de templates de correo con escape y política de links.",
+      "why": "Sanitizar evita XSS y links maliciosos en plantillas.",
+      "code": "import html, re\n\ndef sanitize(s):\n    s = html.escape(s)\n    return re.sub(r\"https?://[^\\s<]+\", lambda m: m.group(0) if \"example.pe\" in m.group(0) else \"[blocked]\", s)\n\nraw = '<b>Hola</b> https://evil.test/x https://example.pe/ok'\nprint(sanitize(raw))"
+    },
+    {
+      "demoId": "S22-T2-B-DEMO",
+      "description": "Configurar scopes mínimos en sandbox y detectar exceso de privilegios.",
+      "why": "Least privilege reduce impacto de un token filtrado.",
+      "code": "requested = [\"mail.draft\", \"mail.send\", \"mail.full\"]\npolicy_max = {\"mail.draft\", \"mail.readonly\"}\ngranted = [s for s in requested if s in policy_max]\ndenied = [s for s in requested if s not in policy_max]\nprint(\"granted\", granted)\nprint(\"denied\", denied)\nprint(\"least_ok\", \"mail.full\" not in granted and \"mail.send\" not in granted)"
+    },
+    {
+      "demoId": "S22-T3-A-DEMO",
+      "description": "Crear drafts vía adaptador con expiración.",
+      "why": "Expiración fuerza re-aprobación de contenido viejo.",
+      "code": "from datetime import datetime, timezone, timedelta\n\nclass Adapter:\n    def __init__(self):\n        self.drafts = {}\n    def create(self, body, hours=2):\n        i = f\"D{len(self.drafts)+1}\"\n        self.drafts[i] = {\"body\": body, \"exp\": datetime.now(timezone.utc)+timedelta(hours=hours)}\n        return i\n    def expired(self, i, now=None):\n        now = now or datetime.now(timezone.utc)\n        return now >= self.drafts[i][\"exp\"]\n\nad = Adapter()\nd = ad.create(\"borrador sintético\", hours=1)\nprint("
+    },
+    {
+      "demoId": "S22-T3-B-DEMO",
+      "description": "Resolver y verificar destinatarios sintéticos (match ≠ fraude).",
+      "why": "Solo contactos verificados entran al To del draft.",
+      "code": "contacts = {\"u1\": \"ana@example.pe\", \"u2\": \"bad@not-allowed.test\"}\nallow = {\"example.pe\"}\n\ndef check(uid):\n    em = contacts.get(uid)\n    if not em:\n        return \"unresolved\"\n    dom = em.split(\"@\")[1]\n    return \"verified\" if dom in allow else \"rejected\"\n\nfor u in (\"u1\", \"u2\", \"u9\"):\n    print(u, check(u))\nprint(\"disclaimer: verificación de entrega, no de fraude\")"
+    },
+    {
+      "demoId": "S22-T4-A-DEMO",
+      "description": "Aplicar mínima divulgación: externos a BCC y dedupe.",
+      "why": "CC innecesario filtra la lista de trabajo del caso.",
+      "code": "rows = [\n    (\"ana@example.pe\", \"to\"),\n    (\"ana@example.pe\", \"to\"),\n    (\"partner@other.test\", \"cc\"),\n]\nout, seen = [], set()\nfor em, role in rows:\n    if em in seen:\n        continue\n    seen.add(em)\n    if em.endswith(\"other.test\"):\n        role = \"bcc\"\n    out.append((em, role))\nprint(out)"
+    },
+    {
+      "demoId": "S22-T4-B-DEMO",
+      "description": "Modelar cola de aprobación con estados.",
+      "why": "Sin estado approved no hay promoción del draft.",
+      "code": "sm = {\"draft\": {\"submit\": \"pending\"}, \"pending\": {\"approve\": \"approved\", \"reject\": \"rejected\"}}\nstate, trail = \"draft\", []\nfor act in (\"submit\", \"approve\"):\n    state = sm[state][act]\n    trail.append(state)\nprint(\"final\", state, \"trail\", trail)"
+    },
+    {
+      "demoId": null,
+      "description": "Reintentar sin duplicar envíos/drafts con idempotency key.",
+      "why": "Idempotencia protege de dobles drafts en reintentos de red.",
+      "code": "import hashlib\ndb = {}\n\ndef once(key, factory):\n    if key in db:\n        return db[key], True\n    db[key] = factory()\n    return db[key], False\n\nk = hashlib.sha256(b\"cpn2c-01|ana@example.pe|v1\").hexdigest()[:12]\na, d1 = once(k, lambda: \"draft-001\")\nb, d2 = once(k, lambda: \"draft-002\")\nprint(a, b, a==b, d1, d2)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué garantiza no enviar correo real en el gate de S22?",
+      "options": [
+        "Usar mail.full",
+        "Solo drafts/.eml en sandbox y aprobación humana",
+        "CC a todos",
+        "Desactivar UTF-8"
+      ]
+    },
+    {
+      "question": "Un score alto de similitud entre dos emails implica:",
+      "options": [
+        "Fraude demostrado",
+        "Parentesco",
+        "Solo evidencia débil de contacto a revisar; no prueba de fraude",
+        "Envío automático"
+      ]
+    },
+    {
+      "question": "Least privilege en OAuth de correo significa:",
+      "options": [
+        "Pedir todos los scopes",
+        "Solo los scopes mínimos (p. ej. draft) necesarios",
+        "Compartir el refresh token en Slack",
+        "Usar la cuenta personal del CEO"
+      ]
+    },
+    {
+      "question": "La idempotency key al reintentar create_draft debe:",
+      "options": [
+        "Crear siempre un draft nuevo",
+        "Reutilizar el mismo draft_id si la key existe",
+        "Borrar el audit log",
+        "Enviar el correo"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables"
+  ]
+}

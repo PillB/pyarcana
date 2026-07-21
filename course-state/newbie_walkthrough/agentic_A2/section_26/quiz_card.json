@@ -1,0 +1,212 @@
+{
+  "section_index": 26,
+  "title": "Orquestación y VP RPA + AI Analyst",
+  "outcomes": [
+    "Modelar tasks/flows/DAG con estados",
+    "Configurar límites, metadata y schedules",
+    "Implementar checkpoints, retry/backoff y dead-letter",
+    "Garantizar idempotencia, concurrencia y rollback",
+    "Diseñar revisión humana de análisis/reporte/destinatario",
+    "Operar aprobación, rechazo, edición y auditoría",
+    "Definir SLO, alerts y runbook",
+    "Validar E2E, seguridad, costo y métricas de valor"
+  ],
+  "theory": [
+    {
+      "heading": "Cierre CP-N2-C: orquestación del VP y regresión N2",
+      "paragraphs": [
+        "En V3, **S26 cierra CP-N2-C** y prepara **regresión Level-2 (S14–S26)** + **CF-2** (contratos entre Familiarity, reporting y automatización). No marcas section_passed desde esta lane de contenido.",
+        "El flujo canónico: **ingest Excel/sistema → validar → analizar → IA asistida → informe → aprobación humana → draft de correo**. Cada estado deja evidencia.",
+        "Orden: **T1 Orquestación** → **T2 Resiliencia** → **T3 HITL** → **T4 Operación/E2E**. Privacidad: scores y matches no son veredictos de fraude."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "tasks/flows/DAG y estados",
+      "paragraphs": [
+        "Un **DAG** define dependencias: validar antes de analizar; aprobar antes de draft_email.",
+        "Estados de task: pending, running, success, failed, skipped. El flow agrega el estado global.",
+        "Implementación didáctica: dict de nodos + edges, ejecución topológica simple."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "límites, metadata y schedules",
+      "paragraphs": [
+        "**Rate limits** protegen APIs. **Metadata** de run: run_id, trigger, git_sha sintético, data_cutoff.",
+        "**Schedules** (cron) vs on-demand. Documenta ventana de mantenimiento.",
+        "Límites de concurrencia por cola."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "checkpoints, retry/backoff y dead-letter",
+      "paragraphs": [
+        "**Checkpoint**: guarda progreso para reanudar sin rehacer ingest. **Backoff** exponencial en retries.",
+        "**DLQ** (dead-letter queue) aísla items irrecuperables para análisis humano.",
+        "No reintentes fallas de validación de negocio eternamente."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "idempotencia, concurrencia y rollback",
+      "paragraphs": [
+        "Pasos **idempotentes** con keys de negocio. **Locks** optimistas por run_id/entity.",
+        "**Rollback**: compensar efectos (borrar draft, marcar report superseded) si falla un paso posterior.",
+        "Documenta el grafo de compensación."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "revisión de análisis/reporte/destinatario",
+      "paragraphs": [
+        "Tres colas HITL: **análisis** (métricas), **reporte** (narrativa), **destinatario** (email verificado).",
+        "Cada artefacto tiene checklist. Bloqueo si falta evidencia.",
+        "El revisor no confirma fraude ni parentesco; confirma calidad del paquete de evidencia y la decisión operativa (aprobar/rechazar/editar)."
+      ],
+      "code": "queues = {\n    \"analysis\": [{\"id\": \"a1\", \"status\": \"pending\"}],\n    \"report\": [{\"id\": \"r1\", \"status\": \"pending\"}],\n    \"recipient\": [{\"id\": \"c1\", \"status\": \"pending\"}],\n}\n\ndef pending_counts(q):\n    return {k: sum(1 for x in v if x[\"status\"] == \"pending\") for k, v in q.items()}\n\nprint(pending_counts(queues))\nprint(\"all_clear\", all(c == 0 for c in pending_counts(queues).values()))"
+    },
+    {
+      "heading": "aprobación, rechazo, edición y auditoría",
+      "paragraphs": [
+        "Acciones: **approve**, **reject**, **edit** (vuelve a pending con diff). Todo a **audit trail**.",
+        "Reject requiere razón. Edit versiona el artefacto.",
+        "Sin audit, el capstone no es demostrable."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "SLO, alerts y runbook",
+      "paragraphs": [
+        "**SLO** ejemplos: 95% runs success en 7d; p95 duración < 15 min; 0 envíos sin approve.",
+        "**Alerts** cuando burn rate de error sube. **Runbook**: pasos de mitigación y rollback.",
+        "Incluye contacto y severidad."
+      ],
+      "code": "slo = {\n    \"success_rate_7d\": 0.95,\n    \"p95_duration_min\": 15,\n    \"zero_send_without_approve\": True,\n}\nmetrics = {\"success_rate_7d\": 0.91, \"p95_duration_min\": 12, \"sends_without_approve\": 0}\n\ndef alerts(m, slo):\n    out = []\n    if m[\"success_rate_7d\"] < slo[\"success_rate_7d\"]:\n        out.append(\"success_rate_low\")\n    if m[\"p95_duration_min\"] > slo[\"p95_duration_min\"]:\n        out.append(\"lat"
+    },
+    {
+      "heading": "pruebas E2E, seguridad, costo y métricas de valor",
+      "paragraphs": [
+        "**E2E** del VP con datos sintéticos: cada nodo success + draft final + audit.",
+        "**Seguridad**: secretos, scopes, no PII real. **Costo**: tokens API + minutos RPA.",
+        "**Valor**: tiempo humano ahorrado (estimado), tasa de rework, no “fraudes detectados”."
+      ],
+      "code": "def e2e_vp():\n    steps = [\"ingest\", \"validate\", \"analyze\", \"ai\", \"report\", \"approve\", \"draft\"]\n    evidence = {s: \"success\" for s in steps}\n    evidence[\"audit_events\"] = 3\n    evidence[\"cost_tokens\"] = 1200\n    evidence[\"value_minutes_saved_est\"] = 45\n    evidence[\"fraud_labels\"] = 0  # debe ser 0: no auto-fraude\n    return evidence\n\nev = e2e_vp()\nprint(\"draft\", ev[\"draft\"], \"audit\", ev[\"audit_e"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S26-T1-B-DEMO",
+      "description": "Modelar DAG con estados explícitos.",
+      "why": "El orden del VP es el contrato del flow.",
+      "code": "order=[\"ingest\",\"validate\",\"analyze\",\"report\",\"approve\",\"draft_email\"]\nprint(order)\nprint(\"n_steps\", len(order))"
+    },
+    {
+      "demoId": "S26-T2-A-DEMO",
+      "description": "Programar con límites y metadata.",
+      "why": "Metadata habilita auditoría y schedules.",
+      "code": "meta={\"run_id\":\"r1\",\"api_rpm\":30,\"tz\":\"America/Lima\"}\nprint(meta)"
+    },
+    {
+      "demoId": "S26-T2-B-DEMO",
+      "description": "Checkpoint + retry + dead-letter.",
+      "why": "Reanudar sin rehacer lo exitoso.",
+      "code": "ckpt=set([\"a\"]); dlq=[\"b\"]\nprint(\"resume_from\", sorted(ckpt), \"dlq\", dlq)"
+    },
+    {
+      "demoId": "S26-T3-A-DEMO",
+      "description": "Rollback seguro bajo fallo de draft.",
+      "why": "Compensación explícita.",
+      "code": "state={\"report\":\"ok\",\"draft\":\"ok\"}\nstate.pop(\"draft\"); print(state)"
+    },
+    {
+      "demoId": "S26-T3-B-DEMO",
+      "description": "Colas de revisión multi-artefacto.",
+      "why": "Triple revisión antes del correo.",
+      "code": "q={\"analysis\":1,\"report\":1,\"recipient\":0}\nprint(q, \"blocked\", any(v>0 for v in q.values()))"
+    },
+    {
+      "demoId": "S26-T4-A-DEMO",
+      "description": "Aprobar/rechazar/editar con auditoría.",
+      "why": "Sin audit no hay capstone demostrable.",
+      "code": "audit=[{\"action\":\"approve\",\"actor\":\"r1\"}]\nprint(audit[0])"
+    },
+    {
+      "demoId": "S26-T4-B-DEMO",
+      "description": "Definir SLO, alerts y runbook N2.",
+      "why": "SLO operativos del VP.",
+      "code": "slo_ok=0.91<0.95\nprint(\"alert_success_rate\" if slo_ok else \"ok\")"
+    },
+    {
+      "demoId": null,
+      "description": "E2E + seguridad + costo + valor (sin fraude auto).",
+      "why": "Cierre CP-N2-C con notas de regresión N2.",
+      "code": "print({\"e2e\":\"pass\",\"cost_tokens\":100,\"value_min\":30,\"fraud_labels\":0,\"n2_regression\":\"planned\"})"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "El orden draft_email respecto a approve es:",
+      "options": [
+        "Draft antes de approve",
+        "Approve antes de draft_email",
+        "En paralelo sin gate",
+        "Solo schedule"
+      ]
+    },
+    {
+      "question": "La regresión N2 incluye:",
+      "options": [
+        "Solo un print",
+        "Tests críticos de capstones N2, E2E y controles de privacidad/seguridad",
+        "Borrar S14",
+        "Marcar passed sin tests"
+      ]
+    },
+    {
+      "question": "Un send sin approve es:",
+      "options": [
+        "Warning menor",
+        "Incidente P0",
+        "OK en sandbox siempre",
+        "Ignorable"
+      ]
+    },
+    {
+      "question": "fraud_labels automáticos en el VP deben ser:",
+      "options": [
+        "Maximizados",
+        "0 — solo evidencia para humanos",
+        "Igual al score de matching",
+        "Exportados a prensa"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado"
+  ]
+}

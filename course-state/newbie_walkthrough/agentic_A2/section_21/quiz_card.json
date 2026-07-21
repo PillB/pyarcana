@@ -1,0 +1,207 @@
+{
+  "section_index": 21,
+  "title": "Documentos, plantillas y reportes trazables",
+  "outcomes": [
+    "Separar datos y presentación con Jinja",
+    "Renderizar condiciones/tablas con formato seguro",
+    "Generar estructuras tipo DOCX/PDF con secciones",
+    "Distinguir PDF digital de imagen/OCR",
+    "Estructurar informe ejecutivo con método y hallazgos",
+    "Embeber gráficos/tablas con fuentes y limitaciones",
+    "Revisar redacción, a11y y consistencia numérica",
+    "Documentar provenance y flujo de aprobación"
+  ],
+  "theory": [
+    {
+      "heading": "De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B)",
+      "paragraphs": [
+        "En V3, **S21 no es el path principal de FastAPI/OpenAPI**. Aquí **cierras CP-N2-B**: plantillas Jinja, reportes con secciones, consistencia numérica con dashboard/Excel y **provenance + aprobación**.",
+        "Una sola corrida produce artefactos alineados (mismos n y métricas que S18–S20).",
+        "Orden: **T1 Plantillas** → **T2 Documentos** → **T3 Narrativa** → **T4 Calidad y gobernanza**."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Jinja y separación datos/presentación",
+      "paragraphs": [
+        "Jinja permite **plantillas** con `{{ variables }}` y `{% bloques %}`. Los datos se preparan en Python; la plantilla solo presenta.",
+        "Nunca pongas lógica de negocio pesada en la plantilla: calcula métricas antes del render.",
+        "Autoescape en HTML; en texto plano define políticas de caracteres."
+      ],
+      "code": "from jinja2 import Template\n\ntmpl = Template(\"Región {{ region }}: mediana {{ median }} PEN (n={{ n }})\")\nprint(tmpl.render(region=\"Lima\", median=28.0, n=40))"
+    },
+    {
+      "heading": "condiciones, tablas y formato seguro",
+      "paragraphs": [
+        "`{% if %}` y `{% for %}` construyen tablas. Formatea números con filtros o preformateo en Python (`f\"{x:.2f}\"`) para consistencia.",
+        "Evita inyección: no marques strings de usuario como safe en HTML sin sanitizar.",
+        "Celdas vacías: muestra “—” y documenta missing, no inventes ceros."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "estilos y secciones (DOCX/PDF conceptual)",
+      "paragraphs": [
+        "Un informe trazable tiene secciones fijas: portada, resumen, método, hallazgos, anexos. Los estilos (Heading 1/2) habilitan TOC y a11y.",
+        "En este curso modelamos el documento como estructura de bloques renderizada a texto/Markdown/HTML; la migración a python-docx es directa.",
+        "Misma jerarquía en PDF digital facilita extracción posterior."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "PDF digital vs imagen/OCR",
+      "paragraphs": [
+        "Un **PDF digital** contiene texto seleccionable; un **PDF escaneado** es imagen y requiere OCR con errores típicos.",
+        "Clasifica antes de extraer: si no hay texto o el ratio de caracteres es bajo, marca `needs_ocr`.",
+        "En el factory, prefiere generar PDF digital desde HTML/LaTeX/reportlab en lugar de escanear."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "resumen ejecutivo, método y hallazgos",
+      "paragraphs": [
+        "El **resumen ejecutivo** responde la pregunta de negocio en ≤5 viñetas con n e incertidumbre. **Método** describe datos, filtros y métricas. **Hallazgos** citan tablas/figuras.",
+        "No mezcles método con opinión. Cada hallazgo mapea a un id de evidencia (p. ej. H1 → Tabla 2).",
+        "Alineado a S18: hallazgo ≠ decisión."
+      ],
+      "code": "report = {\n    \"resumen\": [\"Ticket mediano Lima 28 PEN en muestra web (n=40)\"],\n    \"metodo\": {\"fuente\": \"sintetico\", \"filtros\": [\"canal=web\"], \"corte\": \"2024-06-30\"},\n    \"hallazgos\": [{\"id\": \"H1\", \"texto\": \"Lima > Cusco en mediana\", \"evidencia\": \"Tabla2\"}],\n}\nprint(report[\"resumen\"][0])\nprint(report[\"hallazgos\"][0][\"evidencia\"])"
+    },
+    {
+      "heading": "gráficos, tablas, fuentes y limitaciones",
+      "paragraphs": [
+        "Inserta figuras del dashboard (S19) y tablas del Excel (S20) con **caption** idéntico en fuente/corte/n.",
+        "Lista de limitaciones al final de hallazgos, no escondida en anexo solo.",
+        "Reconciliación: checksum de métricas clave entre artefactos."
+      ],
+      "code": "metrics = {\"median_Lima\": 28.0, \"n_Lima\": 40}\ncaption = \"Fig.1 Ticket mediano | Fuente: sintético | n_Lima=40\"\nassert \"40\" in caption\nbundle = {\"fig\": \"fig1.png\", \"table\": \"tabla2\", \"metrics\": metrics, \"limits\": [\"solo web\"]}\nprint(bundle[\"metrics\"])\nprint(bundle[\"limits\"])"
+    },
+    {
+      "heading": "redacción, accesibilidad y consistencia",
+      "paragraphs": [
+        "Redacción clara en español profesional (es-PE): evita anglicismos innecesarios en el cuerpo ejecutivo.",
+        "A11y: headings reales, texto alt de figuras, tablas con encabezados, contraste en HTML.",
+        "Consistencia: misma precisión decimal (p. ej. 1 decimal PEN) en todo el paquete."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "render visual, provenance y aprobación",
+      "paragraphs": [
+        "Registra **provenance**: run_id, git/sha de datos, versiones de script, hashes de artefactos.",
+        "Cola de **aprobación**: borrador → revisión visual → aprobado/rechazado con comentarios.",
+        "El cierre de CP-N2-B exige provenance completo + checklist visual (dashboard, xlsx, doc)."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S21-T1-B-DEMO",
+      "description": "Separar datos de plantilla Jinja con context único",
+      "why": "Un context versionado alimenta todos los renders del factory.",
+      "code": "from jinja2 import Template\n\ncontext = {\n    \"run_id\": \"r1\",\n    \"region\": \"Lima\",\n    \"median\": 28.0,\n    \"n\": 40,\n    \"limit\": \"solo web\",\n}\ntmpl = Template(\n    \"Run {{ run_id }} — {{ region }}: {{ median }} PEN (n={{ n }}). Límite: {{ limit }}.\"\n)\nprint(tmpl.render(**context))"
+    },
+    {
+      "demoId": "S21-T2-A-DEMO",
+      "description": "Render condicional seguro de tabla con missing como em-dash",
+      "why": "Missing explícito evita ceros inventados en el informe.",
+      "code": "from jinja2 import Template\n\ntmpl = Template(\n    \"\"\"{% for r in rows %}{{ r.region }}: {{ r.median if r.median is not none else '—' }}\n{% endfor %}\"\"\"\n)\nrows = [\n    {\"region\": \"Lima\", \"median\": 28.0},\n    {\"region\": \"Cusco\", \"median\": None},\n]\nprint(tmpl.render(rows=rows))"
+    },
+    {
+      "demoId": "S21-T2-B-DEMO",
+      "description": "Generar outline de secciones estilo DOCX/PDF",
+      "why": "El outline fija la estructura del paquete documental.",
+      "code": "def render_outline(sections):\n    lines = []\n    for s in sections:\n        pad = \"  \" * (s[\"h\"] - 1)\n        lines.append(f\"{pad}H{s['h']} {s['name']}\")\n    return \"\\n\".join(lines)\n\nsections = [\n    {\"h\": 1, \"name\": \"Resumen ejecutivo\"},\n    {\"h\": 1, \"name\": \"Método\"},\n    {\"h\": 2, \"name\": \"Datos y filtros\"},\n    {\"h\": 1, \"name\": \"Hallazgos\"},\n]\nprint(render_outline(sections))\nprint(\"sections\", len(sections))"
+    },
+    {
+      "demoId": "S21-T3-A-DEMO",
+      "description": "Clasificar PDF digital vs posible escaneo por densidad de texto",
+      "why": "Clasificar antes de extraer evita basar KPIs en OCR ruidoso.",
+      "code": "def classify(chars, pages):\n    dens = chars / max(pages, 1)\n    return (\"digital\", dens) if dens >= 20 else (\"needs_ocr\", dens)\n\nprint(classify(9000, 4))\nprint(classify(15, 4))"
+    },
+    {
+      "demoId": "S21-T3-B-DEMO",
+      "description": "Estructurar informe en resumen, método y hallazgos con ids",
+      "why": "Ids de hallazgo habilitan revisión y aprobación selectiva.",
+      "code": "informe = {\n    \"resumen\": [\n        \"En muestra web sintética, Lima tiene ticket mediano 28 PEN (n=40).\",\n    ],\n    \"metodo\": {\n        \"fuente\": \"dataset sintético S18\",\n        \"filtros\": [\"monto>0\", \"canal=web\"],\n    },\n    \"hallazgos\": [\n        {\"id\": \"H1\", \"claim\": \"Lima > Cusco en mediana\", \"evidencia\": \"Tabla2\", \"decision\": None},\n    ],\n}\nprint(informe[\"resumen\"][0])\nprint(informe[\"hallazgos\"][0][\"id\"], informe[\"hallazgos\"][0][\"evidencia\"])\nprint(\"decision_none\", informe[\"hallazgos\"]["
+    },
+    {
+      "demoId": "S21-T4-A-DEMO",
+      "description": "Embeber métricas con fuentes/límites y check de paridad",
+      "why": "Paridad entre dashboard, Excel y documento es el corazón del cierre.",
+      "code": "dash = {\"median_Lima\": 28.0}\nxlsx = {\"median_Lima\": 28.0}\ndoc = {\"median_Lima\": 28.0}\nlimits = [\"cobertura web\", \"n Cusco bajo\"]\nparity = dash == xlsx == doc\nbundle = {\"parity\": parity, \"limits\": limits, \"fuente\": \"sintetico\"}\nprint(bundle)"
+    },
+    {
+      "demoId": "S21-T4-B-DEMO",
+      "description": "Normalizar decimales y validar presencia de headings/alt",
+      "why": "Consistencia tipográfica y a11y mínima antes de mandar a revisión.",
+      "code": "def fmt_pen(x):\n    return f\"{round(float(x), 1)} PEN\"\n\nchecks = {\n    \"decimals\": [fmt_pen(28.04), fmt_pen(28.0)],\n    \"has_h1\": True,\n    \"alts\": [\"Barras mediana por región, n por barra en tooltip\"],\n}\nprint(checks[\"decimals\"])\nprint(\"decimal_ok\", len(set(checks[\"decimals\"])) == 1)\nprint(\"a11y_min\", checks[\"has_h1\"] and all(len(a) > 10 for a in checks[\"alts\"]))"
+    },
+    {
+      "demoId": null,
+      "description": "Registrar provenance y estado de cola de aprobación",
+      "why": "Provenance + checklist visual cierran el Reporting Factory CP-N2-B.",
+      "code": "import hashlib, json\n\nprov = {\n    \"run_id\": \"cpn2b-close-01\",\n    \"data_sha1_8\": hashlib.sha1(b\"rows-synthetic\").hexdigest()[:8],\n    \"artifacts\": [\"dashboard.html\", \"results.xlsx\", \"informe.md\"],\n    \"visual_checklist\": {\"dashboard\": True, \"xlsx\": True, \"doc\": True},\n    \"approval\": {\"status\": \"pending_review\"},\n}\nprint(json.dumps(prov, ensure_ascii=False))\nprint(\"ready_for_review\", all(prov[\"visual_checklist\"].values()))"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Por qué separar datos y plantilla Jinja?",
+      "options": [
+        "Para mezclar SQL en el HTML",
+        "Para reutilizar presentación y auditar métricas en Python",
+        "Para evitar control de versiones",
+        "Para ocultar n"
+      ]
+    },
+    {
+      "question": "Un PDF con casi sin caracteres en capa de texto suele requerir:",
+      "options": [
+        "Ignorar el archivo",
+        "OCR / tratamiento de imagen",
+        "Solo openpyxl",
+        "Borrar limitaciones"
+      ]
+    },
+    {
+      "question": "Paridad en el Reporting Factory significa:",
+      "options": [
+        "Mismos colores",
+        "Mismas métricas clave en dashboard, Excel y documento",
+        "Mismo número de páginas",
+        "Mismo reviewer"
+      ]
+    },
+    {
+      "question": "El cierre de contenido de CP-N2-B incluye:",
+      "options": [
+        "Solo un print",
+        "Provenance, checklist visual y hallazgos trazables",
+        "Subir secretos al repo",
+        "Marcar section_passed desde esta lane"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel"
+  ]
+}

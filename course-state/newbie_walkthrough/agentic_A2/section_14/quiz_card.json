@@ -1,0 +1,200 @@
+{
+  "section_index": 14,
+  "title": "NumPy y cómputo vectorizado",
+  "outcomes": [
+    "Construir y validar ndarrays con dtype y shape correctos",
+    "Indexar y filtrar con máscaras booleanas de forma segura",
+    "Aplicar ufuncs y reducciones por eje para métricas de calidad",
+    "Resolver broadcasting y documentar compatibilidad de shapes",
+    "Distinguir views de copies y controlar mutabilidad",
+    "Manejar NaN/inf y evaluar estabilidad numérica",
+    "Vectorizar frente a loops con benchmark honesto",
+    "Medir memoria y probar equivalencia con tolerancia"
+  ],
+  "theory": [
+    {
+      "heading": "De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la sección)",
+      "paragraphs": [
+        "En V3, **S14 no es el path principal de OWASP LLM, prompt injection ni presidio**. Ese material se reubica conceptualmente hacia el tramo de seguridad/IA. Aquí construyes el **inicio de CP-N2-A**: ndarrays, máscaras, ufuncs, broadcasting, views/copies, NaN y vectorización con **métricas de calidad sintéticas**.",
+        "El hilo conductor es un **tablero de calidad** (completitud, unicidad, rangos, señales por pares) calculado en NumPy. Solo datos sintéticos latam (regiones Lima/Arequipa/Cusco, ids `C00x`).",
+        "Orden: **T1 Arrays** → **T2 Operaciones** → **T3 Semántica** → **T4 Rendimiento**."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "ndarray, dtype y shape",
+      "paragraphs": [
+        "Un **ndarray** es un bloque contiguo (o strided) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `int32`); **shape** es la tupla de dimensiones; **ndim** = `len(shape)`; **itemsize** es bytes por elemento.",
+        "Crear con dtype explícito evita sorpresas (`int` vs `float` en divisiones). Valida siempre `arr.dtype`, `arr.shape` y `arr.ndim` al recibir un array de un pipeline.",
+        "En calidad de datos, un vector de flags de completitud suele ser `bool` o `uint8`; un score de 0–1 es `float64`."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "creación, indexación y máscaras",
+      "paragraphs": [
+        "`np.array`, `arange`, `linspace` y `zeros`/`ones`/`full` crean arrays. **Indexación** clásica (`a[i]`, `a[i:j]`) y **fancy index** (`a[[0,2]]`) seleccionan elementos.",
+        "Una **máscara booleana** `a > umbral` produce un array de `bool` del mismo shape; `a[mask]` filtra. Es la forma idiomática de calidad: “filas con score < 0.5”.",
+        "Ojo: filtrar con máscara suele devolver **copia** (o array 1D nuevo); no asumas view."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "ufuncs y reducciones",
+      "paragraphs": [
+        "Las **ufuncs** (`np.add`, `np.sqrt`, operadores `+`, `*`) aplican elemento a elemento en C. Las **reducciones** (`sum`, `mean`, `std`, `min`, `max`) colapsan ejes.",
+        "`axis=0` reduce filas→agrega por columna; `axis=1` por fila. `keepdims=True` preserva dimensiones para rebroadcast.",
+        "Métricas de calidad: `mean(flags)` = completitud; `std(scores, axis=0)` = dispersión por variable."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "broadcasting y compatibilidad de shapes",
+      "paragraphs": [
+        "El **broadcasting** alinea shapes de derecha a izquierda: dimensiones iguales, o una es 1, o ausente. Si no, `ValueError`.",
+        "`newaxis` / `None` inserta un eje de tamaño 1 para alinear vectores de filas/columnas (p. ej. señales por pares).",
+        "Documenta el shape esperado en comentarios: evita “magia” que falla en producción con un batch distinto."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "views/copies y mutabilidad",
+      "paragraphs": [
+        "Un **view** comparte memoria con el base (`arr.base is not None` a menudo); un **copy** es independiente. Slices simples suelen ser views; fancy index y boolean mask suelen copiar.",
+        "`arr.flags.writeable` controla mutación. Mutar un view muta el original — fuente clásica de bugs en pipelines.",
+        "Usa `.copy()` cuando debas aislar transformaciones (p. ej. normalizar scores sin tocar el raw)."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "NaN, inf y estabilidad numérica",
+      "paragraphs": [
+        "`np.nan` y `±inf` rompen `mean`/`sum` clásicos. Usa `np.isnan`/`isinf`, `nansum`/`nanmean`, o máscaras.",
+        "`np.finfo(float).eps` acota ruido de redondeo. Overflow en enteros y float produce wrap o inf.",
+        "En calidad, un NaN en un campo no es “cero”: es **ausencia**. Métricas robustas lo documentan."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "vectorización frente a loops",
+      "paragraphs": [
+        "Un loop Python elemento a elemento paga el intérprete en cada iteración. NumPy mueve el trabajo a código C vectorizado.",
+        "Benchmark **honesto**: mismo input, warmup opcional, `time.perf_counter`, reporta ratio. No compares N=10.",
+        "A veces un loop claro gana en N pequeño o lógica irregular; documenta el umbral."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "memoria, medición y tests con tolerancia",
+      "paragraphs": [
+        "`nbytes` y `itemsize * size` estiman memoria del array. Evita copias innecesarias en datasets grandes.",
+        "`np.allclose(a, b, rtol=, atol=)` compara floats con tolerancia. `np.testing.assert_allclose` falla con mensaje claro.",
+        "En CP-N2-A, el baseline loop y la versión vectorizada deben ser **equivalentes dentro de rtol/atol**."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S14-T1-B-DEMO",
+      "description": "Crear arrays de flags y scores con dtype/shape documentados y validar ndim",
+      "why": "Fija el contrato dtype/shape antes de calcular métricas de calidad.",
+      "code": "import numpy as np\n\ndef make_quality_arrays(n_clients=4):\n    flags = np.ones((n_clients, 3), dtype=np.uint8)  # 3 campos obligatorios\n    flags[1, 2] = 0\n    scores = np.array([0.92, 0.41, 0.78, 0.65], dtype=np.float64)\n    assert flags.ndim == 2 and flags.shape == (n_clients, 3)\n    assert scores.ndim == 1 and scores.dtype == np.float64\n    return flags, scores\n\nf, s = make_quality_arrays()\nprint(\"flags_shape\", f.shape, \"dtype\", f.dtype, \"itemsize\", f.itemsize)\nprint(\"scores_shape\", s.shape, \""
+    },
+    {
+      "demoId": "S14-T2-A-DEMO",
+      "description": "Indexar y filtrar clientes sintéticos con máscara booleana",
+      "why": "Máscaras combinadas expresan reglas de calidad sin loops.",
+      "code": "import numpy as np\n\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\", \"C005\"])\nregion = np.array([\"Lima\", \"Arequipa\", \"Lima\", \"Cusco\", \"Lima\"])\nscore = np.array([0.9, 0.3, 0.55, 0.8, 0.2])\nmask = (region == \"Lima\") & (score < 0.6)\nprint(\"filtrados\", ids[mask].tolist())\nprint(\"count\", int(mask.sum()))"
+    },
+    {
+      "demoId": "S14-T2-B-DEMO",
+      "description": "Reducir métricas de completitud por campo y por cliente con ufuncs",
+      "why": "Reducciones por eje son el núcleo de tableros de calidad vectorizados.",
+      "code": ""
+    },
+    {
+      "demoId": "S14-T3-A-DEMO",
+      "description": "Alinear scores de clientes con pesos de campos vía broadcast explícito",
+      "why": "Broadcast documentado evita ValueError y fan-out silencioso de shapes.",
+      "code": "import numpy as np\n\nscores = np.array([  # clientes x dimensiones de calidad\n    [0.9, 0.8, 0.7],\n    [0.4, 0.5, 0.6],\n    [0.85, 0.9, 0.75],\n])\npesos = np.array([0.5, 0.3, 0.2])  # (3,)\nassert scores.shape[1] == pesos.shape[0]\nweighted = scores * pesos  # (3,3)*(3,)\nagg = weighted.sum(axis=1)\nprint(\"agg\", np.round(agg, 4).tolist())\n# señales por pares: diferencia de agg vía newaxis\ndiff = agg[:, None] - agg[None, :]\nprint(\"diff_shape\", diff.shape)\nprint(\"diff_00\", float(diff[0, 0]))"
+    },
+    {
+      "demoId": "S14-T3-B-DEMO",
+      "description": "Demostrar mutación vía view y aislar normalización con copy",
+      "why": "Copia antes de mutar cuando el raw alimenta auditoría o reprocess.",
+      "code": "import numpy as np\n\nraw = np.array([100.0, 200.0, 50.0, 150.0])\n# mal: normalizar en view\nv = raw[:]\nv /= v.max()\nprint(\"raw_corrupto\", np.round(raw, 3).tolist())\n\nraw = np.array([100.0, 200.0, 50.0, 150.0])\nnorm = raw.copy()\nnorm /= norm.max()\nprint(\"raw_ok\", raw.tolist())\nprint(\"norm\", np.round(norm, 3).tolist())"
+    },
+    {
+      "demoId": "S14-T4-A-DEMO",
+      "description": "Calcular media robusta de scores ignorando NaN/inf documentados",
+      "why": "Métricas de calidad deben declarar política ante NaN/inf.",
+      "code": "import numpy as np\n\nscores = np.array([0.9, np.nan, 0.7, np.inf, 0.4, 0.85])\nvalid = scores[np.isfinite(scores)]\nprint(\"n_valid\", valid.size, \"de\", scores.size)\nprint(\"mean_robusta\", float(np.round(valid.mean(), 4)))\nprint(\"nanmean_solo_nan\", float(np.round(np.nanmean(np.where(np.isinf(scores), np.nan, scores)), 4)))"
+    },
+    {
+      "demoId": "S14-T4-B-DEMO",
+      "description": "Comparar loop vs vectorizado para score ponderado con timing honesto",
+      "why": "Equivalencia + ratio de tiempo justifican la vectorización en el portfolio.",
+      "code": "import numpy as np\nimport time\n\nrng = np.random.default_rng(42)\nn, k = 20_000, 5\nX = rng.random((n, k))\nw = rng.random(k)\nw = w / w.sum()\n\nt0 = time.perf_counter()\nout_loop = np.empty(n)\nfor i in range(n):\n    s = 0.0\n    for j in range(k):\n        s += X[i, j] * w[j]\n    out_loop[i] = s\nt_loop = time.perf_counter() - t0\n\nt1 = time.perf_counter()\nout_vec = X @ w\nt_vec = time.perf_counter() - t1\nprint(\"allclose\", np.allclose(out_loop, out_vec))\nprint(\"ratio\", round(t_loop / max(t_vec, 1e-12), 1))"
+    },
+    {
+      "demoId": null,
+      "description": "Test con np.allclose y presupuesto de memoria para matriz de señales",
+      "why": "Presupuesto de memoria + allclose cierran el incremento S14 de CP-N2-A.",
+      "code": "import numpy as np\n\nn = 500\nbase = np.linspace(0, 1, n)\nvec = base * 0.5 + 0.1\n# simula error numérico leve\nvec_approx = vec + 1e-10\nbudget = 8 * n * n  # float64 de matriz n x n\npair = base[:, None] - base[None, :]\nprint(\"pair_nbytes\", pair.nbytes, \"budget_ok\", pair.nbytes <= budget)\nprint(\"allclose\", np.allclose(vec, vec_approx, rtol=1e-8, atol=1e-12))\nnp.testing.assert_allclose(vec, vec_approx, rtol=1e-8, atol=1e-12)\nprint(\"assert_ok\", True)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué atributo del ndarray indica el tipo homogéneo de sus elementos?",
+      "options": [
+        "shape",
+        "dtype",
+        "ndim",
+        "base"
+      ]
+    },
+    {
+      "question": "Una máscara booleana a > 0.5 se usa principalmente para:",
+      "options": [
+        "Cambiar el dtype",
+        "Filtrar o seleccionar elementos que cumplen la condición",
+        "Forzar una copy siempre",
+        "Aumentar ndim"
+      ]
+    },
+    {
+      "question": "axis=0 en una reducción sobre una matriz 2D suele agregar:",
+      "options": [
+        "Por fila (colapsa columnas)",
+        "Por columna (colapsa filas)",
+        "Solo el elemento [0,0]",
+        "Nada; axis solo existe en pandas"
+      ]
+    },
+    {
+      "question": "Mutar un slice simple de un ndarray normalmente:",
+      "options": [
+        "Nunca afecta al original",
+        "Puede mutar el array base porque suele ser un view",
+        "Convierte todo a object",
+        "Borra el dtype"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel"
+  ]
+}

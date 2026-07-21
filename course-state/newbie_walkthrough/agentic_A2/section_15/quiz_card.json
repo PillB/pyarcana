@@ -1,0 +1,201 @@
+{
+  "section_index": 15,
+  "title": "Pandas: ingesta, selección y tipos",
+  "outcomes": [
+    "Modelar Series/DataFrame con Index estable",
+    "Leer CSV/Excel con parser y dtypes controlados",
+    "Seleccionar con loc/iloc y assign de forma idiomática",
+    "Evitar chained assignment y controlar copias",
+    "Tipar strings, nullable, fechas y categorías",
+    "Aplicar coerción explícita con schema y reporte",
+    "Exportar a CSV/Excel (y contrato Parquet) de forma reproducible",
+    "Documentar índices, provenance y uso de memoria"
+  ],
+  "theory": [
+    {
+      "heading": "De “stdlib profunda” a Pandas ingesta (mapa de la sección)",
+      "paragraphs": [
+        "En V3, **S15 no es el path principal de contextlib, functools, descriptors ni typing avanzado**. Ese material se reubica. Aquí construyes el **dataset de CP-N2-A**: Series/DataFrame, lectura tipada, selección, tipos nullable, coerción con schema y export con provenance.",
+        "Hilo: **clientes y transacciones sintéticas** (Lima/Arequipa, montos en PEN, ids C00x/T00x). Sin PII real.",
+        "Orden: **T1 Modelo/lectura** → **T2 Selección** → **T3 Tipos** → **T4 Exportación**."
+      ],
+      "code": "import pandas as pd\n\ns = pd.Series([0.9, 0.4], index=[\"C001\", \"C002\"], name=\"score\")\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C002\", \"C003\"],\n    \"region\": [\"Lima\", \"Arequipa\", \"Lima\"],\n    \"score\": [0.9, 0.4, 0.7],\n}).set_index(\"cliente_id\")\nprint(s.loc[\"C001\"])\nprint(df.index.tolist())\nprint(df.dtypes.to_dict())"
+    },
+    {
+      "heading": "Series/DataFrame/index",
+      "paragraphs": [
+        "Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index).",
+        "Un Index **estable** (ids de negocio) facilita joins y auditoría. `reset_index` / `set_index` cambian el eje de etiqueta.",
+        "MultiIndex se introduce como etiquetas jerárquicas (región, mes); se profundiza en S17."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "lectura CSV/Excel y opciones de parser",
+      "paragraphs": [
+        "`read_csv` y `read_excel` aceptan `dtype`, `parse_dates`, `na_values`, `usecols`. Controlar el parser evita object-dtypes silenciosos.",
+        "Separe decimal (`,` vs `.`) y encoding (`utf-8`) en datasets latinos. Excel requiere motor (`openpyxl`).",
+        "Siempre reconcilia **filas leídas vs esperadas** y lista columnas."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "loc/iloc, filtros y assign",
+      "paragraphs": [
+        "**loc** etiqueta; **iloc** posición. Filtros booleanos: `df.loc[df.score < 0.5, cols]`.",
+        "`assign` devuelve un DF con columnas nuevas sin romper el pipeline funcional.",
+        "`query` es legible para filtros simples; para producción muchos equipos prefieren máscaras explícitas."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "chained assignment y copy semantics",
+      "paragraphs": [
+        "**SettingWithCopyWarning** aparece al asignar sobre un slice que puede ser view o copy. El resultado es impredecible.",
+        "Patrón seguro: `df = df.copy()` tras filtrar, o asignar con `.loc[row_mask, col] = valor` sobre el DF padre.",
+        "En pipelines, prefiere métodos que devuelven nuevo objeto (`assign`, `where`) y documenta copias."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "strings, nullable, fechas y categorías",
+      "paragraphs": [
+        "dtypes **string**, **Int64**/**boolean** nullable, **datetime64** y **category** reducen memoria y errores.",
+        "Convierte con `astype('string')`, `pd.to_numeric(..., errors=)`, `pd.to_datetime`, `astype('category')`.",
+        "Reporta cuántos valores no convirtieron (NaN introducidos)."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "coerción explícita y schema",
+      "paragraphs": [
+        "Un **schema dict** declara tipos objetivo por columna. `astype` / `to_numeric` aplican coerción; los fallos se listan.",
+        "No “arregles” silenciosamente: emite un reporte `{columna: n_fallos}`.",
+        "Este reporte alimenta el quality gate de S16."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "CSV / Excel y contrato Parquet",
+      "paragraphs": [
+        "`to_csv`, `to_excel` exportan tablas. Parquet (pyarrow/fastparquet) preserva tipos; si el motor no está, exporta CSV + **schema JSON** como contrato.",
+        "Usa `index=False` salvo que el index sea clave de negocio documentada.",
+        "Verifica columnas críticas post-export con round-trip."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "índices, formatos, provenance y memoria",
+      "paragraphs": [
+        "Un **manifest** registra filas, columnas, dtypes, `memory_usage` y provenance (fuente, timestamp, hash simple).",
+        "`index=False` en export evita columnas `Unnamed` al reingestar.",
+        "Documenta el uso de memoria antes/después de castear a category/string."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S15-T1-B-DEMO",
+      "description": "Construir DataFrame de clientes con Index estable y dtypes claros",
+      "why": "Index de negocio alinea tablas de clientes y transacciones.",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C002\", \"C003\"],\n    \"region\": [\"Lima\", \"Arequipa\", \"Cusco\"],\n    \"score\": [0.91, 0.42, 0.77],\n})\ndf = df.set_index(\"cliente_id\")\ndf[\"score\"] = df[\"score\"].astype(\"float64\")\nprint(df.index.name, df.index.tolist())\nprint(df.loc[\"C002\", \"region\"], float(df.loc[\"C002\", \"score\"]))"
+    },
+    {
+      "demoId": "S15-T2-A-DEMO",
+      "description": "Ingerir CSV sintético con dtype, parse_dates y na_values",
+      "why": "Parser explícito evita monedas/fechas como object opaco.",
+      "code": "import pandas as pd\nfrom io import StringIO\n\nraw = \"\"\"cliente_id;monto;fecha\nC001;15,50;2024-03-01\nC002;;2024-03-02\nC003;20.0;2024-03-03\n\"\"\"\n# normalizamos decimal latino a punto para el parser\ntext = raw.replace(\",\", \".\")\ndf = pd.read_csv(\n    StringIO(text),\n    sep=\";\",\n    dtype={\"cliente_id\": \"string\"},\n    parse_dates=[\"fecha\"],\n    na_values=[\"\", \"NA\"],\n)\nprint(len(df), df[\"monto\"].isna().sum())\nprint(str(df[\"fecha\"].dtype))\nprint(df[\"cliente_id\"].tolist())"
+    },
+    {
+      "demoId": "S15-T2-B-DEMO",
+      "description": "Seleccionar filas Lima y asignar columna de riesgo derivada",
+      "why": "loc + assign mantienen pipelines legibles y testeables.",
+      "code": ""
+    },
+    {
+      "demoId": "S15-T3-A-DEMO",
+      "description": "Evitar chained assignment: flag seguro con loc y subset con copy",
+      "why": "loc sobre el padre + copy en subsets elimina SettingWithCopy.",
+      "code": ""
+    },
+    {
+      "demoId": "S15-T3-B-DEMO",
+      "description": "Coaccionar string/category, numeric y fechas con conteo de NaN",
+      "why": "Tipos correctos + reporte de NaN son la base de la ingesta tipada.",
+      "code": ""
+    },
+    {
+      "demoId": "S15-T4-A-DEMO",
+      "description": "Aplicar schema y listar coerciones fallidas por columna",
+      "why": "Schema + reporte de fallos alimenta el quality gate (S16).",
+      "code": ""
+    },
+    {
+      "demoId": "S15-T4-B-DEMO",
+      "description": "Exportar a CSV y Excel sin perder columnas críticas; emitir contrato Parquet",
+      "why": "Round-trip de columnas críticas valida el export reproducible.",
+      "code": "import pandas as pd\nfrom io import StringIO, BytesIO\n\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C002\"],\n    \"monto\": [10.5, 3.0],\n    \"region\": [\"Lima\", \"Cusco\"],\n})\ncsv_buf = StringIO()\ndf.to_csv(csv_buf, index=False)\ncsv_buf.seek(0)\nrt = pd.read_csv(csv_buf)\nassert list(rt.columns) == [\"cliente_id\", \"monto\", \"region\"]\nxbuf = BytesIO()\ndf.to_excel(xbuf, index=False, engine=\"openpyxl\")\ncontract = {c: str(df[c].dtype) for c in df.columns}\nprint(\"rows\", len(rt), \"excel_ok\", len(xbuf.getvalue"
+    },
+    {
+      "demoId": null,
+      "description": "Emitir manifest de filas/columnas, memoria y provenance",
+      "why": "El manifest reconcilia entrada vs salida en CP-N2-A.",
+      "code": "import pandas as pd, hashlib, json\n\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"], \"monto\": [1.0, 2.0, 3.0]})\nblob = df.to_csv(index=False).encode()\nmanifest = {\n    \"rows\": int(len(df)),\n    \"columns\": df.columns.tolist(),\n    \"memory_bytes\": int(df.memory_usage(deep=True).sum()),\n    \"source\": \"synthetic_tx_v1\",\n    \"sha1_12\": hashlib.sha1(blob).hexdigest()[:12],\n}\nprint(json.dumps(manifest, sort_keys=True))"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué método de selección usa etiquetas de index/columnas?",
+      "options": [
+        "iloc",
+        "loc",
+        "iat solo posicional forzado",
+        "values"
+      ]
+    },
+    {
+      "question": "SettingWithCopyWarning se relaciona con:",
+      "options": [
+        "Parquet vs CSV",
+        "Asignación sobre slices que pueden ser view/copy (chained assignment)",
+        "Falta de openpyxl",
+        "MultiIndex obligatorio"
+      ]
+    },
+    {
+      "question": "errors='coerce' en to_numeric:",
+      "options": [
+        "Borra la columna",
+        "Convierte inválidos a NaN",
+        "Eleva siempre excepción",
+        "Cambia a string"
+      ]
+    },
+    {
+      "question": "Un manifest de export debería incluir al menos:",
+      "options": [
+        "Solo el nombre del analista",
+        "Filas, columnas y provenance/hash del artefacto",
+        "Contraseñas de BD",
+        "PII real de clientes"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado"
+  ]
+}

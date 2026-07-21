@@ -1,0 +1,214 @@
+{
+  "section_index": 28,
+  "title": "Pruebas de datos, propiedades e integración",
+  "outcomes": [
+    "Generar casos desde invariantes",
+    "Aplicar tests metamórficos y de simetría",
+    "Validar contratos de schema/calidad",
+    "Detectar drift y reconciliar goldens",
+    "Doblar HTTP/DB/reloj con control",
+    "Escribir contract tests sin sobre-mocking",
+    "Montar integración/E2E con containers (concepto)",
+    "Eliminar flakes y fijar determinismo en CI"
+  ],
+  "theory": [
+    {
+      "heading": "De LLM agents a QA de datos del motor ER (mapa CP-N3-A)",
+      "paragraphs": [
+        "En V3, **S28 no es LangGraph en producción**. Aquí construyes la **suite de QA** del ER: propiedades, schema, goldens, dobles e integración determinista.",
+        "Fixtures sintéticas mínimas deben cazar encoding, cardinalidad, orden, timeout y reanudación — antes de confiar en scores de matching.",
+        "Orden: **T1 Propiedades** → **T2 Datos** → **T3 Dobles** → **T4 Sistema/CI**. ER solo decide misma entidad."
+      ],
+      "code": "import random\nrandom.seed(42)\n\ndef normalize(s: str) -> str:\n    return \" \".join(s.casefold().split())\n\ndef gen_strings(n=20):\n    alphabet = \"ab cÁé  \"\n    out = []\n    for _ in range(n):\n        out.append(\"\".join(random.choice(alphabet) for _ in range(random.randint(0, 12))))\n    return out\n\n# invariante: normalize es idempotente\nbad = []\nfor s in gen_strings():\n    once = normalize(s)\n    twic"
+    },
+    {
+      "heading": "invariantes y generación de casos",
+      "paragraphs": [
+        "Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos.",
+        "Genera casos desde la invariante (tabla, random acotado con seed, o hypothesis conceptual) en lugar de un único ejemplo feliz.",
+        "Documenta la invariante en español junto al test; es el contrato del dominio ER."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "idempotencia, simetría y metamorphic tests",
+      "paragraphs": [
+        "**Idempotencia**: aplicar dos veces = una. **Simetría**: `sim(a,b)==sim(b,a)` en comparadores simétricos.",
+        "**Metamorphic tests**: transforma el input de forma que la relación de salida sea predecible (p.ej. añadir espacios no cambia normalize).",
+        "Útiles cuando no hay oráculo absoluto pero sí relación entre salidas."
+      ],
+      "code": "def sim_token(a: str, b: str) -> float:\n    ta, tb = set(a.casefold().split()), set(b.casefold().split())\n    if not ta and not tb:\n        return 1.0\n    if not ta or not tb:\n        return 0.0\n    return len(ta & tb) / len(ta | tb)\n\npairs = [(\"Ana López\", \"López Ana\"), (\"x\", \"y\"), (\"\", \"\")]\nsym_ok = all(abs(sim_token(a, b) - sim_token(b, a)) < 1e-12 for a, b in pairs)\n# metamorphic: padding spac"
+    },
+    {
+      "heading": "schema y quality contracts",
+      "paragraphs": [
+        "Un **schema contract** fija tipos, nullability y dominios (email con @, score 0..1). Un **quality contract** fija reglas de negocio (unique id, cardinalidad de pares).",
+        "Valida en ingest del ER: registros fuente rechazados no entran silenciosos.",
+        "Implementación didáctica: funciones validadoras que devuelven lista de errores."
+      ],
+      "code": "def validate_record(r: dict) -> list[str]:\n    err = []\n    if not isinstance(r.get(\"id\"), str) or not r[\"id\"]:\n        err.append(\"id requerido\")\n    email = r.get(\"email\")\n    if email is not None and \"@\" not in str(email):\n        err.append(\"email inválido\")\n    score = r.get(\"score\")\n    if score is not None and not (0 <= float(score) <= 1):\n        err.append(\"score fuera de [0,1]\")\n    retu"
+    },
+    {
+      "heading": "golden datasets, drift y reconciliación",
+      "paragraphs": [
+        "Un **golden** es un snapshot de salida esperada (JSON/CSV sintético versionado). Sirve de regresión de pipeline.",
+        "**Drift**: la salida actual difiere del golden. Clasifica: bug real vs cambio intencional.",
+        "**Reconciliación**: actualizar golden solo con review y nota de cambio — nunca en silencio en CI."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "mocks/fakes de HTTP, DB y reloj",
+      "paragraphs": [
+        "**Mock**: verifica interacciones. **Fake**: implementación liviana en memoria. **Stub**: respuestas fijas.",
+        "HTTP: fake de status/JSON. DB: dict o sqlite memoria. Reloj: inyecta `now` callable — no `datetime.now` global sin control.",
+        "Objetivo: tests rápidos y deterministas del ER sin red real."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "contract tests sin sobre-mocking",
+      "paragraphs": [
+        "El **sobre-mocking** acopla el test a detalles internos (orden de calls, nombres privados) y se rompe en refactors inocuos.",
+        "Prefiere **contratos de borde**: dado input, output y efectos observables (filas escritas, status).",
+        "Mockea solo I/O externo; deja la lógica de matching real bajo prueba."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "integración/E2E y test containers",
+      "paragraphs": [
+        "Integración ejerce 2+ componentes reales (app + sqlite). E2E cubre flujo de punta a punta (ingest→pares→review) con datos sintéticos.",
+        "**Testcontainers** (concepto): DB efímera en contenedor. En el curso usamos sqlite `:memory:` o archivo temp como análogo local.",
+        "Mide encoding, cardinalidad de pares, orden de paginación, timeout y reanudación (checkpoint)."
+      ],
+      "code": "import sqlite3\n\ndef run_integration():\n    con = sqlite3.connect(\":memory:\")\n    con.execute(\"CREATE TABLE entities(id TEXT PRIMARY KEY, name TEXT)\")\n    con.executemany(\"INSERT INTO entities VALUES (?,?)\", [(\"e1\", \"Ana\"), (\"e2\", \"Ana\")])\n    n = con.execute(\"SELECT COUNT(*) FROM entities\").fetchone()[0]\n    # candidate pairs naive\n    pairs = con.execute(\n        \"SELECT a.id, b.id FROM entities "
+    },
+    {
+      "heading": "flakes, determinismo y CI",
+      "paragraphs": [
+        "Un **flake** pasa/falla sin cambio de código: orden, tiempo, red, random. En CI del ER son inaceptables en la suite gate.",
+        "Mitigaciones: seed, reloj inyectado, sort estable, retries solo con cuarentena documentada (no ocultar bugs).",
+        "Pipeline CI: lint → unit → property/data → integration. Falla el job si hay drift de golden no aprobado."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S28-T1-B-DEMO",
+      "description": "Genera 15 strings con seed y verifica invariante de longitud de normalize ≥ 0.",
+      "why": "Casos generados refuerzan invariantes.",
+      "code": "import random\nrandom.seed(1)\ndef norm(s):\n    return \" \".join(s.casefold().split())\nok = all(len(norm(\"\".join(random.choice(\"a b\") for _ in range(8)))) >= 0 for _ in range(15))\nprint(\"invariant_ok\", ok)\nprint(\"n\", 15)"
+    },
+    {
+      "demoId": "S28-T2-A-DEMO",
+      "description": "Comprueba simetría de Jaccard de tokens y metamorphic padding.",
+      "why": "Propiedades sin oráculo absoluto aún fallan con bugs.",
+      "code": "def j(a,b):\n    ta,tb=set(a.lower().split()),set(b.lower().split())\n    return len(ta&tb)/len(ta|tb) if ta|tb else 1.0\nprint(\"sym\", j(\"a b\",\"b a\")==j(\"b a\",\"a b\"))\nprint(\"meta\", \"x y\" == \" \".join(\"  x   y \".split()))\nprint(\"idemp\", \"a\" == \" \".join(\"a\".split()))"
+    },
+    {
+      "demoId": "S28-T2-B-DEMO",
+      "description": "Valida schema de tres registros sintéticos y cuenta errores.",
+      "why": "Contratos de calidad en ingest del ER.",
+      "code": "def val(r):\n    e=[]\n    if not r.get(\"id\"): e.append(\"id\")\n    if r.get(\"score\") is not None and not 0<=r[\"score\"]<=1: e.append(\"score\")\n    return e\nrows=[{\"id\":\"1\",\"score\":0.2},{\"id\":\"\",\"score\":2},{\"id\":\"3\",\"score\":0.5}]\nprint(\"errors\", sum(len(val(r)) for r in rows))\nprint(\"ok_first\", val(rows[0])==[])"
+    },
+    {
+      "demoId": "S28-T3-A-DEMO",
+      "description": "Detecta drift de golden de pares y bloquea reconcile sin aprobación.",
+      "why": "Drift visible > golden silencioso.",
+      "code": "golden={\"n\":2}\ncur={\"n\":3}\nprint(\"drift\", golden!=cur)\nprint(\"action\", \"blocked\" if golden!=cur else \"ok\")\nprint(\"version\", 1)"
+    },
+    {
+      "demoId": "S28-T3-B-DEMO",
+      "description": "Fake HTTP + reloj fijo devuelven JSON y timestamp deterministas.",
+      "why": "Dobles controlados eliminan red y tiempo real.",
+      "code": "from datetime import datetime, timezone\nclass H:\n    def get(self):\n        return {\"status\":200,\"body\":{\"ok\":True}}\nclass C:\n    def now(self):\n        return datetime(2026,1,1,tzinfo=timezone.utc)\nprint(H().get()[\"body\"][\"ok\"], C().now().date().isoformat())"
+    },
+    {
+      "demoId": "S28-T4-A-DEMO",
+      "description": "Contrato de borde sobre match real vs overmock que oculta bug.",
+      "why": "No mockees la lógica que quieres probar.",
+      "code": "def real(a,b):\n    return a.casefold()==b.casefold()\nover=lambda a,b: True\nprint(\"real\", real(\"A\",\"a\"))\nprint(\"overmock_false_pos\", over(\"A\",\"z\"))\nprint(\"prefer_real\", True)"
+    },
+    {
+      "demoId": "S28-T4-B-DEMO",
+      "description": "Integración sqlite: inserta entidades y cuenta pares por nombre igual.",
+      "why": "Integración mínima del pipeline de candidatos.",
+      "code": "import sqlite3\nc=sqlite3.connect(\":memory:\")\nc.execute(\"create table e(id text, name text)\")\nc.executemany(\"insert into e values (?,?)\",[(\"1\",\"Ana\"),(\"2\",\"Ana\"),(\"3\",\"Bob\")])\npairs=c.execute(\"select a.id,b.id from e a join e b on a.id<b.id and a.name=b.name\").fetchall()\nprint(\"pairs\", pairs)\nprint(\"n\", len(pairs))"
+    },
+    {
+      "demoId": null,
+      "description": "Orden estable + seed: dos corridas CI producen la misma lista.",
+      "why": "Determinismo es requisito del gate de suite.",
+      "code": "import random\ndef run(seed):\n    random.seed(seed)\n    return sorted([\"c\",\"a\",\"b\"]), round(random.random(),5)\nprint(run(3)==run(3))\nprint(run(3)[0])"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "Un test metamórfico verifica:",
+      "options": [
+        "Solo un número mágico",
+        "Relaciones predecibles entre entradas transformadas y salidas",
+        "Que la red esté caída",
+        "Fraude"
+      ]
+    },
+    {
+      "question": "Actualizar un golden con drift sin review es:",
+      "options": [
+        "Buena práctica",
+        "Riesgo de ocultar regresiones",
+        "Obligatorio en CI",
+        "Irrelevante"
+      ]
+    },
+    {
+      "question": "Sobre-mocking típico:",
+      "options": [
+        "Probar lógica pura real",
+        "Acoplar el test a detalles internos y ocultar bugs",
+        "Usar sqlite memoria",
+        "Fijar seed"
+      ]
+    },
+    {
+      "question": "Flakes en la suite gate de ER se manejan:",
+      "options": [
+        "Ignorándolos",
+        "Con determinismo (seed/reloj/sort) y fallo de job si persisten",
+        "Subiendo retries a 100",
+        "Borrando tests"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest"
+  ]
+}

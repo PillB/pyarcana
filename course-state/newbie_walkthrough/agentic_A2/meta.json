@@ -1,0 +1,8 @@
+{
+  "attempt_id": "agentic_A2",
+  "started_at": "2026-07-21T22:16:52.345600+00:00",
+  "git_sha": "0830039",
+  "reason": "Second consecutive pure agentic dual-newbie full run after clean agentic_A1",
+  "prior_clean": "agentic_A1",
+  "brand": "PyArcana"
+}

@@ -1,0 +1,214 @@
+{
+  "section_index": 10,
+  "title": "Módulos, packaging y CLI profesional",
+  "outcomes": [
+    "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+    "Definir API pública estable y helpers privados",
+    "Crear paquete instalable con layout src y pyproject.toml",
+    "Aplicar semver simple y requires-python / deps con criterio",
+    "Implementar subcomandos argparse con exit codes 0/1/2",
+    "Separar stdout (datos) de stderr (diagnóstico)",
+    "Implementar precedencia flags > env > archivo > defaults",
+    "Mantener secretos fuera del repo y validar config al arranque"
+  ],
+  "theory": [
+    {
+      "heading": "De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)",
+      "paragraphs": [
+        "En V3, **S10 no es el path principal de Pipeline/ColumnTransformer/SHAP**. Ese material se reubica al tramo de ML tabular. Aquí empaquetas **familiarity_core**: módulos limpios, **pyproject.toml**, **CLI** con subcomandos y **config por precedencia**.",
+        "Integra el ETL de CP-N1-B y la observabilidad de S09. Entorno **local-python**. Id de plataforma `sklearn` se conserva.",
+        "Orden: **T1 Módulos** → **T2 Paquetes** → **T3 CLI** → **T4 Configuración**."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Imports, namespaces y __main__",
+      "paragraphs": [
+        "`import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys.modules`. **`__name__`** es el nombre del módulo, o `'__main__'` si se ejecuta como script.",
+        "`if __name__ == '__main__':` protege el CLI/demo para que no corra al importar. **`__all__`** documenta la API pública de `from mod import *` (y comunica intención).",
+        "Los **imports circulares** se rompen extrayendo un tercer módulo, importando dentro de funciones (lazy) o invirtiendo dependencias. Prefiere diseño a hacks."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Dependencias cíclicas y API pública",
+      "paragraphs": [
+        "Prefijo `_` marca helpers **privados** (convención). La fachada (`__init__.py` o `api.py`) reexporta solo lo estable.",
+        "Una **API pública pequeña** (p. ej. 4 símbolos) reduce breaking changes. Versiona la intención: añadir es minor; renombrar/eliminar es major.",
+        "Lazy import dentro de funciones evita ciclos y acelera el import del paquete cuando un submódulo es pesado."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Layout src, pyproject.toml y builds",
+      "paragraphs": [
+        "Layout **src/**: `src/familiarity_core/...` evita importar el paquete desde el repo sin instalar. `pyproject.toml` declara name, version, requires-python y el build backend (setuptools/hatchling).",
+        "`pip install -e .` instala en editable: cambias código y el import refleja al toque. Ideal en desarrollo del CLI.",
+        "Si ves `ModuleNotFoundError` post-install, revisa nombre del paquete, packages discovery y el cwd."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Versionado y compatibilidad",
+      "paragraphs": [
+        "**SemVer** simple: MAJOR.MINOR.PATCH. Breaking → major; feature compatible → minor; fix → patch. En 0.x es más flexible, pero documenta igual.",
+        "`requires-python` y dependencies pinadas con criterio (mínimos, no caos de upper bounds sin razón).",
+        "Un **CHANGELOG** stub (Added/Changed/Fixed) evita amnesia entre sprints. Breaking de firma pública se anuncia."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "argparse, subcomandos y exit codes",
+      "paragraphs": [
+        "`argparse.ArgumentParser` + **subparsers** modelan `ingest|normalize|compare|report`. Cada subcomando tiene flags propios.",
+        "Exit codes: **0** éxito, **2** uso/CLI inválido (argparse default), **1** error de runtime/negocio. Scripts y CI dependen de esto.",
+        "Separa el parse de args de la lógica: `main(argv) -> int` retorna el código; el entrypoint hace `sys.exit(main())`."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "stdin/stdout/stderr y ayuda",
+      "paragraphs": [
+        "**stdout** = datos (JSON, CSV). **stderr** = logs y progreso. Así `cmd > out.json` no contamina el archivo.",
+        "Soportar path o **`-`** para stdin habilita pipes: `cat data.json | familiarity normalize`.",
+        "No mezcles `print` de debug en stdout. Progress bars y logs van a stderr."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Archivo/env/flags y precedencia",
+      "paragraphs": [
+        "Precedencia canónica: **flags CLI > variables de entorno > archivo de config > defaults**.",
+        "Documenta la tabla en README. Un flag `--log-level` debe ganar a `FAMILIARITY_LOG_LEVEL`.",
+        "Implementa un `merge_config` puro y testeable: dicts por capa, reduce de menor a mayor prioridad."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Secretos, defaults y validación temprana",
+      "paragraphs": [
+        "Secretos **fuera del repo**: `.env` en `.gitignore`, nunca en logs. Defaults seguros (TLS on, log level INFO, no debug PII).",
+        "`validate_config()` al arranque con errores claros (qué clave falta, qué subcomando la exige).",
+        "Fail-fast de config evita procesar 10k filas con un path mal tipeado."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S10-T1-B-DEMO",
+      "description": "Separar normalize y cli en funciones; demo con guard __main__.",
+      "why": "La lógica vive en normalize; el entrypoint solo orquesta.",
+      "code": ""
+    },
+    {
+      "demoId": "S10-T2-A-DEMO",
+      "description": "Fachada que exporta solo 4 símbolos públicos.",
+      "why": "Cuatro símbolos estables; helpers con _ fuera de la API.",
+      "code": ""
+    },
+    {
+      "demoId": "S10-T2-B-DEMO",
+      "description": "Modelo mínimo de layout src + metadatos instalables.",
+      "why": "El layout src + pyproject es el contrato de packaging del curso.",
+      "code": ""
+    },
+    {
+      "demoId": "S10-T3-A-DEMO",
+      "description": "Bump 0.1.0 → 0.2.0 por subcomando nuevo (minor).",
+      "why": "Feature compatible sube minor; documenta en CHANGELOG.",
+      "code": ""
+    },
+    {
+      "demoId": "S10-T3-B-DEMO",
+      "description": "CLI con subcomandos ingest|normalize|compare|report y exit codes.",
+      "why": "Subparsers + return codes hacen la CLI operable en scripts.",
+      "code": ""
+    },
+    {
+      "demoId": "S10-T4-A-DEMO",
+      "description": "Datos a stdout y diagnóstico a stderr (simula pipe normalize).",
+      "why": "El pipe de datos queda limpio; logs viven en stderr.",
+      "code": "import sys\nfrom io import StringIO\n\ndef normalize_cmd(raw: str, err: StringIO) -> str:\n    err.write(\"stage=normalize event=start\\n\")\n    out = raw.strip().casefold()\n    err.write(\"stage=normalize event=done\\n\")\n    return out\n\nstderr = StringIO()\ndata = normalize_cmd('  {\"name\": \"Ana\"}  ', stderr)\nprint(data)  # stdout\nprint(\"--- stderr ---\")\nprint(stderr.getvalue().strip())"
+    },
+    {
+      "demoId": "S10-T4-B-DEMO",
+      "description": "FAMILIARITY_LOG_LEVEL vs --log-level: gana el flag.",
+      "why": "Precedencia flags > env > default documentada y testeable.",
+      "code": "def resolve_log_level(default=\"INFO\", env=None, flag=None) -> str:\n    level = default\n    if env:\n        level = env\n    if flag:\n        level = flag\n    return level\n\nprint(\"solo env\", resolve_log_level(env=\"DEBUG\"))\nprint(\"flag gana\", resolve_log_level(env=\"DEBUG\", flag=\"ERROR\"))\nprint(\"default\", resolve_log_level())"
+    },
+    {
+      "demoId": null,
+      "description": "Abort si falta API_TOKEN solo cuando el subcomando lo requiere.",
+      "why": "Validación temprana y contextual al subcomando.",
+      "code": "def need_token(command: str) -> bool:\n    return command in {\"ingest\", \"report\"}\n\ndef validate(command: str, cfg: dict) -> None:\n    if need_token(command) and not cfg.get(\"API_TOKEN\"):\n        raise SystemExit(f\"config: API_TOKEN requerido para {command}\")\n\nvalidate(\"normalize\", {})\nprint(\"normalize ok\")\ntry:\n    validate(\"ingest\", {})\nexcept SystemExit as e:\n    print(\"abort\", e)\nvalidate(\"ingest\", {\"API_TOKEN\": \"secret-demo\"})\nprint(\"ingest ok\")"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Para qué sirve `if __name__ == '__main__'`?",
+      "options": [
+        "Acelerar el interpreter",
+        "Ejecutar el CLI/demo solo al correr el módulo, no al importar",
+        "Definir __all__",
+        "Instalar dependencias"
+      ]
+    },
+    {
+      "question": "Precedencia correcta de config…",
+      "options": [
+        "defaults > flags > env > file",
+        "flags > env > file > defaults",
+        "env > flags > file > defaults",
+        "file > flags > env > defaults"
+      ]
+    },
+    {
+      "question": "Exit code 2 en CLI argparse suele significar…",
+      "options": [
+        "Éxito",
+        "Error de uso/parseo de argumentos",
+        "Timeout de red",
+        "Fraude detectado"
+      ]
+    },
+    {
+      "question": "¿Dónde van los logs de progreso?",
+      "options": [
+        "stdout con el JSON",
+        "stderr",
+        "en el nombre del archivo",
+        "en __all__"
+      ]
+    },
+    {
+      "question": "Añadir un subcomando nuevo compatible es tipicamente…",
+      "options": [
+        "major",
+        "minor",
+        "borrar el repo",
+        "patch obligatorio siempre"
+      ]
+    },
+    {
+      "question": "¿Qué no debe ir al git del paquete?",
+      "options": [
+        ".env con API_TOKEN",
+        "README.md",
+        "pyproject.toml",
+        "src/.../__init__.py"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro"
+  ]
+}

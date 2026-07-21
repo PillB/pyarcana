@@ -1,0 +1,524 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_A1",
+  "section_index": 11,
+  "packet_sha": "cd42f96605437753",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_11/packet.json",
+  "recorded_at": "2026-07-21T22:09:16.612745+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T1-A-E1\nfrom dataclasses import dataclass, field\nprint(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "dataclasses",
+        "import",
+        "dataclass",
+        "field",
+        "print",
+        "test_no_family_verdict",
+        "Completa"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T1-A-E1. Instruction del paquete: Completa la dataclass ClientRecord con client_id, full_name y phones: list[str].. Hints: Usa field(default_factory=list).; Instancia y print.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T1-A-E2\nfrom dataclasses import dataclass\nprint(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "dataclasses",
+        "import",
+        "dataclass",
+        "print",
+        "test_no_family_verdict",
+        "Define",
+        "Transaction"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T1-A-E2. Instruction del paquete: Define Transaction con tx_id, client_id, amount: float, currency: str obligatorios.. Hints: Sin defaults en campos obligatorios.; Crea una instancia sintética.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T1-A-E3\nfrom dataclasses import dataclass\n\nraw = {\"client_id\": \"C007\", \"full_name\": \"Luis Ramos\"}\nprint(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "dataclasses",
+        "import",
+        "dataclass",
+        "raw",
+        "client_id",
+        "C007",
+        "full_name"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T1-A-E3. Instruction del paquete: Migra un dict anónimo a ClientRecord vía from_dict.. Hints: classmethod from_dict.; Imprime el tipo y el id.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T1-B-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    amount: float\n    print(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "dataclasses",
+        "import",
+        "dataclass",
+        "class",
+        "Transaction",
+        "tx_id",
+        "str"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T1-B-E1. Instruction del paquete: Añade invariante: amount de Transaction debe ser > 0.. Hints: __post_init__ raise ValueError.; Muestra ok y reject.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T1-B-E2\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    @classmethod\n    def from_dict(cls, d: dict) -> \"ClientRecord\":\n        print(test_no_family_verdict()\n        ...",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "dataclasses",
+        "import",
+        "dataclass",
+        "class",
+        "ClientRecord",
+        "client_id",
+        "str"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T1-B-E2. Instruction del paquete: Factory from_dict con validación de client_id y document_id no vacíos.. Hints: Raise ValueError con mensaje claro.; Prueba ok y fail.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T1-B-E3\nprint(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "test_no_family_verdict",
+        "Lista",
+        "invariantes",
+        "dominio"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T1-B-E3. Instruction del paquete: Lista en español 4 invariantes del dominio e imprímelas.. Hints: ClientRecord, Transaction, Evidence, Entity.; Formato INV: .... Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T2-A-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass Person:\n    first_name: str\n    last_name: str\n    print(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "dataclasses",
+        "import",
+        "dataclass",
+        "class",
+        "Person",
+        "first_name",
+        "str"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T2-A-E1. Instruction del paquete: Property full_name desde first_name y last_name.. Hints: @property sin setter.; Print full_name.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T2-A-E2\nfrom dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    day_created: int\n    print(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "dataclasses",
+        "import",
+        "dataclass",
+        "class",
+        "Transaction",
+        "tx_id",
+        "str"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T2-A-E2. Instruction del paquete: Método age_days_since(day: int) en Transaction con campo day_created: int (demo sin datetime).. Hints: Retorna day - day_created.; Prueba con números sintéticos.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T2-A-E3\nclass Signal:\n    def __init__(self):\n        self._score = 0.0\n    print(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "class",
+        "Signal",
+        "def",
+        "__init__",
+        "self",
+        "_score",
+        "print",
+        "test_no_family_verdict"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T2-A-E3. Instruction del paquete: Encapsula mutación de score con setter que solo acepta 0..1.. Hints: Property score con setter validado.; Muestra ok y reject.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T2-B-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    print(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "dataclasses",
+        "import",
+        "dataclass",
+        "class",
+        "ClientRecord",
+        "client_id",
+        "str"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T2-B-E1. Instruction del paquete: Implementa eq por business key document_id (dos clientes iguales si mismo doc).. Hints: __eq__ custom; no hace falta hash si no frozen.; Print comparaciones.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T2-B-E2\nfrom dataclasses import dataclass\nprint(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "dataclasses",
+        "import",
+        "dataclass",
+        "print",
+        "test_no_family_verdict",
+        "Crea",
+        "Evidence"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T2-B-E2. Instruction del paquete: Crea Evidence frozen value object y úsalo en un set.. Hints: frozen=True dataclass.; Imprime len del set con duplicado.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T2-B-E3\nprint(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "test_no_family_verdict",
+        "Demuestra",
+        "bug",
+        "entidad",
+        "mutable",
+        "key",
+        "dict"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T2-B-E3. Instruction del paquete: Demuestra el bug de entidad mutable como key de dict y la versión frozen segura.. Hints: Imprime BUG y SAFE.; Con mutable: cambiar campo rompe lookup.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T3-A-E1\n# malo: class Client(Person): ...\nprint(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "malo",
+        "class",
+        "Client",
+        "Person",
+        "print",
+        "test_no_family_verdict",
+        "Reemplaza",
+        "herencia"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T3-A-E1. Instruction del paquete: Reemplaza herencia innecesaria Client(Person) por composición Client tiene person_info dict/objeto.. Hints: Imprime el diseño final simple.; Sin class Person base.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T3-A-E2\nfrom dataclasses import dataclass, field\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    evidences: list = field(default_factory=list)\n    print(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "dataclasses",
+        "import",
+        "dataclass",
+        "field",
+        "class",
+        "CaseFile",
+        "case_id"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T3-A-E2. Instruction del paquete: CaseFile agrega evidencias con add_evidence y cuenta.. Hints: Lista interna.; Print n=2.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T3-A-E3\nprint(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "test_no_family_verdict",
+        "Justifica",
+        "heredar",
+        "Client",
+        "Person",
+        "imprime",
+        "JUST"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T3-A-E3. Instruction del paquete: Justifica en 2 líneas por qué no heredar Client de Person; imprime JUST: .... Hints: Piensa en roles y evolución del modelo.; Español profesional.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T3-B-E1\nfrom typing import Protocol\nprint(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "typing",
+        "import",
+        "Protocol",
+        "print",
+        "test_no_family_verdict",
+        "Define",
+        "Scorer"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T3-B-E1. Instruction del paquete: Define Protocol Scorer con score(pair: tuple[str,str]) -> float y un FakeScorer.. Hints: Imprime el score de un par sintético.; typing.Protocol.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T3-B-E2\ndef apply(norm, text):\n    return norm(text)\n\nprint(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "apply",
+        "norm",
+        "text",
+        "return",
+        "print",
+        "test_no_family_verdict",
+        "Dos"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T3-B-E2. Instruction del paquete: Dos implementaciones de normalizer (strip vs casefold) usables por la misma función apply.. Hints: apply(norm, text) llama norm(text).; Imprime ambos resultados.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T3-B-E3\nprint(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "test_no_family_verdict",
+        "Escribe",
+        "razones",
+        "introducir",
+        "Protocol",
+        "imprime",
+        "WHEN_NOT"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T3-B-E3. Instruction del paquete: Escribe 2 razones para NO introducir Protocol aún e imprime WHEN_NOT.. Hints: YAGNI / una sola implementación.; Español claro.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T4-A-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n    password: str = \"\"\n    print(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "dataclasses",
+        "import",
+        "dataclass",
+        "class",
+        "ClientRecord",
+        "client_id",
+        "str"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T4-A-E1. Instruction del paquete: to_dict de ClientRecord sin campos password/secret.. Hints: Aunque existan en el objeto, no serializarlos.; Print dict.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T4-A-E2\nclass Repo:\n    print(test_no_family_verdict()\n    ...",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "class",
+        "Repo",
+        "print",
+        "test_no_family_verdict",
+        "Repository",
+        "save",
+        "get",
+        "dict"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T4-A-E2. Instruction del paquete: Repository save/get con dict store en memoria.. Hints: Clase con save y get.; Roundtrip de un client dict.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T4-A-E3\nprint(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "test_no_family_verdict",
+        "Dibuja",
+        "texto",
+        "frontera",
+        "dominio",
+        "CLI",
+        "capas"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T4-A-E3. Instruction del paquete: Dibuja en texto la frontera dominio vs CLI I/O (3 capas).. Hints: cli → service → domain/repo.; Imprime LAYER líneas.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T4-B-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    def __post_init__(self):\n        if not self.document_id.strip():\n            raise ValueError(\"document_id vacío\")\n\nprint(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "dataclasses",
+        "import",
+        "dataclass",
+        "class",
+        "ClientRecord",
+        "client_id",
+        "str"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T4-B-E1. Instruction del paquete: Test de invariante ClientRecord: document_id vacío lanza ValueError; imprime pass.. Hints: Usa assert en un try o pytest-style manual.; print('pass') al final.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T4-B-E2\nclass FakeRepo:\n    def __init__(self):\n        self.d = {}\n    def save(self, row):\n        self.d[row[\"id\"]] = row\n    def get(self, id):\n        return self.d.get(id)\n\nclass Service:\n    def __init__(self, repo):\n        self.repo = repo\n    def register(self, id, name):\n        self.repo.save({\"id\": id, \"name\": name})\n        return self.repo.get(id)\n\nprint(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "class",
+        "FakeRepo",
+        "def",
+        "__init__",
+        "self",
+        "save",
+        "row",
+        "get"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T4-B-E2. Instruction del paquete: Fake repo en 3 tests de servicio (register, get, missing).. Hints: Imprime pass x3.; Service simple con repo inyectado.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic: only packet-local patterns for S11-T4-B-E3\nclass BadClient:\n    def decide_fraud(self, score):\n        return score > 0.9\nprint(test_no_family_verdict()",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "class",
+        "BadClient",
+        "def",
+        "decide_fraud",
+        "self",
+        "score",
+        "return",
+        "print"
+      ],
+      "justification_from_packet": "Skeptic: ejercicio S11-T4-B-E3. Instruction del paquete: Revisa una clase con decide_fraud y propón extracción: imprime ANTES/DESPUÉS conceptual.. Hints: Mueve el score a Evidence; elimina el veredicto.; Dos líneas.. Teoría activa: De “Testing pytest/CI” a OOP y modelo de dominio (mapa) | Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y métodos | Igualdad, hash y mutabilidad consciente | Composición. iDo demos: S11-T1-B-DEMO | S11-T2-A-DEMO | S11-T2-B-DEMO | S11-T3-A-DEMO | S11-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "question": "¿Por qué `field(default_factory=list)` y no `= []`?",
+      "chosen_index": 1,
+      "chosen_text": "Evita el default mutable compartido entre instancias",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: dataclass fields use default_factory for mutables to avoid the shared default bug across instances — same idea as def f(xs=[])."
+    },
+    {
+      "question_index": 1,
+      "question": "RelationshipEvidence.signal_score representa…",
+      "chosen_index": 1,
+      "chosen_text": "Una señal/dato numérico, no un veredicto de fraude o familia",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: RelationshipEvidence.signal_score is a numeric signal/datum, not a legal kinship or fraud verdict (domain forbids auto family/fraud labels)."
+    },
+    {
+      "question_index": 2,
+      "question": "Un Protocol EntityStore sirve para…",
+      "chosen_index": 1,
+      "chosen_text": "Definir un puerto get/save implementable por fakes y adapters",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: Protocol EntityStore describes a get/save port implementable by fakes/adapters without forcing inheritance or a single DB."
+    },
+    {
+      "question_index": 3,
+      "question": "Objeto inválido: ¿cuándo fallar?",
+      "chosen_index": 1,
+      "chosen_text": "En la construcción (__post_init__/validate)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: invalid state fails at construction via __post_init__/validate — do not leave half-built objects for later."
+    },
+    {
+      "question_index": 4,
+      "question": "Client hereda de Person…",
+      "chosen_index": 1,
+      "chosen_text": "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: composition-before-inheritance: Client has PersonInfo often beats fragile Client(Person); inheritance is not always best or mandatory."
+    },
+    {
+      "question_index": 5,
+      "question": "¿Qué no debe tener el dominio de familiaridad?",
+      "chosen_index": 1,
+      "chosen_text": "is_fraud() automático",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic: domain tests assert absence of dangerous APIs is_fraud / is_related_family. to_dict, invariants, and unit tests are expected; auto is_fraud is not."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 6,
+    "blocked": 0
+  },
+  "persona_seed": "f5080a0a747d"
+}

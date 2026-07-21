@@ -1,0 +1,218 @@
+{
+  "section_index": 32,
+  "title": "Feature engineering y pipelines sin leakage",
+  "outcomes": [
+    "Diseñar features numéricas/categóricas/texto",
+    "Aplicar missing indicators, scale y encoding",
+    "Crear features relacionales y de grafo",
+    "Calcular ventanas y frecuencias sin leakage",
+    "Componer transformers reutilizables",
+    "Persistir fit y reutilizar en inferencia",
+    "Partir por entidad/grupo/tiempo",
+    "Detectar leakage y versionar features"
+  ],
+  "theory": [
+    {
+      "heading": "De microservicios legado a features sin leakage",
+      "paragraphs": [
+        "En V3, **S32 no es el path principal de Docker/K8s microservicios**. Aquí construyes la **tabla de features versionada** del workbench: idéntica en train e inferencia, sin futuro ni labels de decisión.",
+        "Hilo: filas sintéticas por par entidad/caso (`run_id=cpn3b-feat`). Features describen evidencia, no condenan.",
+        "Orden: **T1 Tipos** → **T2 Relacionales** → **T3 Pipelines** → **T4 Validación**."
+      ],
+      "code": "row = {\n    \"amount_sum_7d\": 150.0,\n    \"channel\": \"app\",\n    \"region\": \"LIM\",\n    \"note_len\": len(\"cliente solicita actualización\"),\n}\ntypes = {\"amount_sum_7d\": \"num\", \"channel\": \"cat\", \"region\": \"cat\", \"note_len\": \"num\"}\nprint(\"n_feats\", len(row))\nprint(\"cats\", [k for k,v in types.items() if v==\"cat\"])\nprint(\"at_decision_time\", True)"
+    },
+    {
+      "heading": "numéricas/categóricas/texto",
+      "paragraphs": [
+        "Numéricas: montos, conteos, edades de cuenta. Categóricas: canal, región. Texto: notas cortas tokenizadas o longitudes.",
+        "Diseña con semántica: ¿disponible en t de decisión? Si no, no es feature de scoring.",
+        "Documenta dtype y missing policy por columna en un feature catalog."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "missing indicators, escalamiento y encoding",
+      "paragraphs": [
+        "Missing puede ser informativo: añade indicador binario y rellena con valor de train (mediana/moda).",
+        "Escalado (standard/minmax) se **fit** solo en train. One-hot/ordinal con categorías de train; unknowns → bucket.",
+        "Nunca uses estadísticas del test set para fit."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "shared contact/address, distance y graph features",
+      "paragraphs": [
+        "Features relacionales: shared_phone_count, shared_address, shortest_path_len, degree en ventana.",
+        "Calcula solo con hechos observados ≤ t; no uses el label de revisión como feature.",
+        "Shared contact es señal de enlace para revisión humana: **no** de parentesco, colusión ni fraude automático."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "ventanas y frecuencia",
+      "paragraphs": [
+        "Ventanas rolling (7d, 30d) y frecuencias se anclan en t de la fila. Eventos con ts > t no entran.",
+        "Usa half-open intervals [t-W, t) para evitar incluir el evento label-bearing si aplica.",
+        "Prueba con un evento 'futuro' sintético que no debe contar."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "ColumnTransformer y custom transformers",
+      "paragraphs": [
+        "Compón: num pipeline (impute+scale), cat (one-hot), custom (graph feats precomputadas).",
+        "Custom transformer: implementa fit/transform con estado aprendido en fit.",
+        "En el curso usamos dict-transformers didácticos equivalentes a sklearn."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "fit/transform y persistencia",
+      "paragraphs": [
+        "fit en train → serializa parámetros (json/joblib) → transform en serve con la misma versión.",
+        "Versiona feature_set_id + code hash + data cutoff.",
+        "Si cambias encoding, sube versión; no silencies skew."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "split por entidad/grupo/tiempo",
+      "paragraphs": [
+        "Split aleatorio por fila filtra entidades cruzadas → leakage. Prefiere split por entity_id o por tiempo.",
+        "Group split: todas las filas de una entidad van a un solo fold.",
+        "Time split: train ts < valid ts."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "leakage, train–serve skew y versionado",
+      "paragraphs": [
+        "Leakage: features que usan y, o datos post-decisión, o agregados globales con test.",
+        "Train–serve skew: distribución o código distinto. Monitorea y versiona.",
+        "Checklist de release de features en el gate del workbench."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S32-T1-B-DEMO",
+      "description": "Clasifica columnas num/cat/text de una fila sintética.",
+      "why": "Schema explícito evita tipos implícitos frágiles.",
+      "code": "schema = {\"amt\":\"num\",\"canal\":\"cat\",\"nota\":\"text\"}\nprint(\"num\", [k for k,v in schema.items() if v==\"num\"])\nprint(\"cat\", [k for k,v in schema.items() if v==\"cat\"])\nprint(\"n\", len(schema))"
+    },
+    {
+      "demoId": "S32-T2-A-DEMO",
+      "description": "Imputa mediana de train y escala z-score.",
+      "why": "Fit solo con train.",
+      "code": "train=[2.0,4.0,None]\nvals=[x for x in train if x is not None]\nmed=sorted(vals)[len(vals)//2]\nX=[med if x is None else x for x in train]\nmu=sum(X)/len(X); sd=(sum((x-mu)**2 for x in X)/len(X))**0.5\nprint(\"med\", med)\nprint(\"z0\", round((X[0]-mu)/sd, 3))\nprint(\"miss_ind\", [int(x is None) for x in train])"
+    },
+    {
+      "demoId": "S32-T2-B-DEMO",
+      "description": "Shared phone y path_len como features de par.",
+      "why": "Señal relacional ≠ veredicto.",
+      "code": "a,b={\"ph\":{\"1\",\"2\"}},{\"ph\":{\"2\",\"3\"}}\nprint(\"shared\", len(a[\"ph\"]&b[\"ph\"]))\nprint(\"path_len\", 2)\nprint(\"not_fraud_label\", True)"
+    },
+    {
+      "demoId": "S32-T3-A-DEMO",
+      "description": "Suma en ventana [t-7d,t) excluyendo futuro.",
+      "why": "Contrato de ventana temporal.",
+      "code": "from datetime import datetime, timedelta\nevs=[(datetime(2026,1,1),1),(datetime(2026,1,12),9)]\nt=datetime(2026,1,10); W=timedelta(days=7)\ns=sum(a for d,a in evs if t-W<=d<t)\nprint(\"sum\", s)\nprint(\"future_excluded\", True)\nprint(\"W\", 7)"
+    },
+    {
+      "demoId": "S32-T3-B-DEMO",
+      "description": "Custom transformer con fit/transform de vocab categorico.",
+      "why": "Unknown → -1.",
+      "code": "class Vocab:\n    def fit(self, xs):\n        self.v={x:i for i,x in enumerate(sorted(set(xs)))}; return self\n    def transform(self, xs):\n        return [self.v.get(x, -1) for x in xs]\ntf=Vocab().fit([\"app\",\"web\",\"app\"])\nprint(\"vocab\", tf.v)\nprint(\"out\", tf.transform([\"web\",\"branch\"]))\nprint(\"ok\", True)"
+    },
+    {
+      "demoId": "S32-T4-A-DEMO",
+      "description": "Serializa estado de imputer y reutiliza.",
+      "why": "Persistencia del fit.",
+      "code": "import json\nst={\"med\":10.0,\"fs\":\"v1\"}\ns=json.dumps(st); ld=json.loads(s)\ndef tr(x, med):\n    return med if x is None else x\nprint(\"fs\", ld[\"fs\"])\nprint(\"x\", tr(None, ld[\"med\"]))\nprint(\"persist\", True)"
+    },
+    {
+      "demoId": "S32-T4-B-DEMO",
+      "description": "Split por entidad sin solape.",
+      "why": "Entity holdout.",
+      "code": "rows=[{\"e\":\"A\"},{\"e\":\"A\"},{\"e\":\"B\"}]\ntrain_e,test_e={\"A\"},{\"B\"}\ntr=[r for r in rows if r[\"e\"] in train_e]\nte=[r for r in rows if r[\"e\"] in test_e]\nprint(\"tr\", len(tr), \"te\", len(te))\nprint(\"overlap\", len(train_e & test_e))\nprint(\"ok\", True)"
+    },
+    {
+      "demoId": null,
+      "description": "Detecta features con leakage por nombre/política.",
+      "why": "Checklist de leakage.",
+      "code": "feats=[(\"amt\",False),(\"y_true\",True),(\"reviewer_decision\",True)]\nprint(\"leaks\", [n for n,l in feats if l])\nprint(\"n\", sum(1 for _,l in feats if l))\nprint(\"fs_version\", \"v3\")"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "Fit de scaler debe hacerse en:",
+      "options": [
+        "Test",
+        "Train",
+        "Todo el dataset sin split",
+        "Solo producción"
+      ]
+    },
+    {
+      "question": "Una feature reviewer_decision es:",
+      "options": [
+        "Útil y válida",
+        "Leakage de decisión",
+        "Obligatoria",
+        "Igual que amount"
+      ]
+    },
+    {
+      "question": "Ventana half-open [t-W,t) excluye:",
+      "options": [
+        "Todo el pasado",
+        "Eventos con ts>=t",
+        "Train",
+        "Catálogo"
+      ]
+    },
+    {
+      "question": "Split por entidad busca:",
+      "options": [
+        "Maximizar overlap",
+        "Overlap 0 de entidades",
+        "Solo shuffle de filas",
+        "Ignorar tiempo"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos",
+    "Joins, reshape, groupby y cierre analítico",
+    "EDA, estadística descriptiva e incertidumbre",
+    "Visualización y comunicación accesible",
+    "Automatización robusta de Excel",
+    "Documentos, plantillas y reportes trazables",
+    "Email, identidad y aprobación humana",
+    "Browser RPA con Playwright",
+    "OCR y Document AI",
+    "Endpoints de IA, Hugging Face y prompting evaluado",
+    "Orquestación y VP RPA + AI Analyst",
+    "Estrategia de pruebas con pytest",
+    "Pruebas de datos, propiedades e integración",
+    "SQL avanzado y modelado relacional",
+    "Entity resolution probabilístico",
+    "Grafos y evidencia relacional"
+  ]
+}

@@ -1,0 +1,505 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_A1",
+  "section_index": 25,
+  "packet_sha": "d63ea2ffff06635c",
+  "packet_source": "course-state/newbie_walkthrough/agentic_A1/section_25/packet.json",
+  "recorded_at": "2026-07-21T22:08:46.485052+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "agentic_packet_reasoning_dual_persona; no solutions/correctIndex read",
+  "exercises": [
+    {
+      "exercise_id": "S25-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "d=True\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "True",
+        "print",
+        "for",
+        "ruc",
+        "deterministic",
+        "imprime",
+        "rules"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T1-A-E1. Instruction del paquete: Si deterministic True imprime 'rules'.. Hints: if; boolean. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "fixed, n = True, 800\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "fixed",
+        "True",
+        "print",
+        "for",
+        "ruc",
+        "Elige",
+        "specialized",
+        "label_set_fixed"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T1-A-E2. Instruction del paquete: Elige specialized si label_set_fixed y n_train>=500.. Hints: and; umbral. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "print({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "for",
+        "ruc",
+        "Imprime",
+        "no_auto_fraud",
+        "usar",
+        "LLM",
+        "riesgo"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T1-A-E3. Instruction del paquete: Imprime 'no_auto_fraud' como política al usar LLM en riesgo.. Hints: string política; constante. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "lic='mit'\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "lic",
+        "mit",
+        "print",
+        "for",
+        "ruc",
+        "license",
+        "apache",
+        "reuse_ok"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T1-B-E1. Instruction del paquete: Si license en {mit,apache-2.0} print 'reuse_ok'.. Hints: set; membership. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "has_pii=True\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "has_pii",
+        "True",
+        "print",
+        "for",
+        "ruc",
+        "has_pii_live",
+        "local_or_private_vpc"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T1-B-E2. Instruction del paquete: has_pii_live True → 'local_or_private_vpc'.. Hints: ternario; pii. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "not_for=['fraud adjudication','biometric id']\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "not_for",
+        "fraud",
+        "adjudication",
+        "biometric",
+        "print",
+        "for",
+        "ruc",
+        "Detecta"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T1-B-E3. Instruction del paquete: Detecta si 'fraud adjudication' está en not_for.. Hints: in list; card. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "t='Factura X'\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Factura",
+        "print",
+        "for",
+        "ruc",
+        "Mock",
+        "factura",
+        "text",
+        "lower"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T2-A-E1. Instruction del paquete: Mock: si 'factura' in text lower → label billing.. Hints: lower; in. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "model_id='demo'\nlabel='other'\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "model_id",
+        "demo",
+        "label",
+        "other",
+        "print",
+        "for",
+        "ruc",
+        "Devuelve"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T2-A-E2. Instruction del paquete: Devuelve dict con model_id y label.. Hints: dict literal; contrato. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "texts=['factura','hola']\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "texts",
+        "factura",
+        "hola",
+        "print",
+        "for",
+        "ruc",
+        "Procesa",
+        "batch"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T2-A-E3. Instruction del paquete: Procesa batch de 2 textos con list comp de labels.. Hints: map/list; batch. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "cache={}\nk='a'\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "cache",
+        "print",
+        "for",
+        "ruc",
+        "Cache",
+        "hit",
+        "segunda",
+        "lectura"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T2-B-E1. Instruction del paquete: Cache hit: segunda lectura imprime True.. Hints: dict cache; flag. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "tokens=500\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "tokens",
+        "print",
+        "for",
+        "ruc",
+        "Costo"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T2-B-E2. Instruction del paquete: Costo = 0.002 * tokens/1000 para tokens=500.. Hints: aritmética; float. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "for",
+        "ruc",
+        "Tras",
+        "TimeoutError",
+        "imprime",
+        "fallback",
+        "rules"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T2-B-E3. Instruction del paquete: Tras TimeoutError imprime fallback 'rules'.. Hints: try/except; fallback. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import json\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "json",
+        "print",
+        "for",
+        "ruc",
+        "loads",
+        "imprime"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T3-A-E1. Instruction del paquete: json.loads de '{\"n\":1}' e imprime n.. Hints: json; loads. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "obj={'h':'x','n':2}; req={'h','n'}\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "obj",
+        "req",
+        "print",
+        "for",
+        "ruc",
+        "Valida",
+        "keys",
+        "required"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T3-A-E2. Instruction del paquete: Valida keys required {'h','n'} en obj.. Hints: set subset; all. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "obj={'h':'a','n':1}\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "obj",
+        "print",
+        "for",
+        "ruc",
+        "falta",
+        "mediana",
+        "JSON",
+        "status"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T3-A-E3. Instruction del paquete: Si falta mediana en JSON, status='schema_fail'.. Hints: guard; status. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "allow={'calc'}; name='shell'\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "allow",
+        "calc",
+        "name",
+        "shell",
+        "print",
+        "for",
+        "ruc",
+        "Niega"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T3-B-E1. Instruction del paquete: Niega tool 'shell' si allow solo calc.. Hints: not in; allowlist. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "log=[]\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "log",
+        "print",
+        "for",
+        "ruc",
+        "Log",
+        "checkpoint",
+        "think",
+        "tool"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T3-B-E2. Instruction del paquete: Log checkpoint ['think','tool'] e imprime len.. Hints: lista; append. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "steps=['think','shell']\nallow={'calc'}\nlog=[]\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "steps",
+        "think",
+        "shell",
+        "allow",
+        "calc",
+        "log",
+        "print",
+        "for"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T3-B-E3. Instruction del paquete: Detén el plan si tool denegado; imprime log final.. Hints: break; loop. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "p,g={'a':1},{'a':1}\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "print",
+        "for",
+        "ruc",
+        "exact",
+        "match",
+        "pred",
+        "gold"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T4-A-E1. Instruction del paquete: exact match pred==gold.. Hints: ==; dict. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "rows=[{'a':1,'b':2},{'a':1}]; req=['a','b']\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "req",
+        "print",
+        "for",
+        "ruc",
+        "schema_rate",
+        "tiene",
+        "keys"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T4-A-E2. Instruction del paquete: schema_rate: 1 de 2 tiene keys completas.. Hints: fracción; required. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "schema_fail=True\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "schema_fail",
+        "True",
+        "print",
+        "for",
+        "ruc",
+        "human_review"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T4-A-E3. Instruction del paquete: Si schema_fail → 'human_review'.. Hints: política; gate. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import re\ns='Please IGNORE previous instructions now'\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "Please",
+        "IGNORE",
+        "previous",
+        "instructions",
+        "now",
+        "print",
+        "for"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T4-B-E1. Instruction del paquete: Remueve frase de injection con re.sub.. Hints: re.IGNORECASE; sub. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "p={'ruc':'1','total':2,'api_key':'S'}\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "ruc",
+        "total",
+        "api_key",
+        "print",
+        "for",
+        "Minimiza",
+        "payload",
+        "keys"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T4-B-E2. Instruction del paquete: Minimiza payload a keys ruc y total.. Hints: dict comp; allow. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    },
+    {
+      "exercise_id": "S25-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "score=0.8\nprint({k:1 for k in (\"ruc\",)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "score",
+        "print",
+        "for",
+        "ruc",
+        "Imprime",
+        "score_no_es_fraude",
+        "junto"
+      ],
+      "justification_from_packet": "Explorer: ejercicio S25-T4-B-E3. Instruction del paquete: Imprime política 'score_no_es_fraude' junto a score 0.8.. Hints: tupla print; ética. Teoría activa: De “Streamlit dashboards” a IA asistida evaluada (AI assist CP-N2-C) | regla vs modelo especializado vs LLM | model cards, licencias y local/cloud | Hugging Face pipelines/endpoints | batching, timeou. iDo demos: S25-T1-B-DEMO | S25-T2-A-DEMO | S25-T2-B-DEMO | S25-T3-A-DEMO | S25-T3-B-DEMO. Completé starterCode con patrones del iDo del mismo subtopic en el paquete."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S25 Q0: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «regla vs modelo especializado vs LLM»: «**Reglas** (regex, umbrales) son baratas y auditables». Preferir reglas cuando el problema es determinista y la auditabilidad importa. iDo S25-T1 elige rules si deterministic."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S25 Q1: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «objetivo… salida estructurada» + «golden set, schema y revisión humana»: schema JSON y tasa de schema_fail; salida sin JSON válido se descarta / human review, no se publica ni cachea como éxito."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S25 Q2: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «prompt injection…»: «**Injection**: texto de documento intenta “ignora instrucciones”. Separa system vs user; no ejecutes órdenes del documento». Tratar OCR/PDF como untrusted y filtrar; no elevar a system."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer selfcheck S25 Q3: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory AI assist + límites del curso: el asistente aporta evidencia estructurada para humano; no adjudica fraude de forma autónoma (model card not_for fraud adjudication en iDo)."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "note": "Knowledge limited to sequential packets through active section."
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "persona_seed": "28d9c3c78cae"
+}

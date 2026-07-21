@@ -1,0 +1,203 @@
+{
+  "section_index": 17,
+  "title": "Joins, reshape, groupby y cierre analítico",
+  "outcomes": [
+    "Diseñar joins con claves y cardinalidad correctas",
+    "Usar validate y anti-join para detectar fan-out/huérfanos",
+    "Reshapear con concat/melt/pivot",
+    "Mantener nombres estables long/wide",
+    "Agregar con groupby/agg/transform",
+    "Construir ventanas, fechas y cohortes",
+    "Reconciliar denominadores y totales",
+    "Controlar leakage temporal antes/después"
+  ],
+  "theory": [
+    {
+      "heading": "De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa)",
+      "paragraphs": [
+        "En V3, **S17 no es el path de pyproject.toml ni PyPI**. Aquí **cierras CP-N2-A**: joins con cardinalidad, anti-join, reshape, groupby, ventanas/cohortes, reconciliación de totales y controles de leakage temporal.",
+        "Entregable: dataset limpio + script reproducible + respuestas de negocio con evidencia + memo de límites.",
+        "Orden: **T1 Joins** → **T2 Forma** → **T3 Agregación** → **T4 Reconciliación**."
+      ],
+      "code": "import pandas as pd\n\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C003\"], \"monto\": [10.0, 5.0, 7.0]})\nprint(\"cli_unique\", cli[\"cliente_id\"].is_unique)\nprint(\"tx_unique\", tx[\"cliente_id\"].is_unique)\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\")\nprint(len(cli), len(tx), len(m))\nprint(m.to_dict(orient=\"list\"))"
+    },
+    {
+      "heading": "claves y cardinalidad en joins",
+      "paragraphs": [
+        "`merge`/`join` con `how` (inner/left/right/outer). La **cardinalidad** 1:1, 1:m, m:m determina el fan-out de filas.",
+        "Claves deben compartir dtype y normalización (string ids).",
+        "Antes del merge, cuenta unicidad de la clave en cada lado."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "validate, duplicación accidental y anti-join",
+      "paragraphs": [
+        "`validate='one_to_one'|'one_to_many'|...` hace fallar merges con cardinalidad rota.",
+        "`indicator=True` marca left_only/right_only/both. **Anti-join**: filas left_only (huérfanos).",
+        "Útil para clientes sin transacciones o transacciones sin cliente maestro."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "concat, melt y pivot",
+      "paragraphs": [
+        "`concat` apila (axis=0) o alinea columnas (axis=1). `melt` pasa wide→long; `pivot_table` long→wide.",
+        "Elige long para series temporales multipunto; wide para reportes tabulares.",
+        "Cuidado con índices al concatenar: `ignore_index=True` o keys multiindex."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "long/wide y nombres estables",
+      "paragraphs": [
+        "Tras pivot, columnas MultiIndex o nombres sucios (`monto_ene`) deben **aplanarse** a un schema estable.",
+        "Contrato de columnas del portfolio: lista ordenada documentada.",
+        "Renombra con dict y valida set(columns)==expected."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "groupby / agg / transform",
+      "paragraphs": [
+        "`groupby` + `agg` resume (dict de funciones). `transform` reinyecta el agregado al shape original (p. ej. score / mean_region).",
+        "named aggregation mejora claridad: `monto_sum=('monto','sum')`.",
+        "as_index=False facilita merges posteriores."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "ventanas, fechas y cohortes",
+      "paragraphs": [
+        "`rolling` ventanas móviles; `resample` en series con DatetimeIndex. **Cohortes**: etiqueta por mes de primera compra.",
+        "Ordena por fecha antes de rolling. Documenta ventana (3d, 7d).",
+        "Cohortes alimentan retención y preguntas de negocio del portfolio."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "denominadores y totales",
+      "paragraphs": [
+        "Reconciliación: **suma de partes = total** (o diferencia documentada). Denominadores de tasas deben coincidir con el universo declarado.",
+        "Bridge table: total → segmentos → residual.",
+        "Tolera redondeo con abs(diff) < eps."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "leakage temporal y controles antes/después",
+      "paragraphs": [
+        "**Leakage temporal**: usar información posterior al cutoff para features o métricas de un periodo anterior.",
+        "Controles: cutoff estricto, as-of join (solo filas con fecha <= t), split before/after.",
+        "En el portfolio, declara el cutoff y demuestra que los agregados pre-cutoff no miran el futuro."
+      ],
+      "code": ""
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S17-T1-B-DEMO",
+      "description": "Elegir left join clientes-tx y validar fan-out 1:m",
+      "why": "Contar filas pre/post documenta la cardinalidad real del join.",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"monto\": [3.0, 4.0, 5.0]})\nassert cli[\"cliente_id\"].is_unique\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\")\nprint(\"rows\", len(cli), \"->\", len(m), \"card\", \"1:m\")\nprint(m.groupby(\"cliente_id\").size().to_dict())"
+    },
+    {
+      "demoId": "S17-T2-A-DEMO",
+      "description": "Detectar fan-out con validate y anti-join de clientes sin tx",
+      "why": "validate + anti-join cubren fan-out y huérfanos.",
+      "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"monto\": [1.0, 2.0]})\nok = cli.merge(tx.drop_duplicates(\"cliente_id\"), on=\"cliente_id\", how=\"left\", validate=\"one_to_one\")\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nanti = m.loc[m[\"_merge\"] == \"left_only\", \"cliente_id\"].unique().tolist()\nprint(\"anti\", anti)\ntry:\n    cli.merge(tx, on=\"cliente_id\", validate=\"one_to_one\")\nexcept Exception:\n    prin"
+    },
+    {
+      "demoId": "S17-T2-B-DEMO",
+      "description": "Pasar wide↔long con melt y pivot_table",
+      "why": "melt/pivot son el puente a reportes y series.",
+      "code": "import pandas as pd\nwide = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"m1\": [10, 20], \"m2\": [1, 2]})\nlong = wide.melt(id_vars=\"cliente_id\", var_name=\"periodo\", value_name=\"monto\")\nwide2 = long.pivot_table(index=\"cliente_id\", columns=\"periodo\", values=\"monto\", aggfunc=\"sum\")\nprint(long.shape, wide2.shape)\nprint(long[\"periodo\"].tolist())"
+    },
+    {
+      "demoId": "S17-T3-A-DEMO",
+      "description": "Estabilizar nombres de columnas post-pivot al schema del portfolio",
+      "why": "Schema de columnas estable evita roturas del dashboard.",
+      "code": ""
+    },
+    {
+      "demoId": "S17-T3-B-DEMO",
+      "description": "Agregar montos por región y reinyectar media con transform",
+      "why": "agg para reportes; transform para features a nivel fila.",
+      "code": ""
+    },
+    {
+      "demoId": "S17-T4-A-DEMO",
+      "description": "Construir cohorte mensual y media móvil de 2 periodos",
+      "why": "Cohortes + ventanas responden preguntas de evolución temporal.",
+      "code": ""
+    },
+    {
+      "demoId": "S17-T4-B-DEMO",
+      "description": "Reconciliar total nacional vs suma por región",
+      "why": "Totales y denominadores anclan el EDA ejecutivo.",
+      "code": "import pandas as pd\nparts = pd.DataFrame({\"region\": [\"Lima\", \"Cusco\", \"Arequipa\"], \"monto\": [50.0, 30.0, 20.0]})\ntotal_ref = 100.0\ndiff = float(parts[\"monto\"].sum() - total_ref)\nprint(\"diff\", diff, \"reconciled\", abs(diff) < 1e-9)\n# denominador de tasa de completitud\nn_clientes = 200\nn_completos = 150\nprint(\"tasa\", n_completos / n_clientes, \"den\", n_clientes)"
+    },
+    {
+      "demoId": null,
+      "description": "Evitar leakage: agregar solo transacciones <= cutoff",
+      "why": "Cutoff y as-of evitan contaminación before/after.",
+      "code": "import pandas as pd\ntx = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\"],\n    \"fecha\": pd.to_datetime([\"2024-01-10\", \"2024-03-01\"]),\n    \"monto\": [10.0, 999.0],\n})\ncutoff = pd.Timestamp(\"2024-01-31\")\nfeat = tx[tx[\"fecha\"] <= cutoff].groupby(\"cliente_id\")[\"monto\"].sum()\nleaky = tx.groupby(\"cliente_id\")[\"monto\"].sum()\nprint(\"safe\", feat.to_dict())\nprint(\"leaky\", leaky.to_dict())\nprint(\"delta\", float(leaky[\"C001\"] - feat[\"C001\"]))"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "validate='one_to_one' en merge sirve para:",
+      "options": [
+        "Imputar nulls",
+        "Fallar si la cardinalidad no es 1:1",
+        "Ordenar el DF",
+        "Crear MultiIndex"
+      ]
+    },
+    {
+      "question": "Un anti-join left_only identifica:",
+      "options": [
+        "Filas del left sin match en right",
+        "Solo matches perfectos",
+        "Duplicados exactos internos",
+        "Schema drift de dtypes"
+      ]
+    },
+    {
+      "question": "transform en groupby:",
+      "options": [
+        "Siempre colapsa a una fila por grupo",
+        "Reinyecta el agregado al shape original",
+        "Elimina el index",
+        "Solo funciona con MultiIndex"
+      ]
+    },
+    {
+      "question": "Leakage temporal ocurre cuando:",
+      "options": [
+        "Usas CSV en vez de Excel",
+        "Incluyes datos posteriores al cutoff en features/métricas del pasado",
+        "Haces melt",
+        "Documentas el denominador"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación",
+    "Iteración y resúmenes transaccionales",
+    "Funciones, contratos y descomposición",
+    "Colecciones y estructuras de datos",
+    "Texto, Unicode y expresiones regulares",
+    "Archivos, CSV, JSON y contratos de ingesta",
+    "Excepciones, debugging y logging seguro",
+    "Módulos, packaging y CLI profesional",
+    "OOP y modelo de dominio",
+    "APIs, SQL y geodatos responsables",
+    "Familiarity Evidence Dashboard y cierre de nivel",
+    "NumPy y cómputo vectorizado",
+    "Pandas: ingesta, selección y tipos",
+    "Calidad, limpieza y contratos de datos"
+  ]
+}

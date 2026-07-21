@@ -1,0 +1,199 @@
+{
+  "section_index": 4,
+  "title": "Iteración y resúmenes transaccionales",
+  "outcomes": [
+    "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+    "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+    "Escribir while con centinelas y condición de terminación explícita",
+    "Aplicar break/continue y guardrails contra loops infinitos",
+    "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+    "Escribir comprehensions legibles para filtros simples de resumen",
+    "Trazar el estado de un bucle para depurar contadores",
+    "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+  ],
+  "theory": [
+    {
+      "heading": "De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)",
+      "paragraphs": [
+        "En V3, **S04 no es el path principal de decorators, pathlib packaging ni datetime avanzado**. Esos temas viven en **S10** (módulos/CLI) y otras secciones. Aquí el estudiante domina lo que el **cierre de CP-N1-A** necesita: recorrer **múltiples registros**, acumular contadores, evitar loops infinitos y reportar **tasas con denominadores correctos**.",
+        "El hilo conductor es un **script de intake por lotes**: lee líneas sintéticas (o una lista en memoria que simula stdin), valida cada registro con el motor de reglas de S03, imprime por stdout un resumen y **conserva el original** de cada fila. Datos ficticios únicamente (`example.com`, teléfonos inventados). Nunca subas PII real al repo.",
+        "Orden pedagógico: **T1 Recorrido** (`for`/`range` → `enumerate`/`zip`) → **T2 Repetición** (`while`/centinelas → `break`/`continue`) → **T3 Patrones** (contadores/acumuladores → comprehensions) → **T4 Razonamiento** (trazado de estado → costo y off-by-one)."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "for, range y secuencias",
+      "paragraphs": [
+        "El bucle **`for x in secuencia:`** recorre cada elemento **una vez**, en orden. No necesitas un índice si solo te importa el valor. Las secuencias típicas de intake son: **listas de registros** (dicts), **líneas de texto** y **`range(n)`** cuando quieres un contador 0..n-1.",
+        "**`range(stop)`**, **`range(start, stop)`**, **`range(start, stop, step)`** producen enteros sin materializar una lista gigante. El **stop es exclusivo**: `range(3)` → 0,1,2. Eso evita el off-by-one clásico al numerar N filas.",
+        "En lotes de clientes sintéticos, el patrón base es `for registro in filas:` y dentro llamar a `validate_record`. No mutes la lista mientras la recorres salvo que sepas lo que haces; acumula resultados en otra lista."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "enumerate y zip sin desalinear",
+      "paragraphs": [
+        "**`enumerate(seq, start=0)`** te da `(índice, valor)` sin armar el índice a mano. Ideal para reportes “fila 1, fila 2…” (usa `start=1` para humanos) y para localizar el registro que falló en un lote.",
+        "**`zip(a, b)`** empareja elementos en paralelo. Se detiene en la **secuencia más corta**. Si `nombres` tiene 3 y `edades` tiene 2, el tercer nombre **desaparece en silencio** — un bug de calidad de datos. En Python 3.10+ existe `zip(..., strict=True)`; en cualquier versión puedes validar `len(a)==len(b)` antes de zipear (helper `zip_strict` en el demo).",
+        "Nunca asumas que dos columnas CSV llegaron alineadas solo porque “deberían”. Cuenta longitudes en tests de pipeline."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "while, centinelas y terminación",
+      "paragraphs": [
+        "**`while condicion:`** repite mientras la condición sea verdadera. Úsalo cuando **no sabes de antemano cuántas** iteraciones habrá: leer hasta línea vacía, reintentar hasta éxito, o procesar un stream.",
+        "Un **centinela** es un valor especial que marca el fin (p. ej. `\"\"`, `None`, `\"END\"`). El bucle debe **actualizar el estado** en cada vuelta; si la condición nunca se vuelve falsa, tienes un **loop infinito**.",
+        "En demos de browser no usamos `input()` interactivo real; simulamos un buffer de líneas. El patrón es el mismo: leer siguiente, chequear centinela, procesar."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "break, continue y prevención de loops infinitos",
+      "paragraphs": [
+        "**`break`** sale del bucle actual de inmediato. **`continue`** salta al **siguiente** ciclo sin ejecutar el resto del cuerpo. En intake: `continue` para saltar filas vacías; `break` al encontrar un centinela o un error fatal de configuración.",
+        "Prevención de infinito: (1) actualiza la variable de control, (2) pon un **máximo de iteraciones** en prototipos (`MAX = 10_000`), (3) evita `while True` sin break garantizado, (4) no hagas `i = i` por error tipográfico.",
+        "Un `while True` con break en el centinela es legítimo si el break es **obvio y testeado**. Documenta la condición de salida."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Contadores, acumuladores y búsqueda",
+      "paragraphs": [
+        "Un **contador** suma 1 por evento (`n_reject += 1`). Un **acumulador** suma cantidades (`total_monto += m`). Una **búsqueda** recorre hasta hallar (o no) un elemento y a menudo usa `break` o un flag.",
+        "Para **tasas** del gate CP-N1-A: `tasa_error = n_error / n_total` solo si **`n_total > 0`**. El denominador es el número de registros **intentados**, no solo los aceptados. Si no hay filas, reporta `None` o “N/A”, no dividas por cero.",
+        "Buscar el primer reject es O(n); contar todos también es O(n). No anides dos bucles sobre el mismo lote “por si acaso” sin necesidad."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Comprehensions legibles",
+      "paragraphs": [
+        "Una **list comprehension** `[expr for x in xs if cond]` construye una lista en una línea. Es idiomática cuando la transformación es **simple**. Si hay validación multi-rama o side effects (prints, I/O), usa un `for` explícito.",
+        "También existen **dict** y **set** comprehensions: `{k: v for ...}`, `{x for ...}`. No anides comprehensions de tres niveles “porque cabe”: la legibilidad del revisor manda.",
+        "En el resumen de intake, es útil: `rejects = [r for r in results if r['status']=='reject']`. El conteo sigue siendo `len(rejects)` con denominador `len(results)`."
+      ],
+      "code": "results = [\n    {\"id\": \"C001\", \"status\": \"accept\"},\n    {\"id\": \"C002\", \"status\": \"reject\"},\n    {\"id\": \"C003\", \"status\": \"review\"},\n    {\"id\": \"C004\", \"status\": \"reject\"},\n]\nrejects = [r[\"id\"] for r in results if r[\"status\"] == \"reject\"]\ncodes = {r[\"status\"] for r in results}\nby_id = {r[\"id\"]: r[\"status\"] for r in results}\nprint(\"rejects\", rejects)\nprint(\"codes\", sorted(codes))\nprint(\"by_id C002\","
+    },
+    {
+      "heading": "Trazado de estado",
+      "paragraphs": [
+        "**Trazar estado** es escribir (o imaginar) una tabla: iteración | variables | salida. Es la herramienta #1 para depurar off-by-one y contadores mal actualizados.",
+        "Antes de pedir ayuda, dibuja 3–5 filas de la traza con valores concretos del lote sintético. Si la traza no cuadra con el print, el bug está en la actualización del estado, no en “Python raro”.",
+        "En demos usamos `print` de depuración con prefijo `TRACE`. En producción preferirás logging (S09); aquí el objetivo es razonar el bucle."
+      ],
+      "code": ""
+    },
+    {
+      "heading": "Costo lineal/cuadrático y off-by-one",
+      "paragraphs": [
+        "Un solo `for` sobre n filas es **O(n)** (lineal). Dos bucles anidados sobre el mismo lote (`for a in xs: for b in xs:`) es **O(n²)** (cuadrático). Con 10 filas no se nota; con 100_000, el script “se cuelga”.",
+        "**Off-by-one**: `range(len(xs))` es correcto para índices 0..n-1; `range(1, len(xs))` se salta el primero; `range(len(xs)+1)` explota con IndexError. Fronteras inclusivas/exclusivas en filtros (`>=` vs `>`) también son off-by-one de negocio.",
+        "Para el gate: cuenta registros con un contador O(n); no recalcules la tasa dentro de un doble bucle. Debuggea índices imprimiendo `i` y `len`."
+      ],
+      "code": "xs = [\"a\", \"b\", \"c\"]\n# Lineal: 3 pasos\nlinear = 0\nfor _ in xs:\n    linear += 1\n# Cuadrático ingenuo: 9 pares\nquad = 0\nfor a in xs:\n    for b in xs:\n        quad += 1\nprint(\"linear\", linear, \"quadratic\", quad)\n\n# Off-by-one: último índice válido\nprint(\"last ok\", xs[len(xs) - 1])\ntry:\n    print(xs[len(xs)])\nexcept IndexError as e:\n    print(\"IndexError en len(xs):\", e)"
+    }
+  ],
+  "iDo": [
+    {
+      "demoId": "S04-T1-B-DEMO",
+      "description": "Recorrer lote de registros sintéticos con for y range",
+      "why": "Un for por valor es el esqueleto del procesador por lotes; range(len) solo si necesitas índices.",
+      "code": "lote = [\n    {\"id\": \"C001\", \"edad\": 30},\n    {\"id\": \"C002\", \"edad\": 17},\n    {\"id\": \"C003\", \"edad\": 45},\n]\nfor reg in lote:\n    print(reg[\"id\"], \"edad=\", reg[\"edad\"])\nprint(\"n=\", len(lote), \"range →\", list(range(len(lote))))"
+    },
+    {
+      "demoId": "S04-T2-A-DEMO",
+      "description": "enumerate para reportar fila y zip strict para columnas",
+      "why": "enumerate numera para humanos; validar len (o zip strict en 3.10+) evita emparejar mal columnas.",
+      "code": "ids = [\"C001\", \"C002\", \"C003\"]\nregiones = [\"Lima\", \"Cusco\", \"Arequipa\"]\n\ndef zip_strict(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"desalineado\")\n    return zip(a, b)\n\nfor i, (rid, reg) in enumerate(zip_strict(ids, regiones), start=1):\n    print(f\"fila {i}: {rid} @ {reg}\")\nmal = [\"Lima\", \"Cusco\"]\ntry:\n    list(zip_strict(ids, mal))\nexcept ValueError:\n    print(\"desalineado detectado\")"
+    },
+    {
+      "demoId": "S04-T2-B-DEMO",
+      "description": "while con centinela END sobre buffer de líneas",
+      "why": "El centinela corta el lote; lo posterior no se procesa. i avanza siempre → no hay infinito.",
+      "code": "buf = [\"Ana|Lima\", \"Luis|Cusco\", \"END\", \"ignorada\"]\ni = 0\nout = []\nwhile i < len(buf):\n    line = buf[i]\n    i += 1\n    if line == \"END\":\n        break\n    out.append(line)\nprint(out)\nprint(\"indice final\", i)"
+    },
+    {
+      "demoId": "S04-T3-A-DEMO",
+      "description": "continue salta vacíos; break corta en ERROR fatal",
+      "why": "continue limpia ruido; break detiene el lote ante error de configuración.",
+      "code": "lines = [\"\", \"ok:1\", \"\", \"ok:2\", \"ERROR\", \"ok:3\"]\nkept = []\nfor ln in lines:\n    if not ln.strip():\n        continue\n    if ln.startswith(\"ERROR\"):\n        print(\"fatal, stop\")\n        break\n    kept.append(ln)\nprint(\"kept\", kept)"
+    },
+    {
+      "demoId": "S04-T3-B-DEMO",
+      "description": "Contadores accept/reject/review y tasa con denominador",
+      "why": "Un pase O(n) llena contadores; la tasa usa n total, no solo accepts.",
+      "code": "statuses = [\"accept\", \"reject\", \"review\", \"accept\", \"reject\"]\ncounts = {\"accept\": 0, \"reject\": 0, \"review\": 0}\nfor st in statuses:\n    counts[st] = counts.get(st, 0) + 1\nn = len(statuses)\ntasa_err = counts[\"reject\"] / n if n else None\nprint(counts)\nprint(\"n\", n, \"tasa_reject\", round(tasa_err, 2))"
+    },
+    {
+      "demoId": "S04-T4-A-DEMO",
+      "description": "Comprehensions para filtrar rejects del resumen",
+      "why": "Filtrar con comprehension es legible; el denominador sigue siendo len(rows).",
+      "code": "rows = [\n    {\"id\": \"C1\", \"status\": \"accept\"},\n    {\"id\": \"C2\", \"status\": \"reject\"},\n    {\"id\": \"C3\", \"status\": \"reject\"},\n]\nreject_ids = [r[\"id\"] for r in rows if r[\"status\"] == \"reject\"]\nn_rej = len(reject_ids)\nprint(reject_ids, \"tasa\", n_rej / len(rows))"
+    },
+    {
+      "demoId": "S04-T4-B-DEMO",
+      "description": "Tabla TRACE de contador durante el lote",
+      "why": "La traza hace visible cuándo sube el contador; base del debugging de resúmenes.",
+      "code": "flags = [True, False, True, True]\nn_ok = 0\nprint(\"i flag n_ok\")\nfor i, f in enumerate(flags):\n    if f:\n        n_ok += 1\n    print(i, f, n_ok)\nprint(\"FINAL\", n_ok)"
+    },
+    {
+      "demoId": null,
+      "description": "Detectar O(n²) ingenuo y off-by-one en range",
+      "why": "4 vs 16 pasos; range(1,len) omite el primer registro — bug clásico de resúmenes incompletos.",
+      "code": "n = 4\nsteps_linear = 0\nfor i in range(n):\n    steps_linear += 1\nsteps_quad = 0\nfor i in range(n):\n    for j in range(n):\n        steps_quad += 1\nprint(\"linear\", steps_linear, \"quad\", steps_quad)\ndata = [10, 20, 30]\n# off-by-one: range(1, len) salta index 0\nskipped = [data[i] for i in range(1, len(data))]\nprint(\"skipped_first\", skipped)"
+    }
+  ],
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué produce list(range(3))?",
+      "options": [
+        "[1,2,3]",
+        "[0,1,2]",
+        "[0,1,2,3]",
+        "[3]"
+      ]
+    },
+    {
+      "question": "zip([1,2,3],[10,20]) sin strict…",
+      "options": [
+        "Lanza ValueError",
+        "Empareja solo (1,10) y (2,20); el 3 se pierde en silencio",
+        "Rellena con None el tercero",
+        "Empareja en producto cartesiano"
+      ]
+    },
+    {
+      "question": "Para la tasa de reject del gate, el denominador debe ser…",
+      "options": [
+        "Solo n_accept",
+        "n_total de registros procesados (intentados)",
+        "Siempre 100",
+        "n_review únicamente"
+      ]
+    },
+    {
+      "question": "¿Qué hace continue en un for de líneas de intake?",
+      "options": [
+        "Termina todo el programa",
+        "Salta al siguiente ciclo del bucle",
+        "Borra la lista",
+        "Convierte la línea en None"
+      ]
+    },
+    {
+      "question": "Un doble for anidado sobre n elementos es aproximadamente…",
+      "options": [
+        "O(1)",
+        "O(n)",
+        "O(n²)",
+        "O(log n)"
+      ]
+    }
+  ],
+  "prior_titles": [
+    "Setup & Entorno de Desarrollo",
+    "Valores, tipos, operadores e I/O",
+    "Decisiones y reglas de validación"
+  ]
+}
