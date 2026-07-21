@@ -4,11 +4,16 @@ import { z } from 'zod'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { syncFeedbackReport } from '@/lib/firebase/sync'
-
-const TYPES = ['BUG', 'IDEA', 'RECOMMENDATION', 'OTHER'] as const
+import {
+  FEEDBACK_TYPES,
+  checkRateLimit,
+  clientIpFromForwarded,
+  sanitizeFeedbackText,
+  type RateLimitStore,
+} from '@/lib/feedback-guards'
 
 const createSchema = z.object({
-  type: z.enum(TYPES),
+  type: z.enum(FEEDBACK_TYPES),
   title: z.string().trim().min(3).max(120),
   body: z.string().trim().min(10).max(5000),
   sectionId: z.string().trim().max(80).optional().nullable(),
@@ -17,30 +22,12 @@ const createSchema = z.object({
 })
 
 // In-memory rate limit (resets on server restart)
-const rateLimit = new Map<string, { count: number; resetAt: number }>()
-const WINDOW_MS = 15 * 60 * 1000
-const MAX_REQ = 8
-
-function checkRateLimit(key: string): boolean {
-  const now = Date.now()
-  const entry = rateLimit.get(key)
-  if (!entry || now > entry.resetAt) {
-    rateLimit.set(key, { count: 1, resetAt: now + WINDOW_MS })
-    return true
-  }
-  if (entry.count >= MAX_REQ) return false
-  entry.count++
-  return true
-}
-
-function sanitize(s: string): string {
-  return s.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').trim()
-}
+const rateLimit: RateLimitStore = new Map()
 
 export async function POST(request: Request) {
   try {
-    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
-    if (!checkRateLimit(ip)) {
+    const ip = clientIpFromForwarded(request.headers.get('x-forwarded-for'))
+    if (!checkRateLimit(ip, rateLimit)) {
       return NextResponse.json(
         { error: 'Demasiados envíos. Intenta de nuevo en 15 minutos.' },
         { status: 429 }
@@ -48,7 +35,12 @@ export async function POST(request: Request) {
     }
 
     const session = await getServerSession(authOptions)
-    const body = await request.json()
+    let body: unknown
+    try {
+      body = await request.json()
+    } catch {
+      return NextResponse.json({ error: 'JSON inválido' }, { status: 400 })
+    }
     const parsed = createSchema.safeParse(body)
     if (!parsed.success) {
       return NextResponse.json(
@@ -73,8 +65,8 @@ export async function POST(request: Request) {
     const row = await db.feedbackReport.create({
       data: {
         type: data.type,
-        title: sanitize(data.title),
-        body: sanitize(data.body),
+        title: sanitizeFeedbackText(data.title),
+        body: sanitizeFeedbackText(data.body),
         sectionId: data.sectionId || null,
         pagePath: data.pagePath || null,
         email,

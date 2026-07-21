@@ -137,7 +137,7 @@ export function getPlanByCode(code: PlanCode): SubscriptionPlanConfig | undefine
 }
 
 export function formatPrice(amount: number, symbol: string): string {
-  if (amount === 0) return 'Gratis'
+  if (!Number.isFinite(amount) || amount <= 0) return 'Gratis'
   if (symbol === 'S/') return `${symbol} ${amount.toFixed(0)}`
   return `${symbol}${amount.toFixed(2)}`
 }

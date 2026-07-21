@@ -45,6 +45,34 @@ jobs:
       - name: Type check
         run: npx tsc --noEmit --skipLibCheck
 
+  adversarial-unit:
+    name: Adversarial unit suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run adversarial unit tests
+        run: npm run test:adversarial
+
+      - name: Exam pedagogy + v3 counts
+        run: npm run test:exam-pedagogy && npm run test:v3-counts
+
   regression-content:
     name: Content Regression (no sections removed)
     runs-on: ubuntu-latest

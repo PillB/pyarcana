@@ -3,18 +3,11 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { syncExamAttempt } from '@/lib/firebase/sync'
-import { z } from 'zod'
-
-const submitSchema = z.object({
-  attemptId: z.string(),
-  answers: z.array(
-    z.object({
-      questionId: z.string(),
-      selectedIndex: z.number().int().min(0),
-    })
-  ),
-  timeSpentSec: z.number().int().min(0).max(3600),
-})
+import {
+  examSubmitSchema,
+  gradeExamAnswers,
+  type QuestionKey,
+} from '@/lib/exam-scoring'
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions)
@@ -23,8 +16,13 @@ export async function POST(request: Request) {
   }
 
   try {
-    const body = await request.json()
-    const parsed = submitSchema.safeParse(body)
+    let body: unknown
+    try {
+      body = await request.json()
+    } catch {
+      return NextResponse.json({ error: 'JSON inválido' }, { status: 400 })
+    }
+    const parsed = examSubmitSchema.safeParse(body)
     if (!parsed.success) {
       return NextResponse.json({ error: 'Datos inválidos' }, { status: 400 })
     }
@@ -54,34 +52,21 @@ export async function POST(request: Request) {
       where: { id: { in: questionIds } },
     })
 
-    // Compute score and detailed answers
-    const detailedAnswers = answers.map((a) => {
-      const q = questions.find((x) => x.id === a.questionId)
-      if (!q) {
-        return {
-          questionId: a.questionId,
-          concept: 'unknown',
-          variant: 0,
-          selectedIndex: a.selectedIndex,
-          correctIndex: -1,
-          correct: false,
-        }
-      }
-      return {
-        questionId: q.id,
+    const byId = new Map<string, QuestionKey>()
+    for (const q of questions) {
+      byId.set(q.id, {
+        id: q.id,
         concept: q.concept,
         variant: q.variant,
-        selectedIndex: a.selectedIndex,
         correctIndex: q.correctIndex,
-        correct: a.selectedIndex === q.correctIndex,
         explanation: q.explanation,
         question: q.question,
-        options: JSON.parse(q.options),
-      }
-    })
+        options: q.options,
+      })
+    }
 
-    const correctCount = detailedAnswers.filter((a) => a.correct).length
-    const score = Math.round((correctCount / detailedAnswers.length) * 100)
+    const { detailedAnswers, correctCount, totalQuestions, score, passed } =
+      gradeExamAnswers(answers, byId)
 
     // Update the attempt with full detail
     const updated = await db.examAttempt.update({
@@ -100,9 +85,9 @@ export async function POST(request: Request) {
       attemptId,
       score,
       correctCount,
-      totalQuestions: detailedAnswers.length,
+      totalQuestions,
       detailedAnswers,
-      passed: score >= 70,
+      passed,
     })
   } catch (error) {
     console.error('Exam submit error:', error)

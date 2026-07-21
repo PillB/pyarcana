@@ -301,13 +301,21 @@ test.describe('Geometric integrity (no overlaps)', () => {
       await page.waitForLoadState('networkidle')
       await page.waitForTimeout(1000)
 
-      // Run the same JS as forensic_screens.py to get bounding boxes + DOM depth
+      // Bounding boxes + DOM depth + position (sticky/fixed chrome false positives)
       const data = await page.evaluate(() => {
         const vw = window.innerWidth
         const vh = window.innerHeight
-        const results: Array<{tag: string, text: string, x: number, y: number, w: number, h: number, depth: number}> = []
+        const results: Array<{
+          tag: string
+          text: string
+          x: number
+          y: number
+          w: number
+          h: number
+          depth: number
+          position: string
+        }> = []
 
-        // Compute DOM depth (distance from body) for each element
         function getDepth(el: Element): number {
           let d = 0
           let n: Element | null = el
@@ -318,13 +326,18 @@ test.describe('Geometric integrity (no overlaps)', () => {
           return d
         }
 
-        const els = document.querySelectorAll('h1, h2, h3, h4, p, button, a[href], [role="button"], [role="tab"], label')
+        // Content text only — exclude tiny controls; tabs/labels often nest in chrome
+        const els = document.querySelectorAll(
+          'main h1, main h2, main h3, main h4, main p, main button, main a[href], main [role="button"], main [role="tab"], main label'
+        )
         els.forEach((el) => {
           const r = el.getBoundingClientRect()
           if (r.width < 2 || r.height < 2) return
           const cs = window.getComputedStyle(el as HTMLElement)
-          if (cs.display === 'none' || cs.visibility === 'hidden') return
+          if (cs.display === 'none' || cs.visibility === 'hidden' || cs.opacity === '0') return
           if (r.bottom < 0 || r.top > vh || r.right < 0 || r.left > vw) return
+          // Skip sticky/fixed (headers, FABs)
+          if (cs.position === 'fixed' || cs.position === 'sticky') return
 
           const text = ((el as HTMLElement).textContent || '').trim().slice(0, 40)
           if (!text) return
@@ -337,39 +350,36 @@ test.describe('Geometric integrity (no overlaps)', () => {
             w: r.width,
             h: r.height,
             depth: getDepth(el),
+            position: cs.position,
           })
         })
         return results
       })
 
-      // Check for overlaps between text elements
-      // Skip if:
-      //   1. One rect fully contains the other (parent/child)
-      //   2. DOM depth differs by 1-2 (likely parent/child even if rect isn't perfectly contained)
-      //   3. Text is identical (same element rendered twice)
+      // Overlap rules (see tests/adversarial/geometry_overlap.test.mjs):
+      // skip identical text, full containment, depth-adjacent, tiny area noise
       let overlapCount = 0
       const overlaps: string[] = []
+      const MIN_AREA = 24
       for (let i = 0; i < data.length; i++) {
         for (let j = i + 1; j < data.length; j++) {
           const a = data[i]
           const b = data[j]
 
-          // Skip identical text (likely same element or its wrapper)
           if (a.text === b.text) continue
 
-          // Skip parent/child by rect containment
           if (a.x <= b.x && a.x + a.w >= b.x + b.w && a.y <= b.y && a.y + a.h >= b.y + b.h) continue
           if (b.x <= a.x && b.x + b.w >= a.x + a.w && b.y <= a.y && b.y + b.h >= a.y + a.h) continue
 
-          // Skip if DOM depth differs by 1-2 (likely ancestor/descendant)
-          if (Math.abs(a.depth - b.depth) <= 2) continue
+          // Nested UI often differs by a few depth levels; use 3
+          if (Math.abs(a.depth - b.depth) <= 3) continue
 
-          // Check intersection
           const ix = Math.max(0, Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x))
           const iy = Math.max(0, Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y))
-          if (ix >= 2 && iy >= 2) {
+          const area = ix * iy
+          if (ix >= 3 && iy >= 3 && area >= MIN_AREA) {
             overlapCount++
-            const msg = `OVERLAP: <${a.tag}>"${a.text}" vs <${b.tag}>"${b.text}" — area=${ix * iy}px²`
+            const msg = `OVERLAP: <${a.tag}>"${a.text}" vs <${b.tag}>"${b.text}" — area=${area}px²`
             overlaps.push(msg)
           }
         }

@@ -41,6 +41,7 @@
     "examples",
     "mini-services",
     "scripts",
-    "course-state"
+    "course-state",
+    "tests"
   ]
 }
