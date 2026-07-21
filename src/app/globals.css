@@ -292,9 +292,42 @@
   line-height: 1.65;
   tab-size: 4;
 }
+/* Dark code pane (always dark for readability of syntax) — tokens tuned for WCAG AA vs pane bg */
 .code-block-dark {
-  background: oklch(0.13 0.02 280);
-  color: oklch(0.95 0.005 280);
+  /* Near-black warm slate */
+  --code-bg: oklch(0.16 0.02 260);
+  --code-fg: oklch(0.93 0.01 90);
+  /* Syntax: higher L than previous for AA vs dark pane */
+  --code-comment: oklch(0.72 0.03 145);
+  --code-string: oklch(0.78 0.12 145);
+  --code-keyword: oklch(0.78 0.14 300);
+  --code-builtin: oklch(0.78 0.10 200);
+  --code-number: oklch(0.82 0.12 75);
+  --code-decorator: oklch(0.82 0.12 75);
+  --code-line-num: oklch(0.68 0.02 260);
+  background: var(--code-bg);
+  color: var(--code-fg);
+}
+.code-tok-comment {
+  color: var(--code-comment);
+  font-style: italic;
+}
+.code-tok-string {
+  color: var(--code-string);
+}
+.code-tok-keyword {
+  color: var(--code-keyword);
+  font-weight: 600;
+}
+.code-tok-builtin {
+  color: var(--code-builtin);
+}
+.code-tok-number,
+.code-tok-decorator {
+  color: var(--code-number);
+}
+.code-tok-line-num {
+  color: var(--code-line-num);
 }
 
 /* === Reduced motion === */

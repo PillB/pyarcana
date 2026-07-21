@@ -37,27 +37,27 @@ function highlightPython(code: string): string {
 
   // Comentarios primero (pueden contener # en strings)
   out = out.replace(comments, (m) =>
-    placeholder(`<span style="color: oklch(0.6 0.02 145); font-style: italic;">${m}</span>`)
+    placeholder(`<span class="code-tok-comment">${m}</span>`)
   )
   // Strings
   out = out.replace(strings, (m) =>
-    placeholder(`<span style="color: oklch(0.7 0.16 145);">${m}</span>`)
+    placeholder(`<span class="code-tok-string">${m}</span>`)
   )
   // Decoradores
   out = out.replace(decorators, (m) =>
-    placeholder(`<span style="color: oklch(0.75 0.18 60);">${m}</span>`)
+    placeholder(`<span class="code-tok-decorator">${m}</span>`)
   )
   // Keywords
   out = out.replace(keywords, (m) =>
-    placeholder(`<span style="color: oklch(0.7 0.2 285); font-weight: 600;">${m}</span>`)
+    placeholder(`<span class="code-tok-keyword">${m}</span>`)
   )
   // Builtins
   out = out.replace(builtins, (m) =>
-    placeholder(`<span style="color: oklch(0.65 0.16 195);">${m}</span>`)
+    placeholder(`<span class="code-tok-builtin">${m}</span>`)
   )
   // Números
   out = out.replace(numbers, (m) =>
-    placeholder(`<span style="color: oklch(0.75 0.18 60);">${m}</span>`)
+    placeholder(`<span class="code-tok-number">${m}</span>`)
   )
 
   // Restaurar tokens
@@ -81,16 +81,16 @@ function highlightBash(code: string): string {
     return `\x00${tokens.length - 1}\x00`
   }
   out = out.replace(comments, (m) =>
-    placeholder(`<span style="color: oklch(0.6 0.02 145); font-style: italic;">${m}</span>`)
+    placeholder(`<span class="code-tok-comment">${m}</span>`)
   )
   out = out.replace(strings, (m) =>
-    placeholder(`<span style="color: oklch(0.7 0.16 145);">${m}</span>`)
+    placeholder(`<span class="code-tok-string">${m}</span>`)
   )
   out = out.replace(commands, (m) =>
-    placeholder(`<span style="color: oklch(0.7 0.2 285); font-weight: 600;">${m}</span>`)
+    placeholder(`<span class="code-tok-keyword">${m}</span>`)
   )
   out = out.replace(flags, (_, pre, f) =>
-    placeholder(`${pre}<span style="color: oklch(0.75 0.18 60);">${f}</span>`)
+    placeholder(`${pre}<span class="code-tok-number">${f}</span>`)
   )
   out = out.replace(/\x00(\d+)\x00/g, (_, i) => tokens[Number(i)])
   return out
@@ -162,7 +162,7 @@ export function CodeBlock({
             <code>
               {lines.map((line, i) => (
                 <div key={i} className="flex">
-                  <span className="mr-4 inline-block w-8 select-none text-right text-muted-foreground/40">
+                  <span className="code-tok-line-num mr-4 inline-block w-8 select-none text-right">
                     {i + 1}
                   </span>
                   <span
@@ -184,8 +184,8 @@ export function CodeBlock({
           <div className="px-4 py-1.5 text-xs font-medium text-muted-foreground">
             Output
           </div>
-          <pre className="code-block code-block-dark overflow-x-auto p-4 pt-0 text-muted-foreground">
-            <code>{output.trim()}</code>
+          <pre className="code-block code-block-dark overflow-x-auto p-4 pt-0">
+            <code className="text-[var(--code-fg)] opacity-90">{output.trim()}</code>
           </pre>
         </div>
       )}

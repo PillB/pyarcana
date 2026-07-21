@@ -1,0 +1,63 @@
+{
+  "generated_at": "2026-07-21T05:39:24.679Z",
+  "method": "oklch→sRGB approx for code-block-dark tokens",
+  "results": [
+    {
+      "name": "code-fg",
+      "min": 4.5,
+      "ratio": 15.8,
+      "ok": true,
+      "fg": "oklch(0.93 0.01 90)",
+      "bg": "oklch(0.16 0.02 260)"
+    },
+    {
+      "name": "code-comment",
+      "min": 4.5,
+      "ratio": 7.92,
+      "ok": true,
+      "fg": "oklch(0.72 0.03 145)",
+      "bg": "oklch(0.16 0.02 260)"
+    },
+    {
+      "name": "code-string",
+      "min": 4.5,
+      "ratio": 10.13,
+      "ok": true,
+      "fg": "oklch(0.78 0.12 145)",
+      "bg": "oklch(0.16 0.02 260)"
+    },
+    {
+      "name": "code-keyword",
+      "min": 4.5,
+      "ratio": 9.22,
+      "ok": true,
+      "fg": "oklch(0.78 0.14 300)",
+      "bg": "oklch(0.16 0.02 260)"
+    },
+    {
+      "name": "code-builtin",
+      "min": 4.5,
+      "ratio": 10.08,
+      "ok": true,
+      "fg": "oklch(0.78 0.10 200)",
+      "bg": "oklch(0.16 0.02 260)"
+    },
+    {
+      "name": "code-number",
+      "min": 4.5,
+      "ratio": 10.96,
+      "ok": true,
+      "fg": "oklch(0.82 0.12 75)",
+      "bg": "oklch(0.16 0.02 260)"
+    },
+    {
+      "name": "code-line-num",
+      "min": 3,
+      "ratio": 6.74,
+      "ok": true,
+      "fg": "oklch(0.68 0.02 260)",
+      "bg": "oklch(0.16 0.02 260)"
+    }
+  ],
+  "ok": true
+}

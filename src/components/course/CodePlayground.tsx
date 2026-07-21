@@ -317,12 +317,12 @@ export function CodePlayground({
         </div>
       )}
 
-      {/* Editor area */}
-      <div className="flex bg-[oklch(0.13_0.02_280)]">
+      {/* Editor area — shared dark code pane tokens for AA contrast */}
+      <div className="code-block code-block-dark flex">
         {/* Line numbers */}
         <div
           ref={lineNumbersRef}
-          className="code-block select-none overflow-hidden py-4 pl-3 pr-2 text-right text-xs text-muted-foreground/40"
+          className="code-tok-line-num select-none overflow-hidden py-4 pl-3 pr-2 text-right text-xs"
           style={{ minWidth: '3rem' }}
         >
           {Array.from({ length: lineCount }, (_, i) => (
@@ -339,7 +339,7 @@ export function CodePlayground({
           onScroll={handleScroll}
           onKeyDown={handleKeyDown}
           spellCheck={false}
-          className="code-block flex-1 resize-none bg-transparent py-4 pl-2 pr-4 text-[0.875rem] leading-[1.65] text-foreground/90 outline-none"
+          className="code-block flex-1 resize-none bg-transparent py-4 pl-2 pr-4 text-[0.875rem] leading-[1.65] text-[var(--code-fg)] outline-none"
           style={{ fontFamily: 'var(--font-geist-mono), monospace', tabSize: 4, minHeight: '120px' }}
         />
       </div>
@@ -351,7 +351,7 @@ export function CodePlayground({
         </div>
         <div className="code-block code-block-dark min-h-[60px] overflow-x-auto p-4">
           {output.length === 0 ? (
-            <span className="text-muted-foreground/40">
+            <span className="code-tok-line-num">
               {pyodideReady ? 'Presiona Run para ejecutar tu código...' : 'Cargando Python...'}
             </span>
           ) : (
@@ -361,7 +361,7 @@ export function CodePlayground({
                 className={cn(
                   'whitespace-pre-wrap',
                   line.type === 'stderr' && 'text-red-400',
-                  line.type === 'stdout' && 'text-foreground/90',
+                  line.type === 'stdout' && 'text-[var(--code-fg)]',
                   line.type === 'system' && 'text-green-400',
                   line.type === 'result' && 'text-blue-400'
                 )}

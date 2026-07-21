@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-07-21T05:42:00Z",
+  "ok": true,
+  "method": "WCAG relative luminance via canvas getImageData (sRGB); solid bg composites semi-transparent layers",
+  "targets": {
+    "body_text": 4.5,
+    "term_hint": 4.5,
+    "code_fg_tokens": 4.5,
+    "code_line_num": 3.0
+  },
+  "fixes": [
+    "TermHint: popover surface + olive accent (not primary-on-primary)",
+    "CodeBlock: class-based syntax tokens with --code-* CSS vars on dark pane",
+    "CodePlayground: shared code-block-dark tokens; readable line numbers",
+    "Contrast helper: composite alpha backgrounds; skip gradient-clip headings"
+  ],
+  "static_code_syntax": {
+    "ok": true,
+    "report": "course-state/code_syntax_contrast_report.json"
+  },
+  "playwright": {
+    "glossary_i18n_a11y": "8/8 passed",
+    "readability_smoke_sections": [
+      "setup",
+      "functions-modules",
+      "data-acquisition",
+      "rpa-automation"
+    ],
+    "note": "Each section: all 5 tabs × light+dark. Full 52: READABILITY_FULL=1 SECTION_SHARD=k/13"
+  }
+}
