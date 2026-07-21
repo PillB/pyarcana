@@ -6,8 +6,8 @@ const BASE = process.env.BASE_URL || 'http://localhost:3000'
 
 test.describe('E2E max — exam option paths (sharded)', () => {
   const all = shardSections(loadCatalog().sections)
-  // Sample: first of shard + every 4th index + always setup if present
-  const sections = all.filter((s, i) => i === 0 || s.id === 'setup' || s.index % 4 === 1)
+  // Sample denser: first of shard + every 2nd index + always setup if present
+  const sections = all.filter((s, i) => i === 0 || s.id === 'setup' || s.index % 2 === 1)
 
   for (const section of sections) {
     test(`${section.id}: exam start/submit + option matrix`, async ({ page }) => {

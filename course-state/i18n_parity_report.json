@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-20T22:10:37.077Z",
+  "generated_at": "2026-07-21T04:53:09.399Z",
   "counts": {
-    "es-PE": 135,
-    "es-ES": 135,
-    "en": 135
+    "es-PE": 183,
+    "es-ES": 183,
+    "en": 183
   },
   "missing": {
     "es-PE": [],
@@ -11,15 +11,6 @@
     "en": []
   },
   "ok": true,
-  "hardcoded_chrome_candidates": [
-    {
-      "file": "ExamView.tsx",
-      "note": "Spanish chrome strings without useI18n (heuristic)"
-    },
-    {
-      "file": "Sidebar.tsx",
-      "note": "Spanish chrome strings without useI18n (heuristic)"
-    }
-  ],
-  "hardcoded_ok": false
+  "hardcoded_chrome_candidates": [],
+  "hardcoded_ok": true
 }

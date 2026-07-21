@@ -32,7 +32,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'tipo-de-dato',
     term: 'Tipo de dato',
-    aliases: ["Tipo de dato"],
+    aliases: ['Tipo de dato', 'tipos de datos'],
     category: 'Python',
     definition: 'La naturaleza del valor: int (entero), float (decimal), str (texto), bool (True/False), list, dict, tuple, set.',
     firstSectionId: 'basics',
@@ -67,7 +67,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'slicing',
     term: 'Slicing',
-    aliases: ["Slicing"],
+    aliases: ['Slicing', 'slice'],
     category: 'Python',
     definition: 'Extraer una porción de una secuencia. Sintaxis: secuencia[inicio:fin:paso].',
     example: 'lista[1:4]  # elementos del índice 1 al 3\\nlista[::-1]  # reverso',
@@ -76,7 +76,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'truthiness',
     term: 'Truthiness',
-    aliases: ["Truthiness"],
+    aliases: ['Truthiness', 'truthy', 'falsy'],
     category: 'Python',
     definition: 'Valores que se evalúan como False: 0, 0.0, "", [], {}, None. Todo lo demás es True.',
     firstSectionId: 'basics',
@@ -84,7 +84,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'dunder-method',
     term: 'Dunder method',
-    aliases: ["Dunder method"],
+    aliases: ['Dunder method', 'dunder', '__init__'],
     category: 'Python',
     definition: 'Métodos especiales con __ al inicio y fin (double underscore). Ej: __init__, __str__, __repr__, __len__.',
     firstSectionId: 'oop',
@@ -92,7 +92,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'decorador',
     term: 'Decorador',
-    aliases: ["Decorador"],
+    aliases: ['Decorador', 'decorator', 'decorators'],
     category: 'Python',
     definition: 'Función que recibe otra función y devuelve una nueva con comportamiento extendido. Se aplica con @.',
     example: '@timing\\ndef mi_func(): ...',
@@ -101,7 +101,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'generator',
     term: 'Generator',
-    aliases: ["Generator"],
+    aliases: ['Generator', 'generador', 'yield'],
     category: 'Python',
     definition: 'Función que usa yield para producir valores uno a uno, sin cargar todo en memoria.',
     example: 'def cuenta():\\n    for i in range(10):\\n        yield i',
@@ -110,7 +110,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'context-manager',
     term: 'Context manager',
-    aliases: ["Context manager"],
+    aliases: ['Context manager', 'contextlib'],
     category: 'Python',
     definition: 'Objeto que define setup (__enter__) y cleanup (__exit__). Se usa con el statement with.',
     example: 'with open("f.csv") as f:\\n    data = f.read()',
@@ -127,7 +127,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'args-y-kwargs',
     term: 'args y kwargs',
-    aliases: ["args y kwargs"],
+    aliases: ['args y kwargs', 'kwargs', '**kwargs', '*args'],
     category: 'Python',
     definition: '*args junta argumentos posicionales en tupla. **kwargs junta argumentos keyword en dict.',
     firstSectionId: 'functions-modules',
@@ -331,7 +331,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'coverage',
     term: 'Coverage',
-    aliases: ["Coverage"],
+    aliases: ['Coverage', 'cobertura'],
     category: 'Tooling',
     definition: 'Porcentaje de líneas de código cubiertas por tests. pytest --cov=mi_modulo.',
     firstSectionId: 'testing',
@@ -403,7 +403,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'vectorizaci-n',
     term: 'Vectorización',
-    aliases: ["Vectorización"],
+    aliases: ['Vectorización', 'vectorizado', 'vectorized'],
     category: 'NumPy',
     definition: 'Operaciones aplicadas elemento a elemento sin loops de Python. 50-100x más rápido.',
     firstSectionId: 'numpy',
@@ -451,7 +451,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'dataframe',
     term: 'DataFrame',
-    aliases: ["DataFrame"],
+    aliases: ['DataFrame', 'pd.DataFrame'],
     category: 'Pandas',
     definition: 'Tabla 2D con columnas de tipos distintos. Equivalente a una hoja de Excel. pd.read_csv() lo crea.',
     firstSectionId: 'pandas',
@@ -459,7 +459,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'series',
     term: 'Series',
-    aliases: ["Series"],
+    aliases: ['Series', 'pd.Series'],
     category: 'Pandas',
     definition: 'Columna de un DataFrame. 1D con índice. df["col"] devuelve una Series.',
     firstSectionId: 'pandas',
@@ -515,7 +515,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'missing-values',
     term: 'Missing values',
-    aliases: ["Missing values"],
+    aliases: ['Missing values', 'valores faltantes', 'NaN'],
     category: 'Pandas',
     definition: 'Valores nulos (NaN). isnull().sum() para contar. fillna() para imputar, dropna() para eliminar.',
     firstSectionId: 'pandas',
@@ -547,7 +547,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'cross-validation',
     term: 'Cross-validation',
-    aliases: ["Cross-validation"],
+    aliases: ['Cross-validation', 'validación cruzada', 'cross_val'],
     category: 'ML',
     definition: 'Divide datos en K folds, entrena en K-1 y evalúa en 1, rotando. cross_val_score. Estratificado para desbalance.',
     firstSectionId: 'sklearn',
@@ -555,7 +555,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'overfitting',
     term: 'Overfitting',
-    aliases: ["Overfitting"],
+    aliases: ['Overfitting', 'sobreajuste'],
     category: 'ML',
     definition: 'Modelo memoriza training data, generaliza mal. Síntomas: train score >> test score. Fix: más datos, regularización, simpler model.',
     firstSectionId: 'sklearn',
@@ -683,7 +683,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'feature-engineering',
     term: 'Feature engineering',
-    aliases: ["Feature engineering"],
+    aliases: ['Feature engineering', 'ingeniería de features'],
     category: 'Data Science',
     definition: 'Crear nuevas features a partir de las existentes. Ej: año de fecha, ratio de dos columnas, bins de edad.',
     firstSectionId: 'sklearn',
@@ -699,7 +699,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'data-leakage',
     term: 'Data leakage',
-    aliases: ["Data leakage"],
+    aliases: ['Data leakage', 'fuga de datos'],
     category: 'ML',
     definition: 'Cuando info del test set "contamina" el entrenamiento. Pipeline lo previene aplicando fit solo en train.',
     firstSectionId: 'sklearn',
@@ -707,7 +707,7 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   {
     id: 'pyodide',
     term: 'Pyodide',
-    aliases: ["pyodide"],
+    aliases: ['pyodide', 'Pyodide'],
     category: 'Tooling',
     definition: 'Python compilado a WebAssembly que corre en el navegador. Permite ejecutar código Python sin instalar nada localmente.',
     firstSectionId: 'setup',

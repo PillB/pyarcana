@@ -1,10 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import {
-  HelpCircle, CheckCircle2, Clock, Award, AlertTriangle,
-  Loader2, RotateCcw, Trophy, X, ChevronRight
+  HelpCircle, CheckCircle2, Award, AlertTriangle,
+  Loader2, RotateCcw, Trophy
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -13,6 +12,7 @@ import { ProgressRing } from './ProgressRing'
 import { useSession } from 'next-auth/react'
 import { useToast } from '@/hooks/use-toast'
 import { cn } from '@/lib/utils'
+import { useI18n, t } from '@/lib/i18n'
 
 interface ExamQuestion {
   id: string
@@ -43,9 +43,17 @@ interface ExamViewProps {
   onAuthRequired: () => void
 }
 
+function fill(template: string, vars: Record<string, string | number>): string {
+  return Object.entries(vars).reduce(
+    (s, [k, v]) => s.replace(new RegExp(`\\{${k}\\}`, 'g'), String(v)),
+    template
+  )
+}
+
 export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewProps) {
   const { data: session, status } = useSession()
   const { toast } = useToast()
+  const lang = useI18n((s) => s.lang)
   const [loading, setLoading] = useState(false)
   const [exam, setExam] = useState<ExamStartResponse | null>(null)
   const [answers, setAnswers] = useState<Record<string, number>>({})
@@ -69,7 +77,6 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
   const [previousAttempts, setPreviousAttempts] = useState<AttemptSummary[]>([])
   const [startTime, setStartTime] = useState<number>(0)
 
-  // Load previous attempts
   useEffect(() => {
     if (status === 'authenticated' && session?.user) {
       fetch(`/api/exam/attempts?sectionId=${sectionId}`)
@@ -95,8 +102,8 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
       const data = await res.json()
       if (!res.ok) {
         toast({
-          title: 'No se puede iniciar el examen',
-          description: data.error || 'Error desconocido',
+          title: t('exam.cannotStart', lang),
+          description: data.error || t('exam.unknownError', lang),
           variant: 'destructive',
         })
         return
@@ -107,7 +114,7 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
       setResult(null)
       setStartTime(Date.now())
     } catch {
-      toast({ title: 'Error de conexión', variant: 'destructive' })
+      toast({ title: t('exam.connectionError', lang), variant: 'destructive' })
     } finally {
       setLoading(false)
     }
@@ -133,21 +140,24 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
       })
       const data = await res.json()
       if (!res.ok) {
-        toast({ title: data.error || 'Error', variant: 'destructive' })
+        toast({ title: data.error || t('exam.error', lang), variant: 'destructive' })
         return
       }
       setResult(data)
       setSubmitted(true)
-      // Refresh previous attempts
       const attemptsRes = await fetch(`/api/exam/attempts?sectionId=${sectionId}`)
       const attemptsData = await attemptsRes.json()
       setPreviousAttempts(attemptsData.attempts || [])
       toast({
-        title: data.passed ? '✓ Examen aprobado' : 'No aprobaste esta vez',
-        description: `Score: ${data.score}% (${data.correctCount}/${data.totalQuestions})`,
+        title: data.passed ? t('exam.passedToast', lang) : t('exam.failed', lang),
+        description: fill(t('exam.ofCorrect', lang), {
+          c: data.correctCount,
+          t: data.totalQuestions,
+          score: data.score,
+        }),
       })
     } catch {
-      toast({ title: 'Error de conexión', variant: 'destructive' })
+      toast({ title: t('exam.connectionError', lang), variant: 'destructive' })
     } finally {
       setLoading(false)
     }
@@ -161,47 +171,51 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
     handleStartExam()
   }
 
-  // Not logged in
   if (status !== 'authenticated') {
     return (
       <Card className="border-primary/30 bg-primary/5 p-6 text-center">
         <HelpCircle className="mx-auto h-10 w-10 text-primary" />
-        <h3 className="mt-3 text-lg font-semibold">Inicia sesión para rendir el examen</h3>
+        <h3 className="mt-3 text-lg font-semibold">{t('exam.loginRequired', lang)}</h3>
         <p className="mt-1 text-sm text-muted-foreground">
-          El examen guarda tu score, intentos y tiempo. Necesitas una cuenta para tracking.
+          {t('exam.loginRequiredDesc', lang)}
         </p>
         <Button onClick={onAuthRequired} className="mt-4 gap-2" data-testid="exam-auth-required">
-          Iniciar sesión
+          {t('auth.login', lang)}
         </Button>
       </Card>
     )
   }
 
-  // Loading state
   if (loading && !exam) {
     return (
       <div className="flex items-center justify-center py-12">
         <Loader2 className="h-6 w-6 animate-spin text-primary" />
-        <span className="ml-2 text-sm text-muted-foreground">Cargando examen...</span>
+        <span className="ml-2 text-sm text-muted-foreground">{t('exam.loading', lang)}</span>
       </div>
     )
   }
 
-  // Exam in progress
   if (exam && !submitted) {
+    const n = exam.questions.length
     return (
       <div className="space-y-6">
         <div className="flex items-center justify-between gap-2 flex-wrap">
           <div className="flex items-center gap-2">
             <HelpCircle className="h-5 w-5 text-rose-600" />
-            <h2 className="text-xl font-semibold">Examen — {sectionTitle}</h2>
+            <h2 className="text-xl font-semibold">{t('exam.title', lang)} — {sectionTitle}</h2>
           </div>
           <div className="flex items-center gap-2">
             <Badge variant="secondary" className="gap-1.5">
-              {exam.questions.length} pregunta{exam.questions.length === 1 ? '' : 's'} · 1 por concepto
+              {fill(t('exam.questionsBadge', lang), {
+                n,
+                s: n === 1 ? '' : lang === 'en' ? 's' : 's',
+              })}
             </Badge>
             <Badge variant="outline" className="gap-1.5">
-              Intento {exam.attemptNumber} de {exam.totalAttemptsAllowed}
+              {fill(t('exam.attemptOf', lang), {
+                n: exam.attemptNumber,
+                max: exam.totalAttemptsAllowed,
+              })}
             </Badge>
           </div>
         </div>
@@ -210,7 +224,7 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
           <div className="flex items-start gap-2">
             <AlertTriangle className="mt-0.5 h-4 w-4 text-amber-600" />
             <div className="text-sm">
-              <strong>Reglas:</strong> Una pregunta por concepto ({exam.questions.length} en este intento). Tienes 3 intentos máximo por sección. Cada intento usa variantes diferentes. Tu mejor score es el que cuenta. Necesitas 70% para aprobar.
+              <strong>{t('exam.rules', lang)}:</strong> {t('exam.rulesDesc', lang)}
             </div>
           </div>
         </Card>
@@ -269,15 +283,18 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
           data-testid="exam-submit"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckCircle2 className="h-4 w-4" />}
-          Enviar respuestas ({Object.keys(answers).length}/{exam.questions.length})
+          {fill(t('exam.submitWithCount', lang), {
+            a: Object.keys(answers).length,
+            t: exam.questions.length,
+          })}
         </Button>
       </div>
     )
   }
 
-  // Result view
   if (submitted && result) {
     const canRetry = exam ? exam.attemptNumber < 3 : false
+    const left = 3 - (exam?.attemptNumber || 0)
     return (
       <div className="space-y-6">
         <Card className={cn('p-6 text-center', result.passed ? 'border-green-500/40 bg-green-500/5' : 'border-amber-500/40 bg-amber-500/5')}>
@@ -285,31 +302,34 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
             <ProgressRing progress={result.score} size={80} />
           </div>
           <div className="text-2xl font-bold">
-            {result.passed ? '¡Aprobado! 🎉' : 'No aprobaste esta vez'}
+            {result.passed ? t('exam.passed', lang) : t('exam.failed', lang)}
           </div>
           <p className="mt-1 text-sm text-muted-foreground">
-            {result.correctCount} de {result.totalQuestions} correctas · Score: {result.score}%
+            {fill(t('exam.ofCorrect', lang), {
+              c: result.correctCount,
+              t: result.totalQuestions,
+              score: result.score,
+            })}
           </p>
           <p className="mt-1 text-xs text-muted-foreground">
             {result.passed
-              ? 'Pasaste la sección. Puedes continuar a la siguiente.'
+              ? t('exam.passedContinue', lang)
               : canRetry
-                ? `Te quedan ${3 - (exam?.attemptNumber || 0)} intento(s).`
-                : 'Has agotado tus 3 intentos para esta sección.'}
+                ? fill(t('exam.retriesLeft', lang), { n: left })
+                : t('exam.maxAttemptsSection', lang)}
           </p>
           <div className="mt-4 flex justify-center gap-2">
             {canRetry && (
               <Button onClick={handleRetry} variant="outline" className="gap-2">
                 <RotateCcw className="h-4 w-4" />
-                Reintentar ({3 - (exam?.attemptNumber || 0)} restantes)
+                {fill(t('exam.retryWithCount', lang), { n: left })}
               </Button>
             )}
           </div>
         </Card>
 
-        {/* Detailed answers */}
         <div>
-          <h3 className="mb-3 text-sm font-semibold text-foreground">Revisión de respuestas</h3>
+          <h3 className="mb-3 text-sm font-semibold text-foreground">{t('exam.review', lang)}</h3>
           <div className="space-y-3">
             {result.detailedAnswers.map((a, i) => (
               <Card key={i} className={cn('p-4', a.correct ? 'border-green-500/30' : 'border-red-500/30')}>
@@ -326,11 +346,13 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
                     <p className="text-sm font-medium">{a.question}</p>
                     <div className="mt-2 space-y-1 text-xs">
                       <div className={cn('flex items-center gap-1', a.correct ? 'text-green-700 dark:text-green-300' : 'text-red-700 dark:text-red-300')}>
-                        <span>Tu respuesta: {a.options[a.selectedIndex] || 'Sin responder'}</span>
+                        <span>
+                          {t('exam.yourAnswer', lang)}: {a.options[a.selectedIndex] || t('exam.noAnswer', lang)}
+                        </span>
                       </div>
                       {!a.correct && (
                         <div className="text-green-700 dark:text-green-300">
-                          Correcta: {a.options[a.correctIndex]}
+                          {t('exam.correctAnswer', lang)}: {a.options[a.correctIndex]}
                         </div>
                       )}
                     </div>
@@ -343,78 +365,76 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
         </div>
 
         <Button onClick={() => { setExam(null); setSubmitted(false); setResult(null) }} className="w-full">
-          Volver al resumen
+          {t('exam.backToSummary', lang)}
         </Button>
       </div>
     )
   }
 
-  // Default: show intro + previous attempts + start button
+  const completedAttempts = previousAttempts.filter((a) => a.completedAt)
+
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-2">
         <HelpCircle className="h-5 w-5 text-rose-600" />
-        <h2 className="text-xl font-semibold">Examen — {sectionTitle}</h2>
+        <h2 className="text-xl font-semibold">{t('exam.title', lang)} — {sectionTitle}</h2>
       </div>
 
       <Card className="border-primary/20 bg-primary/5 p-4">
         <div className="flex items-start gap-3">
           <Trophy className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
           <div>
-            <div className="text-sm font-semibold">Examen de sección con anti-plagio</div>
+            <div className="text-sm font-semibold">{t('exam.antiPlagiarism', lang)}</div>
             <p className="mt-1 text-sm text-foreground/80">
-              <strong>Una pregunta por concepto</strong> (el total depende del banco de la sección; secciones V3 completas: 8).
-              Cada intento muestra <strong>variantes diferentes</strong> (3 equivalentes por concepto).
-              Tienes <strong>3 intentos máximo</strong> (2 retries). Tu mejor score es el que cuenta.
-              Necesitas <strong>70% para aprobar</strong>.
+              {t('exam.antiPlagiarismDesc', lang)}
             </p>
           </div>
         </div>
       </Card>
 
-      {/* Previous attempts */}
       {previousAttempts.length > 0 && (
         <div>
-          <h3 className="mb-3 text-sm font-semibold">Tus intentos anteriores</h3>
+          <h3 className="mb-3 text-sm font-semibold">{t('exam.previousAttempts', lang)}</h3>
           <div className="space-y-2">
-            {previousAttempts
-              .filter((a) => a.completedAt)
-              .map((a) => (
-                <Card key={a.id} className="flex items-center justify-between p-3">
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={cn(
-                        'flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white',
-                        a.score >= 70 ? 'bg-green-500' : a.score >= 50 ? 'bg-amber-500' : 'bg-red-500'
-                      )}
-                    >
-                      {a.attemptNumber}
+            {completedAttempts.map((a) => (
+              <Card key={a.id} className="flex items-center justify-between p-3">
+                <div className="flex items-center gap-3">
+                  <div
+                    className={cn(
+                      'flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white',
+                      a.score >= 70 ? 'bg-green-500' : a.score >= 50 ? 'bg-amber-500' : 'bg-red-500'
+                    )}
+                  >
+                    {a.attemptNumber}
+                  </div>
+                  <div>
+                    <div className="text-sm font-medium">
+                      {t('exam.attempt', lang)} {a.attemptNumber}
                     </div>
-                    <div>
-                      <div className="text-sm font-medium">Intento {a.attemptNumber}</div>
-                      <div className="text-xs text-muted-foreground">
-                        {a.completedAt && new Date(a.completedAt).toLocaleDateString('es-PE')}
-                        {' · '}
-                        {Math.floor(a.timeSpentSec / 60)}m {a.timeSpentSec % 60}s
-                      </div>
+                    <div className="text-xs text-muted-foreground">
+                      {a.completedAt && new Date(a.completedAt).toLocaleDateString(lang === 'en' ? 'en-US' : 'es-PE')}
+                      {' · '}
+                      {Math.floor(a.timeSpentSec / 60)}m {a.timeSpentSec % 60}s
                     </div>
                   </div>
-                  <Badge variant={a.score >= 70 ? 'default' : 'secondary'}>
-                    {a.score}%
-                  </Badge>
-                </Card>
-              ))}
+                </div>
+                <Badge variant={a.score >= 70 ? 'default' : 'secondary'}>
+                  {a.score}%
+                </Badge>
+              </Card>
+            ))}
           </div>
         </div>
       )}
 
-      {/* Max attempts reached */}
-      {previousAttempts.filter((a) => a.completedAt).length >= 3 ? (
+      {completedAttempts.length >= 3 ? (
         <Card className="border-amber-500/40 bg-amber-500/5 p-4 text-center">
           <AlertTriangle className="mx-auto h-8 w-8 text-amber-600" />
-          <h3 className="mt-2 font-semibold">Has agotado tus 3 intentos</h3>
+          <h3 className="mt-2 font-semibold">{t('exam.maxAttempts', lang)}</h3>
           <p className="mt-1 text-sm text-muted-foreground">
-            Tu mejor score: {Math.max(...previousAttempts.filter(a => a.completedAt).map(a => a.score))}%
+            {fill(t('exam.bestScore', lang), {
+              score: Math.max(...completedAttempts.map((a) => a.score)),
+            })}
           </p>
         </Card>
       ) : (
@@ -426,7 +446,9 @@ export function ExamView({ sectionId, sectionTitle, onAuthRequired }: ExamViewPr
           data-testid="exam-start"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <HelpCircle className="h-4 w-4" />}
-          {previousAttempts.length === 0 ? 'Iniciar primer intento' : `Iniciar intento ${previousAttempts.filter(a => a.completedAt).length + 1}`}
+          {previousAttempts.length === 0
+            ? t('exam.start', lang)
+            : `${t('exam.startN', lang)} ${completedAttempts.length + 1}`}
         </Button>
       )}
     </div>

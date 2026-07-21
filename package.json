@@ -26,12 +26,15 @@
     "test:e2e-max:shard": "npx playwright test -c scripts/e2e_max/playwright.max.config.ts",
     "test:e2e-max:smoke": "npm run test:e2e-max:catalog && npx playwright test -c scripts/e2e_max/playwright.max.config.ts scripts/e2e_max/01_chrome_pages.spec.ts scripts/e2e_max/06_student_admin_flows.spec.ts",
     "test:glossary-intro": "python3 scripts/glossary_intro_audit.py",
+    "test:glossary-coverage": "python3 scripts/glossary_coverage_audit.py",
     "test:i18n-parity": "node scripts/i18n_parity_check.mjs",
     "test:a11y-contrast": "node scripts/a11y_contrast_check.mjs",
-    "test:ux-gates": "npm run test:glossary-intro && npm run test:i18n-parity && npm run test:a11y-contrast",
+    "test:ux-gates": "npm run test:glossary-intro && npm run test:glossary-coverage && npm run test:i18n-parity && npm run test:a11y-contrast",
     "test:s01-first-use": "python3 scripts/s01_first_use_audit.py",
     "test:s01-glossary-coverage": "python3 scripts/s01_glossary_coverage.py",
-    "test:s01-pedagogy": "npm run test:s01-first-use && npm run test:s01-glossary-coverage"
+    "test:s01-pedagogy": "npm run test:s01-first-use && npm run test:s01-glossary-coverage",
+    "test:ux-campaign:static": "npm run test:ux-gates && npm run test:s01-pedagogy && npm run test:e2e-max:catalog",
+    "test:ux-campaign:smoke": "npm run test:ux-campaign:static && BASE_URL=http://localhost:3000 npx playwright test -c scripts/e2e_max/playwright.max.config.ts scripts/e2e_max/01_chrome_pages.spec.ts scripts/e2e_max/06_student_admin_flows.spec.ts scripts/e2e_max/07_glossary_i18n_a11y.spec.ts scripts/e2e_max/10_feedback.spec.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

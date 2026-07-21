@@ -1,0 +1,643 @@
+{
+  "generated_at": "2026-07-21T04:53:09.060149Z",
+  "terms": 89,
+  "sections": [
+    {
+      "sectionId": "setup",
+      "introCount": 30,
+      "found": 29,
+      "missing": [
+        "pyodide"
+      ]
+    },
+    {
+      "sectionId": "basics",
+      "introCount": 7,
+      "found": 5,
+      "missing": [
+        "tipo-de-dato",
+        "truthiness"
+      ]
+    },
+    {
+      "sectionId": "data-structures",
+      "introCount": 7,
+      "found": 2,
+      "missing": [
+        "dict-comprehension",
+        "slicing",
+        "defaultdict",
+        "counter",
+        "namedtuple"
+      ]
+    },
+    {
+      "sectionId": "functions-modules",
+      "introCount": 4,
+      "found": 1,
+      "missing": [
+        "generator",
+        "context-manager",
+        "args-y-kwargs"
+      ]
+    },
+    {
+      "sectionId": "oop",
+      "introCount": 1,
+      "found": 1,
+      "missing": []
+    },
+    {
+      "sectionId": "numpy",
+      "introCount": 7,
+      "found": 4,
+      "missing": [
+        "ndarray",
+        "boolean-masking",
+        "reshape"
+      ]
+    },
+    {
+      "sectionId": "data-acquisition",
+      "introCount": 1,
+      "found": 1,
+      "missing": []
+    },
+    {
+      "sectionId": "pandas",
+      "introCount": 11,
+      "found": 2,
+      "missing": [
+        "dataframe",
+        "series",
+        "pivot-table",
+        "iloc-vs-loc",
+        "resample",
+        "iqr",
+        "correlaci-n",
+        "distribuci-n-normal",
+        "p-value"
+      ]
+    },
+    {
+      "sectionId": "visualization",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "sklearn",
+      "introCount": 15,
+      "found": 0,
+      "missing": [
+        "columntransformer",
+        "cross-validation",
+        "overfitting",
+        "roc-auc",
+        "precision",
+        "recall",
+        "f1-score",
+        "hyperparameter-tuning",
+        "standardscaler",
+        "onehotencoder",
+        "stratifiedkfold",
+        "joblib",
+        "feature-engineering",
+        "train-test-split",
+        "data-leakage"
+      ]
+    },
+    {
+      "sectionId": "testing",
+      "introCount": 1,
+      "found": 0,
+      "missing": [
+        "coverage"
+      ]
+    },
+    {
+      "sectionId": "performance",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "rpa-automation",
+      "introCount": 1,
+      "found": 1,
+      "missing": []
+    },
+    {
+      "sectionId": "security",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "stdlib-deep",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "wxpython-gui",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "packaging",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "data-engineering",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "databases-orm",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "rag",
+      "introCount": 1,
+      "found": 1,
+      "missing": []
+    },
+    {
+      "sectionId": "fastapi",
+      "introCount": 1,
+      "found": 1,
+      "missing": []
+    },
+    {
+      "sectionId": "rapidfuzz-entity",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "computer-vision",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "rpa-advanced",
+      "introCount": 1,
+      "found": 1,
+      "missing": []
+    },
+    {
+      "sectionId": "streamlit-dashboards",
+      "introCount": 1,
+      "found": 1,
+      "missing": []
+    },
+    {
+      "sectionId": "integrator-phase1",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "async-concurrency",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "llm-agents",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "mlops",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "security-infra",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "streaming-data",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "microservices",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "advanced-models",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "cv-ai-integration",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "system-design",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "ai-apis-advanced",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "dbt-bigquery",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "performance-extreme",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "integrator-phase2",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "agentic-architecture",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "llm-finetuning",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "graph-rag",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "llmops",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "multimodal",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "iac",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "gpu-computing",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "opensource",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "ai-governance",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "data-contracts",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "tech-leadership",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "integrator-final",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    },
+    {
+      "sectionId": "career-strategy",
+      "introCount": 0,
+      "found": 0,
+      "missing": []
+    }
+  ],
+  "sections_with_intros": 15,
+  "p1_missing_prose": 39,
+  "issues": [
+    {
+      "sectionId": "setup",
+      "termId": "pyodide",
+      "term": "Pyodide",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "basics",
+      "termId": "tipo-de-dato",
+      "term": "Tipo de dato",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "basics",
+      "termId": "truthiness",
+      "term": "Truthiness",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "data-structures",
+      "termId": "dict-comprehension",
+      "term": "Dict comprehension",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "data-structures",
+      "termId": "slicing",
+      "term": "Slicing",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "data-structures",
+      "termId": "defaultdict",
+      "term": "defaultdict",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "data-structures",
+      "termId": "counter",
+      "term": "Counter",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "data-structures",
+      "termId": "namedtuple",
+      "term": "namedtuple",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "functions-modules",
+      "termId": "generator",
+      "term": "Generator",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "functions-modules",
+      "termId": "context-manager",
+      "term": "Context manager",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "functions-modules",
+      "termId": "args-y-kwargs",
+      "term": "args y kwargs",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "numpy",
+      "termId": "ndarray",
+      "term": "ndarray",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "numpy",
+      "termId": "boolean-masking",
+      "term": "Boolean masking",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "numpy",
+      "termId": "reshape",
+      "term": "Reshape",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "pandas",
+      "termId": "dataframe",
+      "term": "DataFrame",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "pandas",
+      "termId": "series",
+      "term": "Series",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "pandas",
+      "termId": "pivot-table",
+      "term": "Pivot table",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "pandas",
+      "termId": "iloc-vs-loc",
+      "term": "iloc vs loc",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "pandas",
+      "termId": "resample",
+      "term": "Resample",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "pandas",
+      "termId": "iqr",
+      "term": "IQR",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "pandas",
+      "termId": "correlaci-n",
+      "term": "Correlación",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "pandas",
+      "termId": "distribuci-n-normal",
+      "term": "Distribución normal",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "pandas",
+      "termId": "p-value",
+      "term": "p-value",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "sklearn",
+      "termId": "columntransformer",
+      "term": "ColumnTransformer",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "sklearn",
+      "termId": "cross-validation",
+      "term": "Cross-validation",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "sklearn",
+      "termId": "overfitting",
+      "term": "Overfitting",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "sklearn",
+      "termId": "roc-auc",
+      "term": "ROC-AUC",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "sklearn",
+      "termId": "precision",
+      "term": "Precision",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "sklearn",
+      "termId": "recall",
+      "term": "Recall",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "sklearn",
+      "termId": "f1-score",
+      "term": "F1-score",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "sklearn",
+      "termId": "hyperparameter-tuning",
+      "term": "Hyperparameter tuning",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "sklearn",
+      "termId": "standardscaler",
+      "term": "StandardScaler",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "sklearn",
+      "termId": "onehotencoder",
+      "term": "OneHotEncoder",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "sklearn",
+      "termId": "stratifiedkfold",
+      "term": "StratifiedKFold",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "sklearn",
+      "termId": "joblib",
+      "term": "joblib",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "sklearn",
+      "termId": "feature-engineering",
+      "term": "Feature engineering",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "sklearn",
+      "termId": "train-test-split",
+      "term": "Train/test split",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "sklearn",
+      "termId": "data-leakage",
+      "term": "Data leakage",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "testing",
+      "termId": "coverage",
+      "term": "Coverage",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    }
+  ],
+  "ok": false
+}

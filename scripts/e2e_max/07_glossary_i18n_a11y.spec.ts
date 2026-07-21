@@ -106,10 +106,10 @@ test.describe('Glossary hover + i18n chrome + contrast smoke', () => {
     }
   })
 
-  test('light theme body text has readable contrast (computed style)', async ({ page }) => {
-    await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' })
-    const ratio = await page.evaluate(() => {
-      document.documentElement.classList.remove('dark')
+  async function contrastRatio(page: import('@playwright/test').Page, dark: boolean) {
+    return page.evaluate((isDark) => {
+      if (isDark) document.documentElement.classList.add('dark')
+      else document.documentElement.classList.remove('dark')
       const toRgb = (css: string) => {
         const c = document.createElement('canvas')
         c.width = c.height = 1
@@ -137,7 +137,60 @@ test.describe('Glossary hover + i18n chrome + contrast smoke', () => {
       const a = L(fg)
       const b = L(bg)
       return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
+    }, dark)
+  }
+
+  test('light theme body text has readable contrast (computed style)', async ({ page }) => {
+    await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' })
+    const ratio = await contrastRatio(page, false)
+    expect(ratio, `light contrast ${ratio}`).toBeGreaterThanOrEqual(4.5)
+  })
+
+  test('dark theme body text has readable contrast', async ({ page }) => {
+    await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' })
+    const ratio = await contrastRatio(page, true)
+    expect(ratio, `dark contrast ${ratio}`).toBeGreaterThanOrEqual(4.5)
+  })
+
+  test('dual-lang: EN chrome has Sign in / Dashboard; no i18n key leaks', async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem(
+        'python-ds-lang',
+        JSON.stringify({ state: { lang: 'en' }, version: 0 })
+      )
     })
-    expect(ratio, `contrast ${ratio}`).toBeGreaterThanOrEqual(4.5)
+    await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' })
+    await page.waitForTimeout(700)
+    const body = (await page.locator('body').innerText()).toLowerCase()
+    expect(body).not.toMatch(/\b(nav|auth|exam|feedback)\.[a-z]/)
+    // EN chrome signals (sidebar / auth)
+    const hasEn =
+      body.includes('dashboard') ||
+      body.includes('sign in') ||
+      body.includes('resources') ||
+      body.includes('glossary')
+    expect(hasEn, 'expected English chrome strings').toBeTruthy()
+
+    // Feedback modal folded chrome
+    await page.getByTestId('feedback-open').click()
+    await expect(page.getByTestId('feedback-modal')).toBeVisible()
+    const modal = ((await page.getByTestId('feedback-modal').innerText()) || '').toLowerCase()
+    expect(modal).toMatch(/bug|report|idea|submit|description|thank/)
+    expect(modal).not.toMatch(/\bfeedback\.[a-z]/)
+    await page.keyboard.press('Escape')
+  })
+
+  test('dual-lang: es-PE chrome uses Entrar / Glosario', async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem(
+        'python-ds-lang',
+        JSON.stringify({ state: { lang: 'es-PE' }, version: 0 })
+      )
+    })
+    await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' })
+    await page.waitForTimeout(700)
+    const body = (await page.locator('body').innerText()).toLowerCase()
+    expect(body).not.toMatch(/\b(nav|auth|exam)\.[a-z]/)
+    expect(body).toMatch(/glosario|entrar|recursos|dashboard|feedback/)
   })
 })

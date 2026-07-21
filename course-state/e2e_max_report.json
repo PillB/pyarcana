@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-20T21:17:08.020087+00:00",
+  "generated_at": "2026-07-21T04:53:00Z",
   "suite": "e2e_max",
   "catalog": {
     "sections": 52,
@@ -8,32 +8,27 @@
     "selfCheckQuestions": 224
   },
   "proven": {
-    "chrome_pages": "5/5 passed",
+    "chrome_pages": "3/3 + catalog gate in smoke",
     "student_admin_flows": "2/2 passed",
+    "feedback": "2/2 passed (guest FAB + student/admin API triage)",
+    "glossary_i18n_a11y": "9/9 passed (incl. dual-lang + dark contrast)",
     "sections_tabs_52": "52/52 passed",
-    "demos_exercises": "catalog-driven 52 sections; 1 flaky fixed (computer-vision re-pass)",
-    "self_check_options": "all shards 04 green in full matrix (DOM option coverage)",
-    "exam_paths": "API start/submit + option matrix; max-attempts 400 treated as valid"
-  },
-  "product_fix": {
-    "hashchange_listener": "src/app/page.tsx \u2014 SPA hash navigation now updates section",
-    "data_testids": "SectionView, ExamView, CodePlayground, Admin, Auth"
+    "demos_exercises_quiz_exam_glossary_shards": "sampled 0,1,6,12 of 13 — all green after glossary tip regex fix"
   },
   "npm_scripts": [
     "test:e2e-max:catalog",
     "test:e2e-max",
     "test:e2e-max:shard",
-    "test:e2e-max:smoke"
+    "test:e2e-max:smoke",
+    "test:ux-campaign:static",
+    "test:ux-campaign:smoke"
   ],
-  "how_to_run": "npm run test:e2e-max:catalog && BASE_URL=http://localhost:3000 npm run test:e2e-max:smoke && for i in $(seq 0 12); do SECTION_SHARD=$i/13 npm run test:e2e-max:shard -- scripts/e2e_max/03_demos_exercises.shard.spec.ts scripts/e2e_max/04_quiz_options.shard.spec.ts scripts/e2e_max/05_exam_options.shard.spec.ts; done",
+  "how_to_run": "npm run test:e2e-max:catalog && BASE_URL=http://localhost:3000 npm run test:ux-campaign:smoke && for i in $(seq 0 12); do SECTION_SHARD=$i/13 npm run test:e2e-max:shard -- scripts/e2e_max/03_demos_exercises.shard.spec.ts scripts/e2e_max/04_quiz_options.shard.spec.ts scripts/e2e_max/05_exam_options.shard.spec.ts scripts/e2e_max/08_glossary_52.shard.spec.ts; done",
   "residual_risks": [
-    "Demo free-user exam attempt caps (3) cause later re-runs to return 400 \u2014 tests accept as product-valid",
-    "Pyodide Run not required for every demo (CDN/load flake) \u2014 surface presence asserted",
-    "Self-check QuizTab only when anonymous; ExamView when authenticated"
+    "Demo free-user exam attempt caps (3) cause later re-runs to return 400 — tests accept as product-valid",
+    "Pyodide Run not required for every demo (CDN/load flake) — surface presence asserted",
+    "Self-check QuizTab only when anonymous; ExamView when authenticated",
+    "Glossary SSOT vs V3 content remap — coverage advisory only"
   ],
-  "exam_rerun_counts": {
-    "passed_mentions": 19,
-    "failed_mentions": 3
-  },
   "ok": true
 }

@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import {
   CheckCircle2,
-  Circle,
-  Lock,
   BookOpen,
   PlayCircle,
   Users,
@@ -19,6 +17,7 @@ import * as Icons from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useProgressStore, SUB_STEPS, type SubStep } from '@/lib/progress-store'
 import type { CourseSection } from '@/lib/types'
+import { useI18n, t } from '@/lib/i18n'
 
 interface SidebarProps {
   sections: CourseSection[]
@@ -44,18 +43,31 @@ const SUB_STEP_COLORS: Record<SubStep, string> = {
   quiz: 'text-rose-600 bg-rose-500/10',
 }
 
+const SUB_STEP_KEYS: Record<SubStep, string> = {
+  theory: 'section.theory',
+  ido: 'section.ido',
+  wedo: 'section.wedo',
+  youdo: 'section.youdo',
+  quiz: 'section.quiz',
+}
+
+function fill(template: string, vars: Record<string, string | number>): string {
+  return Object.entries(vars).reduce(
+    (s, [k, v]) => s.replace(new RegExp(`\\{${k}\\}`, 'g'), String(v)),
+    template
+  )
+}
+
 export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, view }: SidebarProps) {
   const { completedSections, completedSubSteps, toggleBookmark, bookmarks, setLastVisited } = useProgressStore()
+  const lang = useI18n((s) => s.lang)
   const [mounted, setMounted] = useState(false)
 
-  // Prevent hydration mismatch: render with empty state on SSR,
-  // then hydrate from localStorage on client
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true)
   }, [])
 
-  // Use empty state during SSR and first client render
   const safeCompletedSections = mounted ? completedSections : []
   const safeCompletedSubSteps = mounted ? completedSubSteps : {}
   const safeBookmarks = mounted ? bookmarks : []
@@ -65,7 +77,6 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
 
   return (
     <nav className="flex h-full flex-col bg-sidebar">
-      {/* Brand */}
       <button
         onClick={onHome}
         className="flex items-center gap-3 border-b border-sidebar-border px-5 py-4 text-left transition-colors hover:bg-sidebar-accent/50"
@@ -75,16 +86,15 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
         </div>
         <div className="min-w-0">
           <div className="truncate text-sm font-bold tracking-tight text-foreground" style={{ fontFamily: 'var(--font-display)' }}>
-            El Arte de Python
+            {t('sidebar.brand', lang)}
           </div>
-          <div className="truncate text-xs text-muted-foreground">De cero a Data Scientist</div>
+          <div className="truncate text-xs text-muted-foreground">{t('sidebar.tagline', lang)}</div>
         </div>
       </button>
 
-      {/* Progress summary */}
       <div className="border-b border-sidebar-border px-5 py-4">
         <div className="mb-2 flex items-center justify-between text-xs">
-          <span className="font-medium text-muted-foreground">Tu progreso</span>
+          <span className="font-medium text-muted-foreground">{t('progress.yourProgress', lang)}</span>
           <span className="font-bold text-primary">{totalProgress}%</span>
         </div>
         <div className="h-2 overflow-hidden rounded-full bg-muted">
@@ -96,11 +106,13 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
           />
         </div>
         <div className="mt-2 text-xs text-muted-foreground">
-          {completedCount} de {sections.length} secciones completadas
+          {fill(t('sidebar.sectionsDone', lang), {
+            done: completedCount,
+            total: sections.length,
+          })}
         </div>
       </div>
 
-      {/* Sections list */}
       <div className="flex-1 overflow-y-auto scroll-area-thin px-3 py-3">
         <div className="space-y-1">
           {sections.map((section, idx) => {
@@ -108,15 +120,14 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
             const isActive = activeSectionId === section.id
             const subStepsDone = safeCompletedSubSteps[section.id] || []
             const isBookmarked = safeBookmarks.includes(section.id)
-            const Icon = (Icons as Record<string, React.ElementType>)[section.icon] || Icons.Circle
+            const Icon = (Icons as unknown as Record<string, React.ElementType>)[section.icon] || Icons.Circle
 
-            // Phase header
             const phaseHeader = section.phase === 1 && (idx === 0 || sections[idx - 1].phase !== 1)
-              ? 'Fase 1 — Competente'
+              ? t('sidebar.phase1', lang)
               : section.phase === 2 && (idx === 0 || sections[idx - 1].phase !== 2)
-              ? 'Fase 2 — Senior'
+              ? t('sidebar.phase2', lang)
               : section.phase === 3 && (idx === 0 || sections[idx - 1].phase !== 3)
-              ? 'Fase 3 — Master'
+              ? t('sidebar.phase3', lang)
               : null
 
             return (
@@ -147,7 +158,6 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
                       : 'hover:bg-sidebar-accent/50'
                   )}
                 >
-                  {/* Status indicator */}
                   <div
                     className={cn(
                       'relative flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-xs font-bold transition-colors',
@@ -185,7 +195,7 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
                       toggleBookmark(section.id)
                     }}
                     className="shrink-0 p-1 text-muted-foreground/40 opacity-0 transition-opacity hover:text-primary group-hover:opacity-100"
-                    aria-label="Marcar como favorito"
+                    aria-label={t('sidebar.bookmark', lang)}
                   >
                     {isBookmarked ? (
                       <BookmarkCheck className="h-3.5 w-3.5 text-primary" />
@@ -195,7 +205,6 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
                   </button>
                 </div>
 
-                {/* Sub-steps when active */}
                 {isActive && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
@@ -221,14 +230,11 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
                           </div>
                           <span
                             className={cn(
-                              'flex-1 capitalize',
+                              'flex-1',
                               stepDone ? 'text-foreground' : 'text-muted-foreground'
                             )}
                           >
-                            {step === 'ido' ? 'Yo hago' :
-                             step === 'wedo' ? 'Hacemos juntos' :
-                             step === 'youdo' ? 'Tú haces' :
-                             step === 'theory' ? 'Teoría' : 'Autocheck'}
+                            {t(SUB_STEP_KEYS[step], lang)}
                           </span>
                           {stepDone && (
                             <CheckCircle2 className="h-3 w-3 text-green-600" />
@@ -244,7 +250,6 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
         </div>
       </div>
 
-      {/* Footer nav */}
       <div className="border-t border-sidebar-border p-3">
         <button
           onClick={onHome}
@@ -256,7 +261,7 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
           )}
         >
           <Icons.LayoutDashboard className="h-4 w-4" />
-          Dashboard
+          {t('nav.home', lang)}
           <ChevronRight className="ml-auto h-4 w-4" />
         </button>
         <button
@@ -269,7 +274,7 @@ export function Sidebar({ sections, activeSectionId, onSelectSection, onHome, vi
           )}
         >
           <Icons.Library className="h-4 w-4" />
-          Recursos
+          {t('nav.resources', lang)}
           <ChevronRight className="ml-auto h-4 w-4" />
         </button>
       </div>
