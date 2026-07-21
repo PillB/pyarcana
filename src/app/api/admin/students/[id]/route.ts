@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { buildStudentDetailExtras } from '@/lib/admin-analytics'
+import { COURSE_SECTIONS } from '@/lib/course'
 
 export async function GET(
   _request: Request,
@@ -42,20 +44,7 @@ export async function GET(
     lastAttempt: Date | null
   }[] = []
 
-  const sectionIds = [
-    'setup', 'basics', 'data-structures', 'functions-modules', 'oop',
-    'numpy', 'data-acquisition', 'pandas', 'visualization', 'sklearn',
-    'testing', 'performance', 'rpa-automation',
-    'security', 'stdlib-deep', 'wxpython-gui', 'packaging', 'data-engineering',
-    'databases-orm', 'rag', 'fastapi', 'rapidfuzz-entity', 'computer-vision',
-    'rpa-advanced', 'streamlit-dashboards', 'integrator-phase1',
-    'async-concurrency', 'llm-agents', 'mlops', 'security-infra',
-    'streaming-data', 'microservices', 'advanced-models', 'cv-ai-integration',
-    'system-design', 'ai-apis-advanced', 'dbt-bigquery', 'performance-extreme',
-    'integrator-phase2', 'agentic-architecture', 'llm-finetuning', 'graph-rag',
-    'llmops', 'multimodal', 'iac', 'gpu-computing', 'opensource', 'ai-governance',
-    'data-contracts', 'tech-leadership', 'integrator-final', 'career-strategy',
-  ]
+  const sectionIds = COURSE_SECTIONS.map((s) => s.id)
 
   for (const sectionId of sectionIds) {
     const sectionExams = examAttempts.filter((e) => e.sectionId === sectionId)
@@ -72,6 +61,26 @@ export async function GET(
     })
   }
 
+  const extras = buildStudentDetailExtras(
+    progress.map((p) => ({
+      userId: p.userId,
+      sectionId: p.sectionId,
+      subStep: p.subStep,
+      completed: p.completed,
+      completedAt: p.completedAt,
+      bookmarked: p.bookmarked,
+    })),
+    examAttempts.map((a) => ({
+      userId: a.userId,
+      sectionId: a.sectionId,
+      score: a.score,
+      completedAt: a.completedAt,
+      startedAt: a.startedAt,
+      timeSpentSec: a.timeSpentSec,
+      answers: a.answers,
+    }))
+  )
+
   return NextResponse.json({
     user,
     progress,
@@ -82,5 +91,6 @@ export async function GET(
     })),
     exerciseAttempts,
     sectionGaps,
+    ...extras,
   })
 }
