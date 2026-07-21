@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Check, Sparkles, Users, Zap, Crown, Globe } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -38,11 +38,8 @@ const PLAN_ICONS: Record<PlanCode, React.ElementType> = {
 
 export function PricingPage({ currentPlan, onSelectPlan, onOpenAuth, isAuthenticated }: PricingPageProps) {
   const [cycle, setCycle] = useState<BillingCycle>('MONTHLY')
-  const [country, setCountry] = useState<CountryCode>('PE')
-
-  useEffect(() => {
-    setCountry(detectCountry())
-  }, [])
+  // Lazy init avoids setState-in-effect (SSR-safe: detectCountry falls back if needed)
+  const [country, setCountry] = useState<CountryCode>(() => detectCountry())
 
   const handleSelect = (code: PlanCode) => {
     if (!isAuthenticated) {
