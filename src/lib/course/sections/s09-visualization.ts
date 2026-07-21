@@ -425,12 +425,15 @@ cause ParseError monto no parseable: 'N/A'`,
         code: {
           language: 'python',
           title: "lote_finally.py",
-          code: `from io import StringIO
+          code: `from __future__ import annotations
+
+from io import StringIO
+from typing import List, Optional
 
 class ConfigError(Exception):
     pass
 
-def leer_lote(payload: str, encoding: str | None) -> list[str]:
+def leer_lote(payload: str, encoding: Optional[str]) -> List[str]:
     if not encoding:
         raise ConfigError("encoding requerido")
     handle = StringIO(payload)

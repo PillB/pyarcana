@@ -423,7 +423,37 @@ rating         200
         code: {
           language: 'python',
           title: 'netflix_eda.py',
-          code: `# === LIMPIEZA ===
+          code: `import pandas as pd
+import numpy as np
+
+# Dataset sintético (mismo esquema que el paso de inspección)
+np.random.seed(42)
+n = 8800
+paises = ["United States", "India", "United Kingdom", "Japan", "South Korea",
+          "Canada", "Spain", "France", "Mexico", "Brazil"] + [np.nan]*500
+tipos = ["Movie", "TV Show"]
+ratings = ["TV-MA", "TV-14", "TV-PG", "R", "PG-13", "PG"] + [np.nan]*200
+type_col = np.random.choice(tipos, n, p=[0.7, 0.3])
+
+df = pd.DataFrame({
+    "show_id": range(1, n+1),
+    "type": type_col,
+    "title": [f"Title {i}" for i in range(n)],
+    "director": [f"Director {i % 50}" if np.random.rand() > 0.3 else np.nan for i in range(n)],
+    "cast": [f"Actor {i}, Actor {i+1}" if np.random.rand() > 0.1 else np.nan for i in range(n)],
+    "country": np.random.choice(paises, n),
+    "date_added": pd.date_range("2010-01-01", periods=n, freq="3D"),
+    "release_year": np.random.randint(1940, 2024, n),
+    "rating": np.random.choice(ratings, n),
+    "duration": [f"{np.random.randint(60, 180)} min" if t == "Movie"
+                 else f"{np.random.randint(1, 8)} Season{'s' if np.random.rand() > 0.5 else ''}"
+                 for t in type_col],
+    "listed_in": np.random.choice(
+        ["Dramas, International Movies", "Comedies", "Documentaries",
+         "Action, Adventure", "Kids' TV"], n)
+})
+
+# === LIMPIEZA ===
 # Imputar nulos
 df["director"] = df["director"].fillna("No disponible")
 df["cast"] = df["cast"].fillna("No disponible")

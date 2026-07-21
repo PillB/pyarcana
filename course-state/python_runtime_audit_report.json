@@ -1,0 +1,1110 @@
+{
+  "generated_at": "2026-07-21T14:39:57.833774+00:00",
+  "sections": 57,
+  "totals": {
+    "pass": 2334,
+    "fail": 58,
+    "skip": 326,
+    "artifacts": 2718
+  },
+  "fail_count": 58,
+  "p0_count": 0,
+  "p1_count": 58,
+  "ok": true,
+  "sections_detail": [
+    {
+      "file": "src/lib/course/sections/s01-setup.ts",
+      "section_id": "setup",
+      "counts": {
+        "pass": 6,
+        "fail": 1,
+        "skip": 59
+      },
+      "artifact_count": 66
+    },
+    {
+      "file": "src/lib/course/sections/s02-basics.ts",
+      "section_id": "basics",
+      "counts": {
+        "pass": 64,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 64
+    },
+    {
+      "file": "src/lib/course/sections/s03-data-structures.ts",
+      "section_id": "data-structures",
+      "counts": {
+        "pass": 59,
+        "fail": 0,
+        "skip": 4
+      },
+      "artifact_count": 63
+    },
+    {
+      "file": "src/lib/course/sections/s04-functions-modules.ts",
+      "section_id": "functions-modules",
+      "counts": {
+        "pass": 63,
+        "fail": 1,
+        "skip": 0
+      },
+      "artifact_count": 64
+    },
+    {
+      "file": "src/lib/course/sections/s05-oop.ts",
+      "section_id": "oop",
+      "counts": {
+        "pass": 63,
+        "fail": 1,
+        "skip": 0
+      },
+      "artifact_count": 64
+    },
+    {
+      "file": "src/lib/course/sections/s06-numpy.ts",
+      "section_id": "numpy",
+      "counts": {
+        "pass": 64,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 64
+    },
+    {
+      "file": "src/lib/course/sections/s07-data-acquisition.ts",
+      "section_id": "data-acquisition",
+      "counts": {
+        "pass": 64,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 64
+    },
+    {
+      "file": "src/lib/course/sections/s07-pandas.ts",
+      "section_id": "pandas",
+      "counts": {
+        "pass": 0,
+        "fail": 1,
+        "skip": 8
+      },
+      "artifact_count": 9
+    },
+    {
+      "file": "src/lib/course/sections/s08-pandas.ts",
+      "section_id": "pandas",
+      "counts": {
+        "pass": 63,
+        "fail": 1,
+        "skip": 0
+      },
+      "artifact_count": 64
+    },
+    {
+      "file": "src/lib/course/sections/s08-visualization.ts",
+      "section_id": "visualization",
+      "counts": {
+        "pass": 0,
+        "fail": 1,
+        "skip": 7
+      },
+      "artifact_count": 8
+    },
+    {
+      "file": "src/lib/course/sections/s09-sklearn.ts",
+      "section_id": "sklearn",
+      "counts": {
+        "pass": 0,
+        "fail": 1,
+        "skip": 8
+      },
+      "artifact_count": 9
+    },
+    {
+      "file": "src/lib/course/sections/s09-visualization.ts",
+      "section_id": "visualization",
+      "counts": {
+        "pass": 63,
+        "fail": 1,
+        "skip": 0
+      },
+      "artifact_count": 64
+    },
+    {
+      "file": "src/lib/course/sections/s10-sklearn.ts",
+      "section_id": "sklearn",
+      "counts": {
+        "pass": 54,
+        "fail": 0,
+        "skip": 3
+      },
+      "artifact_count": 57
+    },
+    {
+      "file": "src/lib/course/sections/s10-testing.ts",
+      "section_id": "testing",
+      "counts": {
+        "pass": 1,
+        "fail": 1,
+        "skip": 6
+      },
+      "artifact_count": 8
+    },
+    {
+      "file": "src/lib/course/sections/s11-advanced-topics.ts",
+      "section_id": "advanced-topics",
+      "counts": {
+        "pass": 4,
+        "fail": 1,
+        "skip": 14
+      },
+      "artifact_count": 19
+    },
+    {
+      "file": "src/lib/course/sections/s11-testing.ts",
+      "section_id": "testing",
+      "counts": {
+        "pass": 59,
+        "fail": 0,
+        "skip": 1
+      },
+      "artifact_count": 60
+    },
+    {
+      "file": "src/lib/course/sections/s12-performance.ts",
+      "section_id": "performance",
+      "counts": {
+        "pass": 60,
+        "fail": 4,
+        "skip": 0
+      },
+      "artifact_count": 64
+    },
+    {
+      "file": "src/lib/course/sections/s13-rpa-automation.ts",
+      "section_id": "rpa-automation",
+      "counts": {
+        "pass": 64,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 64
+    },
+    {
+      "file": "src/lib/course/sections/s14-security.ts",
+      "section_id": "security",
+      "counts": {
+        "pass": 1,
+        "fail": 10,
+        "skip": 39
+      },
+      "artifact_count": 50
+    },
+    {
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "section_id": "stdlib-deep",
+      "counts": {
+        "pass": 0,
+        "fail": 10,
+        "skip": 40
+      },
+      "artifact_count": 50
+    },
+    {
+      "file": "src/lib/course/sections/s16-wxpython-gui.ts",
+      "section_id": "wxpython-gui",
+      "counts": {
+        "pass": 7,
+        "fail": 5,
+        "skip": 36
+      },
+      "artifact_count": 48
+    },
+    {
+      "file": "src/lib/course/sections/s17-packaging.ts",
+      "section_id": "packaging",
+      "counts": {
+        "pass": 5,
+        "fail": 3,
+        "skip": 37
+      },
+      "artifact_count": 45
+    },
+    {
+      "file": "src/lib/course/sections/s18-data-engineering.ts",
+      "section_id": "data-engineering",
+      "counts": {
+        "pass": 19,
+        "fail": 4,
+        "skip": 26
+      },
+      "artifact_count": 49
+    },
+    {
+      "file": "src/lib/course/sections/s19-databases-orm.ts",
+      "section_id": "databases-orm",
+      "counts": {
+        "pass": 43,
+        "fail": 1,
+        "skip": 8
+      },
+      "artifact_count": 52
+    },
+    {
+      "file": "src/lib/course/sections/s20-rag.ts",
+      "section_id": "rag",
+      "counts": {
+        "pass": 24,
+        "fail": 6,
+        "skip": 22
+      },
+      "artifact_count": 52
+    },
+    {
+      "file": "src/lib/course/sections/s21-fastapi.ts",
+      "section_id": "fastapi",
+      "counts": {
+        "pass": 41,
+        "fail": 2,
+        "skip": 8
+      },
+      "artifact_count": 51
+    },
+    {
+      "file": "src/lib/course/sections/s22-rapidfuzz-entity.ts",
+      "section_id": "rapidfuzz-entity",
+      "counts": {
+        "pass": 64,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 64
+    },
+    {
+      "file": "src/lib/course/sections/s23-computer-vision.ts",
+      "section_id": "computer-vision",
+      "counts": {
+        "pass": 62,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 62
+    },
+    {
+      "file": "src/lib/course/sections/s24-rpa-advanced.ts",
+      "section_id": "rpa-advanced",
+      "counts": {
+        "pass": 63,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 63
+    },
+    {
+      "file": "src/lib/course/sections/s25-streamlit-dashboards.ts",
+      "section_id": "streamlit-dashboards",
+      "counts": {
+        "pass": 64,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 64
+    },
+    {
+      "file": "src/lib/course/sections/s26-integrator-phase1.ts",
+      "section_id": "integrator-phase1",
+      "counts": {
+        "pass": 61,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 61
+    },
+    {
+      "file": "src/lib/course/sections/s27-async-concurrency.ts",
+      "section_id": "async-concurrency",
+      "counts": {
+        "pass": 59,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 59
+    },
+    {
+      "file": "src/lib/course/sections/s28-llm-agents.ts",
+      "section_id": "llm-agents",
+      "counts": {
+        "pass": 59,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 59
+    },
+    {
+      "file": "src/lib/course/sections/s29-mlops.ts",
+      "section_id": "mlops",
+      "counts": {
+        "pass": 55,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 55
+    },
+    {
+      "file": "src/lib/course/sections/s30-security-infra.ts",
+      "section_id": "security-infra",
+      "counts": {
+        "pass": 56,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 56
+    },
+    {
+      "file": "src/lib/course/sections/s31-streaming-data.ts",
+      "section_id": "streaming-data",
+      "counts": {
+        "pass": 64,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 64
+    },
+    {
+      "file": "src/lib/course/sections/s32-microservices.ts",
+      "section_id": "microservices",
+      "counts": {
+        "pass": 64,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 64
+    },
+    {
+      "file": "src/lib/course/sections/s33-advanced-models.ts",
+      "section_id": "advanced-models",
+      "counts": {
+        "pass": 41,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 41
+    },
+    {
+      "file": "src/lib/course/sections/s34-cv-ai-integration.ts",
+      "section_id": "cv-ai-integration",
+      "counts": {
+        "pass": 41,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 41
+    },
+    {
+      "file": "src/lib/course/sections/s35-system-design.ts",
+      "section_id": "system-design",
+      "counts": {
+        "pass": 41,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 41
+    },
+    {
+      "file": "src/lib/course/sections/s36-ai-apis-advanced.ts",
+      "section_id": "ai-apis-advanced",
+      "counts": {
+        "pass": 41,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 41
+    },
+    {
+      "file": "src/lib/course/sections/s37-dbt-bigquery.ts",
+      "section_id": "dbt-bigquery",
+      "counts": {
+        "pass": 38,
+        "fail": 3,
+        "skip": 0
+      },
+      "artifact_count": 41
+    },
+    {
+      "file": "src/lib/course/sections/s38-performance-extreme.ts",
+      "section_id": "performance-extreme",
+      "counts": {
+        "pass": 41,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 41
+    },
+    {
+      "file": "src/lib/course/sections/s39-integrator-phase2.ts",
+      "section_id": "integrator-phase2",
+      "counts": {
+        "pass": 41,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 41
+    },
+    {
+      "file": "src/lib/course/sections/s40-agentic-architecture.ts",
+      "section_id": "agentic-architecture",
+      "counts": {
+        "pass": 39,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 39
+    },
+    {
+      "file": "src/lib/course/sections/s41-llm-finetuning.ts",
+      "section_id": "llm-finetuning",
+      "counts": {
+        "pass": 38,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 38
+    },
+    {
+      "file": "src/lib/course/sections/s42-graph-rag.ts",
+      "section_id": "graph-rag",
+      "counts": {
+        "pass": 37,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 37
+    },
+    {
+      "file": "src/lib/course/sections/s43-llmops.ts",
+      "section_id": "llmops",
+      "counts": {
+        "pass": 39,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 39
+    },
+    {
+      "file": "src/lib/course/sections/s44-multimodal.ts",
+      "section_id": "multimodal",
+      "counts": {
+        "pass": 37,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 37
+    },
+    {
+      "file": "src/lib/course/sections/s45-iac.ts",
+      "section_id": "iac",
+      "counts": {
+        "pass": 39,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 39
+    },
+    {
+      "file": "src/lib/course/sections/s46-gpu-computing.ts",
+      "section_id": "gpu-computing",
+      "counts": {
+        "pass": 38,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 38
+    },
+    {
+      "file": "src/lib/course/sections/s47-opensource.ts",
+      "section_id": "opensource",
+      "counts": {
+        "pass": 38,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 38
+    },
+    {
+      "file": "src/lib/course/sections/s48-ai-governance.ts",
+      "section_id": "ai-governance",
+      "counts": {
+        "pass": 38,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 38
+    },
+    {
+      "file": "src/lib/course/sections/s49-data-contracts.ts",
+      "section_id": "data-contracts",
+      "counts": {
+        "pass": 36,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 36
+    },
+    {
+      "file": "src/lib/course/sections/s50-tech-leadership.ts",
+      "section_id": "tech-leadership",
+      "counts": {
+        "pass": 35,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 35
+    },
+    {
+      "file": "src/lib/course/sections/s51-integrator-final.ts",
+      "section_id": "integrator-final",
+      "counts": {
+        "pass": 36,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 36
+    },
+    {
+      "file": "src/lib/course/sections/s52-career-strategy.ts",
+      "section_id": "career-strategy",
+      "counts": {
+        "pass": 38,
+        "fail": 0,
+        "skip": 0
+      },
+      "artifact_count": 38
+    }
+  ],
+  "failures": [
+    {
+      "section_id": "setup",
+      "file": "src/lib/course/sections/s01-setup.ts",
+      "kind": "solution",
+      "artifact_id": "solutionCode-19",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "functions-modules",
+      "file": "src/lib/course/sections/s04-functions-modules.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-22",
+      "reason": "starter_should_run_or_be_marked_incomplete",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_l1gxumjv/snippet.py\", line 3, in <module>\n    print(data[i])\nIndexError: list index out of range\n"
+    },
+    {
+      "section_id": "oop",
+      "file": "src/lib/course/sections/s05-oop.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-8",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_rq_7kvxs/snippet.py\", line 7, in <module>\n    assert r == r.strip() and '  ' not in r\nAttributeError: 'NoneType' object has no attribute 'strip'\n"
+    },
+    {
+      "section_id": "pandas",
+      "file": "src/lib/course/sections/s07-pandas.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-0",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_qvr_4g1p/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "pandas",
+      "file": "src/lib/course/sections/s08-pandas.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-4",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "2, in open\n    return io.open(self, mode, buffering, encoding, errors, newline,\n  File \"/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/pathlib.py\", line 1110, in _opener\n    return self._accessor.open(self, flags, mode)\nFileNotFoundError: [Errno 2] No such file or directory: '/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/tmpg4iflkas/out.txt'\n"
+    },
+    {
+      "section_id": "visualization",
+      "file": "src/lib/course/sections/s08-visualization.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-0",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_0y7ohag9/snippet.py\", line 1, in <module>\n    import matplotlib.pyplot as plt\nModuleNotFoundError: No module named 'matplotlib'\n"
+    },
+    {
+      "section_id": "sklearn",
+      "file": "src/lib/course/sections/s09-sklearn.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-0",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_jnuokakf/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "visualization",
+      "file": "src/lib/course/sections/s09-visualization.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-2",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "testing",
+      "file": "src/lib/course/sections/s10-testing.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-0",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_0cofqvr2/snippet.py\", line 1, in <module>\n    import pytest\nModuleNotFoundError: No module named 'pytest'\n"
+    },
+    {
+      "section_id": "advanced-topics",
+      "file": "src/lib/course/sections/s11-advanced-topics.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-1",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_i2qtnjd1/snippet.py\", line 1, in <module>\n    import requests\nModuleNotFoundError: No module named 'requests'\n"
+    },
+    {
+      "section_id": "performance",
+      "file": "src/lib/course/sections/s12-performance.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-8",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_u_ieimio/snippet.py\", line 4, in <module>\n    print(sorted(min_provenance(\"https://x\", 200, False).items()))\nAttributeError: 'NoneType' object has no attribute 'items'\n"
+    },
+    {
+      "section_id": "performance",
+      "file": "src/lib/course/sections/s12-performance.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-11",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_n56z5a6o/snippet.py\", line 5, in <module>\n    print(online, matrix[online])\nKeyError: True\n"
+    },
+    {
+      "section_id": "performance",
+      "file": "src/lib/course/sections/s12-performance.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-12",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_xrvtpn2_/snippet.py\", line 4, in <module>\n    print(con.execute(\"SELECT COUNT(*) FROM evidence\").fetchone()[0])\nsqlite3.OperationalError: no such table: evidence\n"
+    },
+    {
+      "section_id": "performance",
+      "file": "src/lib/course/sections/s12-performance.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-19",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_uhm6bfha/snippet.py\", line 5, in <module>\n    print(g.geocode(\"Lima\")[\"lat\"])\nAttributeError: 'MockGeocoder' object has no attribute 'geocode'\n"
+    },
+    {
+      "section_id": "security",
+      "file": "src/lib/course/sections/s14-security.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-0",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_xj6_d5ok/snippet.py\", line 1, in <module>\n    import numpy as np\nModuleNotFoundError: No module named 'numpy'\n"
+    },
+    {
+      "section_id": "security",
+      "file": "src/lib/course/sections/s14-security.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-1",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_g3v_jifa/snippet.py\", line 1, in <module>\n    import numpy as np\nModuleNotFoundError: No module named 'numpy'\n"
+    },
+    {
+      "section_id": "security",
+      "file": "src/lib/course/sections/s14-security.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-2",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_jr724lr2/snippet.py\", line 1, in <module>\n    import numpy as np\nModuleNotFoundError: No module named 'numpy'\n"
+    },
+    {
+      "section_id": "security",
+      "file": "src/lib/course/sections/s14-security.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-3",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_s3160z20/snippet.py\", line 1, in <module>\n    import numpy as np\nModuleNotFoundError: No module named 'numpy'\n"
+    },
+    {
+      "section_id": "security",
+      "file": "src/lib/course/sections/s14-security.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-5",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_lnrzquwg/snippet.py\", line 1, in <module>\n    import numpy as np\nModuleNotFoundError: No module named 'numpy'\n"
+    },
+    {
+      "section_id": "security",
+      "file": "src/lib/course/sections/s14-security.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-6",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_jm5iqz7d/snippet.py\", line 1, in <module>\n    import numpy as np\nModuleNotFoundError: No module named 'numpy'\n"
+    },
+    {
+      "section_id": "security",
+      "file": "src/lib/course/sections/s14-security.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-8",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_8mt592ez/snippet.py\", line 1, in <module>\n    import numpy as np\nModuleNotFoundError: No module named 'numpy'\n"
+    },
+    {
+      "section_id": "security",
+      "file": "src/lib/course/sections/s14-security.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-10",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_1knko05f/snippet.py\", line 1, in <module>\n    import numpy as np\nModuleNotFoundError: No module named 'numpy'\n"
+    },
+    {
+      "section_id": "security",
+      "file": "src/lib/course/sections/s14-security.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-15",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_bl31it3q/snippet.py\", line 1, in <module>\n    import numpy as np\nModuleNotFoundError: No module named 'numpy'\n"
+    },
+    {
+      "section_id": "security",
+      "file": "src/lib/course/sections/s14-security.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-20",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_eal1ac00/snippet.py\", line 1, in <module>\n    import numpy as np, time\nModuleNotFoundError: No module named 'numpy'\n"
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-0",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_k7mu3lvr/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-3",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_gsl68tk0/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-6",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_3kjwaz_3/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-7",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_j4ph8wow/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-9",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_k1lzji8_/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-10",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_p7gj1b_l/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-12",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_m02ktf25/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-15",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_h5hrdd2e/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-19",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_0ba2lxrd/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "stdlib-deep",
+      "file": "src/lib/course/sections/s15-stdlib-deep.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-23",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_anz7_oqh/snippet.py\", line 1, in <module>\n    import pandas as pd, hashlib\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "wxpython-gui",
+      "file": "src/lib/course/sections/s16-wxpython-gui.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-0",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_ffm2lgme/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "wxpython-gui",
+      "file": "src/lib/course/sections/s16-wxpython-gui.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-1",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_nie6e1rw/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "wxpython-gui",
+      "file": "src/lib/course/sections/s16-wxpython-gui.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-2",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_x9y4ibqr/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "wxpython-gui",
+      "file": "src/lib/course/sections/s16-wxpython-gui.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-3",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_4bk_2l1n/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "wxpython-gui",
+      "file": "src/lib/course/sections/s16-wxpython-gui.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-9",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_zxnj0j3g/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "packaging",
+      "file": "src/lib/course/sections/s17-packaging.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-0",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_nhs2534a/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "packaging",
+      "file": "src/lib/course/sections/s17-packaging.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-1",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_h6w5k768/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "packaging",
+      "file": "src/lib/course/sections/s17-packaging.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-2",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_8vy24z25/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "data-engineering",
+      "file": "src/lib/course/sections/s18-data-engineering.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-0",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_lj9a3o7o/snippet.py\", line 1, in <module>\n    import numpy as np\nModuleNotFoundError: No module named 'numpy'\n"
+    },
+    {
+      "section_id": "data-engineering",
+      "file": "src/lib/course/sections/s18-data-engineering.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-1",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_fz2rivc3/snippet.py\", line 1, in <module>\n    import numpy as np\nModuleNotFoundError: No module named 'numpy'\n"
+    },
+    {
+      "section_id": "data-engineering",
+      "file": "src/lib/course/sections/s18-data-engineering.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-2",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_q475mrro/snippet.py\", line 1, in <module>\n    import numpy as np\nModuleNotFoundError: No module named 'numpy'\n"
+    },
+    {
+      "section_id": "data-engineering",
+      "file": "src/lib/course/sections/s18-data-engineering.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-23",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_gwtt0_pz/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "databases-orm",
+      "file": "src/lib/course/sections/s19-databases-orm.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-6",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_idp2rrbw/snippet.py\", line 1, in <module>\n    import matplotlib\nModuleNotFoundError: No module named 'matplotlib'\n"
+    },
+    {
+      "section_id": "rag",
+      "file": "src/lib/course/sections/s20-rag.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-0",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_m5fd1trd/snippet.py\", line 1, in <module>\n    from openpyxl import Workbook\nModuleNotFoundError: No module named 'openpyxl'\n"
+    },
+    {
+      "section_id": "rag",
+      "file": "src/lib/course/sections/s20-rag.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-6",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_1grb45tq/snippet.py\", line 1, in <module>\n    from openpyxl import Workbook\nModuleNotFoundError: No module named 'openpyxl'\n"
+    },
+    {
+      "section_id": "rag",
+      "file": "src/lib/course/sections/s20-rag.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-7",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_z0mnqsl_/snippet.py\", line 1, in <module>\n    from openpyxl import Workbook\nModuleNotFoundError: No module named 'openpyxl'\n"
+    },
+    {
+      "section_id": "rag",
+      "file": "src/lib/course/sections/s20-rag.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-8",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_emwr_wzw/snippet.py\", line 1, in <module>\n    from openpyxl import Workbook\nModuleNotFoundError: No module named 'openpyxl'\n"
+    },
+    {
+      "section_id": "rag",
+      "file": "src/lib/course/sections/s20-rag.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-9",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_a9u86gai/snippet.py\", line 1, in <module>\n    from openpyxl import Workbook\nModuleNotFoundError: No module named 'openpyxl'\n"
+    },
+    {
+      "section_id": "rag",
+      "file": "src/lib/course/sections/s20-rag.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-13",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_j0d0xlbe/snippet.py\", line 1, in <module>\n    import pandas as pd\nModuleNotFoundError: No module named 'pandas'\n"
+    },
+    {
+      "section_id": "fastapi",
+      "file": "src/lib/course/sections/s21-fastapi.ts",
+      "kind": "starter",
+      "artifact_id": "starterCode-0",
+      "reason": "unexpected_error_type",
+      "severity": "P1",
+      "stderr": "Traceback (most recent call last):\n  File \"/var/folders/46/hqp40jys76g696ycvflt54mc0000gn/T/pyarcana_qf_wulga/snippet.py\", line 1, in <module>\n    from jinja2 import Template\nModuleNotFoundError: No module named 'jinja2'\n"
+    },
+    {
+      "section_id": "fastapi",
+      "file": "src/lib/course/sections/s21-fastapi.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-7",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "dbt-bigquery",
+      "file": "src/lib/course/sections/s37-dbt-bigquery.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-0",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "dbt-bigquery",
+      "file": "src/lib/course/sections/s37-dbt-bigquery.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-1",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    },
+    {
+      "section_id": "dbt-bigquery",
+      "file": "src/lib/course/sections/s37-dbt-bigquery.ts",
+      "kind": "demo",
+      "artifact_id": "code-block-8",
+      "reason": "output_mismatch",
+      "severity": "P1",
+      "stderr": ""
+    }
+  ]
+}

@@ -52,14 +52,25 @@ def leer_ventas_lazy(path: str):
         for fila in reader:
             yield fila  # pausa aquí hasta que pidan el siguiente
 
-# Uso: procesar 50M de filas sin morir
-ruta = "ventas_peru_2024.csv"  # supongamos 8 GB
+# Demo autocontenida: CSV de muestra (en prod sería un archivo de varios GB)
+ruta = Path("ventas_peru_2024.csv")
+muestra = [
+    {"fecha": "2024-01-05", "monto": "150.50", "region": "Lima"},
+    {"fecha": "2024-01-06", "monto": "89.90", "region": "Arequipa"},
+    {"fecha": "2024-01-07", "monto": "220.00", "region": "Lima"},
+    {"fecha": "2024-01-08", "monto": "45.00", "region": "Cusco"},
+    {"fecha": "2024-01-09", "monto": "310.25", "region": "Lima"},
+]
+with ruta.open("w", newline="", encoding="utf-8") as f:
+    writer = csv.DictWriter(f, fieldnames=["fecha", "monto", "region"])
+    writer.writeheader()
+    writer.writerows(muestra)
+
 total_ingresos = 0
-for fila in leer_ventas_lazy(ruta):
-    # cada fila es un dict: {"fecha": "...", "monto": "150.50", "region": "Lima"}
+for fila in leer_ventas_lazy(str(ruta)):
+    # cada fila es un dict: fecha / monto / region
     total_ingresos += float(fila["monto"])
 print(f"Ingresos totales: S/ {total_ingresos:,.2f}")
-# Ingresos totales: S/ 12,450,890.50
 
 # === Generador infinito (serie de Fibonacci) ===
 def fibonacci():
@@ -71,22 +82,19 @@ def fibonacci():
 fib = fibonacci()
 primeros_10 = [next(fib) for _ in range(10)]
 print(primeros_10)
-# [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
 
-# === Pandas chunksize: generador de DataFrames ===
-import pandas as pd
-
-def agregado_por_region(ruta_csv: str, chunksize: int = 50_000):
-    """Agrega ventas por región sin cargar todo el CSV."""
+# === Agregación por región en streaming (mismo espíritu que pd.read_csv chunksize) ===
+def agregado_por_region(ruta_csv: str):
+    """Agrega ventas por región sin cargar todo el CSV en una lista."""
     acumulador = {}  # region -> total
-    for chunk in pd.read_csv(ruta_csv, chunksize=chunksize):
-        for region, grupo in chunk.groupby("region"):
-            acumulador[region] = acumulador.get(region, 0) + grupo["monto"].sum()
+    for fila in leer_ventas_lazy(ruta_csv):
+        region = fila["region"]
+        acumulador[region] = acumulador.get(region, 0.0) + float(fila["monto"])
     return acumulador
 
-# Resultado en una laptop normal con un CSV de 5GB:
-# {"Lima": 8_500_000, "Arequipa": 1_200_000, "Cusco": 350_000, ...}
-# Peak RAM: ~200MB (no los 5GB del archivo)`,
+# En pandas, el análogo es: pd.read_csv(ruta, chunksize=50_000)
+# Peak RAM queda acotado al chunk, no al archivo completo.
+print(agregado_por_region(str(ruta)))`,
       },
       callout: {
         type: 'tip',

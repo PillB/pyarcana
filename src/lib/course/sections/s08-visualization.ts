@@ -340,7 +340,31 @@ print("✓ 4-panel guardado en visuals/netflix_4panel.png")`,
         code: {
           language: 'python',
           title: 'netflix_viz.py',
-          code: `# === HEATMAP DE CORRELACIÓN ===
+          code: `import os
+import pandas as pd
+import numpy as np
+import matplotlib
+matplotlib.use("Agg")  # backend no interactivo (scripts / CI)
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+from pathlib import Path
+
+# Datos sintéticos (mismo esquema que el dashboard 4 paneles)
+np.random.seed(42)
+n = 8800
+df = pd.DataFrame({
+    "type": np.random.choice(["Movie", "TV Show"], n, p=[0.7, 0.3]),
+    "country": np.random.choice(
+        ["United States", "India", "United Kingdom", "Japan", "South Korea",
+         "Canada", "Spain", "France", "Mexico", "Brazil"], n),
+    "date_added": pd.date_range("2010-01-01", periods=n, freq="3D"),
+    "rating": np.random.choice(["TV-MA", "TV-14", "TV-PG", "R", "PG-13", "PG"], n)
+})
+df["año"] = df["date_added"].dt.year
+Path("visuals").mkdir(exist_ok=True)
+
+# === HEATMAP DE CORRELACIÓN ===
 # Agregamos features numéricas para correlación
 df["mes"] = df["date_added"].dt.month
 df["es_movie"] = (df["type"] == "Movie").astype(int)
@@ -355,7 +379,7 @@ sns.heatmap(corr, annot=True, cmap='RdBu_r', center=0, square=True,
 ax.set_title('Correlación entre features numéricas', fontsize=14, fontweight='bold')
 plt.tight_layout()
 plt.savefig('visuals/netflix_heatmap.png', dpi=150, bbox_inches='tight')
-plt.show()
+plt.close()
 
 # === PLOTLY INTERACTIVO: Timeline de adiciones por mes ===
 df["fecha"] = df["date_added"].dt.to_period("M").astype(str)
@@ -368,12 +392,10 @@ fig = px.area(por_mes, x="fecha", y="count", color="type",
               color_discrete_map={"Movie": "#E50914", "TV Show": "#221F1F"})
 fig.update_layout(hovermode="x unified")
 fig.write_html("visuals/netflix_timeline.html")
-fig.show()
 print("✓ Timeline interactivo guardado en visuals/netflix_timeline.html")
 
 # === RESUMEN DE ARCHIVOS GENERADOS ===
 print("\\n=== ARCHIVOS GENERADOS ===")
-import os
 for f in sorted(os.listdir("visuals")):
     size = os.path.getsize(f"visuals/{f}") / 1024
     print(f"  visuals/{f} ({size:.1f} KB)")`,

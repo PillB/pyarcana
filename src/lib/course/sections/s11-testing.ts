@@ -234,22 +234,26 @@ print(len(cf.evidences), cf.evidences[0].signal_score)`,
       code: {
         language: 'python',
         title: "protocol_store.py",
-        code: `from typing import Protocol, runtime_checkable
+        code: `from __future__ import annotations
+
+from typing import Dict, Optional, Protocol, runtime_checkable
 
 @runtime_checkable
 class EntityStore(Protocol):
-    def get(self, entity_id: str) -> dict | None: ...
-    def save(self, entity: dict) -> None: ...
+    def get(self, entity_id: str) -> Optional[dict]:
+        """Devuelve la entidad o None si no existe."""
+    def save(self, entity: dict) -> None:
+        """Persiste la entidad."""
 
 class FakeStore:
     def __init__(self):
-        self._d: dict[str, dict] = {}
+        self._d = {}  # type: Dict[str, dict]
     def get(self, entity_id: str):
         return self._d.get(entity_id)
     def save(self, entity: dict) -> None:
         self._d[entity["entity_id"]] = entity
 
-store: EntityStore = FakeStore()
+store = FakeStore()  # type: EntityStore
 store.save({"entity_id": "E1", "name": "Ana"})
 print(store.get("E1"))
 print(isinstance(store, EntityStore))`,
@@ -274,7 +278,10 @@ True`,
       code: {
         language: 'python',
         title: "repo_service.py",
-        code: `from dataclasses import dataclass, asdict
+        code: `from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Dict, Optional
 
 @dataclass
 class ClientRecord:
@@ -286,10 +293,10 @@ class ClientRecord:
 
 class InMemoryClientRepository:
     def __init__(self):
-        self._d: dict[str, ClientRecord] = {}
+        self._d = {}  # type: Dict[str, ClientRecord]
     def save(self, c: ClientRecord) -> None:
         self._d[c.client_id] = c
-    def get(self, client_id: str) -> ClientRecord | None:
+    def get(self, client_id: str) -> Optional[ClientRecord]:
         return self._d.get(client_id)
 
 class ClientService:
