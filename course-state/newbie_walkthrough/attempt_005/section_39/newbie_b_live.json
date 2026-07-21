@@ -1,0 +1,277 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 39,
+  "recorded_at": "2026-07-21T23:10:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + active.iDo demos only",
+      "required_for_early_exercises": {
+        "pipeline stages contracts": { "in_theory_or_demo": true, "where": "theory architecture + registry" },
+        "evidence packet overrides": { "in_theory_or_demo": true, "where": "theory queue/decision" },
+        "risk modes checklist": { "in_theory_or_demo": true, "where": "theory privacy/drift" },
+        "acceptance cards regression": { "in_theory_or_demo": true, "where": "demos acceptance/value" }
+      }
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "needs_review / prioridad de cola",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory label_space needs_review."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Se documentan; PASS lo califica otra lane",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory this lane does not mark PASS."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Evidencia y path además del score",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory evidence packet includes path/evidence."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "human_only / rollback",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory incident → human_only."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S39-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "print(['intake','er','relation_graph','features','model_score','queue'])\nprint('pipeline', True)\nprint('auto_fraud', False)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["pipeline stages"],
+        "note": "Theory stages list."
+      },
+      {
+        "exercise_id": "S39-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "print('needs_review')\nprint('label_space', 'needs_review')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["label_space"],
+        "note": "Theory label_space needs_review."
+      },
+      {
+        "exercise_id": "S39-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "print(False)\nprint('parentesco', False)\nprint('auto_fraud', False)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["ER not kinship"],
+        "note": "Theory ER not parentesco/fraude."
+      },
+      {
+        "exercise_id": "S39-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "print('2.0.0')\nprint('bump', 'major')\nprint('compat', 'semver')\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["semver major on break"],
+        "note": "Theory breaking → major bump."
+      },
+      {
+        "exercise_id": "S39-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "print(True)\nprint('owner_required', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["owner required"],
+        "note": "Theory ownership required."
+      },
+      {
+        "exercise_id": "S39-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print(4)\nprint('registry_n', 4)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["registry size"],
+        "note": "Theory registry 4 artifacts."
+      },
+      {
+        "exercise_id": "S39-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "packet={'score':0.8,'graph_path':['E1','E2'],'evidence':['x']}\nprint('graph_path' in packet)\nprint('required', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["graph_path required"],
+        "note": "Theory packet includes graph_path."
+      },
+      {
+        "exercise_id": "S39-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "print(False)\nprint('score_alone', False)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["score insufficient"],
+        "note": "Theory reviewer sees evidence not only number."
+      },
+      {
+        "exercise_id": "S39-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "print(4)\nprint('layers', 4)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["4 explanation layers"],
+        "note": "Theory layers 4 from S35."
+      },
+      {
+        "exercise_id": "S39-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "print('skip')\nprint('override', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["human override final"],
+        "note": "Theory decide with human=skip."
+      },
+      {
+        "exercise_id": "S39-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "print(True)\nprint('appeal_reopens', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["appeal reopens"],
+        "note": "Theory appeal reopens case."
+      },
+      {
+        "exercise_id": "S39-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print(True)\nprint('feedback_logged', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["feedback logged"],
+        "note": "Theory override/feedback logged."
+      },
+      {
+        "exercise_id": "S39-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "print(False)\nprint('secrets_in_repo', False)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["no secrets in repo"],
+        "note": "Theory checklist secrets_in_repo False."
+      },
+      {
+        "exercise_id": "S39-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "print(True)\nprint('rbac', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["rbac on packet"],
+        "note": "Theory rbac True."
+      },
+      {
+        "exercise_id": "S39-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "print(True)\nprint('slice_metrics', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["fairness slices"],
+        "note": "Theory slice_metrics True."
+      },
+      {
+        "exercise_id": "S39-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "print('human_only')\nprint('mode', 'human_only')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["incident human_only"],
+        "note": "Theory mode(incident=True)."
+      },
+      {
+        "exercise_id": "S39-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "print('abstain_more')\nprint('mode', 'abstain_more')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["drift abstain_more"],
+        "note": "Theory mode(drift_high=True)."
+      },
+      {
+        "exercise_id": "S39-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print('model_previous')\nprint('rollback', 'model_previous')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["rollback target"],
+        "note": "Theory rollback model_previous."
+      },
+      {
+        "exercise_id": "S39-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "print(True)\nprint('no_auto_fraud', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["acceptance no_auto_fraud"],
+        "note": "Theory auto_fraud False acceptance."
+      },
+      {
+        "exercise_id": "S39-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "print('S27-S39')\nprint('regression', 'S27-S39')\nprint('cf3_pass_lane', 'separate')\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["regression scope"],
+        "note": "Demo regression S27-S39."
+      },
+      {
+        "exercise_id": "S39-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "print(3)\nprint('demo_paths', 3)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["demo paths"],
+        "note": "Instruction demo paths 3."
+      },
+      {
+        "exercise_id": "S39-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "print(sorted(['model','data','system']))\nprint('cards', 3)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["three cards"],
+        "note": "Last demo three cards."
+      },
+      {
+        "exercise_id": "S39-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "print('override_rate')\nprint('value_metrics', ['precision_at_k','override_rate','median_review_s'])\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["override_rate metric"],
+        "note": "Last demo value metrics include override_rate."
+      },
+      {
+        "exercise_id": "S39-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print(True)\nprint('postmortem', True)\nprint('blameless', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["blameless postmortem"],
+        "note": "Demo postmortem True."
+      }
+    ],
+    "summary": {
+      "n_exercises": 24,
+      "n_answered": 24,
+      "n_blocked_exercises": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 30,
+  "packet_source": "course-state/newbie_walkthrough/attempt_005/section_30/packet.json",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active theory/iDo/weDo/youDo/selfCheck from packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S30-T1-A-E1", "answer": "exact 1.0 when equal", "code": "a = b = 'a'\nprint(1.0 if a == b else 0.0)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["exact"]},
+    {"exercise_id": "S30-T1-A-E2", "answer": "jaccard 'a b' vs 'b c' → 1/3", "code": "ta, tb = set('a b'.split()), set('b c'.split())\nprint(len(ta & tb) / len(ta | tb))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["token jaccard"]},
+    {"exercise_id": "S30-T1-A-E3", "answer": "same day date_sim 1.0", "code": "from datetime import date\nd1 = d2 = date(2026, 1, 1)\nprint(1.0 if d1 == d2 else 0.0)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["date_sim"]},
+    {"exercise_id": "S30-T1-B-E1", "answer": "empty field → missing", "code": "a, b = '', 'x'\nprint('missing' if a == '' or b == '' else 'ok')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["missingness"]},
+    {"exercise_id": "S30-T1-B-E2", "answer": "weight 1/freq → 0.1", "code": "freq = 10\nprint(1 / freq)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["frequency weight"]},
+    {"exercise_id": "S30-T1-B-E3", "answer": "informative_missing label", "code": "print('informative_missing')\n", "confidence": 0.92, "blocked_on": [], "concepts_used": ["informative missing"]},
+    {"exercise_id": "S30-T2-A-E1", "answer": "block_key last|city", "code": "last, city = 'lopez', 'lima'\nprint(f'{last}|{city}')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["blocking"]},
+    {"exercise_id": "S30-T2-A-E2", "answer": "candidate recall 0.5", "code": "found, gold_n = 1, 2\nprint(found / gold_n)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["candidate recall"]},
+    {"exercise_id": "S30-T2-A-E3", "answer": "C(4,2)=6", "code": "n = 4\nprint(n * (n - 1) // 2)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["block cost"]},
+    {"exercise_id": "S30-T2-B-E1", "answer": "cost blocks [3,5]=13", "code": "sizes = [3, 5]\nprint(sum(n * (n - 1) // 2 for n in sizes))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["cost"]},
+    {"exercise_id": "S30-T2-B-E2", "answer": "impossible person vs org True", "code": "ta, tb = 'person', 'org'\nprint(ta != tb)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["pares imposibles"]},
+    {"exercise_id": "S30-T2-B-E3", "answer": "filter_before_score policy", "code": "print('filter_before_score')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["pipeline"]},
+    {"exercise_id": "S30-T3-A-E1", "answer": "weighted avg 0.75", "code": "print((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["weighted score"]},
+    {"exercise_id": "S30-T3-A-E2", "answer": "0.7 → review", "code": "s, t_high, t_low = 0.7, 0.9, 0.5\nprint('auto_match' if s >= t_high else ('non_match' if s <= t_low else 'review'))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["thresholds"]},
+    {"exercise_id": "S30-T3-A-E3", "answer": "explain dict", "code": "print({'name': 0.9, 'email': 1.0})\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["explicable"]},
+    {"exercise_id": "S30-T3-B-E1", "answer": "UF 1-2-3 same cluster", "code": "p = {1: 1, 2: 2, 3: 3}\ndef find(x):\n    while p[x] != x:\n        x = p[x]\n    return x\ndef union(a, b):\n    p[find(b)] = find(a)\nunion(1, 2)\nunion(2, 3)\nprint(find(1) == find(3))\n", "confidence": 0.93, "blocked_on": [], "concepts_used": ["Union-Find", "cluster"]},
+    {"exercise_id": "S30-T3-B-E2", "answer": "review actions list", "code": "print(['match', 'non_match', 'uncertain'])\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["clerical review"]},
+    {"exercise_id": "S30-T3-B-E3", "answer": "ER_only_same_entity", "code": "print('ER_only_same_entity')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["privacy gate"]},
+    {"exercise_id": "S30-T4-A-E1", "answer": "entity split train for e1,e2", "code": "a, b = 'e1', 'e2'\ntrain_e = {'e1', 'e2', 'e3'}\nprint('train' if {a, b} <= train_e else 'test')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["entity split"]},
+    {"exercise_id": "S30-T4-A-E2", "answer": "prevalence 0.2", "code": "matches, n = 1, 5\nprint(matches / n)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["prevalence"]},
+    {"exercise_id": "S30-T4-A-E3", "answer": "entity_split policy", "code": "print('entity_split')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["anti-leakage"]},
+    {"exercise_id": "S30-T4-B-E1", "answer": "precision 2/3 round 2", "code": "tp, fp = 2, 1\nprint(round(tp / (tp + fp), 2))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["precision"]},
+    {"exercise_id": "S30-T4-B-E2", "answer": "recall 0.5", "code": "tp, fn = 2, 2\nprint(tp / (tp + fn))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["recall"]},
+    {"exercise_id": "S30-T4-B-E3", "answer": "error slice missing_phone", "code": "print(['missing_phone'])\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["error slices"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 2, "chosen_text": "Si dos registros son la misma entidad", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: ER only answers same entity — not fraud, kinship, or credit risk."},
+    {"question_index": 1, "chosen_index": 1, "chosen_text": "Fracción de verdaderos matches que sobreviven al blocking", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory candidate recall: fraction of true gold matches that pass blocking."},
+    {"question_index": 2, "chosen_index": 2, "chosen_text": "clerical review", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory thresholds: between t_low and t_high → review."},
+    {"question_index": 3, "chosen_index": 1, "chosen_text": "Leakage de identidad entre train y test", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory entity split avoids identity leakage train/test."}
+  ],
+  "confusion_points": ["Platform id security-infra vs ER probabilistic title."],
+  "retrospection": "S30 closes CP-N3-A. 24 weDo from comparators/blocking/UF/metrics demos. Selfcheck 4/4 expected [2,1,2,1]. blocked_count=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_exercises_blocked": 0, "n_selfcheck": 4, "n_selfcheck_blocked": 0, "blocked_count": 0}
+}

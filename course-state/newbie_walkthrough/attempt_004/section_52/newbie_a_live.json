@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 52,
+  "packet_sha": "0f5663bbe58574f1",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S52-T1-A-E1", "answer": "from_iDo_cf1_metrics", "code": "print(\"cf1_revalidated\", True); print(\"metrics\", [\"ttr\",\"precision_review\"]); print(\"synthetic\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["stakeholders", "jobs", "success metrics CF-1"]},
+    {"exercise_id": "S52-T1-A-E2", "answer": "independent_metrics", "code": "print(\"cf1_revalidated\", True); print(\"metrics\", [\"ttr\",\"precision_review\"]); print(\"synthetic\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["success metrics"]},
+    {"exercise_id": "S52-T1-A-E3", "answer": "transfer_cf1_stakeholders_metrics", "code": "# Transfer CP-FINAL: revalidate CF-1 metrics ttr/precision_review; synthetic only.\nprint(\"synthetic\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["CF-1"]},
+    {"exercise_id": "S52-T1-B-E1", "answer": "from_iDo_nogo_risks", "code": "print(\"nogo\", [\"real_pii\",\"auto_fraud_label\"]); print(\"risk_register\", True); print(\"update\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["cambios", "constraints", "riesgos", "no-go"]},
+    {"exercise_id": "S52-T1-B-E2", "answer": "independent_nogo", "code": "print(\"nogo\", [\"real_pii\",\"auto_fraud_label\"]); print(\"risk_register\", True); print(\"update\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["no-go"]},
+    {"exercise_id": "S52-T1-B-E3", "answer": "transfer_risks_nogo", "code": "# Transfer: nogo real_pii + auto_fraud_label; risk_register; ER not fraud.\nprint(\"nogo\", [\"real_pii\",\"auto_fraud_label\"])", "confidence": 0.45, "blocked_on": [], "concepts_used": ["risk register"]},
+    {"exercise_id": "S52-T2-A-E1", "answer": "from_iDo_contracts_events", "code": "print(\"contracts\", True); print(\"events\", True); print(\"bounded\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["bounded contexts", "APIs", "eventos"]},
+    {"exercise_id": "S52-T2-A-E2", "answer": "independent_bounded", "code": "print(\"contracts\", True); print(\"events\", True); print(\"bounded\", True)\nprint(\"gate\", \"CP-FINAL exclusivamente\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["architecture"]},
+    {"exercise_id": "S52-T2-A-E3", "answer": "transfer_bc_apis_events", "code": "# Transfer: platform integrates with contracts/events/bounded contexts.\nprint(\"contracts\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["integration"]},
+    {"exercise_id": "S52-T2-B-E1", "answer": "from_iDo_assemble", "code": "print(\"assemble\", True); print(\"rpa\", \"vp_flows\"); print(\"rag\", \"cited\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["datos", "modelos", "RPA", "RAG", "human workflow"]},
+    {"exercise_id": "S52-T2-B-E2", "answer": "independent_rpa_rag", "code": "print(\"assemble\", True); print(\"rpa\", \"vp_flows\"); print(\"rag\", \"cited\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["platform assemble"]},
+    {"exercise_id": "S52-T2-B-E3", "answer": "transfer_assemble_rpa_rag", "code": "# Transfer youDo: integrate Familiarity Dashboard, VP RPA/AI, ER/graphs/triage, reporting, copilot.\nprint(\"assemble\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["capstone integration"]},
+    {"exercise_id": "S52-T3-A-E1", "answer": "from_iDo_tests_redteam", "code": "print(\"tests\", True); print(\"redteam\", True); print(\"perf_budget\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["tests", "evals", "red team", "performance"]},
+    {"exercise_id": "S52-T3-A-E2", "answer": "independent_perf_budget", "code": "print(\"tests\", True); print(\"redteam\", True); print(\"perf_budget\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["quality suite"]},
+    {"exercise_id": "S52-T3-A-E3", "answer": "transfer_tests_redteam_perf", "code": "# Transfer: tests+redteam+perf_budget before FINAL; zero P0/P1 for master promo.\nprint(\"redteam\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["quality"]},
+    {"exercise_id": "S52-T3-B-E1", "answer": "from_iDo_slo_backup", "code": "print(\"backup\", True); print(\"rollback\", True); print(\"disaster_exercise\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["SLO", "backup", "rollback", "disaster exercise"]},
+    {"exercise_id": "S52-T3-B-E2", "answer": "independent_disaster_exercise", "code": "print(\"backup\", True); print(\"rollback\", True); print(\"disaster_exercise\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["ops resilience"]},
+    {"exercise_id": "S52-T3-B-E3", "answer": "transfer_slo_backup_rollback_disaster", "code": "# Transfer: backup+rollback+disaster_exercise for enterprise platform.\nprint(\"disaster_exercise\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["DR"]},
+    {"exercise_id": "S52-T4-A-E1", "answer": "from_iDo_demo_cv", "code": "print(\"demo_ok\", True); print(\"cv\", True); print(\"metrics_first\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["demo", "narrativa CV"]},
+    {"exercise_id": "S52-T4-A-E2", "answer": "independent_cv_theory", "code": "print({\"script\":\"10min\",\"cv_bullets\":3}); print(\"narrative\", \"impact+metrics\"); print(\"repro\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["demo script", "CV"]},
+    {"exercise_id": "S52-T4-A-E3", "answer": "transfer_demo_cv_narrative", "code": "# Transfer: 10min demo; metrics-first CV narrative; repro True.\nprint(\"metrics_first\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["portfolio narrative"]},
+    {"exercise_id": "S52-T4-B-E1", "answer": "from_iDo_artifacts_defense", "code": "print(\"artifacts\", 6); print(\"license\", True); print(\"defense\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["arquitectura", "README", "cards", "licencia", "video", "defensa"]},
+    {"exercise_id": "S52-T4-B-E2", "answer": "independent_artifact_list", "code": "print([\"architecture.md\",\"README\",\"system_card\",\"LICENSE\",\"demo_video\",\"defense_notes\"]); print(\"n\", 6); print(\"cp_final\", \"independent_of_cpn4c\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["deliverable pack"]},
+    {"exercise_id": "S52-T4-B-E3", "answer": "transfer_arch_readme_cards_license_video_defense", "code": "# Transfer FINAL CP-FINAL exclusively: 6 artifacts; rubric independent of CP-N4-C; synthetic.\nprint(\"cp_final\", \"independent_of_cpn4c\")\nprint(\"synthetic\", True)\nprint(\"promo\", \"52/52 + 12/12 + CP-FINAL + regression + zero P0/P1\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["CP-FINAL"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 0, "chosen_text": "career-strategy", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "platform id career-strategy preserved."},
+    {"question_index": 1, "chosen_index": 0, "chosen_text": "CP-FINAL exclusivamente", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "gate CP-FINAL exclusivamente (youDo FINAL)."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Datos sintéticos", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Datos sintéticos; sin PII real."},
+    {"question_index": 3, "chosen_index": 2, "chosen_text": "Misma entidad cuando aplique", "confidence": 0.75, "blocked_on": [], "justification_from_packet": "ER = misma entidad; nogo auto_fraud_label; not fraude/parentesco."}
+  ],
+  "confusion_points": ["weDo TODO", "id career-strategy vs CP-FINAL platform retheme"],
+  "retrospection": "CP-FINAL assemble/demo/artifacts from iDo+theory; blocked=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]}
+}

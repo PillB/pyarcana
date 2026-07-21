@@ -1,0 +1,282 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 26,
+  "recorded_at": "2026-07-21T23:22:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + demos + weDo hints",
+      "required_for_early_exercises": {
+        "DAG steps order": { "in_theory_or_demo": true, "where": "theory orchestration" },
+        "checkpoint DLQ backoff rollback": { "in_theory_or_demo": true, "where": "S26-T2 demos" },
+        "HITL queues audit approve": { "in_theory_or_demo": true, "where": "S26-T3/T4 demos" },
+        "SLO fraud_labels=0 n2 regression": { "in_theory_or_demo": true, "where": "final e2e demo" }
+      }
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Approve antes de draft_email",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory: no draft_email without approve."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Tests críticos de capstones N2, E2E y controles de privacidad/seguridad",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "youDo + selfcheck N2 regression notes."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Incidente P0",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Exercise P0 if sends_without_approve."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "0 — solo evidencia para humanos",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Final demo fraud_labels:0."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S26-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "print([\"ingest\", \"validate\", \"analyze\", \"report\"])\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["canonical order"],
+        "note": "Instruction 4 steps."
+      },
+      {
+        "exercise_id": "S26-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "nodes = [\"a\", \"b\", \"c\"]\nedges = list(zip(nodes, nodes[1:]))\nprint(len(edges))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["path edges n-1"],
+        "note": "Hints n-1 edges."
+      },
+      {
+        "exercise_id": "S26-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "tasks = {\"a\": \"success\", \"b\": \"failed\"}\nprint(\"failed\" if any(v == \"failed\" for v in tasks.values()) else \"success\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["aggregate failed"],
+        "note": "Hints any failed."
+      },
+      {
+        "exercise_id": "S26-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "m = {\"run_id\": \"cpn2c-1\"}\nprint(m[\"run_id\"])\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["run_id"],
+        "note": "Hints dict key."
+      },
+      {
+        "exercise_id": "S26-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "api_rpm = 90\nif api_rpm > 60:\n    print(\"too_high\")\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["rate limit"],
+        "note": "Hints umbral 60."
+      },
+      {
+        "exercise_id": "S26-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "cron = \"0 6 * * 1-5\"\ntz = \"America/Lima\"\nprint(cron, tz)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["schedule tz"],
+        "note": "Hints constants cron + Lima."
+      },
+      {
+        "exercise_id": "S26-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "attempt, base = 3, 100\nprint(base * 2 ** (attempt - 1))\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["exponential backoff"],
+        "note": "Hints formula."
+      },
+      {
+        "exercise_id": "S26-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "dlq = []\nfail = True\nif fail:\n    dlq.append(\"x\")\nprint(dlq)\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["DLQ append"],
+        "note": "Hints append on fail."
+      },
+      {
+        "exercise_id": "S26-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "ckpt = {\"a\"}\nitems = [\"a\", \"b\"]\nto_process = [i for i in items if i not in ckpt]\nprint(to_process)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["checkpoint skip"],
+        "note": "Hints set membership skip."
+      },
+      {
+        "exercise_id": "S26-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "store = {}\n\ndef put(k, v):\n    if k not in store:\n        store[k] = v\n\nput(\"a\", 1)\nput(\"a\", 2)\nprint(store[\"a\"])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["idempotent put"],
+        "note": "Hints only if missing."
+      },
+      {
+        "exercise_id": "S26-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "state = {\"report\": \"ok\", \"draft\": \"ok\"}\nstate.pop(\"draft\")\nprint(state)\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["rollback pop draft"],
+        "note": "S26-T3-A-DEMO pop draft."
+      },
+      {
+        "exercise_id": "S26-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "locked = True\nprint(\"busy\" if locked else \"enter\")\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["lock flag"],
+        "note": "Hints busy/enter."
+      },
+      {
+        "exercise_id": "S26-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "analysis = [{\"status\": \"pending\"}, {\"status\": \"done\"}]\nprint(sum(1 for x in analysis if x[\"status\"] == \"pending\"))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["count pending"],
+        "note": "Hints sum status."
+      },
+      {
+        "exercise_id": "S26-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "q = {\"analysis\": 1, \"report\": 0, \"recipient\": 0}\nprint(any(v > 0 for v in q.values()))\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["blocked any queue"],
+        "note": "S26-T3-B-DEMO blocked any."
+      },
+      {
+        "exercise_id": "S26-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "print([\"metrics\", \"narrative\", \"recipient\"])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["checklist gate"],
+        "note": "Hints fixed list."
+      },
+      {
+        "exercise_id": "S26-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "audit = []\naudit.append({\"action\": \"approve\", \"actor\": \"r1\"})\nprint(audit)\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["audit approve"],
+        "note": "S26-T4-A-DEMO audit."
+      },
+      {
+        "exercise_id": "S26-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "action, reason = \"reject\", None\nprint(\"invalid\" if action == \"reject\" and reason is None else \"ok\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["reject needs reason"],
+        "note": "Hints guard reason None."
+      },
+      {
+        "exercise_id": "S26-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "ver = 1\n# edit\nver = ver + 1\nprint(ver)\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["version bump"],
+        "note": "Hints version++."
+      },
+      {
+        "exercise_id": "S26-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "rate = 0.9\nprint(\"alert\" if rate < 0.95 else \"ok\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["SLO alert"],
+        "note": "S26-T4-B-DEMO success rate SLO."
+      },
+      {
+        "exercise_id": "S26-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "n = 1\nprint(\"P0\" if n > 0 else \"ok\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["P0 send without approve"],
+        "note": "Hints severity security."
+      },
+      {
+        "exercise_id": "S26-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "print(\"disable_schedule → drain → page\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["runbook steps"],
+        "note": "Hints string ops sequence."
+      },
+      {
+        "exercise_id": "S26-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "steps = [\"ingest\", \"validate\", \"draft\"]\nstatus = {s: \"success\" for s in steps}\nprint(all(status[s] == \"success\" for s in steps))\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["e2e all success"],
+        "note": "Hints all success."
+      },
+      {
+        "exercise_id": "S26-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "fraud_labels = 0\nprint(\"ok\" if fraud_labels == 0 else \"fail\")\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["fraud_labels 0"],
+        "note": "Final demo fraud_labels 0."
+      },
+      {
+        "exercise_id": "S26-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print(\"CP-N2-A/B/C critical+privacy\")\nprint({\"value_min\": 45})\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["n2 regression notes"],
+        "note": "Hints two prints/dict cierre."
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "02c6b5f808f68032",
+    "summary": {
+      "n_exercises": 24,
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4,
+      "n_selfcheck_blocked": 0,
+      "residual_gaps": [],
+      "top_gaps": []
+    }
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "dtype"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 0.8,
+    "correct_preview": "Filtrar o seleccionar elementos que cumplen la condición"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Por columna (colapsa filas)"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Puede mutar el array base porque suele ser un view"
+  }
+]

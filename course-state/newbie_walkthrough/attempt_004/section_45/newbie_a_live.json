@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 45,
+  "packet_sha": "1fe9a576793fb1ef",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S45-T1-A-E1", "answer": "from_iDo_stores", "code": "print(\"blob\", \"s3_like\"); print(\"sql\", \"jobs_table\"); print(\"cache\", \"redis_like\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["object store", "relational", "cache"]},
+    {"exercise_id": "S45-T1-A-E2", "answer": "independent_store_roles", "code": "print(\"blob\", \"s3_like\"); print(\"sql\", \"jobs_table\"); print(\"cache\", \"redis_like\")\nprint(\"synthetic\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["storage types"]},
+    {"exercise_id": "S45-T1-A-E3", "answer": "transfer_object_sql_cache", "code": "# Transfer: blob/sql/cache roles for job platform.\nprint(\"artifact_store\", \"s3_like\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["artifact store"]},
+    {"exercise_id": "S45-T1-B-E1", "answer": "from_iDo_lifecycle_backup", "code": "print(\"lifecycle\", True); print(\"backup\", \"daily\"); print(\"restore_tested\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["lifecycle", "backups"]},
+    {"exercise_id": "S45-T1-B-E2", "answer": "independent_restore_tested", "code": "print(\"lifecycle\", True); print(\"backup\", \"daily\"); print(\"restore_tested\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["backup/restore"]},
+    {"exercise_id": "S45-T1-B-E3", "answer": "transfer_consistency_lifecycle_backups", "code": "# Transfer: lifecycle + daily backup + restore tested.\nprint(\"restore_tested\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["recovery"]},
+    {"exercise_id": "S45-T2-A-E1", "answer": "from_iDo_queue_events", "code": "print(\"queue\", \"jobs\"); print(\"event\", \"job.finished\"); print(\"delivery\", \"at_least_once\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["queue", "events", "delivery"]},
+    {"exercise_id": "S45-T2-A-E2", "answer": "independent_at_least_once", "code": "print(\"queue\", \"jobs\"); print(\"event\", \"job.finished\"); print(\"delivery\", \"at_least_once\")\nprint(\"gate\", \"CP-N4-B (arquitectura)\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["async jobs"]},
+    {"exercise_id": "S45-T2-A-E3", "answer": "transfer_queue_event_delivery", "code": "# Transfer: jobs queue; job.finished event; at_least_once.\nprint(\"delivery\", \"at_least_once\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["messaging"]},
+    {"exercise_id": "S45-T2-B-E1", "answer": "from_iDo_dlq_dedup", "code": "print(\"order\", \"per_partition\"); print(\"dlq\", True); print(\"dedup_store\", \"redis_or_db\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["dedup", "ordering", "dead-letter"]},
+    {"exercise_id": "S45-T2-B-E2", "answer": "independent_dlq", "code": "print(\"order\", \"per_partition\"); print(\"dlq\", True); print(\"dedup_store\", \"redis_or_db\")\nprint(\"retry\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["DLQ", "retry"]},
+    {"exercise_id": "S45-T2-B-E3", "answer": "transfer_dedup_order_dlq", "code": "# Transfer youDo: retry + dead-letter; status; artifact store.\nprint(\"dlq\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["dead-letter"]},
+    {"exercise_id": "S45-T3-A-E1", "answer": "from_iDo_autoscaling", "code": "print(\"scale_on\", \"lag\"); print(\"private\", True); print(\"api_edge\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["compute", "autoscaling", "networking"]},
+    {"exercise_id": "S45-T3-A-E2", "answer": "independent_scale_lag", "code": "print(\"scale_on\", \"lag\"); print(\"private\", True); print(\"api_edge\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["scale on lag"]},
+    {"exercise_id": "S45-T3-A-E3", "answer": "transfer_compute_autoscale_net", "code": "# Transfer: scale_on lag; private net; api_edge.\nprint(\"private\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["networking"]},
+    {"exercise_id": "S45-T3-B-E1", "answer": "from_iDo_iam_egress", "code": "print(\"least_privilege\", True); print(\"no_0_0_0_0_admin\", True); print(\"egress\", \"allowlist\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["IAM", "private paths", "egress"]},
+    {"exercise_id": "S45-T3-B-E2", "answer": "independent_least_privilege", "code": "print(\"least_privilege\", True); print(\"no_0_0_0_0_admin\", True); print(\"egress\", \"allowlist\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["least privilege"]},
+    {"exercise_id": "S45-T3-B-E3", "answer": "transfer_iam_egress", "code": "# Transfer: least_privilege; no public admin; egress allowlist.\nprint(\"egress\", \"allowlist\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["IAM"]},
+    {"exercise_id": "S45-T4-A-E1", "answer": "from_iDo_declarative_envs", "code": "print(\"env_parity\", True); print(\"config_as_code\", True); print(\"drift_detect\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["declarative config", "environments"]},
+    {"exercise_id": "S45-T4-A-E2", "answer": "independent_config_as_code", "code": "print(\"env_parity\", True); print(\"config_as_code\", True); print(\"drift_detect\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["IaC-like config"]},
+    {"exercise_id": "S45-T4-A-E3", "answer": "transfer_declarative_config_envs", "code": "# Transfer: env_parity; config_as_code; drift_detect.\nprint(\"config_as_code\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["environments"]},
+    {"exercise_id": "S45-T4-B-E1", "answer": "from_iDo_cost_recovery", "code": "print(\"quota\", True); print(\"cost_alert\", 0.8); print(\"recovery_drill\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["costos", "quotas", "recovery", "portability"]},
+    {"exercise_id": "S45-T4-B-E2", "answer": "independent_budget_theory", "code": "print({\"monthly_usd\":200}); print({\"rto_min\":60}); print(\"portable\", \"container_images\")\nprint(\"cost_alert\", 0.8)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["cost budget", "RTO"]},
+    {"exercise_id": "S45-T4-B-E3", "answer": "transfer_cost_quotas_recovery_portability", "code": "# Transfer youDo: permisos y costos presupuestados; recovery_drill.\nprint(\"recovery_drill\", True)\nprint(\"synthetic\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["cost", "recovery"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 0, "chosen_text": "iac", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "platform id iac preserved."},
+    {"question_index": 1, "chosen_index": 0, "chosen_text": "CP-N4-B (arquitectura)", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "gate CP-N4-B (arquitectura)."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Datos sintéticos", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Datos sintéticos; sin PII real."},
+    {"question_index": 3, "chosen_index": 2, "chosen_text": "Misma entidad cuando aplique", "confidence": 0.75, "blocked_on": [], "justification_from_packet": "ER = misma entidad cuando aplique."}
+  ],
+  "confusion_points": ["weDo TODO", "id iac vs cloud architecture retheme"],
+  "retrospection": "Cloud/queues/IAM from iDo; blocked=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]}
+}

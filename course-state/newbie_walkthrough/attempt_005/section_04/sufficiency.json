@@ -1,0 +1,32 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 0.0,
+    "correct_preview": "[0,1,2]"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Empareja solo (1,10) y (2,20); el 3 se pierde en silencio"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "n_total de registros procesados (intentados)"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Salta al siguiente ciclo del bucle"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 0.0,
+    "correct_preview": "O(n²)"
+  }
+]

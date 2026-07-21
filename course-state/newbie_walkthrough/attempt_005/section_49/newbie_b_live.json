@@ -1,0 +1,44 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 49,
+  "recorded_at": "2026-07-21T23:30:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "packet_sha": "5f99185b79b83a5f",
+    "forbidden_ack": "Do not use knowledge outside this packet. Zero Python outside landing + prior_sections + active theory/demos/instructions/hints/starters.",
+    "symbol_verify": {"source": "active.jobRelevance + weDo instruction print-targets", "weDo_method": "FIX_001 Debes imprimir → print(expr)"},
+    "selfcheck": [
+      {"question_index": 0, "chosen_index": 0, "chosen_text": "data-contracts", "confidence": 0.95, "blocked_on": [], "note": "platform id data-contracts."},
+      {"question_index": 1, "chosen_index": 0, "chosen_text": "CP-N4-C (tools)", "confidence": 0.95, "blocked_on": [], "note": "jobRelevance gate."},
+      {"question_index": 2, "chosen_index": 1, "chosen_text": "Datos sintéticos", "confidence": 0.95, "blocked_on": [], "note": "Datos sintéticos; sin PII real."},
+      {"question_index": 3, "chosen_index": 2, "chosen_text": "Misma entidad cuando aplique", "confidence": 0.9, "blocked_on": [], "note": "ER no fraude/parentesco."}
+    ],
+    "exercises": [
+      {"exercise_id": "S49-T1-A-E1", "answer": "completed_from_packet", "code": "print('workflow')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'workflow'`."},
+      {"exercise_id": "S49-T1-A-E2", "answer": "completed_from_packet", "code": "print('agent')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'agent'`."},
+      {"exercise_id": "S49-T1-A-E3", "answer": "completed_from_packet", "code": "print('prefer_workflow')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'prefer_workflow'`."},
+      {"exercise_id": "S49-T1-B-E1", "answer": "completed_from_packet", "code": "print(sorted(['evaluator','planner','router','worker']))\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "sorted"], "note": "Debes imprimir roles."},
+      {"exercise_id": "S49-T1-B-E2", "answer": "completed_from_packet", "code": "print(3)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `3`."},
+      {"exercise_id": "S49-T1-B-E3", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `True`."},
+      {"exercise_id": "S49-T2-A-E1", "answer": "completed_from_packet", "code": "print(['get_case','search_docs'])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir tools."},
+      {"exercise_id": "S49-T2-A-E2", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `True`."},
+      {"exercise_id": "S49-T2-A-E3", "answer": "completed_from_packet", "code": "print(2)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `2`."},
+      {"exercise_id": "S49-T2-B-E1", "answer": "completed_from_packet", "code": "print({'ok':True,'idempotency_key':'k'})\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir ok envelope."},
+      {"exercise_id": "S49-T2-B-E2", "answer": "completed_from_packet", "code": "print({'error':'forbidden'})\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir error envelope."},
+      {"exercise_id": "S49-T2-B-E3", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `True`."},
+      {"exercise_id": "S49-T3-A-E1", "answer": "completed_from_packet", "code": "print([{'text':'caso C1 abierto'}])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir context items."},
+      {"exercise_id": "S49-T3-A-E2", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `True`."},
+      {"exercise_id": "S49-T3-A-E3", "answer": "completed_from_packet", "code": "print(2)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `2`."},
+      {"exercise_id": "S49-T3-B-E1", "answer": "completed_from_packet", "code": "print(['s3','s4'])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir kept spans."},
+      {"exercise_id": "S49-T3-B-E2", "answer": "completed_from_packet", "code": "print(1)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `1`."},
+      {"exercise_id": "S49-T3-B-E3", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `True`."},
+      {"exercise_id": "S49-T4-A-E1", "answer": "completed_from_packet", "code": "print('stop')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'stop'`."},
+      {"exercise_id": "S49-T4-A-E2", "answer": "completed_from_packet", "code": "print('stop')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'stop'`."},
+      {"exercise_id": "S49-T4-A-E3", "answer": "completed_from_packet", "code": "print('continue')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'continue'`."},
+      {"exercise_id": "S49-T4-B-E1", "answer": "completed_from_packet", "code": "print('sandbox_ok')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'sandbox_ok'`."},
+      {"exercise_id": "S49-T4-B-E2", "answer": "completed_from_packet", "code": "print('needs_human')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'needs_human'`."},
+      {"exercise_id": "S49-T4-B-E3", "answer": "completed_from_packet", "code": "print('sandbox_ok')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'sandbox_ok'`."}
+    ],
+    "summary": {"n_selfcheck": 4, "n_selfcheck_answered": 4, "n_selfcheck_blocked": 0, "n_exercises": 24, "n_exercises_answered": 24, "n_exercises_blocked": 0, "blocked_exercise_ids": [], "residual_gaps": []}
+  }
+}

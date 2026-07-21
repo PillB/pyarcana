@@ -400,11 +400,11 @@ events case.created`,
         subtopicId: "S40-T1-A",
         kind: "guided",
         instruction:
-          "Completa el ejercicio guiado.",
-        hint: "hint-a",
+          "E1 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`2\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -412,8 +412,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Completa el ejercicio guiado.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -428,11 +427,11 @@ events case.created`,
         subtopicId: "S40-T1-A",
         kind: "independent",
         instruction:
-          "Completa el ejercicio independiente.",
-        hint: "hint-a",
+          "E2 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`True\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -440,8 +439,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Completa el ejercicio independiente.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -456,11 +454,11 @@ events case.created`,
         subtopicId: "S40-T1-A",
         kind: "transfer",
         instruction:
-          "Transfiere el concepto.",
-        hint: "hint-a",
+          "E3 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`{'functional':3,'quality':2}\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -468,8 +466,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Transfiere el concepto.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -484,11 +481,11 @@ events case.created`,
         subtopicId: "S40-T1-B",
         kind: "guided",
         instruction:
-          "Completa el ejercicio guiado.",
-        hint: "hint-a",
+          "E1 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`1.0\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -496,8 +493,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Completa el ejercicio guiado.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -512,11 +508,11 @@ events case.created`,
         subtopicId: "S40-T1-B",
         kind: "independent",
         instruction:
-          "Completa el ejercicio independiente.",
-        hint: "hint-a",
+          "E2 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`'b'\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -524,8 +520,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Completa el ejercicio independiente.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -540,11 +535,11 @@ events case.created`,
         subtopicId: "S40-T1-B",
         kind: "transfer",
         instruction:
-          "Transfiere el concepto.",
-        hint: "hint-a",
+          "E3 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`'timeout'\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -552,8 +547,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Transfiere el concepto.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -568,11 +562,11 @@ events case.created`,
         subtopicId: "S40-T2-A",
         kind: "guided",
         instruction:
-          "Completa el ejercicio guiado.",
-        hint: "hint-a",
+          "E1 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`['presentation','application','domain','infrastructure']\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -580,8 +574,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Completa el ejercicio guiado.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -596,11 +589,11 @@ events case.created`,
         subtopicId: "S40-T2-A",
         kind: "independent",
         instruction:
-          "Completa el ejercicio independiente.",
-        hint: "hint-a",
+          "E2 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`True\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -608,8 +601,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Completa el ejercicio independiente.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -624,11 +616,11 @@ events case.created`,
         subtopicId: "S40-T2-A",
         kind: "transfer",
         instruction:
-          "Transfiere el concepto.",
-        hint: "hint-a",
+          "E3 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`3\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -636,8 +628,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Transfiere el concepto.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -652,11 +643,11 @@ events case.created`,
         subtopicId: "S40-T2-B",
         kind: "guided",
         instruction:
-          "Completa el ejercicio guiado.",
-        hint: "hint-a",
+          "E1 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`{'ok': True}\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -664,8 +655,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Completa el ejercicio guiado.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -680,11 +670,11 @@ events case.created`,
         subtopicId: "S40-T2-B",
         kind: "independent",
         instruction:
-          "Completa el ejercicio independiente.",
-        hint: "hint-a",
+          "E2 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`'domain<-adapters'\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -692,8 +682,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Completa el ejercicio independiente.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -708,11 +697,11 @@ events case.created`,
         subtopicId: "S40-T2-B",
         kind: "transfer",
         instruction:
-          "Transfiere el concepto.",
-        hint: "hint-a",
+          "E3 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`'sent:hola'\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -720,8 +709,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Transfiere el concepto.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -736,11 +724,11 @@ events case.created`,
         subtopicId: "S40-T3-A",
         kind: "guided",
         instruction:
-          "Completa el ejercicio guiado.",
-        hint: "hint-a",
+          "E1 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`sorted(['EntityResolution','Intake'])\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -748,8 +736,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Completa el ejercicio guiado.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -764,11 +751,11 @@ events case.created`,
         subtopicId: "S40-T3-A",
         kind: "independent",
         instruction:
-          "Completa el ejercicio independiente.",
-        hint: "hint-a",
+          "E2 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`{'case_id':'T1'}\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -776,8 +763,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Completa el ejercicio independiente.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -792,11 +778,11 @@ events case.created`,
         subtopicId: "S40-T3-A",
         kind: "transfer",
         instruction:
-          "Transfiere el concepto.",
-        hint: "hint-a",
+          "E3 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`True\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -804,8 +790,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Transfiere el concepto.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -820,11 +805,11 @@ events case.created`,
         subtopicId: "S40-T3-B",
         kind: "guided",
         instruction:
-          "Completa el ejercicio guiado.",
-        hint: "hint-a",
+          "E1 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`150\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -832,8 +817,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Completa el ejercicio guiado.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -848,11 +832,11 @@ events case.created`,
         subtopicId: "S40-T3-B",
         kind: "independent",
         instruction:
-          "Completa el ejercicio independiente.",
-        hint: "hint-a",
+          "E2 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`'CASE-1'\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -860,8 +844,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Completa el ejercicio independiente.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -876,11 +859,11 @@ events case.created`,
         subtopicId: "S40-T3-B",
         kind: "transfer",
         instruction:
-          "Transfiere el concepto.",
-        hint: "hint-a",
+          "E3 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`0.7\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -888,8 +871,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Transfiere el concepto.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -904,11 +886,11 @@ events case.created`,
         subtopicId: "S40-T4-A",
         kind: "guided",
         instruction:
-          "Completa el ejercicio guiado.",
-        hint: "hint-a",
+          "E1 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`['api','worker','db']\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -916,8 +898,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Completa el ejercicio guiado.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -932,11 +913,11 @@ events case.created`,
         subtopicId: "S40-T4-A",
         kind: "independent",
         instruction:
-          "Completa el ejercicio independiente.",
-        hint: "hint-a",
+          "E2 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`'accepted'\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -944,8 +925,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Completa el ejercicio independiente.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -960,11 +940,11 @@ events case.created`,
         subtopicId: "S40-T4-A",
         kind: "transfer",
         instruction:
-          "Transfiere el concepto.",
-        hint: "hint-a",
+          "E3 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`2\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -972,8 +952,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Transfiere el concepto.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -988,11 +967,11 @@ events case.created`,
         subtopicId: "S40-T4-B",
         kind: "guided",
         instruction:
-          "Completa el ejercicio guiado.",
-        hint: "hint-a",
+          "E1 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`sorted(['a','b'])\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -1000,8 +979,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Completa el ejercicio guiado.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -1016,11 +994,11 @@ events case.created`,
         subtopicId: "S40-T4-B",
         kind: "independent",
         instruction:
-          "Completa el ejercicio independiente.",
-        hint: "hint-a",
+          "E2 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`2\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -1028,8 +1006,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Completa el ejercicio independiente.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {
@@ -1044,11 +1021,11 @@ events case.created`,
         subtopicId: "S40-T4-B",
         kind: "transfer",
         instruction:
-          "Transfiere el concepto.",
-        hint: "hint-a",
+          "E3 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`'async_job'\`. Datos sintéticos; sin PII real.",
+        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
         hints: [
-          "hint-a",
-          "hint-b",
+          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Compara cada print con el output esperado del solution/demo.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -1056,8 +1033,7 @@ events case.created`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# Transfiere el concepto.
-# TODO
+          code: `# TODO: completa los print / lógica
 `,
         },
         solutionCode: {

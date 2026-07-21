@@ -1,0 +1,93 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 40,
+  "recorded_at": "2026-07-21T22:45:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "packet_sha": "2d49d21cdbcabdf3",
+    "forbidden_ack": "Do not use knowledge outside this packet. Zero Python outside landing + prior_sections + active theory/demos/instructions/hints/starters.",
+    "symbol_verify": {
+      "source": "active.jobRelevance + active.theory/iDo only",
+      "selfcheck_support": {
+        "agentic-architecture": "jobRelevance: id de plataforma `agentic-architecture` conservado",
+        "CP-N4-A (inicio)": "jobRelevance: Contribuye a **CP-N4-A (inicio)**",
+        "Datos sintéticos": "jobRelevance: Datos sintéticos; sin PII real",
+        "ER no fraude/parentesco": "jobRelevance: ER/matching no implica fraude ni parentesco"
+      },
+      "weDo_gap": "All 24 exercises: instruction generic, hints hint-a/hint-b placeholders, starter only # TODO — refuse invent"
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 0,
+        "chosen_text": "agentic-architecture",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "active.jobRelevance + active.id: id de plataforma `agentic-architecture` conservado."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "CP-N4-A (inicio)",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "jobRelevance: Contribuye a **CP-N4-A (inicio)**."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Datos sintéticos",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "jobRelevance: 'Datos sintéticos; sin PII real' — rejects PII real / secretos / claves API reales."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 2,
+        "chosen_text": "Misma entidad cuando aplique",
+        "confidence": 0.9,
+        "blocked_on": [],
+        "note": "jobRelevance: 'ER/matching no implica fraude ni parentesco' → residual meaning is same-entity matching when applicable."
+      }
+    ],
+    "exercises": [
+      {"exercise_id": "S40-T1-A-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Completa el ejercicio guiado + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: no teachable fill-in; refuse invent from blueprint theory stubs."},
+      {"exercise_id": "S40-T1-A-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Completa el ejercicio independiente + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T1-A-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Transfiere el concepto + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T1-B-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Completa el ejercicio guiado + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T1-B-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Completa el ejercicio independiente + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T1-B-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Transfiere el concepto + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T2-A-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Completa el ejercicio guiado + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T2-A-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Completa el ejercicio independiente + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T2-A-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Transfiere el concepto + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T2-B-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Completa el ejercicio guiado + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T2-B-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Completa el ejercicio independiente + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T2-B-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Transfiere el concepto + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T3-A-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Completa el ejercicio guiado + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T3-A-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Completa el ejercicio independiente + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T3-A-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Transfiere el concepto + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T3-B-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Completa el ejercicio guiado + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T3-B-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Completa el ejercicio independiente + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T3-B-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Transfiere el concepto + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T4-A-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Completa el ejercicio guiado + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T4-A-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Completa el ejercicio independiente + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T4-A-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Transfiere el concepto + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T4-B-E1", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Completa el ejercicio guiado + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T4-B-E2", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Completa el ejercicio independiente + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."},
+      {"exercise_id": "S40-T4-B-E3", "answer": null, "code": null, "blocked_on": ["STARTER_BROKEN", "HINTS_PLACEHOLDER:hint-a,hint-b", "UNTAUGHT_TASK:generic Transfiere el concepto + # TODO only"], "confidence": 0.1, "concepts_used": [], "note": "Skeptic: refuse invent."}
+    ],
+    "summary": {
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4,
+      "n_selfcheck_blocked": 0,
+      "n_exercises": 24,
+      "n_exercises_answered": 0,
+      "n_exercises_blocked": 24,
+      "residual_gaps": [
+        "weDo compact stubs: no real instruction/hints/starter for any S40-T*-E*",
+        "theory paragraphs are blueprint placeholders (outcome name only)",
+        "iDo demos exist but exercises do not map blanks to those demos"
+      ]
+    }
+  }
+}

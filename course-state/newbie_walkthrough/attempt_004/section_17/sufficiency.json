@@ -1,0 +1,26 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Fallar si la cardinalidad no es 1:1"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Filas del left sin match en right"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Reinyecta el agregado al shape original"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 0.86,
+    "correct_preview": "Incluyes datos posteriores al cutoff en features/métricas del pasado"
+  }
+]

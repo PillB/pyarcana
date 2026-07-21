@@ -1,0 +1,282 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 19,
+  "recorded_at": "2026-07-21T23:15:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + iDo demos + weDo hints",
+      "required_for_early_exercises": {
+        "chart choice bar/line": { "in_theory_or_demo": true, "where": "theory chart selection" },
+        "ylim 0 honest axes": { "in_theory_or_demo": true, "where": "S19-T2-B-DEMO" },
+        "export metadata dpi panels": { "in_theory_or_demo": true, "where": "S19-T3-A-DEMO" },
+        "tooltip parity alt caption claims": { "in_theory_or_demo": true, "where": "T3-B through final demos" }
+      }
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Barras con baseline 0",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Demo bar ylim from 0; theory prefers bar for category magnitudes."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Repetir los mismos números clave del chart",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "S19-T4-A-DEMO parity table."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Sobreclaim / generalización indebida",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Final demo rejects 'mejor del Perú'."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Unidad, fuente y limitaciones",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "S19-T4-B-DEMO caption keys."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S19-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "pregunta = \"comparar regiones\"\nchart = \"bar\"\nprint(chart)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["chart=bar"],
+        "note": "Hints chart='bar'."
+      },
+      {
+        "exercise_id": "S19-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "spec = {\"pregunta\": \"comparar totales\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"}\nprint(spec)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["pregunta/audiencia/chart"],
+        "note": "Hints 3 keys chart bar."
+      },
+      {
+        "exercise_id": "S19-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "def elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta else \"bar\"\n\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar regiones\"))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["elige_chart"],
+        "note": "Instruction defines rule fully."
+      },
+      {
+        "exercise_id": "S19-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "truco = (50 - 45) / (50 - 40)\nhonesto = (50 - 45) / 50\nfactor = truco / honesto\nprint(factor)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["visual inflation factor"],
+        "note": "Hints height ratios."
+      },
+      {
+        "exercise_id": "S19-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "ylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["ylim 0"],
+        "note": "Hints conditional."
+      },
+      {
+        "exercise_id": "S19-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "encoding = \"dual_axis\"\nif encoding == \"dual_axis\":\n    print(\"riesgo_alto\")\nelif encoding == \"position\":\n    print(\"ok\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["encoding risk"],
+        "note": "Hints if dual_axis riesgo_alto."
+      },
+      {
+        "exercise_id": "S19-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([0, 1], [1, 2])\nax.set_ylim(0, 3)\nprint(ax.get_ylim()[0] == 0)\nplt.close(fig)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["Agg", "set_ylim", "get_ylim"],
+        "note": "Demo bar ylim pattern."
+      },
+      {
+        "exercise_id": "S19-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nprint(ax.get_ylabel())\nplt.close(fig)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["set_ylabel PEN"],
+        "note": "Demo ylabel PEN."
+      },
+      {
+        "exercise_id": "S19-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n\ndef meta_bar(labels, values):\n    fig, ax = plt.subplots()\n    ax.bar(labels, values)\n    ax.set_ylim(0, max(values) * 1.2)\n    out = {\"n_bars\": len(values), \"ylim0\": ax.get_ylim()[0] == 0}\n    plt.close(fig)\n    return out\n\nprint(meta_bar([\"A\", \"B\"], [3, 4]))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["meta_bar dict"],
+        "note": "Hints n_bars + set_ylim 0 max*1.2."
+      },
+      {
+        "exercise_id": "S19-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "export = {\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2}\nprint(export)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["export metadata"],
+        "note": "Demo export dict dpi panels."
+      },
+      {
+        "exercise_id": "S19-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "version = 3\nnombre = f\"fig_cpn2b_v{version}.png\"\nprint(nombre)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["versioned filename"],
+        "note": "Hints f-string version."
+      },
+      {
+        "exercise_id": "S19-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "import matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, (ax0, ax1) = plt.subplots(1, 2)\nax0.set_title(\"Vol\")\nax1.set_title(\"Med\")\nprint([ax0.get_title(), ax1.get_title()])\nplt.close(fig)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["1x2 subplots titles"],
+        "note": "Demo multi-panel titles."
+      },
+      {
+        "exercise_id": "S19-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nrow = next(r for r in rows if r[\"region\"] == \"Lima\")\nprint(row[\"median\"])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["filter region"],
+        "note": "Demo view(region) next pattern."
+      },
+      {
+        "exercise_id": "S19-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "region, v, n = \"Lima\", 28, 40\nprint(f\"{region}: {v} PEN (n={n})\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["tooltip f-string"],
+        "note": "Demo tooltip format."
+      },
+      {
+        "exercise_id": "S19-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "def tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\n\nprint(tooltip({\"region\": \"Lima\", \"median\": 28, \"n\": 40}))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["tooltip function"],
+        "note": "Demo pure function style."
+      },
+      {
+        "exercise_id": "S19-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "chart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nparity = all(chart[r[\"region\"]] == r[\"v\"] for r in table)\nprint(parity)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["parity"],
+        "note": "Demo parity True."
+      },
+      {
+        "exercise_id": "S19-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, separators=(\",\", \":\")))\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["json.dumps state"],
+        "note": "Hints json.dumps compact."
+      },
+      {
+        "exercise_id": "S19-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nalt = \"; \".join(f\"{r['region']}={r['v']} PEN\" for r in table)\nprint(alt)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["alt_text join"],
+        "note": "Demo text join with PEN."
+      },
+      {
+        "exercise_id": "S19-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "print(\"Unidad: PEN | Fuente: sintetico\")\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["caption unidad fuente"],
+        "note": "Demo pie caption style."
+      },
+      {
+        "exercise_id": "S19-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nprint({\"unidad\", \"fuente\", \"limitacion\"}.issubset(cap.keys()))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["caption required keys"],
+        "note": "Hints issuperset keys."
+      },
+      {
+        "exercise_id": "S19-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "def pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\n\nprint(pie({\"unidad\": \"PEN\", \"fuente\": \"sintético\"}))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["pie join"],
+        "note": "Hints join with | ."
+      },
+      {
+        "exercise_id": "S19-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "claim = \"Lima es la mejor del Perú\"\nif \"del Perú\" in claim and \"muestra\" not in claim:\n    print(\"RECHAZADO\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["overclaim reject"],
+        "note": "Final demo RECHAZADO pattern."
+      },
+      {
+        "exercise_id": "S19-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "alt = \"Lima 28 PEN n=40\"\nprint(\"n=\" in alt)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["alt n="],
+        "note": "Hints substring n=."
+      },
+      {
+        "exercise_id": "S19-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "def classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\n\nprint(classify_claim(\"Lima lidera en la muestra web\"))\nprint(classify_claim(\"Lima es la mejor del Perú\"))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["classify_claim"],
+        "note": "Instruction defines rule; demo PERMITIDO/RECHAZADO."
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "9cf3216f6747a5b0",
+    "summary": {
+      "n_exercises": 24,
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4,
+      "n_selfcheck_blocked": 0,
+      "residual_gaps": [],
+      "top_gaps": []
+    }
+  }
+}

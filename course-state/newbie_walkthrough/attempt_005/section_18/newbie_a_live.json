@@ -1,0 +1,43 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "section_index": 18,
+  "packet_sha": "d6f28abf9fd69818",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S18-T1-A-E1", "answer": "completed_from_packet", "code": "import numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\nprint(montos.size, round(float(np.mean(montos)), 2), float(np.median(montos)))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["mean", "median", "n"]},
+    {"exercise_id": "S18-T1-A-E2", "answer": "completed_from_packet", "code": "import numpy as np\nmontos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\nprint(round(float(q1), 2), round(float(q3), 2), round(float(q3 - q1), 2))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["quantile", "IQR"]},
+    {"exercise_id": "S18-T1-A-E3", "answer": "completed_from_packet", "code": "import numpy as np\ndef resumen(x):\n    x = np.asarray(x, dtype=float)\n    return {\"n\": int(x.size), \"mean\": round(float(np.mean(x)), 4), \"median\": round(float(np.median(x)), 4), \"std\": round(float(np.std(x, ddof=1)), 4)}\nprint(resumen([1, 2, 3, 4, 5]))\n", "confidence": 0.85, "blocked_on": [], "concepts_used": ["ddof", "resumen dict"]},
+    {"exercise_id": "S18-T1-B-E1", "answer": "completed_from_packet", "code": "import numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nmn, md = float(np.mean(x)), float(np.median(x))\nprint(mn, md, round(mn / md, 2))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["mean/median ratio"]},
+    {"exercise_id": "S18-T1-B-E2", "answer": "completed_from_packet", "code": "import numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nmed = np.median(x)\nprint(float(np.median(np.abs(x - med))))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["MAD"]},
+    {"exercise_id": "S18-T1-B-E3", "answer": "completed_from_packet", "code": "import numpy as np\nprint([round(float(v), 3) for v in np.log1p([0, 1, 9, 99])])\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["log1p"]},
+    {"exercise_id": "S18-T2-A-E1", "answer": "completed_from_packet", "code": "muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nprint(round(muestra.count(\"Lima\") / len(muestra), 2))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["sample share"]},
+    {"exercise_id": "S18-T2-A-E2", "answer": "completed_from_packet", "code": "share = 8 / 10\nbias = share - 0.5\nprint(bias)\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["bias_pp"]},
+    {"exercise_id": "S18-T2-A-E3", "answer": "completed_from_packet", "code": "def max_bias(pob, counts):\n    total = sum(counts.values())\n    return max(abs(counts[k] / total - pob[k]) for k in pob)\nprint(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 9, \"Cusco\": 1}))\n", "confidence": 0.85, "blocked_on": [], "concepts_used": ["max bias"]},
+    {"exercise_id": "S18-T2-B-E1", "answer": "completed_from_packet", "code": "import math\nmedia, s, n = 10, 2, 16\nprint(round(1.96 * s / math.sqrt(n), 3))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["CI margin"]},
+    {"exercise_id": "S18-T2-B-E2", "answer": "completed_from_packet", "code": "d = (13 - 10) / 2\nprint(round(d, 2))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["Cohen d"]},
+    {"exercise_id": "S18-T2-B-E3", "answer": "completed_from_packet", "code": "diff, se = 4, 1.5\nprint((round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2)))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["ic95"]},
+    {"exercise_id": "S18-T3-A-E1", "answer": "completed_from_packet", "code": "import numpy as np\nx = np.array([1, 2, 3, 4], dtype=float)\ny = np.array([2, 4, 6, 8], dtype=float)\nprint(round(float(np.corrcoef(x, y)[0, 1]), 3))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["corrcoef"]},
+    {"exercise_id": "S18-T3-A-E2", "answer": "completed_from_packet", "code": "r = 0.82\nif abs(r) > 0.5:\n    print(\"asociacion_observada\")\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["no causal claim"]},
+    {"exercise_id": "S18-T3-A-E3", "answer": "completed_from_packet", "code": "import numpy as np\nz = np.arange(5, dtype=float)\nx = z.copy()\ny = z.copy()\nr_raw = float(np.corrcoef(x, y)[0, 1])\nbx = np.polyfit(z, x, 1)\nby = np.polyfit(z, y, 1)\nxr = x - np.polyval(bx, z)\nyr = y - np.polyval(by, z)\nr_res = float(np.corrcoef(xr, yr)[0, 1]) if np.std(xr) > 0 and np.std(yr) > 0 else 0.0\nprint(round(r_raw, 3), round(r_res, 3))\n", "confidence": 0.75, "blocked_on": [], "concepts_used": ["confounder residualize"]},
+    {"exercise_id": "S18-T3-B-E1", "answer": "completed_from_packet", "code": "import numpy as np\nmontos = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\nhi = q3 + 1.5 * (q3 - q1)\nprint(int((montos > hi).sum()))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["Tukey hi"]},
+    {"exercise_id": "S18-T3-B-E2", "answer": "completed_from_packet", "code": "regiones = [\"Lima\", \"Lima\", \"Cusco\"]\nflags = [True, True, False]\nlima = [f for r, f in zip(regiones, flags) if r == \"Lima\"]\nprint(sum(lima) / len(lima))\n", "confidence": 0.85, "blocked_on": [], "concepts_used": ["anomaly rate segment"]},
+    {"exercise_id": "S18-T3-B-E3", "answer": "completed_from_packet", "code": "import numpy as np\nx = np.array([1, 2, 3, 4, 100], dtype=float)\nq1, q3 = np.quantile(x, [0.25, 0.75])\niqr = q3 - q1\nlo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr\nprint(((x < lo) | (x > hi)).tolist())\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["Tukey boolean"]},
+    {"exercise_id": "S18-T4-A-E1", "answer": "completed_from_packet", "code": "evidencia = {\"pregunta\": \"¿Cuál es la mediana de montos?\", \"hipotesis\": \"mediana ~ 5\", \"resultado\": {\"n\": 10, \"median\": 5.0}}\nprint(evidencia[\"pregunta\"])\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["evidence dict"]},
+    {"exercise_id": "S18-T4-A-E2", "answer": "completed_from_packet", "code": "median = 12\nif median < 15:\n    print(\"solo_hallazgo\")\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["hallazgo vs decision"]},
+    {"exercise_id": "S18-T4-A-E3", "answer": "completed_from_packet", "code": "def traza(pregunta, metrica, valor, limite):\n    print(\"P\", pregunta)\n    print(\"M\", metrica)\n    print(\"V\", valor)\n    print(\"L\", limite)\ntraza(\"q\", \"median\", 5.0, \"muestra web\")\n", "confidence": 0.85, "blocked_on": [], "concepts_used": ["trace P/M/V/L"]},
+    {"exercise_id": "S18-T4-B-E1", "answer": "completed_from_packet", "code": "note = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}\nprint(note)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["data note"]},
+    {"exercise_id": "S18-T4-B-E2", "answer": "completed_from_packet", "code": "import hashlib\nprint(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["sha1"]},
+    {"exercise_id": "S18-T4-B-E3", "answer": "completed_from_packet", "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, -1.0, 2.0]})\nn_raw = len(df)\nfinal = df[df[\"monto\"] > 0]\nnote = {\"n_raw\": n_raw, \"n_final\": len(final), \"seed\": 42}\nprint(note)\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["filter note seed"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 1, "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: with strong outliers, median (and IQR) better describes a typical ticket than mean alone."},
+    {"question_index": 1, "chosen_index": 1, "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: high correlation is observed association, not causation by itself."},
+    {"question_index": 2, "chosen_index": 1, "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: data note needs origin, filters, n and coverage limits."},
+    {"question_index": 3, "chosen_index": 1, "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Theory: sample bias when sample does not represent population of interest."}
+  ],
+  "confusion_points": [],
+  "retrospection": "EDA stats/bias/corr/Tukey from packet; blocked=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "blocked_exercise_ids": [], "n_selfcheck": 4, "n_selfcheck_answered": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [1, 1, 1, 1]}
+}

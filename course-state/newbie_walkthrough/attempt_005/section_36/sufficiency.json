@@ -1,0 +1,26 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Señal de rareza a revisar"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 0.75,
+    "correct_preview": "Hipótesis de fracción rara a flaggear"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.67,
+    "correct_preview": "Exploración/visualización prudente"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 0.67,
+    "correct_preview": "precision@k y feedback humano"
+  }
+]

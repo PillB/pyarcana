@@ -1,0 +1,26 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "needs_review u objetivo de cola"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 0.5,
+    "correct_preview": "Conserva regla y no vendas humo"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Asociación en el modelo, no causa legal"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Riesgo de overfit; usa valid"
+  }
+]

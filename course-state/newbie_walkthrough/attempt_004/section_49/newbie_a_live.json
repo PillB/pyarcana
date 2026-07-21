@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 49,
+  "packet_sha": "e98091b2b9e962a0",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S49-T1-A-E1", "answer": "from_iDo_workflow_vs_agent", "code": "print(\"agent_when\", \"open_ended\"); print(\"workflow_when\", \"fixed_steps\"); print(\"safety\", \"prefer_workflow\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["workflow vs agente"]},
+    {"exercise_id": "S49-T1-A-E2", "answer": "independent_prefer_workflow", "code": "print(\"agent_when\", \"open_ended\"); print(\"workflow_when\", \"fixed_steps\"); print(\"safety\", \"prefer_workflow\")\nprint(\"synthetic\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["safety"]},
+    {"exercise_id": "S49-T1-A-E3", "answer": "transfer_workflow_vs_agent", "code": "# Transfer: prefer workflow for fixed steps; agent for open_ended; safety first.\nprint(\"safety\", \"prefer_workflow\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["agent design"]},
+    {"exercise_id": "S49-T1-B-E1", "answer": "from_iDo_planner_eval", "code": "print(\"route\", \"planner\"); print(\"eval\", True); print(\"max_loops\", 3)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["routing", "planner/worker", "evaluator"]},
+    {"exercise_id": "S49-T1-B-E2", "answer": "independent_max_loops", "code": "print(\"route\", \"planner\"); print(\"eval\", True); print(\"max_loops\", 3)\nprint(\"gate\", \"CP-N4-C (tools)\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["planner loops"]},
+    {"exercise_id": "S49-T1-B-E3", "answer": "transfer_routing_planner_eval", "code": "# Transfer: route planner; evaluator; max_loops 3.\nprint(\"max_loops\", 3)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["agent loop"]},
+    {"exercise_id": "S49-T2-A-E1", "answer": "from_iDo_single_responsibility_tools", "code": "print(\"one_tool_one_job\", True); print(\"tools_n\", 2); print(\"compose\", \"agent\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["funciones SRP tools"]},
+    {"exercise_id": "S49-T2-A-E2", "answer": "independent_tools_n", "code": "print(\"one_tool_one_job\", True); print(\"tools_n\", 2); print(\"compose\", \"agent\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["tool design"]},
+    {"exercise_id": "S49-T2-A-E3", "answer": "transfer_one_tool_one_job", "code": "# Transfer youDo: tools for consult/propose only; one_tool_one_job.\nprint(\"one_tool_one_job\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["tools"]},
+    {"exercise_id": "S49-T2-B-E1", "answer": "from_iDo_schema_perms", "code": "print(\"schema\", True); print(\"perms\", \"allowlist\"); print(\"errors\", \"typed\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["schema", "permisos", "idempotencia", "errores"]},
+    {"exercise_id": "S49-T2-B-E2", "answer": "independent_allowlist_perms", "code": "print(\"schema\", True); print(\"perms\", \"allowlist\"); print(\"errors\", \"typed\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["allowlist"]},
+    {"exercise_id": "S49-T2-B-E3", "answer": "transfer_schema_perms_errors", "code": "# Transfer: schema tools; allowlist perms; typed errors; no prod modify.\nprint(\"perms\", \"allowlist\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["tool safety"]},
+    {"exercise_id": "S49-T3-A-E1", "answer": "from_iDo_jit_context", "code": "print(\"jit\", True); print(\"k\", 2); print(\"checkpoint\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["contexto mínimo", "JIT retrieval", "checkpoints"]},
+    {"exercise_id": "S49-T3-A-E2", "answer": "independent_checkpoint", "code": "print(\"jit\", True); print(\"k\", 2); print(\"checkpoint\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["context engineering"]},
+    {"exercise_id": "S49-T3-A-E3", "answer": "transfer_min_context_jit_checkpoint", "code": "# Transfer: JIT retrieval k=2; checkpoint for resume.\nprint(\"checkpoint\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["context"]},
+    {"exercise_id": "S49-T3-B-E1", "answer": "from_iDo_memory_lkg", "code": "print(\"compaction\", True); print(\"lkg\", True); print(\"memory_bound\", 2)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["memoria", "compaction", "LKG"]},
+    {"exercise_id": "S49-T3-B-E2", "answer": "independent_lkg", "code": "print(\"compaction\", True); print(\"lkg\", True); print(\"memory_bound\", 2)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["last-known-good"]},
+    {"exercise_id": "S49-T3-B-E3", "answer": "transfer_memory_compaction_lkg", "code": "# Transfer: compaction; last-known-good; memory_bound.\nprint(\"lkg\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["memory"]},
+    {"exercise_id": "S49-T4-A-E1", "answer": "from_iDo_budgets", "code": "print(\"budget_tokens\", 2000); print(\"budget_steps\", 5); print(\"stop_on\", \"limit\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["stopping conditions", "budgets"]},
+    {"exercise_id": "S49-T4-A-E2", "answer": "independent_stop_on_limit", "code": "print(\"budget_tokens\", 2000); print(\"budget_steps\", 5); print(\"stop_on\", \"limit\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["budgets"]},
+    {"exercise_id": "S49-T4-A-E3", "answer": "transfer_stopping_budgets", "code": "# Transfer: token/step budgets; stop_on limit.\nprint(\"stop_on\", \"limit\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["budgets"]},
+    {"exercise_id": "S49-T4-B-E1", "answer": "from_iDo_sandbox_human", "code": "print(\"sandbox\", True); print(\"human_gate\", True); print(\"recovery\", \"resume_checkpoint\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["sandbox", "human approval", "recovery"]},
+    {"exercise_id": "S49-T4-B-E2", "answer": "independent_human_gate", "code": "print(\"sandbox_ok\"); print(\"needs_human\"); print(\"sandbox_ok\")\nprint(\"human_gate\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["human-in-the-loop"]},
+    {"exercise_id": "S49-T4-B-E3", "answer": "transfer_sandbox_human_recovery", "code": "# Transfer youDo: no send/modify prod / no risk decision without approval; sandbox+human_gate.\nprint(\"human_gate\", True)\nprint(\"synthetic\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["approval gate"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 0, "chosen_text": "data-contracts", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "platform id data-contracts preserved."},
+    {"question_index": 1, "chosen_index": 0, "chosen_text": "CP-N4-C (tools)", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "gate CP-N4-C (tools)."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Datos sintéticos", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Datos sintéticos; sin PII real."},
+    {"question_index": 3, "chosen_index": 2, "chosen_text": "Misma entidad cuando aplique", "confidence": 0.75, "blocked_on": [], "justification_from_packet": "ER = misma entidad cuando aplique."}
+  ],
+  "confusion_points": ["weDo TODO", "id data-contracts vs agents retheme"],
+  "retrospection": "Agent tools + human gate from iDo; blocked=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]}
+}

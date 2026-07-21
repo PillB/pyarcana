@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 46,
+  "packet_sha": "6d99b8f55030c298",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S46-T1-A-E1", "answer": "from_iDo_windows_watermarks", "code": "print(\"window\", \"5min\"); print(\"wm_lag\", \"1min\"); print(\"vs_processing_time\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["windows", "event time", "watermarks"]},
+    {"exercise_id": "S46-T1-A-E2", "answer": "independent_event_time", "code": "print(\"window\", \"5min\"); print(\"wm_lag\", \"1min\"); print(\"vs_processing_time\", True)\nprint(\"synthetic\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["event time"]},
+    {"exercise_id": "S46-T1-A-E3", "answer": "transfer_windows_event_time_wm", "code": "# Transfer: 5min window; 1min watermark lag; event vs processing time.\nprint(\"wm_lag\", \"1min\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["watermarks"]},
+    {"exercise_id": "S46-T1-B-E1", "answer": "from_iDo_late_eo", "code": "print(\"late_policy\", \"side_output\"); print(\"eo\", \"composite\"); print(\"dedup_key\", \"event_id\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["late data", "exactly-once", "dedup"]},
+    {"exercise_id": "S46-T1-B-E2", "answer": "independent_dedup_event_id", "code": "print(\"late_policy\", \"side_output\"); print(\"eo\", \"composite\"); print(\"dedup_key\", \"event_id\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["dedup_key"]},
+    {"exercise_id": "S46-T1-B-E3", "answer": "transfer_late_data_exactly_once", "code": "# Transfer youDo: reejecución no duplica; late_policy side_output; dedup event_id.\nprint(\"eo\", \"composite\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["idempotent pipeline"]},
+    {"exercise_id": "S46-T2-A-E1", "answer": "from_iDo_dag", "code": "print(\"nodes\", 4); print(\"edge\", \"normalize->er\"); print(\"acyclic\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["DAG", "assets", "dependency"]},
+    {"exercise_id": "S46-T2-A-E2", "answer": "independent_normalize_er", "code": "print(\"nodes\", 4); print(\"edge\", \"normalize->er\"); print(\"acyclic\", True)\nprint(\"gate\", \"CP-N4-B (pipeline)\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["DAG edges"]},
+    {"exercise_id": "S46-T2-A-E3", "answer": "transfer_dag_assets_deps", "code": "# Transfer: acyclic DAG normalize->er; ownership edges.\nprint(\"acyclic\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["orchestration DAG"]},
+    {"exercise_id": "S46-T2-B-E1", "answer": "from_iDo_backfill", "code": "print(\"backfill_ok\", True); print(\"state\", \"checkpoints\"); print(\"schedule\", \"hourly\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["schedules", "backfills", "state recovery"]},
+    {"exercise_id": "S46-T2-B-E2", "answer": "independent_hourly_backfill", "code": "print(\"backfill_ok\", True); print(\"state\", \"checkpoints\"); print(\"schedule\", \"hourly\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["backfill"]},
+    {"exercise_id": "S46-T2-B-E3", "answer": "transfer_schedule_backfill_state", "code": "# Transfer: hourly schedule; backfill_ok; checkpoints for state recovery.\nprint(\"backfill_ok\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["incremental/backfill"]},
+    {"exercise_id": "S46-T3-A-E1", "answer": "from_iDo_contracts_fresh", "code": "print(\"fresh\", True); print(\"schema_fail\", \"block\"); print(\"sla_min\", 60)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["contracts", "freshness"]},
+    {"exercise_id": "S46-T3-A-E2", "answer": "independent_schema_block", "code": "print(\"fresh\", True); print(\"schema_fail\", \"block\"); print(\"sla_min\", 60)\nprint(\"alert_late\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["schema contract"]},
+    {"exercise_id": "S46-T3-A-E3", "answer": "transfer_contracts_freshness", "code": "# Transfer youDo: alerta por dato tardío o contrato roto; schema_fail block.\nprint(\"schema_fail\", \"block\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["data contracts"]},
+    {"exercise_id": "S46-T3-B-E1", "answer": "from_iDo_lineage", "code": "print(\"owner\", \"data-platform\"); print(\"upstream\", [\"er\",\"cases\"]); print(\"page\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["lineage", "observability", "ownership"]},
+    {"exercise_id": "S46-T3-B-E2", "answer": "independent_owner_page", "code": "print(\"owner\", \"data-platform\"); print(\"upstream\", [\"er\",\"cases\"]); print(\"page\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["ownership"]},
+    {"exercise_id": "S46-T3-B-E3", "answer": "transfer_lineage_obs_ownership", "code": "# Transfer: lineage upstream er/cases; owner data-platform; page on issues.\nprint(\"page\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["lineage"]},
+    {"exercise_id": "S46-T4-A-E1", "answer": "from_iDo_incremental", "code": "print(\"merge_key\", \"id\"); print(\"load\", \"incremental\"); print(\"full_refresh\", \"rare\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["partitions", "incremental loads"]},
+    {"exercise_id": "S46-T4-A-E2", "answer": "independent_merge_key", "code": "print(\"merge_key\", \"id\"); print(\"load\", \"incremental\"); print(\"full_refresh\", \"rare\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["incremental"]},
+    {"exercise_id": "S46-T4-A-E3", "answer": "transfer_partitions_incremental", "code": "# Transfer: incremental load merge_key id; full_refresh rare.\nprint(\"load\", \"incremental\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["partitions"]},
+    {"exercise_id": "S46-T4-B-E1", "answer": "from_iDo_slo_recovery", "code": "print(\"slo_breach\", False); print(\"incident\", \"page_owner\"); print(\"data_recovery\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["SLO", "incidentes", "data recovery"]},
+    {"exercise_id": "S46-T4-B-E2", "answer": "independent_slo_theory", "code": "print({\"freshness_min\":60,\"success_rate\":0.99}); print(\"replay_partition\"); print(\"recovery\", \"replay\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["SLO", "replay"]},
+    {"exercise_id": "S46-T4-B-E3", "answer": "transfer_slo_incidents_recovery", "code": "# Transfer: page_owner on incident; data_recovery replay; synthetic only.\nprint(\"data_recovery\", True)\nprint(\"synthetic\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["data recovery"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 0, "chosen_text": "gpu-computing", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "platform id gpu-computing preserved."},
+    {"question_index": 1, "chosen_index": 0, "chosen_text": "CP-N4-B (pipeline)", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "gate CP-N4-B (pipeline)."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Datos sintéticos", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Datos sintéticos; sin PII real."},
+    {"question_index": 3, "chosen_index": 2, "chosen_text": "Misma entidad cuando aplique", "confidence": 0.75, "blocked_on": [], "justification_from_packet": "ER = misma entidad cuando aplique."}
+  ],
+  "confusion_points": ["weDo TODO", "id gpu-computing vs data eng retheme"],
+  "retrospection": "Pipeline/lineage from iDo; blocked=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]}
+}

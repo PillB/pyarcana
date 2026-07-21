@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 39,
+  "packet_source": "course-state/newbie_walkthrough/attempt_005/section_39/packet.json",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active theory/iDo/weDo/youDo/selfCheck from packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S39-T1-A-E1", "answer": "stages order", "code": "print(['intake', 'er', 'relation_graph', 'features', 'model_score', 'queue'])\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["pipeline stages"]},
+    {"exercise_id": "S39-T1-A-E2", "answer": "label_space needs_review", "code": "print('needs_review')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["label_space"]},
+    {"exercise_id": "S39-T1-A-E3", "answer": "ER not kinship", "code": "print('ER_not_parentesco')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["ER scope"]},
+    {"exercise_id": "S39-T1-B-E1", "answer": "semver major on break", "code": "print('1.0.0 → 2.0.0')\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["semver"]},
+    {"exercise_id": "S39-T1-B-E2", "answer": "owner required", "code": "print(True)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["owner"]},
+    {"exercise_id": "S39-T1-B-E3", "answer": "registry size", "code": "registry = {'model': 'v1', 'features': 'fs-v3'}\nprint(len(registry))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["registry"]},
+    {"exercise_id": "S39-T2-A-E1", "answer": "packet must include graph_path", "code": "pkt = {'score': 0.8, 'graph_path': ['E1', 'E2'], 'evidence': []}\nprint('graph_path' in pkt)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["evidence packet"]},
+    {"exercise_id": "S39-T2-A-E2", "answer": "score alone insufficient", "code": "print(True)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["score not enough"]},
+    {"exercise_id": "S39-T2-A-E3", "answer": "4 layer explanation", "code": "print(['evidence', 'model', 'uncertainty', 'human'])\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["4 layers"]},
+    {"exercise_id": "S39-T2-B-E1", "answer": "override final skip", "code": "print('skip')\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["override"]},
+    {"exercise_id": "S39-T2-B-E2", "answer": "appeal reopens", "code": "print('reopen')\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["appeal"]},
+    {"exercise_id": "S39-T2-B-E3", "answer": "feedback logged", "code": "print(True)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["feedback log"]},
+    {"exercise_id": "S39-T3-A-E1", "answer": "secrets_in_repo false", "code": "print(False)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["secrets"]},
+    {"exercise_id": "S39-T3-A-E2", "answer": "rbac on packet", "code": "print('rbac_required')\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["RBAC"]},
+    {"exercise_id": "S39-T3-A-E3", "answer": "fairness slices present", "code": "print(True)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["fairness"]},
+    {"exercise_id": "S39-T3-B-E1", "answer": "incident → human_only", "code": "print('human_only')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["incident mode"]},
+    {"exercise_id": "S39-T3-B-E2", "answer": "drift → abstain_more", "code": "print('abstain_more')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["drift mode"]},
+    {"exercise_id": "S39-T3-B-E3", "answer": "rollback target", "code": "print('last_known_good')\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["rollback"]},
+    {"exercise_id": "S39-T4-A-E1", "answer": "acceptance no_auto_fraud", "code": "print('no_auto_fraud')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["acceptance"]},
+    {"exercise_id": "S39-T4-A-E2", "answer": "regression scope S27-S39", "code": "print('S27-S39')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["regression N3"]},
+    {"exercise_id": "S39-T4-A-E3", "answer": "demo paths 3", "code": "print(3)\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["demo"]},
+    {"exercise_id": "S39-T4-B-E1", "answer": "three cards", "code": "print(['model_card', 'data_card', 'ops_card'])\n", "confidence": 0.88, "blocked_on": [], "concepts_used": ["cards"]},
+    {"exercise_id": "S39-T4-B-E2", "answer": "value metric override_rate", "code": "print('override_rate')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["value metric"]},
+    {"exercise_id": "S39-T4-B-E3", "answer": "postmortem blameless", "code": "print(True)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["blameless"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 1, "chosen_text": "needs_review / prioridad de cola", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "label_space is needs_review/queue priority not fraud certainty."},
+    {"question_index": 1, "chosen_index": 1, "chosen_text": "Se documentan; PASS lo califica otra lane", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "CF-3 and S27–S39 regression documented here; PASS is separate lane."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Evidencia y path además del score", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Evidence packet includes graph_path and evidence besides score."},
+    {"question_index": 3, "chosen_index": 1, "chosen_text": "human_only / rollback", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Ante incidente grave: modo seguro human_only / rollback (selfCheck + T3-B)."}
+  ],
+  "confusion_points": ["Platform integrator-phase2; CP-N3-C close."],
+  "retrospection": "S39 24 weDo full coverage. Selfcheck answered from packet. blocked_count=0. Explorer finished Phase 2 S27–S39 with 0 hard blocks.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_exercises_blocked": 0, "n_selfcheck": 4, "n_selfcheck_blocked": 0, "blocked_count": 0}
+}

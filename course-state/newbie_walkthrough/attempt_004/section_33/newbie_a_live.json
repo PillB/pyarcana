@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 33,
+  "packet_source": "course-state/newbie_walkthrough/attempt_004/section_33/packet.json",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active theory/iDo/weDo/youDo/selfCheck from packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S33-T1-A-E1", "answer": "unit/target/horizon framing", "code": "print('unit', 'pair_or_entity')\nprint('target', 'needs_review_7d')\nprint('horizon', 7)\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["framing"]},
+    {"exercise_id": "S33-T1-A-E2", "answer": "prevalence y=[0,1,0,0] → 0.25", "code": "y = [0, 1, 0, 0]\nprint(sum(y) / len(y))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["prevalence"]},
+    {"exercise_id": "S33-T1-A-E3", "answer": "target name without fraud", "code": "name = 'needs_review_7d'\nprint('fraud' not in name.lower())\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["no fraud target"]},
+    {"exercise_id": "S33-T1-B-E1", "answer": "dummy majority for [1,1,0] → 1", "code": "y = [1, 1, 0]\nmaj = 0 if y.count(0) >= y.count(1) else 1\nprint(maj)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["dummy baseline"]},
+    {"exercise_id": "S33-T1-B-E2", "answer": "rule x>=1 accuracy", "code": "x, y = [0, 1, 2], [0, 1, 1]\npred = [1 if v >= 1 else 0 for v in x]\nprint(sum(p == t for p, t in zip(pred, y)) / len(y))\n", "confidence": 0.88, "blocked_on": [], "concepts_used": ["rule baseline"]},
+    {"exercise_id": "S33-T1-B-E3", "answer": "cost fp*1+fn*5 = 7", "code": "fp, fn = 2, 1\nprint(fp * 1 + fn * 5)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["cost"]},
+    {"exercise_id": "S33-T2-A-E1", "answer": "sigmoid(0)=0.5 sigmoid(2)~0.881", "code": "import math\ndef sigmoid(z):\n    return 1 / (1 + math.exp(-z))\nprint(round(sigmoid(0), 3), round(sigmoid(2), 3))\n", "confidence": 0.92, "blocked_on": [], "concepts_used": ["sigmoid"]},
+    {"exercise_id": "S33-T2-A-E2", "answer": "logit pred w=1 b=0 x=0.2 thr0.5 → 0", "code": "import math\nw, b, x, thr = 1, 0, 0.2, 0.5\np = 1 / (1 + math.exp(-(w * x + b)))\nprint(int(p >= thr), round(p, 3))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["logistic"]},
+    {"exercise_id": "S33-T2-A-E3", "answer": "L2 penalty sum w^2", "code": "w = [1, 2]\nprint(sum(v * v for v in w))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["L2"]},
+    {"exercise_id": "S33-T2-B-E1", "answer": "coefs by |w| desc names", "code": "coefs = {'shared_phone': 0.8, 'amount': -0.2, 'degree': 0.5}\nprint([k for k, _ in sorted(coefs.items(), key=lambda kv: -abs(kv[1]))])\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["coef ranking"]},
+    {"exercise_id": "S33-T2-B-E2", "answer": "scaled flag True", "code": "print(True)\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["scaled features"]},
+    {"exercise_id": "S33-T2-B-E3", "answer": "sign of shared_phone +", "code": "w = 0.8\nprint('+' if w > 0 else '-')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["coef sign"]},
+    {"exercise_id": "S33-T3-A-E1", "answer": "stump thr0.3 on [0.1,0.4]", "code": "X = [0.1, 0.4]; thr = 0.3\nprint([1 if x >= thr else 0 for x in X])\n", "confidence": 0.92, "blocked_on": [], "concepts_used": ["stump"]},
+    {"exercise_id": "S33-T3-A-E2", "answer": "majority vote 3 stumps", "code": "preds = [[1, 0], [1, 1], [0, 1]]\n# vote per row\nout = []\nfor i in range(2):\n    col = [p[i] for p in preds]\n    out.append(1 if sum(col) >= 2 else 0)\nprint(out)\n", "confidence": 0.85, "blocked_on": [], "concepts_used": ["ensemble vote"]},
+    {"exercise_id": "S33-T3-A-E3", "answer": "stump vs dummy compare", "code": "stump_acc, dummy_acc = 0.7, 0.6\nprint(stump_acc > dummy_acc, stump_acc, dummy_acc)\n", "confidence": 0.88, "blocked_on": [], "concepts_used": ["beats dummy"]},
+    {"exercise_id": "S33-T3-B-E1", "answer": "best depth by valid", "code": "valid = {1: 0.6, 2: 0.72, 3: 0.7}\nprint(max(valid, key=valid.get))\n", "confidence": 0.92, "blocked_on": [], "concepts_used": ["hyperparam valid"]},
+    {"exercise_id": "S33-T3-B-E2", "answer": "overfit if gap>0.2", "code": "train, valid = 0.95, 0.7\nprint(train - valid > 0.2)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["overfit gap"]},
+    {"exercise_id": "S33-T3-B-E3", "answer": "seed random 3 ints", "code": "import random\nrandom.seed(0)\nprint([random.randint(0, 9) for _ in range(3)])\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["seed"]},
+    {"exercise_id": "S33-T4-A-E1", "answer": "JSON metrics keys sorted", "code": "m = {'f1': 0.5, 'acc': 0.7, 'prec': 0.6}\nprint(sorted(m))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["metrics keys"]},
+    {"exercise_id": "S33-T4-A-E2", "answer": "min run fields", "code": "print(['model', 'params', 'metrics', 'seed', 'split'])\n", "confidence": 0.85, "blocked_on": [], "concepts_used": ["run log"]},
+    {"exercise_id": "S33-T4-A-E3", "answer": "beats_dummy check", "code": "model_f1, dummy_f1 = 0.6, 0.4\nprint(model_f1 > dummy_f1)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["beats_dummy"]},
+    {"exercise_id": "S33-T4-B-E1", "answer": "mean of folds", "code": "folds = [0.5, 0.6, 0.7]\nprint(sum(folds) / len(folds))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["CV mean"]},
+    {"exercise_id": "S33-T4-B-E2", "answer": "slice with more FN", "code": "slices = {'Lima': 2, 'AQP': 5}\nprint(max(slices, key=slices.get))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["error slices"]},
+    {"exercise_id": "S33-T4-B-E3", "answer": "group CV n unique entities", "code": "ents = ['e1', 'e1', 'e2', 'e3']\nprint(len(set(ents)))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["group CV"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 1, "chosen_text": "needs_review u objetivo de cola", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Target needs_review not fraud_auto."},
+    {"question_index": 1, "chosen_index": 1, "chosen_text": "Conserva regla y no vendas humo", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Keep rule baseline if model does not beat it."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Asociación en el modelo, no causa legal", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Logistic coefs are association not legal causation."},
+    {"question_index": 3, "chosen_index": 1, "chosen_text": "Riesgo de overfit; usa valid", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Pick hyperparams on validation not train_acc."}
+  ],
+  "confusion_points": ["Platform advanced-models; content baseline workbench."],
+  "retrospection": "S33 24 weDo answered. Selfcheck 4/4. blocked_count=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_exercises_blocked": 0, "n_selfcheck": 4, "n_selfcheck_blocked": 0, "blocked_count": 0}
+}

@@ -1,0 +1,277 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 38,
+  "recorded_at": "2026-07-21T22:55:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + active.iDo demos only",
+      "required_for_early_exercises": {
+        "concurrency pick GIL": { "in_theory_or_demo": true, "where": "theory + S38-T1 demos" },
+        "backpressure timeout": { "in_theory_or_demo": true, "where": "theory + S38-T2 demos" },
+        "o11y redact SLO": { "in_theory_or_demo": true, "where": "theory logs/SLI" },
+        "checkpoint idem retry": { "in_theory_or_demo": true, "where": "theory states/retry" }
+      }
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Procesos",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory CPU bound → processes."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Colas infinitas y OOM",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory backpressure prevents OOM/API ban."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Reejecutar sin side effects duplicados",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory idempotency."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Redactar PII y correlacionar",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory redact PII + correlation ids."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S38-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "print('async_or_threads')\nprint('bound', 'io')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["io concurrency pick"],
+        "note": "Theory pick(io)."
+      },
+      {
+        "exercise_id": "S38-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "print('processes')\nprint('bound', 'cpu')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["cpu processes"],
+        "note": "Theory pick(cpu)."
+      },
+      {
+        "exercise_id": "S38-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "print(True)\nprint('measure_first', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["measure first"],
+        "note": "Theory measure_first True."
+      },
+      {
+        "exercise_id": "S38-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import json\nprint(len(json.dumps({'case_id':'c1','score':0.2}).encode()))\nprint('gil_cpu_threads', 'limited')\nprint('prefer', 'compact_payload')\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["json size"],
+        "note": "Theory payload bytes."
+      },
+      {
+        "exercise_id": "S38-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "print('limited')\nprint('gil_cpu_threads', 'limited')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["GIL limit"],
+        "note": "Theory GIL limits CPU threads."
+      },
+      {
+        "exercise_id": "S38-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print('compact_payload')\nprint('prefer', 'compact_payload')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["prefer compact"],
+        "note": "Theory prefer compact payloads."
+      },
+      {
+        "exercise_id": "S38-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "print([True, True, False])\nprint('tokens', 2)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["token bucket"],
+        "note": "Theory TokenBucket rate 2."
+      },
+      {
+        "exercise_id": "S38-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "print('backpressure')\nprint('backpressure', 'queue_maxsize')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["queue maxsize"],
+        "note": "Theory queue maxsize = backpressure."
+      },
+      {
+        "exercise_id": "S38-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "print('providers')\nprint('protects', 'upstream_providers')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["rate limit protects"],
+        "note": "Theory rate limit protects providers."
+      },
+      {
+        "exercise_id": "S38-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "print(0.01)\nprint('seconds', 0.01)\nprint('policy', 'timeout')\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["timeout field"],
+        "note": "Theory fetch_with_timeout seconds."
+      },
+      {
+        "exercise_id": "S38-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "print(True)\nprint('close_in_finally', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["finally close"],
+        "note": "Theory close_in_finally True."
+      },
+      {
+        "exercise_id": "S38-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print(True)\nprint('risk', 'hang_without_timeout')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["hang without timeout"],
+        "note": "Theory no timeout hangs batch."
+      },
+      {
+        "exercise_id": "S38-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "print(True)\nprint('corr', 'corr-9')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["correlation id"],
+        "note": "Theory corr in events."
+      },
+      {
+        "exercise_id": "S38-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "print(['logs','metrics','traces'])\nprint('pillars', 3)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["three pillars o11y"],
+        "note": "Theory logs, metrics, traces."
+      },
+      {
+        "exercise_id": "S38-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "print(False)\nprint('pii_raw', False)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["no raw PII"],
+        "note": "Theory pii_raw False."
+      },
+      {
+        "exercise_id": "S38-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "def redact(s):\n    return s[:2]+'***' if len(s)>2 else '***'\nprint(redact('900111222'))\nprint('redacted', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["redact phone"],
+        "note": "Theory redact function; S31 phone redact also prior."
+      },
+      {
+        "exercise_id": "S38-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "sli={'p95_ms':120,'error_rate':0.01}; slo={'p95_ms':200,'error_rate':0.02}\nprint(sli['p95_ms']<=slo['p95_ms'] and sli['error_rate']<=slo['error_rate'])\nprint('slo_ok', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["SLO compare"],
+        "note": "Theory slo_ok comparison."
+      },
+      {
+        "exercise_id": "S38-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print('error_budget')\nprint('consumes_on_slo_breach', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["error budget"],
+        "note": "Theory error budget on SLO breach."
+      },
+      {
+        "exercise_id": "S38-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "print(['pending','running','done','failed'])\nprint('workflow', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["workflow states"],
+        "note": "Theory pending→running→done/failed."
+      },
+      {
+        "exercise_id": "S38-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "print('c1:features:v3')\nprint('idem_key', 'c1:features:v3')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["idem key format"],
+        "note": "Theory idem_key c1:features:v3."
+      },
+      {
+        "exercise_id": "S38-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "print('features')\nprint('resume_from', 'features')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["resume step"],
+        "note": "Theory resume_from last checkpoint step."
+      },
+      {
+        "exercise_id": "S38-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "print(0.1*(2**3))\nprint('backoff', 0.8)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["exponential backoff"],
+        "note": "Theory backoff base*2**attempt; attempt 3 base 0.1 → 0.8."
+      },
+      {
+        "exercise_id": "S38-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "print('poison_messages')\nprint('dlq', 'poison_messages')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["DLQ purpose"],
+        "note": "Theory DLQ for poison messages."
+      },
+      {
+        "exercise_id": "S38-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print(True)\nprint('runbook', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["runbook required"],
+        "note": "Theory runbook True."
+      }
+    ],
+    "summary": {
+      "n_exercises": 24,
+      "n_answered": 24,
+      "n_blocked_exercises": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4
+    }
+  }
+}

@@ -1,0 +1,245 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "section_index": 2,
+  "packet_sha": "5acdd2e718dd4432",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S02-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "literales = [0, 3.14, \"Lima\", False, None]\n\nfor lit in literales:\n    print(repr(lit), \"→\", type(lit).__name__)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["type().__name__", "repr", "int", "float", "str", "bool", "NoneType"]
+    },
+    {
+      "exercise_id": "S02-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "codigo_int = 42\ncodigo_str = \"42\"\n\nprint(\"tipos:\", type(codigo_int).__name__, type(codigo_str).__name__)\nprint(\"igualdad cruda:\", 42 == \"42\")\nprint(\"igualdad tras str():\", str(42) == \"42\")\nprint(\"isinstance(True, int) →\", isinstance(True, int))\nprint(\"Nota: bool es subtipo de int; en intake modela banderas como bool explícito, no 1/0 accidental\")",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["type", "str()", "==", "isinstance", "bool subtype of int"]
+    },
+    {
+      "exercise_id": "S02-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "campos = {\n    \"nombres\": (\"María José\", str),\n    \"apellido_paterno\": (\"Quispe\", str),\n    \"apellido_materno\": (\"Ñahui\", str),\n    \"contacto\": (\"999000111\", str),\n    \"edad\": (34, int),\n    \"activo\": (True, bool),\n}\n\nfor k, (v, t) in campos.items():\n    ok = type(v) is t\n    print(f\"{k}: {v!r} esperado={t.__name__} ok={ok}\")",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": ["str phone", "int edad", "bool activo", "type(v) is t"]
+    },
+    {
+      "exercise_id": "S02-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "raw = \" 21 \"\nedad = int(raw.strip())\nprint(edad, type(edad).__name__)",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "concepts_used": ["int()", "strip()"]
+    },
+    {
+      "exercise_id": "S02-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def safe_int(campo: str, valor: str):\n    texto = valor.strip()\n    if texto == \"\":\n        return False, None, f\"ERROR en '{campo}': vacío (raw={valor!r})\"\n    try:\n        return True, int(texto), None\n    except ValueError:\n        return False, None, f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\"\n\nfor v in [\" 21 \", \"\", \"abc\", \"  \"]:\n    print(repr(v), \"→\", safe_int(\"edad\", v))",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": ["safe_int", "strip", "try/except ValueError", "tuple (ok, val, msg)"]
+    },
+    {
+      "exercise_id": "S02-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def safe_int(campo, valor):\n    texto = valor.strip()\n    if texto == \"\":\n        return False, None, f\"ERROR en '{campo}': vacío (raw={valor!r})\"\n    try:\n        return True, int(texto), None\n    except ValueError:\n        return False, None, f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\"\n\ndef safe_float(campo, valor):\n    texto = valor.strip()\n    if texto == \"\":\n        return False, None, f\"ERROR en '{campo}': vacío (raw={valor!r})\"\n    try:\n        return True, float(texto), None\n    except ValueError:\n        return False, None, f\"ERROR en '{campo}': no se pudo convertir {valor!r} a float\"\n\ndef parse_pipeline(edad_raw, monto_raw):\n    raw = {\"edad\": edad_raw, \"monto\": monto_raw}\n    clean = {\"edad\": None, \"monto\": None}\n    errors = []\n    ok, n, err = safe_int(\"edad\", edad_raw)\n    if ok:\n        clean[\"edad\"] = n\n    else:\n        errors.append(err)\n    ok, n, err = safe_float(\"monto\", monto_raw)\n    if ok:\n        clean[\"monto\"] = n\n    else:\n        errors.append(err)\n    return {\"raw\": raw, \"clean\": clean, \"errors\": errors}\n\nprint(parse_pipeline(\" 21 \", \"150.5\"))\nprint(parse_pipeline(\"abc\", \"10\"))\nprint(parse_pipeline(\"30\", \"xyz\"))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": ["safe_int", "float()", "raw/clean/errors", "strip"]
+    },
+    {
+      "exercise_id": "S02-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "nombre_cliente = \"Luis\"\napellido_paterno = \"Ramos\"\nindice = 0\nlongitud = 5\nEDAD_MAXIMA = 120\n\nprint(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["snake_case", "UPPER_CASE constant", "PEP 8"]
+    },
+    {
+      "exercise_id": "S02-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "estado = \"activo\"\ncodigo = 10\nflag = True\n\nif estado == \"activo\":\n    print(\"ok estado\")\nif codigo == 10:\n    print(\"ok codigo\")\nif flag == True:\n    print(\"ok flag\")",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "concepts_used": ["== vs =", "if comparison"]
+    },
+    {
+      "exercise_id": "S02-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "encabezados = [\n    \"Nombres\",\n    \"Apellido Paterno\",\n    \"Apellido Materno\",\n    \"Teléfono / Cel\",\n    \"Dirección\",\n    \"Edad (años)\",\n]\n\nmapeo = {\n    \"Nombres\": \"nombres\",\n    \"Apellido Paterno\": \"apellido_paterno\",\n    \"Apellido Materno\": \"apellido_materno\",\n    \"Teléfono / Cel\": \"contacto\",\n    \"Dirección\": \"direccion\",\n    \"Edad (años)\": \"edad\",\n}\n\nfor orig in encabezados:\n    print(f\"{orig!r} → {mapeo.get(orig, '???')}\")",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": ["snake_case", "apellido_paterno", "apellido_materno", "schema intake"]
+    },
+    {
+      "exercise_id": "S02-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "print(\"None is None →\", None is None)\nprint(\"[] == [] →\", [] == [])\nprint(\"[] is [] →\", [] is [])\nprint(\"1 == True →\", 1 == True)\nprint(\"1 is True →\", 1 is True)\n# Comentario: usa is para None/identidad; == para igualdad de valor",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["is vs ==", "None is None", "list identity"]
+    },
+    {
+      "exercise_id": "S02-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "original = [\"a\", \"b\"]\ntrabajo = original.copy()\ntrabajo.append(\"c\")\nprint(\"original:\", original)\nprint(\"trabajo:\", trabajo)\nprint(\"mismo objeto?\", original is trabajo)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["copy()", "alias vs copy", "append"]
+    },
+    {
+      "exercise_id": "S02-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def make_record(nombres: str, contacto: str) -> dict:\n    return {\n        \"nombres_raw\": nombres,\n        \"contacto_raw\": contacto,\n        \"nombres\": nombres.strip(),\n        \"contacto\": contacto.strip(),\n    }\n\nentrada_nombres = \"  María  \"\nentrada_contacto = \" 999 \"\nrec = make_record(entrada_nombres, entrada_contacto)\nrec[\"nombres\"] = rec[\"nombres\"].upper()\nprint(rec)\nassert rec[\"nombres_raw\"] == entrada_nombres\nassert rec[\"contacto_raw\"] == entrada_contacto\nprint(\"raw preserved OK\")",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": ["*_raw", "strip", "assert raw preserved"]
+    },
+    {
+      "exercise_id": "S02-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "n = 17\nd = 5\nprint(\"//\", n // d)\nprint(\"%\", n % d)\nprint(\"**\", 2 ** 4)\nprint(\"/\", n / d)\n# / devuelve float (división verdadera)",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "concepts_used": ["//", "%", "**", "/"]
+    },
+    {
+      "exercise_id": "S02-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "print(\"sin paréntesis:\", -3**2)\nprint(\"con paréntesis:\", (-3)**2)\ncuadrado_neg = (-3)**2\nassert cuadrado_neg == 9\nprint(\"assert OK\")",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "concepts_used": ["precedence", "**", "unary minus"]
+    },
+    {
+      "exercise_id": "S02-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "linea_a = 50\nlinea_b = 30\nsubtotal = linea_a + linea_b\ntotal = subtotal * (1 + 0.18)\nprint(\"subtotal\", subtotal)\nprint(\"total\", total)",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": ["parentheses", "IGV 18%", "subtotal"]
+    },
+    {
+      "exercise_id": "S02-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal\n\nprint(\"float\", 0.1 + 0.2)\nprint(\"Decimal\", Decimal(\"0.1\") + Decimal(\"0.2\"))",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "concepts_used": ["Decimal from str", "float imprecision"]
+    },
+    {
+      "exercise_id": "S02-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal, ROUND_HALF_EVEN\n\ncuenta = Decimal(\"85.50\")\npropina = (cuenta * Decimal(\"0.10\")).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\ntotal = (cuenta + propina).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\nprint(propina, total)\nassert propina == Decimal(\"8.55\")\nassert total == Decimal(\"94.05\")\nprint(\"OK\")",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": ["Decimal", "quantize", "ROUND_HALF_EVEN"]
+    },
+    {
+      "exercise_id": "S02-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation\n\ndef parse_monto(texto: str):\n    t = texto.strip()\n    if t == \"\":\n        return False, None, f\"ERROR en 'monto': vacío (raw={texto!r})\"\n    try:\n        d = Decimal(t).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\n        return True, d, None\n    except InvalidOperation:\n        return False, None, f\"ERROR en 'monto': no se pudo parsear {texto!r} a Decimal\"\n\nfor s in [\"150.50\", \"  20.1 \", \"\", \"abc\"]:\n    print(repr(s), \"→\", parse_monto(s))",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["Decimal", "InvalidOperation", "strip", "quantize"]
+    },
+    {
+      "exercise_id": "S02-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "nombre = \"José\"\nprint(f\"Hola, {nombre}. Bienvenido al intake.\")",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "concepts_used": ["f-string"]
+    },
+    {
+      "exercise_id": "S02-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from decimal import Decimal\n\nnombres = \"Ana\"\napellido_paterno = \"Ramos\"\ncontacto = \"999000111\"\nmonto = Decimal(\"99.5\")\nprint(f\"nombres: {nombres}\")\nprint(f\"apellido_paterno: {apellido_paterno}\")\nprint(f\"contacto: {contacto}\")\nprint(f\"monto: S/ {monto:.2f}\")",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": ["f-string", ":.2f", "Decimal"]
+    },
+    {
+      "exercise_id": "S02-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def simular_intake(nombres: str, contacto: str, edad: str) -> dict:\n    datos = {\"nombres\": nombres, \"contacto\": contacto, \"edad\": edad}\n    types = {k: type(v).__name__ for k, v in datos.items()}\n    return {**datos, \"types\": types}\n\nr = simular_intake(\"  Ana  \", \"999\", \"34\")\nprint(r)\nassert r[\"types\"][\"edad\"] == \"str\"\nassert r[\"types\"][\"nombres\"] == \"str\"\nprint(\"OK\")",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": ["input returns str", "type().__name__", "no real input()"]
+    },
+    {
+      "exercise_id": "S02-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def parse_nombres(valor: str) -> dict:\n    errors = []\n    clean = valor.strip() if valor.strip() else None\n    if clean is None:\n        errors.append(f\"ERROR en 'nombres': vacío (raw={valor!r})\")\n    return {\"nombres_raw\": valor, \"nombres\": clean, \"errors\": errors}\n\nr = parse_nombres(\"\")\nprint(r)\nassert r[\"nombres_raw\"] == \"\"\nassert r[\"nombres\"] is None\nassert any(\"nombres\" in e.lower() for e in r[\"errors\"])\nprint(\"OK\")",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": ["raw", "strip", "errors", "empty check"]
+    },
+    {
+      "exercise_id": "S02-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "original = \"  Ñahui  \"\nraw = original\nclean = original.strip()\nprint(repr(raw), \"→\", repr(clean))\nassert raw == original\nassert clean == \"Ñahui\"\nprint(\"Unicode OK\")",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["Unicode str", "strip", "raw preserved"]
+    },
+    {
+      "exercise_id": "S02-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def safe_int(campo, valor):\n    try:\n        return True, int(valor.strip()), None\n    except ValueError:\n        return False, None, f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\"\n\ndef parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None):\n    errors = []\n    rec = {\n        \"nombres_raw\": nombres,\n        \"apellido_paterno_raw\": apellido_paterno,\n        \"apellido_materno_raw\": apellido_materno,\n        \"contacto_raw\": contacto,\n        \"direccion_raw\": direccion,\n        \"edad_raw\": edad,\n        \"nombres\": None,\n        \"apellido_paterno\": None,\n        \"apellido_materno\": None,\n        \"contacto\": None,\n        \"direccion\": None,\n        \"edad\": None,\n        \"errors\": errors,\n    }\n    def clean_required(campo, valor):\n        if valor is None or str(valor).strip() == \"\":\n            errors.append(f\"ERROR en '{campo}': vacío (raw={valor!r})\")\n            return None\n        return str(valor).strip()\n    rec[\"nombres\"] = clean_required(\"nombres\", nombres)\n    rec[\"apellido_paterno\"] = clean_required(\"apellido_paterno\", apellido_paterno)\n    rec[\"apellido_materno\"] = clean_required(\"apellido_materno\", apellido_materno)\n    rec[\"contacto\"] = clean_required(\"contacto\", contacto)\n    rec[\"direccion\"] = clean_required(\"direccion\", direccion)\n    if edad is not None:\n        ok, n, err = safe_int(\"edad\", edad)\n        if ok:\n            rec[\"edad\"] = n\n        else:\n            errors.append(err)\n    return rec\n\n# 1) feliz + Unicode\nr = parse_client(\"María José\", \"Quispe\", \"Ñahui\", \"999000111\", \"Av. Ejemplo 123, Lima\", edad=\"34\")\nassert r[\"apellido_materno_raw\"] == \"Ñahui\" and r[\"errors\"] == []\n# 2) vacío nombres\nr2 = parse_client(\"\", \"Quispe\", \"Ñahui\", \"999\", \"Lima\")\nassert r2[\"nombres_raw\"] == \"\" and any(\"nombres\" in e.lower() for e in r2[\"errors\"])\n# 3) edad abc\nr3 = parse_client(\"Ana\", \"Ramos\", \"Díaz\", \"999\", \"Cusco\", edad=\"abc\")\nassert r3[\"edad_raw\"] == \"abc\" and any(\"edad\" in e.lower() for e in r3[\"errors\"])\nprint(\"3 tests OK\")",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["parse_client", "safe_int", "raw/clean/errors", "Unicode", "demo T4-B pattern"]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory: None tiene tipo NoneType (literales y tipos básicos)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Demo/theory: type('42') es str; 42 == '42' es False."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory: teléfono como str porque no es cantidad aritmética y puede necesitar ceros/formato."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory: b = a es alias de lista; append muta el mismo objeto → a = [1,2,3]."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory: idioma correcto es x is None (no x == None)."
+    }
+  ],
+  "summary": {
+    "n_exercises": 24,
+    "n_blocked_exercises": 0,
+    "blocked_exercise_ids": [],
+    "n_selfcheck": 5,
+    "n_blocked_selfcheck": 0
+  }
+}

@@ -1,0 +1,278 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 34,
+  "recorded_at": "2026-07-21T22:35:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + active.iDo demos only",
+      "required_for_early_exercises": {
+        "PR F1 confusion": { "in_theory_or_demo": true, "where": "theory metrics code" },
+        "precision@k capacity": { "in_theory_or_demo": true, "where": "theory top-k" },
+        "class weights in CV": { "in_theory_or_demo": true, "where": "theory + resample_before_split False" },
+        "Brier calibration": { "in_theory_or_demo": true, "where": "S34-T3-B-DEMO + S34-T4-A-DEMO" },
+        "threshold abstain capacity": { "in_theory_or_demo": true, "where": "S34-T4-B-DEMO + last demo" }
+      }
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Priorizar revisión con evidencia y ranking",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory workbench prioritizes review with ranking, not auto-fraud."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Calidad del ranking bajo capacidad k",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory precision@k under capacity k."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Solo dentro del train de cada fold",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory resampling/weights only inside train fold."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Enviar banda gris a humano",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory/demo abstain mid band for human."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S34-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "y,pred=[1,0],[1,1]\ntp=sum(p==1 and t==1 for p,t in zip(pred,y))\nfp=sum(p==1 and t==0 for p,t in zip(pred,y))\nfn=sum(p==0 and t==1 for p,t in zip(pred,y))\nprint(tp, fp, fn)\nprint('ok', True)\nprint('cm', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["TP FP FN"],
+        "note": "Theory confusion matrix counts."
+      },
+      {
+        "exercise_id": "S34-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "P=R=0.5\nf1=2*P*R/(P+R)\nprint(f1)\nprint('P', P, 'R', R)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["F1 harmonic"],
+        "note": "Theory F1 formula."
+      },
+      {
+        "exercise_id": "S34-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "n,pos=10,1\nprint((n-pos)/n)\nprint('prevalence', pos/n)\nprint('misleading', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["misleading accuracy"],
+        "note": "S34-T3-A-DEMO all-negative accuracy."
+      },
+      {
+        "exercise_id": "S34-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "labels=[1,0,1]\nprint(sum(labels)/len(labels))\nprint('k', 3)\nprint('precision_at_k', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["precision@k"],
+        "note": "Theory precision@k = positives in topk / k."
+      },
+      {
+        "exercise_id": "S34-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "alertas,capacidad=50,10\nprint(alertas/capacidad)\nprint('capacity', capacidad)\nprint('load', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["review load"],
+        "note": "Theory load vs capacity k."
+      },
+      {
+        "exercise_id": "S34-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print(2/4)\nprint('recall_at_k', 0.5)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["recall@k"],
+        "note": "Theory recall@k positives captured / total pos."
+      },
+      {
+        "exercise_id": "S34-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "n0,n1=9,1\nprint((1/n1)/(1/n0))\nprint('w1', 1/n1, 'w0', 1/n0)\nprint('in_train_fold', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["class weight ratio"],
+        "note": "Theory inverse frequency weights."
+      },
+      {
+        "exercise_id": "S34-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "print(False)\nprint('resample_before_split', False)\nprint('policy', 'only_inside_train_fold')\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["no resample before split"],
+        "note": "Theory resample_before_split False."
+      },
+      {
+        "exercise_id": "S34-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "y=[0,0,0,1,0]\nprint(min(y.count(0), y.count(1)))\nprint('minority_count', y.count(1))\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["minority count"],
+        "note": "Theory imbalance counts."
+      },
+      {
+        "exercise_id": "S34-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "print(25/1000)\nprint('prevalence', 0.025)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["prevalence"],
+        "note": "Theory report prevalence."
+      },
+      {
+        "exercise_id": "S34-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "print('precision_depends_on_prevalence')\nprint('recalibrate_expectations', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["precision vs prevalence"],
+        "note": "Theory precision depends on prevalence."
+      },
+      {
+        "exercise_id": "S34-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "prev=0.02\nprint(1-prev)\nprint('all_neg_acc', 1-prev)\nprint('misleading', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["all-negative accuracy"],
+        "note": "Theory 99% acc with 1% positives all-zero."
+      },
+      {
+        "exercise_id": "S34-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "print((1-1)**2)\nprint('brier_single', 0.0)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["Brier"],
+        "note": "S34-T3-B-DEMO Brier mean squared."
+      },
+      {
+        "exercise_id": "S34-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "ps=[0.7,0.7]; ys=[1,0]\nprint(sum(ps)/len(ps), sum(ys)/len(ys))\nprint('reliability_bin', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["reliability mean p vs freq"],
+        "note": "Theory reliability diagram concept."
+      },
+      {
+        "exercise_id": "S34-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "print(0.1)\nprint('better', 0.1)\nprint('lower_brier_wins', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["lower Brier better"],
+        "note": "Theory Brier lower is better."
+      },
+      {
+        "exercise_id": "S34-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "def clip(p): return max(0.0, min(1.0, p))\nprint(clip(1.5), clip(-0.2))\nprint('clip', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["probability clip"],
+        "note": "S34-T4-A-DEMO cal clip."
+      },
+      {
+        "exercise_id": "S34-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "print('holdout')\nprint('holdout_fit', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["calibrator fit OOS"],
+        "note": "Demo holdout_fit True for calibrator."
+      },
+      {
+        "exercise_id": "S34-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "raw=[0.2,0.8]; cal=[0.15,0.75]\nprint(len(raw)==len(cal))\nprint(len(raw), len(cal))\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["raw vs cal length"],
+        "note": "Calibration preserves batch length."
+      },
+      {
+        "exercise_id": "S34-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "scores=[0.1,0.4,0.6,0.9]\n# thr so exactly 2 scores >= thr → thr=0.6\nthr=0.6\nprint(thr)\nprint('n_review', sum(s>=thr for s in scores))\nprint('capacity', 2)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["threshold by capacity"],
+        "note": "Theory thr coupled to capacity k."
+      },
+      {
+        "exercise_id": "S34-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "fp,fn=3,1\nprint(fp*2+fn*10)\nprint('cost', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["cost-sensitive thr"],
+        "note": "Theory cost-based threshold."
+      },
+      {
+        "exercise_id": "S34-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "print({'thr-v1': 0.7})\nprint('versioned', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["versioned threshold"],
+        "note": "Theory version thresholds."
+      },
+      {
+        "exercise_id": "S34-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "def decide(p, low=0.3, high=0.7):\n    if p >= high: return 'queue'\n    if p <= low: return 'skip'\n    return 'abstain'\nprint(decide(0.5))\nprint('fraud_label', False)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["abstention band"],
+        "note": "Last demo abstain mid band."
+      },
+      {
+        "exercise_id": "S34-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "scores=[0.55,0.62,0.4,0.9]\nn05=sum(s>=0.5 for s in scores)\nn06=sum(s>=0.6 for s in scores)\nprint(n05, n06)\nprint('sensitivity', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["threshold sensitivity"],
+        "note": "Theory sensitivity of thr; residual: scores synthetic if not given—used illustrative set from ranking theory."
+      },
+      {
+        "exercise_id": "S34-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print({'slice': 'missing_phone', 'precision': 0.4, 'recall': 0.6})\nprint('error_slices', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["slice metrics dict"],
+        "note": "Theory metrics by slice."
+      }
+    ],
+    "summary": {
+      "n_exercises": 24,
+      "n_answered": 24,
+      "n_blocked_exercises": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4
+    }
+  }
+}

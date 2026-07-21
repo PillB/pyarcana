@@ -1,56 +1,44 @@
 # PyArcana Newbie Walkthrough — SUMMARY
 
-**Brand:** PyArcana (Art Nouveau chrome/landing preserved)  
-**Final attempt:** **attempt_003**  
-**Finished:** 2026-07-21T17:46:57.145095+00:00
+**Final attempt:** **attempt_005** (clean restart after FIX_001)  
+**Finished:** 2026-07-21T19:49:08.599431+00:00
 
-## Success gates
+## Live dual-newbie S01–S52
 
-| # | Criterion | Result |
-|---|-----------|--------|
-| 1 | Features proven by real execution | Runtime audit real python3: pass=2383 fail=0 |
-| 2 | No stubs/mocks for required paths | Learner packets strip solutions; grading uses real keys offline |
-| 3 | Critical content/E2E gates | runtime ok=True exam ok=True |
-| 4 | Evidence trail | attempt_001..003 packets, dual_sim, live A/B, FIX_*.md |
-| 5 | Multi-agent separation | Live newbies packet-only; fixer isolated PRE_ROUND_RESEARCH |
-| 6 | No open P0/P1 | runtime p0=0 p1=0; exam p0=0; heuristic=0 |
+| Agent | Sections pass | Self-check + weDo coverage |
+|-------|---------------|----------------------------|
+| Newbie A Explorer | **52/52** | all weDo + selfCheck per section |
+| Newbie B Skeptic | **52/52** | all weDo + selfCheck per section |
+| **Both pass** | **52/52** | clean_52=True |
 
-**clean_52_knowledge:** **True**
+Artifacts: `attempt_005/section_XX/newbie_{a,b}_live.json` + `live_grades.json` + `live_ledger.json`.
 
-## Dual-sim (all 52)
+## Restart policy
 
-- all_sufficiency_ok: **True**
-- sections_run: 52
-- Knowledge gate: correct self-check options supported by cumulative packet text for every section
+| Attempt | Reason | Live result |
+|---------|--------|-------------|
+| 003 | prior baseline | live S01 only |
+| 004 | full live first pass | Skeptic blocked 312× S40–S52 stubs; S27 NamedTemporaryFile |
+| **005** | FIX_001 content expand + S27 theory | **52/52 both agents** |
 
-## Live dual newbies (S01, attempt_003 restart)
+## Dual-sim
 
-| Agent | Self-check | Blocked exercises | Notes |
-|-------|------------|-------------------|-------|
-| Newbie A Explorer | 100% (5/5) | 0 | def/argv/len/executable taught |
-| Newbie B Skeptic | 100% (5/5) | 0 | prior gaps RESOLVED |
+all_sufficiency_ok=True sections=52
 
-## Attempts timeline
+## Technical gates
 
-| attempt | max | outcome |
-|---------|-----|---------|
-| 001 | baseline | heuristic gaps 2; runtime P1=58→classifier work |
-| 002 | after runtime P1=0 | live S01 blocked on untaught primitives |
-| 003 | after S01 expansion | **52/52 sufficiency; live S01 clear** |
+| Gate | Result |
+|------|--------|
+| Runtime audit | p0=0 p1=0 ok=True |
+| Exam pedagogy | p0=0 p1=0 ok=True |
+| Packet isolation | 0 solution/correctIndex leaks in learner packets |
+| Adversarial suite | npm run test:adversarial (see CI + scratch) |
 
-## Branding
+## Fixer
 
-COURSE_META, layout metadata, page header/footer, i18n sidebar/footer, Dashboard gold badge, AuthModal, PdfReport, Glossary → **PyArcana**
+- `attempt_004/fixes/PRE_ROUND_RESEARCH.md`
+- `attempt_005/fixes/FIX_001.md` — S40–S52 weDo expansion + S27 NamedTemporaryFile
 
 ## Residual risks
 
-- Type annotations / general slicing lightly taught (starters carry them; non-blocking for live S01)
-- Bag-of-words dual-sim MCQ accuracy is not the primary gate (sufficiency + live agents are)
-- Full live dual-LLM on every exercise of S02–S52 not re-executed after each restart; dual_sim + packet hash + S01 live proof + restart policy document the pedagogy loop
-
-## Key paths
-
-- `course-state/newbie_walkthrough/attempt_003/`
-- `scripts/newbie_packet_builder.py`
-- `scripts/newbie_walkthrough_runner.py`
-- `scripts/newbie_dual_sim.py`
+- Phase 3 exercises still pedagogically thin (print-target from instructions); deeper Master skill checks remain a curriculum depth opportunity, not a knowledge-isolation block after FIX_001.

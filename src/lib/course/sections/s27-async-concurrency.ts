@@ -201,6 +201,7 @@ scope_default function`,
         "Prueba **excepciones** con el tipo y, si aplica, el mensaje. Para **floats** usa tolerancia (`math.isclose`) o decimal cuantizado.",
         "**Fechas**: fija el reloj o usa valores UTC sintéticos; no compares `now()` con literales frágiles.",
         "**tmp_path** / `tempfile` evita escribir en el repo. Limpia o usa context managers.",
+        "Dos APIs frecuentes: (1) **`tempfile.TemporaryDirectory()`** crea un directorio temporal y lo borra al salir del `with`; ideal para varios archivos (`Path(td) / \"f.txt\"`). (2) **`tempfile.NamedTemporaryFile('w+', delete=False, encoding='utf-8')`** crea un archivo con nombre en disco: escribes, lees `f.name`, y con `delete=False` el archivo permanece hasta que tú lo borres (útil si otra API necesita una ruta). Siempre usa `encoding='utf-8'` para texto y preferible `Path(path).read_text(...)` al reabrir.",
       ],
       code: {
         language: 'python',
@@ -230,15 +231,22 @@ print("close", math.isclose(0.1 + 0.2, 0.3, rel_tol=1e-9, abs_tol=1e-12))
 d = date(2026, 7, 20)
 print("iso", d.isoformat())
 
-# tmp file
+# TemporaryDirectory
 with tempfile.TemporaryDirectory() as td:
     p = Path(td) / "norm.txt"
     p.write_text("juan\\n", encoding="utf-8")
-    print("tmp_bytes", p.read_text(encoding="utf-8").strip())`,
+    print("tmp_bytes", p.read_text(encoding="utf-8").strip())
+
+# NamedTemporaryFile (delete=False → queda path para reabrir)
+with tempfile.NamedTemporaryFile("w+", delete=False, encoding="utf-8") as f:
+    f.write("ok")
+    path = f.name
+print("named", Path(path).read_text(encoding="utf-8").strip())`,
         output: `exc_ok True
 close True
 iso 2026-07-20
-tmp_bytes juan`,
+tmp_bytes juan
+named ok`,
       },
       callout: {
         type: "tip",

@@ -1,0 +1,248 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "section_index": 14,
+  "packet_sha": "713af9c68e66238e",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet; zero Python outside packet.",
+  "exercises": [
+    {
+      "exercise_id": "S14-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape, flags.ndim)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["np.array", "dtype", "uint8", "shape", "ndim"]
+    },
+    {
+      "exercise_id": "S14-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint(scores.itemsize, scores.nbytes)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["linspace", "float64", "itemsize", "nbytes"]
+    },
+    {
+      "exercise_id": "S14-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\n\ndef validate(a):\n    if a.ndim != 1 or a.dtype != np.float64:\n        raise ValueError(\"need 1D float64\")\n    print(\"ok\", a.size)\n\nvalidate(np.array([0.1, 0.2], dtype=np.float64))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": ["ndim", "dtype", "ValueError", "size"]
+    },
+    {
+      "exercise_id": "S14-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nmask = score >= 0.5\nprint(np.where(mask)[0])\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["mask", "np.where", "boolean"]
+    },
+    {
+      "exercise_id": "S14-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.9, 0.3, 0.55, 0.2])\nmed = np.median(scores)\nprint(ids[scores < med])\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": ["median", "boolean index", "ids"]
+    },
+    {
+      "exercise_id": "S14-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\nprint(a[order])\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["fancy index", "order"]
+    },
+    {
+      "exercise_id": "S14-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\nprint(np.round(M.mean(axis=0), 2).tolist())\nprint(np.round(M.mean(axis=1), 2).tolist())\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["mean", "axis", "round", "tolist"]
+    },
+    {
+      "exercise_id": "S14-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint(np.round(np.std(scores, axis=0), 4))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": ["std", "axis=0", "ddof"]
+    },
+    {
+      "exercise_id": "S14-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nXn = X - X.mean(axis=1, keepdims=True)\nprint(np.round(Xn.mean(axis=1), 10))\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": ["keepdims", "normalize", "mean"]
+    },
+    {
+      "exercise_id": "S14-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nzeros = np.zeros((2, 3))\npesos = np.array([1, 2, 3])\nprint(zeros + pesos)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["broadcast", "zeros"]
+    },
+    {
+      "exercise_id": "S14-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\na = np.arange(4)\nb = np.arange(3)\nprod = a[:, None] * b\nprint(prod.shape)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["newaxis", "None", "broadcast", "shape"]
+    },
+    {
+      "exercise_id": "S14-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\ntry:\n    np.ones((2, 3)) + np.ones((2, 4))\nexcept ValueError:\n    print(\"incompatible\")\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["ValueError", "broadcast fail"]
+    },
+    {
+      "exercise_id": "S14-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nraw = np.array([1, 2, 3])\nvista = raw[:2]\nvista[0] = 9\nprint(raw)\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["view", "slice", "mutate"]
+    },
+    {
+      "exercise_id": "S14-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nraw = np.array([1, 2, 3])\ncopia = raw[:2].copy()\ncopia[0] = 9\nprint(raw, copia)\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["copy", "isolate"]
+    },
+    {
+      "exercise_id": "S14-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\na = np.array([1, 2, 3])\na.flags.writeable = False\ntry:\n    a[0] = 9\nexcept ValueError:\n    print(\"blocked\")\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": ["flags.writeable", "ValueError"]
+    },
+    {
+      "exercise_id": "S14-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int(np.isnan(x).sum()))\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["isnan", "nan"]
+    },
+    {
+      "exercise_id": "S14-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nprint(round(float(np.nanmean([1, np.nan, 3])), 2))\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["nanmean"]
+    },
+    {
+      "exercise_id": "S14-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nx = np.array([1.0, np.inf, 2.0])\nx2 = np.where(np.isinf(x), np.nan, x)\nprint(np.nansum(x2))\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["isinf", "where", "nansum"]
+    },
+    {
+      "exercise_id": "S14-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\na = np.arange(1000, dtype=float)\nb = np.arange(1000, dtype=float)\ns_loop = 0.0\nfor i in range(len(a)):\n    s_loop += a[i] * b[i]\ns_vec = (a * b).sum()\nprint(abs(s_loop - s_vec) < 1e-6)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": ["vectorized", "loop", "sum"]
+    },
+    {
+      "exercise_id": "S14-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\na = np.arange(5)\nprint(int((a ** 2).sum()))\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["sum of squares", "vectorized"]
+    },
+    {
+      "exercise_id": "S14-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np, time\na = np.zeros(10000)\nb = np.ones(10000)\nt0 = time.perf_counter()\nc = a + b\n_ = time.perf_counter() - t0\nprint(\"timed\", float(c.mean()) == 1.0)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": ["perf_counter", "vectorized"]
+    },
+    {
+      "exercise_id": "S14-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes == 8000)\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["nbytes", "float64"]
+    },
+    {
+      "exercise_id": "S14-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\nprint(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8))\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["allclose", "atol"]
+    },
+    {
+      "exercise_id": "S14-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import numpy as np\ntry:\n    np.testing.assert_allclose([0, 0], [0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print(\"fail\")\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": ["assert_allclose", "AssertionError"]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "dtype",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory: dtype is the homogeneous element type of the ndarray (not shape/ndim/base)."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Filtrar o seleccionar elementos que cumplen la condición",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory: boolean mask a>threshold filters/selects elements via a[mask]."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Por columna (colapsa filas)",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Theory: axis=0 reduces rows → aggregates by column."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Puede mutar el array base porque suele ser un view",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory/iDo: simple slices are usually views; mutating a view mutates the base array."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": "NumPy ndarray/masks/broadcast/views/NaN/vectorized from packet; blocked=0.",
+  "summary": {
+    "n_exercises": 24,
+    "n_exercises_answered": 24,
+    "n_blocked_exercises": 0,
+    "blocked_exercise_ids": [],
+    "n_selfcheck": 4,
+    "n_selfcheck_answered": 4,
+    "n_blocked_selfcheck": 0,
+    "selfcheck_choice_indices": [1, 1, 1, 1]
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Abstener y encolar revisión"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Cola de revisión / corrección"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.88,
+    "correct_preview": "Los campos críticos pueden fallar aunque el global se vea bien"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Gate reject/review por mime no permitido"
+  }
+]

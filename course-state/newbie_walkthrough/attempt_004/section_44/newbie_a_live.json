@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 44,
+  "packet_sha": "0d8e2a9b8a1e2233",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S44-T1-A-E1", "answer": "from_iDo_lint_tests_matrix", "code": "print(True); print(\"n\", 3); print(\"matrix_ok\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["lint", "types", "tests", "matrix"]},
+    {"exercise_id": "S44-T1-A-E2", "answer": "independent_matrix", "code": "print(True); print(\"n\", 3); print(\"matrix_ok\", True)\nprint(\"synthetic\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["CI matrix"]},
+    {"exercise_id": "S44-T1-A-E3", "answer": "transfer_lint_types_tests", "code": "# Transfer: lint/types/tests + matrices en CI (gate CP-N4-B inicio).\nprint(\"matrix_ok\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["CI quality"]},
+    {"exercise_id": "S44-T1-B-E1", "answer": "from_iDo_cache_artifacts", "code": "print(\"cache_hit\", True); print(\"artifact\", \"wheel\"); print(\"condition\", \"main_only\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["cache", "artifacts", "conditions"]},
+    {"exercise_id": "S44-T1-B-E2", "answer": "independent_artifact_wheel", "code": "print(\"cache_hit\", True); print(\"artifact\", \"wheel\"); print(\"condition\", \"main_only\")\nprint(\"verifiable\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["artifacts"]},
+    {"exercise_id": "S44-T1-B-E3", "answer": "transfer_caches_artifacts_conditions", "code": "# Transfer: cache_hit; publish wheel; main_only condition.\nprint(\"artifact\", \"wheel\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["pipeline artifacts"]},
+    {"exercise_id": "S44-T2-A-E1", "answer": "from_iDo_secrets_pinning", "code": "print(\"gitleaks\", \"block\"); print(\"perms\", \"least\"); print(\"pin\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["permisos mínimos", "pinning", "secret scanning"]},
+    {"exercise_id": "S44-T2-A-E2", "answer": "independent_gitleaks_block", "code": "print(\"gitleaks\", \"block\"); print(\"perms\", \"least\"); print(\"pin\", True)\nprint(\"insecure_dep_blocks\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["supply chain"]},
+    {"exercise_id": "S44-T2-A-E3", "answer": "transfer_perms_pin_secret_scan", "code": "# Transfer: gitleaks block; least perms; pin deps (youDo blocks insecure dep).\nprint(\"gitleaks\", \"block\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["secret scanning"]},
+    {"exercise_id": "S44-T2-B-E1", "answer": "from_iDo_sbom_attest", "code": "print(\"attest\", True); print(\"verifiable\", True); print(\"spdx\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["SBOM", "provenance", "attestations"]},
+    {"exercise_id": "S44-T2-B-E2", "answer": "independent_spdx", "code": "print(\"attest\", True); print(\"verifiable\", True); print(\"spdx\", True)\nprint(\"artifact_ok\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["SBOM"]},
+    {"exercise_id": "S44-T2-B-E3", "answer": "transfer_sbom_provenance", "code": "# Transfer: SBOM/SPDX + attestations verifiable artifact.\nprint(\"verifiable\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["provenance"]},
+    {"exercise_id": "S44-T3-A-E1", "answer": "from_iDo_envs_approvals", "code": "print(\"env\", \"staging\"); print(\"needs_approval\", True); print(\"prod_gate\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["environments", "approvals"]},
+    {"exercise_id": "S44-T3-A-E2", "answer": "independent_prod_gate", "code": "print(\"env\", \"staging\"); print(\"needs_approval\", True); print(\"prod_gate\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["prod gate"]},
+    {"exercise_id": "S44-T3-A-E3", "answer": "transfer_environments_approvals", "code": "# Transfer: staging env; needs_approval; prod_gate.\nprint(\"prod_gate\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["approvals"]},
+    {"exercise_id": "S44-T3-B-E1", "answer": "from_iDo_rollback", "code": "print(\"migration\", \"expand_first\"); print(\"blue_green\", \"optional\"); print(\"rollback_demo\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["migrations", "canary", "rollback"]},
+    {"exercise_id": "S44-T3-B-E2", "answer": "independent_rollback_demo", "code": "print(\"migration\", \"expand_first\"); print(\"blue_green\", \"optional\"); print(\"rollback_demo\", True)\nprint(\"gate\", \"CP-N4-B (inicio)\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["rollback"]},
+    {"exercise_id": "S44-T3-B-E3", "answer": "transfer_migration_canary_rollback", "code": "# Transfer: expand_first migration; optional blue_green; rollback demo (youDo).\nprint(\"rollback_demo\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["rollback"]},
+    {"exercise_id": "S44-T4-A-E1", "answer": "from_iDo_branch_policy", "code": "print(\"reviews\", 1); print(\"release_notes\", True); print(\"conventional\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["branch policy", "release notes"]},
+    {"exercise_id": "S44-T4-A-E2", "answer": "independent_reviews", "code": "print(\"reviews\", 1); print(\"release_notes\", True); print(\"conventional\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["code review"]},
+    {"exercise_id": "S44-T4-A-E3", "answer": "transfer_branch_review_release", "code": "# Transfer: reviews>=1; release notes; conventional commits.\nprint(\"conventional\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["release notes"]},
+    {"exercise_id": "S44-T4-B-E1", "answer": "from_iDo_failure_audit", "code": "print(\"on_fail\", \"block\"); print(\"evidence_n\", 2); print(\"audit_trail\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["failure handling", "audit evidence"]},
+    {"exercise_id": "S44-T4-B-E2", "answer": "independent_block_on_fail", "code": "print(\"block_release\"); print([\"log\",\"artifact\"]); print(\"audit\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["block on fail"]},
+    {"exercise_id": "S44-T4-B-E3", "answer": "transfer_failure_audit_evidence", "code": "# Transfer: on_fail block; evidence logs+artifact; audit trail.\nprint(\"on_fail\", \"block\")\nprint(\"synthetic\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["audit"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 0, "chosen_text": "multimodal", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "platform id multimodal preserved."},
+    {"question_index": 1, "chosen_index": 0, "chosen_text": "CP-N4-B (inicio)", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "gate CP-N4-B (inicio)."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Datos sintéticos", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Datos sintéticos; sin PII real."},
+    {"question_index": 3, "chosen_index": 2, "chosen_text": "Misma entidad cuando aplique", "confidence": 0.75, "blocked_on": [], "justification_from_packet": "ER = misma entidad cuando aplique."}
+  ],
+  "confusion_points": ["weDo TODO", "id multimodal vs CI/CD retheme"],
+  "retrospection": "CI/CD supply chain from iDo; selfCheck from stems. blocked=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]}
+}

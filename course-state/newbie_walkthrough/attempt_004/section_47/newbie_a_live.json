@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 47,
+  "packet_sha": "95627091782a7308",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S47-T1-A-E1", "answer": "from_iDo_tracking", "code": "print(\"tracking\", \"mlflow_like\"); print(\"params\", True); print(\"seed\", 42)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["tracking", "reproducibilidad"]},
+    {"exercise_id": "S47-T1-A-E2", "answer": "independent_seed_params", "code": "print(\"tracking\", \"mlflow_like\"); print(\"params\", True); print(\"seed\", 42)\nprint(\"synthetic\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["experiment tracking"]},
+    {"exercise_id": "S47-T1-A-E3", "answer": "transfer_tracking_repro", "code": "# Transfer: track params/seed; reproducible experiments.\nprint(\"seed\", 42)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["MLOps tracking"]},
+    {"exercise_id": "S47-T1-B-E1", "answer": "from_iDo_lineage", "code": "print(\"data\", \"ds-v3\"); print(\"code\", \"git:abc\"); print(\"env\", \"locked\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["data/code/env lineage"]},
+    {"exercise_id": "S47-T1-B-E2", "answer": "independent_lineage_triple", "code": "print(\"data\", \"ds-v3\"); print(\"code\", \"git:abc\"); print(\"env\", \"locked\")\nprint(\"gate\", \"CP-N4-B (cierre) + CF-4\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["lineage"]},
+    {"exercise_id": "S47-T1-B-E3", "answer": "transfer_data_code_env_lineage", "code": "# Transfer FINAL: lineage data/code/env; promote only after gates.\nprint(\"env\", \"locked\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["lineage"]},
+    {"exercise_id": "S47-T2-A-E1", "answer": "from_iDo_stages_approve", "code": "print(\"stage\", \"Staging\"); print(\"approve\", True); print(\"signature\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["firmas", "stages", "approvals"]},
+    {"exercise_id": "S47-T2-A-E2", "answer": "independent_staging_approve", "code": "print(\"stage\", \"Staging\"); print(\"approve\", True); print(\"signature\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["model stages"]},
+    {"exercise_id": "S47-T2-A-E3", "answer": "transfer_signatures_stages_approvals", "code": "# Transfer: Staging stage; approve+signature before promote.\nprint(\"approve\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["approvals"]},
+    {"exercise_id": "S47-T2-B-E1", "answer": "from_iDo_artifacts_card", "code": "print(\"compat\", \"features_v3\"); print(\"version\", \"1.2.0\"); print(\"artifact_hash\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["artefactos", "model card", "compat"]},
+    {"exercise_id": "S47-T2-B-E2", "answer": "independent_version_hash", "code": "print(\"compat\", \"features_v3\"); print(\"version\", \"1.2.0\"); print(\"artifact_hash\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["model version"]},
+    {"exercise_id": "S47-T2-B-E3", "answer": "transfer_artifacts_model_card_compat", "code": "# Transfer: versioned artifact hash; feature compat features_v3.\nprint(\"artifact_hash\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["model registry"]},
+    {"exercise_id": "S47-T3-A-E1", "answer": "from_iDo_batch_online", "code": "print(\"batch\", True); print(\"online\", True); print(\"same_codepath\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["batch/online", "feature consistency"]},
+    {"exercise_id": "S47-T3-A-E2", "answer": "independent_same_codepath", "code": "print(\"batch\", True); print(\"online\", True); print(\"same_codepath\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["feature parity"]},
+    {"exercise_id": "S47-T3-A-E3", "answer": "transfer_batch_online_consistency", "code": "# Transfer: batch+online same_codepath for features.\nprint(\"same_codepath\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["serving consistency"]},
+    {"exercise_id": "S47-T3-B-E1", "answer": "from_iDo_latency_fallback", "code": "print(\"latency_ok\", True); print(\"fallback\", \"rules\"); print(\"batch\", 32)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["latency", "batching", "fallback"]},
+    {"exercise_id": "S47-T3-B-E2", "answer": "independent_fallback_rules", "code": "print(\"latency_ok\", True); print(\"fallback\", \"rules\"); print(\"batch\", 32)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["fallback"]},
+    {"exercise_id": "S47-T3-B-E3", "answer": "transfer_latency_batching_fallback", "code": "# Transfer: latency_ok; batch 32; fallback rules.\nprint(\"fallback\", \"rules\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["serving resilience"]},
+    {"exercise_id": "S47-T4-A-E1", "answer": "from_iDo_shadow_canary", "code": "print(\"shadow\", True); print(\"hooks\", True); print(\"promote_if\", \"gates_green\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["shadow", "canary", "monitoring"]},
+    {"exercise_id": "S47-T4-A-E2", "answer": "independent_promote_gates", "code": "print(\"shadow\", True); print(\"hooks\", True); print(\"promote_if\", \"gates_green\")\nprint(\"cf4\", \"deployable_path\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["promotion gates"]},
+    {"exercise_id": "S47-T4-A-E3", "answer": "transfer_shadow_canary_hooks", "code": "# Transfer FINAL CF-4: promote_if gates_green; shadow before prod.\nprint(\"promote_if\", \"gates_green\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["canary"]},
+    {"exercise_id": "S47-T4-B-E1", "answer": "from_iDo_rollback_retire", "code": "print(\"rollback\", \"1.1.0\"); print(\"retire\", \"1.0.0\"); print(\"audit\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["rollback", "retirement", "audit"]},
+    {"exercise_id": "S47-T4-B-E2", "answer": "independent_rollback_keep_decisions", "code": "print({\"action\":\"rollback\",\"to\":\"1.1.0\"}); print(\"decisions_kept\", True); print(\"cf4\", \"deployable_path\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["rollback", "decisions_kept"]},
+    {"exercise_id": "S47-T4-B-E3", "answer": "transfer_rollback_retire_audit", "code": "# Transfer FINAL: rollback without losing decisions; retire old; audit.\nprint(\"decisions_kept\", True)\nprint(\"synthetic\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["rollback audit"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 0, "chosen_text": "opensource", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "platform id opensource preserved."},
+    {"question_index": 1, "chosen_index": 0, "chosen_text": "CP-N4-B (cierre) + CF-4", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "gate CP-N4-B (cierre) + CF-4 FINAL."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Datos sintéticos", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Datos sintéticos; sin PII real."},
+    {"question_index": 3, "chosen_index": 2, "chosen_text": "Misma entidad cuando aplique", "confidence": 0.75, "blocked_on": [], "justification_from_packet": "ER = misma entidad cuando aplique."}
+  ],
+  "confusion_points": ["weDo TODO", "id opensource vs MLOps retheme"],
+  "retrospection": "MLOps promote/lineage/rollback from iDo; blocked=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]}
+}

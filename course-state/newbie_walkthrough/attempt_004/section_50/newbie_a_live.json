@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 50,
+  "packet_sha": "a120b817ba0f8bc5",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S50-T1-A-E1", "answer": "from_iDo_dataset_rubric", "code": "print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["task dataset", "rubric"]},
+    {"exercise_id": "S50-T1-A-E2", "answer": "independent_gold_synthetic", "code": "print(\"dataset\", \"versioned\"); print(\"rubric\", True); print(\"gold\", \"synthetic\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["eval dataset"]},
+    {"exercise_id": "S50-T1-A-E3", "answer": "transfer_dataset_rubric", "code": "# Transfer: versioned dataset; rubric; gold synthetic.\nprint(\"gold\", \"synthetic\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["evals"]},
+    {"exercise_id": "S50-T1-B-E1", "answer": "from_iDo_trajectory", "code": "print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["resultado", "proceso", "trajectory", "recovery"]},
+    {"exercise_id": "S50-T1-B-E2", "answer": "independent_tool_args", "code": "print(\"trajectory\", True); print(\"tool_args_checked\", True); print(\"recovery\", True)\nprint(\"gate\", \"CP-N4-C (quality gate)\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["tool call args"]},
+    {"exercise_id": "S50-T1-B-E3", "answer": "transfer_result_process_trajectory", "code": "# Transfer youDo: eval includes tool args + resume, not only final text.\nprint(\"tool_args_checked\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["trajectory eval"]},
+    {"exercise_id": "S50-T2-A-E1", "answer": "from_iDo_graders", "code": "print(\"det_first\", True); print(\"llm_judge\", \"calibrated\"); print(\"human\", \"spotcheck\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["graders deterministas/humanos/LLM"]},
+    {"exercise_id": "S50-T2-A-E2", "answer": "independent_det_first", "code": "print(\"det_first\", True); print(\"llm_judge\", \"calibrated\"); print(\"human\", \"spotcheck\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["graders"]},
+    {"exercise_id": "S50-T2-A-E3", "answer": "transfer_grader_stack", "code": "# Transfer: det_first then calibrated llm_judge + human spotcheck.\nprint(\"det_first\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["grading"]},
+    {"exercise_id": "S50-T2-B-E1", "answer": "from_iDo_calibration", "code": "print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["calibración", "order bias", "holdout"]},
+    {"exercise_id": "S50-T2-B-E2", "answer": "independent_holdout", "code": "print(\"bias\", 0.3); print(\"holdout_set\", True); print(\"shuffle_order\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["holdout"]},
+    {"exercise_id": "S50-T2-B-E3", "answer": "transfer_calibration_order_holdout", "code": "# Transfer: measure order bias; holdout_set; shuffle_order.\nprint(\"holdout_set\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["calibration"]},
+    {"exercise_id": "S50-T3-A-E1", "answer": "from_iDo_injection", "code": "print(\"injection\", True); print(\"exfil\", \"block\"); print(\"tools\", \"allowlist\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["prompt injection", "exfiltración", "tool misuse"]},
+    {"exercise_id": "S50-T3-A-E2", "answer": "independent_exfil_block", "code": "print(\"injection\", True); print(\"exfil\", \"block\"); print(\"tools\", \"allowlist\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["red team"]},
+    {"exercise_id": "S50-T3-A-E3", "answer": "transfer_injection_exfil_tools", "code": "# Transfer red team: block exfil; tools allowlist; test injection.\nprint(\"exfil\", \"block\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["security eval"]},
+    {"exercise_id": "S50-T3-B-E1", "answer": "from_iDo_indirect_poison", "code": "print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["indirect injection", "poisoning", "least privilege"]},
+    {"exercise_id": "S50-T3-B-E2", "answer": "independent_least_priv", "code": "print(\"indirect\", \"html_comments\"); print(\"privilege\", \"min\"); print(\"data_poison\", \"review\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["least privilege"]},
+    {"exercise_id": "S50-T3-B-E3", "answer": "transfer_indirect_poison_privilege", "code": "# Transfer: indirect injection vectors; min privilege; poison review.\nprint(\"privilege\", \"min\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["red team deep"]},
+    {"exercise_id": "S50-T4-A-E1", "answer": "from_iDo_hallucination_abstain", "code": "print(\"hallucination\", \"unsupported_claim\"); print(\"abstain_policy\", True); print(\"cite_or_quit\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["hallucination", "abstención"]},
+    {"exercise_id": "S50-T4-A-E2", "answer": "independent_cite_or_quit", "code": "print(\"hallucination\", \"unsupported_claim\"); print(\"abstain_policy\", True); print(\"cite_or_quit\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["abstain policy"]},
+    {"exercise_id": "S50-T4-A-E3", "answer": "transfer_hallucination_abstention", "code": "# Transfer: unsupported_claim = hallucination; cite_or_quit; abstain_policy.\nprint(\"cite_or_quit\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["reliability"]},
+    {"exercise_id": "S50-T4-B-E1", "answer": "from_iDo_latency_cost_rollback", "code": "print(\"rollback\", True); print(\"cost_guardrail\", True); print(\"latency_slo\", 1000)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["latency", "cost", "caching", "incident", "rollback"]},
+    {"exercise_id": "S50-T4-B-E2", "answer": "independent_slo_cost_theory", "code": "print({\"p95_ms\":800,\"cost_usd\":0.02}); print(\"incident\", \"rollback_model\"); print(\"cache\", \"prompt_prefix\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["SLO", "incident rollback"]},
+    {"exercise_id": "S50-T4-B-E3", "answer": "transfer_latency_cost_incident_rollback", "code": "# Transfer youDo: block P0/P1 regressions; rollback; cost_guardrail; synthetic.\nprint(\"rollback\", True)\nprint(\"synthetic\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["quality gate"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 0, "chosen_text": "tech-leadership", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "platform id tech-leadership preserved."},
+    {"question_index": 1, "chosen_index": 0, "chosen_text": "CP-N4-C (quality gate)", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "gate CP-N4-C (quality gate)."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Datos sintéticos", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Datos sintéticos; sin PII real."},
+    {"question_index": 3, "chosen_index": 2, "chosen_text": "Misma entidad cuando aplique", "confidence": 0.75, "blocked_on": [], "justification_from_packet": "ER = misma entidad cuando aplique."}
+  ],
+  "confusion_points": ["weDo TODO", "id tech-leadership vs evals retheme"],
+  "retrospection": "Evals/red team/quality gate from iDo; blocked=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]}
+}

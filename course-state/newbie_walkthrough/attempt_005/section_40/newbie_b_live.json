@@ -1,0 +1,62 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 40,
+  "recorded_at": "2026-07-21T23:30:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "packet_sha": "92dba09c2009ef98",
+    "forbidden_ack": "Do not use knowledge outside this packet. Zero Python outside landing + prior_sections + active theory/demos/instructions/hints/starters.",
+    "symbol_verify": {
+      "source": "active.jobRelevance + active.theory/iDo + weDo instruction print-targets",
+      "selfcheck_support": {
+        "agentic-architecture": "jobRelevance: id de plataforma `agentic-architecture` conservado",
+        "CP-N4-A (inicio)": "jobRelevance: Contribuye a **CP-N4-A (inicio)**",
+        "Datos sintéticos": "jobRelevance: Datos sintéticos; sin PII real",
+        "ER": "jobRelevance: ER/matching no implica fraude ni parentesco"
+      },
+      "weDo_method": "FIX_001: instructions include Debes imprimir targets; skeptic completes print(expr) without solutionCode"
+    },
+    "selfcheck": [
+      {"question_index": 0, "chosen_index": 0, "chosen_text": "agentic-architecture", "confidence": 0.95, "blocked_on": [], "note": "active.id + jobRelevance: id de plataforma `agentic-architecture` conservado."},
+      {"question_index": 1, "chosen_index": 0, "chosen_text": "CP-N4-A (inicio)", "confidence": 0.95, "blocked_on": [], "note": "jobRelevance: Contribuye a **CP-N4-A (inicio)**."},
+      {"question_index": 2, "chosen_index": 1, "chosen_text": "Datos sintéticos", "confidence": 0.95, "blocked_on": [], "note": "jobRelevance: Datos sintéticos; sin PII real — rejects PII/secretos/claves."},
+      {"question_index": 3, "chosen_index": 2, "chosen_text": "Misma entidad cuando aplique", "confidence": 0.9, "blocked_on": [], "note": "jobRelevance: ER/matching no implica fraude ni parentesco → misma entidad."}
+    ],
+    "exercises": [
+      {"exercise_id": "S40-T1-A-E1", "answer": "completed_from_packet", "code": "print(2)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `2`."},
+      {"exercise_id": "S40-T1-A-E2", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `True`."},
+      {"exercise_id": "S40-T1-A-E3", "answer": "completed_from_packet", "code": "print({'functional':3,'quality':2})\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `{'functional':3,'quality':2}`."},
+      {"exercise_id": "S40-T1-B-E1", "answer": "completed_from_packet", "code": "print(1.0)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `1.0`."},
+      {"exercise_id": "S40-T1-B-E2", "answer": "completed_from_packet", "code": "print('b')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `'b'`."},
+      {"exercise_id": "S40-T1-B-E3", "answer": "completed_from_packet", "code": "print('timeout')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `'timeout'`."},
+      {"exercise_id": "S40-T2-A-E1", "answer": "completed_from_packet", "code": "print(['presentation','application','domain','infrastructure'])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target", "theory_layers"], "note": "Instruction + theory layers list."},
+      {"exercise_id": "S40-T2-A-E2", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `True`."},
+      {"exercise_id": "S40-T2-A-E3", "answer": "completed_from_packet", "code": "print(3)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `3`."},
+      {"exercise_id": "S40-T2-B-E1", "answer": "completed_from_packet", "code": "print({'ok': True})\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `{'ok': True}`."},
+      {"exercise_id": "S40-T2-B-E2", "answer": "completed_from_packet", "code": "print('domain<-adapters')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `'domain<-adapters'`."},
+      {"exercise_id": "S40-T2-B-E3", "answer": "completed_from_packet", "code": "print('sent:hola')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `'sent:hola'`."},
+      {"exercise_id": "S40-T3-A-E1", "answer": "completed_from_packet", "code": "print(sorted(['EntityResolution','Intake']))\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "sorted", "instruction_target"], "note": "Instruction Debes imprimir: `sorted(['EntityResolution','Intake'])`."},
+      {"exercise_id": "S40-T3-A-E2", "answer": "completed_from_packet", "code": "print({'case_id':'T1'})\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `{'case_id':'T1'}`."},
+      {"exercise_id": "S40-T3-A-E3", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `True`."},
+      {"exercise_id": "S40-T3-B-E1", "answer": "completed_from_packet", "code": "print(150)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `150`."},
+      {"exercise_id": "S40-T3-B-E2", "answer": "completed_from_packet", "code": "print('CASE-1')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `'CASE-1'`."},
+      {"exercise_id": "S40-T3-B-E3", "answer": "completed_from_packet", "code": "print(0.7)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `0.7` + demo merged 0.7."},
+      {"exercise_id": "S40-T4-A-E1", "answer": "completed_from_packet", "code": "print(['api','worker','db'])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `['api','worker','db']`."},
+      {"exercise_id": "S40-T4-A-E2", "answer": "completed_from_packet", "code": "print('accepted')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `'accepted'`."},
+      {"exercise_id": "S40-T4-A-E3", "answer": "completed_from_packet", "code": "print(2)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `2`."},
+      {"exercise_id": "S40-T4-B-E1", "answer": "completed_from_packet", "code": "print(sorted(['a','b']))\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "sorted", "instruction_target"], "note": "Instruction Debes imprimir: `sorted(['a','b'])`."},
+      {"exercise_id": "S40-T4-B-E2", "answer": "completed_from_packet", "code": "print(2)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `2`."},
+      {"exercise_id": "S40-T4-B-E3", "answer": "completed_from_packet", "code": "print('async_job')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "instruction_target"], "note": "Instruction Debes imprimir: `'async_job'` + last demo paydown."}
+    ],
+    "summary": {
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4,
+      "n_selfcheck_blocked": 0,
+      "n_exercises": 24,
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "blocked_exercise_ids": [],
+      "residual_gaps": []
+    }
+  }
+}

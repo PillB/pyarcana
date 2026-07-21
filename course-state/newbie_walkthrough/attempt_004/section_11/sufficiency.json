@@ -1,0 +1,38 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Evita el default mutable compartido entre instancias"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Una señal/dato numérico, no un veredicto de fraude o familia"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 0.71,
+    "correct_preview": "Definir un puerto get/save implementable por fakes y adapters"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "En la construcción (__post_init__/validate)"
+  },
+  {
+    "i": 4,
+    "ok": true,
+    "support_ratio": 0.78,
+    "correct_preview": "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar"
+  },
+  {
+    "i": 5,
+    "ok": true,
+    "support_ratio": 0.5,
+    "correct_preview": "is_fraud() automático"
+  }
+]

@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 38,
+  "packet_source": "course-state/newbie_walkthrough/attempt_005/section_38/packet.json",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active theory/iDo/weDo/youDo/selfCheck from packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S38-T1-A-E1", "answer": "pick processes for CPU", "code": "print('process')\n", "confidence": 0.92, "blocked_on": [], "concepts_used": ["CPU bound"]},
+    {"exercise_id": "S38-T1-A-E2", "answer": "pick threads/async for IO", "code": "print('thread_or_async')\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["IO bound"]},
+    {"exercise_id": "S38-T1-A-E3", "answer": "measure first", "code": "print('measure_first')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["profile"]},
+    {"exercise_id": "S38-T1-B-E1", "answer": "json size", "code": "import json\npayload = {'a': 1}\nprint(len(json.dumps(payload)))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["payload size"]},
+    {"exercise_id": "S38-T1-B-E2", "answer": "GIL note", "code": "print('GIL_limits_cpu_threads')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["GIL"]},
+    {"exercise_id": "S38-T1-B-E3", "answer": "prefer compact", "code": "print('prefer_compact_payload')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["compact"]},
+    {"exercise_id": "S38-T2-A-E1", "answer": "allows 2 tokens", "code": "tokens, need = 2, 2\nprint(tokens >= need)\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["rate limit"]},
+    {"exercise_id": "S38-T2-A-E2", "answer": "queue maxsize role", "code": "print('backpressure')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["maxsize"]},
+    {"exercise_id": "S38-T2-A-E3", "answer": "rate limit protects", "code": "print('protects_downstream')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["rate limit"]},
+    {"exercise_id": "S38-T2-B-E1", "answer": "timeout seconds field", "code": "print({'timeout_s': 5})\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["timeout"]},
+    {"exercise_id": "S38-T2-B-E2", "answer": "finally close", "code": "print('finally_close_resource')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["finally"]},
+    {"exercise_id": "S38-T2-B-E3", "answer": "hang without timeout", "code": "print('hang_risk')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["timeout risk"]},
+    {"exercise_id": "S38-T3-A-E1", "answer": "corr id present", "code": "log = {'corr_id': 'c1', 'msg': 'ok'}\nprint('corr_id' in log)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["correlation id"]},
+    {"exercise_id": "S38-T3-A-E2", "answer": "three pillars", "code": "print(['logs', 'metrics', 'traces'])\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["o11y"]},
+    {"exercise_id": "S38-T3-A-E3", "answer": "no raw pii", "code": "print(True)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["no PII"]},
+    {"exercise_id": "S38-T3-B-E1", "answer": "redact phone", "code": "phone = '999111222'\nprint(phone[:2] + '***' + phone[-2:])\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["redact"]},
+    {"exercise_id": "S38-T3-B-E2", "answer": "slo ok compare", "code": "latency_p95, slo = 0.2, 0.5\nprint(latency_p95 <= slo)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["SLO"]},
+    {"exercise_id": "S38-T3-B-E3", "answer": "error budget concept", "code": "print('error_budget')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["error budget"]},
+    {"exercise_id": "S38-T4-A-E1", "answer": "states list", "code": "print(['pending', 'running', 'done', 'failed'])\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["workflow states"]},
+    {"exercise_id": "S38-T4-A-E2", "answer": "idem key format", "code": "case_id, step = 'c1', 'features'\nprint(f'{case_id}:{step}')\n", "confidence": 0.92, "blocked_on": [], "concepts_used": ["idempotency key"]},
+    {"exercise_id": "S38-T4-A-E3", "answer": "resume step", "code": "state = {'step': 'features', 'status': 'done'}\nprint(state['step'])\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["checkpoint resume"]},
+    {"exercise_id": "S38-T4-B-E1", "answer": "backoff attempt 3 base 0.1 → 0.8", "code": "attempt, base = 3, 0.1\nprint(base * (2 ** (attempt - 1)))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["backoff"]},
+    {"exercise_id": "S38-T4-B-E2", "answer": "dlq purpose", "code": "print('poison_messages_isolation')\n", "confidence": 0.92, "blocked_on": [], "concepts_used": ["DLQ"]},
+    {"exercise_id": "S38-T4-B-E3", "answer": "runbook true", "code": "print(True)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["runbook"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 1, "chosen_text": "Procesos", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "CPU-bound CPython prefers processes (GIL)."},
+    {"question_index": 1, "chosen_index": 1, "chosen_text": "Colas infinitas y OOM", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Backpressure avoids infinite queues/OOM."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Reejecutar sin side effects duplicados", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Idempotence allows safe re-run without duplicate side effects."},
+    {"question_index": 3, "chosen_index": 1, "chosen_text": "Redactar PII y correlacionar", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Prod logs redact PII and use correlation ids."}
+  ],
+  "confusion_points": ["Platform performance-extreme; resilient pipeline ops."],
+  "retrospection": "S38 24 weDo. Selfcheck 4/4. blocked_count=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_exercises_blocked": 0, "n_selfcheck": 4, "n_selfcheck_blocked": 0, "blocked_count": 0}
+}

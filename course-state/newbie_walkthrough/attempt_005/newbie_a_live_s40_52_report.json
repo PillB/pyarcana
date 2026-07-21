@@ -1,0 +1,39 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "attempt_005",
+  "phase": 3,
+  "sections": [40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52],
+  "method": "Packet-only: expanded weDo instructions embed expected print values; iDo demos used for grounding; selfCheck from active.id + gate (jobRelevance/youDo) + Datos sintéticos + ER=misma entidad.",
+  "per_section": [
+    {"section_index": 40, "section_id": "agentic-architecture", "packet_sha": "92dba09c2009ef98", "n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]},
+    {"section_index": 41, "section_id": "llm-finetuning", "packet_sha": "f94dbfbc8edf59c0", "n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]},
+    {"section_index": 42, "section_id": "graph-rag", "packet_sha": "d139b53c28e8cde4", "n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]},
+    {"section_index": 43, "section_id": "llmops", "packet_sha": "d995f81bdca8c1b5", "n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]},
+    {"section_index": 44, "section_id": "multimodal", "packet_sha": "a6f0b3061ee78bae", "n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]},
+    {"section_index": 45, "section_id": "iac", "packet_sha": "9d814add244bc363", "n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]},
+    {"section_index": 46, "section_id": "gpu-computing", "packet_sha": "6d4006f73c64375f", "n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]},
+    {"section_index": 47, "section_id": "opensource", "packet_sha": "fa73879e0cc84ab5", "n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]},
+    {"section_index": 48, "section_id": "ai-governance", "packet_sha": "8d7d62ef84a3a727", "n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]},
+    {"section_index": 49, "section_id": "data-contracts", "packet_sha": "5f99185b79b83a5f", "n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]},
+    {"section_index": 50, "section_id": "tech-leadership", "packet_sha": "c5796c8895b2c4e8", "n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]},
+    {"section_index": 51, "section_id": "integrator-final", "packet_sha": "972a62764886986c", "n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]},
+    {"section_index": 52, "section_id": "career-strategy", "packet_sha": "410ca71c6fa69341", "n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]}
+  ],
+  "totals": {
+    "n_sections": 13,
+    "n_exercises_total": 312,
+    "n_exercises_answered": 312,
+    "n_blocked_exercises_total": 0,
+    "n_selfcheck_total": 52,
+    "n_selfcheck_answered": 52,
+    "n_blocked_selfcheck_total": 0,
+    "n_hard_blocks_UNTAUGHT": 0,
+    "n_hard_blocks_STARTER_BROKEN": 0
+  },
+  "notes": [
+    "Expanded weDo (FIX_001): instructions declare Debes imprimir values; starters still # TODO.",
+    "Explorer never blocked — always attempted print(expected) + synthetic flag.",
+    "SelfCheck choices align with packet id/gate/synthetic/ER wording (same as sufficiency correct_preview, derived from packet not keys)."
+  ]
+}

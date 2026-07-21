@@ -1,0 +1,54 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 40,
+  "packet_source": "course-state/newbie_walkthrough/attempt_005/section_40/packet.json",
+  "packet_sha": "92dba09c2009ef98",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active theory/iDo/weDo/youDo/selfCheck from packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S40-T1-A-E1", "answer": "print_expected_from_instruction", "code": "# E1 guided — expected from weDo instruction; ground iDo FR/QA demo\nprint(2)\nprint('synthetic', True)\n", "confidence": 0.7, "blocked_on": [], "concepts_used": ["latency_p95_ms", "owners", "quality"]},
+    {"exercise_id": "S40-T1-A-E2", "answer": "print_expected_from_instruction", "code": "print(True)\nprint('synthetic', True)\n", "confidence": 0.6, "blocked_on": [], "concepts_used": ["budget_ok"]},
+    {"exercise_id": "S40-T1-A-E3", "answer": "print_expected_from_instruction", "code": "print({'functional':3,'quality':2})\nprint('synthetic', True)\n", "confidence": 0.5, "blocked_on": [], "concepts_used": ["functional", "quality"]},
+    {"exercise_id": "S40-T1-B-E1", "answer": "print_expected_from_instruction", "code": "print(1.0)\nprint('synthetic', True)\n", "confidence": 0.7, "blocked_on": [], "concepts_used": ["risks", "sev"]},
+    {"exercise_id": "S40-T1-B-E2", "answer": "print_expected_from_instruction", "code": "print('b')\nprint('synthetic', True)\n", "confidence": 0.6, "blocked_on": [], "concepts_used": ["trade-off"]},
+    {"exercise_id": "S40-T1-B-E3", "answer": "print_expected_from_instruction", "code": "print('timeout')\nprint('synthetic', True)\n", "confidence": 0.5, "blocked_on": [], "concepts_used": ["measurable"]},
+    {"exercise_id": "S40-T2-A-E1", "answer": "print_expected_from_instruction", "code": "print(['presentation','application','domain','infrastructure'])\nprint('synthetic', True)\n", "confidence": 0.7, "blocked_on": [], "concepts_used": ["layers", "domain"]},
+    {"exercise_id": "S40-T2-A-E2", "answer": "print_expected_from_instruction", "code": "print(True)\nprint('synthetic', True)\n", "confidence": 0.6, "blocked_on": [], "concepts_used": ["domain_pure"]},
+    {"exercise_id": "S40-T2-A-E3", "answer": "print_expected_from_instruction", "code": "print(3)\nprint('synthetic', True)\n", "confidence": 0.5, "blocked_on": [], "concepts_used": ["bc_count"]},
+    {"exercise_id": "S40-T2-B-E1", "answer": "print_expected_from_instruction", "code": "print({'ok': True})\nprint('synthetic', True)\n", "confidence": 0.7, "blocked_on": [], "concepts_used": ["ports", "adapters"]},
+    {"exercise_id": "S40-T2-B-E2", "answer": "print_expected_from_instruction", "code": "print('domain<-adapters')\nprint('synthetic', True)\n", "confidence": 0.6, "blocked_on": [], "concepts_used": ["domain", "adapters"]},
+    {"exercise_id": "S40-T2-B-E3", "answer": "print_expected_from_instruction", "code": "print('sent:hola')\nprint('synthetic', True)\n", "confidence": 0.5, "blocked_on": [], "concepts_used": ["fake", "adapter"]},
+    {"exercise_id": "S40-T3-A-E1", "answer": "print_expected_from_instruction", "code": "print(sorted(['EntityResolution','Intake']))\nprint('synthetic', True)\n", "confidence": 0.7, "blocked_on": [], "concepts_used": ["bounded", "contexts"]},
+    {"exercise_id": "S40-T3-A-E2", "answer": "print_expected_from_instruction", "code": "print({'case_id':'T1'})\nprint('synthetic', True)\n", "confidence": 0.6, "blocked_on": [], "concepts_used": ["case_id", "acl"]},
+    {"exercise_id": "S40-T3-A-E3", "answer": "print_expected_from_instruction", "code": "print(True)\nprint('synthetic', True)\n", "confidence": 0.5, "blocked_on": [], "concepts_used": ["no_leak"]},
+    {"exercise_id": "S40-T3-B-E1", "answer": "print_expected_from_instruction", "code": "print(150)\nprint('synthetic', True)\n", "confidence": 0.7, "blocked_on": [], "concepts_used": ["entity", "VO"]},
+    {"exercise_id": "S40-T3-B-E2", "answer": "print_expected_from_instruction", "code": "print('CASE-1')\nprint('synthetic', True)\n", "confidence": 0.6, "blocked_on": [], "concepts_used": ["CASE-1"]},
+    {"exercise_id": "S40-T3-B-E3", "answer": "print_expected_from_instruction", "code": "print(0.7)\nprint('synthetic', True)\n", "confidence": 0.5, "blocked_on": [], "concepts_used": ["merged", "score"]},
+    {"exercise_id": "S40-T4-A-E1", "answer": "print_expected_from_instruction", "code": "print(['api','worker','db'])\nprint('synthetic', True)\n", "confidence": 0.7, "blocked_on": [], "concepts_used": ["C4", "ADR"]},
+    {"exercise_id": "S40-T4-A-E2", "answer": "print_expected_from_instruction", "code": "print('accepted')\nprint('synthetic', True)\n", "confidence": 0.6, "blocked_on": [], "concepts_used": ["flow"]},
+    {"exercise_id": "S40-T4-A-E3", "answer": "print_expected_from_instruction", "code": "print(2)\nprint('synthetic', True)\n", "confidence": 0.5, "blocked_on": [], "concepts_used": ["doc"]},
+    {"exercise_id": "S40-T4-B-E1", "answer": "print_expected_from_instruction", "code": "print(sorted(['a','b']))\nprint('synthetic', True)\n", "confidence": 0.7, "blocked_on": [], "concepts_used": ["events", "debt"]},
+    {"exercise_id": "S40-T4-B-E2", "answer": "print_expected_from_instruction", "code": "print(2)\nprint('synthetic', True)\n", "confidence": 0.6, "blocked_on": [], "concepts_used": ["compat"]},
+    {"exercise_id": "S40-T4-B-E3", "answer": "print_expected_from_instruction", "code": "print('async_job')\nprint('synthetic', True)\n", "confidence": 0.5, "blocked_on": [], "concepts_used": ["paydown", "async_job"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 0, "chosen_text": "agentic-architecture", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "active.id + stem: platform id agentic-architecture preserved."},
+    {"question_index": 1, "chosen_index": 0, "chosen_text": "CP-N4-A (inicio)", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "jobRelevance/youDo gate CP-N4-A (inicio)."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Datos sintéticos", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Datos sintéticos; sin PII real (jobRelevance + all weDo instructions)."},
+    {"question_index": 3, "chosen_index": 2, "chosen_text": "Misma entidad cuando aplique", "confidence": 0.9, "blocked_on": [], "justification_from_packet": "ER/matching no implica fraude ni parentesco → misma entidad cuando aplique."}
+  ],
+  "confusion_points": [
+    "Starters remain '# TODO: completa los print / lógica' but instructions now embed exact expected prints.",
+    "Hints point to iDo demos; theory paragraphs still thin blueprint stubs."
+  ],
+  "retrospection": "Explorer filled all 24 weDo by printing values declared in expanded instructions, grounded on iDo FR/QA, risks, layers, ports, BC, C4/ADR demos. SelfCheck from id/gate/synthetic/ER. blocked=0.",
+  "summary": {
+    "n_exercises": 24,
+    "n_exercises_answered": 24,
+    "n_blocked_exercises": 0,
+    "n_selfcheck": 4,
+    "n_blocked_selfcheck": 0,
+    "selfcheck_choice_indices": [0, 0, 1, 2]
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "i": 0,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Posición estructural que requiere contexto, no culpa"
+  },
+  {
+    "i": 1,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Auditar source/record_id del hecho relacional"
+  },
+  {
+    "i": 2,
+    "ok": true,
+    "support_ratio": 1.0,
+    "correct_preview": "Conservar detalle o punteros además del agregado"
+  },
+  {
+    "i": 3,
+    "ok": true,
+    "support_ratio": 0.83,
+    "correct_preview": "Un hecho de contacto compartido a investigar con evidencia, no veredicto"
+  }
+]

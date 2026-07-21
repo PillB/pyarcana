@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 37,
+  "packet_source": "course-state/newbie_walkthrough/attempt_005/section_37/packet.json",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active theory/iDo/weDo/youDo/selfCheck from packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S37-T1-A-E1", "answer": "print n with wall note", "code": "n = 1000\nprint(n, 'wall_time_measured')\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["wall"]},
+    {"exercise_id": "S37-T1-A-E2", "answer": "cpu vs wall labels", "code": "print('cpu_time', 'wall_time')\n", "confidence": 0.92, "blocked_on": [], "concepts_used": ["cpu vs wall"]},
+    {"exercise_id": "S37-T1-A-E3", "answer": "result correctness flag", "code": "print(True)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["correctness"]},
+    {"exercise_id": "S37-T1-B-E1", "answer": "median [5,1,4] → 4", "code": "xs = sorted([5, 1, 4])\nprint(xs[len(xs) // 2])\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["median"]},
+    {"exercise_id": "S37-T1-B-E2", "answer": "warmup first", "code": "print('warmup_first')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["warmup"]},
+    {"exercise_id": "S37-T1-B-E3", "answer": "p95 as max small n", "code": "ts = [1, 2, 3]\nprint(max(ts))\n", "confidence": 0.88, "blocked_on": [], "concepts_used": ["p95"]},
+    {"exercise_id": "S37-T2-A-E1", "answer": "pairs C(10,2)=45", "code": "n = 10\nprint(n * (n - 1) // 2)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["pairs"]},
+    {"exercise_id": "S37-T2-A-E2", "answer": "reduction ratio", "code": "before, after = 100, 20\nprint(after / before)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["blocking reduction"]},
+    {"exercise_id": "S37-T2-A-E3", "answer": "prefer algo over micro", "code": "print('prefer_algo_over_micro')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["priority"]},
+    {"exercise_id": "S37-T2-B-E1", "answer": "set lookup vs list", "code": "print('set_O1_vs_list_On')\n", "confidence": 0.92, "blocked_on": [], "concepts_used": ["structures"]},
+    {"exercise_id": "S37-T2-B-E2", "answer": "inverted index cities", "code": "from collections import defaultdict\nrows = [('e1', 'Lima'), ('e2', 'Lima')]\nidx = defaultdict(list)\nfor e, c in rows:\n    idx[c].append(e)\nprint(dict(idx))\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["inverted index"]},
+    {"exercise_id": "S37-T2-B-E3", "answer": "reduce before expensive score", "code": "print('block_then_score')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["order"]},
+    {"exercise_id": "S37-T3-A-E1", "answer": "chunk count 10/4 → 3", "code": "import math\nprint(math.ceil(10 / 4))\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["chunks"]},
+    {"exercise_id": "S37-T3-A-E2", "answer": "columns subset", "code": "cols = ['a', 'b', 'c']; need = ['a', 'c']\nprint([c for c in cols if c in need])\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["column prune"]},
+    {"exercise_id": "S37-T3-A-E3", "answer": "dtype int32 note", "code": "print('int32_saves_memory')\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["dtype"]},
+    {"exercise_id": "S37-T3-B-E1", "answer": "cache key tuple", "code": "key = ('case', 1, 'fs-v1')\nprint(key)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["cache key"]},
+    {"exercise_id": "S37-T3-B-E2", "answer": "invalidate reason", "code": "print('schema_or_version_change')\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["invalidate"]},
+    {"exercise_id": "S37-T3-B-E3", "answer": "ooc strategy chunk", "code": "print('chunk')\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["out of core"]},
+    {"exercise_id": "S37-T4-A-E1", "answer": "pass if 9<=10", "code": "print(9 <= 10)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["budget pass"]},
+    {"exercise_id": "S37-T4-A-E2", "answer": "fail if 12>10", "code": "print(12 > 10)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["budget fail"]},
+    {"exercise_id": "S37-T4-A-E3", "answer": "budget fields", "code": "print(['metric', 'limit', 'actual', 'pass'])\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["budget"]},
+    {"exercise_id": "S37-T4-B-E1", "answer": "speedup 80/20=4", "code": "print(80 / 20)\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["speedup"]},
+    {"exercise_id": "S37-T4-B-E2", "answer": "clarity over 2%", "code": "print('prefer_clarity_over_2pct')\n", "confidence": 0.95, "blocked_on": [], "concepts_used": ["clarity"]},
+    {"exercise_id": "S37-T4-B-E3", "answer": "report keys", "code": "print(['before', 'after', 'speedup', 'hardware', 'dataset'])\n", "confidence": 0.9, "blocked_on": [], "concepts_used": ["report"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 1, "chosen_text": "Estabilizar benches descartando cold start", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Warmup stabilizes benches discarding cold start."},
+    {"question_index": 1, "chosen_index": 1, "chosen_text": "Pares candidatos O(n²)", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Blocking reduces candidate pairs O(n²)."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Falla si se rompe el límite acordado", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Perf budget fails CI if limit broken."},
+    {"question_index": 3, "chosen_index": 1, "chosen_text": "Teatro; prioriza claridad y algos", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Micro-opt 2% without measurement is theater."}
+  ],
+  "confusion_points": ["Platform dbt-bigquery; content scale/perf CP-N3-C."],
+  "retrospection": "S37 24 weDo. Selfcheck 4/4. blocked_count=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_exercises_blocked": 0, "n_selfcheck": 4, "n_selfcheck_blocked": 0, "blocked_count": 0}
+}

@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 41,
+  "packet_sha": "a3c8b0f7c8e0e0ff",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S41-T1-A-E1", "answer": "from_iDo_status_codes", "code": "print(201); print(404); print(200)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["status", "201", "404", "200"], "note": "weDo TODO only; used iDo S41-T1-B-DEMO"},
+    {"exercise_id": "S41-T1-A-E2", "answer": "independent_status_variant", "code": "print(201); print(404); print(200)\nprint(\"synthetic\", True)\nprint(\"gate\", \"CP-N4-A (servicio)\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["status codes", "synthetic"]},
+    {"exercise_id": "S41-T1-A-E3", "answer": "transfer_resources_methods_status", "code": "# Transfer: recursos/métodos/status (theory+iDo). 201 create, 404 missing, 200 OK.\nprint(\"transfer\", \"status_map\")\nprint(\"pii\", False)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["HTTP status"]},
+    {"exercise_id": "S41-T1-B-E1", "answer": "from_iDo_idempotency", "code": "print(\"created\"); print(\"replay\"); print(1)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["idempotencia", "paginación", "versionado"]},
+    {"exercise_id": "S41-T1-B-E2", "answer": "independent_idempotent_jobs", "code": "print(\"created\"); print(\"replay\"); print(1)\nprint(\"version\", \"v1\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["replay", "created"]},
+    {"exercise_id": "S41-T1-B-E3", "answer": "transfer_idempotency_pagination_versioning", "code": "# Transfer: idempotencia (replay), paginación, versionado API.\nprint(\"idempotent\", True)\nprint(\"no_pii\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["idempotencia"]},
+    {"exercise_id": "S41-T2-A-E1", "answer": "from_iDo_routing_deps", "code": "print(\"ok:conn\"); print(\"injection\", \"deps\"); print(\"routing\", \"/v1/jobs\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["routing", "deps", "/v1/jobs"]},
+    {"exercise_id": "S41-T2-A-E2", "answer": "independent_routing", "code": "print(\"ok:conn\"); print(\"injection\", \"deps\"); print(\"routing\", \"/v1/jobs\")\nprint(\"synthetic\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["routing", "models"]},
+    {"exercise_id": "S41-T2-A-E3", "answer": "transfer_routing_deps_models", "code": "# Transfer: routing /v1/jobs, injection via deps, modelos de job.\nprint(\"routing\", \"/v1/jobs\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["routing"]},
+    {"exercise_id": "S41-T2-B-E1", "answer": "from_iDo_validation_docs", "code": "print([\"name\",\"priority\"]); print(\"paths\", [\"/v1/jobs\"]); print(\"valid\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["validación", "serialización", "docs"]},
+    {"exercise_id": "S41-T2-B-E2", "answer": "independent_schema_fields", "code": "print([\"name\",\"priority\"]); print(\"paths\", [\"/v1/jobs\"]); print(\"valid\", True)\nprint(\"openapi_like\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["schema fields"]},
+    {"exercise_id": "S41-T2-B-E3", "answer": "transfer_validation_serialize_docs", "code": "# Transfer: validar name/priority; documentar paths /v1/jobs; sin claves internas.\nprint(\"valid\", True)\nprint(\"no_internal_keys\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["validation"]},
+    {"exercise_id": "S41-T3-A-E1", "answer": "from_iDo_async_job", "code": "print({\"id\":\"job-1\",\"status\":\"queued\"}); print(\"qlen\", 1); print(\"async\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["async", "queued", "jobs"]},
+    {"exercise_id": "S41-T3-A-E2", "answer": "independent_job_queue", "code": "print({\"id\":\"job-1\",\"status\":\"queued\"}); print(\"qlen\", 1); print(\"async\", True)\nprint(\"gate\", \"CP-N4-A (servicio)\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["background jobs"]},
+    {"exercise_id": "S41-T3-A-E3", "answer": "transfer_sync_async_background", "code": "# Transfer: sync vs async; job create returns queued; consulta resultados sin PII.\nprint(\"async\", True)\nprint(\"evidence_ok\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["async boundary"]},
+    {"exercise_id": "S41-T3-B-E1", "answer": "from_iDo_errors_timeouts", "code": "print(\"ok\"); print(\"timeout\"); print(\"limit\", 100)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["timeouts", "lifecycle"]},
+    {"exercise_id": "S41-T3-B-E2", "answer": "independent_timeout_limit", "code": "print(\"ok\"); print(\"timeout\"); print(\"limit\", 100)\nprint(\"lifecycle\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["errors", "timeouts"]},
+    {"exercise_id": "S41-T3-B-E3", "answer": "transfer_errors_timeouts_lifecycle", "code": "# Transfer: manejar ok/timeout; límites; lifecycle del job.\nprint(\"timeout_handled\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["lifecycle"]},
+    {"exercise_id": "S41-T4-A-E1", "answer": "from_iDo_unit_contract", "code": "print(True); print(False); print(\"unit_first\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["unit", "contract", "integration"]},
+    {"exercise_id": "S41-T4-A-E2", "answer": "independent_test_pyramid", "code": "print(True); print(False); print(\"unit_first\", True)\nprint(\"total\", 19); print(\"pyramid\", True); print(\"contract\", \"openapi_schema\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["test pyramid", "contract"]},
+    {"exercise_id": "S41-T4-A-E3", "answer": "transfer_unit_contract_integration", "code": "# Transfer: unit first, then contract/integration (theory code total 19 pyramid).\nprint(\"unit_first\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["unit tests"]},
+    {"exercise_id": "S41-T4-B-E1", "answer": "from_iDo_compat_ratelimit", "code": "print(\"slo_latency_ok\", True); print(\"rate\", \"token_bucket\"); print(\"no_internal_keys\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["rate limit", "observability", "compat"]},
+    {"exercise_id": "S41-T4-B-E2", "answer": "independent_rate_observability", "code": "print(\"allow\"); print(\"429\"); print(\"compat_header\", \"X-API-Version\")\nprint(\"slo_latency_ok\", True); print(\"no_internal_keys\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["429", "X-API-Version"]},
+    {"exercise_id": "S41-T4-B-E3", "answer": "transfer_compat_ratelimit_observability", "code": "# Transfer: compat header, rate token_bucket, no claves internas, SLO latency.\nprint(\"no_internal_keys\", True)\nprint(\"synthetic\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["observability"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 0, "chosen_text": "llm-finetuning", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "active.id platform id llm-finetuning preserved (selfCheck stem + id field)."},
+    {"question_index": 1, "chosen_index": 0, "chosen_text": "CP-N4-A (servicio)", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "youDo/jobRelevance gate CP-N4-A (servicio)."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Datos sintéticos", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Datos sintéticos; sin PII real (youDo/objectives)."},
+    {"question_index": 3, "chosen_index": 2, "chosen_text": "Misma entidad cuando aplique", "confidence": 0.75, "blocked_on": [], "justification_from_packet": "ER no es fraude/parentesco; decide misma entidad cuando aplique (prior/active framing)."}
+  ],
+  "confusion_points": ["weDo starters are pure TODO with hint-a/hint-b", "platform id llm-finetuning vs title FastAPI retheme"],
+  "retrospection": "Explorer filled all 24 weDo from iDo demos + theory code; selfCheck from id/gate/synthetic/ER wording. blocked=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]}
+}

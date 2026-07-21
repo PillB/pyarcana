@@ -1,0 +1,284 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 17,
+  "recorded_at": "2026-07-21T23:13:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + iDo demos + weDo hints",
+      "required_for_early_exercises": {
+        "merge how/validate/indicator": { "in_theory_or_demo": true, "where": "theory joins + opening code" },
+        "melt/pivot/concat": { "in_theory_or_demo": true, "where": "theory reshape" },
+        "groupby agg transform rolling cohort": { "in_theory_or_demo": true, "where": "theory + T4 demos" },
+        "reconcile totals leakage cutoff": { "in_theory_or_demo": true, "where": "S17-T4-B-DEMO + leakage demo" }
+      }
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Fallar si la cardinalidad no es 1:1",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory validate makes broken cardinality fail."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "Filas del left sin match en right",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory anti-join left_only = huérfanos."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Reinyecta el agregado al shape original",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory transform reinyecta features a nivel fila."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Incluyes datos posteriores al cutoff en features/métricas del pasado",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Leakage demo: post-cutoff contaminates features."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S17-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\")\nprint(len(m))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["merge left"],
+        "note": "Starter + theory merge left."
+      },
+      {
+        "exercise_id": "S17-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]})\nprint(bool(cli[\"cliente_id\"].is_unique))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["is_unique"],
+        "note": "Opening theory code uses is_unique."
+      },
+      {
+        "exercise_id": "S17-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C001\"], \"monto\": [1.0, 2.0, 3.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"inner\")\nprint(len(m))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["fan-out 1:m"],
+        "note": "Theory cardinality fan-out."
+      },
+      {
+        "exercise_id": "S17-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(m.loc[m[\"_merge\"] == \"left_only\", \"cliente_id\"].tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["indicator", "left_only"],
+        "note": "Theory indicator + anti-join."
+      },
+      {
+        "exercise_id": "S17-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\nleft = pd.DataFrame({\"id\": [1]})\nright = pd.DataFrame({\"id\": [1, 1]})\ntry:\n    left.merge(right, on=\"id\", validate=\"one_to_one\")\nexcept Exception:\n    print(\"fail\")\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["validate one_to_one"],
+        "note": "Theory validate fails broken cardinality; hints try Exception."
+      },
+      {
+        "exercise_id": "S17-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\norphans = m.loc[m[\"_merge\"] == \"left_only\"]\nprint(len(orphans))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["anti-join count"],
+        "note": "Theory huérfanos left_only."
+      },
+      {
+        "exercise_id": "S17-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1, 2], \"a\": [10, 20], \"b\": [30, 40]})\nlong = df.melt(id_vars=\"id\", value_vars=[\"a\", \"b\"])\nprint(len(long))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["melt"],
+        "note": "Hints melt; 2 rows x 2 → len 4."
+      },
+      {
+        "exercise_id": "S17-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1, 1], \"k\": [\"a\", \"b\"], \"v\": [10, 20]})\np = df.pivot_table(index=\"id\", columns=\"k\", values=\"v\", aggfunc=\"sum\").reset_index()\nprint(p.columns.tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["pivot_table", "reset_index"],
+        "note": "Hints pivot_table sum + reset_index."
+      },
+      {
+        "exercise_id": "S17-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\na = pd.DataFrame({\"x\": [1]})\nb = pd.DataFrame({\"x\": [2]})\nprint(len(pd.concat([a, b], ignore_index=True)))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["concat ignore_index"],
+        "note": "Hints pd.concat ignore_index."
+      },
+      {
+        "exercise_id": "S17-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({(\"sum\", \"a\"): [1], (\"sum\", \"b\"): [2]})\ndf.columns = [f\"{a}_{b}\" for a, b in df.columns]\nprint(df.columns.tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["flatten MultiIndex columns"],
+        "note": "Hints map join after pivot MultiIndex."
+      },
+      {
+        "exercise_id": "S17-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\nexpected = {\"a\", \"b\"}\nprint(set(df.columns) == expected)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["set columns equality"],
+        "note": "Hints set equality."
+      },
+      {
+        "exercise_id": "S17-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1]})\ndf = df.rename(columns={\"a\": \"monto\"})\nprint(df.columns.tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["rename columns"],
+        "note": "Hints rename columns dict."
+      },
+      {
+        "exercise_id": "S17-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().to_dict())\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["groupby sum"],
+        "note": "Theory groupby."
+      },
+      {
+        "exercise_id": "S17-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 20.0, 7.0]})\nprint(df.groupby(\"region\")[\"monto\"].transform(\"mean\").tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["transform mean"],
+        "note": "Theory transform same rows."
+      },
+      {
+        "exercise_id": "S17-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\nout = df.groupby(\"region\", as_index=False).agg(total=(\"monto\", \"sum\"), n=(\"monto\", \"count\"))\nprint(out.columns.tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["named agg", "as_index=False"],
+        "note": "Hints named agg as_index=False."
+      },
+      {
+        "exercise_id": "S17-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ns = pd.Series([1, 2, 3]).rolling(2).mean()\nout = [None if pd.isna(v) else float(v) for v in s.tolist()]\nprint(out)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["rolling mean"],
+        "note": "Hints rolling mean; first nan as None."
+      },
+      {
+        "exercise_id": "S17-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ntx = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"fecha\": pd.to_datetime([\"2024-01-10\", \"2024-03-01\", \"2024-02-01\"]),\n})\ntx[\"cohort\"] = tx.groupby(\"cliente_id\")[\"fecha\"].transform(\"min\").dt.to_period(\"M\").astype(str)\nprint(tx.drop_duplicates(\"cliente_id\").set_index(\"cliente_id\")[\"cohort\"].to_dict())\n",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["cohort YYYY-MM", "to_period"],
+        "note": "Hints groupby transform min + dt.to_period('M')."
+      },
+      {
+        "exercise_id": "S17-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ns = pd.Series([1.0, 3.0, 5.0], index=pd.to_datetime([\"2024-01-01\", \"2024-01-02\", \"2024-01-03\"]))\ns = s.sort_index()\nprint(float(s.rolling(2).mean().iloc[-1]))\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["sort then rolling"],
+        "note": "Hints sort then rolling 2; last mean."
+      },
+      {
+        "exercise_id": "S17-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "parts = [10.0, 20.0, 70.0]\ntotal = 100.0\nprint(abs(sum(parts) - total) < 1e-9)\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["reconcile abs eps"],
+        "note": "S17-T4-B-DEMO reconcile pattern."
+      },
+      {
+        "exercise_id": "S17-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "activos = 40\npagados = 10\nprint(pagados / activos)\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["tasa denominator"],
+        "note": "Demo tasa = n_completos/n_clientes."
+      },
+      {
+        "exercise_id": "S17-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "total = 100\nlima = 60\nresidual = total - lima\nprint(residual)\n",
+        "blocked_on": [],
+        "confidence": 0.98,
+        "concepts_used": ["bridge residual"],
+        "note": "Hints total - lima."
+      },
+      {
+        "exercise_id": "S17-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ntx = pd.DataFrame({\n    \"fecha\": pd.to_datetime([\"2024-01-10\", \"2024-03-01\"]),\n    \"monto\": [10.0, 999.0],\n})\ncutoff = pd.Timestamp(\"2024-01-31\")\nprint(tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["cutoff filter"],
+        "note": "Leakage demo cutoff mask."
+      },
+      {
+        "exercise_id": "S17-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ntx = pd.DataFrame({\n    \"fecha\": pd.to_datetime([\"2024-01-10\", \"2024-03-01\"]),\n    \"monto\": [10.0, 999.0],\n})\ncutoff = pd.Timestamp(\"2024-01-31\")\npre = float(tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].sum())\ntotal = float(tx[\"monto\"].sum())\nprint(total - pre)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["leakage delta"],
+        "note": "Demo delta leaky - safe."
+      },
+      {
+        "exercise_id": "S17-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ntx = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\"],\n    \"fecha\": pd.to_datetime([\"2024-01-10\", \"2024-03-01\"]),\n    \"monto\": [10.0, 999.0],\n})\ncutoff = pd.Timestamp(\"2024-01-31\")\nfeat = tx[tx[\"fecha\"] <= cutoff].groupby(\"cliente_id\")[\"monto\"].max()\nprint(feat.to_dict())\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["as-of max pre-cutoff"],
+        "note": "Hints filter then groupby max; demo as-of style."
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+    "packet_sha": "b432ec23c9a51895",
+    "summary": {
+      "n_exercises": 24,
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4,
+      "n_selfcheck_blocked": 0,
+      "residual_gaps": [
+        "Several T2/T3 demos null code — used theory + exercise hints"
+      ],
+      "top_gaps": []
+    }
+  }
+}

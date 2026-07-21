@@ -1,0 +1,280 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 28,
+  "recorded_at": "2026-07-21T23:10:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + active.iDo demos only",
+      "required_for_early_exercises": {
+        "random.seed reproducibility": { "in_theory_or_demo": true, "where": "theory + last demo run(seed)" },
+        "idempotence / metamorphic": { "in_theory_or_demo": true, "where": "theory + S28-T2-A-DEMO" },
+        "schema contracts": { "in_theory_or_demo": true, "where": "validate_record theory + S28-T2-B-DEMO" },
+        "golden drift blocked": { "in_theory_or_demo": true, "where": "S28-T3-A-DEMO" },
+        "fakes HTTP/clock": { "in_theory_or_demo": true, "where": "S28-T3-B-DEMO" },
+        "sqlite :memory:": { "in_theory_or_demo": true, "where": "theory integration + S28-T4-B-DEMO" },
+        "CI determinism": { "in_theory_or_demo": true, "where": "theory flakes + last demo" }
+      }
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Relaciones predecibles entre entradas transformadas y salidas",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory metamorphic: transform input so output relation is predictable."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Riesgo de ocultar regresiones",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory reconcile: update golden only with review — never silently in CI."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Acoplar el test a detalles internos y ocultar bugs",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory over-mocking couples to internals and can hide bugs."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Con determinismo (seed/reloj/sort) y fallo de job si persisten",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory flakes: seed, fixed clock, stable sort; fail job if flakes persist."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S28-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import random\nrandom.seed(0)\na = random.random()\nrandom.seed(0)\nb = random.random()\nprint(a == b)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["random.seed", "reproducibility"],
+        "note": "Theory seed + last demo run(seed) equality."
+      },
+      {
+        "exercise_id": "S28-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "scores=[0,0.5,1]\nprint(all(0 <= s <= 1 for s in scores))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["invariant score [0,1]", "all"],
+        "note": "Theory: scores en [0,1]."
+      },
+      {
+        "exercise_id": "S28-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "s='  x '\nf = str.strip\nprint(f(f(s)) == f(s))\n",
+        "blocked_on": [],
+        "confidence": 0.92,
+        "concepts_used": ["idempotence", "strip"],
+        "note": "Theory idempotence + S28-T2-A-DEMO idemp."
+      },
+      {
+        "exercise_id": "S28-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "a,b='x','x'\nprint((a == b) == (b == a))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["symmetry"],
+        "note": "Theory simetría."
+      },
+      {
+        "exercise_id": "S28-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "print('Ana'.casefold() == 'ANA'.casefold())\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["casefold", "metamorphic case"],
+        "note": "Theory casefold equality; upper doesn't break casefold equality."
+      },
+      {
+        "exercise_id": "S28-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "a,b=1,1\nprint((a == b) == (b == a))\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["symmetry of equality"],
+        "note": "Theory sim(a,b)==sim(b,a)."
+      },
+      {
+        "exercise_id": "S28-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "r={}\nif not r.get('id'):\n    print('id requerido')\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["schema contract", "id requerido"],
+        "note": "Theory validate_record: id requerido."
+      },
+      {
+        "exercise_id": "S28-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "score=1.2\nif not (0 <= score <= 1):\n    print('score')\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["score range", "quality contract"],
+        "note": "S28-T2-B-DEMO val score check."
+      },
+      {
+        "exercise_id": "S28-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "rows=[{'id':'1'},{'id':''}]\nprint(sum(1 for r in rows if not r.get('id')))\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["count validation failures"],
+        "note": "Demo counts errors across rows."
+      },
+      {
+        "exercise_id": "S28-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "golden,current={'n':1},{'n':2}\nif golden != current:\n    print('drift')\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["golden drift"],
+        "note": "S28-T3-A-DEMO drift detection."
+      },
+      {
+        "exercise_id": "S28-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "diff, approved = True, False\nif diff and not approved:\n    print('blocked')\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["reconcile blocked"],
+        "note": "Demo action blocked if drift without approval."
+      },
+      {
+        "exercise_id": "S28-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print(3)\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["golden version"],
+        "note": "Instruction: version del golden = 3; versioning concept in theory."
+      },
+      {
+        "exercise_id": "S28-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "db={'e1':{'name':'Ana'}}\nprint(db['e1']['name'])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["fake DB dict"],
+        "note": "Theory fake DB as dict."
+      },
+      {
+        "exercise_id": "S28-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "from datetime import date\nprint(date(2026, 7, 20).isoformat())\n",
+        "blocked_on": [],
+        "confidence": 0.92,
+        "concepts_used": ["fake clock", "fixed date"],
+        "note": "Theory inject now; S27 date iso taught; fixed date pattern S28-T3-B-DEMO."
+      },
+      {
+        "exercise_id": "S28-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "status=503\nif status == 503:\n    print('retry')\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["fake HTTP status", "retry branch"],
+        "note": "Theory fake HTTP status/JSON; 503→retry as controlled branch."
+      },
+      {
+        "exercise_id": "S28-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "print('A'.casefold() == 'a'.casefold())\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["real match", "no overmock"],
+        "note": "S28-T4-A-DEMO real casefold match."
+      },
+      {
+        "exercise_id": "S28-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "f=lambda a,b: True\nif f('A','z'):\n    print('weak')\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["overmock detection", "always True weak"],
+        "note": "Demo overmock_false_pos; always True is weak."
+      },
+      {
+        "exercise_id": "S28-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print({'rows_written': 1})\n",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["observable effect"],
+        "note": "Theory: prefer edge contracts — effects like rows written."
+      },
+      {
+        "exercise_id": "S28-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('CREATE TABLE e(id TEXT)')\nc.execute(\"INSERT INTO e VALUES ('1')\")\nn = c.execute('SELECT COUNT(*) FROM e').fetchone()[0]\nprint(n)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["sqlite3", ":memory:", "COUNT"],
+        "note": "Theory integration + S28-T4-B-DEMO sqlite pattern."
+      },
+      {
+        "exercise_id": "S28-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "n=4\nprint(n * (n - 1) // 2)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["pair cardinality C(n,2)"],
+        "note": "Hint n*(n-1)//2; theory pair cardinality / candidates."
+      },
+      {
+        "exercise_id": "S28-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "done, items={'a'}, ['a','b']\nprint([x for x in items if x not in done])\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["checkpoint resume", "pending"],
+        "note": "Theory reanudación/checkpoint."
+      },
+      {
+        "exercise_id": "S28-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "print(sorted(['b', 'a']))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["stable sort"],
+        "note": "Last demo sorted order."
+      },
+      {
+        "exercise_id": "S28-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "flake_rate=0.01\nif flake_rate > 0:\n    print('fail_job')\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["CI flake policy"],
+        "note": "Theory: fail job if flakes persist / not hide."
+      },
+      {
+        "exercise_id": "S28-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "print('unit→data→integration')\n",
+        "blocked_on": [],
+        "confidence": 0.92,
+        "concepts_used": ["CI pipeline order"],
+        "note": "Theory: unit → property/data → integration."
+      }
+    ],
+    "summary": {
+      "n_exercises": 24,
+      "n_answered": 24,
+      "n_blocked_exercises": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4
+    }
+  }
+}

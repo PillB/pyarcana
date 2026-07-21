@@ -1,0 +1,44 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 52,
+  "recorded_at": "2026-07-21T23:30:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "packet_sha": "410ca71c6fa69341",
+    "forbidden_ack": "Do not use knowledge outside this packet. Zero Python outside landing + prior_sections + active theory/demos/instructions/hints/starters.",
+    "symbol_verify": {"source": "active.jobRelevance + weDo instruction print-targets", "weDo_method": "FIX_001 Debes imprimir → print(expr)"},
+    "selfcheck": [
+      {"question_index": 0, "chosen_index": 0, "chosen_text": "career-strategy", "confidence": 0.95, "blocked_on": [], "note": "platform id career-strategy."},
+      {"question_index": 1, "chosen_index": 0, "chosen_text": "CP-FINAL exclusivamente", "confidence": 0.95, "blocked_on": [], "note": "jobRelevance gate."},
+      {"question_index": 2, "chosen_index": 1, "chosen_text": "Datos sintéticos", "confidence": 0.95, "blocked_on": [], "note": "Datos sintéticos; sin PII real."},
+      {"question_index": 3, "chosen_index": 2, "chosen_text": "Misma entidad cuando aplique", "confidence": 0.9, "blocked_on": [], "note": "ER no fraude/parentesco."}
+    ],
+    "exercises": [
+      {"exercise_id": "S52-T1-A-E1", "answer": "completed_from_packet", "code": "print(['ops','compliance','data'])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir stakeholders."},
+      {"exercise_id": "S52-T1-A-E2", "answer": "completed_from_packet", "code": "print(['intake','er','report'])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir value stream."},
+      {"exercise_id": "S52-T1-A-E3", "answer": "completed_from_packet", "code": "print(['ttr','precision_review'])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir metrics."},
+      {"exercise_id": "S52-T1-B-E1", "answer": "completed_from_packet", "code": "print(['real_pii','auto_fraud_label'])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir nogo list."},
+      {"exercise_id": "S52-T1-B-E2", "answer": "completed_from_packet", "code": "print(['budget','latency'])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir constraints."},
+      {"exercise_id": "S52-T1-B-E3", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `True`."},
+      {"exercise_id": "S52-T2-A-E1", "answer": "completed_from_packet", "code": "print(6)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `6`."},
+      {"exercise_id": "S52-T2-A-E2", "answer": "completed_from_packet", "code": "print(['POST /jobs','GET /jobs/{id}'])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir API contracts."},
+      {"exercise_id": "S52-T2-A-E3", "answer": "completed_from_packet", "code": "print(['job.finished','case.updated'])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir events."},
+      {"exercise_id": "S52-T2-B-E1", "answer": "completed_from_packet", "code": "print(sorted(['data','hitl','models','rag','rpa']))\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print", "sorted"], "note": "Debes imprimir modules."},
+      {"exercise_id": "S52-T2-B-E2", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `True`."},
+      {"exercise_id": "S52-T2-B-E3", "answer": "completed_from_packet", "code": "print('review_queue')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'review_queue'`."},
+      {"exercise_id": "S52-T3-A-E1", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `True`."},
+      {"exercise_id": "S52-T3-A-E2", "answer": "completed_from_packet", "code": "print(['evals','perf','redteam','unit'])\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir test suite types."},
+      {"exercise_id": "S52-T3-A-E3", "answer": "completed_from_packet", "code": "print('zero')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'zero'`."},
+      {"exercise_id": "S52-T3-B-E1", "answer": "completed_from_packet", "code": "print(0.995)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `0.995`."},
+      {"exercise_id": "S52-T3-B-E2", "answer": "completed_from_packet", "code": "print('daily')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'daily'`."},
+      {"exercise_id": "S52-T3-B-E3", "answer": "completed_from_packet", "code": "print('tabletop_ok')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'tabletop_ok'`."},
+      {"exercise_id": "S52-T4-A-E1", "answer": "completed_from_packet", "code": "print(10)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `10`."},
+      {"exercise_id": "S52-T4-A-E2", "answer": "completed_from_packet", "code": "print(3)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `3`."},
+      {"exercise_id": "S52-T4-A-E3", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `True`."},
+      {"exercise_id": "S52-T4-B-E1", "answer": "completed_from_packet", "code": "print(6)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `6`."},
+      {"exercise_id": "S52-T4-B-E2", "answer": "completed_from_packet", "code": "print(True)\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `True`."},
+      {"exercise_id": "S52-T4-B-E3", "answer": "completed_from_packet", "code": "print('independent_of_cpn4c')\n", "blocked_on": [], "confidence": 0.95, "concepts_used": ["print"], "note": "Debes imprimir: `'independent_of_cpn4c'`."}
+    ],
+    "summary": {"n_selfcheck": 4, "n_selfcheck_answered": 4, "n_selfcheck_blocked": 0, "n_exercises": 24, "n_exercises_answered": 24, "n_exercises_blocked": 0, "blocked_exercise_ids": [], "residual_gaps": []}
+  }
+}

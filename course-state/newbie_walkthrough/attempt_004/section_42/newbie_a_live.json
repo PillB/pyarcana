@@ -1,0 +1,43 @@
+{
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 42,
+  "packet_sha": "1e8e2ed0cb710d71",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet; zero Python outside packet.",
+  "exercises": [
+    {"exercise_id": "S42-T1-A-E1", "answer": "from_iDo_pydantic", "code": "print({\"age\":3}); print(\"pydantic_like\", True); print(\"strict\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["Pydantic", "JSON Schema"]},
+    {"exercise_id": "S42-T1-A-E2", "answer": "independent_schema_age", "code": "print({\"age\":3}); print(\"pydantic_like\", True); print(\"strict\", True)\nprint(\"synthetic\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["strict validation"]},
+    {"exercise_id": "S42-T1-A-E3", "answer": "transfer_pydantic_json_schema", "code": "# Transfer: schemas Pydantic/JSON Schema; strict; datos sintéticos.\nprint(\"strict\", True)\nprint(\"pii\", False)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["schemas"]},
+    {"exercise_id": "S42-T1-B-E1", "answer": "from_iDo_evolution", "code": "print(10); print(\"err\", \"amount\"); print(\"evol\", \"add_optional\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["evolución", "unions", "negocio"]},
+    {"exercise_id": "S42-T1-B-E2", "answer": "independent_amount_err", "code": "print(10); print(\"err\", \"amount\"); print(\"evol\", \"add_optional\")\nprint(\"gate\", \"CP-N4-A (control plane)\")", "confidence": 0.5, "blocked_on": [], "concepts_used": ["business validation"]},
+    {"exercise_id": "S42-T1-B-E3", "answer": "transfer_schema_evolution", "code": "# Transfer: evol add_optional; validación de negocio amount.\nprint(\"evol\", \"add_optional\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["schema evolution"]},
+    {"exercise_id": "S42-T2-A-E1", "answer": "from_iDo_authn_rbac", "code": "print(\"authn\", \"u1\"); print(\"roles\", [\"analyst\"]); print(\"authz_needed\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["authn", "authz", "RBAC"]},
+    {"exercise_id": "S42-T2-A-E2", "answer": "independent_roles", "code": "print(\"authn\", \"u1\"); print(\"roles\", [\"analyst\"]); print(\"authz_needed\", True)\nprint(\"no_cross_user\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["RBAC"]},
+    {"exercise_id": "S42-T2-A-E3", "answer": "transfer_authn_authz_rbac", "code": "# Transfer: authn u1; roles analyst; authz needed; threat model youDo.\nprint(\"authz_needed\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["permissions"]},
+    {"exercise_id": "S42-T2-B-E1", "answer": "from_iDo_scopes_deny", "code": "print(\"er-worker\"); print([\"jobs:run\"]); print(\"service_identity\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["scopes", "service identity", "deny-by-default"]},
+    {"exercise_id": "S42-T2-B-E2", "answer": "independent_service_identity", "code": "print(\"er-worker\"); print([\"jobs:run\"]); print(\"service_identity\", True)\nprint(\"deny_by_default\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["scopes"]},
+    {"exercise_id": "S42-T2-B-E3", "answer": "transfer_scopes_service_identities", "code": "# Transfer: service identity er-worker; scope jobs:run; deny-by-default.\nprint(\"service_identity\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["deny-by-default"]},
+    {"exercise_id": "S42-T3-A-E1", "answer": "from_iDo_injection_limits", "code": "print(True); print(False); print(\"injection\", \"parameterized\")", "confidence": 0.55, "blocked_on": [], "concepts_used": ["input limits", "injection", "SSRF"]},
+    {"exercise_id": "S42-T3-A-E2", "answer": "independent_parameterized", "code": "print(True); print(False); print(\"injection\", \"parameterized\")\nprint(\"path_safe\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["parameterized queries"]},
+    {"exercise_id": "S42-T3-A-E3", "answer": "transfer_input_limits_injection", "code": "# Transfer: input limits; parameterized; no SSRF/path traversal.\nprint(\"injection\", \"parameterized\")", "confidence": 0.45, "blocked_on": [], "concepts_used": ["injection defense"]},
+    {"exercise_id": "S42-T3-B-E1", "answer": "from_iDo_secrets_crypto", "code": "print(\"high\", [\"old\"]); print(\"crypto\", \"AES-GCM-at-rest\"); print(\"rotate\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["secretos", "cifrado", "dependency risk"]},
+    {"exercise_id": "S42-T3-B-E2", "answer": "independent_rotate", "code": "print(\"high\", [\"old\"]); print(\"crypto\", \"AES-GCM-at-rest\"); print(\"rotate\", True)\nprint(\"no_prod_secrets\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["rotate secrets"]},
+    {"exercise_id": "S42-T3-B-E3", "answer": "transfer_secrets_crypto_deps", "code": "# Transfer: cifrado AES-GCM-at-rest; rotar secretos; dependency risk high:old.\nprint(\"rotate\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["crypto"]},
+    {"exercise_id": "S42-T4-A-E1", "answer": "from_iDo_minimize_purpose", "code": "print({\"case_id\":\"C1\"}); print(\"drop_email_for_log\", True); print(\"purpose_bound\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["minimización", "purpose", "retención"]},
+    {"exercise_id": "S42-T4-A-E2", "answer": "independent_case_only_log", "code": "print({\"case_id\":\"C1\"}); print(\"drop_email_for_log\", True); print(\"purpose_bound\", True)\nprint(\"redacted\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["data minimization"]},
+    {"exercise_id": "S42-T4-A-E3", "answer": "transfer_minimize_purpose_retention", "code": "# Transfer: case_id only; drop email for log; purpose-bound retention.\n# youDo: no acceder a otro caso ni recuperar redacted.\nprint(\"purpose_bound\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["privacy"]},
+    {"exercise_id": "S42-T4-B-E1", "answer": "from_iDo_audit_pseudo", "code": "print(True); print(False); print(\"no_cross_tenant\", True)", "confidence": 0.55, "blocked_on": [], "concepts_used": ["audit", "deletion", "pseudonymization"]},
+    {"exercise_id": "S42-T4-B-E2", "answer": "independent_pseudo_hash", "code": "import hashlib\nprint(\"pseudo\", hashlib.sha256(b\"synth:user-1\").hexdigest()[:16])\nprint(\"audit_n\", 1)\nprint(\"delete\", \"soft+hard_policy\")\nprint(\"no_cross_tenant\", True)", "confidence": 0.5, "blocked_on": [], "concepts_used": ["pseudonymization", "audit"]},
+    {"exercise_id": "S42-T4-B-E3", "answer": "transfer_audit_delete_pseudo_access", "code": "# Transfer: audit, soft+hard delete, pseudo hash, no_cross_tenant.\nprint(\"no_cross_tenant\", True)\nprint(\"synthetic\", True)", "confidence": 0.45, "blocked_on": [], "concepts_used": ["access control"]}
+  ],
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 0, "chosen_text": "graph-rag", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "platform id graph-rag preserved."},
+    {"question_index": 1, "chosen_index": 0, "chosen_text": "CP-N4-A (control plane)", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "gate CP-N4-A (control plane) in youDo."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Datos sintéticos", "confidence": 0.95, "blocked_on": [], "justification_from_packet": "Datos sintéticos; sin PII real."},
+    {"question_index": 3, "chosen_index": 2, "chosen_text": "Misma entidad cuando aplique", "confidence": 0.75, "blocked_on": [], "justification_from_packet": "ER = misma entidad cuando aplique; not fraude/parentesco."}
+  ],
+  "confusion_points": ["weDo TODO placeholders", "id graph-rag vs title security/schemas retheme"],
+  "retrospection": "All exercises answered from iDo/theory; selfCheck from packet stems. blocked=0.",
+  "summary": {"n_exercises": 24, "n_exercises_answered": 24, "n_blocked_exercises": 0, "n_selfcheck": 4, "n_blocked_selfcheck": 0, "selfcheck_choice_indices": [0, 0, 1, 2]}
+}

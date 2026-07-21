@@ -1,0 +1,278 @@
+{
+  "agent": "newbie_b_live",
+  "section_index": 32,
+  "recorded_at": "2026-07-21T22:25:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + active.iDo demos only",
+      "required_for_early_exercises": {
+        "schema num/cat/text": { "in_theory_or_demo": true, "where": "S32-T1-B-DEMO" },
+        "missing med z-score": { "in_theory_or_demo": true, "where": "S32-T2-A-DEMO" },
+        "relational features windows": { "in_theory_or_demo": true, "where": "S32-T2-B-DEMO + S32-T3-A-DEMO" },
+        "fit/transform persist": { "in_theory_or_demo": true, "where": "S32-T3-B-DEMO + S32-T4-A-DEMO" },
+        "entity split leakage": { "in_theory_or_demo": true, "where": "S32-T4-B-DEMO + last demo" }
+      }
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Train",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory: scale fit only on train."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Leakage de decisión",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory/demo: reviewer_decision is leakage."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Eventos con ts>=t",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory half-open [t-W,t) excludes ts>=t."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Overlap 0 de entidades",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Demo entity split overlap 0."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S32-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "schema={'a':'num','b':'cat','c':'num'}\nprint(sorted(k for k,v in schema.items() if v=='num'))\nprint('n_num', sum(1 for v in schema.values() if v=='num'))\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["schema num filter"],
+        "note": "S32-T1-B-DEMO schema filter pattern."
+      },
+      {
+        "exercise_id": "S32-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "t='hola mundo pe'\nprint('note_len', len(t))\nprint('token_count', len(t.split()))\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["text features note_len"],
+        "note": "Theory note_len / tokens."
+      },
+      {
+        "exercise_id": "S32-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "row={'a':1,'b':2}; cat={'a','b','c'}\nprint(all(k in cat for k in row))\nprint('extra', [k for k in row if k not in cat])\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["feature catalog validation"],
+        "note": "Theory feature catalog."
+      },
+      {
+        "exercise_id": "S32-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "xs=[1.0,None,3.0]\nvals=[x for x in xs if x is not None]\nmed=sorted(vals)[len(vals)//2]\nprint('miss_ind', [int(x is None) for x in xs])\nprint('filled', [med if x is None else x for x in xs])\nprint('med', med)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["missing indicator", "median fill"],
+        "note": "S32-T2-A-DEMO med + miss_ind."
+      },
+      {
+        "exercise_id": "S32-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "vocab={'app','web'}\ndef oh(c):\n    if c not in vocab:\n        return {'app':0,'web':0,'unknown':1}\n    return {'app': int(c=='app'), 'web': int(c=='web'), 'unknown':0}\nprint(oh('app'))\nprint(oh('branch'))\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["one-hot", "unknown bucket"],
+        "note": "Theory one-hot with unknown bucket; Vocab unknown -1 demo."
+      },
+      {
+        "exercise_id": "S32-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "xs=[2.0,4.0]\nmu, sd = 0.0, 2.0\nprint([(x-mu)/sd for x in xs])\nprint('mu', mu, 'sd', sd)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["z-score"],
+        "note": "S32-T2-A-DEMO z-score formula."
+      },
+      {
+        "exercise_id": "S32-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "a,b='av-1','av-1'\nprint(int(a==b))\nprint('shared_address', a==b)\nprint('not_fraud_label', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["shared address feature"],
+        "note": "Theory shared address relational feature."
+      },
+      {
+        "exercise_id": "S32-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "adj={'E1':['E2','E3'],'E2':['E1']}\nprint(len(adj['E1']))\nprint('degree_E1', len(adj['E1']))\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["degree feature"],
+        "note": "Theory degree in window / graph features."
+      },
+      {
+        "exercise_id": "S32-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "pl={('E1','E2'):1}\nprint(pl.get(('E1','E2'), 99))\nprint(pl.get(('E1','E9'), 99))\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["path_len feature"],
+        "note": "S32-T2-B-DEMO path_len."
+      },
+      {
+        "exercise_id": "S32-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "ev=[1,2,3,5]; t=5; W=3\nn=sum(1 for x in ev if t-W <= x < t)\nprint(n)\nprint('window', W)\nprint('half_open', True)\n",
+        "blocked_on": [],
+        "confidence": 0.92,
+        "concepts_used": ["half-open window count"],
+        "note": "Theory [t-W,t); S32-T3-A-DEMO pattern."
+      },
+      {
+        "exercise_id": "S32-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "from collections import Counter\nrows=[('app',1),('app',2),('web',2)]\nprint(dict(Counter(c for c,_ in rows)))\nprint('n', len(rows))\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["channel frequency"],
+        "note": "Theory frequency features."
+      },
+      {
+        "exercise_id": "S32-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "ev=[(5,10),(4,1)]; t=5\nkept=[a for ts,a in ev if ts < t]\nprint(sum(kept))\nprint('excluded_at_t', True)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["exclude ts==t half-open"],
+        "note": "Theory half-open excludes ts>=t."
+      },
+      {
+        "exercise_id": "S32-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "from collections import Counter\nxs=['a','b','a',None]\nvals=[x for x in xs if x is not None]\nmoda=Counter(vals).most_common(1)[0][0]\nout=[moda if x is None else x for x in xs]\nprint('moda', moda)\nprint('out', out)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["mode impute cat"],
+        "note": "Theory fill with train mode."
+      },
+      {
+        "exercise_id": "S32-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "xs=[None, 3]\nstep1=[0 if x is None else x for x in xs]\nstep2=[x*2 for x in step1]\nprint(step1)\nprint(step2)\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["sequential pipeline"],
+        "note": "Theory compose transformers pipeline."
+      },
+      {
+        "exercise_id": "S32-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "fitted=False\nif not fitted:\n    print('error_not_fitted')\nelse:\n    print('ok')\nprint('flag', fitted)\nprint('guard', True)\n",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["must fit before transform"],
+        "note": "Theory fit then transform state."
+      },
+      {
+        "exercise_id": "S32-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import json\nst={'med': 10.0}\ns=json.dumps(st); ld=json.loads(s)\nprint(ld['med'])\nprint('roundtrip', json.loads(json.dumps(st))==st)\nprint('persist', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["json state persist"],
+        "note": "S32-T4-A-DEMO json med state."
+      },
+      {
+        "exercise_id": "S32-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "v1={'app'}; v2={'app','web'}\nbump = v1 != v2\nprint(bump)\nprint('v1', v1, 'v2', v2)\nprint('version_policy', 'bump_on_vocab_change')\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["feature version bump"],
+        "note": "Theory version if encoding changes."
+      },
+      {
+        "exercise_id": "S32-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "med=10.0; batch=[None,12.0]\nprint([med if x is None else x for x in batch])\nprint('med', med)\nprint('serve', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["apply saved fit on serve"],
+        "note": "S32-T4-A-DEMO tr(None, med)."
+      },
+      {
+        "exercise_id": "S32-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "rows=[{'ts':'2026-01-01'},{'ts':'2026-02-15'}]\ntr=[r for r in rows if r['ts']<'2026-02-01']\nprint(tr)\nprint('n_train', len(tr))\nprint('time_split', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["time split"],
+        "note": "Theory time split train ts < valid."
+      },
+      {
+        "exercise_id": "S32-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "from collections import Counter\nrows=['E1','E1','E2']\nprint(dict(Counter(rows)))\nprint('n', len(rows))\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["group sizes by entity"],
+        "note": "Theory group split entity sizes."
+      },
+      {
+        "exercise_id": "S32-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "tr,te={'A','B'},{'C'}\nprint(len(tr & te))\nprint('overlap', tr & te)\nprint('ok', len(tr & te)==0)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["entity overlap 0"],
+        "note": "S32-T4-B-DEMO overlap 0."
+      },
+      {
+        "exercise_id": "S32-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "names=['amt','label_y','reviewer_decision']\nleaks=[n for n in names if 'label' in n or 'decision' in n]\nprint(leaks)\nprint('n', len(leaks))\nprint('fs_version', 'v3')\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["leakage name check"],
+        "note": "Last demo leakage by name."
+      },
+      {
+        "exercise_id": "S32-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "tr,se=0.0,0.8\nalert = abs(se-tr) > 0.5\nprint(alert)\nprint('delta', abs(se-tr))\nprint('skew', True)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["train-serve skew"],
+        "note": "Theory train-serve skew monitoring."
+      },
+      {
+        "exercise_id": "S32-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "ver=3\nprint(f'fs-v{ver}')\nprint('format', 'fs-vN')\nprint('ok', True)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["feature_set_id"],
+        "note": "youDo/theory feature_set_id fs-v*."
+      }
+    ],
+    "summary": {
+      "n_exercises": 24,
+      "n_answered": 24,
+      "n_blocked_exercises": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4
+    }
+  }
+}
