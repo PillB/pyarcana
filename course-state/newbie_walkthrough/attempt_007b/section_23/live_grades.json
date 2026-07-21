@@ -1,0 +1,1068 @@
+{
+  "section_index": 23,
+  "section_id": "computer-vision",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S23-T1-A-E1",
+          "code": "nodes = [{\"role\": \"link\", \"name\": \"Inicio\", \"id\": \"n1\"}]\nprint(next(x[\"id\"] for x in nodes if x[\"role\"] == \"link\" and x[\"name\"] == \"Inicio\"))\n",
+          "note": "",
+          "concepts_used": [
+            "by_role"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T1-A-E2",
+          "code": "preferred = [\"role\", \"testid\", \"css\"]\nprint(sorted([\"css\", \"role\", \"testid\"], key=lambda s: preferred.index(s)))\n",
+          "note": "",
+          "concepts_used": [
+            "strategy order"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T1-A-E3",
+          "code": "nodes = [{\"role\": \"img\", \"name\": \"logo\"}]\ntry:\n    print(next(x[\"name\"] for x in nodes if x[\"role\"] == \"button\"))\nexcept StopIteration:\n    print(\"need_testid\")\n",
+          "note": "",
+          "concepts_used": [
+            "need_testid"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T1-B-E1",
+          "code": "ready = False\nfor i in range(1, 6):\n    if i == 2:\n        ready = True\n    if ready:\n        print(i)\n        break\n",
+          "note": "",
+          "concepts_used": [
+            "wait"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T1-B-E2",
+          "code": "ready = False\nfor _ in range(3):\n    if ready:\n        break\nelse:\n    print(\"timeout\")\n",
+          "note": "",
+          "concepts_used": [
+            "timeout"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T1-B-E3",
+          "code": "expected, actual = \"Portal demo\", \"Portal demo\"\nprint(\"pass\" if expected == actual else \"fail\")\n",
+          "note": "",
+          "concepts_used": [
+            "assert"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T2-A-E1",
+          "code": "form = {}\nform[\"usuario\"] = \"ana\"\nprint(form)\n",
+          "note": "",
+          "concepts_used": [
+            "form fill"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T2-A-E2",
+          "code": "import hashlib\nprint(hashlib.sha256(b\"data\").hexdigest()[:8])\n",
+          "note": "",
+          "concepts_used": [
+            "download hash"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T2-A-E3",
+          "code": "state = {\"token\": \"t\"}\nprint(\"reuse\" if state.get(\"token\") else \"login\")\n",
+          "note": "",
+          "concepts_used": [
+            "storage_state"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T2-B-E1",
+          "code": "class LoginPage:\n    def submit(self, ctx, password):\n        if password == \"sandbox\":\n            ctx[\"auth\"] = True\nctx = {}\nLoginPage().submit(ctx, \"sandbox\")\nprint(ctx.get(\"auth\"))\n",
+          "note": "",
+          "concepts_used": [
+            "Page Object"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T2-B-E2",
+          "code": "ctx = {\"auth\": False}\ntry:\n    if not ctx.get(\"auth\"):\n        raise PermissionError(\"denied\")\nexcept PermissionError:\n    print(\"denied\")\n",
+          "note": "",
+          "concepts_used": [
+            "auth gate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T2-B-E3",
+          "code": "state = \"anonymous\"\nstate = \"authenticated\"\nprint(state)\n",
+          "note": "",
+          "concepts_used": [
+            "auth states"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T3-A-E1",
+          "code": "print(sorted({\"trace\": \"a.zip\", \"screenshot\": \"b.png\", \"error\": \"x\"}.keys()))\n",
+          "note": "",
+          "concepts_used": [
+            "evidence"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T3-A-E2",
+          "code": "print([x for x in [\"ok\", \"ERR timeout\", \"nav\"] if \"ERR\" in x])\n",
+          "note": "",
+          "concepts_used": [
+            "console filter"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T3-A-E3",
+          "code": "ok, pkg = False, {\"step\": \"s1\"}\nif not ok:\n    pkg[\"trace\"] = \"t.zip\"\nprint(pkg)\n",
+          "note": "",
+          "concepts_used": [
+            "trace on fail"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T3-B-E1",
+          "code": "def should_retry(k):\n    return k in {\"timeout\", \"429\"}\nfor k in (\"timeout\", \"captcha\", \"429\"):\n    print(k, should_retry(k))\n",
+          "note": "",
+          "concepts_used": [
+            "retry"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T3-B-E2",
+          "code": "err = \"stale\"\nprint(\"goto_home\" if err == \"stale\" else \"continue\")\n",
+          "note": "",
+          "concepts_used": [
+            "recovery"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T3-B-E3",
+          "code": "errors = [\"timeout\", \"timeout\", \"timeout\"]\nresult = \"fail\"\nfor i, e in enumerate(errors, 1):\n    if e != \"timeout\":\n        result = \"ok\"\n        break\n    if i >= 3:\n        result = \"fail\"\nprint(i, result)\n",
+          "note": "",
+          "concepts_used": [
+            "max retries"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T4-A-E1",
+          "code": "api = True\nprint(\"api\" if api else \"rpa\")\n",
+          "note": "",
+          "concepts_used": [
+            "api first"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T4-A-E2",
+          "code": "f = {\"api\": False, \"export\": True, \"rpa\": True}\nprint(\"api\" if f[\"api\"] else \"export\" if f[\"export\"] else \"rpa\" if f[\"rpa\"] else \"human\")\n",
+          "note": "",
+          "concepts_used": [
+            "preference order"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T4-A-E3",
+          "code": "print({\"method\": \"rpa\", \"reason\": \"no_api\"})\n",
+          "note": "",
+          "concepts_used": [
+            "decision audit"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T4-B-E1",
+          "code": "captcha = True\nif captcha:\n    print(\"human_handoff\")\n",
+          "note": "",
+          "concepts_used": [
+            "captcha"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T4-B-E2",
+          "code": "sig = {\"tos_forbidden\": True, \"captcha\": True}\nprint(\"abort\" if sig.get(\"tos_forbidden\") else \"human_handoff\" if sig.get(\"captcha\") else \"continue\")\n",
+          "note": "",
+          "concepts_used": [
+            "ToS priority"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T4-B-E3",
+          "code": "print({\"url\": \"https://demo.example.pe/x\", \"step\": \"export\", \"screenshot\": \"s.png\"})\n",
+          "note": "",
+          "concepts_used": [
+            "handoff payload"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S23-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "n1\n",
+          "expected_head": "n1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['role', 'testid', 'css']\n",
+          "expected_head": "['role', 'testid', 'css']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "need_testid\n",
+          "expected_head": "need_testid",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "timeout\n",
+          "expected_head": "timeout",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pass\n",
+          "expected_head": "pass",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'usuario': 'ana'}\n",
+          "expected_head": "{'usuario': 'ana'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3a6eb079\n",
+          "expected_head": "3a6eb079",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "reuse\n",
+          "expected_head": "reuse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "denied\n",
+          "expected_head": "denied",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "authenticated\n",
+          "expected_head": "authenticated",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['error', 'screenshot', 'trace']\n",
+          "expected_head": "['error', 'screenshot', 'trace']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['ERR timeout']\n",
+          "expected_head": "['ERR timeout']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'step': 's1', 'trace': 't.zip'}\n",
+          "expected_head": "{'step': 's1', 'trace': 'traces/s1.zip'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "timeout True\ncaptcha False\n429 True\n",
+          "expected_head": "timeout True\ncaptcha False\n429 True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "goto_home\n",
+          "expected_head": "goto_home",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3 fail\n",
+          "expected_head": "fail 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "api\n",
+          "expected_head": "api",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "export\n",
+          "expected_head": "export",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'method': 'rpa', 'reason': 'no_api'}\n",
+          "expected_head": "{'method': 'rpa', 'reason': 'no_api'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "human_handoff\n",
+          "expected_head": "human_handoff",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "abort\n",
+          "expected_head": "abort",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'url': 'https://demo.example.pe/x', 'step': 'export', 'screenshot': 's.png'}\n",
+          "expected_head": "['screenshot', 'step', 'url'] export",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S23-T1-A-E1",
+          "code": "nodes = [{\"role\": \"link\", \"name\": \"Inicio\", \"id\": \"n1\"}]\nn = next(x for x in nodes if x[\"role\"] == \"link\" and x[\"name\"] == \"Inicio\")\nprint(n[\"id\"])\n",
+          "note": "Starter node n1.",
+          "concepts_used": [
+            "by role/name"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T1-A-E2",
+          "code": "strats = [\"css\", \"role\", \"testid\"]\npref = [\"role\", \"testid\", \"css\"]\nprint(sorted(strats, key=lambda s: pref.index(s)))\n",
+          "note": "Hints preferred order role testid css.",
+          "concepts_used": [
+            "strategy order"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T1-A-E3",
+          "code": "nodes = [{\"role\": \"img\", \"name\": \"logo\"}]\ntry:\n    n = next(x for x in nodes if x[\"role\"] == \"button\")\n    print(n[\"name\"])\nexcept StopIteration:\n    print(\"need_testid\")\n",
+          "note": "No button in starter → need_testid.",
+          "concepts_used": [
+            "need_testid"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T1-B-E1",
+          "code": "ready = False\nfor i in range(1, 5):\n    if i == 2:\n        ready = True\n    if ready:\n        print(i)\n        break\n",
+          "note": "Ready attempt 2.",
+          "concepts_used": [
+            "wait loop"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T1-B-E2",
+          "code": "ready = False\nfor _ in range(3):\n    if ready:\n        print(\"ok\")\n        break\nelse:\n    print(\"timeout\")\n",
+          "note": "Starter ready=False → timeout.",
+          "concepts_used": [
+            "for-else timeout"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T1-B-E3",
+          "code": "expected, actual = \"Portal demo\", \"Portal demo\"\nprint(\"pass\" if expected == actual else \"fail\")\n",
+          "note": "Starter equal → pass.",
+          "concepts_used": [
+            "assert title"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T2-A-E1",
+          "code": "form = {}\nform[\"usuario\"] = \"ana\"\nprint(form)\n",
+          "note": "Hints update usuario.",
+          "concepts_used": [
+            "fill form"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T2-A-E2",
+          "code": "import hashlib\nprint(hashlib.sha256(b\"data\").hexdigest()[:8])\n",
+          "note": "Hints sha256 hex[:8].",
+          "concepts_used": [
+            "download hash"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T2-A-E3",
+          "code": "state = {\"token\": \"t\"}\nprint(\"reuse\" if state.get(\"token\") else \"login\")\n",
+          "note": "Starter has token → reuse.",
+          "concepts_used": [
+            "storage_state"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T2-B-E1",
+          "code": "class LoginPage:\n    def submit(self, ctx, password):\n        if password == \"sandbox\":\n            ctx[\"auth\"] = True\n\nctx = {}\nLoginPage().submit(ctx, \"sandbox\")\nprint(ctx.get(\"auth\"))\n",
+          "note": "Hints password sandbox → auth True.",
+          "concepts_used": [
+            "LoginPage"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T2-B-E2",
+          "code": "ctx = {\"auth\": False}\ntry:\n    if not ctx[\"auth\"]:\n        raise PermissionError(\"no auth\")\nexcept PermissionError:\n    print(\"denied\")\n",
+          "note": "Starter auth False → denied.",
+          "concepts_used": [
+            "PermissionError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T2-B-E3",
+          "code": "state = \"anonymous\"\nstate = \"authenticated\"\nprint(state)\n",
+          "note": "Hints login ok → authenticated.",
+          "concepts_used": [
+            "auth transition"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T3-A-E1",
+          "code": "ev = {\"trace\": \"a.zip\", \"screenshot\": \"b.png\", \"error\": \"x\"}\nprint(sorted(ev.keys()))\n",
+          "note": "Starter keys sorted.",
+          "concepts_used": [
+            "evidence keys"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T3-A-E2",
+          "code": "logs = [\"ok\", \"ERR timeout\", \"nav\"]\nprint([x for x in logs if \"ERR\" in x])\n",
+          "note": "Hints list comp ERR.",
+          "concepts_used": [
+            "filter ERR logs"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T3-A-E3",
+          "code": "ok = False\npkg = {\"step\": \"s1\"}\nif not ok:\n    pkg[\"trace\"] = \"t.zip\"\nprint(pkg)\n",
+          "note": "Hints update when ok=False.",
+          "concepts_used": [
+            "attach trace on fail"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T3-B-E1",
+          "code": "def should_retry(k):\n    return k in {\"timeout\", \"429\"}\n\nfor k in (\"timeout\", \"429\", \"captcha\"):\n    print(k, should_retry(k))\n",
+          "note": "Hints set timeout/429.",
+          "concepts_used": [
+            "should_retry"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T3-B-E2",
+          "code": "err = \"stale\"\naction = \"goto_home\" if err == \"stale\" else \"continue\"\nprint(action)\n",
+          "note": "Starter stale → goto_home.",
+          "concepts_used": [
+            "recovery"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T3-B-E3",
+          "code": "errors = [\"timeout\", \"timeout\", \"timeout\"]\nresult = \"fail\"\nattempts = 0\nfor e in errors:\n    attempts += 1\n    if e == \"ok\":\n        result = \"ok\"\n        break\n    if attempts >= 3:\n        result = \"fail\"\n        break\nprint(attempts, result)\n",
+          "note": "Three timeouts → fail.",
+          "concepts_used": [
+            "max 3 retries"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T4-A-E1",
+          "code": "api = True\nprint(\"api\" if api else \"rpa\")\n",
+          "note": "Starter api=True.",
+          "concepts_used": [
+            "api first"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T4-A-E2",
+          "code": "f = {\"api\": False, \"export\": True, \"rpa\": True}\nif f[\"api\"]:\n    choice = \"api\"\nelif f[\"export\"]:\n    choice = \"export\"\nelif f[\"rpa\"]:\n    choice = \"rpa\"\nelse:\n    choice = \"human\"\nprint(choice)\n",
+          "note": "export True → export.",
+          "concepts_used": [
+            "priority chain"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T4-A-E3",
+          "code": "decision = {\"method\": \"rpa\", \"reason\": \"no_api\"}\nprint(decision)\n",
+          "note": "Hints method+reason no_api.",
+          "concepts_used": [
+            "rpa reason"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T4-B-E1",
+          "code": "captcha = True\nprint(\"human_handoff\" if captcha else \"continue\")\n",
+          "note": "Starter captcha True.",
+          "concepts_used": [
+            "captcha stop"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T4-B-E2",
+          "code": "sig = {\"tos_forbidden\": True, \"captcha\": True}\naction = \"abort\" if sig.get(\"tos_forbidden\") else (\"human_handoff\" if sig.get(\"captcha\") else \"continue\")\nprint(action)\n",
+          "note": "Hints tos wins → abort.",
+          "concepts_used": [
+            "tos priority"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S23-T4-B-E3",
+          "code": "payload = {\"url\": \"https://demo.example.pe\", \"step\": \"export\", \"screenshot\": \"s.png\"}\nprint(payload)\n",
+          "note": "Hints url step screenshot.",
+          "concepts_used": [
+            "handoff payload"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S23-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "n1\n",
+          "expected_head": "n1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['role', 'testid', 'css']\n",
+          "expected_head": "['role', 'testid', 'css']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "need_testid\n",
+          "expected_head": "need_testid",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "timeout\n",
+          "expected_head": "timeout",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pass\n",
+          "expected_head": "pass",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'usuario': 'ana'}\n",
+          "expected_head": "{'usuario': 'ana'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3a6eb079\n",
+          "expected_head": "3a6eb079",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "reuse\n",
+          "expected_head": "reuse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "denied\n",
+          "expected_head": "denied",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "authenticated\n",
+          "expected_head": "authenticated",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['error', 'screenshot', 'trace']\n",
+          "expected_head": "['error', 'screenshot', 'trace']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['ERR timeout']\n",
+          "expected_head": "['ERR timeout']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'step': 's1', 'trace': 't.zip'}\n",
+          "expected_head": "{'step': 's1', 'trace': 'traces/s1.zip'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "timeout True\n429 True\ncaptcha False\n",
+          "expected_head": "timeout True\ncaptcha False\n429 True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "goto_home\n",
+          "expected_head": "goto_home",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3 fail\n",
+          "expected_head": "fail 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "api\n",
+          "expected_head": "api",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "export\n",
+          "expected_head": "export",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'method': 'rpa', 'reason': 'no_api'}\n",
+          "expected_head": "{'method': 'rpa', 'reason': 'no_api'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "human_handoff\n",
+          "expected_head": "human_handoff",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "abort\n",
+          "expected_head": "abort",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S23-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'url': 'https://demo.example.pe', 'step': 'export', 'screenshot': 's.png'}\n",
+          "expected_head": "['screenshot', 'step', 'url'] export",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

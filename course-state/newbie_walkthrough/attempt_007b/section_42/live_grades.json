@@ -1,0 +1,1116 @@
+{
+  "section_index": 42,
+  "section_id": "graph-rag",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S42-T1-A-E1",
+          "code": "print({\"age\":3}); print(\"pydantic_like\", True); print(\"strict\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "pydantic",
+            "schema",
+            "iDo_S42-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T1-A-E2",
+          "code": "print({\"age\":3}); print(\"pydantic_like\", True); print(\"strict\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "pydantic",
+            "schema",
+            "iDo_S42-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T1-A-E3",
+          "code": "print({\"age\":3}); print(\"pydantic_like\", True); print(\"strict\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "pydantic",
+            "schema",
+            "iDo_S42-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T1-B-E1",
+          "code": "print(10); print(\"err\", \"amount\"); print(\"evol\", \"add_optional\")\n",
+          "note": "",
+          "concepts_used": [
+            "evolution",
+            "validation",
+            "iDo_S42-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T1-B-E2",
+          "code": "print(10); print(\"err\", \"amount\"); print(\"evol\", \"add_optional\")\n",
+          "note": "",
+          "concepts_used": [
+            "evolution",
+            "validation",
+            "iDo_S42-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T1-B-E3",
+          "code": "print(10); print(\"err\", \"amount\"); print(\"evol\", \"add_optional\")\n",
+          "note": "",
+          "concepts_used": [
+            "evolution",
+            "validation",
+            "iDo_S42-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T2-A-E1",
+          "code": "print(\"authn\", \"u1\"); print(\"roles\", [\"analyst\"]); print(\"authz_needed\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "authn",
+            "authz",
+            "iDo_S42-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T2-A-E2",
+          "code": "print(\"authn\", \"u1\"); print(\"roles\", [\"analyst\"]); print(\"authz_needed\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "authn",
+            "authz",
+            "iDo_S42-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T2-A-E3",
+          "code": "print(\"authn\", \"u1\"); print(\"roles\", [\"analyst\"]); print(\"authz_needed\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "authn",
+            "authz",
+            "iDo_S42-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T2-B-E1",
+          "code": "print(\"er-worker\"); print([\"jobs:run\"]); print(\"service_identity\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "scopes",
+            "service_identity",
+            "iDo_S42-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T2-B-E2",
+          "code": "print(\"er-worker\"); print([\"jobs:run\"]); print(\"service_identity\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "scopes",
+            "service_identity",
+            "iDo_S42-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T2-B-E3",
+          "code": "print(\"er-worker\"); print([\"jobs:run\"]); print(\"service_identity\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "scopes",
+            "service_identity",
+            "iDo_S42-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T3-A-E1",
+          "code": "print(True); print(False); print(\"injection\", \"parameterized\")\n",
+          "note": "",
+          "concepts_used": [
+            "injection",
+            "ssrf",
+            "iDo_S42-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T3-A-E2",
+          "code": "print(True); print(False); print(\"injection\", \"parameterized\")\n",
+          "note": "",
+          "concepts_used": [
+            "injection",
+            "ssrf",
+            "iDo_S42-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T3-A-E3",
+          "code": "print(True); print(False); print(\"injection\", \"parameterized\")\n",
+          "note": "",
+          "concepts_used": [
+            "injection",
+            "ssrf",
+            "iDo_S42-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T3-B-E1",
+          "code": "print(\"high\", [\"old\"]); print(\"crypto\", \"AES-GCM-at-rest\"); print(\"rotate\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "secrets",
+            "crypto",
+            "iDo_S42-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T3-B-E2",
+          "code": "print(\"high\", [\"old\"]); print(\"crypto\", \"AES-GCM-at-rest\"); print(\"rotate\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "secrets",
+            "crypto",
+            "iDo_S42-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T3-B-E3",
+          "code": "print(\"high\", [\"old\"]); print(\"crypto\", \"AES-GCM-at-rest\"); print(\"rotate\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "secrets",
+            "crypto",
+            "iDo_S42-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T4-A-E1",
+          "code": "print({\"case_id\":\"C1\"}); print(\"drop_email_for_log\", True); print(\"purpose_bound\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "minimize",
+            "purpose",
+            "iDo_S42-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T4-A-E2",
+          "code": "print({\"case_id\":\"C1\"}); print(\"drop_email_for_log\", True); print(\"purpose_bound\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "minimize",
+            "purpose",
+            "iDo_S42-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T4-A-E3",
+          "code": "print({\"case_id\":\"C1\"}); print(\"drop_email_for_log\", True); print(\"purpose_bound\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "minimize",
+            "purpose",
+            "iDo_S42-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T4-B-E1",
+          "code": "print(True); print(False); print(\"no_cross_tenant\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "audit",
+            "tenant",
+            "iDo_S42-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T4-B-E2",
+          "code": "print(True); print(False); print(\"no_cross_tenant\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "audit",
+            "tenant",
+            "iDo_S42-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T4-B-E3",
+          "code": "print(True); print(False); print(\"no_cross_tenant\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "audit",
+            "tenant",
+            "iDo_S42-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S42-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'age': 3}\npydantic_like True\nstrict True\n",
+          "expected_head": "{'age': 3}\npydantic_like True\nstrict True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'age': 3}\npydantic_like True\nstrict True\n",
+          "expected_head": "{'age': 3}\npydantic_like True\nstrict True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'age': 3}\npydantic_like True\nstrict True\n",
+          "expected_head": "{'age': 3}\npydantic_like True\nstrict True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "10\nerr amount\nevol add_optional\n",
+          "expected_head": "10\nerr amount\nevol add_optional",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "10\nerr amount\nevol add_optional\n",
+          "expected_head": "10\nerr amount\nevol add_optional",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "10\nerr amount\nevol add_optional\n",
+          "expected_head": "10\nerr amount\nevol add_optional",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "authn u1\nroles ['analyst']\nauthz_needed True\n",
+          "expected_head": "authn u1\nroles ['analyst']\nauthz_needed True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "authn u1\nroles ['analyst']\nauthz_needed True\n",
+          "expected_head": "authn u1\nroles ['analyst']\nauthz_needed True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "authn u1\nroles ['analyst']\nauthz_needed True\n",
+          "expected_head": "authn u1\nroles ['analyst']\nauthz_needed True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "er-worker\n['jobs:run']\nservice_identity True\n",
+          "expected_head": "er-worker\n['jobs:run']\nservice_identity True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "er-worker\n['jobs:run']\nservice_identity True\n",
+          "expected_head": "er-worker\n['jobs:run']\nservice_identity True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "er-worker\n['jobs:run']\nservice_identity True\n",
+          "expected_head": "er-worker\n['jobs:run']\nservice_identity True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\ninjection parameterized\n",
+          "expected_head": "True\nFalse\ninjection parameterized",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\ninjection parameterized\n",
+          "expected_head": "True\nFalse\ninjection parameterized",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\ninjection parameterized\n",
+          "expected_head": "True\nFalse\ninjection parameterized",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "high ['old']\ncrypto AES-GCM-at-rest\nrotate True\n",
+          "expected_head": "high ['old']\ncrypto AES-GCM-at-rest\nrotate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "high ['old']\ncrypto AES-GCM-at-rest\nrotate True\n",
+          "expected_head": "high ['old']\ncrypto AES-GCM-at-rest\nrotate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "high ['old']\ncrypto AES-GCM-at-rest\nrotate True\n",
+          "expected_head": "high ['old']\ncrypto AES-GCM-at-rest\nrotate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'case_id': 'C1'}\ndrop_email_for_log True\npurpose_bound True\n",
+          "expected_head": "{'case_id': 'C1'}\ndrop_email_for_log True\npurpose_bound True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'case_id': 'C1'}\ndrop_email_for_log True\npurpose_bound True\n",
+          "expected_head": "{'case_id': 'C1'}\ndrop_email_for_log True\npurpose_bound True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'case_id': 'C1'}\ndrop_email_for_log True\npurpose_bound True\n",
+          "expected_head": "{'case_id': 'C1'}\ndrop_email_for_log True\npurpose_bound True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\nno_cross_tenant True\n",
+          "expected_head": "True\nFalse\nno_cross_tenant True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\nno_cross_tenant True\n",
+          "expected_head": "True\nFalse\nno_cross_tenant True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\nno_cross_tenant True\n",
+          "expected_head": "True\nFalse\nno_cross_tenant True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S42-T1-A-E1",
+          "code": "print({\"age\":3}); print(\"pydantic_like\", True); print(\"strict\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T1-A-E2",
+          "code": "print({\"age\":3}); print(\"pydantic_like\", True); print(\"strict\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T1-A-E3",
+          "code": "print({\"age\":3}); print(\"pydantic_like\", True); print(\"strict\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T1-B-E1",
+          "code": "print(10); print(\"err\", \"amount\"); print(\"evol\", \"add_optional\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T1-B-E2",
+          "code": "print(10); print(\"err\", \"amount\"); print(\"evol\", \"add_optional\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T1-B-E3",
+          "code": "print(10); print(\"err\", \"amount\"); print(\"evol\", \"add_optional\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T2-A-E1",
+          "code": "print(\"authn\", \"u1\"); print(\"roles\", [\"analyst\"]); print(\"authz_needed\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T2-A-E2",
+          "code": "print(\"authn\", \"u1\"); print(\"roles\", [\"analyst\"]); print(\"authz_needed\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T2-A-E3",
+          "code": "print(\"authn\", \"u1\"); print(\"roles\", [\"analyst\"]); print(\"authz_needed\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T2-B-E1",
+          "code": "print(\"er-worker\"); print([\"jobs:run\"]); print(\"service_identity\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T2-B-E2",
+          "code": "print(\"er-worker\"); print([\"jobs:run\"]); print(\"service_identity\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T2-B-E3",
+          "code": "print(\"er-worker\"); print([\"jobs:run\"]); print(\"service_identity\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T3-A-E1",
+          "code": "print(True); print(False); print(\"injection\", \"parameterized\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T3-A-E2",
+          "code": "print(True); print(False); print(\"injection\", \"parameterized\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T3-A-E3",
+          "code": "print(True); print(False); print(\"injection\", \"parameterized\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T3-B-E1",
+          "code": "print(\"high\", [\"old\"]); print(\"crypto\", \"AES-GCM-at-rest\"); print(\"rotate\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T3-B-E2",
+          "code": "print(\"high\", [\"old\"]); print(\"crypto\", \"AES-GCM-at-rest\"); print(\"rotate\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T3-B-E3",
+          "code": "print(\"high\", [\"old\"]); print(\"crypto\", \"AES-GCM-at-rest\"); print(\"rotate\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T4-A-E1",
+          "code": "print({\"case_id\":\"C1\"}); print(\"drop_email_for_log\", True); print(\"purpose_bound\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T4-A-E2",
+          "code": "print({\"case_id\":\"C1\"}); print(\"drop_email_for_log\", True); print(\"purpose_bound\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T4-A-E3",
+          "code": "print({\"case_id\":\"C1\"}); print(\"drop_email_for_log\", True); print(\"purpose_bound\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T4-B-E1",
+          "code": "print(True); print(False); print(\"no_cross_tenant\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T4-B-E2",
+          "code": "print(True); print(False); print(\"no_cross_tenant\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S42-T4-B-E3",
+          "code": "print(True); print(False); print(\"no_cross_tenant\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S42-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S42-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'age': 3}\npydantic_like True\nstrict True\n",
+          "expected_head": "{'age': 3}\npydantic_like True\nstrict True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'age': 3}\npydantic_like True\nstrict True\n",
+          "expected_head": "{'age': 3}\npydantic_like True\nstrict True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'age': 3}\npydantic_like True\nstrict True\n",
+          "expected_head": "{'age': 3}\npydantic_like True\nstrict True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "10\nerr amount\nevol add_optional\n",
+          "expected_head": "10\nerr amount\nevol add_optional",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "10\nerr amount\nevol add_optional\n",
+          "expected_head": "10\nerr amount\nevol add_optional",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "10\nerr amount\nevol add_optional\n",
+          "expected_head": "10\nerr amount\nevol add_optional",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "authn u1\nroles ['analyst']\nauthz_needed True\n",
+          "expected_head": "authn u1\nroles ['analyst']\nauthz_needed True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "authn u1\nroles ['analyst']\nauthz_needed True\n",
+          "expected_head": "authn u1\nroles ['analyst']\nauthz_needed True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "authn u1\nroles ['analyst']\nauthz_needed True\n",
+          "expected_head": "authn u1\nroles ['analyst']\nauthz_needed True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "er-worker\n['jobs:run']\nservice_identity True\n",
+          "expected_head": "er-worker\n['jobs:run']\nservice_identity True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "er-worker\n['jobs:run']\nservice_identity True\n",
+          "expected_head": "er-worker\n['jobs:run']\nservice_identity True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "er-worker\n['jobs:run']\nservice_identity True\n",
+          "expected_head": "er-worker\n['jobs:run']\nservice_identity True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\ninjection parameterized\n",
+          "expected_head": "True\nFalse\ninjection parameterized",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\ninjection parameterized\n",
+          "expected_head": "True\nFalse\ninjection parameterized",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\ninjection parameterized\n",
+          "expected_head": "True\nFalse\ninjection parameterized",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "high ['old']\ncrypto AES-GCM-at-rest\nrotate True\n",
+          "expected_head": "high ['old']\ncrypto AES-GCM-at-rest\nrotate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "high ['old']\ncrypto AES-GCM-at-rest\nrotate True\n",
+          "expected_head": "high ['old']\ncrypto AES-GCM-at-rest\nrotate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "high ['old']\ncrypto AES-GCM-at-rest\nrotate True\n",
+          "expected_head": "high ['old']\ncrypto AES-GCM-at-rest\nrotate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'case_id': 'C1'}\ndrop_email_for_log True\npurpose_bound True\n",
+          "expected_head": "{'case_id': 'C1'}\ndrop_email_for_log True\npurpose_bound True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'case_id': 'C1'}\ndrop_email_for_log True\npurpose_bound True\n",
+          "expected_head": "{'case_id': 'C1'}\ndrop_email_for_log True\npurpose_bound True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'case_id': 'C1'}\ndrop_email_for_log True\npurpose_bound True\n",
+          "expected_head": "{'case_id': 'C1'}\ndrop_email_for_log True\npurpose_bound True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\nno_cross_tenant True\n",
+          "expected_head": "True\nFalse\nno_cross_tenant True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\nno_cross_tenant True\n",
+          "expected_head": "True\nFalse\nno_cross_tenant True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S42-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\nno_cross_tenant True\n",
+          "expected_head": "True\nFalse\nno_cross_tenant True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

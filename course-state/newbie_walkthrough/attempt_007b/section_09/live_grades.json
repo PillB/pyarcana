@@ -1,0 +1,1092 @@
+{
+  "section_index": 9,
+  "section_id": "visualization",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 6,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 6,
+        "total": 6,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 5,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S09-T1-A-E1",
+          "code": "pairs = [\n    (\"int('x')\", \"ValueError\"),\n    (\"sumar str + int\", \"TypeError\"),\n    (\"dict sin clave email\", \"KeyError\"),\n    (\"abrir archivo inexistente\", \"FileNotFoundError\"),\n    (\"regla de negocio: monto < 0\", \"ValidationError\"),\n]\nfor f, t in pairs:\n    print(f\"{f} -> {t}\")",
+          "note": "",
+          "concepts_used": [
+            "tipos excepción"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T1-A-E2",
+          "code": "def parse_monto(raw):\n    try:\n        n = float(str(raw).replace(',', '.'))\n    except (TypeError, ValueError):\n        raise ValueError(f\"monto no numérico: {raw!r}\")\n    if n < 0:\n        raise ValueError(f\"monto negativo: {raw!r}\")\n    return n\nfor v in [\"10.5\", \"3,25\", \"abc\", \"-1\"]:\n    try:\n        print(v, \"->\", parse_monto(v))\n    except ValueError as e:\n        print(v, \"ERR\", e)",
+          "note": "",
+          "concepts_used": [
+            "raise ValueError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T1-A-E3",
+          "code": "class DataLoadError(Exception):\n    pass\n\ndef load_text(path_fn):\n    try:\n        return path_fn()\n    except OSError as e:\n        raise DataLoadError(f\"no se pudo cargar: {e}\") from e\n\ndef bad_reader():\n    raise OSError(\"no such file: data/clientes.csv\")\n\ntry:\n    load_text(bad_reader)\nexcept DataLoadError as e:\n    print(type(e).__name__, e)\n    print(type(e.__cause__).__name__, e.__cause__)",
+          "note": "",
+          "concepts_used": [
+            "raise from"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T1-B-E1",
+          "code": "state = {\"closed\": False}\n\ndef work(fail: bool):\n    try:\n        if fail:\n            raise RuntimeError(\"boom\")\n        return \"ok\"\n    finally:\n        state[\"closed\"] = True\n\nprint(work(False), state)\ntry:\n    work(True)\nexcept RuntimeError:\n    print(\"err\", state)",
+          "note": "",
+          "concepts_used": [
+            "finally"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T1-B-E2",
+          "code": "errores = [\n    (\"delimiter vacío en config\", \"fail-fast\"),\n    (\"monto no numérico en fila\", \"recover\"),\n    (\"schema_path no existe\", \"fail-fast\"),\n    (\"email mal formado en fila\", \"recover\"),\n    (\"API_TOKEN ausente\", \"fail-fast\"),\n    (\"timeout leyendo un record remoto\", \"recover\"),\n]\nfor n, p in errores:\n    print(f\"{n}: {p}\")",
+          "note": "",
+          "concepts_used": [
+            "recover vs fail-fast"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T1-B-E3",
+          "code": "def good_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except ValueError as e:\n        return (\"quarantine\", str(e))\n\ndef v():\n    raise ValueError(\"fila\")\n\ndef r():\n    raise RuntimeError(\"config\")\n\nprint(\"good_v\", good_handler(v))\ntry:\n    print(good_handler(r))\nexcept RuntimeError as e:\n    print(\"good_r raised\", e)",
+          "note": "",
+          "concepts_used": [
+            "no bare except"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T2-A-E1",
+          "code": "tb = '''Traceback (most recent call last):\n  File \"cli.py\", line 10, in main\n    run()\n  File \"pipeline.py\", line 4, in run\n    normalize(row)\n  File \"normalize.py\", line 2, in normalize\n    return row[\"email\"]\nKeyError: 'email'\n'''\nprint('frame1 main')\nprint('frame2 run')\nprint('frame3 normalize')",
+          "note": "",
+          "concepts_used": [
+            "traceback frames"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T2-A-E2",
+          "code": "DEBUG = True\n\ndef normalize(row: dict) -> str:\n    if \"email\" not in row:\n        if DEBUG:\n            print(\"DEBUG locals id=\", row.get(\"id\"))\n        raise KeyError(\"email\")\n    return row[\"email\"].strip().lower()\n\ntry:\n    print(normalize({\"id\": \"C009\"}))\nexcept KeyError as e:\n    print(\"raised\", e)",
+          "note": "",
+          "concepts_used": [
+            "locals seguros"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T2-A-E3",
+          "code": "print(\"causa_raiz=normalize falta clave email\")",
+          "note": "",
+          "concepts_used": [
+            "root cause"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T2-B-E1",
+          "code": "def parse_dni(d: str) -> str:\n    if not (d.isdigit() and len(d) == 8):\n        raise ValueError(f\"dni inválido: {d!r}\")\n    return d\n\nfixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"]\nfor d in fixture:\n    try:\n        parse_dni(d)\n    except ValueError:\n        print(\"minimal=\", d)\n        break",
+          "note": "",
+          "concepts_used": [
+            "minimal repro"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T2-B-E2",
+          "code": "def normalize_phone(p: str) -> str:\n    return \"\".join(c for c in p if c.isdigit())\n\nprint('H1: el + se pierde porque isdigit elimina no-dígitos')\nprint('exp H1', normalize_phone('+51999'), '→ fail (sin +)')\nprint('H2: solo se borran espacios, el + debería quedar')\nprint('exp H2', '+51999'.replace(' ', ''), '→ ok conceptual; bug actual no lo hace')",
+          "note": "",
+          "concepts_used": [
+            "hipótesis"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T2-B-E3",
+          "code": "def bad_title(s: str) -> str:\n    return s.title()\n\ndef good_title(s: str) -> str:\n    parts = s.split()\n    out = []\n    for i, p in enumerate(parts):\n        if i > 0 and p.lower() in {\"de\", \"del\", \"la\"}:\n            out.append(p.lower())\n        else:\n            out.append(p.capitalize())\n    return \" \".join(out)\n\ndef test(fn):\n    out = fn(\"juan de la cruz\")\n    assert out == \"Juan de la Cruz\", out\n    return \"pass\"\n\ntry:\n    test(bad_title)\nexcept AssertionError:\n    print(\"RED\")\nprint(\"GREEN\", test(good_title))",
+          "note": "",
+          "concepts_used": [
+            "regresión red/green"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T3-A-E1",
+          "code": "eventos = [\n    (\"job iniciado\", \"INFO\"),\n    (\"valor de variable i en loop\", \"DEBUG\"),\n    (\"fila sin email opcional\", \"WARNING\"),\n    (\"no se pudo parsear monto\", \"ERROR\"),\n    (\"archivo de config ilegible\", \"ERROR\"),\n    (\"lote terminado con conteos\", \"INFO\"),\n]\nfor e, n in eventos:\n    print(f\"{e}: {n}\")",
+          "note": "",
+          "concepts_used": [
+            "niveles log"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T3-A-E2",
+          "code": "import logging, io\nbuf = io.StringIO()\nlog = logging.getLogger(\"demo.module\")\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter(\"%(levelname)s %(message)s\"))\nlog.addHandler(h)\nlog.propagate = False\nlog.info(\"stage=ingest event=start\")\nprint(buf.getvalue().strip())",
+          "note": "",
+          "concepts_used": [
+            "Logger módulo"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T3-A-E3",
+          "code": "import logging, io\nbuf = io.StringIO()\nlog = logging.getLogger(\"cli\")\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nlog.addHandler(h)\nlog.propagate = False\n\ndef cli_stub_good(n):\n    log.info(\"stage=cli event=start\")\n    result = n + 1\n    log.info(\"stage=cli event=done\")\n    print(f\"RESULT={result}\")\n\ncli_stub_good(2)\nprint(buf.getvalue().strip())",
+          "note": "",
+          "concepts_used": [
+            "stdout vs log"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T3-B-E1",
+          "code": "def mask_email(email: str) -> str:\n    local, _, domain = email.partition(\"@\")\n    return f\"{(local[:1] or '*')}***@{domain}\" if domain else \"***\"\n\ndef mask_phone(phone: str) -> str:\n    digits = \"\".join(c for c in phone if c.isdigit())\n    return \"***\" + digits[-4:] if len(digits) >= 4 else \"***\"\n\nprint(mask_email(\"carlos@ejemplo.pe\"))\nprint(mask_phone(\"+51 988 777 666\"))",
+          "note": "",
+          "concepts_used": [
+            "mask PII"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T3-B-E2",
+          "code": "def repo_save(corr, item):\n    print(f\"repo corr={corr} id={item['id']}\")\n\ndef service_upsert(corr, item):\n    print(f\"service corr={corr}\")\n    repo_save(corr, item)\n\ndef cli_main(corr, item):\n    print(f\"cli corr={corr}\")\n    service_upsert(corr, item)\n\ncli_main(\"corr-42\", {\"id\": \"C001\"})",
+          "note": "",
+          "concepts_used": [
+            "correlation_id"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T3-B-E3",
+          "code": "def mask_email(email: str) -> str:\n    local, _, domain = email.partition(\"@\")\n    return f\"{(local[:1] or '*')}***@{domain}\" if domain else \"***\"\n\ndef mask_phone(phone: str) -> str:\n    digits = \"\".join(c for c in phone if c.isdigit())\n    return \"***\" + digits[-4:] if len(digits) >= 4 else \"***\"\n\ndef safe_log(row):\n    return f\"error email={mask_email(row['email'])} tel={mask_phone(row['phone'])}\"\n\nrow = {\"email\": \"a@ejemplo.pe\", \"phone\": \"999111222\"}\nprint(\"SAFE\", safe_log(row))",
+          "note": "",
+          "concepts_used": [
+            "redact log"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T4-A-E1",
+          "code": "fallos = [\n    (\"monto NaN en CSV\", \"data\"),\n    (\"YAML de config corrupto\", \"config\"),\n    (\"timeout S3\", \"provider\"),\n    (\"email vacío en fila\", \"data\"),\n    (\"required_fields no definido\", \"config\"),\n    (\"HTTP 503 del proveedor\", \"provider\"),\n    (\"dni con letras\", \"data\"),\n    (\"variable de entorno ROOT_PATH vacía\", \"config\"),\n]\nfor f, c in fallos:\n    print(f\"{f}: {c}\")",
+          "note": "",
+          "concepts_used": [
+            "taxonomía"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T4-A-E2",
+          "code": "def process_batch(rows):\n    ok, q = [], []\n    for r in rows:\n        if not r.get(\"id\"):\n            q.append({\"id\": None, \"reason\": \"missing id\"})\n        else:\n            ok.append(r)\n    return {\"ok\": ok, \"quarantined\": q, \"in\": len(rows)}\n\nrows = [{\"id\": 1}, {}, {\"id\": 2}]\nprint(process_batch(rows))",
+          "note": "",
+          "concepts_used": [
+            "cuarentena"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T4-A-E3",
+          "code": "print(\"POLICY: abortar si config inválida (schema/token/path)\")\nprint(\"POLICY: abortar si cuarentena supera umbral documentado\")\nprint(\"POLICY: abortar si provider está completamente caído tras retries\")",
+          "note": "",
+          "concepts_used": [
+            "política abort"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T4-B-E1",
+          "code": "errores = [\n    (\"TimeoutError\", \"yes\"),\n    (\"ValueError\", \"no\"),\n    (\"ConnectionError\", \"yes\"),\n    (\"KeyError\", \"no\"),\n    (\"PermissionError\", \"no\"),\n]\nfor e, r in errores:\n    print(f\"{e}: {r}\")",
+          "note": "",
+          "concepts_used": [
+            "retry sí/no"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T4-B-E2",
+          "code": "def retry_call(fn, max_attempts=3):\n    last = None\n    for attempt in range(1, max_attempts + 1):\n        try:\n            return fn()\n        except TimeoutError as e:\n            last = e\n    raise last\n\nn = {\"c\": 0}\n\ndef flaky():\n    n[\"c\"] += 1\n    if n[\"c\"] < 3:\n        raise TimeoutError(\"x\")\n    return \"done\"\n\nprint(retry_call(flaky), \"calls\", n[\"c\"])",
+          "note": "",
+          "concepts_used": [
+            "retry TimeoutError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T4-B-E3",
+          "code": "record = {\"source\": \"banco_a\", \"id\": \"C001\", \"version\": 3, \"payload\": {\"m\": 1}}\nprint(f\"idem_key={record['source']}:{record['id']}:v{record['version']}\")",
+          "note": "",
+          "concepts_used": [
+            "idempotencia"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S09-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "int('x') -> ValueError\nsumar str + int -> TypeError\ndict sin clave email -> KeyError\nabrir archivo inexistente -> FileNo",
+          "expected_head": "int('x') -> ValueError\nsumar str + int -> TypeError\ndict sin clave email -> KeyError\nabrir archivo inexistente -> FileNo",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "10.5 -> 10.5\n3,25 -> 3.25\nabc ERR monto no numérico: 'abc'\n-1 ERR monto negativo: '-1'\n",
+          "expected_head": "10.5 -> 10.5\n3,25 -> 3.25\nabc ERR monto no numérico: 'abc'\n-1 ERR monto negativo no permitido: -1.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "DataLoadError no se pudo cargar: no such file: data/clientes.csv\nOSError no such file: data/clientes.csv\n",
+          "expected_head": "DataLoadError fallo al cargar intake\nOSError no such file: data/clientes.csv",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok {'closed': True}\nerr {'closed': True}\n",
+          "expected_head": "ok {'closed': True}\nerr {'closed': True}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "delimiter vacío en config: fail-fast\nmonto no numérico en fila: recover\nschema_path no existe: fail-fast\nemail mal forma",
+          "expected_head": "delimiter vacío en config: fail-fast\nmonto no numérico en fila: recover\nschema_path no existe: fail-fast\nemail mal forma",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T1-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "good_v ('quarantine', 'fila')\ngood_r raised config\n",
+          "expected_head": "bad ('swallowed', None) ('swallowed', None)\ngood_v ('quarantine', 'fila')\ngood_r raised config",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "frame1 main\nframe2 run\nframe3 normalize\n",
+          "expected_head": "frame1 main\nframe2 run\nframe3 normalize",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "DEBUG locals id= C009\nraised 'email'\n",
+          "expected_head": "break locals id= C009\nraised 'email'",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "causa_raiz=normalize falta clave email\n",
+          "expected_head": "causa_raiz=normalize falta clave email",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "minimal= 123\n",
+          "expected_head": "minimal= 123\ndni inválido: '123'",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "H1: el + se pierde porque isdigit elimina no-dígitos\nexp H1 51999 → fail (sin +)\nH2: solo se borran espacios, el + deber",
+          "expected_head": "H1: solo dígitos; pierde '+'\nexp1 51999111222 fail\nH1_result fail\nH2: el bug es strip de espacios no del +\nexp2 99911122",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "RED\nGREEN pass\n",
+          "expected_head": "RED\npass\nGREEN",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "job iniciado: INFO\nvalor de variable i en loop: DEBUG\nfila sin email opcional: WARNING\nno se pudo parsear monto: ERROR\na",
+          "expected_head": "job iniciado: INFO\nvalor de variable i en loop: DEBUG\nfila sin email opcional: WARNING\nno se pudo parsear monto: ERROR\na",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "INFO stage=ingest event=start\n",
+          "expected_head": "INFO stage=ingest event=start",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "RESULT=3\nstage=cli event=start\nstage=cli event=done\n",
+          "expected_head": "RESULT=3\nLOGS: event=start op=inc | event=done op=inc |",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "c***@ejemplo.pe\n***7666\n",
+          "expected_head": "c***@ejemplo.pe\n***7666",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cli corr=corr-42\nservice corr=corr-42\nrepo corr=corr-42 id=C001\n",
+          "expected_head": "cli correlation_id=corr-42\nservice correlation_id=corr-42\nrepo correlation_id=corr-42 id=C001",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T3-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "SAFE error email=a***@ejemplo.pe tel=***1222\n",
+          "expected_head": "UNSAFE error en a@ejemplo.pe tel=999111222\nSAFE error en a***@ejemplo.pe tel=***1222",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "monto NaN en CSV: data\nYAML de config corrupto: config\ntimeout S3: provider\nemail vacío en fila: data\nrequired_fields no",
+          "expected_head": "monto NaN en CSV: data\nYAML de config corrupto: config\ntimeout S3: provider\nemail vacío en fila: data\nrequired_fields no",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'ok': [{'id': 1}, {'id': 2}], 'quarantined': [{'id': None, 'reason': 'missing id'}], 'in': 3}\n",
+          "expected_head": "{'ok': [{'id': 1}, {'id': 2}], 'quarantined': [{'row': {}, 'reason': 'data:missing_id'}], 'in': 3}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T4-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "POLICY: abortar si config inválida (schema/token/path)\nPOLICY: abortar si cuarentena supera umbral documentado\nPOLICY: a",
+          "expected_head": "POLICY: abortar si falta config crítica (schema, delimiter, paths)\nPOLICY: abortar si quarantined/in > 0.5 en el lote\nPO",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "TimeoutError: yes\nValueError: no\nConnectionError: yes\nKeyError: no\nPermissionError: no\n",
+          "expected_head": "TimeoutError: yes\nValueError: no\nConnectionError: yes\nKeyError: no\nPermissionError: no",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "done calls 3\n",
+          "expected_head": "done calls 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T4-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "idem_key=banco_a:C001:v3\n",
+          "expected_head": "idem_key=banco_a:C001:v3:bc63c11b44d5",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 20,
+      "code_tried": 24,
+      "code_ratio": 0.833,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 6,
+        "total": 6,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 5,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S09-T1-A-E1",
+          "code": "fallos = [\n    \"int('x')\",\n    \"sumar str + int\",\n    \"dict sin clave email\",\n    \"abrir archivo inexistente\",\n    \"regla de negocio: monto < 0\",\n]\nmapa = [\n    \"ValueError\",\n    \"TypeError\",\n    \"KeyError\",\n    \"FileNotFoundError\",\n    \"ValidationError\",\n]\nfor f, t in zip(fallos, mapa):\n    print(f\"{f} -> {t}\")",
+          "note": "",
+          "concepts_used": [
+            "exception types"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T1-A-E2",
+          "code": "def parse_monto(raw):\n    try:\n        n = float(str(raw).replace(',', '.'))\n    except (TypeError, ValueError):\n        raise ValueError(f'monto no numérico: {raw!r}')\n    if n < 0:\n        raise ValueError(f'monto negativo: {raw!r}')\n    return n\nfor v in ['10.5', '3,25', 'abc', '-1']:\n    try:\n        print(v, '->', parse_monto(v))\n    except ValueError as e:\n        print(v, 'ERR', e)",
+          "note": "",
+          "concepts_used": [
+            "actionable ValueError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T1-A-E3",
+          "code": "class DataLoadError(Exception):\n    pass\n\ndef load_text(path_fn):\n    try:\n        return path_fn()\n    except OSError as e:\n        raise DataLoadError(f'load failed: {e}') from e\n\ndef bad_reader():\n    raise OSError('no such file: data/clientes.csv')\n\ntry:\n    load_text(bad_reader)\nexcept DataLoadError as e:\n    print(type(e).__name__, e)\n    print(type(e.__cause__).__name__, e.__cause__)",
+          "note": "",
+          "concepts_used": [
+            "raise from"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T1-B-E1",
+          "code": "state = {\"closed\": False}\n\ndef work(fail: bool):\n    try:\n        if fail:\n            raise RuntimeError(\"boom\")\n        return \"ok\"\n    finally:\n        state[\"closed\"] = True\n\nprint(work(False), state)\ntry:\n    work(True)\nexcept RuntimeError:\n    print(\"err\", state)",
+          "note": "",
+          "concepts_used": [
+            "finally"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T1-B-E2",
+          "code": "errores = [\n    \"delimiter vacío en config\",\n    \"monto no numérico en fila\",\n    \"schema_path no existe\",\n    \"email mal formado en fila\",\n    \"API_TOKEN ausente\",\n    \"timeout leyendo un record remoto\",\n]\npol = {\n    \"delimiter vacío en config\": \"fail-fast\",\n    \"monto no numérico en fila\": \"recover\",\n    \"schema_path no existe\": \"fail-fast\",\n    \"email mal formado en fila\": \"recover\",\n    \"API_TOKEN ausente\": \"fail-fast\",\n    \"timeout leyendo un record remoto\": \"recover\",\n}\nfor e in errores:\n    print(f\"{e}: {pol[e]}\")",
+          "note": "",
+          "concepts_used": [
+            "recover vs fail-fast"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T1-B-E3",
+          "code": "def bad_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except:\n        return (\"swallowed\", None)\n\ndef good_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except ValueError as e:\n        return (\"quarantine\", str(e))\n\ndef v():\n    raise ValueError(\"fila\")\n\ndef r():\n    raise RuntimeError(\"config\")\n\nprint(\"bad\", bad_handler(v), bad_handler(r))\nprint(\"good_v\", good_handler(v))\ntry:\n    print(good_handler(r))\nexcept RuntimeError as e:\n    print(\"good_r raised\", e)",
+          "note": "",
+          "concepts_used": [
+            "no bare except"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T2-A-E1",
+          "code": "print('frame1=main')\nprint('frame2=run')\nprint('frame3=normalize')",
+          "note": "",
+          "concepts_used": [
+            "traceback frames"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T2-A-E2",
+          "code": "DEBUG = True\n\ndef normalize(row: dict) -> str:\n    if 'email' not in row:\n        if DEBUG:\n            print('DEBUG locals id=', row.get('id'))\n        raise KeyError('email')\n    return row['email'].strip().lower()\n\ntry:\n    print(normalize({\"id\": \"C009\"}))\nexcept KeyError as e:\n    print(\"raised\", e)",
+          "note": "",
+          "concepts_used": [
+            "safe debug"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T2-A-E3",
+          "code": "print(\"causa_raiz=normalize falta clave email\")",
+          "note": "",
+          "concepts_used": [
+            "root cause"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T2-B-E1",
+          "code": "def parse_dni(d: str) -> str:\n    if not (d.isdigit() and len(d) == 8):\n        raise ValueError(f\"dni inválido: {d!r}\")\n    return d\n\nfixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"]\nminimal = None\nfor d in fixture:\n    try:\n        parse_dni(d)\n    except ValueError:\n        minimal = d\n        break\nprint('minimal=', repr(minimal))",
+          "note": "",
+          "concepts_used": [
+            "minimal repro"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T2-B-E2",
+          "code": "def normalize_phone(p: str) -> str:\n    return ''.join(c for c in p if c.isdigit())\n\nprint('H1: el filtro isdigit elimina + y espacios del prefijo')\nprint('exp1', normalize_phone('+51 999'))\nprint('H2: política E.164 documentada o no')\nprint('exp2', normalize_phone('51999'))\nprint('resultado: H1 confirmada')",
+          "note": "",
+          "concepts_used": [
+            "hypotheses"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T2-B-E3",
+          "code": "def good_title(s: str) -> str:\n    parts = []\n    for i, w in enumerate(s.split()):\n        if i > 0 and w.lower() in {'de', 'del', 'la'}:\n            parts.append(w.lower())\n        else:\n            parts.append(w[:1].upper() + w[1:].lower() if w else w)\n    return ' '.join(parts)\n\ndef test(fn):\n    out = fn('juan de la cruz')\n    assert out == 'Juan de la Cruz', out\n    return 'pass'\n\nprint('GREEN', test(good_title))",
+          "note": "",
+          "concepts_used": [
+            "regression"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T3-A-E1",
+          "code": "eventos = [\n    \"job iniciado\",\n    \"valor de variable i en loop\",\n    \"fila sin email opcional\",\n    \"no se pudo parsear monto\",\n    \"archivo de config ilegible\",\n    \"lote terminado con conteos\",\n]\nniveles = [\"INFO\", \"DEBUG\", \"WARNING\", \"ERROR\", \"ERROR\", \"INFO\"]\nfor e, n in zip(eventos, niveles):\n    print(f\"{e}: {n}\")",
+          "note": "",
+          "concepts_used": [
+            "log levels"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T3-A-E2",
+          "code": "import logging, io\nbuf = io.StringIO()\nlog = logging.getLogger('pipeline.demo')\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter('%(levelname)s %(message)s'))\nlog.addHandler(h)\nlog.propagate = False\nlog.info('stage=ingest event=start')\nprint(buf.getvalue().strip())",
+          "note": "",
+          "concepts_used": [
+            "getLogger"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T3-A-E3",
+          "code": "import logging, io\nbuf = io.StringIO()\nlog = logging.getLogger('cli')\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nlog.addHandler(h)\nlog.propagate = False\n\ndef cli_stub_good(n):\n    log.info('stage=cli event=start')\n    result = n + 1\n    log.info('stage=cli event=done')\n    print(f'RESULT={result}')\n\ncli_stub_good(2)\nprint('LOGS:', buf.getvalue().strip())",
+          "note": "",
+          "concepts_used": [
+            "stdout vs logger"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T3-B-E1",
+          "code": "def mask_email(email: str) -> str:\n    local, _, domain = email.partition('@')\n    return f\"{(local[:1] or '*')}***@{domain}\" if domain else '***'\n\ndef mask_phone(phone: str) -> str:\n    digits = ''.join(c for c in phone if c.isdigit())\n    return '***' + digits[-4:] if len(digits) >= 4 else '***'\n\nprint(mask_email('carlos@ejemplo.pe'))\nprint(mask_phone('+51 988 777 666'))",
+          "note": "",
+          "concepts_used": [
+            "mask helpers"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T3-B-E2",
+          "code": "def repo_save(corr, item):\n    print(f'repo corr={corr} id={item[\"id\"]}')\n\ndef service_upsert(corr, item):\n    print(f'service corr={corr}')\n    repo_save(corr, item)\n\ndef cli_main(corr, item):\n    print(f'cli corr={corr}')\n    service_upsert(corr, item)\n\ncli_main('corr-42', {'id': 'C001'})",
+          "note": "",
+          "concepts_used": [
+            "correlation_id"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T3-B-E3",
+          "code": "def mask_email(email: str) -> str:\n    local, _, domain = email.partition('@')\n    return f\"{(local[:1] or '*')}***@{domain}\" if domain else '***'\n\ndef mask_phone(phone: str) -> str:\n    digits = ''.join(c for c in phone if c.isdigit())\n    return '***' + digits[-4:] if len(digits) >= 4 else '***'\n\nrow = {\"email\": \"a@ejemplo.pe\", \"phone\": \"999111222\"}\nprint(\"SAFE:\", f\"error en {mask_email(row['email'])} tel={mask_phone(row['phone'])}\")",
+          "note": "",
+          "concepts_used": [
+            "PII redaction"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T4-A-E1",
+          "code": "fallos = [\n    \"monto NaN en CSV\",\n    \"YAML de config corrupto\",\n    \"timeout S3\",\n    \"email vacío en fila\",\n    \"required_fields no definido\",\n    \"HTTP 503 del proveedor\",\n    \"dni con letras\",\n    \"variable de entorno ROOT_PATH vacía\",\n]\ncls = ['data','config','provider','data','config','provider','data','config']\nfor f, c in zip(fallos, cls):\n    print(f'{f}: {c}')",
+          "note": "",
+          "concepts_used": [
+            "data|config|provider"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T4-A-E2",
+          "code": "def process_batch(rows):\n    ok, q = [], []\n    for r in rows:\n        if not r.get('id'):\n            q.append({'id': None, 'reason': 'missing id'})\n        else:\n            ok.append(r)\n    return {'ok': ok, 'quarantined': q, 'in': len(rows)}\n\nrows = [{'id': 1}, {}, {'id': 2}]\nprint(process_batch(rows))",
+          "note": "",
+          "concepts_used": [
+            "quarantine batch"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T4-A-E3",
+          "code": "print('POLICY: abortar si config/schema inválidos (fail-fast)')\nprint('POLICY: abortar si cuarentena supera umbral del lote')\nprint('POLICY: abortar si provider caído total')",
+          "note": "",
+          "concepts_used": [
+            "abort policy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T4-B-E1",
+          "code": "errores = [\"TimeoutError\", \"ValueError\", \"ConnectionError\", \"KeyError\", \"PermissionError\"]\nretry = {\"TimeoutError\": \"yes\", \"ValueError\": \"no\", \"ConnectionError\": \"yes\", \"KeyError\": \"no\", \"PermissionError\": \"no\"}\nfor e in errores:\n    print(f\"{e}: {retry[e]}\")",
+          "note": "",
+          "concepts_used": [
+            "retry table"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T4-B-E2",
+          "code": "def retry_call(fn, max_attempts=3):\n    last = None\n    for attempt in range(1, max_attempts + 1):\n        try:\n            return fn()\n        except TimeoutError as e:\n            last = e\n    raise last\n\nn = {\"c\": 0}\n\ndef flaky():\n    n[\"c\"] += 1\n    if n[\"c\"] < 3:\n        raise TimeoutError(\"x\")\n    return \"done\"\n\nprint(retry_call(flaky), \"calls\", n[\"c\"])",
+          "note": "",
+          "concepts_used": [
+            "retry TimeoutError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S09-T4-B-E3",
+          "code": "record = {\"source\": \"banco_a\", \"id\": \"C001\", \"version\": 3, \"payload\": {\"m\": 1}}\nprint(f\"idem_key={record['source']}:{record['id']}:v{record['version']}\")",
+          "note": "",
+          "concepts_used": [
+            "idempotency key"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S09-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "int('x') -> ValueError\nsumar str + int -> TypeError\ndict sin clave email -> KeyError\nabrir archivo inexistente -> FileNo",
+          "expected_head": "int('x') -> ValueError\nsumar str + int -> TypeError\ndict sin clave email -> KeyError\nabrir archivo inexistente -> FileNo",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "10.5 -> 10.5\n3,25 -> 3.25\nabc ERR monto no numérico: 'abc'\n-1 ERR monto negativo: '-1'\n",
+          "expected_head": "10.5 -> 10.5\n3,25 -> 3.25\nabc ERR monto no numérico: 'abc'\n-1 ERR monto negativo no permitido: -1.0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "DataLoadError load failed: no such file: data/clientes.csv\nOSError no such file: data/clientes.csv\n",
+          "expected_head": "DataLoadError fallo al cargar intake\nOSError no such file: data/clientes.csv",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok {'closed': True}\nerr {'closed': True}\n",
+          "expected_head": "ok {'closed': True}\nerr {'closed': True}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "delimiter vacío en config: fail-fast\nmonto no numérico en fila: recover\nschema_path no existe: fail-fast\nemail mal forma",
+          "expected_head": "delimiter vacío en config: fail-fast\nmonto no numérico en fila: recover\nschema_path no existe: fail-fast\nemail mal forma",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bad ('swallowed', None) ('swallowed', None)\ngood_v ('quarantine', 'fila')\ngood_r raised config\n",
+          "expected_head": "bad ('swallowed', None) ('swallowed', None)\ngood_v ('quarantine', 'fila')\ngood_r raised config",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "frame1=main\nframe2=run\nframe3=normalize\n",
+          "expected_head": "frame1 main\nframe2 run\nframe3 normalize",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "DEBUG locals id= C009\nraised 'email'\n",
+          "expected_head": "break locals id= C009\nraised 'email'",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "causa_raiz=normalize falta clave email\n",
+          "expected_head": "causa_raiz=normalize falta clave email",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T2-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "minimal= '123'\n",
+          "expected_head": "minimal= 123\ndni inválido: '123'",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T2-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "H1: el filtro isdigit elimina + y espacios del prefijo\nexp1 51999\nH2: política E.164 documentada o no\nexp2 51999\nresulta",
+          "expected_head": "H1: solo dígitos; pierde '+'\nexp1 51999111222 fail\nH1_result fail\nH2: el bug es strip de espacios no del +\nexp2 99911122",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T2-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "GREEN pass\n",
+          "expected_head": "RED\npass\nGREEN",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "job iniciado: INFO\nvalor de variable i en loop: DEBUG\nfila sin email opcional: WARNING\nno se pudo parsear monto: ERROR\na",
+          "expected_head": "job iniciado: INFO\nvalor de variable i en loop: DEBUG\nfila sin email opcional: WARNING\nno se pudo parsear monto: ERROR\na",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "INFO stage=ingest event=start\n",
+          "expected_head": "INFO stage=ingest event=start",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "RESULT=3\nLOGS: stage=cli event=start\nstage=cli event=done\n",
+          "expected_head": "RESULT=3\nLOGS: event=start op=inc | event=done op=inc |",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "c***@ejemplo.pe\n***7666\n",
+          "expected_head": "c***@ejemplo.pe\n***7666",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cli corr=corr-42\nservice corr=corr-42\nrepo corr=corr-42 id=C001\n",
+          "expected_head": "cli correlation_id=corr-42\nservice correlation_id=corr-42\nrepo correlation_id=corr-42 id=C001",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "SAFE: error en a***@ejemplo.pe tel=***1222\n",
+          "expected_head": "UNSAFE error en a@ejemplo.pe tel=999111222\nSAFE error en a***@ejemplo.pe tel=***1222",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "monto NaN en CSV: data\nYAML de config corrupto: config\ntimeout S3: provider\nemail vacío en fila: data\nrequired_fields no",
+          "expected_head": "monto NaN en CSV: data\nYAML de config corrupto: config\ntimeout S3: provider\nemail vacío en fila: data\nrequired_fields no",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'ok': [{'id': 1}, {'id': 2}], 'quarantined': [{'id': None, 'reason': 'missing id'}], 'in': 3}\n",
+          "expected_head": "{'ok': [{'id': 1}, {'id': 2}], 'quarantined': [{'row': {}, 'reason': 'data:missing_id'}], 'in': 3}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T4-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "POLICY: abortar si config/schema inválidos (fail-fast)\nPOLICY: abortar si cuarentena supera umbral del lote\nPOLICY: abor",
+          "expected_head": "POLICY: abortar si falta config crítica (schema, delimiter, paths)\nPOLICY: abortar si quarantined/in > 0.5 en el lote\nPO",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "TimeoutError: yes\nValueError: no\nConnectionError: yes\nKeyError: no\nPermissionError: no\n",
+          "expected_head": "TimeoutError: yes\nValueError: no\nConnectionError: yes\nKeyError: no\nPermissionError: no",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "done calls 3\n",
+          "expected_head": "done calls 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S09-T4-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "idem_key=banco_a:C001:v3\n",
+          "expected_head": "idem_key=banco_a:C001:v3:bc63c11b44d5",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 19,
+      "code_tried": 24,
+      "code_ratio": 0.792,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

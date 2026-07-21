@@ -1,0 +1,1068 @@
+{
+  "section_index": 36,
+  "section_id": "ai-apis-advanced",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S36-T1-A-E1",
+          "code": "print(sum([1, 2]) / 2)\nprint('n', 2)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "media"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T1-A-E2",
+          "code": "print((4 - 0) / 2)\nprint('mu', 0)\nprint('sd', 2)\n",
+          "note": "",
+          "concepts_used": [
+            "z-score"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T1-A-E3",
+          "code": "print('verdict', False)\nprint('cluster_is', 'structure')\nprint('misconduct', False)\n",
+          "note": "",
+          "concepts_used": [
+            "kmeans limits"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T1-B-E1",
+          "code": "scores = {2: 0.4, 3: 0.7, 4: 0.5}\nprint('k', max(scores, key=scores.get))\nprint('score', 0.7)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "choose k"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T1-B-E2",
+          "code": "print('multi_seed', True)\nprint('note', 'stability')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "seeds"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T1-B-E3",
+          "code": "print('limit', 'not_business_truth')\nprint('need', 'external_labels')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "métricas internas"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T2-A-E1",
+          "code": "print(sum(a * b for a, b in zip([1, 2], [0.5, 0.5])))\nprint('ok', True)\nprint('n', 2)\n",
+          "note": "",
+          "concepts_used": [
+            "dot product"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T2-A-E2",
+          "code": "print('decision_model', False)\nprint('role', 'exploration')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "PCA role"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T2-A-E3",
+          "code": "print('n_components', 2)\nprint('ok', True)\nprint('dim', 2)\n",
+          "note": "",
+          "concepts_used": [
+            "components"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T2-B-E1",
+          "code": "print('auto_name', False)\nprint('interpret', 'manual')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "PCA axes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T2-B-E2",
+          "code": "print('may_be_scale', True)\nprint('check', 'standardize')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "outlier scale"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T2-B-E3",
+          "code": "print('mode', 'exploratory')\nprint('guilt', False)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "exploratory"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T3-A-E1",
+          "code": "print('flags', [0, 0, 1])\nprint('misconduct', False)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "sigma rule"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T3-A-E2",
+          "code": "print('flag', True)\nprint('rule', 1)\nprint('score', 0.9)\n",
+          "note": "",
+          "concepts_used": [
+            "combine"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T3-A-E3",
+          "code": "print('review_candidate', True)\nprint('guilt', False)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "no guilt"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T3-B-E1",
+          "code": "print('novelty', 'new_pattern')\nprint('outlier', 'extreme_value')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "novelty"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T3-B-E2",
+          "code": "print(int(100 * 0.05))\nprint('is_fraud_rate', False)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "contamination"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T3-B-E3",
+          "code": "print('tune_to', 'capacity')\nprint('not_to', 'fraud_rate')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "capacity tune"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T4-A-E1",
+          "code": "print(round((0.1 + 0.2) / 2, 2))\nprint('backtest', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "backtest rates"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T4-A-E2",
+          "code": "print('future_in_fit', False)\nprint('temporal', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "temporal split"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T4-A-E3",
+          "code": "windows = ['w1', 'w2', 'w3']\nprint(len(windows))\nprint('windows', windows)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "windows"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T4-B-E1",
+          "code": "print(sum([1, 0][:2]) / 2)\nprint('human', True)\nprint('auto_guilt', False)\n",
+          "note": "",
+          "concepts_used": [
+            "p@k labels"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T4-B-E2",
+          "code": "print('human', True)\nprint('auto_guilt', False)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "human review"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T4-B-E3",
+          "code": "print('utility_metric', 'precision_at_k')\nprint('human', True)\nprint('auto_guilt', False)\n",
+          "note": "",
+          "concepts_used": [
+            "utility metric"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S36-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.5\nn 2\nok True\n",
+          "expected_head": "1.5\nn 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2.0\nmu 0\nsd 2\n",
+          "expected_head": "2.0\nsd 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "verdict False\ncluster_is structure\nmisconduct False\n",
+          "expected_head": "verdict False\nok True\ntask cluster",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "k 3\nscore 0.7\nok True\n",
+          "expected_head": "3\nscore 0.9\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T1-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "multi_seed True\nnote stability\nok True\n",
+          "expected_head": "seeds [0, 1, 2]\nok True\nstable check",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "limit not_business_truth\nneed external_labels\nok True\n",
+          "expected_head": "limit True\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T2-A-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "1.5\nok True\nn 2\n",
+          "expected_head": "3.0\nok True\npca True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "decision_model False\nrole exploration\nok True\n",
+          "expected_head": "decision_model False\nok True\nuse viz",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "n_components 2\nok True\ndim 2\n",
+          "expected_head": "2\nok True\nexplore True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "auto_name False\ninterpret manual\nok True\n",
+          "expected_head": "False\nok True\nprudent True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T2-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "may_be_scale True\ncheck standardize\nok True\n",
+          "expected_head": "check_scale True\nok True\nauto_label False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "mode exploratory\nguilt False\nok True\n",
+          "expected_head": "exploratory\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "flags [0, 0, 1]\nmisconduct False\nok True\n",
+          "expected_head": "1\nmisconduct False\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T3-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "flag True\nrule 1\nscore 0.9\n",
+          "expected_head": "['rule', 'score']\nok True\nn 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "review_candidate True\nguilt False\nok True\n",
+          "expected_head": "guilt False\nroute review\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "novelty new_pattern\noutlier extreme_value\nok True\n",
+          "expected_head": "['outlier', 'novelty']\nok True\nn 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "5\nis_fraud_rate False\nok True\n",
+          "expected_head": "5\nis_fraud_rate False\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T3-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "tune_to capacity\nnot_to fraud_rate\nok True\n",
+          "expected_head": "capacity_link True\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.15\nbacktest True\nok True\n",
+          "expected_head": "0.15\nbacktest True\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T4-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "future_in_fit False\ntemporal True\nok True\n",
+          "expected_head": "leakage False\nok True\nsplit time",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3\nwindows ['w1', 'w2', 'w3']\nok True\n",
+          "expected_head": "3\nok True\ntemporal True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.5\nhuman True\nauto_guilt False\n",
+          "expected_head": "0.5\nk 2\nauto_guilt False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "human True\nauto_guilt False\nok True\n",
+          "expected_head": "True\nok True\nlabels scarce",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "utility_metric precision_at_k\nhuman True\nauto_guilt False\n",
+          "expected_head": "precision_at_k\nok True\nn 1",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 18,
+      "code_tried": 24,
+      "code_ratio": 0.75,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S36-T1-A-E1",
+          "code": "print(sum([1,2])/2)\nprint('mean', 1.5)\nprint('ok', True)\n",
+          "note": "Cluster means.",
+          "concepts_used": [
+            "centroid"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T1-A-E2",
+          "code": "print((4-0)/2)\nprint('z', 2.0)\nprint('scaled', True)\n",
+          "note": "Scale before k-means.",
+          "concepts_used": [
+            "z-scale"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T1-A-E3",
+          "code": "print(False)\nprint('verdict', False)\nprint('ok', True)\n",
+          "note": "Cluster ≠ verdict.",
+          "concepts_used": [
+            "not verdict"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T1-B-E1",
+          "code": "scores={2:0.4,3:0.55,4:0.52}\nprint(max(scores, key=scores.get))\nprint('score', scores[3])\nprint('ok', True)\n",
+          "note": "Best k by score.",
+          "concepts_used": [
+            "best k"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T1-B-E2",
+          "code": "print('multi_seed')\nprint('stable_check', 'multi_seed')\nprint('ok', True)\n",
+          "note": "Seed stability.",
+          "concepts_used": [
+            "multi_seed"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T1-B-E3",
+          "code": "print('internal_metrics_limited')\nprint('limits', True)\nprint('ok', True)\n",
+          "note": "Internal metrics limited.",
+          "concepts_used": [
+            "metric limits"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T2-A-E1",
+          "code": "print(round(0.8*2+0.2*4,2))\nprint('exploratory', True)\nprint('ok', True)\n",
+          "note": "PC projection toy.",
+          "concepts_used": [
+            "PCA toy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T2-A-E2",
+          "code": "print(False)\nprint('decision_model', False)\nprint('ok', True)\n",
+          "note": "Not final decision model.",
+          "concepts_used": [
+            "PCA not model"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T2-A-E3",
+          "code": "print(2)\nprint('n_components', 2)\nprint('ok', True)\n",
+          "note": "2 components.",
+          "concepts_used": [
+            "2D"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T2-B-E1",
+          "code": "print(False)\nprint('axis_named_by_business', False)\nprint('ok', True)\n",
+          "note": "Axes not business-named.",
+          "concepts_used": [
+            "unnamed axes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T2-B-E2",
+          "code": "print(True)\nprint('may_be_scale', True)\nprint('ok', True)\n",
+          "note": "Outliers may be scale.",
+          "concepts_used": [
+            "visual caution"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T2-B-E3",
+          "code": "print('exploratory')\nprint('use', 'exploratory')\nprint('ok', True)\n",
+          "note": "Document exploratory.",
+          "concepts_used": [
+            "exploratory use"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T3-A-E1",
+          "code": "print(1)\nprint('flags', [0,0,0,0,1])\nprint('misconduct', False)\n",
+          "note": "rule_sigma one flag.",
+          "concepts_used": [
+            "sigma flags"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T3-A-E2",
+          "code": "print('rule_and_score')\nprint('method', 'rule_sigma')\nprint('ok', True)\n",
+          "note": "Combine methods.",
+          "concepts_used": [
+            "rule+score"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T3-A-E3",
+          "code": "print('review_candidate')\nprint('misconduct', False)\nprint('ok', True)\n",
+          "note": "Review candidate only.",
+          "concepts_used": [
+            "not guilt"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T3-B-E1",
+          "code": "print({'outlier':'rare_in_train','novelty':'new_vs_normality'})\nprint('ok', True)\nprint('labels', True)\n",
+          "note": "Definitions dict.",
+          "concepts_used": [
+            "novelty vs outlier"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T3-B-E2",
+          "code": "print(int(50*0.1))\nprint('is_fraud_rate', False)\nprint('ok', True)\n",
+          "note": "n*contam expected flags.",
+          "concepts_used": [
+            "contamination"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T3-B-E3",
+          "code": "print('capacity_tuning')\nprint('use', 'capacity_tuning')\nprint('ok', True)\n",
+          "note": "Tune contam to capacity.",
+          "concepts_used": [
+            "capacity tuning"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T4-A-E1",
+          "code": "print(round((0.1+0.12+0.09)/3,3))\nprint('backtest', True)\nprint('ok', True)\n",
+          "note": "Mean windows.",
+          "concepts_used": [
+            "mean flag rate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T4-A-E2",
+          "code": "print(False)\nprint('leakage', False)\nprint('fit_past_score_future', True)\n",
+          "note": "Backtest no leakage.",
+          "concepts_used": [
+            "no future fit"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T4-A-E3",
+          "code": "windows=[('2026-01',0.1),('2026-02',0.12),('2026-03',0.09)]\nprint(len(windows))\nprint('n_windows', 3)\nprint('ok', True)\n",
+          "note": "3 windows.",
+          "concepts_used": [
+            "windows"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T4-B-E1",
+          "code": "print(sum([1,0,1][:2])/2)\nprint('human', True)\nprint('auto_guilt', False)\n",
+          "note": "precision@k.",
+          "concepts_used": [
+            "P@k"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T4-B-E2",
+          "code": "print(True)\nprint('human_in_loop', True)\nprint('ok', True)\n",
+          "note": "Human required.",
+          "concepts_used": [
+            "HITL"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S36-T4-B-E3",
+          "code": "print('precision_at_k')\nprint('utility', 'precision_at_k')\nprint('ok', True)\n",
+          "note": "Utility = P@k.",
+          "concepts_used": [
+            "utility metric"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S36-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.5\nmean 1.5\nok True\n",
+          "expected_head": "1.5\nn 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2.0\nz 2.0\nscaled True\n",
+          "expected_head": "2.0\nsd 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "False\nverdict False\nok True\n",
+          "expected_head": "verdict False\nok True\ntask cluster",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3\nscore 0.55\nok True\n",
+          "expected_head": "3\nscore 0.9\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T1-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "multi_seed\nstable_check multi_seed\nok True\n",
+          "expected_head": "seeds [0, 1, 2]\nok True\nstable check",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "internal_metrics_limited\nlimits True\nok True\n",
+          "expected_head": "limit True\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T2-A-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "2.4\nexploratory True\nok True\n",
+          "expected_head": "3.0\nok True\npca True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "False\ndecision_model False\nok True\n",
+          "expected_head": "decision_model False\nok True\nuse viz",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\nn_components 2\nok True\n",
+          "expected_head": "2\nok True\nexplore True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "False\naxis_named_by_business False\nok True\n",
+          "expected_head": "False\nok True\nprudent True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T2-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "True\nmay_be_scale True\nok True\n",
+          "expected_head": "check_scale True\nok True\nauto_label False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "exploratory\nuse exploratory\nok True\n",
+          "expected_head": "exploratory\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\nflags [0, 0, 0, 0, 1]\nmisconduct False\n",
+          "expected_head": "1\nmisconduct False\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rule_and_score\nmethod rule_sigma\nok True\n",
+          "expected_head": "['rule', 'score']\nok True\nn 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T3-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "review_candidate\nmisconduct False\nok True\n",
+          "expected_head": "guilt False\nroute review\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'outlier': 'rare_in_train', 'novelty': 'new_vs_normality'}\nok True\nlabels True\n",
+          "expected_head": "['outlier', 'novelty']\nok True\nn 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "5\nis_fraud_rate False\nok True\n",
+          "expected_head": "5\nis_fraud_rate False\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T3-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "capacity_tuning\nuse capacity_tuning\nok True\n",
+          "expected_head": "capacity_link True\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.103\nbacktest True\nok True\n",
+          "expected_head": "0.15\nbacktest True\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "False\nleakage False\nfit_past_score_future True\n",
+          "expected_head": "leakage False\nok True\nsplit time",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3\nn_windows 3\nok True\n",
+          "expected_head": "3\nok True\ntemporal True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.5\nhuman True\nauto_guilt False\n",
+          "expected_head": "0.5\nk 2\nauto_guilt False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nhuman_in_loop True\nok True\n",
+          "expected_head": "True\nok True\nlabels scarce",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S36-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "precision_at_k\nutility precision_at_k\nok True\n",
+          "expected_head": "precision_at_k\nok True\nn 1",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 19,
+      "code_tried": 24,
+      "code_ratio": 0.792,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

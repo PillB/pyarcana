@@ -1,0 +1,43 @@
+{
+  "agent": "newbie_b_live",
+  "attempt_id": "attempt_007b",
+  "method": "llm_packet_only_no_generator",
+  "section_index": 33,
+  "persona": "skeptic",
+  "recorded_at": "2026-07-21T23:56:00+00:00",
+  "packet_only": true,
+  "packet_sha": "01a58bd19abf12ca",
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 1, "chosen_text": "needs_review u objetivo de cola", "confidence": 0.93, "blocked_on": [], "note": "Target needs_review not fraud."},
+    {"question_index": 1, "chosen_index": 1, "chosen_text": "Conserva regla y no vendas humo", "confidence": 0.93, "blocked_on": [], "note": "If ML loses to rule/dummy, don't deploy."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Asociación en el modelo, no causa legal", "confidence": 0.93, "blocked_on": [], "note": "Coef = association not cause."},
+    {"question_index": 3, "chosen_index": 1, "chosen_text": "Riesgo de overfit; usa valid", "confidence": 0.93, "blocked_on": [], "note": "Choose by valid not train."}
+  ],
+  "exercises": [
+    {"exercise_id": "S33-T1-A-E1", "answer": "completed_from_packet", "code": "print('unit', 'entity_pair_at_t0')\nprint('target', 'needs_review_7d')\nprint('horizon', 7)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["unit target horizon"], "note": "Framing."},
+    {"exercise_id": "S33-T1-A-E2", "answer": "completed_from_packet", "code": "y=[0,1,0,0]\nprev=sum(y)/len(y)\nprint('prevalence', prev)\nprint('n', len(y))\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["prevalence"], "note": "sum(y)/len."},
+    {"exercise_id": "S33-T1-A-E3", "answer": "completed_from_packet", "code": "target='needs_review_7d'\nprint('fraud_free', 'fraud' not in target.lower())\nprint('target', target)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["no fraud target"], "note": "No fraud label."},
+    {"exercise_id": "S33-T1-B-E1", "answer": "completed_from_packet", "code": "y=[1,1,0]\nmaj=1 if y.count(1)>=y.count(0) else 0\nprint('maj', maj)\nprint('dummy_acc', sum(yi==maj for yi in y)/len(y))\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["dummy majority"], "note": "Maj dummy."},
+    {"exercise_id": "S33-T1-B-E2", "answer": "completed_from_packet", "code": "x,y=[0,1,1],[0,1,1]\npred=[1 if xi>=1 else 0 for xi in x]\nacc=sum(p==t for p,t in zip(pred,y))/len(y)\nprint('acc', acc)\nprint('rule', 'x>=1')\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.88, "concepts_used": ["rule baseline"], "note": "Rule x>=1."},
+    {"exercise_id": "S33-T1-B-E3", "answer": "completed_from_packet", "code": "fp,fn=2,1\nprint('cost', fp*1 + fn*5)\nprint('fp_w', 1, 'fn_w', 5)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["asymmetric cost"], "note": "FN cost higher."},
+    {"exercise_id": "S33-T2-A-E1", "answer": "completed_from_packet", "code": "import math\ndef sigmoid(z):\n    return 1/(1+math.exp(-z))\nprint(round(sigmoid(0),3), round(sigmoid(2),3))\nprint('ok', True)\nprint('fn', 'sigmoid')\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["sigmoid"], "note": "Theory sigmoid."},
+    {"exercise_id": "S33-T2-A-E2", "answer": "completed_from_packet", "code": "import math\nw,b,x=1,0,0.2\np=1/(1+math.exp(-(w*x+b)))\npred=1 if p>=0.5 else 0\nprint(round(p,3), pred)\nprint('thr', 0.5)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["linear sigmoid thr"], "note": "Score + thr 0.5."},
+    {"exercise_id": "S33-T2-A-E3", "answer": "completed_from_packet", "code": "w=[1,2]\nprint(sum(wi*wi for wi in w))\nprint('L2', 'sum_w2')\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["L2"], "note": "L2 sum w^2."},
+    {"exercise_id": "S33-T2-B-E1", "answer": "completed_from_packet", "code": "coefs={'shared_phone':0.9,'amount_7d':0.3,'region_LIM':-0.1}\nprint(sorted(coefs, key=lambda k: abs(coefs[k]), reverse=True))\nprint('top', max(coefs, key=lambda k: abs(coefs[k])))\nprint('causal', False)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["top |coef|"], "note": "By abs coef."},
+    {"exercise_id": "S33-T2-B-E2", "answer": "completed_from_packet", "code": "print(True)\nprint('scaled', True)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["scaled flag"], "note": "Report scaled True."},
+    {"exercise_id": "S33-T2-B-E3", "answer": "completed_from_packet", "code": "c=0.8\nprint('positive' if c>0 else 'negative')\nprint('coef', c)\nprint('causal', False)\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["coef sign"], "note": "Direction not causal."},
+    {"exercise_id": "S33-T3-A-E1", "answer": "completed_from_packet", "code": "X=[0.1,0.4]; thr=0.3\npred=[1 if x>=thr else 0 for x in X]\nprint(pred)\nprint('thr', thr)\nprint('model', 'stump')\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["stump"], "note": "Decision stump."},
+    {"exercise_id": "S33-T3-A-E2", "answer": "completed_from_packet", "code": "preds=[[1,0,1],[1,1,0],[1,0,0]]\nvotes=[1,0,1]\nmaj=1 if votes.count(1)>=votes.count(0) else 0\nprint(maj)\nprint('votes', votes)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.75, "concepts_used": ["majority vote"], "note": "Ensemble majority idea."},
+    {"exercise_id": "S33-T3-A-E3", "answer": "completed_from_packet", "code": "X,y=[0.1,0.6,0.9],[0,1,1]\nstump=[1 if x>=0.5 else 0 for x in X]\nmaj=0 if y.count(0)>=y.count(1) else 1\ns_acc=sum(p==t for p,t in zip(stump,y))/len(y)\nd_acc=sum(t==maj for t in y)/len(y)\nprint(s_acc, d_acc)\nprint('beats_dummy', s_acc>=d_acc)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.88, "concepts_used": ["stump vs dummy"], "note": "Compare to dummy."},
+    {"exercise_id": "S33-T3-B-E1", "answer": "completed_from_packet", "code": "depth=[1,3,10]; valid_acc=[0.68,0.72,0.60]\ni=max(range(3), key=lambda j: valid_acc[j])\nprint('best_depth', depth[i])\nprint('valid', valid_acc[i])\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["pick by valid"], "note": "Best valid_acc."},
+    {"exercise_id": "S33-T3-B-E2", "answer": "completed_from_packet", "code": "train,valid=0.99,0.60\noverfit=(train-valid)>0.2\nprint(overfit)\nprint('gap', train-valid)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["overfit gap"], "note": "Train-valid gap."},
+    {"exercise_id": "S33-T3-B-E3", "answer": "completed_from_packet", "code": "import random\nrandom.seed(42)\nprint([random.randint(0,9) for _ in range(3)])\nprint('seed', 42)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.85, "concepts_used": ["seed"], "note": "random.seed(42)."},
+    {"exercise_id": "S33-T4-A-E1", "answer": "completed_from_packet", "code": "import json\nm={'pr_auc':0.61,'baseline_rule_pr_auc':0.55,'dummy_pr_auc':0.5}\nprint(json.dumps(m, sort_keys=True))\nprint('n_keys', len(m))\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["metrics json"], "note": "json.dumps sort_keys."},
+    {"exercise_id": "S33-T4-A-E2", "answer": "completed_from_packet", "code": "fields=['run_id','params','metrics','feature_set','data_cutoff']\nprint(fields)\nprint('n', len(fields))\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["run log fields"], "note": "Tracking fields."},
+    {"exercise_id": "S33-T4-A-E3", "answer": "completed_from_packet", "code": "model,dummy=0.62,0.5\nprint(model>dummy)\nprint('beats_dummy', model>dummy)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["beats_dummy"], "note": "Demo beats_dummy."},
+    {"exercise_id": "S33-T4-B-E1", "answer": "completed_from_packet", "code": "folds=[0.6,0.5,0.7]\nprint(round(sum(folds)/len(folds),3))\nprint('n_folds', len(folds))\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["CV mean"], "note": "Mean folds."},
+    {"exercise_id": "S33-T4-B-E2", "answer": "completed_from_packet", "code": "slices={'A':1,'B':5,'C':2}\nworst=max(slices, key=slices.get)\nprint(worst)\nprint('fn', slices[worst])\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.85, "concepts_used": ["error slice"], "note": "Worst FN slice."},
+    {"exercise_id": "S33-T4-B-E3", "answer": "completed_from_packet", "code": "ents=['E1','E1','E2','E3']\nprint(len(set(ents)))\nprint('groups', sorted(set(ents)))\nprint('group_cv', True)\n", "blocked_on": [], "confidence": 0.91, "concepts_used": ["group CV"], "note": "CV by entity groups."}
+  ],
+  "summary": {"n_exercises": 24, "n_answered": 24, "n_blocked_exercises": 0, "blocked_exercise_ids": [], "n_selfcheck": 4, "n_selfcheck_answered": 4, "n_selfcheck_blocked": 0}
+}

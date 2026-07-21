@@ -1,0 +1,1068 @@
+{
+  "section_index": 26,
+  "section_id": "integrator-phase1",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S26-T1-A-E1",
+          "code": "print([\"ingest\", \"validate\", \"analyze\", \"report\"])\n",
+          "note": "",
+          "concepts_used": [
+            "DAG order"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T1-A-E2",
+          "code": "nodes = [\"a\", \"b\", \"c\"]\nprint(len(list(zip(nodes, nodes[1:]))))\n",
+          "note": "",
+          "concepts_used": [
+            "edges n-1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T1-A-E3",
+          "code": "tasks = {\"a\": \"success\", \"b\": \"failed\"}\nprint(\"failed\" if any(v == \"failed\" for v in tasks.values()) else \"success\")\n",
+          "note": "",
+          "concepts_used": [
+            "global failed"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T1-B-E1",
+          "code": "print({\"run_id\": \"cpn2c-1\"}[\"run_id\"])\n",
+          "note": "",
+          "concepts_used": [
+            "run_id"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T1-B-E2",
+          "code": "api_rpm = 90\nif api_rpm > 60:\n    print(\"too_high\")\n",
+          "note": "",
+          "concepts_used": [
+            "rate limit"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T1-B-E3",
+          "code": "print(\"0 6 * * 1-5\")\nprint(\"America/Lima\")\n",
+          "note": "",
+          "concepts_used": [
+            "cron tz"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T2-A-E1",
+          "code": "attempt, base = 3, 100\nprint(base * 2 ** (attempt - 1))\n",
+          "note": "",
+          "concepts_used": [
+            "backoff"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T2-A-E2",
+          "code": "dlq = []\nif True:\n    dlq.append(\"x\")\nprint(dlq)\n",
+          "note": "",
+          "concepts_used": [
+            "DLQ"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T2-A-E3",
+          "code": "ckpt, items = {\"a\"}, [\"a\", \"b\"]\nprint([i for i in items if i not in ckpt])\n",
+          "note": "",
+          "concepts_used": [
+            "checkpoint"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T2-B-E1",
+          "code": "store = {}\n\ndef put(k, v):\n    if k not in store:\n        store[k] = v\n    return store[k]\nprint(put(\"a\", 1))\nprint(put(\"a\", 2))\nprint(store[\"a\"])\n",
+          "note": "",
+          "concepts_used": [
+            "idempotent write"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T2-B-E2",
+          "code": "state = {\"report\": \"ok\", \"draft\": \"ok\"}\nstate.pop(\"draft\")\nprint(state)\n",
+          "note": "",
+          "concepts_used": [
+            "rollback"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T2-B-E3",
+          "code": "locked = True\nprint(\"busy\" if locked else \"enter\")\n",
+          "note": "",
+          "concepts_used": [
+            "lock"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T3-A-E1",
+          "code": "analysis = [{\"status\": \"pending\"}, {\"status\": \"done\"}]\nprint(sum(1 for x in analysis if x[\"status\"] == \"pending\"))\n",
+          "note": "",
+          "concepts_used": [
+            "pending count"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T3-A-E2",
+          "code": "q = {\"analysis\": 1, \"report\": 0, \"recipient\": 0}\nprint(any(v > 0 for v in q.values()))\n",
+          "note": "",
+          "concepts_used": [
+            "blocked queues"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T3-A-E3",
+          "code": "print([\"metrics\", \"narrative\", \"recipient\"])\n",
+          "note": "",
+          "concepts_used": [
+            "checklist"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T3-B-E1",
+          "code": "audit = []\naudit.append({\"action\": \"approve\", \"actor\": \"r1\"})\nprint(audit)\n",
+          "note": "",
+          "concepts_used": [
+            "audit"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T3-B-E2",
+          "code": "action, reason = \"reject\", None\nprint(\"invalid\" if action == \"reject\" and reason is None else \"ok\")\n",
+          "note": "",
+          "concepts_used": [
+            "reject reason"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T3-B-E3",
+          "code": "ver = 1\nver += 1\nprint(ver)\n",
+          "note": "",
+          "concepts_used": [
+            "edit version"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T4-A-E1",
+          "code": "rate = 0.9\nif rate < 0.95:\n    print(\"alert_success_rate\")\n",
+          "note": "",
+          "concepts_used": [
+            "SLO alert"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T4-A-E2",
+          "code": "n = 1\nif n > 0:\n    print(\"P0_unapproved_send\")\n",
+          "note": "",
+          "concepts_used": [
+            "P0"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T4-A-E3",
+          "code": "print(\"disable_schedule → drain → page\")\n",
+          "note": "",
+          "concepts_used": [
+            "runbook"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T4-B-E1",
+          "code": "steps = [\"ingest\", \"validate\", \"draft\"]\nstatus = {s: \"success\" for s in steps}\nprint(all(status[s] == \"success\" for s in steps))\n",
+          "note": "",
+          "concepts_used": [
+            "E2E"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T4-B-E2",
+          "code": "fraud_labels = 0\nprint(\"ok\" if fraud_labels == 0 else \"fail\")\n",
+          "note": "",
+          "concepts_used": [
+            "fraud_labels 0"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T4-B-E3",
+          "code": "print(\"CP-N2-A/B/C critical+privacy\")\nprint({\"value_minutes_saved_est\": 45})\n",
+          "note": "",
+          "concepts_used": [
+            "N2 regression"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S26-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['ingest', 'validate', 'analyze', 'report']\n",
+          "expected_head": "['ingest', 'validate', 'analyze', 'report']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2 [('a', 'b'), ('b', 'c')]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "failed\n",
+          "expected_head": "failed",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cpn2c-1\n",
+          "expected_head": "cpn2c-1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "too_high\n",
+          "expected_head": "too_high",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0 6 * * 1-5\nAmerica/Lima\n",
+          "expected_head": "0 6 * * 1-5 America/Lima",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "400\n",
+          "expected_head": "400",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['x']\n",
+          "expected_head": "['x']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['b']\n",
+          "expected_head": "['b']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n1\n1\n",
+          "expected_head": "v1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'report': 'ok'}\n",
+          "expected_head": "{'report': 'ok'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "busy\n",
+          "expected_head": "busy",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['metrics', 'narrative', 'recipient']\n",
+          "expected_head": "['metrics', 'narrative', 'recipient']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[{'action': 'approve', 'actor': 'r1'}]\n",
+          "expected_head": "approve",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "invalid\n",
+          "expected_head": "invalid",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "alert_success_rate\n",
+          "expected_head": "alert",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "P0_unapproved_send\n",
+          "expected_head": "P0_unapproved_send",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "disable_schedule → drain → page\n",
+          "expected_head": "disable_schedule -> drain -> page",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\n",
+          "expected_head": "ok",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T4-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "CP-N2-A/B/C critical+privacy\n{'value_minutes_saved_est': 45}\n",
+          "expected_head": "{'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est': 45, 'cf2': 'interfaces Familiarity-reportin",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 23,
+      "code_tried": 24,
+      "code_ratio": 0.958,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S26-T1-A-E1",
+          "code": "print([\"ingest\", \"validate\", \"analyze\", \"report\"])\n",
+          "note": "Instruction 4 steps.",
+          "concepts_used": [
+            "canonical order"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T1-A-E2",
+          "code": "nodes = [\"a\", \"b\", \"c\"]\nedges = list(zip(nodes, nodes[1:]))\nprint(len(edges))\n",
+          "note": "3 nodes → 2 edges.",
+          "concepts_used": [
+            "path edges n-1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T1-A-E3",
+          "code": "tasks = {\"a\": \"success\", \"b\": \"failed\"}\nprint(\"failed\" if any(v == \"failed\" for v in tasks.values()) else \"success\")\n",
+          "note": "Starter has failed → failed.",
+          "concepts_used": [
+            "global failed"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T1-B-E1",
+          "code": "m = {\"run_id\": \"cpn2c-1\"}\nprint(m[\"run_id\"])\n",
+          "note": "Starter run_id.",
+          "concepts_used": [
+            "run_id meta"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T1-B-E2",
+          "code": "api_rpm = 90\nprint(\"too_high\" if api_rpm > 60 else \"ok\")\n",
+          "note": "Starter 90 → too_high.",
+          "concepts_used": [
+            "rate limit"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T1-B-E3",
+          "code": "cron = \"0 6 * * 1-5\"\ntz = \"America/Lima\"\nprint(cron)\nprint(tz)\n",
+          "note": "Instruction cron + America/Lima.",
+          "concepts_used": [
+            "schedule tz"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T2-A-E1",
+          "code": "attempt, base = 3, 100\nprint(base * 2 ** (attempt - 1))\n",
+          "note": "100*2^2=400.",
+          "concepts_used": [
+            "exponential backoff"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T2-A-E2",
+          "code": "dlq = []\nfail = True\nif fail:\n    dlq.append(\"x\")\nprint(dlq)\n",
+          "note": "Hints append x on fail.",
+          "concepts_used": [
+            "dead letter"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T2-A-E3",
+          "code": "ckpt = {\"a\"}\nitems = [\"a\", \"b\"]\nprint([i for i in items if i not in ckpt])\n",
+          "note": "to_process ['b'].",
+          "concepts_used": [
+            "checkpoint skip"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T2-B-E1",
+          "code": "store = {}\n\ndef put(k, v):\n    if k not in store:\n        store[k] = v\n\nput(\"a\", 1)\nput(\"a\", 2)\nprint(store[\"a\"])\n",
+          "note": "Second write no change → 1.",
+          "concepts_used": [
+            "idempotent put"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T2-B-E2",
+          "code": "state = {\"report\": \"ok\", \"draft\": \"ok\"}\nstate.pop(\"draft\")\nprint(state)\n",
+          "note": "Demo pop draft.",
+          "concepts_used": [
+            "rollback draft"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T2-B-E3",
+          "code": "locked = True\nprint(\"busy\" if locked else \"enter\")\n",
+          "note": "Starter locked True → busy.",
+          "concepts_used": [
+            "lock busy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T3-A-E1",
+          "code": "analysis = [{\"status\": \"pending\"}, {\"status\": \"done\"}]\nprint(sum(1 for x in analysis if x[\"status\"] == \"pending\"))\n",
+          "note": "Starter → 1.",
+          "concepts_used": [
+            "pending count"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T3-A-E2",
+          "code": "q = {\"analysis\": 1, \"report\": 0, \"recipient\": 0}\nprint(any(v > 0 for v in q.values()))\n",
+          "note": "any >0 → True.",
+          "concepts_used": [
+            "blocked queues"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T3-A-E3",
+          "code": "print([\"metrics\", \"narrative\", \"recipient\"])\n",
+          "note": "Instruction fixed checklist.",
+          "concepts_used": [
+            "HITL checklist"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T3-B-E1",
+          "code": "audit = []\naudit.append({\"action\": \"approve\", \"actor\": \"r1\"})\nprint(audit)\n",
+          "note": "Demo audit append.",
+          "concepts_used": [
+            "audit approve"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T3-B-E2",
+          "code": "action, reason = \"reject\", None\nprint(\"invalid\" if action == \"reject\" and not reason else \"ok\")\n",
+          "note": "Starter reason None → invalid.",
+          "concepts_used": [
+            "reject needs reason"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T3-B-E3",
+          "code": "ver = 1\nver += 1\nprint(ver)\n",
+          "note": "Edit 1→2.",
+          "concepts_used": [
+            "edit version"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T4-A-E1",
+          "code": "rate = 0.9\nprint(\"alert\" if rate < 0.95 else \"ok\")\n",
+          "note": "0.9 < 0.95 → alert.",
+          "concepts_used": [
+            "SLO alert"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T4-A-E2",
+          "code": "n = 1\nprint(\"P0\" if n > 0 else \"ok\")\n",
+          "note": "n=1 → P0.",
+          "concepts_used": [
+            "P0 unapproved send"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T4-A-E3",
+          "code": "print(\"disable_schedule → drain → page\")\n",
+          "note": "Theory runbook steps.",
+          "concepts_used": [
+            "runbook one-liner"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T4-B-E1",
+          "code": "steps = [\"ingest\", \"validate\", \"draft\"]\nstatus = {s: \"success\" for s in steps}\nprint(all(v == \"success\" for v in status.values()))\n",
+          "note": "Starter all success True.",
+          "concepts_used": [
+            "e2e all success"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T4-B-E2",
+          "code": "fraud_labels = 0\nprint(\"ok\" if fraud_labels == 0 else \"fail\")\n",
+          "note": "Starter 0 → ok.",
+          "concepts_used": [
+            "fraud_labels 0"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S26-T4-B-E3",
+          "code": "print(\"CP-N2-A/B/C critical+privacy\")\nprint(45)\n",
+          "note": "Instruction notes + 45 min value.",
+          "concepts_used": [
+            "n2 regression notes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S26-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['ingest', 'validate', 'analyze', 'report']\n",
+          "expected_head": "['ingest', 'validate', 'analyze', 'report']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2 [('a', 'b'), ('b', 'c')]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "failed\n",
+          "expected_head": "failed",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cpn2c-1\n",
+          "expected_head": "cpn2c-1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "too_high\n",
+          "expected_head": "too_high",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0 6 * * 1-5\nAmerica/Lima\n",
+          "expected_head": "0 6 * * 1-5 America/Lima",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "400\n",
+          "expected_head": "400",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['x']\n",
+          "expected_head": "['x']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['b']\n",
+          "expected_head": "['b']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "v1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'report': 'ok'}\n",
+          "expected_head": "{'report': 'ok'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "busy\n",
+          "expected_head": "busy",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['metrics', 'narrative', 'recipient']\n",
+          "expected_head": "['metrics', 'narrative', 'recipient']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[{'action': 'approve', 'actor': 'r1'}]\n",
+          "expected_head": "approve",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "invalid\n",
+          "expected_head": "invalid",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "alert\n",
+          "expected_head": "alert",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "P0\n",
+          "expected_head": "P0_unapproved_send",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "disable_schedule → drain → page\n",
+          "expected_head": "disable_schedule -> drain -> page",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\n",
+          "expected_head": "ok",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S26-T4-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "CP-N2-A/B/C critical+privacy\n45\n",
+          "expected_head": "{'n2_regression': 'CP-N2-A/B/C critical+privacy', 'value_minutes_saved_est': 45, 'cf2': 'interfaces Familiarity-reportin",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 23,
+      "code_tried": 24,
+      "code_ratio": 0.958,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

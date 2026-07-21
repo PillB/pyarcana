@@ -1,0 +1,1071 @@
+{
+  "section_index": 20,
+  "section_id": "rag",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S20-T1-A-E1",
+          "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.title = \"Entrada\"\nws[\"A1\"] = \"region\"\nprint(wb.sheetnames)\nprint(ws[\"A1\"].value)\n",
+          "note": "",
+          "concepts_used": [
+            "Workbook"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T1-A-E2",
+          "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.append([\"region\", \"monto\"])\nws.append([\"Lima\", 10.0])\nprint(ws.max_row)\n",
+          "note": "",
+          "concepts_used": [
+            "append"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T1-A-E3",
+          "code": "from openpyxl import Workbook\nwb = Workbook()\nwb.active.title = \"Datos\"\nwb.create_sheet(\"Salida\")\nprint(wb.sheetnames)\n",
+          "note": "",
+          "concepts_used": [
+            "create_sheet"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T1-B-E1",
+          "code": "from openpyxl import Workbook\nws = Workbook().active\nws[\"A3\"] = \"=A1+A2\"\nprint(str(ws[\"A3\"].value).startswith(\"=\"))\n",
+          "note": "",
+          "concepts_used": [
+            "formula"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T1-B-E2",
+          "code": "from openpyxl import Workbook\nws = Workbook().active\nws[\"A1\"], ws[\"A2\"] = 3, 4\nprint(ws[\"A1\"].value + ws[\"A2\"].value)\n",
+          "note": "",
+          "concepts_used": [
+            "python sum"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T1-B-E3",
+          "code": "def es_formula(v):\n    return isinstance(v, str) and v.startswith(\"=\")\nprint(es_formula(\"=A1\"))\nprint(es_formula(3))\n",
+          "note": "",
+          "concepts_used": [
+            "es_formula"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T2-A-E1",
+          "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font\nws = Workbook().active\nws[\"A1\"].font = Font(bold=True)\nprint(ws[\"A1\"].font.bold)\n",
+          "note": "",
+          "concepts_used": [
+            "Font bold"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T2-A-E2",
+          "code": "from openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\nws = Workbook().active\nws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\nprint(ws[\"A1\"].fill is not None)\n",
+          "note": "",
+          "concepts_used": [
+            "PatternFill"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T2-A-E3",
+          "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill\n\ndef header_style(ws, cell):\n    ws[cell].font = Font(bold=True)\n    ws[cell].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\nws = Workbook().active\nheader_style(ws, \"A1\")\nprint(ws[\"A1\"].font.bold)\n",
+          "note": "",
+          "concepts_used": [
+            "header_style"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T2-B-E1",
+          "code": "from openpyxl import Workbook\nfrom datetime import date\nws = Workbook().active\nws[\"A1\"] = date(2024, 1, 15)\nprint(ws[\"A1\"].value.isoformat())\n",
+          "note": "",
+          "concepts_used": [
+            "date"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T2-B-E2",
+          "code": "from openpyxl import Workbook\nws = Workbook().active\nws.merge_cells(\"B1:C1\")\nws[\"B1\"] = \"x\"\nprint(ws[\"C1\"].value)\n",
+          "note": "",
+          "concepts_used": [
+            "merge"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T2-B-E3",
+          "code": "from openpyxl import Workbook\nws = Workbook().active\nws.merge_cells(\"A1:B1\")\nws.merge_cells(\"C1:D1\")\nprint(len(ws.merged_cells.ranges))\n",
+          "note": "",
+          "concepts_used": [
+            "merge count"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T3-A-E1",
+          "code": "print(abs((10 + 5) - 15) < 0.01)\n",
+          "note": "",
+          "concepts_used": [
+            "reconcile"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T3-A-E2",
+          "code": "import pandas as pd\ndet = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\nprint(det.groupby(\"region\")[\"monto\"].sum().to_dict())\n",
+          "note": "",
+          "concepts_used": [
+            "groupby pivot"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T3-A-E3",
+          "code": "def reconcile(det_sum, portada, tol=0.01):\n    return abs(det_sum - portada) < tol\nprint(reconcile(22.0, 22.005))\nprint(reconcile(22.0, 23.0))\n",
+          "note": "",
+          "concepts_used": [
+            "reconcile fn"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T3-B-E1",
+          "code": "print([\"region\", \"monto\"] == [\"region\", \"monto\"])\n",
+          "note": "",
+          "concepts_used": [
+            "headers"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T3-B-E2",
+          "code": "print([r for r in [\"Lima\", \"Piura\"] if r not in {\"Lima\", \"Cusco\"}])\n",
+          "note": "",
+          "concepts_used": [
+            "domain filter"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T3-B-E3",
+          "code": "def validate_rows(rows, allowed):\n    return [r[\"region\"] for r in rows if r[\"region\"] not in allowed]\nprint(validate_rows([{\"region\": \"Lima\"}, {\"region\": \"Piura\"}], {\"Lima\", \"Cusco\"}))\n",
+          "note": "",
+          "concepts_used": [
+            "validate_rows"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T4-A-E1",
+          "code": "print(sum(1 for v in [\"ok\", \"corrupt\", \"ok\"] if v == \"ok\"))\n",
+          "note": "",
+          "concepts_used": [
+            "ok count"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T4-A-E2",
+          "code": "name = \"report.lock\"\nprint(\"locked\" if name.endswith(\".lock\") or \"lock\" in name else \"ok\")\n",
+          "note": "",
+          "concepts_used": [
+            "lock"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T4-A-E3",
+          "code": "from collections import Counter\nprint(dict(Counter({\"a\": \"ok\", \"b\": \"corrupt\"}.values())))\n",
+          "note": "",
+          "concepts_used": [
+            "Counter"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T4-B-E1",
+          "code": "print({\"backup\": \"results.prev.xlsx\", \"idempotent\": True})\n",
+          "note": "",
+          "concepts_used": [
+            "manifest"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T4-B-E2",
+          "code": "import hashlib\n\ndef build(rows):\n    return \"\\n\".join([\"region,monto\"] + [f\"{r},{m}\" for r, m in sorted(rows)]) + \"\\n\"\nr1 = [(\"Lima\", 10), (\"Cusco\", 5)]\nprint(hashlib.sha1(build(r1).encode()).hexdigest() == hashlib.sha1(build(list(reversed(r1))).encode()).hexdigest())\n",
+          "note": "",
+          "concepts_used": [
+            "idempotent hash"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T4-B-E3",
+          "code": "def structural_ok(sheetnames, need):\n    return set(sheetnames).issuperset(set(need))\nprint(structural_ok([\"Entrada\", \"Salida\", \"X\"], [\"Entrada\", \"Salida\"]))\n",
+          "note": "",
+          "concepts_used": [
+            "structural"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S20-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['Entrada']\nregion\n",
+          "expected_head": "['Entrada']\nregion",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['Datos', 'Salida']\n",
+          "expected_head": "['Datos', 'Salida']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "7\n",
+          "expected_head": "7",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2024-01-15\n",
+          "expected_head": "2024-01-15",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None\n",
+          "expected_head": "None",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'Cusco': 7.0, 'Lima': 15.0}\n",
+          "expected_head": "{'Cusco': 7.0, 'Lima': 15.0}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['Piura']\n",
+          "expected_head": "['Piura']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T3-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "['Piura']\n",
+          "expected_head": "['Ica']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "locked\n",
+          "expected_head": "locked",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'ok': 1, 'corrupt': 1}\n",
+          "expected_head": "{'ok': 1, 'corrupt': 1}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T4-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "{'backup': 'results.prev.xlsx', 'idempotent': True}\n",
+          "expected_head": "{'backup': 'out/prev.bak', 'idempotent': True}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 22,
+      "code_tried": 24,
+      "code_ratio": 0.917,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S20-T1-A-E1",
+          "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.title = \"Entrada\"\nws[\"A1\"] = \"region\"\nprint(wb.sheetnames)\nprint(ws[\"A1\"].value)\n",
+          "note": "Hints title + A1.",
+          "concepts_used": [
+            "Workbook",
+            "title",
+            "A1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T1-A-E2",
+          "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.append([\"region\", \"monto\"])\nws.append([\"Lima\", 10.0])\nprint(ws.max_row)\n",
+          "note": "Hints append; max_row includes header → 2.",
+          "concepts_used": [
+            "append",
+            "max_row"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T1-A-E3",
+          "code": "from openpyxl import Workbook\nwb = Workbook()\nwb.active.title = \"Datos\"\nwb.create_sheet(\"Salida\")\nprint(wb.sheetnames)\n",
+          "note": "Hints rename active then create_sheet.",
+          "concepts_used": [
+            "create_sheet"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T1-B-E1",
+          "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A3\"] = \"=A1+A2\"\nprint(str(ws[\"A3\"].value).startswith(\"=\"))\n",
+          "note": "Hints startswith = True.",
+          "concepts_used": [
+            "formula string"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T1-B-E2",
+          "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = 3\nws[\"A2\"] = 4\nprint(ws[\"A1\"].value + ws[\"A2\"].value)\n",
+          "note": "Hints sum .value → 7.",
+          "concepts_used": [
+            "python sum values"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T1-B-E3",
+          "code": "def es_formula(v):\n    return isinstance(v, str) and v.startswith(\"=\")\n\nprint(es_formula(\"=A1\"))\nprint(es_formula(3))\n",
+          "note": "Hints isinstance str + =.",
+          "concepts_used": [
+            "es_formula"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T2-A-E1",
+          "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font\nwb = Workbook()\nws = wb.active\nws[\"A1\"].font = Font(bold=True)\nprint(ws[\"A1\"].font.bold)\n",
+          "note": "Hints Font(bold=True).",
+          "concepts_used": [
+            "Font bold"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T2-A-E2",
+          "code": "from openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\nwb = Workbook()\nws = wb.active\nws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\nprint(ws[\"A1\"].fill is not None)\n",
+          "note": "Hints PatternFill solid; print True.",
+          "concepts_used": [
+            "PatternFill"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T2-A-E3",
+          "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill\n\ndef header_style(ws, cell):\n    c = ws[cell]\n    c.font = Font(bold=True)\n    c.fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\n\nwb = Workbook()\nws = wb.active\nheader_style(ws, \"A1\")\nprint(ws[\"A1\"].font.bold)\n",
+          "note": "Demo T2-B header style pattern.",
+          "concepts_used": [
+            "header_style"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T2-B-E1",
+          "code": "from openpyxl import Workbook\nfrom datetime import date\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = date(2024, 1, 15)\nprint(ws[\"A1\"].value.isoformat())\n",
+          "note": "Hints date + isoformat.",
+          "concepts_used": [
+            "date isoformat"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T2-B-E2",
+          "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"B1:C1\")\nws[\"B1\"] = \"x\"\nprint(ws[\"C1\"].value)\n",
+          "note": "Hints merge; C1 None.",
+          "concepts_used": [
+            "merge non-anchor"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T2-B-E3",
+          "code": "from openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"A1:B1\")\nws.merge_cells(\"C1:D1\")\nprint(len(ws.merged_cells.ranges))\n",
+          "note": "Hints len merged_cells.ranges → 2.",
+          "concepts_used": [
+            "count merges"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T3-A-E1",
+          "code": "det_sum = 10 + 5\nportada = 15\nprint(abs(det_sum - portada) < 0.01)\n",
+          "note": "Hints abs diff < 0.01.",
+          "concepts_used": [
+            "reconcile tol"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T3-A-E2",
+          "code": "import pandas as pd\ndet = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\nprint(det.groupby(\"region\")[\"monto\"].sum().to_dict())\n",
+          "note": "Hints groupby sum to_dict; theory 10+5 Lima, 7 Cusco.",
+          "concepts_used": [
+            "pivot groupby"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T3-A-E3",
+          "code": "def reconcile(det_sum, portada, tol=0.01):\n    return abs(det_sum - portada) < tol\n\nprint(reconcile(22.0, 22.005))\nprint(reconcile(22.0, 23))\n",
+          "note": "Hints abs < tol; two tests.",
+          "concepts_used": [
+            "reconcile fn"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T3-B-E1",
+          "code": "expected = [\"region\", \"monto\"]\ngot = [\"region\", \"monto\"]\nprint(got == expected)\n",
+          "note": "Starter lists equal → True.",
+          "concepts_used": [
+            "header equality"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T3-B-E2",
+          "code": "regions = [\"Lima\", \"Piura\"]\nallowed = {\"Lima\", \"Cusco\"}\nbad = [r for r in regions if r not in allowed]\nprint(bad)\n",
+          "note": "Hints list comp → ['Piura'].",
+          "concepts_used": [
+            "domain filter"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T3-B-E3",
+          "code": "def validate_rows(rows, allowed):\n    return [r[\"region\"] for r in rows if r[\"region\"] not in allowed]\n\nrows = [{\"region\": \"Lima\"}, {\"region\": \"Piura\"}]\nprint(validate_rows(rows, {\"Lima\", \"Cusco\"}))\n",
+          "note": "Demo bad_regions pattern.",
+          "concepts_used": [
+            "validate_rows"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T4-A-E1",
+          "code": "st = [\"ok\", \"corrupt\", \"ok\"]\nprint(sum(1 for v in st if v == \"ok\"))\n",
+          "note": "Starter → 2.",
+          "concepts_used": [
+            "count ok"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T4-A-E2",
+          "code": "name = \"report.lock\"\nstatus = \"locked\" if name.endswith(\".lock\") or \"lock\" in name else \"ok\"\nprint(status)\n",
+          "note": "Starter report.lock → locked.",
+          "concepts_used": [
+            "lock detect"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T4-A-E3",
+          "code": "from collections import Counter\nfiles = {\"a\": \"ok\", \"b\": \"corrupt\"}\nprint(dict(Counter(files.values())))\n",
+          "note": "Hints Counter; {'ok':1,'corrupt':1}.",
+          "concepts_used": [
+            "batch counts"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T4-B-E1",
+          "code": "manifest = {\"backup\": \"results.prev.xlsx\", \"idempotent\": True}\nprint(manifest)\n",
+          "note": "Final demo backup + idempotent.",
+          "concepts_used": [
+            "manifest backup"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T4-B-E2",
+          "code": "import hashlib\n\ndef build(rows):\n    lines = [\"region,monto\"] + [f\"{r},{m}\" for r, m in sorted(rows)]\n    return \"\\n\".join(lines) + \"\\n\"\n\na = build([(\"Lima\", 10), (\"Cusco\", 5)])\nb = build([(\"Cusco\", 5), (\"Lima\", 10)])\nprint(hashlib.sha1(a.encode()).hexdigest() == hashlib.sha1(b.encode()).hexdigest())\n",
+          "note": "Final demo sorted build idempotent.",
+          "concepts_used": [
+            "idempotent hash"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S20-T4-B-E3",
+          "code": "def structural_ok(sheetnames, need):\n    return set(sheetnames).issuperset(need)\n\nprint(structural_ok([\"Entrada\", \"Salida\", \"Extra\"], {\"Entrada\", \"Salida\"}))\n",
+          "note": "Hints issuperset need Entrada/Salida.",
+          "concepts_used": [
+            "structural sheets"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S20-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['Entrada']\nregion\n",
+          "expected_head": "['Entrada']\nregion",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['Datos', 'Salida']\n",
+          "expected_head": "['Datos', 'Salida']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "7\n",
+          "expected_head": "7",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2024-01-15\n",
+          "expected_head": "2024-01-15",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "None\n",
+          "expected_head": "None",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'Cusco': 7.0, 'Lima': 15.0}\n",
+          "expected_head": "{'Cusco': 7.0, 'Lima': 15.0}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['Piura']\n",
+          "expected_head": "['Piura']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T3-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "['Piura']\n",
+          "expected_head": "['Ica']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "locked\n",
+          "expected_head": "locked",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'ok': 1, 'corrupt': 1}\n",
+          "expected_head": "{'ok': 1, 'corrupt': 1}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T4-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "{'backup': 'results.prev.xlsx', 'idempotent': True}\n",
+          "expected_head": "{'backup': 'out/prev.bak', 'idempotent': True}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S20-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 22,
+      "code_tried": 24,
+      "code_ratio": 0.917,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

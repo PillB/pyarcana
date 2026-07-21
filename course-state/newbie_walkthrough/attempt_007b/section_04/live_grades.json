@@ -1,0 +1,1104 @@
+{
+  "section_index": 4,
+  "section_id": "functions-modules",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 5,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 5,
+        "total": 5,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S04-T1-A-E1",
+          "code": "regiones = [\"Lima\", \"Cusco\", \"Piura\"]\nfor r in regiones:\n    print(r)\nprint(list(range(3)))",
+          "note": "",
+          "concepts_used": [
+            "for",
+            "range"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T1-A-E2",
+          "code": "edades = [30, 17, 45, 22]\nn = 0\nfor e in edades:\n    if e >= 18:\n        n += 1\nprint(n)",
+          "note": "",
+          "concepts_used": [
+            "contador for"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T1-A-E3",
+          "code": "lote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0}, {\"id\": \"C3\", \"monto\": -2}, {\"id\": \"C4\", \"monto\": 5}]\nfor reg in lote:\n    if reg[\"monto\"] > 0:\n        print(reg[\"id\"])\nprint(\"len\", len(lote))",
+          "note": "",
+          "concepts_used": [
+            "filtro for"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T1-B-E1",
+          "code": "ids = [\"A\", \"B\", \"C\"]\nfor i, x in enumerate(ids, start=1):\n    print(f\"fila {i}: {x}\")",
+          "note": "",
+          "concepts_used": [
+            "enumerate start=1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T1-B-E2",
+          "code": "nombres = [\"Ana\", \"Luis\", \"María\"]\nedades = [30, 25, 40]\nfor n, e in zip(nombres, edades):\n    print(f\"{n}={e}\")\nprint(list(zip(nombres, edades[:1])))",
+          "note": "",
+          "concepts_used": [
+            "zip corta"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T1-B-E3",
+          "code": "def zip_strict(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"desalineado\")\n    return list(zip(a, b))\n\ntry:\n    zip_strict([1, 2, 3], [10, 20])\nexcept ValueError:\n    print(\"DESALINEADO\")\ntry:\n    zip_strict([1, 2], [3, 4])\n    print(\"OK\")\nexcept ValueError:\n    print(\"DESALINEADO\")",
+          "note": "",
+          "concepts_used": [
+            "zip_strict"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T2-A-E1",
+          "code": "lines = [\"r1\", \"r2\", \"\", \"r3\"]\ni = 0\nout = []\nwhile i < len(lines):\n    line = lines[i]\n    i += 1\n    if line == \"\":\n        break\n    out.append(line)\nprint(out)",
+          "note": "",
+          "concepts_used": [
+            "while centinela"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T2-A-E2",
+          "code": "intentos = 0\nMAX = 3\nwhile intentos < MAX:\n    intentos += 1\n    print(f\"intento {intentos}\")\nprint(\"done\", intentos)",
+          "note": "",
+          "concepts_used": [
+            "while control"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T2-A-E3",
+          "code": "cola = [\"job1\", \"job2\", \"job3\"]\nwhile cola:\n    job = cola.pop(0)\n    print(job)\n    if job == \"job2\":\n        print(\"PAUSE\")\n        break\nprint(\"rest\", cola)",
+          "note": "",
+          "concepts_used": [
+            "pop",
+            "break"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T2-B-E1",
+          "code": "raw = [\"  \", \"Lima\", \"\", \"Cusco\"]\nfor x in raw:\n    if not x.strip():\n        continue\n    print(x)",
+          "note": "",
+          "concepts_used": [
+            "continue"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T2-B-E2",
+          "code": "codes = [200, 200, 500, 200]\nn_ok = 0\nfor code in codes:\n    if code >= 500:\n        print(\"STOP\")\n        break\n    print(\"ok\")\n    n_ok += 1\nprint(\"n_ok\", n_ok)",
+          "note": "",
+          "concepts_used": [
+            "break"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T2-B-E3",
+          "code": "buf = [\"a\", \"b\", \"END\"]\ni = 0\nout = []\nwhile True:\n    if i > 10:\n        raise RuntimeError(\"guard\")\n    line = buf[i]\n    i += 1\n    if line == \"END\":\n        break\n    out.append(line)\nprint(out)",
+          "note": "",
+          "concepts_used": [
+            "while True",
+            "guardrail"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T3-A-E1",
+          "code": "sts = [\"accept\", \"reject\", \"accept\"]\nn_accept = n_reject = n_total = 0\nfor st in sts:\n    n_total += 1\n    if st == \"accept\":\n        n_accept += 1\n    elif st == \"reject\":\n        n_reject += 1\nprint(n_accept, n_reject, n_total)",
+          "note": "",
+          "concepts_used": [
+            "contadores"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T3-A-E2",
+          "code": "def tasa_reject(sts):\n    n_total = len(sts)\n    if not n_total:\n        return None\n    n_reject = sum(1 for s in sts if s == \"reject\")\n    return n_reject / n_total\n\nprint(tasa_reject([\"accept\", \"reject\", \"accept\"]))\nprint(tasa_reject([]))",
+          "note": "",
+          "concepts_used": [
+            "tasa denominador",
+            "None vacío"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T3-A-E3",
+          "code": "rows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"review\"}, {\"id\": \"C3\", \"status\": \"review\"}]\nfirst = -1\nfor i, r in enumerate(rows):\n    if r[\"status\"] == \"review\":\n        first = i\n        print(first, r[\"id\"])\n        break\nif first == -1:\n    print(-1)",
+          "note": "",
+          "concepts_used": [
+            "búsqueda primer"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T3-B-E1",
+          "code": "nums = [1, 2, 3, 4, 5]\ncuadrados = [x * x for x in nums]\npares = [x for x in nums if x % 2 == 0]\nprint(cuadrados)\nprint(pares)",
+          "note": "",
+          "concepts_used": [
+            "list comprehension"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T3-B-E2",
+          "code": "rows = [{\"status\": \"reject\"}, {\"status\": \"accept\"}, {\"status\": \"reject\"}, {\"status\": \"review\"}]\nprint(sorted({r[\"status\"] for r in rows}))",
+          "note": "",
+          "concepts_used": [
+            "set comprehension"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T3-B-E3",
+          "code": "rows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"}, {\"id\": \"C3\", \"status\": \"accept\"}, {\"id\": \"C4\", \"status\": \"reject\"}]\nby_id = {r[\"id\"]: r[\"status\"] for r in rows}\nrejects = [r[\"id\"] for r in rows if r[\"status\"] == \"reject\"]\ntasa = len(rejects) / len(rows)\nprint(by_id)\nprint(\"reject\", rejects, tasa)",
+          "note": "",
+          "concepts_used": [
+            "dict comprehension",
+            "tasa"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T4-A-E1",
+          "code": "vals = [2, -1, 3]\ns = 0\nfor i, val in enumerate(vals):\n    if val > 0:\n        s += val\n    print(i, val, s)\nprint(\"final\", s)",
+          "note": "",
+          "concepts_used": [
+            "traza estado"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T4-A-E2",
+          "code": "filas = [\"a\", \"b\", \"c\"]\nn = 0\nfor f in filas:\n    n += 1  # un solo incremento (se quitó el duplicado)\nprint(n)",
+          "note": "",
+          "concepts_used": [
+            "fix contador doble"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T4-A-E3",
+          "code": "regs = [\"accept\", \"reject\", \"accept\"]\ncounts = {\"accept\": 0, \"reject\": 0}\nfor st in regs:\n    counts[st] = counts.get(st, 0) + 1\n    print(\"TRACE\", dict(counts))\nprint(\"FINAL\", counts)",
+          "note": "",
+          "concepts_used": [
+            "TRACE contadores"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T4-B-E1",
+          "code": "n = 5\nlin = quad = 0\nfor i in range(n):\n    lin += 1\nfor i in range(n):\n    for j in range(n):\n        quad += 1\nprint(lin, quad)",
+          "note": "",
+          "concepts_used": [
+            "O(n)",
+            "O(n²)"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T4-B-E2",
+          "code": "data = [\"r0\", \"r1\", \"r2\"]\nfor i in range(len(data)):\n    print(data[i])",
+          "note": "",
+          "concepts_used": [
+            "off-by-one range"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T4-B-E3",
+          "code": "sts = [\"reject\", \"accept\", \"reject\", \"reject\", \"accept\"]\nn_reject = sum(1 for s in sts if s == \"reject\")\nn = len(sts)\nprint(n_reject, n_reject / n)\nprint(\"Nota: O(n) basta para la tasa; no hace falta contar pares O(n²)\")",
+          "note": "",
+          "concepts_used": [
+            "O(n) tasa"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S04-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Lima\nCusco\nPiura\n[0, 1, 2]\n",
+          "expected_head": "Lima\nCusco\nPiura\n[0, 1, 2]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3\n",
+          "expected_head": "3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "C1\nC4\nlen 4\n",
+          "expected_head": "C1\nC4\nn_original 4",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fila 1: A\nfila 2: B\nfila 3: C\n",
+          "expected_head": "fila 1: A\nfila 2: B\nfila 3: C",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Ana=30\nLuis=25\nMaría=40\n[('Ana', 30)]\n",
+          "expected_head": "Ana=30\nLuis=25\nMaría=40\nzip corto [('Ana', 30)]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "DESALINEADO\nOK\n",
+          "expected_head": "DESALINEADO\nOK",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['r1', 'r2']\n",
+          "expected_head": "['r1', 'r2']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "intento 1\nintento 2\nintento 3\ndone 3\n",
+          "expected_head": "intento 1\nintento 2\nintento 3\ndone 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "job1\njob2\nPAUSE\nrest ['job3']\n",
+          "expected_head": "job1\njob2\nPAUSE\nrest ['job3']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Lima\nCusco\n",
+          "expected_head": "Lima\nCusco",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\nok\nSTOP\nn_ok 2\n",
+          "expected_head": "ok\nok\nSTOP\nn_ok 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['a', 'b']\n",
+          "expected_head": "['a', 'b']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2 1 3\n",
+          "expected_head": "2 1 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.3333333333333333\nNone\n",
+          "expected_head": "0.3333\nNone",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1 C2\n",
+          "expected_head": "1 C2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[1, 4, 9, 16, 25]\n[2, 4]\n",
+          "expected_head": "[1, 4, 9, 16, 25]\n[2, 4]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['accept', 'reject', 'review']\n",
+          "expected_head": "['accept', 'reject', 'review']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'C1': 'accept', 'C2': 'reject', 'C3': 'accept', 'C4': 'reject'}\nreject ['C2', 'C4'] 0.5\n",
+          "expected_head": "reject ['C2', 'C4'] 0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0 2 2\n1 -1 2\n2 3 5\nfinal 5\n",
+          "expected_head": "0 2 2\n1 -1 2\n2 3 5\nfinal 5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3\n",
+          "expected_head": "3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "TRACE {'accept': 1, 'reject': 0}\nTRACE {'accept': 1, 'reject': 1}\nTRACE {'accept': 2, 'reject': 1}\nFINAL {'accept': 2, '",
+          "expected_head": "TRACE 0 accept {'accept': 1, 'reject': 0}\nTRACE 1 reject {'accept': 1, 'reject': 1}\nTRACE 2 accept {'accept': 2, 'reject",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "5 25\n",
+          "expected_head": "5 25",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "r0\nr1\nr2\n",
+          "expected_head": "r0\nr1\nr2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3 0.6\nNota: O(n) basta para la tasa; no hace falta contar pares O(n²)\n",
+          "expected_head": "3 0.6\nnota: la tasa solo necesita conteo O(n), no pares O(n2)",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 5,
+        "total": 5,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S04-T1-A-E1",
+          "code": "regiones = [\"Lima\", \"Cusco\", \"Piura\"]\nfor r in regiones:\n    print(r)\nprint(list(range(3)))",
+          "note": "",
+          "concepts_used": [
+            "for",
+            "range"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T1-A-E2",
+          "code": "edades = [30, 17, 45, 22]\nn = 0\nfor e in edades:\n    if e >= 18:\n        n += 1\nprint(n)",
+          "note": "",
+          "concepts_used": [
+            "counter",
+            "for"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T1-A-E3",
+          "code": "lote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0}, {\"id\": \"C3\", \"monto\": -2}, {\"id\": \"C4\", \"monto\": 5}]\nfor reg in lote:\n    if reg[\"monto\"] > 0:\n        print(reg[\"id\"])\nprint(\"len\", len(lote))",
+          "note": "",
+          "concepts_used": [
+            "for dict",
+            "filter monto>0"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T1-B-E1",
+          "code": "ids = [\"A\", \"B\", \"C\"]\nfor i, x in enumerate(ids, start=1):\n    print(f\"fila {i}: {x}\")",
+          "note": "",
+          "concepts_used": [
+            "enumerate start=1"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T1-B-E2",
+          "code": "nombres = [\"Ana\", \"Luis\", \"María\"]\nedades = [30, 25, 40]\nfor nom, edad in zip(nombres, edades):\n    print(f\"{nom}={edad}\")\nprint(list(zip(nombres, edades[:1])))",
+          "note": "",
+          "concepts_used": [
+            "zip short stop"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T1-B-E3",
+          "code": "def zip_strict(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"desalineado\")\n    return list(zip(a, b))\n\ntry:\n    zip_strict([1, 2, 3], [10, 20])\nexcept ValueError:\n    print(\"DESALINEADO\")\ntry:\n    zip_strict([1, 2], [3, 4])\n    print(\"OK\")\nexcept ValueError:\n    print(\"DESALINEADO\")",
+          "note": "",
+          "concepts_used": [
+            "zip_strict",
+            "ValueError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T2-A-E1",
+          "code": "lines = [\"r1\", \"r2\", \"\", \"r3\"]\ni = 0\nout = []\nwhile i < len(lines):\n    line = lines[i]\n    i += 1\n    if line == \"\":\n        break\n    out.append(line)\nprint(out)",
+          "note": "",
+          "concepts_used": [
+            "while",
+            "sentinel empty"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T2-A-E2",
+          "code": "intentos = 0\nMAX = 3\nwhile intentos < MAX:\n    intentos += 1\n    print(f\"intento {intentos}\")\nprint(\"done\", intentos)",
+          "note": "",
+          "concepts_used": [
+            "while control var"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T2-A-E3",
+          "code": "cola = [\"job1\", \"job2\", \"job3\"]\nwhile cola:\n    job = cola.pop(0)\n    print(job)\n    if job == \"job2\":\n        print(\"PAUSE\")\n        break\nprint(\"rest\", cola)",
+          "note": "",
+          "concepts_used": [
+            "while queue",
+            "break"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T2-B-E1",
+          "code": "raw = [\"  \", \"Lima\", \"\", \"Cusco\"]\nfor x in raw:\n    if not x.strip():\n        continue\n    print(x)",
+          "note": "",
+          "concepts_used": [
+            "continue",
+            "strip"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T2-B-E2",
+          "code": "codes = [200, 200, 500, 200]\nn_ok = 0\nfor code in codes:\n    if code >= 500:\n        print(\"STOP\")\n        break\n    print(\"ok\")\n    n_ok += 1\nprint(\"n_ok\", n_ok)",
+          "note": "",
+          "concepts_used": [
+            "break",
+            "n_ok"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T2-B-E3",
+          "code": "buf = [\"a\", \"b\", \"END\"]\ni = 0\nout = []\nwhile True:\n    if i > 10:\n        raise RuntimeError(\"guard\")\n    line = buf[i]\n    i += 1\n    if line == \"END\":\n        break\n    out.append(line)\nprint(out)",
+          "note": "",
+          "concepts_used": [
+            "while True",
+            "guardrail",
+            "sentinel"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T3-A-E1",
+          "code": "sts = [\"accept\", \"reject\", \"accept\"]\nn_accept = n_reject = n_total = 0\nfor st in sts:\n    n_total += 1\n    if st == \"accept\":\n        n_accept += 1\n    elif st == \"reject\":\n        n_reject += 1\nprint(n_accept, n_reject, n_total)",
+          "note": "",
+          "concepts_used": [
+            "counters"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T3-A-E2",
+          "code": "def tasa_reject(sts):\n    n_total = len(sts)\n    if not n_total:\n        return None\n    n_reject = sum(1 for s in sts if s == \"reject\")\n    return n_reject / n_total\n\nprint(tasa_reject([\"accept\", \"reject\", \"accept\"]))\nprint(tasa_reject([]))",
+          "note": "",
+          "concepts_used": [
+            "denominador",
+            "None if empty"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T3-A-E3",
+          "code": "rows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"review\"}, {\"id\": \"C3\", \"status\": \"review\"}]\nfirst = -1\nfor i, r in enumerate(rows):\n    if r[\"status\"] == \"review\":\n        first = i\n        print(i, r[\"id\"])\n        break\nif first == -1:\n    print(-1)",
+          "note": "",
+          "concepts_used": [
+            "search",
+            "break"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T3-B-E1",
+          "code": "nums = [1, 2, 3, 4, 5]\ncuadrados = [x * x for x in nums]\npares = [x for x in nums if x % 2 == 0]\nprint(cuadrados)\nprint(pares)",
+          "note": "",
+          "concepts_used": [
+            "list comprehension"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T3-B-E2",
+          "code": "rows = [{\"status\": \"reject\"}, {\"status\": \"accept\"}, {\"status\": \"reject\"}, {\"status\": \"review\"}]\nprint(sorted({r[\"status\"] for r in rows}))",
+          "note": "",
+          "concepts_used": [
+            "set comprehension",
+            "sorted"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T3-B-E3",
+          "code": "rows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"}, {\"id\": \"C3\", \"status\": \"accept\"}, {\"id\": \"C4\", \"status\": \"reject\"}]\nby = {r[\"id\"]: r[\"status\"] for r in rows}\nrejects = [r[\"id\"] for r in rows if r[\"status\"] == \"reject\"]\ntasa = len(rejects) / len(rows)\nprint(by)\nprint(rejects, tasa)",
+          "note": "",
+          "concepts_used": [
+            "dict comprehension",
+            "tasa 0.5"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T4-A-E1",
+          "code": "vals = [2, -1, 3]\ns = 0\nfor i, val in enumerate(vals):\n    if val > 0:\n        s += val\n    print(i, val, s)\nprint(\"final\", s)",
+          "note": "",
+          "concepts_used": [
+            "TRACE state",
+            "accumulator"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T4-A-E2",
+          "code": "filas = [\"a\", \"b\", \"c\"]\nn = 0\nfor f in filas:\n    n += 1  # single increment (removed duplicate n += 1)\nprint(n)",
+          "note": "",
+          "concepts_used": [
+            "bug double increment"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T4-A-E3",
+          "code": "regs = [\"accept\", \"reject\", \"accept\"]\ncounts = {\"accept\": 0, \"reject\": 0}\nfor st in regs:\n    counts[st] = counts.get(st, 0) + 1\n    print(\"TRACE\", dict(counts))\nprint(\"FINAL\", counts)",
+          "note": "",
+          "concepts_used": [
+            "TRACE",
+            "counts dict"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T4-B-E1",
+          "code": "n = 5\nlin = quad = 0\nfor i in range(n):\n    lin += 1\nfor i in range(n):\n    for j in range(n):\n        quad += 1\nprint(lin, quad)",
+          "note": "",
+          "concepts_used": [
+            "O(n)",
+            "O(n²)"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T4-B-E2",
+          "code": "data = [\"r0\", \"r1\", \"r2\"]\nfor i in range(len(data)):\n    print(data[i])",
+          "note": "",
+          "concepts_used": [
+            "off-by-one fix"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S04-T4-B-E3",
+          "code": "sts = [\"reject\", \"accept\", \"reject\", \"reject\", \"accept\"]\nn_reject = 0\nfor s in sts:\n    if s == \"reject\":\n        n_reject += 1\nn = len(sts)\nprint(n_reject, n_reject / n)\nprint(\"Nota: O(n) basta para la tasa; no hace falta contar pares O(n²)\")",
+          "note": "",
+          "concepts_used": [
+            "O(n) rate",
+            "n_reject"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S04-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Lima\nCusco\nPiura\n[0, 1, 2]\n",
+          "expected_head": "Lima\nCusco\nPiura\n[0, 1, 2]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3\n",
+          "expected_head": "3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "C1\nC4\nlen 4\n",
+          "expected_head": "C1\nC4\nn_original 4",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fila 1: A\nfila 2: B\nfila 3: C\n",
+          "expected_head": "fila 1: A\nfila 2: B\nfila 3: C",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Ana=30\nLuis=25\nMaría=40\n[('Ana', 30)]\n",
+          "expected_head": "Ana=30\nLuis=25\nMaría=40\nzip corto [('Ana', 30)]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "DESALINEADO\nOK\n",
+          "expected_head": "DESALINEADO\nOK",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['r1', 'r2']\n",
+          "expected_head": "['r1', 'r2']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "intento 1\nintento 2\nintento 3\ndone 3\n",
+          "expected_head": "intento 1\nintento 2\nintento 3\ndone 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "job1\njob2\nPAUSE\nrest ['job3']\n",
+          "expected_head": "job1\njob2\nPAUSE\nrest ['job3']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Lima\nCusco\n",
+          "expected_head": "Lima\nCusco",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\nok\nSTOP\nn_ok 2\n",
+          "expected_head": "ok\nok\nSTOP\nn_ok 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['a', 'b']\n",
+          "expected_head": "['a', 'b']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2 1 3\n",
+          "expected_head": "2 1 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.3333333333333333\nNone\n",
+          "expected_head": "0.3333\nNone",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1 C2\n",
+          "expected_head": "1 C2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[1, 4, 9, 16, 25]\n[2, 4]\n",
+          "expected_head": "[1, 4, 9, 16, 25]\n[2, 4]",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['accept', 'reject', 'review']\n",
+          "expected_head": "['accept', 'reject', 'review']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'C1': 'accept', 'C2': 'reject', 'C3': 'accept', 'C4': 'reject'}\n['C2', 'C4'] 0.5\n",
+          "expected_head": "reject ['C2', 'C4'] 0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0 2 2\n1 -1 2\n2 3 5\nfinal 5\n",
+          "expected_head": "0 2 2\n1 -1 2\n2 3 5\nfinal 5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3\n",
+          "expected_head": "3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "TRACE {'accept': 1, 'reject': 0}\nTRACE {'accept': 1, 'reject': 1}\nTRACE {'accept': 2, 'reject': 1}\nFINAL {'accept': 2, '",
+          "expected_head": "TRACE 0 accept {'accept': 1, 'reject': 0}\nTRACE 1 reject {'accept': 1, 'reject': 1}\nTRACE 2 accept {'accept': 2, 'reject",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "5 25\n",
+          "expected_head": "5 25",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "r0\nr1\nr2\n",
+          "expected_head": "r0\nr1\nr2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S04-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3 0.6\nNota: O(n) basta para la tasa; no hace falta contar pares O(n²)\n",
+          "expected_head": "3 0.6\nnota: la tasa solo necesita conteo O(n), no pares O(n2)",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

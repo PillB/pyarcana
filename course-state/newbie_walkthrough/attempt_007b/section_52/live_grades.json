@@ -1,0 +1,1119 @@
+{
+  "section_index": 52,
+  "section_id": "career-strategy",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S52-T1-A-E1",
+          "code": "print(\"cf1_revalidated\", True); print(\"metrics\", [\"ttr\",\"precision_review\"]); print(\"synthetic\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "cf1",
+            "metrics",
+            "iDo_S52-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T1-A-E2",
+          "code": "print(\"cf1_revalidated\", True); print(\"metrics\", [\"ttr\",\"precision_review\"]); print(\"synthetic\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "cf1",
+            "metrics",
+            "iDo_S52-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T1-A-E3",
+          "code": "print(\"cf1_revalidated\", True); print(\"metrics\", [\"ttr\",\"precision_review\"]); print(\"synthetic\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "cf1",
+            "metrics",
+            "iDo_S52-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T1-B-E1",
+          "code": "print(\"nogo\", [\"real_pii\",\"auto_fraud_label\"]); print(\"risk_register\", True); print(\"update\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "nogo",
+            "risks",
+            "iDo_S52-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T1-B-E2",
+          "code": "print(\"nogo\", [\"real_pii\",\"auto_fraud_label\"]); print(\"risk_register\", True); print(\"update\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "nogo",
+            "risks",
+            "iDo_S52-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T1-B-E3",
+          "code": "print(\"nogo\", [\"real_pii\",\"auto_fraud_label\"]); print(\"risk_register\", True); print(\"update\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "nogo",
+            "risks",
+            "iDo_S52-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T2-A-E1",
+          "code": "print(\"contracts\", True); print(\"events\", True); print(\"bounded\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "apis",
+            "events",
+            "iDo_S52-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T2-A-E2",
+          "code": "print(\"contracts\", True); print(\"events\", True); print(\"bounded\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "apis",
+            "events",
+            "iDo_S52-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T2-A-E3",
+          "code": "print(\"contracts\", True); print(\"events\", True); print(\"bounded\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "apis",
+            "events",
+            "iDo_S52-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T2-B-E1",
+          "code": "print(\"assemble\", True); print(\"rpa\", \"vp_flows\"); print(\"rag\", \"cited\")\n",
+          "note": "",
+          "concepts_used": [
+            "rpa",
+            "rag",
+            "hitl",
+            "iDo_S52-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T2-B-E2",
+          "code": "print(\"assemble\", True); print(\"rpa\", \"vp_flows\"); print(\"rag\", \"cited\")\n",
+          "note": "",
+          "concepts_used": [
+            "rpa",
+            "rag",
+            "hitl",
+            "iDo_S52-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T2-B-E3",
+          "code": "print(\"assemble\", True); print(\"rpa\", \"vp_flows\"); print(\"rag\", \"cited\")\n",
+          "note": "",
+          "concepts_used": [
+            "rpa",
+            "rag",
+            "hitl",
+            "iDo_S52-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T3-A-E1",
+          "code": "print(\"tests\", True); print(\"redteam\", True); print(\"perf_budget\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "tests",
+            "redteam",
+            "iDo_S52-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T3-A-E2",
+          "code": "print(\"tests\", True); print(\"redteam\", True); print(\"perf_budget\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "tests",
+            "redteam",
+            "iDo_S52-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T3-A-E3",
+          "code": "print(\"tests\", True); print(\"redteam\", True); print(\"perf_budget\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "tests",
+            "redteam",
+            "iDo_S52-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T3-B-E1",
+          "code": "print(\"backup\", True); print(\"rollback\", True); print(\"disaster_exercise\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "slo",
+            "disaster",
+            "iDo_S52-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T3-B-E2",
+          "code": "print(\"backup\", True); print(\"rollback\", True); print(\"disaster_exercise\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "slo",
+            "disaster",
+            "iDo_S52-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T3-B-E3",
+          "code": "print(\"backup\", True); print(\"rollback\", True); print(\"disaster_exercise\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "slo",
+            "disaster",
+            "iDo_S52-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T4-A-E1",
+          "code": "print(\"demo_ok\", True); print(\"cv\", True); print(\"metrics_first\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "demo",
+            "cv",
+            "iDo_S52-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T4-A-E2",
+          "code": "print(\"demo_ok\", True); print(\"cv\", True); print(\"metrics_first\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "demo",
+            "cv",
+            "iDo_S52-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T4-A-E3",
+          "code": "print(\"demo_ok\", True); print(\"cv\", True); print(\"metrics_first\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "demo",
+            "cv",
+            "iDo_S52-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T4-B-E1",
+          "code": "print(\"artifacts\", 6); print(\"license\", True); print(\"defense\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "artifacts",
+            "defense",
+            "iDo_S52-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T4-B-E2",
+          "code": "print(\"artifacts\", 6); print(\"license\", True); print(\"defense\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "artifacts",
+            "defense",
+            "iDo_S52-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T4-B-E3",
+          "code": "print(\"artifacts\", 6); print(\"license\", True); print(\"defense\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "artifacts",
+            "defense",
+            "iDo_S52-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S52-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cf1_revalidated True\nmetrics ['ttr', 'precision_review']\nsynthetic True\n",
+          "expected_head": "cf1_revalidated True\nmetrics ['ttr', 'precision_review']\nsynthetic True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cf1_revalidated True\nmetrics ['ttr', 'precision_review']\nsynthetic True\n",
+          "expected_head": "cf1_revalidated True\nmetrics ['ttr', 'precision_review']\nsynthetic True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cf1_revalidated True\nmetrics ['ttr', 'precision_review']\nsynthetic True\n",
+          "expected_head": "cf1_revalidated True\nmetrics ['ttr', 'precision_review']\nsynthetic True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "nogo ['real_pii', 'auto_fraud_label']\nrisk_register True\nupdate True\n",
+          "expected_head": "nogo ['real_pii', 'auto_fraud_label']\nrisk_register True\nupdate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "nogo ['real_pii', 'auto_fraud_label']\nrisk_register True\nupdate True\n",
+          "expected_head": "nogo ['real_pii', 'auto_fraud_label']\nrisk_register True\nupdate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "nogo ['real_pii', 'auto_fraud_label']\nrisk_register True\nupdate True\n",
+          "expected_head": "nogo ['real_pii', 'auto_fraud_label']\nrisk_register True\nupdate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "contracts True\nevents True\nbounded True\n",
+          "expected_head": "contracts True\nevents True\nbounded True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "contracts True\nevents True\nbounded True\n",
+          "expected_head": "contracts True\nevents True\nbounded True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "contracts True\nevents True\nbounded True\n",
+          "expected_head": "contracts True\nevents True\nbounded True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "assemble True\nrpa vp_flows\nrag cited\n",
+          "expected_head": "assemble True\nrpa vp_flows\nrag cited",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "assemble True\nrpa vp_flows\nrag cited\n",
+          "expected_head": "assemble True\nrpa vp_flows\nrag cited",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "assemble True\nrpa vp_flows\nrag cited\n",
+          "expected_head": "assemble True\nrpa vp_flows\nrag cited",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tests True\nredteam True\nperf_budget True\n",
+          "expected_head": "tests True\nredteam True\nperf_budget True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tests True\nredteam True\nperf_budget True\n",
+          "expected_head": "tests True\nredteam True\nperf_budget True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tests True\nredteam True\nperf_budget True\n",
+          "expected_head": "tests True\nredteam True\nperf_budget True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "backup True\nrollback True\ndisaster_exercise True\n",
+          "expected_head": "backup True\nrollback True\ndisaster_exercise True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "backup True\nrollback True\ndisaster_exercise True\n",
+          "expected_head": "backup True\nrollback True\ndisaster_exercise True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "backup True\nrollback True\ndisaster_exercise True\n",
+          "expected_head": "backup True\nrollback True\ndisaster_exercise True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "demo_ok True\ncv True\nmetrics_first True\n",
+          "expected_head": "demo_ok True\ncv True\nmetrics_first True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "demo_ok True\ncv True\nmetrics_first True\n",
+          "expected_head": "demo_ok True\ncv True\nmetrics_first True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "demo_ok True\ncv True\nmetrics_first True\n",
+          "expected_head": "demo_ok True\ncv True\nmetrics_first True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "artifacts 6\nlicense True\ndefense True\n",
+          "expected_head": "artifacts 6\nlicense True\ndefense True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "artifacts 6\nlicense True\ndefense True\n",
+          "expected_head": "artifacts 6\nlicense True\ndefense True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "artifacts 6\nlicense True\ndefense True\n",
+          "expected_head": "artifacts 6\nlicense True\ndefense True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S52-T1-A-E1",
+          "code": "print(\"cf1_revalidated\", True); print(\"metrics\", [\"ttr\",\"precision_review\"]); print(\"synthetic\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T1-A-E2",
+          "code": "print(\"cf1_revalidated\", True); print(\"metrics\", [\"ttr\",\"precision_review\"]); print(\"synthetic\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T1-A-E3",
+          "code": "print(\"cf1_revalidated\", True); print(\"metrics\", [\"ttr\",\"precision_review\"]); print(\"synthetic\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T1-B-E1",
+          "code": "print(\"nogo\", [\"real_pii\",\"auto_fraud_label\"]); print(\"risk_register\", True); print(\"update\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T1-B-E2",
+          "code": "print(\"nogo\", [\"real_pii\",\"auto_fraud_label\"]); print(\"risk_register\", True); print(\"update\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T1-B-E3",
+          "code": "print(\"nogo\", [\"real_pii\",\"auto_fraud_label\"]); print(\"risk_register\", True); print(\"update\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T2-A-E1",
+          "code": "print(\"contracts\", True); print(\"events\", True); print(\"bounded\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T2-A-E2",
+          "code": "print(\"contracts\", True); print(\"events\", True); print(\"bounded\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T2-A-E3",
+          "code": "print(\"contracts\", True); print(\"events\", True); print(\"bounded\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T2-B-E1",
+          "code": "print(\"assemble\", True); print(\"rpa\", \"vp_flows\"); print(\"rag\", \"cited\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T2-B-E2",
+          "code": "print(\"assemble\", True); print(\"rpa\", \"vp_flows\"); print(\"rag\", \"cited\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T2-B-E3",
+          "code": "print(\"assemble\", True); print(\"rpa\", \"vp_flows\"); print(\"rag\", \"cited\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T3-A-E1",
+          "code": "print(\"tests\", True); print(\"redteam\", True); print(\"perf_budget\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T3-A-E2",
+          "code": "print(\"tests\", True); print(\"redteam\", True); print(\"perf_budget\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T3-A-E3",
+          "code": "print(\"tests\", True); print(\"redteam\", True); print(\"perf_budget\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T3-B-E1",
+          "code": "print(\"backup\", True); print(\"rollback\", True); print(\"disaster_exercise\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T3-B-E2",
+          "code": "print(\"backup\", True); print(\"rollback\", True); print(\"disaster_exercise\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T3-B-E3",
+          "code": "print(\"backup\", True); print(\"rollback\", True); print(\"disaster_exercise\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T4-A-E1",
+          "code": "print(\"demo_ok\", True); print(\"cv\", True); print(\"metrics_first\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T4-A-E2",
+          "code": "print(\"demo_ok\", True); print(\"cv\", True); print(\"metrics_first\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T4-A-E3",
+          "code": "print(\"demo_ok\", True); print(\"cv\", True); print(\"metrics_first\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T4-B-E1",
+          "code": "print(\"artifacts\", 6); print(\"license\", True); print(\"defense\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T4-B-E2",
+          "code": "print(\"artifacts\", 6); print(\"license\", True); print(\"defense\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S52-T4-B-E3",
+          "code": "print(\"artifacts\", 6); print(\"license\", True); print(\"defense\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S52-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S52-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cf1_revalidated True\nmetrics ['ttr', 'precision_review']\nsynthetic True\n",
+          "expected_head": "cf1_revalidated True\nmetrics ['ttr', 'precision_review']\nsynthetic True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cf1_revalidated True\nmetrics ['ttr', 'precision_review']\nsynthetic True\n",
+          "expected_head": "cf1_revalidated True\nmetrics ['ttr', 'precision_review']\nsynthetic True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cf1_revalidated True\nmetrics ['ttr', 'precision_review']\nsynthetic True\n",
+          "expected_head": "cf1_revalidated True\nmetrics ['ttr', 'precision_review']\nsynthetic True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "nogo ['real_pii', 'auto_fraud_label']\nrisk_register True\nupdate True\n",
+          "expected_head": "nogo ['real_pii', 'auto_fraud_label']\nrisk_register True\nupdate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "nogo ['real_pii', 'auto_fraud_label']\nrisk_register True\nupdate True\n",
+          "expected_head": "nogo ['real_pii', 'auto_fraud_label']\nrisk_register True\nupdate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "nogo ['real_pii', 'auto_fraud_label']\nrisk_register True\nupdate True\n",
+          "expected_head": "nogo ['real_pii', 'auto_fraud_label']\nrisk_register True\nupdate True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "contracts True\nevents True\nbounded True\n",
+          "expected_head": "contracts True\nevents True\nbounded True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "contracts True\nevents True\nbounded True\n",
+          "expected_head": "contracts True\nevents True\nbounded True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "contracts True\nevents True\nbounded True\n",
+          "expected_head": "contracts True\nevents True\nbounded True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "assemble True\nrpa vp_flows\nrag cited\n",
+          "expected_head": "assemble True\nrpa vp_flows\nrag cited",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "assemble True\nrpa vp_flows\nrag cited\n",
+          "expected_head": "assemble True\nrpa vp_flows\nrag cited",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "assemble True\nrpa vp_flows\nrag cited\n",
+          "expected_head": "assemble True\nrpa vp_flows\nrag cited",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tests True\nredteam True\nperf_budget True\n",
+          "expected_head": "tests True\nredteam True\nperf_budget True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tests True\nredteam True\nperf_budget True\n",
+          "expected_head": "tests True\nredteam True\nperf_budget True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tests True\nredteam True\nperf_budget True\n",
+          "expected_head": "tests True\nredteam True\nperf_budget True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "backup True\nrollback True\ndisaster_exercise True\n",
+          "expected_head": "backup True\nrollback True\ndisaster_exercise True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "backup True\nrollback True\ndisaster_exercise True\n",
+          "expected_head": "backup True\nrollback True\ndisaster_exercise True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "backup True\nrollback True\ndisaster_exercise True\n",
+          "expected_head": "backup True\nrollback True\ndisaster_exercise True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "demo_ok True\ncv True\nmetrics_first True\n",
+          "expected_head": "demo_ok True\ncv True\nmetrics_first True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "demo_ok True\ncv True\nmetrics_first True\n",
+          "expected_head": "demo_ok True\ncv True\nmetrics_first True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "demo_ok True\ncv True\nmetrics_first True\n",
+          "expected_head": "demo_ok True\ncv True\nmetrics_first True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "artifacts 6\nlicense True\ndefense True\n",
+          "expected_head": "artifacts 6\nlicense True\ndefense True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "artifacts 6\nlicense True\ndefense True\n",
+          "expected_head": "artifacts 6\nlicense True\ndefense True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S52-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "artifacts 6\nlicense True\ndefense True\n",
+          "expected_head": "artifacts 6\nlicense True\ndefense True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

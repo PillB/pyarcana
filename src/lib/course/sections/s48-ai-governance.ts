@@ -356,11 +356,11 @@ cost_cap True`,
         subtopicId: "S48-T1-A",
         kind: "guided",
         instruction:
-          "E1 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`1.0\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T1-A-E1: usa el patrón del demo iDo del subtema S48-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T1-A; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T1-A; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -368,14 +368,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T1-A)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(1.0)`,
-          output: `1.0`,
+          code: `print("sim", "cosine"); print("space", "unit"); print("synth_docs", True)`,
+          output: `sim cosine
+space unit
+synth_docs True`,
         },
       },
       {
@@ -383,11 +385,11 @@ cost_cap True`,
         subtopicId: "S48-T1-A",
         kind: "independent",
         instruction:
-          "E2 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`0.0\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T1-A-E2: usa el patrón del demo iDo del subtema S48-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T1-A; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T1-A; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -395,14 +397,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T1-A)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(0.0)`,
-          output: `0.0`,
+          code: `print("sim", "cosine"); print("space", "unit"); print("synth_docs", True)`,
+          output: `sim cosine
+space unit
+synth_docs True`,
         },
       },
       {
@@ -410,11 +414,11 @@ cost_cap True`,
         subtopicId: "S48-T1-A",
         kind: "transfer",
         instruction:
-          "E3 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`'cosine'\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T1-A-E3: usa el patrón del demo iDo del subtema S48-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T1-A; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T1-A; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -422,14 +426,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T1-A)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print('cosine')`,
-          output: `cosine`,
+          code: `print("sim", "cosine"); print("space", "unit"); print("synth_docs", True)`,
+          output: `sim cosine
+space unit
+synth_docs True`,
         },
       },
       {
@@ -437,11 +443,11 @@ cost_cap True`,
         subtopicId: "S48-T1-B",
         kind: "guided",
         instruction:
-          "E1 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`512\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T1-B-E1: usa el patrón del demo iDo del subtema S48-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T1-B; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T1-B; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -449,14 +455,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T1-B)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(512)`,
-          output: `512`,
+          code: `print("eval", "nDCG@10"); print("version", "e5-v1"); print("regression_suite", True)`,
+          output: `eval nDCG@10
+version e5-v1
+regression_suite True`,
         },
       },
       {
@@ -464,11 +472,11 @@ cost_cap True`,
         subtopicId: "S48-T1-B",
         kind: "independent",
         instruction:
-          "E2 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`'e5-v1'\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T1-B-E2: usa el patrón del demo iDo del subtema S48-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T1-B; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T1-B; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -476,14 +484,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T1-B)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print('e5-v1')`,
-          output: `e5-v1`,
+          code: `print("eval", "nDCG@10"); print("version", "e5-v1"); print("regression_suite", True)`,
+          output: `eval nDCG@10
+version e5-v1
+regression_suite True`,
         },
       },
       {
@@ -491,11 +501,11 @@ cost_cap True`,
         subtopicId: "S48-T1-B",
         kind: "transfer",
         instruction:
-          "E3 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`'nDCG@10'\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T1-B-E3: usa el patrón del demo iDo del subtema S48-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T1-B; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T1-B; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -503,14 +513,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T2-A)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print('nDCG@10')`,
-          output: `nDCG@10`,
+          code: `print("eval", "nDCG@10"); print("version", "e5-v1"); print("regression_suite", True)`,
+          output: `eval nDCG@10
+version e5-v1
+regression_suite True`,
         },
       },
       {
@@ -518,11 +530,11 @@ cost_cap True`,
         subtopicId: "S48-T2-A",
         kind: "guided",
         instruction:
-          "E1 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`3\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T2-A-E1: usa el patrón del demo iDo del subtema S48-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T2-A; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T2-A; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -530,14 +542,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T2-A)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(3)`,
-          output: `3`,
+          code: `print("chunk_n", 3); print("overlap", "optional"); print("dedup_key", "sha1")`,
+          output: `chunk_n 3
+overlap optional
+dedup_key sha1`,
         },
       },
       {
@@ -545,11 +559,11 @@ cost_cap True`,
         subtopicId: "S48-T2-A",
         kind: "independent",
         instruction:
-          "E2 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`['doc_id','page']\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T2-A-E2: usa el patrón del demo iDo del subtema S48-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T2-A; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T2-A; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -557,14 +571,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T2-A)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(['doc_id','page'])`,
-          output: `['doc_id', 'page']`,
+          code: `print("chunk_n", 3); print("overlap", "optional"); print("dedup_key", "sha1")`,
+          output: `chunk_n 3
+overlap optional
+dedup_key sha1`,
         },
       },
       {
@@ -572,11 +588,11 @@ cost_cap True`,
         subtopicId: "S48-T2-A",
         kind: "transfer",
         instruction:
-          "E3 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`'hash'\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T2-A-E3: usa el patrón del demo iDo del subtema S48-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T2-A; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T2-A; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -584,14 +600,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T2-B)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print('hash')`,
-          output: `hash`,
+          code: `print("chunk_n", 3); print("overlap", "optional"); print("dedup_key", "sha1")`,
+          output: `chunk_n 3
+overlap optional
+dedup_key sha1`,
         },
       },
       {
@@ -599,11 +617,11 @@ cost_cap True`,
         subtopicId: "S48-T2-B",
         kind: "guided",
         instruction:
-          "E1 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`True\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T2-B-E1: usa el patrón del demo iDo del subtema S48-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T2-B; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T2-B; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -611,14 +629,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T2-B)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(True)`,
-          output: `True`,
+          code: `print("provenance", "doc_version"); print("acl_enforce", True); print("hard_delete", "policy")`,
+          output: `provenance doc_version
+acl_enforce True
+hard_delete policy`,
         },
       },
       {
@@ -626,11 +646,11 @@ cost_cap True`,
         subtopicId: "S48-T2-B",
         kind: "independent",
         instruction:
-          "E2 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`False\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T2-B-E2: usa el patrón del demo iDo del subtema S48-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T2-B; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T2-B; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -638,14 +658,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T2-B)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(False)`,
-          output: `False`,
+          code: `print("provenance", "doc_version"); print("acl_enforce", True); print("hard_delete", "policy")`,
+          output: `provenance doc_version
+acl_enforce True
+hard_delete policy`,
         },
       },
       {
@@ -653,11 +675,11 @@ cost_cap True`,
         subtopicId: "S48-T2-B",
         kind: "transfer",
         instruction:
-          "E3 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`'tombstone'\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T2-B-E3: usa el patrón del demo iDo del subtema S48-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T2-B; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T2-B; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -665,14 +687,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T3-A)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print('tombstone')`,
-          output: `tombstone`,
+          code: `print("provenance", "doc_version"); print("acl_enforce", True); print("hard_delete", "policy")`,
+          output: `provenance doc_version
+acl_enforce True
+hard_delete policy`,
         },
       },
       {
@@ -680,11 +704,11 @@ cost_cap True`,
         subtopicId: "S48-T3-A",
         kind: "guided",
         instruction:
-          "E1 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`0.74\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T3-A-E1: usa el patrón del demo iDo del subtema S48-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T3-A; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T3-A; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -692,14 +716,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T3-A)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(0.74)`,
-          output: `0.74`,
+          code: `print("lexical", "bm25_like"); print("vector", "cosine"); print("fuse", "linear")`,
+          output: `lexical bm25_like
+vector cosine
+fuse linear`,
         },
       },
       {
@@ -707,11 +733,11 @@ cost_cap True`,
         subtopicId: "S48-T3-A",
         kind: "independent",
         instruction:
-          "E2 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`'hybrid'\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T3-A-E2: usa el patrón del demo iDo del subtema S48-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T3-A; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T3-A; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -719,14 +745,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T3-A)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print('hybrid')`,
-          output: `hybrid`,
+          code: `print("lexical", "bm25_like"); print("vector", "cosine"); print("fuse", "linear")`,
+          output: `lexical bm25_like
+vector cosine
+fuse linear`,
         },
       },
       {
@@ -734,11 +762,11 @@ cost_cap True`,
         subtopicId: "S48-T3-A",
         kind: "transfer",
         instruction:
-          "E3 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`True\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T3-A-E3: usa el patrón del demo iDo del subtema S48-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T3-A; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T3-A; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -746,14 +774,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T3-B)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(True)`,
-          output: `True`,
+          code: `print("lexical", "bm25_like"); print("vector", "cosine"); print("fuse", "linear")`,
+          output: `lexical bm25_like
+vector cosine
+fuse linear`,
         },
       },
       {
@@ -761,11 +791,11 @@ cost_cap True`,
         subtopicId: "S48-T3-B",
         kind: "guided",
         instruction:
-          "E1 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`'[c1] SLA 300ms'\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T3-B-E1: usa el patrón del demo iDo del subtema S48-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T3-B; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T3-B; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -773,14 +803,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T3-B)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print('[c1] SLA 300ms')`,
-          output: `[c1] SLA 300ms`,
+          code: `print("cites", True); print("drop_denied", True); print("context_budget", 2)`,
+          output: `cites True
+drop_denied True
+context_budget 2`,
         },
       },
       {
@@ -788,11 +820,11 @@ cost_cap True`,
         subtopicId: "S48-T3-B",
         kind: "independent",
         instruction:
-          "E2 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`True\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T3-B-E2: usa el patrón del demo iDo del subtema S48-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T3-B; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T3-B; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -800,14 +832,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T3-B)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(True)`,
-          output: `True`,
+          code: `print("cites", True); print("drop_denied", True); print("context_budget", 2)`,
+          output: `cites True
+drop_denied True
+context_budget 2`,
         },
       },
       {
@@ -815,11 +849,11 @@ cost_cap True`,
         subtopicId: "S48-T3-B",
         kind: "transfer",
         instruction:
-          "E3 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`2\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T3-B-E3: usa el patrón del demo iDo del subtema S48-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T3-B; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T3-B; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -827,14 +861,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T4-A)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(2)`,
-          output: `2`,
+          code: `print("cites", True); print("drop_denied", True); print("context_budget", 2)`,
+          output: `cites True
+drop_denied True
+context_budget 2`,
         },
       },
       {
@@ -842,11 +878,11 @@ cost_cap True`,
         subtopicId: "S48-T4-A",
         kind: "guided",
         instruction:
-          "E1 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`True\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T4-A-E1: usa el patrón del demo iDo del subtema S48-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T4-A; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T4-A; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -854,14 +890,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T4-A)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(True)`,
-          output: `True`,
+          code: `print("structured", {"decision":"ok","cites":["c1"]}); print("grounded", True); print("schema", True)`,
+          output: `structured {'decision': 'ok', 'cites': ['c1']}
+grounded True
+schema True`,
         },
       },
       {
@@ -869,11 +907,11 @@ cost_cap True`,
         subtopicId: "S48-T4-A",
         kind: "independent",
         instruction:
-          "E2 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`False\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T4-A-E2: usa el patrón del demo iDo del subtema S48-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T4-A; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T4-A; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -881,14 +919,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T4-A)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(False)`,
-          output: `False`,
+          code: `print("structured", {"decision":"ok","cites":["c1"]}); print("grounded", True); print("schema", True)`,
+          output: `structured {'decision': 'ok', 'cites': ['c1']}
+grounded True
+schema True`,
         },
       },
       {
@@ -896,11 +936,11 @@ cost_cap True`,
         subtopicId: "S48-T4-A",
         kind: "transfer",
         instruction:
-          "E3 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`True\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T4-A-E3: usa el patrón del demo iDo del subtema S48-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T4-A; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T4-A; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -908,14 +948,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T4-A)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(True)`,
-          output: `True`,
+          code: `print("structured", {"decision":"ok","cites":["c1"]}); print("grounded", True); print("schema", True)`,
+          output: `structured {'decision': 'ok', 'cites': ['c1']}
+grounded True
+schema True`,
         },
       },
       {
@@ -923,11 +965,11 @@ cost_cap True`,
         subtopicId: "S48-T4-B",
         kind: "guided",
         instruction:
-          "E1 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`'answer'\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T4-B-E1: usa el patrón del demo iDo del subtema S48-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T4-A; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T4-A; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -935,14 +977,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T4-B)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print('answer')`,
-          output: `answer`,
+          code: `print("eval", "answer_faithfulness"); print("abstain", True); print("cost_cap", True)`,
+          output: `eval answer_faithfulness
+abstain True
+cost_cap True`,
         },
       },
       {
@@ -950,11 +994,11 @@ cost_cap True`,
         subtopicId: "S48-T4-B",
         kind: "independent",
         instruction:
-          "E2 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`'abstain'\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T4-B-E2: usa el patrón del demo iDo del subtema S48-T4-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T4-B; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T4-B; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -962,14 +1006,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: completa este print (patrón del demo iDo S48-T4-B)
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print('abstain')`,
-          output: `abstain`,
+          code: `print("eval", "answer_faithfulness"); print("abstain", True); print("cost_cap", True)`,
+          output: `eval answer_faithfulness
+abstain True
+cost_cap True`,
         },
       },
       {
@@ -977,11 +1023,11 @@ cost_cap True`,
         subtopicId: "S48-T4-B",
         kind: "transfer",
         instruction:
-          "E3 — Escribe un script que reproduzca la salida de la demo/solución de este subtema. Debes imprimir (en orden): \`1200\`. Datos sintéticos; sin PII real.",
-        hint: "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
+          "Ejercicio S48-T4-B-E3: usa el patrón del demo iDo del subtema S48-T4-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
+        hint: "Busca en iDo el demo con subtopicId S48-T4-B; el print pendiente debe copiar esa forma.",
         hints: [
-          "Revisa el demo iDo del mismo subtopicId y copia la estructura mínima.",
-          "Compara cada print con el output esperado del solution/demo.",
+          "Busca en iDo el demo con subtopicId S48-T4-B; el print pendiente debe copiar esa forma.",
+          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
         ],
         edgeCases: ["caso sintético", "sin PII real"],
         tests: "salida coincide con solution output",
@@ -989,14 +1035,16 @@ cost_cap True`,
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO: completa los print / lógica
+          code: `# TODO: escribe el print final como en el demo iDo del mismo subtopicId
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `print(1200)`,
-          output: `1200`,
+          code: `print("eval", "answer_faithfulness"); print("abstain", True); print("cost_cap", True)`,
+          output: `eval answer_faithfulness
+abstain True
+cost_cap True`,
         },
       },
     ],

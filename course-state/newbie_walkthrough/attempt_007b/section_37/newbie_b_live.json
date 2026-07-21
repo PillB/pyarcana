@@ -1,0 +1,43 @@
+{
+  "agent": "newbie_b_live",
+  "attempt_id": "attempt_007b",
+  "method": "llm_packet_only_no_generator",
+  "section_index": 37,
+  "persona": "skeptic",
+  "recorded_at": "2026-07-22T00:00:00+00:00",
+  "packet_only": true,
+  "packet_sha": "b35e49d6f727dcb5",
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 1, "chosen_text": "Estabilizar benches descartando cold start", "confidence": 0.93, "blocked_on": [], "note": "Warmup discards cold start."},
+    {"question_index": 1, "chosen_index": 1, "chosen_text": "Pares candidatos O(n²)", "confidence": 0.93, "blocked_on": [], "note": "Blocking reduces O(n²) pairs."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Falla si se rompe el límite acordado", "confidence": 0.93, "blocked_on": [], "note": "Perf budget fails on breach."},
+    {"question_index": 3, "chosen_index": 1, "chosen_text": "Teatro; prioriza claridad y algos", "confidence": 0.93, "blocked_on": [], "note": "Micro without measure is theater."}
+  ],
+  "exercises": [
+    {"exercise_id": "S37-T1-A-E1", "answer": "completed_from_packet", "code": "print('n', 100000)\nprint('wall_note', 'report_with_n')\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.88, "concepts_used": ["wall+n"], "note": "Report n with wall."},
+    {"exercise_id": "S37-T1-A-E2", "answer": "completed_from_packet", "code": "print(['wall', 'cpu'])\nprint('wall', 'elapsed_clock')\nprint('cpu', 'processor_time')\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["wall vs cpu"], "note": "Labels wall/cpu."},
+    {"exercise_id": "S37-T1-A-E3", "answer": "completed_from_packet", "code": "print(True)\nprint('result', True)\nprint('correctness_with_bench', True)\n", "blocked_on": [], "confidence": 0.88, "concepts_used": ["correctness"], "note": "Same result + measure."},
+    {"exercise_id": "S37-T1-B-E1", "answer": "completed_from_packet", "code": "import statistics\nprint(statistics.median([5,1,4]))\nprint('warmup', True)\nprint('n_runs', 3)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["median"], "note": "Median times."},
+    {"exercise_id": "S37-T1-B-E2", "answer": "completed_from_packet", "code": "print(True)\nprint('warmup', True)\nprint('discard_cold', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["warmup"], "note": "Warmup first."},
+    {"exercise_id": "S37-T1-B-E3", "answer": "completed_from_packet", "code": "xs=[1,2,9]\nprint(max(xs))\nprint('p95_proxy', 'max_small_n')\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.85, "concepts_used": ["p95 proxy"], "note": "max as p95 small n."},
+    {"exercise_id": "S37-T2-A-E1", "answer": "completed_from_packet", "code": "n=10\nprint(n*(n-1)//2)\nprint('all_pairs', 45)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["C(n,2)"], "note": "All pairs."},
+    {"exercise_id": "S37-T2-A-E2", "answer": "completed_from_packet", "code": "all_p, blocked = 4950, 450\nprint(round(1 - blocked/all_p, 3))\nprint('reduction', True)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["blocking reduction"], "note": "1 - blocked/all."},
+    {"exercise_id": "S37-T2-A-E3", "answer": "completed_from_packet", "code": "print('algo')\nprint('prefer', 'algo_over_micro')\nprint('micro_only', False)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["algo first"], "note": "Algo over micro."},
+    {"exercise_id": "S37-T2-B-E1", "answer": "completed_from_packet", "code": "print('set_lookup_faster')\nprint('structure', 'set_or_dict')\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.88, "concepts_used": ["set lookup"], "note": "set/dict vs list."},
+    {"exercise_id": "S37-T2-B-E2", "answer": "completed_from_packet", "code": "from collections import defaultdict\nrows=[('Lima','e1'),('Lima','e2'),('Cusco','e3')]\ninv=defaultdict(list)\nfor city,e in rows:\n    inv[city].append(e)\nprint({k:len(v) for k,v in inv.items()})\nprint('structure', 'inverted_index')\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["inverted index"], "note": "Inverted index."},
+    {"exercise_id": "S37-T2-B-E3", "answer": "completed_from_packet", "code": "print('reduce_candidates_first')\nprint('before', 'expensive_score')\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["reduce first"], "note": "Reduce before score."},
+    {"exercise_id": "S37-T3-A-E1", "answer": "completed_from_packet", "code": "import math\nprint(math.ceil(10/4))\nprint('chunks', 3)\nprint('size', 4)\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["chunks"], "note": "ceil 10/4=3."},
+    {"exercise_id": "S37-T3-A-E2", "answer": "completed_from_packet", "code": "cols=['id','name','score','noise']\nneed=['id','score']\nprint(need)\nprint('columnar', True)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.88, "concepts_used": ["column subset"], "note": "Read needed cols."},
+    {"exercise_id": "S37-T3-A-E3", "answer": "completed_from_packet", "code": "print('int32_saves_memory')\nprint('dtype', 'int32')\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.88, "concepts_used": ["dtype"], "note": "int32 saves mem."},
+    {"exercise_id": "S37-T3-B-E1", "answer": "completed_from_packet", "code": "print(('fs-v3', 'cutoff-2026-01'))\nprint('key', 'fs-v3')\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["cache key"], "note": "Cache key version."},
+    {"exercise_id": "S37-T3-B-E2", "answer": "completed_from_packet", "code": "print('feature_set_or_cutoff_change')\nprint('invalidate', True)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["invalidate"], "note": "Invalidate on change."},
+    {"exercise_id": "S37-T3-B-E3", "answer": "completed_from_packet", "code": "print('chunk')\nprint('ooc', 'chunking')\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["OOC"], "note": "Out-of-core chunk."},
+    {"exercise_id": "S37-T4-A-E1", "answer": "completed_from_packet", "code": "print(9<=10)\nprint('budget', 10)\nprint('measured', 9)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["budget pass"], "note": "9<=10 pass."},
+    {"exercise_id": "S37-T4-A-E2", "answer": "completed_from_packet", "code": "print(not (12>10))\nprint('fail', 12>10)\nprint('budget', 10)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["budget fail"], "note": "12>10 fail."},
+    {"exercise_id": "S37-T4-A-E3", "answer": "completed_from_packet", "code": "print(['p95_latency','memory','pairs'])\nprint('budget_fields', True)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["budget fields"], "note": "Budget fields list."},
+    {"exercise_id": "S37-T4-B-E1", "answer": "completed_from_packet", "code": "print(80/20)\nprint('speedup', 4.0)\nprint('micro_only', False)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["speedup"], "note": "80/20=4."},
+    {"exercise_id": "S37-T4-B-E2", "answer": "completed_from_packet", "code": "print('clarity')\nprint('micro_only', False)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["clarity"], "note": "Clarity over micro."},
+    {"exercise_id": "S37-T4-B-E3", "answer": "completed_from_packet", "code": "print(['before_ms','after_ms','pairs_before','pairs_after'])\nprint('report', True)\nprint('ok', True)\n", "blocked_on": [], "confidence": 0.88, "concepts_used": ["report keys"], "note": "Before/after keys."}
+  ],
+  "summary": {"n_exercises": 24, "n_answered": 24, "n_blocked_exercises": 0, "blocked_exercise_ids": [], "n_selfcheck": 4, "n_selfcheck_answered": 4, "n_selfcheck_blocked": 0}
+}

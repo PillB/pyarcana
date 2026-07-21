@@ -1,0 +1,279 @@
+{
+  "agent": "newbie_b_live",
+  "attempt_id": "attempt_007b",
+  "method": "llm_packet_only_no_generator",
+  "section_index": 16,
+  "recorded_at": "2026-07-21T21:14:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + active.iDo demos + weDo instruction/hints/starters only",
+      "notes": "Quality gate APIs from demos T1-B through audit trail; fixtures underspec filled from demos."
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Generar violación/cuarentena o fail del gate",
+        "confidence": 0.96,
+        "blocked_on": [],
+        "note": "Theory: required null ⇒ cuarentena/falla; demo violations dict."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 0,
+        "chosen_text": "Misma clave con atributos distintos",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory exacto vs conflicto: misma clave, valores distintos."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Conservar filas rechazadas con razón",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory cuarentena = filas rechazadas + razón; demo T3-A."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Fallar de forma explicable con el nombre de la columna",
+        "confidence": 0.94,
+        "blocked_on": [],
+        "note": "Theory schema drift: gate falla con mensaje claro."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S16-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nprint(int(df[\"id\"].isna().sum()))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["isna", "sum"],
+        "note": "Starter has fixture; hints isna().sum()."
+      },
+      {
+        "exercise_id": "S16-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {c: int(df[c].isna().sum()) for c, p in policy.items() if p == \"required\" and df[c].isna().any()}\nprint(viol)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["policy violations"],
+        "note": "Starter policy+df; theory/demo dict only required with nulls."
+      },
+      {
+        "exercise_id": "S16-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\npolicy = {\"a\": \"required\"}\ndf = pd.DataFrame({\"a\": [1, None]})\nviol = {c: int(df[c].isna().sum()) for c, p in policy.items() if p == \"required\" and df[c].isna().any()}\nprint(\"fail\" if viol else \"pass\")\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["fail/pass gate"],
+        "note": "Hints use viol dict; fail if any required violations."
+      },
+      {
+        "exercise_id": "S16-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0)\nprint(df[\"was_null\"].tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["was_null indicator", "fillna"],
+        "note": "Hints was_null=isna then fillna."
+      },
+      {
+        "exercise_id": "S16-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None, None, 2.0]})\nrate = float(df[\"monto\"].isna().mean())\nprint(\"blocked\" if rate > 0.3 else \"ok\")\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["null_rate cap"],
+        "note": "Instruction fixture 2 of 4 null; cap 0.3 → blocked."
+      },
+      {
+        "exercise_id": "S16-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\nfilled = s.fillna(med)\nprint(float(med), float(filled.median()))\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["median fillna"],
+        "note": "Hints median skipna + fillna; [1,2,None]."
+      },
+      {
+        "exercise_id": "S16-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1], \"b\": [2, 2]})\nprint(int(df.duplicated(keep=False).sum()))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["duplicated keep=False"],
+        "note": "Hints two exact rows → 2."
+      },
+      {
+        "exercise_id": "S16-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"region\": [\"Lima\", \"Cusco\", \"Lima\"],\n})\nconf = df.groupby(\"cliente_id\").filter(lambda g: g[\"region\"].nunique() > 1)\nprint(conf[\"cliente_id\"].unique().tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.92,
+        "concepts_used": ["groupby nunique conflict"],
+        "note": "Demo S16-T2-B-DEMO pattern for conflict ids."
+      },
+      {
+        "exercise_id": "S16-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"]})\nsub = df[df[\"cliente_id\"] == \"C001\"]\nif int(sub.duplicated(keep=False).sum()) >= 2:\n    print(\"exact\")\nelif sub[\"region\"].nunique() > 1:\n    print(\"conflict\")\nelse:\n    print(\"clean\")\n",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["classify exact/conflict/clean"],
+        "note": "Hints order exact then conflict; one-row fixture → clean."
+      },
+      {
+        "exercise_id": "S16-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nq = df[df.duplicated(\"id\", keep=False)].copy()\nclean = df.drop_duplicates(\"id\", keep=\"first\")\nprint(len(q), len(clean))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["quarantine", "drop_duplicates"],
+        "note": "Starter fixture; hints duplicated keep=False + drop_duplicates."
+      },
+      {
+        "exercise_id": "S16-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"batch\": [\"b1\", \"b2\", \"b1\"]})\nq = df[df.duplicated(\"id\", keep=False)].copy()\nprint(q.columns.tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["evidence columns"],
+        "note": "Hints copy mask; keep batch column; demo T3-A."
+      },
+      {
+        "exercise_id": "S16-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\", \"c\"]})\nprint(\"card_ok\" if df[\"id\"].nunique() == len(df) else \"card_fail\")\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["cardinality 1:1"],
+        "note": "Hints nunique==len."
+      },
+      {
+        "exercise_id": "S16-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["str.strip", "str.title"],
+        "note": "Hints strip+title."
+      },
+      {
+        "exercise_id": "S16-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nvals = s.str.replace(\"S/\", \"\", regex=False).str.strip().astype(float)\nprint(float(vals.sum()))\n",
+        "blocked_on": [],
+        "confidence": 0.94,
+        "concepts_used": ["str.replace", "astype float"],
+        "note": "Hints replace S/ + float; print sum."
+      },
+      {
+        "exercise_id": "S16-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\" lima\", \"CUSCO \"]})\ndf[\"region\"] = df[\"region_raw\"].str.strip().str.title()\nprint(df[\"region_raw\"].tolist())\nprint(df[\"region\"].tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.92,
+        "concepts_used": ["raw preserved"],
+        "note": "Hints new col does not overwrite raw; demo T3-B."
+      },
+      {
+        "exercise_id": "S16-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.94,
+        "concepts_used": ["domain_error"],
+        "note": "Hints s<0 tolist."
+      },
+      {
+        "exercise_id": "S16-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ns = pd.Series([1, 2, 3, 100])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nstat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[stat].tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.92,
+        "concepts_used": ["IQR outlier"],
+        "note": "Demo T4-A IQR 1.5 pattern."
+      },
+      {
+        "exercise_id": "S16-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\nval = -1\ns = pd.Series([1, 2, -1])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nstat = (val < q1 - 1.5 * iqr) or (val > q3 + 1.5 * iqr)\ndomain = val < 0\nif domain:\n    print(\"error\")\nelif stat:\n    print(\"flag\")\nelse:\n    print(\"ok\")\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["error vs flag"],
+        "note": "Hints prioritize domain error; value -1."
+      },
+      {
+        "exercise_id": "S16-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nmissing = [c for c in required if c not in df.columns]\nprint(missing)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["missing columns"],
+        "note": "Hints list comprehension not in columns."
+      },
+      {
+        "exercise_id": "S16-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-04-01\"]),\n})\nprint(df.index[df[\"fin\"] < df[\"inicio\"]].tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.94,
+        "concepts_used": ["cross-field dates"],
+        "note": "Demo T4-B cross_fail pattern."
+      },
+      {
+        "exercise_id": "S16-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nmissing = [c for c in required if c not in df.columns]\nprint(\"drift\" if missing else \"schema_ok\")\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["schema drift message"],
+        "note": "Hints fixed messages drift/schema_ok."
+      },
+      {
+        "exercise_id": "S16-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "rows_in = 10\nq = 3\nprint(rows_in - q)\n",
+        "blocked_on": [],
+        "confidence": 0.96,
+        "concepts_used": ["rows_clean"],
+        "note": "Starter rows_in=10 q=3; print clean."
+      },
+      {
+        "exercise_id": "S16-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "audit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"quarantine\", \"n\": 1})\nprint(len(audit))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["audit append"],
+        "note": "Starter audit start; append quarantine."
+      },
+      {
+        "exercise_id": "S16-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "n_q = 1\nprint(n_q == 0)\n",
+        "blocked_on": [],
+        "confidence": 0.94,
+        "concepts_used": ["pass flag"],
+        "note": "Hints pass = n_q==0; n_q=1 → False."
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet.",
+    "packet_sha": "0aff4e778711b8ce",
+    "summary": {
+      "n_exercises": 24,
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4,
+      "n_selfcheck_blocked": 0,
+      "blocked_selfcheck_ids": [],
+      "residual_gaps": []
+    }
+  }
+}

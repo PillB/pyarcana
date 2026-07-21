@@ -1,0 +1,1116 @@
+{
+  "section_index": 46,
+  "section_id": "gpu-computing",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S46-T1-A-E1",
+          "code": "print(\"window\", \"5min\"); print(\"wm_lag\", \"1min\"); print(\"vs_processing_time\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "watermark",
+            "window",
+            "iDo_S46-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T1-A-E2",
+          "code": "print(\"window\", \"5min\"); print(\"wm_lag\", \"1min\"); print(\"vs_processing_time\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "watermark",
+            "window",
+            "iDo_S46-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T1-A-E3",
+          "code": "print(\"window\", \"5min\"); print(\"wm_lag\", \"1min\"); print(\"vs_processing_time\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "watermark",
+            "window",
+            "iDo_S46-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T1-B-E1",
+          "code": "print(\"late_policy\", \"side_output\"); print(\"eo\", \"composite\"); print(\"dedup_key\", \"event_id\")\n",
+          "note": "",
+          "concepts_used": [
+            "late_data",
+            "exactly_once",
+            "iDo_S46-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T1-B-E2",
+          "code": "print(\"late_policy\", \"side_output\"); print(\"eo\", \"composite\"); print(\"dedup_key\", \"event_id\")\n",
+          "note": "",
+          "concepts_used": [
+            "late_data",
+            "exactly_once",
+            "iDo_S46-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T1-B-E3",
+          "code": "print(\"late_policy\", \"side_output\"); print(\"eo\", \"composite\"); print(\"dedup_key\", \"event_id\")\n",
+          "note": "",
+          "concepts_used": [
+            "late_data",
+            "exactly_once",
+            "iDo_S46-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T2-A-E1",
+          "code": "print(\"nodes\", 4); print(\"edge\", \"normalize->er\"); print(\"acyclic\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "dag",
+            "assets",
+            "iDo_S46-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T2-A-E2",
+          "code": "print(\"nodes\", 4); print(\"edge\", \"normalize->er\"); print(\"acyclic\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "dag",
+            "assets",
+            "iDo_S46-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T2-A-E3",
+          "code": "print(\"nodes\", 4); print(\"edge\", \"normalize->er\"); print(\"acyclic\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "dag",
+            "assets",
+            "iDo_S46-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T2-B-E1",
+          "code": "print(\"backfill_ok\", True); print(\"state\", \"checkpoints\"); print(\"schedule\", \"hourly\")\n",
+          "note": "",
+          "concepts_used": [
+            "backfill",
+            "checkpoint",
+            "iDo_S46-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T2-B-E2",
+          "code": "print(\"backfill_ok\", True); print(\"state\", \"checkpoints\"); print(\"schedule\", \"hourly\")\n",
+          "note": "",
+          "concepts_used": [
+            "backfill",
+            "checkpoint",
+            "iDo_S46-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T2-B-E3",
+          "code": "print(\"backfill_ok\", True); print(\"state\", \"checkpoints\"); print(\"schedule\", \"hourly\")\n",
+          "note": "",
+          "concepts_used": [
+            "backfill",
+            "checkpoint",
+            "iDo_S46-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T3-A-E1",
+          "code": "print(\"fresh\", True); print(\"schema_fail\", \"block\"); print(\"sla_min\", 60)\n",
+          "note": "",
+          "concepts_used": [
+            "contracts",
+            "freshness",
+            "iDo_S46-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T3-A-E2",
+          "code": "print(\"fresh\", True); print(\"schema_fail\", \"block\"); print(\"sla_min\", 60)\n",
+          "note": "",
+          "concepts_used": [
+            "contracts",
+            "freshness",
+            "iDo_S46-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T3-A-E3",
+          "code": "print(\"fresh\", True); print(\"schema_fail\", \"block\"); print(\"sla_min\", 60)\n",
+          "note": "",
+          "concepts_used": [
+            "contracts",
+            "freshness",
+            "iDo_S46-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T3-B-E1",
+          "code": "print(\"owner\", \"data-platform\"); print(\"upstream\", [\"er\",\"cases\"]); print(\"page\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "lineage",
+            "ownership",
+            "iDo_S46-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T3-B-E2",
+          "code": "print(\"owner\", \"data-platform\"); print(\"upstream\", [\"er\",\"cases\"]); print(\"page\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "lineage",
+            "ownership",
+            "iDo_S46-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T3-B-E3",
+          "code": "print(\"owner\", \"data-platform\"); print(\"upstream\", [\"er\",\"cases\"]); print(\"page\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "lineage",
+            "ownership",
+            "iDo_S46-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T4-A-E1",
+          "code": "print(\"merge_key\", \"id\"); print(\"load\", \"incremental\"); print(\"full_refresh\", \"rare\")\n",
+          "note": "",
+          "concepts_used": [
+            "incremental",
+            "partitions",
+            "iDo_S46-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T4-A-E2",
+          "code": "print(\"merge_key\", \"id\"); print(\"load\", \"incremental\"); print(\"full_refresh\", \"rare\")\n",
+          "note": "",
+          "concepts_used": [
+            "incremental",
+            "partitions",
+            "iDo_S46-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T4-A-E3",
+          "code": "print(\"merge_key\", \"id\"); print(\"load\", \"incremental\"); print(\"full_refresh\", \"rare\")\n",
+          "note": "",
+          "concepts_used": [
+            "incremental",
+            "partitions",
+            "iDo_S46-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T4-B-E1",
+          "code": "print(\"slo_breach\", False); print(\"incident\", \"page_owner\"); print(\"data_recovery\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "slo",
+            "incident",
+            "iDo_S46-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T4-B-E2",
+          "code": "print(\"slo_breach\", False); print(\"incident\", \"page_owner\"); print(\"data_recovery\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "slo",
+            "incident",
+            "iDo_S46-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T4-B-E3",
+          "code": "print(\"slo_breach\", False); print(\"incident\", \"page_owner\"); print(\"data_recovery\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "slo",
+            "incident",
+            "iDo_S46-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S46-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "window 5min\nwm_lag 1min\nvs_processing_time True\n",
+          "expected_head": "window 5min\nwm_lag 1min\nvs_processing_time True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "window 5min\nwm_lag 1min\nvs_processing_time True\n",
+          "expected_head": "window 5min\nwm_lag 1min\nvs_processing_time True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "window 5min\nwm_lag 1min\nvs_processing_time True\n",
+          "expected_head": "window 5min\nwm_lag 1min\nvs_processing_time True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "late_policy side_output\neo composite\ndedup_key event_id\n",
+          "expected_head": "late_policy side_output\neo composite\ndedup_key event_id",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "late_policy side_output\neo composite\ndedup_key event_id\n",
+          "expected_head": "late_policy side_output\neo composite\ndedup_key event_id",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "late_policy side_output\neo composite\ndedup_key event_id\n",
+          "expected_head": "late_policy side_output\neo composite\ndedup_key event_id",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "nodes 4\nedge normalize->er\nacyclic True\n",
+          "expected_head": "nodes 4\nedge normalize->er\nacyclic True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "nodes 4\nedge normalize->er\nacyclic True\n",
+          "expected_head": "nodes 4\nedge normalize->er\nacyclic True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "nodes 4\nedge normalize->er\nacyclic True\n",
+          "expected_head": "nodes 4\nedge normalize->er\nacyclic True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "backfill_ok True\nstate checkpoints\nschedule hourly\n",
+          "expected_head": "backfill_ok True\nstate checkpoints\nschedule hourly",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "backfill_ok True\nstate checkpoints\nschedule hourly\n",
+          "expected_head": "backfill_ok True\nstate checkpoints\nschedule hourly",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "backfill_ok True\nstate checkpoints\nschedule hourly\n",
+          "expected_head": "backfill_ok True\nstate checkpoints\nschedule hourly",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fresh True\nschema_fail block\nsla_min 60\n",
+          "expected_head": "fresh True\nschema_fail block\nsla_min 60",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fresh True\nschema_fail block\nsla_min 60\n",
+          "expected_head": "fresh True\nschema_fail block\nsla_min 60",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fresh True\nschema_fail block\nsla_min 60\n",
+          "expected_head": "fresh True\nschema_fail block\nsla_min 60",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "owner data-platform\nupstream ['er', 'cases']\npage True\n",
+          "expected_head": "owner data-platform\nupstream ['er', 'cases']\npage True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "owner data-platform\nupstream ['er', 'cases']\npage True\n",
+          "expected_head": "owner data-platform\nupstream ['er', 'cases']\npage True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "owner data-platform\nupstream ['er', 'cases']\npage True\n",
+          "expected_head": "owner data-platform\nupstream ['er', 'cases']\npage True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "merge_key id\nload incremental\nfull_refresh rare\n",
+          "expected_head": "merge_key id\nload incremental\nfull_refresh rare",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "merge_key id\nload incremental\nfull_refresh rare\n",
+          "expected_head": "merge_key id\nload incremental\nfull_refresh rare",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "merge_key id\nload incremental\nfull_refresh rare\n",
+          "expected_head": "merge_key id\nload incremental\nfull_refresh rare",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo_breach False\nincident page_owner\ndata_recovery True\n",
+          "expected_head": "slo_breach False\nincident page_owner\ndata_recovery True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo_breach False\nincident page_owner\ndata_recovery True\n",
+          "expected_head": "slo_breach False\nincident page_owner\ndata_recovery True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo_breach False\nincident page_owner\ndata_recovery True\n",
+          "expected_head": "slo_breach False\nincident page_owner\ndata_recovery True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S46-T1-A-E1",
+          "code": "print(\"window\", \"5min\"); print(\"wm_lag\", \"1min\"); print(\"vs_processing_time\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T1-A-E2",
+          "code": "print(\"window\", \"5min\"); print(\"wm_lag\", \"1min\"); print(\"vs_processing_time\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T1-A-E3",
+          "code": "print(\"window\", \"5min\"); print(\"wm_lag\", \"1min\"); print(\"vs_processing_time\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T1-B-E1",
+          "code": "print(\"late_policy\", \"side_output\"); print(\"eo\", \"composite\"); print(\"dedup_key\", \"event_id\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T1-B-E2",
+          "code": "print(\"late_policy\", \"side_output\"); print(\"eo\", \"composite\"); print(\"dedup_key\", \"event_id\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T1-B-E3",
+          "code": "print(\"late_policy\", \"side_output\"); print(\"eo\", \"composite\"); print(\"dedup_key\", \"event_id\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T2-A-E1",
+          "code": "print(\"nodes\", 4); print(\"edge\", \"normalize->er\"); print(\"acyclic\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T2-A-E2",
+          "code": "print(\"nodes\", 4); print(\"edge\", \"normalize->er\"); print(\"acyclic\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T2-A-E3",
+          "code": "print(\"nodes\", 4); print(\"edge\", \"normalize->er\"); print(\"acyclic\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T2-B-E1",
+          "code": "print(\"backfill_ok\", True); print(\"state\", \"checkpoints\"); print(\"schedule\", \"hourly\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T2-B-E2",
+          "code": "print(\"backfill_ok\", True); print(\"state\", \"checkpoints\"); print(\"schedule\", \"hourly\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T2-B-E3",
+          "code": "print(\"backfill_ok\", True); print(\"state\", \"checkpoints\"); print(\"schedule\", \"hourly\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T3-A-E1",
+          "code": "print(\"fresh\", True); print(\"schema_fail\", \"block\"); print(\"sla_min\", 60)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T3-A-E2",
+          "code": "print(\"fresh\", True); print(\"schema_fail\", \"block\"); print(\"sla_min\", 60)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T3-A-E3",
+          "code": "print(\"fresh\", True); print(\"schema_fail\", \"block\"); print(\"sla_min\", 60)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T3-B-E1",
+          "code": "print(\"owner\", \"data-platform\"); print(\"upstream\", [\"er\",\"cases\"]); print(\"page\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T3-B-E2",
+          "code": "print(\"owner\", \"data-platform\"); print(\"upstream\", [\"er\",\"cases\"]); print(\"page\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T3-B-E3",
+          "code": "print(\"owner\", \"data-platform\"); print(\"upstream\", [\"er\",\"cases\"]); print(\"page\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T4-A-E1",
+          "code": "print(\"merge_key\", \"id\"); print(\"load\", \"incremental\"); print(\"full_refresh\", \"rare\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T4-A-E2",
+          "code": "print(\"merge_key\", \"id\"); print(\"load\", \"incremental\"); print(\"full_refresh\", \"rare\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T4-A-E3",
+          "code": "print(\"merge_key\", \"id\"); print(\"load\", \"incremental\"); print(\"full_refresh\", \"rare\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T4-B-E1",
+          "code": "print(\"slo_breach\", False); print(\"incident\", \"page_owner\"); print(\"data_recovery\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T4-B-E2",
+          "code": "print(\"slo_breach\", False); print(\"incident\", \"page_owner\"); print(\"data_recovery\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S46-T4-B-E3",
+          "code": "print(\"slo_breach\", False); print(\"incident\", \"page_owner\"); print(\"data_recovery\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S46-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S46-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "window 5min\nwm_lag 1min\nvs_processing_time True\n",
+          "expected_head": "window 5min\nwm_lag 1min\nvs_processing_time True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "window 5min\nwm_lag 1min\nvs_processing_time True\n",
+          "expected_head": "window 5min\nwm_lag 1min\nvs_processing_time True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "window 5min\nwm_lag 1min\nvs_processing_time True\n",
+          "expected_head": "window 5min\nwm_lag 1min\nvs_processing_time True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "late_policy side_output\neo composite\ndedup_key event_id\n",
+          "expected_head": "late_policy side_output\neo composite\ndedup_key event_id",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "late_policy side_output\neo composite\ndedup_key event_id\n",
+          "expected_head": "late_policy side_output\neo composite\ndedup_key event_id",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "late_policy side_output\neo composite\ndedup_key event_id\n",
+          "expected_head": "late_policy side_output\neo composite\ndedup_key event_id",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "nodes 4\nedge normalize->er\nacyclic True\n",
+          "expected_head": "nodes 4\nedge normalize->er\nacyclic True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "nodes 4\nedge normalize->er\nacyclic True\n",
+          "expected_head": "nodes 4\nedge normalize->er\nacyclic True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "nodes 4\nedge normalize->er\nacyclic True\n",
+          "expected_head": "nodes 4\nedge normalize->er\nacyclic True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "backfill_ok True\nstate checkpoints\nschedule hourly\n",
+          "expected_head": "backfill_ok True\nstate checkpoints\nschedule hourly",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "backfill_ok True\nstate checkpoints\nschedule hourly\n",
+          "expected_head": "backfill_ok True\nstate checkpoints\nschedule hourly",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "backfill_ok True\nstate checkpoints\nschedule hourly\n",
+          "expected_head": "backfill_ok True\nstate checkpoints\nschedule hourly",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fresh True\nschema_fail block\nsla_min 60\n",
+          "expected_head": "fresh True\nschema_fail block\nsla_min 60",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fresh True\nschema_fail block\nsla_min 60\n",
+          "expected_head": "fresh True\nschema_fail block\nsla_min 60",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fresh True\nschema_fail block\nsla_min 60\n",
+          "expected_head": "fresh True\nschema_fail block\nsla_min 60",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "owner data-platform\nupstream ['er', 'cases']\npage True\n",
+          "expected_head": "owner data-platform\nupstream ['er', 'cases']\npage True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "owner data-platform\nupstream ['er', 'cases']\npage True\n",
+          "expected_head": "owner data-platform\nupstream ['er', 'cases']\npage True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "owner data-platform\nupstream ['er', 'cases']\npage True\n",
+          "expected_head": "owner data-platform\nupstream ['er', 'cases']\npage True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "merge_key id\nload incremental\nfull_refresh rare\n",
+          "expected_head": "merge_key id\nload incremental\nfull_refresh rare",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "merge_key id\nload incremental\nfull_refresh rare\n",
+          "expected_head": "merge_key id\nload incremental\nfull_refresh rare",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "merge_key id\nload incremental\nfull_refresh rare\n",
+          "expected_head": "merge_key id\nload incremental\nfull_refresh rare",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo_breach False\nincident page_owner\ndata_recovery True\n",
+          "expected_head": "slo_breach False\nincident page_owner\ndata_recovery True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo_breach False\nincident page_owner\ndata_recovery True\n",
+          "expected_head": "slo_breach False\nincident page_owner\ndata_recovery True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S46-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo_breach False\nincident page_owner\ndata_recovery True\n",
+          "expected_head": "slo_breach False\nincident page_owner\ndata_recovery True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

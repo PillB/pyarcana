@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-21T19:35:52.598292+00:00",
+  "generated_at": "2026-07-21T20:45:08.038800+00:00",
   "sections": 52,
   "totals": {
-    "pass": 2357,
+    "pass": 2335,
     "fail": 0,
     "skip": 284,
-    "artifacts": 2641
+    "artifacts": 2619
   },
   "fail_count": 0,
   "p0_count": 0,
@@ -406,101 +406,101 @@
       "file": "src/lib/course/sections/s40-agentic-architecture.ts",
       "section_id": "agentic-architecture",
       "counts": {
-        "pass": 37,
+        "pass": 44,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 37
+      "artifact_count": 44
     },
     {
       "file": "src/lib/course/sections/s41-llm-finetuning.ts",
       "section_id": "llm-finetuning",
       "counts": {
-        "pass": 36,
+        "pass": 33,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 36
+      "artifact_count": 33
     },
     {
       "file": "src/lib/course/sections/s42-graph-rag.ts",
       "section_id": "graph-rag",
       "counts": {
-        "pass": 35,
+        "pass": 33,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 35
+      "artifact_count": 33
     },
     {
       "file": "src/lib/course/sections/s43-llmops.ts",
       "section_id": "llmops",
       "counts": {
-        "pass": 37,
+        "pass": 33,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 37
+      "artifact_count": 33
     },
     {
       "file": "src/lib/course/sections/s44-multimodal.ts",
       "section_id": "multimodal",
       "counts": {
-        "pass": 35,
+        "pass": 33,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 35
+      "artifact_count": 33
     },
     {
       "file": "src/lib/course/sections/s45-iac.ts",
       "section_id": "iac",
       "counts": {
-        "pass": 37,
+        "pass": 33,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 37
+      "artifact_count": 33
     },
     {
       "file": "src/lib/course/sections/s46-gpu-computing.ts",
       "section_id": "gpu-computing",
       "counts": {
-        "pass": 36,
+        "pass": 33,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 36
+      "artifact_count": 33
     },
     {
       "file": "src/lib/course/sections/s47-opensource.ts",
       "section_id": "opensource",
       "counts": {
-        "pass": 36,
+        "pass": 33,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 36
+      "artifact_count": 33
     },
     {
       "file": "src/lib/course/sections/s48-ai-governance.ts",
       "section_id": "ai-governance",
       "counts": {
-        "pass": 36,
+        "pass": 33,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 36
+      "artifact_count": 33
     },
     {
       "file": "src/lib/course/sections/s49-data-contracts.ts",
       "section_id": "data-contracts",
       "counts": {
-        "pass": 34,
+        "pass": 33,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 34
+      "artifact_count": 33
     },
     {
       "file": "src/lib/course/sections/s50-tech-leadership.ts",
@@ -516,21 +516,21 @@
       "file": "src/lib/course/sections/s51-integrator-final.ts",
       "section_id": "integrator-final",
       "counts": {
-        "pass": 34,
+        "pass": 33,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 34
+      "artifact_count": 33
     },
     {
       "file": "src/lib/course/sections/s52-career-strategy.ts",
       "section_id": "career-strategy",
       "counts": {
-        "pass": 36,
+        "pass": 33,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 36
+      "artifact_count": 33
     }
   ],
   "failures": []

@@ -1,0 +1,277 @@
+{
+  "agent": "newbie_b_live",
+  "attempt_id": "attempt_006",
+  "method": "llm_packet_only_no_generator",
+  "section_index": 18,
+  "recorded_at": "2026-07-21T21:50:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + theory code samples + two working demos + exercise hints",
+      "notes": "Most iDo demos null; relied on theory paragraphs and inline theory code for IC/bias/corr."
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Mediana (y opcionalmente IQR)",
+        "confidence": 0.96,
+        "blocked_on": [],
+        "note": "Theory: ticket típico → mediana; media moves with outliers."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 1,
+        "chosen_text": "Asociación observada (no causal por sí sola)",
+        "confidence": 0.96,
+        "blocked_on": [],
+        "note": "Theory correlación no causa; label asociación observada."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Origen, filtros, n y límites de cobertura",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory data note + last demo fields."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "La muestra no representa la población de interés",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory población/muestra/sesgo de selección."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S18-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\nprint(len(montos), round(float(montos.mean()), 2), float(np.median(montos)))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["mean", "median", "n"],
+        "note": "Hints mean/median/len."
+      },
+      {
+        "exercise_id": "S18-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nm = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nprint(round(float(q1), 2), round(float(q3), 2), round(float(iqr), 2))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["quantile", "IQR"],
+        "note": "Theory IQR = Q3-Q1."
+      },
+      {
+        "exercise_id": "S18-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\n\ndef resumen(x):\n    a = np.asarray(x, dtype=float)\n    return {\n        \"n\": int(a.size),\n        \"mean\": round(float(a.mean()), 4),\n        \"median\": round(float(np.median(a)), 4),\n        \"std\": round(float(a.std(ddof=1)), 4),\n    }\n\nprint(resumen([1, 2, 3, 4, 5]))\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["std ddof=1", "summary dict"],
+        "note": "Hints std ddof=1."
+      },
+      {
+        "exercise_id": "S18-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nmu, med = float(x.mean()), float(np.median(x))\nprint(mu, med, round(mu / med, 2))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["mean/median ratio"],
+        "note": "Hints ratio mean/median."
+      },
+      {
+        "exercise_id": "S18-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nmed = np.median(x)\nmad = float(np.median(np.abs(x - med)))\nprint(mad)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["MAD"],
+        "note": "Theory MAD; hints median abs deviation."
+      },
+      {
+        "exercise_id": "S18-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nx = np.array([0, 1, 9, 99], dtype=float)\nprint([round(float(v), 3) for v in np.log1p(x)])\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["log1p"],
+        "note": "Theory log1p scale."
+      },
+      {
+        "exercise_id": "S18-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nshare = muestra.count(\"Lima\") / len(muestra)\nprint(round(share, 2))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["sample share"],
+        "note": "Theory share count/n."
+      },
+      {
+        "exercise_id": "S18-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "share = 8 / 10\nbias = share - 0.5\nprint(round(bias, 2))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["bias_pp"],
+        "note": "Theory bias = share - pob."
+      },
+      {
+        "exercise_id": "S18-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "def max_bias(pob, counts):\n    n = sum(counts.values())\n    return max(abs(counts[k] / n - pob[k]) for k in pob)\n\nprint(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 9, \"Cusco\": 1}))\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["max |share-pob|"],
+        "note": "Hints share=count/sum; max abs."
+      },
+      {
+        "exercise_id": "S18-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import math\ns = 2\nn = 16\nmargen = 1.96 * s / math.sqrt(n)\nprint(round(margen, 3))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["IC margin"],
+        "note": "Theory media ± z*(s/√n); z=1.96."
+      },
+      {
+        "exercise_id": "S18-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "ma, mb, sp = 10, 13, 2\nd = (mb - ma) / sp\nprint(round(d, 2))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["Cohen d"],
+        "note": "Theory code cohens_d = (mb-ma)/sp."
+      },
+      {
+        "exercise_id": "S18-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "diff, se = 4, 1.5\nic = (round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2))\nprint(ic)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["IC tuple"],
+        "note": "Hints low/high with 1.96*se."
+      },
+      {
+        "exercise_id": "S18-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nx = np.array([1, 2, 3, 4], dtype=float)\ny = np.array([2, 4, 6, 8], dtype=float)\nr = float(np.corrcoef(x, y)[0, 1])\nprint(round(r, 3))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["corrcoef"],
+        "note": "Hints corrcoef[0,1] ~1."
+      },
+      {
+        "exercise_id": "S18-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "r = 0.82\nif abs(r) > 0.5:\n    print(\"asociacion_observada\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["no causal label"],
+        "note": "Theory label asociación; fixed string from instruction."
+      },
+      {
+        "exercise_id": "S18-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nz = np.arange(5, dtype=float)\nx = z.copy()\ny = z.copy()\nr_raw = float(np.corrcoef(x, y)[0, 1])\nbx = np.polyfit(z, x, 1)\nby = np.polyfit(z, y, 1)\nrx = x - (bx[0] * z + bx[1])\nry = y - (by[0] * z + by[1])\nr_res = float(np.corrcoef(rx, ry)[0, 1]) if np.std(rx) > 0 and np.std(ry) > 0 else 0.0\nif np.isnan(r_res):\n    r_res = 0.0\nprint(round(r_raw, 3), round(r_res, 3))\n",
+        "blocked_on": [],
+        "confidence": 0.82,
+        "concepts_used": ["residualize confusor"],
+        "note": "Hints residualize via polyfit; corr residuales ~0."
+      },
+      {
+        "exercise_id": "S18-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nm = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\nhi = q3 + 1.5 * (q3 - q1)\nprint(int((m > hi).sum()))\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["Tukey hi"],
+        "note": "Theory Tukey fences."
+      },
+      {
+        "exercise_id": "S18-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "regiones = [\"Lima\", \"Lima\", \"Cusco\"]\nflags = [True, True, False]\nlima_flags = [f for r, f in zip(regiones, flags) if r == \"Lima\"]\nprint(sum(lima_flags) / len(lima_flags))\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["anomaly rate by segment"],
+        "note": "Hints filter Lima mean flags; instruction lists Lima T, Lima T, Cusco F."
+      },
+      {
+        "exercise_id": "S18-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "import numpy as np\nm = np.array([1, 2, 3, 4, 100], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nlo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr\nprint(((m < lo) | (m > hi)).tolist())\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["Tukey bool list"],
+        "note": "Theory lo/hi fences."
+      },
+      {
+        "exercise_id": "S18-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "evidencia = {\n    \"pregunta\": \"¿Cuál es el ticket mediano?\",\n    \"hipotesis\": \"mediana estable en canal web\",\n    \"resultado\": {\"n\": 10, \"median\": 5.0},\n}\nprint(evidencia[\"pregunta\"])\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["evidence dict"],
+        "note": "S18-T4-B-DEMO evidencia dict pattern."
+      },
+      {
+        "exercise_id": "S18-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "median = 12\nif median < 15:\n    print(\"solo_hallazgo\")\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["hallazgo vs decision"],
+        "note": "Hints median < 15 → solo_hallazgo."
+      },
+      {
+        "exercise_id": "S18-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "def traza(pregunta, metrica, valor, limite):\n    print(\"P\", pregunta)\n    print(\"M\", metrica)\n    print(\"V\", valor)\n    print(\"L\", limite)\n\ntraza(\"ticket mediano\", \"median\", 12.0, \"web-only\")\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["P/M/V/L template"],
+        "note": "Hints 4 prints labeled P/M/V/L."
+      },
+      {
+        "exercise_id": "S18-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "note = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}\nprint(note)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["data note keys"],
+        "note": "Last demo note fields."
+      },
+      {
+        "exercise_id": "S18-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import hashlib\nprint(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["sha1[:8]"],
+        "note": "Hints hashlib.sha1 hexdigest[:8]."
+      },
+      {
+        "exercise_id": "S18-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, 0.0, 2.0]})\nn_raw = len(df)\ndf2 = df[df[\"monto\"] > 0]\nnote = {\"n_raw\": n_raw, \"n_final\": len(df2), \"seed\": 42}\nprint(note)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["filter + note seed"],
+        "note": "Hints len before/after + seed."
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet.",
+    "summary": {
+      "n_exercises": 24,
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4,
+      "n_selfcheck_blocked": 0,
+      "blocked_selfcheck_ids": []
+    }
+  }
+}

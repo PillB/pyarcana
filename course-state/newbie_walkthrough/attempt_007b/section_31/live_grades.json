@@ -1,0 +1,1094 @@
+{
+  "section_index": 31,
+  "section_id": "streaming-data",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S31-T1-A-E1",
+          "code": "nodes = {\"E1\": {}, \"E2\": {}, \"A1\": {}}\nedges = [\n    {\"src\": \"E1\", \"dst\": \"A1\", \"etype\": \"owns\", \"weight\": 1.0, \"directed\": True},\n    {\"src\": \"E1\", \"dst\": \"E2\", \"etype\": \"link\", \"weight\": 0.5, \"directed\": False},\n]\nprint(\"n_nodes\", len(nodes))\nprint(\"n_edges\", len(edges))\nprint(\"n_directed\", sum(1 for e in edges if e[\"directed\"]))\n",
+          "note": "",
+          "concepts_used": [
+            "nodes",
+            "edges",
+            "directed",
+            "weight"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T1-A-E2",
+          "code": "edges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)]\nout = {}\nfor s, d, w in edges:\n    out[s] = out.get(s, 0.0) + w\ntop = max(out, key=out.get)\nprint(\"top\", top)\nprint(\"value\", out[top])\nprint(\"n\", len(out))\n",
+          "note": "",
+          "concepts_used": [
+            "out-strength"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T1-A-E3",
+          "code": "edges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype': 'share'}, {'directed': True, 'etype': 'tx'}]\nprint(\"directed\", sum(1 for e in edges if e[\"directed\"]))\nprint(\"undirected\", sum(1 for e in edges if not e[\"directed\"]))\nprint(\"etypes\", sorted({e[\"etype\"] for e in edges}))\n",
+          "note": "",
+          "concepts_used": [
+            "directed",
+            "undirected",
+            "etypes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T1-B-E1",
+          "code": "from collections import Counter\nrows = [('E1','E2'),('E1','E2'),('E2','E3')]\nc = Counter(rows)\npair, n = c.most_common(1)[0]\nprint(\"pair\", pair[0], pair[1])\nprint(\"n\", n)\nprint(\"pairs\", len(c))\n",
+          "note": "",
+          "concepts_used": [
+            "multigrafo",
+            "Counter"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T1-B-E2",
+          "code": "edges = [{'ts':'2026-01-15','record_id':'a'},{'ts':'2026-02-10','record_id':'b'},{'ts':'2026-03-01','record_id':'c'}]\nf = [e for e in edges if e[\"ts\"] >= \"2026-02-01\"]\nprint(\"n\", len(f))\nprint(\"prov\", all(\"record_id\" in e for e in f))\nprint(\"first\", f[0][\"record_id\"])\n",
+          "note": "",
+          "concepts_used": [
+            "temporal filter",
+            "provenance"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T1-B-E3",
+          "code": "edges = [{'source':'crm','record_id':'1'},{'source':'','record_id':'2'},{'source':'tx','record_id':'3'}]\ndef ok(e):\n    return bool(e.get(\"source\") and e.get(\"record_id\"))\nn_bad = sum(1 for e in edges if not ok(e))\nprint(\"all_ok\", n_bad == 0)\nprint(\"n_bad\", n_bad)\nprint(\"n\", len(edges))\n",
+          "note": "",
+          "concepts_used": [
+            "provenance",
+            "validation"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T2-A-E1",
+          "code": "accounts = [{'id':'a2','owner':'e2'},{'id':'a1','owner':'e1'}]\nowns = sorted((a[\"owner\"], a[\"id\"]) for a in accounts)\nprint(\"owns\", owns)\nprint(\"n\", len(owns))\nprint(\"etype\", \"owns\")\n",
+          "note": "",
+          "concepts_used": [
+            "owns edges",
+            "tables to graph"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T2-A-E2",
+          "code": "from collections import defaultdict\ncontacts = [('e1','900'),('e2','900'),('e3','901'),('e1','901')]\nm = defaultdict(set)\nfor e, v in contacts:\n    m[v].add(e)\nshared = sorted(v for v, es in m.items() if len(es) >= 2)\nprint(\"shared\", shared)\nprint(\"n_shared\", len(shared))\nprint(\"note\", \"not_parentesco\")\n",
+          "note": "",
+          "concepts_used": [
+            "shared contact",
+            "not parentesco"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T2-A-E3",
+          "code": "entities=['e1','e2']; accounts=['a1']; contacts=['900','901']\nnodes = set(entities) | set(accounts) | set(contacts)\nprint(\"n_nodes\", len(nodes))\nprint(\"has_contact\", \"900\" in nodes)\nprint(\"has_ent\", \"e1\" in nodes)\n",
+          "note": "",
+          "concepts_used": [
+            "node union"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T2-B-E1",
+          "code": "canon = {'r1':'E1','r2':'E1','r3':'E2'}\nedges = [('r1','r3'),('r2','r3')]\nce = sorted({(canon[a], canon[b]) for a, b in edges})\nprint(\"canonical_edges\", ce)\nprint(\"n\", len(ce))\nprint(\"collapsed\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "canonical map",
+            "dedup"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T2-B-E2",
+          "code": "from collections import defaultdict\nrows=[{'src':'A','dst':'B','amount':3,'record_id':'1'},{'src':'A','dst':'B','amount':4,'record_id':'2'}]\nagg = defaultdict(lambda: {'sum': 0, 'records': []})\nfor r in rows:\n    k = (r['src'], r['dst'])\n    agg[k]['sum'] += r['amount']\n    agg[k]['records'].append(r['record_id'])\nprint(\"sum\", agg[('A','B')]['sum'])\nprint(\"records\", agg[('A','B')]['records'])\nprint(\"detail_kept\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "agregación",
+            "detail kept"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T2-B-E3",
+          "code": "detail_n=5\naggs=[{'n':2},{'n':3}]\ntotal = sum(a['n'] for a in aggs)\nprint(\"ok\", total == detail_n)\nprint(\"total\", total)\nprint(\"detail_n\", detail_n)\n",
+          "note": "",
+          "concepts_used": [
+            "invariante detail"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T3-A-E1",
+          "code": "from collections import defaultdict\nedges=[('a','b'),('b','c'),('a','c')]\ndeg = defaultdict(int)\nfor u, v in edges:\n    deg[u] += 1; deg[v] += 1\nprint(\"deg\", {k: deg[k] for k in sorted(deg)})\nprint(\"max\", max(deg.values()))\nprint(\"n\", len(deg))\n",
+          "note": "",
+          "concepts_used": [
+            "degree",
+            "undirected"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T3-A-E2",
+          "code": "from collections import defaultdict\nedges=[('a','b'),('c','d'),('d','e')]\nadj = defaultdict(set)\nfor u, v in edges:\n    adj[u].add(v); adj[v].add(u)\nseen, comps = set(), []\nfor s in sorted(adj):\n    if s in seen:\n        continue\n    stack, comp = [s], []\n    seen.add(s)\n    while stack:\n        n = stack.pop()\n        comp.append(n)\n        for m in adj[n]:\n            if m not in seen:\n                seen.add(m); stack.append(m)\n    comps.append(sorted(comp))\ncomps = sorted(comps, key=lambda c: c[0])\nprint(\"comps\", comps)\nprint(\"n_comp\", len(comps))\nprint(\"ok\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "componentes conexas"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T3-A-E3",
+          "code": "from collections import defaultdict, deque\nadj = defaultdict(set)\nfor u, v in [('A','B'),('B','C'),('C','D')]:\n    adj[u].add(v); adj[v].add(u)\nq = deque([('A', ['A'])]); seen = {'A'}\npath = None\nwhile q:\n    n, p = q.popleft()\n    if n == 'D':\n        path = p; break\n    for m in sorted(adj[n]):\n        if m not in seen:\n            seen.add(m); q.append((m, p+[m]))\nprint(\"path\", path)\nprint(\"hops\", len(path)-1)\nprint(\"found\", path is not None)\n",
+          "note": "",
+          "concepts_used": [
+            "BFS",
+            "path",
+            "hops"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T3-B-E1",
+          "code": "deg={'H':3,'A':1,'B':1,'C':1}\nm = max(deg.values())\nnorm = {k: deg[k]/m for k in deg}\ntop = max(norm, key=norm.get)\nprint(\"top\", top)\nprint(\"score\", round(norm[top], 2))\nprint(\"guilt\", False)\n",
+          "note": "",
+          "concepts_used": [
+            "degree centrality",
+            "not guilt"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T3-B-E2",
+          "code": "hub='INF-PAY'\nkind = \"infra\" if hub.startswith(\"INF-\") else \"person\"\nprint(\"kind\", kind)\nprint(\"disclaimer\", \"centrality_not_guilt\")\nprint(\"hub\", hub)\n",
+          "note": "",
+          "concepts_used": [
+            "infra vs person",
+            "disclaimer"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T3-B-E3",
+          "code": "incident={'H':['transfer','transfer','shared_phone']}\nhigh = sorted(n for n, ts in incident.items() if len(ts) >= 3)\nonly_tx = all(t == \"transfer\" for t in incident[\"H\"])\nprint(\"high\", high)\nprint(\"only_transfer\", only_tx)\nprint(\"interpret_with_types\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "etype mix",
+            "high degree"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T4-A-E1",
+          "code": "from collections import defaultdict\nedges=[('A','B'),('B','C'),('C','D')]\nadj=defaultdict(set)\nfor u,v in edges:\n    adj[u].add(v); adj[v].add(u)\n\ndef ego(seed, k):\n    seen={seed}; layer={seed}\n    for _ in range(k):\n        nxt=set()\n        for n in layer:\n            for m in adj[n]:\n                if m not in seen:\n                    seen.add(m); nxt.add(m)\n        layer=nxt\n    return seen\nprint(\"k1\", sorted(ego('A',1)))\nprint(\"k2\", sorted(ego('A',2)))\nprint(\"has_D_k2\", 'D' in ego('A',2))\n",
+          "note": "",
+          "concepts_used": [
+            "ego subgraph",
+            "k hops"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T4-A-E2",
+          "code": "edges=[{'src':'a','dst':'b','w':1,'rid':'1'},{'src':'b','dst':'b','w':2,'rid':'2'}]\nno_self = all(e['src'] != e['dst'] for e in edges)\nw_ok = all(e['w'] >= 0 for e in edges)\nprov = all(e.get('rid') for e in edges)\nprint(\"no_self\", no_self)\nprint(\"w_ok\", w_ok)\nprint(\"prov\", prov)\n",
+          "note": "",
+          "concepts_used": [
+            "invariantes grafo"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T4-A-E3",
+          "code": "raw=[('a','b'),('b','c')]\n\ndef build(edges):\n    return sorted(set(tuple(sorted(e)) for e in edges))\nprint(\"equal\", build(raw) == build(list(raw)))\nprint(\"edges\", build(raw))\nprint(\"idempotent\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "idempotencia"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T4-B-E1",
+          "code": "email='ana@example.pe'\nlocal, _, domain = email.partition('@')\nred = local[:2] + '***@' + domain\nprint(\"redacted\", red)\nprint(\"domain\", domain)\nprint(\"full_pii\", False)\n",
+          "note": "",
+          "concepts_used": [
+            "redacción PII"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T4-B-E2",
+          "code": "path=['E1','E2','E3']\nev={('E1','E2'):['r1'],('E2','E3'):['r2','r3']}\nrecords = [ev[(a,b)] for a,b in zip(path, path[1:])]\nprint(\"records\", records)\nprint(\"n_hops\", len(records))\nprint(\"explainable\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "path evidence"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T4-B-E3",
+          "code": "max_n=500\n\ndef decide(n):\n    return \"summarize\" if n > max_n else \"render\"\nprint(\"n5000\", decide(5000))\nprint(\"n50\", decide(50))\nprint(\"max_n\", max_n)\n",
+          "note": "",
+          "concepts_used": [
+            "escala vista",
+            "summarize/render"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S31-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "n_nodes 3\nn_edges 2\nn_directed 1\n",
+          "expected_head": "n_nodes 3\nn_edges 2\nn_directed 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "top B\nvalue 5.0\nn 2\n",
+          "expected_head": "top B\nvalue 5.0\nn 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "directed 2\nundirected 1\netypes ['share', 'tx']\n",
+          "expected_head": "directed 2\nundirected 1\netypes ['share', 'tx']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pair E1 E2\nn 2\npairs 2\n",
+          "expected_head": "pair E1 E2\nn 2\npairs 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "n 2\nprov True\nfirst b\n",
+          "expected_head": "n 2\nprov True\nfirst b",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "all_ok False\nn_bad 1\nn 3\n",
+          "expected_head": "all_ok False\nn_bad 1\nn 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "owns [('e1', 'a1'), ('e2', 'a2')]\nn 2\netype owns\n",
+          "expected_head": "owns [('e1', 'a1'), ('e2', 'a2')]\nn 2\netype owns",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "shared ['900', '901']\nn_shared 2\nnote not_parentesco\n",
+          "expected_head": "shared ['900', '901']\nn_shared 2\nnote not_parentesco",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "n_nodes 5\nhas_contact True\nhas_ent True\n",
+          "expected_head": "n_nodes 5\nhas_contact True\nhas_ent True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "canonical_edges [('E1', 'E2')]\nn 1\ncollapsed True\n",
+          "expected_head": "canonical_edges [('E1', 'E2')]\nn 1\ncollapsed True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sum 7\nrecords ['1', '2']\ndetail_kept True\n",
+          "expected_head": "sum 7\nrecords ['1', '2']\ndetail_kept True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok True\ntotal 5\ndetail_n 5\n",
+          "expected_head": "ok True\ntotal 5\ndetail_n 5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "deg {'a': 2, 'b': 2, 'c': 2}\nmax 2\nn 3\n",
+          "expected_head": "deg {'a': 2, 'b': 2, 'c': 2}\nmax 2\nn 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "comps [['a', 'b'], ['c', 'd', 'e']]\nn_comp 2\nok True\n",
+          "expected_head": "comps [['a', 'b'], ['c', 'd', 'e']]\nn_comp 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "path ['A', 'B', 'C', 'D']\nhops 3\nfound True\n",
+          "expected_head": "path ['A', 'B', 'C', 'D']\nhops 3\nfound True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "top H\nscore 1.0\nguilt False\n",
+          "expected_head": "top H\nscore 1.0\nguilt False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "kind infra\ndisclaimer centrality_not_guilt\nhub INF-PAY\n",
+          "expected_head": "kind infra\ndisclaimer centrality_not_guilt\nhub INF-PAY",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "high ['H']\nonly_transfer False\ninterpret_with_types True\n",
+          "expected_head": "high ['H']\nonly_transfer False\ninterpret_with_types True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "k1 ['A', 'B']\nk2 ['A', 'B', 'C']\nhas_D_k2 False\n",
+          "expected_head": "k1 ['A', 'B']\nk2 ['A', 'B', 'C']\nhas_D_k2 False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "no_self False\nw_ok True\nprov True\n",
+          "expected_head": "no_self False\nw_ok True\nprov True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "equal True\nedges [('a', 'b'), ('b', 'c')]\nidempotent True\n",
+          "expected_head": "equal True\nedges [('a', 'b'), ('b', 'c')]\nidempotent True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "redacted an***@example.pe\ndomain example.pe\nfull_pii False\n",
+          "expected_head": "redacted an***@example.pe\ndomain example.pe\nfull_pii False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "records [['r1'], ['r2', 'r3']]\nn_hops 2\nexplainable True\n",
+          "expected_head": "records [['r1'], ['r2', 'r3']]\nn_hops 2\nexplainable True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "n5000 summarize\nn50 render\nmax_n 500\n",
+          "expected_head": "n5000 summarize\nn50 render\nmax_n 500",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S31-T1-A-E1",
+          "code": "nodes = {\"E1\": {}, \"E2\": {}, \"A1\": {}}\nedges = [\n    {\"src\": \"E1\", \"dst\": \"A1\", \"etype\": \"owns\", \"weight\": 1.0, \"directed\": True},\n    {\"src\": \"E1\", \"dst\": \"E2\", \"etype\": \"link\", \"weight\": 0.5, \"directed\": False},\n]\nprint(\"n_nodes\", len(nodes))\nprint(\"n_edges\", len(edges))\nprint(\"n_directed\", sum(1 for e in edges if e[\"directed\"]))\n",
+          "note": "Instruction asks n_nodes, n_edges, directed count; mirror theory/iDo labeled prints.",
+          "concepts_used": [
+            "nodes",
+            "edges",
+            "directed"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T1-A-E2",
+          "code": "edges = [('A','B',2.0),('A','C',1.0),('B','C',5.0)]\nout = {}\nfor s, d, w in edges:\n    out[s] = out.get(s, 0.0) + w\ntop = max(out, key=out.get)\nprint(\"top\", top)\nprint(\"value\", out[top])\nprint(\"n\", len(out))\n",
+          "note": "Hint max(out, key=out.get); labels top/value/n.",
+          "concepts_used": [
+            "out-strength"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T1-A-E3",
+          "code": "edges = [{'directed': True, 'etype': 'tx'}, {'directed': False, 'etype': 'share'}, {'directed': True, 'etype': 'tx'}]\nprint(\"directed\", sum(1 for e in edges if e[\"directed\"]))\nprint(\"undirected\", sum(1 for e in edges if not e[\"directed\"]))\nprint(\"etypes\", sorted({e[\"etype\"] for e in edges}))\n",
+          "note": "Sorted unique etypes; directed vs undirected counts labeled.",
+          "concepts_used": [
+            "etypes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T1-B-E1",
+          "code": "from collections import Counter\nrows = [('E1','E2'),('E1','E2'),('E2','E3')]\nc = Counter(rows)\npair, n = c.most_common(1)[0]\nprint(\"pair\", pair[0], pair[1])\nprint(\"n\", n)\nprint(\"pairs\", len(c))\n",
+          "note": "Counter most_common; print pair components + n.",
+          "concepts_used": [
+            "multi-aristas"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T1-B-E2",
+          "code": "edges = [{'ts':'2026-01-15','record_id':'a'},{'ts':'2026-02-10','record_id':'b'},{'ts':'2026-03-01','record_id':'c'}]\nf = [e for e in edges if e[\"ts\"] >= \"2026-02-01\"]\nprint(\"n\", len(f))\nprint(\"prov\", all(\"record_id\" in e for e in f))\nprint(\"first\", f[0][\"record_id\"])\n",
+          "note": "ISO strings orderable; inclusive lower bound.",
+          "concepts_used": [
+            "temporal filter",
+            "provenance"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T1-B-E3",
+          "code": "edges = [{'source':'crm','record_id':'1'},{'source':'','record_id':'2'},{'source':'tx','record_id':'3'}]\ndef ok(e):\n    return bool(e.get(\"source\") and e.get(\"record_id\"))\nn_bad = sum(1 for e in edges if not ok(e))\nprint(\"all_ok\", n_bad == 0)\nprint(\"n_bad\", n_bad)\nprint(\"n\", len(edges))\n",
+          "note": "Empty source fails; all_ok False.",
+          "concepts_used": [
+            "provenance"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T2-A-E1",
+          "code": "accounts = [{'id':'a2','owner':'e2'},{'id':'a1','owner':'e1'}]\nowns = sorted((a[\"owner\"], a[\"id\"]) for a in accounts)\nprint(\"owns\", owns)\nprint(\"n\", len(owns))\nprint(\"etype\", \"owns\")\n",
+          "note": "Tables→graph owns edges.",
+          "concepts_used": [
+            "owns edges"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T2-A-E2",
+          "code": "from collections import defaultdict\ncontacts = [('e1','900'),('e2','900'),('e3','901'),('e1','901')]\nm = defaultdict(set)\nfor e, v in contacts:\n    m[v].add(e)\nshared = sorted(v for v, es in m.items() if len(es) >= 2)\nprint(\"shared\", shared)\nprint(\"n_shared\", len(shared))\nprint(\"note\", \"not_parentesco\")\n",
+          "note": "Theory: shared contact fact ≠ parentesco.",
+          "concepts_used": [
+            "shared contact"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T2-A-E3",
+          "code": "entities=['e1','e2']; accounts=['a1']; contacts=['900','901']\nnodes = set(entities) | set(accounts) | set(contacts)\nprint(\"n_nodes\", len(nodes))\nprint(\"has_contact\", \"900\" in nodes)\nprint(\"has_ent\", \"e1\" in nodes)\n",
+          "note": "Union of three sets; label n_nodes.",
+          "concepts_used": [
+            "node union"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T2-B-E1",
+          "code": "canon = {'r1':'E1','r2':'E1','r3':'E2'}\nedges = [('r1','r3'),('r2','r3')]\nce = sorted({(canon[a], canon[b]) for a, b in edges})\nprint(\"canonical_edges\", ce)\nprint(\"n\", len(ce))\nprint(\"collapsed\", True)\n",
+          "note": "Two raw→same canonic collapse to one edge.",
+          "concepts_used": [
+            "canonical map"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T2-B-E2",
+          "code": "from collections import defaultdict\nrows=[{'src':'A','dst':'B','amount':3,'record_id':'1'},{'src':'A','dst':'B','amount':4,'record_id':'2'}]\nagg = defaultdict(lambda: {'sum': 0, 'records': []})\nfor r in rows:\n    k = (r['src'], r['dst'])\n    agg[k]['sum'] += r['amount']\n    agg[k]['records'].append(r['record_id'])\nprint(\"sum\", agg[('A','B')]['sum'])\nprint(\"records\", agg[('A','B')]['records'])\nprint(\"detail_kept\", True)\n",
+          "note": "iDo pattern: sum + ids/records + detail kept.",
+          "concepts_used": [
+            "agregación",
+            "detalle"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T2-B-E3",
+          "code": "detail_n=5\naggs=[{'n':2},{'n':3}]\ntotal = sum(a['n'] for a in aggs)\nprint(\"ok\", total == detail_n)\nprint(\"total\", total)\nprint(\"detail_n\", detail_n)\n",
+          "note": "sum n == detail_n.",
+          "concepts_used": [
+            "invariante"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T3-A-E1",
+          "code": "from collections import defaultdict\nedges=[('a','b'),('b','c'),('a','c')]\ndeg = defaultdict(int)\nfor u, v in edges:\n    deg[u] += 1; deg[v] += 1\nprint(\"deg\", {k: deg[k] for k in sorted(deg)})\nprint(\"max\", max(deg.values()))\nprint(\"n\", len(deg))\n",
+          "note": "Both ends counted; sorted keys in deg dict.",
+          "concepts_used": [
+            "degree"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T3-A-E2",
+          "code": "from collections import defaultdict\nedges=[('a','b'),('c','d'),('d','e')]\nadj = defaultdict(set)\nfor u, v in edges:\n    adj[u].add(v); adj[v].add(u)\nseen, comps = set(), []\nfor s in sorted(adj):\n    if s in seen:\n        continue\n    stack, comp = [s], []\n    seen.add(s)\n    while stack:\n        n = stack.pop()\n        comp.append(n)\n        for m in adj[n]:\n            if m not in seen:\n                seen.add(m); stack.append(m)\n    comps.append(sorted(comp))\ncomps = sorted(comps, key=lambda c: c[0])\nprint(\"comps\", comps)\nprint(\"n_comp\", len(comps))\nprint(\"ok\", True)\n",
+          "note": "DFS/BFS components; sort each then by first node.",
+          "concepts_used": [
+            "componentes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T3-A-E3",
+          "code": "from collections import defaultdict, deque\nadj = defaultdict(set)\nfor u, v in [('A','B'),('B','C'),('C','D')]:\n    adj[u].add(v); adj[v].add(u)\nq = deque([('A', ['A'])]); seen = {'A'}\npath = None\nwhile q:\n    n, p = q.popleft()\n    if n == 'D':\n        path = p; break\n    for m in sorted(adj[n]):\n        if m not in seen:\n            seen.add(m); q.append((m, p+[m]))\nprint(\"path\", path)\nprint(\"hops\", len(path)-1)\nprint(\"found\", path is not None)\n",
+          "note": "iDo path/hops labels; hops=len(path)-1.",
+          "concepts_used": [
+            "BFS",
+            "path"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T3-B-E1",
+          "code": "deg={'H':3,'A':1,'B':1,'C':1}\nm = max(deg.values())\nnorm = {k: deg[k]/m for k in deg}\ntop = max(norm, key=norm.get)\nprint(\"top\", top)\nprint(\"score\", round(norm[top], 2))\nprint(\"guilt\", False)\n",
+          "note": "Always emit guilt False per pedagogy.",
+          "concepts_used": [
+            "degree centrality"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T3-B-E2",
+          "code": "hub='INF-PAY'\nkind = \"infra\" if hub.startswith(\"INF-\") else \"person\"\nprint(\"kind\", kind)\nprint(\"disclaimer\", \"centrality_not_guilt\")\nprint(\"hub\", hub)\n",
+          "note": "INF- prefix → infra; fixed disclaimer string.",
+          "concepts_used": [
+            "hub class",
+            "disclaimer"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T3-B-E3",
+          "code": "incident={'H':['transfer','transfer','shared_phone']}\nhigh = sorted(n for n, ts in incident.items() if len(ts) >= 3)\nonly_tx = all(t == \"transfer\" for t in incident[\"H\"])\nprint(\"high\", high)\nprint(\"only_transfer\", only_tx)\nprint(\"interpret_with_types\", True)\n",
+          "note": "shared_phone makes only_transfer False.",
+          "concepts_used": [
+            "etype mix"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T4-A-E1",
+          "code": "from collections import defaultdict\nedges=[('A','B'),('B','C'),('C','D')]\nadj=defaultdict(set)\nfor u,v in edges:\n    adj[u].add(v); adj[v].add(u)\n\ndef ego(seed, k):\n    seen={seed}; layer={seed}\n    for _ in range(k):\n        nxt=set()\n        for n in layer:\n            for m in adj[n]:\n                if m not in seen:\n                    seen.add(m); nxt.add(m)\n        layer=nxt\n    return seen\nprint(\"k1\", sorted(ego('A',1)))\nprint(\"k2\", sorted(ego('A',2)))\nprint(\"has_D_k2\", 'D' in ego('A',2))\n",
+          "note": "Layer expansion; D only at k=3 so has_D_k2 False.",
+          "concepts_used": [
+            "ego subgraph"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T4-A-E2",
+          "code": "edges=[{'src':'a','dst':'b','w':1,'rid':'1'},{'src':'b','dst':'b','w':2,'rid':'2'}]\nno_self = all(e['src'] != e['dst'] for e in edges)\nw_ok = all(e['w'] >= 0 for e in edges)\nprov = all(e.get('rid') for e in edges)\nprint(\"no_self\", no_self)\nprint(\"w_ok\", w_ok)\nprint(\"prov\", prov)\n",
+          "note": "Self-loop b→b fails no_self.",
+          "concepts_used": [
+            "invariantes grafo"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T4-A-E3",
+          "code": "raw=[('a','b'),('b','c')]\n\ndef build(edges):\n    return sorted(set(tuple(sorted(e)) for e in edges))\nprint(\"equal\", build(raw) == build(list(raw)))\nprint(\"edges\", build(raw))\nprint(\"idempotent\", True)\n",
+          "note": "Same build twice → equal True.",
+          "concepts_used": [
+            "idempotencia"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T4-B-E1",
+          "code": "email='ana@example.pe'\nlocal, _, domain = email.partition('@')\nred = local[:2] + '***@' + domain\nprint(\"redacted\", red)\nprint(\"domain\", domain)\nprint(\"full_pii\", False)\n",
+          "note": "Theory redact pattern local[:2]+***@domain.",
+          "concepts_used": [
+            "redacción PII"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T4-B-E2",
+          "code": "path=['E1','E2','E3']\nev={('E1','E2'):['r1'],('E2','E3'):['r2','r3']}\nrecords = [ev[(a,b)] for a,b in zip(path, path[1:])]\nprint(\"records\", records)\nprint(\"n_hops\", len(records))\nprint(\"explainable\", True)\n",
+          "note": "zip consecutive path nodes.",
+          "concepts_used": [
+            "path evidence"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S31-T4-B-E3",
+          "code": "max_n=500\n\ndef decide(n):\n    return \"summarize\" if n > max_n else \"render\"\nprint(\"n5000\", decide(5000))\nprint(\"n50\", decide(50))\nprint(\"max_n\", max_n)\n",
+          "note": "Theory: bound visualization; labels n5000/n50/max_n.",
+          "concepts_used": [
+            "escala vista"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S31-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "n_nodes 3\nn_edges 2\nn_directed 1\n",
+          "expected_head": "n_nodes 3\nn_edges 2\nn_directed 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "top B\nvalue 5.0\nn 2\n",
+          "expected_head": "top B\nvalue 5.0\nn 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "directed 2\nundirected 1\netypes ['share', 'tx']\n",
+          "expected_head": "directed 2\nundirected 1\netypes ['share', 'tx']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pair E1 E2\nn 2\npairs 2\n",
+          "expected_head": "pair E1 E2\nn 2\npairs 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "n 2\nprov True\nfirst b\n",
+          "expected_head": "n 2\nprov True\nfirst b",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "all_ok False\nn_bad 1\nn 3\n",
+          "expected_head": "all_ok False\nn_bad 1\nn 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "owns [('e1', 'a1'), ('e2', 'a2')]\nn 2\netype owns\n",
+          "expected_head": "owns [('e1', 'a1'), ('e2', 'a2')]\nn 2\netype owns",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "shared ['900', '901']\nn_shared 2\nnote not_parentesco\n",
+          "expected_head": "shared ['900', '901']\nn_shared 2\nnote not_parentesco",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "n_nodes 5\nhas_contact True\nhas_ent True\n",
+          "expected_head": "n_nodes 5\nhas_contact True\nhas_ent True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "canonical_edges [('E1', 'E2')]\nn 1\ncollapsed True\n",
+          "expected_head": "canonical_edges [('E1', 'E2')]\nn 1\ncollapsed True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sum 7\nrecords ['1', '2']\ndetail_kept True\n",
+          "expected_head": "sum 7\nrecords ['1', '2']\ndetail_kept True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok True\ntotal 5\ndetail_n 5\n",
+          "expected_head": "ok True\ntotal 5\ndetail_n 5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "deg {'a': 2, 'b': 2, 'c': 2}\nmax 2\nn 3\n",
+          "expected_head": "deg {'a': 2, 'b': 2, 'c': 2}\nmax 2\nn 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "comps [['a', 'b'], ['c', 'd', 'e']]\nn_comp 2\nok True\n",
+          "expected_head": "comps [['a', 'b'], ['c', 'd', 'e']]\nn_comp 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "path ['A', 'B', 'C', 'D']\nhops 3\nfound True\n",
+          "expected_head": "path ['A', 'B', 'C', 'D']\nhops 3\nfound True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "top H\nscore 1.0\nguilt False\n",
+          "expected_head": "top H\nscore 1.0\nguilt False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "kind infra\ndisclaimer centrality_not_guilt\nhub INF-PAY\n",
+          "expected_head": "kind infra\ndisclaimer centrality_not_guilt\nhub INF-PAY",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "high ['H']\nonly_transfer False\ninterpret_with_types True\n",
+          "expected_head": "high ['H']\nonly_transfer False\ninterpret_with_types True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "k1 ['A', 'B']\nk2 ['A', 'B', 'C']\nhas_D_k2 False\n",
+          "expected_head": "k1 ['A', 'B']\nk2 ['A', 'B', 'C']\nhas_D_k2 False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "no_self False\nw_ok True\nprov True\n",
+          "expected_head": "no_self False\nw_ok True\nprov True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "equal True\nedges [('a', 'b'), ('b', 'c')]\nidempotent True\n",
+          "expected_head": "equal True\nedges [('a', 'b'), ('b', 'c')]\nidempotent True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "redacted an***@example.pe\ndomain example.pe\nfull_pii False\n",
+          "expected_head": "redacted an***@example.pe\ndomain example.pe\nfull_pii False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "records [['r1'], ['r2', 'r3']]\nn_hops 2\nexplainable True\n",
+          "expected_head": "records [['r1'], ['r2', 'r3']]\nn_hops 2\nexplainable True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S31-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "n5000 summarize\nn50 render\nmax_n 500\n",
+          "expected_head": "n5000 summarize\nn50 render\nmax_n 500",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

@@ -1,0 +1,1081 @@
+{
+  "section_index": 7,
+  "section_id": "data-acquisition",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 5,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 5,
+        "total": 5,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S07-T1-A-E1",
+          "code": "import unicodedata\nnames = ['José', 'Jose\\u0301', '']\nfor s in names:\n    print(repr(s), '→', repr(unicodedata.normalize('NFC', s)))",
+          "note": "",
+          "concepts_used": [
+            "NFC"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T1-A-E2",
+          "code": "a, b = 'MAÑANA', 'mañana'\nmatch = a.casefold() == b.casefold()\nprint(match)",
+          "note": "",
+          "concepts_used": [
+            "casefold"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T1-A-E3",
+          "code": "import unicodedata\na = 'José'\nb = 'Jose\\u0301'\nprint('raw equal', a == b)\nna, nb = unicodedata.normalize('NFC', a), unicodedata.normalize('NFC', b)\nprint('NFC equal', na == nb)\nprint('causa: NFD residual (combining mark) vs NFC compuesto')",
+          "note": "",
+          "concepts_used": [
+            "NFC vs NFD"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T1-B-E1",
+          "code": "raw = 'Ana María Quispe Huamán'\ntoks = raw.split()\nap1, ap2 = toks[-2:]\ngiven = ' '.join(toks[:-2])\nprint(given)\nprint(ap1, ap2)",
+          "note": "",
+          "concepts_used": [
+            "dos apellidos"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T1-B-E2",
+          "code": "raw = 'María del Carmen Quispe Ríos'\ntoks = raw.split()\nap1, ap2 = toks[-2:]\ngiven = ' '.join(toks[:-2])\nprint(given)\nprint(ap1, ap2)",
+          "note": "",
+          "concepts_used": [
+            "partículas"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T1-B-E3",
+          "code": "def parse_nombre(raw):\n    toks = ' '.join(raw.split()).split()\n    if len(toks) < 3:\n        return {'raw': raw, 'status': 'review', 'given': ' '.join(toks), 'ap1': None, 'ap2': None}\n    return {'raw': raw, 'status': 'ok', 'given': ' '.join(toks[:-2]), 'ap1': toks[-2], 'ap2': toks[-1]}\nfor s in ['Madonna', 'Luis Quispe Huamán']:\n    print(parse_nombre(s))",
+          "note": "",
+          "concepts_used": [
+            "review incompleto"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T2-A-E1",
+          "code": "line = 'C001, Ana , Lima'\nfields = [p.strip() for p in line.split(',')]\nprint(fields)",
+          "note": "",
+          "concepts_used": [
+            "split strip"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T2-A-E2",
+          "code": "toks = ['Jr.', 'Unión', '450']\nprint(' '.join(toks))\nprint('-'.join(toks))",
+          "note": "",
+          "concepts_used": [
+            "join"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T2-A-E3",
+          "code": "raw = '999.000-111'\ndigits = ''.join(ch for ch in raw if ch.isdigit())\nprint(digits)",
+          "note": "",
+          "concepts_used": [
+            "str before regex"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T2-B-E1",
+          "code": "def normalize_email(raw):\n    return raw.strip().lower()\nprint(normalize_email('  A@B.COM '))",
+          "note": "",
+          "concepts_used": [
+            "email modest"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T2-B-E2",
+          "code": "raw = '(+51) 999-000-111'\ndigits = ''.join(ch for ch in raw if ch.isdigit())\nprint(digits)",
+          "note": "",
+          "concepts_used": [
+            "phone digits"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T2-B-E3",
+          "code": "import re\nemail = 'user+tag@example.com'\npat = r'^[a-z]+@[a-z]+\\.com$'\nrejected = re.fullmatch(pat, email) is None\nprint('rejected', rejected)\nprint('Política: preferir strip+lower y presencia de @; no overfit de regex')",
+          "note": "",
+          "concepts_used": [
+            "overvalidation"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T3-A-E1",
+          "code": "import re\npat = r'^[A-Z]{3}$'\nprint(bool(re.fullmatch(pat, 'LIM')))\nprint(bool(re.fullmatch(pat, 'Lima')))",
+          "note": "",
+          "concepts_used": [
+            "fullmatch anchors"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T3-A-E2",
+          "code": "import re\npat = re.compile(r'^(?P<nom>\\w+) (?P<ap>\\w+)$')\nm = pat.fullmatch('Ana Quispe')\nprint(m.groupdict() if m else None)",
+          "note": "",
+          "concepts_used": [
+            "named groups"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T3-A-E3",
+          "code": "import re\ntext = 'DNI 12345678'\nprint('search', bool(re.search(r'\\d{8}', text)))\nprint('fullmatch', bool(re.fullmatch(r'\\d{8}', text)))\nprint('Nota: fullmatch exige la cadena entera; search encuentra en medio')",
+          "note": "",
+          "concepts_used": [
+            "search vs fullmatch"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T3-B-E1",
+          "code": "import re\nphone = re.compile(r'\\b9\\d{8}\\b')\nfor s in ['ok 999111222', 'solo 12345']:\n    print(s, phone.findall(s))",
+          "note": "",
+          "concepts_used": [
+            "compile reuse"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T3-B-E2",
+          "code": "import re\nlog = 'ok LIM-01 y CUS-02 fin'\ncodes = re.findall(r'[A-Z]{3}-\\d{2}', log)\nprint(codes)",
+          "note": "",
+          "concepts_used": [
+            "findall"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T3-B-E3",
+          "code": "print(\"patrón peligroso: (a+)+b sobre strings largos de a's\")\nprint('Riesgo: catastrophic backtracking con cuantificadores anidados ambiguos')\nprint('Mitigación: preferir a+b o métodos str; patrones simples')",
+          "note": "",
+          "concepts_used": [
+            "backtracking"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T4-A-E1",
+          "code": "def norm(s):\n    return ' '.join(s.split()).casefold()\nprint(norm('  Juan  PEREZ ') == norm('juan perez'))",
+          "note": "",
+          "concepts_used": [
+            "igualdad normalizada"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T4-A-E2",
+          "code": "def token_jaccard(a, b):\n    A = set(a.casefold().split())\n    B = set(b.casefold().split())\n    if not A and not B:\n        return 1.0\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\nprint(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))",
+          "note": "",
+          "concepts_used": [
+            "Jaccard"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T4-A-E3",
+          "code": "a, b, score = 'Juan Perez', 'Juan P Perez', 0.67\nif score == 1.0:\n    decision = 'exact'\nelif 0.4 <= score < 1.0:\n    decision = 'review'\nelse:\n    decision = 'no_match'\nprint(decision, a, b, score)",
+          "note": "",
+          "concepts_used": [
+            "review score"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T4-B-E1",
+          "code": "cases = [\n    {'pred': 'match', 'truth': 'no'},\n    {'pred': 'no', 'truth': 'match'},\n]\nfor c in cases:\n    if c['pred'] == 'match' and c['truth'] == 'no':\n        tag = 'FP'\n    elif c['pred'] == 'no' and c['truth'] == 'match':\n        tag = 'FN'\n    else:\n        tag = 'other'\n    print(tag)",
+          "note": "",
+          "concepts_used": [
+            "FP FN"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T4-B-E2",
+          "code": "evidence = {\n    'raw_a': 'Juan Perez',\n    'raw_b': 'Juan P Perez',\n    'score': 0.67,\n    'decision': 'review',\n    'reason': 'Jaccard medio; no auto-fusionar',\n}\nprint(evidence)",
+          "note": "",
+          "concepts_used": [
+            "evidencia"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T4-B-E3",
+          "code": "print('1) Jaccard no es fuente autoritativa de identidad')\nprint('2) Un score no prueba parentesco ni vínculo legal')\nprint('3) Riesgo ético/producto: score → revisión humana con evidencia, no etiqueta familiar')",
+          "note": "",
+          "concepts_used": [
+            "no parentesco"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S07-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "'José' → 'José'\n'José' → 'José'\n'' → ''\n",
+          "expected_head": "'José'\n'José'\n''",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T1-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "raw equal False\nNFC equal True\ncausa: NFD residual (combining mark) vs NFC compuesto\n",
+          "expected_head": "raw False\nnfc True\ncausa: formas Unicode distintas (compuesta vs combining mark)",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Ana María\nQuispe Huamán\n",
+          "expected_head": "Ana María\nQuispe Huamán",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "María del Carmen\nQuispe Ríos\n",
+          "expected_head": "María del Carmen\nQuispe Ríos",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'raw': 'Madonna', 'status': 'review', 'given': 'Madonna', 'ap1': None, 'ap2': None}\n{'raw': 'Luis Quispe Huamán', 'stat",
+          "expected_head": "{'raw': 'Madonna', 'status': 'review', 'given': 'Madonna', 'ap1': None, 'ap2': None}\n{'raw': 'Luis Quispe Huamán', 'stat",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['C001', 'Ana', 'Lima']\n",
+          "expected_head": "['C001', 'Ana', 'Lima']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Jr. Unión 450\nJr.-Unión-450\n",
+          "expected_head": "Jr. Unión 450\nJr.-Unión-450",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "999000111\n",
+          "expected_head": "999000111\n999000111",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "a@b.com\n",
+          "expected_head": "a@b.com",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "51999000111\n",
+          "expected_head": "51999000111",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T2-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "rejected True\nPolítica: preferir strip+lower y presencia de @; no overfit de regex\n",
+          "expected_head": "rejected_by_overfit True\npolítica: strip/lower + requiere @; sin regex hiper-estricta",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'nom': 'Ana', 'ap': 'Quispe'}\n",
+          "expected_head": "{'nom': 'Ana', 'ap': 'Quispe'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "search True\nfullmatch False\nNota: fullmatch exige la cadena entera; search encuentra en medio\n",
+          "expected_head": "search True\nfullmatch False\nusar search para extraer; fullmatch para validar campo exacto",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T3-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "ok 999111222 ['999111222']\nsolo 12345 []\n",
+          "expected_head": "tel 999000111 → ['999000111']\nno match 123 → []",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['LIM-01', 'CUS-02']\n",
+          "expected_head": "['LIM-01', 'CUS-02']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "patrón peligroso: (a+)+b sobre strings largos de a's\nRiesgo: catastrophic backtracking con cuantificadores anidados ambi",
+          "expected_head": "patrón peligroso: (a+)+b sobre strings largos de a's\nriesgo: catastrophic backtracking → CPU alta / hang\nmitigación: pat",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.667\n",
+          "expected_head": "0.667",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "review Juan Perez Juan P Perez 0.67\n",
+          "expected_head": "review Juan Perez Juan P Perez 0.67",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "FP\nFN\n",
+          "expected_head": "FP\nFN",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'raw_a': 'Juan Perez', 'raw_b': 'Juan P Perez', 'score': 0.67, 'decision': 'review', 'reason': 'Jaccard medio; no auto-",
+          "expected_head": "{'raw_a': 'Juan Perez', 'raw_b': 'Juan P Perez', 'score': 0.67, 'decision': 'review', 'reason': 'similitud parcial por t",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T4-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "1) Jaccard no es fuente autoritativa de identidad\n2) Un score no prueba parentesco ni vínculo legal\n3) Riesgo ético/prod",
+          "expected_head": "No afirmamos parentesco: el score textual no es prueba familiar.\nNo afirmamos identidad legal: falta fuente autoritativa",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 20,
+      "code_tried": 24,
+      "code_ratio": 0.833,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 5,
+        "total": 5,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 4,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S07-T1-A-E1",
+          "code": "import unicodedata\nnames = ['José', 'Jose\\u0301', '']\nfor s in names:\n    print(repr(s), '→', repr(unicodedata.normalize('NFC', s)))",
+          "note": "",
+          "concepts_used": [
+            "NFC"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T1-A-E2",
+          "code": "a, b = 'MAÑANA', 'mañana'\nmatch = a.casefold() == b.casefold()\nprint(match)",
+          "note": "",
+          "concepts_used": [
+            "casefold"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T1-A-E3",
+          "code": "import unicodedata\na = 'José'\nb = 'Jose\\u0301'\nprint('raw equal', a == b)\nna, nb = unicodedata.normalize('NFC', a), unicodedata.normalize('NFC', b)\nprint('NFC equal', na == nb)\nprint('causa: formas NFD/NFC distintas hasta normalizar')",
+          "note": "",
+          "concepts_used": [
+            "NFC diagnosis"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T1-B-E1",
+          "code": "raw = 'Ana María Quispe Huamán'\ntoks = raw.split()\nap1, ap2 = toks[-2:]\ngiven = ' '.join(toks[:-2])\nprint(given)\nprint(ap1, ap2)",
+          "note": "",
+          "concepts_used": [
+            "two surnames"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T1-B-E2",
+          "code": "raw = 'María del Carmen Quispe Ríos'\ntoks = raw.split()\nap1, ap2 = toks[-2:]\ngiven = ' '.join(toks[:-2])\nprint(given)\nprint(ap1, ap2)",
+          "note": "",
+          "concepts_used": [
+            "particles"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T1-B-E3",
+          "code": "def parse_nombre(raw):\n    toks = raw.split()\n    if len(toks) < 3:\n        return {'raw': raw, 'status': 'review', 'given': raw, 'ap1': None, 'ap2': None}\n    return {\n        'raw': raw,\n        'status': 'ok',\n        'given': ' '.join(toks[:-2]),\n        'ap1': toks[-2],\n        'ap2': toks[-1],\n    }\nfor s in ['Madonna', 'Luis Quispe Huamán']:\n    print(parse_nombre(s))",
+          "note": "",
+          "concepts_used": [
+            "review incomplete"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T2-A-E1",
+          "code": "line = 'C001, Ana , Lima'\nfields = [p.strip() for p in line.split(',')]\nprint(fields)",
+          "note": "",
+          "concepts_used": [
+            "split strip"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T2-A-E2",
+          "code": "toks = ['Jr.', 'Unión', '450']\nprint(' '.join(toks))\nprint('-'.join(toks))",
+          "note": "",
+          "concepts_used": [
+            "join"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T2-A-E3",
+          "code": "raw = '999.000-111'\ndigits = ''.join(ch for ch in raw if ch.isdigit())\nprint(digits)",
+          "note": "",
+          "concepts_used": [
+            "isdigit filter"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T2-B-E1",
+          "code": "def normalize_email(raw):\n    return raw.strip().lower()\nprint(normalize_email('  A@B.COM '))",
+          "note": "",
+          "concepts_used": [
+            "email modest"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T2-B-E2",
+          "code": "raw = '(+51) 999-000-111'\ndigits = ''.join(ch for ch in raw if ch.isdigit())\nprint(digits)",
+          "note": "",
+          "concepts_used": [
+            "phone digits"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T2-B-E3",
+          "code": "import re\nemail = 'user+tag@example.com'\npat = r'^[a-z]+@[a-z]+\\.com$'\nrejected = re.fullmatch(pat, email) is None\nprint('rejected', rejected)\nprint('política: check modesto de @ (strip+lower); no regex overfit')",
+          "note": "",
+          "concepts_used": [
+            "overvalidation"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T3-A-E1",
+          "code": "import re\npat = r'^[A-Z]{3}$'\nprint(bool(re.fullmatch(pat, 'LIM')))\nprint(bool(re.fullmatch(pat, 'Lima')))",
+          "note": "",
+          "concepts_used": [
+            "fullmatch"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T3-A-E2",
+          "code": "import re\npat = re.compile(r'^(?P<nom>\\w+) (?P<ap>\\w+)$')\nm = pat.fullmatch('Ana Quispe')\nprint(m.groupdict() if m else None)",
+          "note": "",
+          "concepts_used": [
+            "named groups"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T3-A-E3",
+          "code": "import re\ntext = 'DNI 12345678'\nprint('search', bool(re.search(r'\\d{8}', text)))\nprint('fullmatch', bool(re.fullmatch(r'\\d{8}', text)))\nprint('nota: fullmatch valida campo exacto; search extrae en texto')",
+          "note": "",
+          "concepts_used": [
+            "search vs fullmatch"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T3-B-E1",
+          "code": "import re\nphone = re.compile(r'\\b9\\d{8}\\b')\nfor s in ['ok 999111222', 'sin match 123']:\n    print(s, phone.findall(s))",
+          "note": "",
+          "concepts_used": [
+            "compile",
+            "findall"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T3-B-E2",
+          "code": "import re\nlog = 'ok LIM-01 y CUS-02 fin'\ncodes = re.findall(r'[A-Z]{3}-\\d{2}', log)\nprint(codes)",
+          "note": "",
+          "concepts_used": [
+            "findall codes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T3-B-E3",
+          "code": "print(\"patrón peligroso: (a+)+b sobre strings largos de a's\")\nprint('riesgo: catastrophic backtracking con cuantificadores anidados')\nprint('mitigación: patrones simples, a+b, o str methods; evita overfit')",
+          "note": "",
+          "concepts_used": [
+            "backtracking"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T4-A-E1",
+          "code": "def norm(s):\n    return ' '.join(s.split()).casefold()\nprint(norm('  Juan  PEREZ ') == norm('juan perez'))",
+          "note": "",
+          "concepts_used": [
+            "normalized equality"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T4-A-E2",
+          "code": "def token_jaccard(a, b):\n    A = set(a.replace('.', ' ').casefold().split())\n    B = set(b.replace('.', ' ').casefold().split())\n    if not A and not B:\n        return 1.0\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\nprint(round(token_jaccard('Juan Perez', 'Juan P Perez'), 3))",
+          "note": "",
+          "concepts_used": [
+            "Jaccard"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T4-A-E3",
+          "code": "a, b, score = 'Juan Perez', 'Juan P Perez', 0.67\nif score == 1.0:\n    decision = 'exact'\nelif score >= 0.4:\n    decision = 'review'\nelse:\n    decision = 'no_match'\nprint(decision, a, b, score)",
+          "note": "",
+          "concepts_used": [
+            "thresholds"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T4-B-E1",
+          "code": "cases = [\n    {'pred': 'match', 'truth': 'no'},\n    {'pred': 'no', 'truth': 'match'},\n]\nfor c in cases:\n    if c['pred'] == 'match' and c['truth'] == 'no':\n        tag = 'FP'\n    elif c['pred'] == 'no' and c['truth'] == 'match':\n        tag = 'FN'\n    else:\n        tag = 'other'\n    print(tag)",
+          "note": "",
+          "concepts_used": [
+            "FP FN"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T4-B-E2",
+          "code": "evidence = {\n    'raw_a': 'Juan Perez',\n    'raw_b': 'Juan P. Perez',\n    'score': 0.67,\n    'decision': 'review',\n    'reason': 'similitud media por tokens; requiere revisión humana',\n}\nprint(evidence)",
+          "note": "",
+          "concepts_used": [
+            "evidence dict"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S07-T4-B-E3",
+          "code": "print('1) Jaccard es señal débil, no fuente autoritativa de identidad')\nprint('2) Afirmar parentesco o identidad legal por score es riesgo ético/legal')\nprint('3) Conservamos evidencia y mandamos a review; el score no es prueba')",
+          "note": "",
+          "concepts_used": [
+            "ethics no kinship"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S07-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "'José' → 'José'\n'José' → 'José'\n'' → ''\n",
+          "expected_head": "'José'\n'José'\n''",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T1-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "raw equal False\nNFC equal True\ncausa: formas NFD/NFC distintas hasta normalizar\n",
+          "expected_head": "raw False\nnfc True\ncausa: formas Unicode distintas (compuesta vs combining mark)",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Ana María\nQuispe Huamán\n",
+          "expected_head": "Ana María\nQuispe Huamán",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "María del Carmen\nQuispe Ríos\n",
+          "expected_head": "María del Carmen\nQuispe Ríos",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'raw': 'Madonna', 'status': 'review', 'given': 'Madonna', 'ap1': None, 'ap2': None}\n{'raw': 'Luis Quispe Huamán', 'stat",
+          "expected_head": "{'raw': 'Madonna', 'status': 'review', 'given': 'Madonna', 'ap1': None, 'ap2': None}\n{'raw': 'Luis Quispe Huamán', 'stat",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['C001', 'Ana', 'Lima']\n",
+          "expected_head": "['C001', 'Ana', 'Lima']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Jr. Unión 450\nJr.-Unión-450\n",
+          "expected_head": "Jr. Unión 450\nJr.-Unión-450",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "999000111\n",
+          "expected_head": "999000111\n999000111",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "a@b.com\n",
+          "expected_head": "a@b.com",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "51999000111\n",
+          "expected_head": "51999000111",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T2-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "rejected True\npolítica: check modesto de @ (strip+lower); no regex overfit\n",
+          "expected_head": "rejected_by_overfit True\npolítica: strip/lower + requiere @; sin regex hiper-estricta",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\n",
+          "expected_head": "True\nFalse",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'nom': 'Ana', 'ap': 'Quispe'}\n",
+          "expected_head": "{'nom': 'Ana', 'ap': 'Quispe'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "search True\nfullmatch False\nnota: fullmatch valida campo exacto; search extrae en texto\n",
+          "expected_head": "search True\nfullmatch False\nusar search para extraer; fullmatch para validar campo exacto",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T3-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "ok 999111222 ['999111222']\nsin match 123 []\n",
+          "expected_head": "tel 999000111 → ['999000111']\nno match 123 → []",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['LIM-01', 'CUS-02']\n",
+          "expected_head": "['LIM-01', 'CUS-02']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "patrón peligroso: (a+)+b sobre strings largos de a's\nriesgo: catastrophic backtracking con cuantificadores anidados\nmiti",
+          "expected_head": "patrón peligroso: (a+)+b sobre strings largos de a's\nriesgo: catastrophic backtracking → CPU alta / hang\nmitigación: pat",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.667\n",
+          "expected_head": "0.667",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "review Juan Perez Juan P Perez 0.67\n",
+          "expected_head": "review Juan Perez Juan P Perez 0.67",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "FP\nFN\n",
+          "expected_head": "FP\nFN",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'raw_a': 'Juan Perez', 'raw_b': 'Juan P. Perez', 'score': 0.67, 'decision': 'review', 'reason': 'similitud media por to",
+          "expected_head": "{'raw_a': 'Juan Perez', 'raw_b': 'Juan P Perez', 'score': 0.67, 'decision': 'review', 'reason': 'similitud parcial por t",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S07-T4-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "1) Jaccard es señal débil, no fuente autoritativa de identidad\n2) Afirmar parentesco o identidad legal por score es ries",
+          "expected_head": "No afirmamos parentesco: el score textual no es prueba familiar.\nNo afirmamos identidad legal: falta fuente autoritativa",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 20,
+      "code_tried": 24,
+      "code_ratio": 0.833,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

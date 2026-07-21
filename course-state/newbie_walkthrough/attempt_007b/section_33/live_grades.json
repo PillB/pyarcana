@@ -1,0 +1,1068 @@
+{
+  "section_index": 33,
+  "section_id": "advanced-models",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S33-T1-A-E1",
+          "code": "print('unit', 'entity_pair_at_t0')\nprint('target', 'needs_review_7d')\nprint('horizon', 7)\n",
+          "note": "",
+          "concepts_used": [
+            "framing"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T1-A-E2",
+          "code": "y = [0, 1, 0, 0]\nprint('prevalence', sum(y) / len(y))\nprint('n', len(y))\nprint('pos', sum(y))\n",
+          "note": "",
+          "concepts_used": [
+            "prevalence"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T1-A-E3",
+          "code": "t = 'needs_review_7d'\nprint('ok', 'fraud' not in t)\nprint('target', t)\nprint('policy', 'review_not_fraud')\n",
+          "note": "",
+          "concepts_used": [
+            "target policy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T1-B-E1",
+          "code": "y = [1, 1, 0]\nmaj = 1 if y.count(1) >= y.count(0) else 0\nprint('maj', maj)\nprint('acc', sum(yi == maj for yi in y) / len(y))\nprint('n', len(y))\n",
+          "note": "",
+          "concepts_used": [
+            "dummy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T1-B-E2",
+          "code": "x, y = [0, 1, 2], [0, 1, 0]\np = [1 if xi >= 1 else 0 for xi in x]\nprint('acc', sum(a == b for a, b in zip(p, y)) / len(y))\nprint('preds', p)\nprint('keep_rule', True)\n",
+          "note": "",
+          "concepts_used": [
+            "rule baseline"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T1-B-E3",
+          "code": "print('cost', 2 * 1 + 1 * 5)\nprint('fp', 2)\nprint('fn', 1)\n",
+          "note": "",
+          "concepts_used": [
+            "costos"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T2-A-E1",
+          "code": "import math\ndef s(z):\n    return 1 / (1 + math.exp(-z))\nprint('s0', round(s(0), 3))\nprint('s2', round(s(2), 3))\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "sigmoid"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T2-A-E2",
+          "code": "import math\np = 1 / (1 + math.exp(-(1 * 0.2 + 0)))\nprint('prob', round(p, 3))\nprint('pred', int(p >= 0.5))\nprint('thr', 0.5)\n",
+          "note": "",
+          "concepts_used": [
+            "logística"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T2-A-E3",
+          "code": "w = [1, 2]\nprint('l2', sum(x * x for x in w))\nprint('n', len(w))\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "L2"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T2-B-E1",
+          "code": "c = {'shared_phone': 0.8, 'amount': 0.2, 'region': -0.1}\nprint(sorted(c, key=lambda k: abs(c[k]), reverse=True))\nprint('top', 'shared_phone')\nprint('causal', False)\n",
+          "note": "",
+          "concepts_used": [
+            "coeficientes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T2-B-E2",
+          "code": "print('scaled', True)\nprint('assume', 'log_odds_linear')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "scaling"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T2-B-E3",
+          "code": "w = 0.8\nprint('sign', 'pos' if w > 0 else 'neg')\nprint('w', w)\nprint('causal', False)\n",
+          "note": "",
+          "concepts_used": [
+            "signo coef"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T3-A-E1",
+          "code": "X = [0.1, 0.4]\nprint([1 if x >= 0.3 else 0 for x in X])\nprint('thr', 0.3)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "stump"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T3-A-E2",
+          "code": "preds = [[1, 0], [1, 1], [0, 1]]\nout = [1 if sum(preds[i][j] for i in range(3)) >= 2 else 0 for j in range(2)]\nprint('vote', out)\nprint('n_models', 3)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "ensamble"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T3-A-E3",
+          "code": "y = [0, 1, 1]; pred = [0, 1, 0]; maj = 1\nprint('stump', sum(p == t for p, t in zip(pred, y)) / 3)\nprint('dummy', sum(t == maj for t in y) / 3)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "compare baseline"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T3-B-E1",
+          "code": "d = [1, 4, 8]; v = [0.5, 0.7, 0.65]\ni = max(range(3), key=lambda j: v[j])\nprint('depth', d[i])\nprint('valid', v[i])\nprint('seed', 7)\n",
+          "note": "",
+          "concepts_used": [
+            "valid depth"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T3-B-E2",
+          "code": "tr, va = 0.95, 0.6\nprint('overfit', tr - va > 0.2)\nprint('gap', round(tr - va, 2))\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "overfit"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T3-B-E3",
+          "code": "import random\nrandom.seed(1)\nprint([random.randint(0, 9) for _ in range(3)])\nprint('seed', 1)\nprint('repro', True)\n",
+          "note": "",
+          "concepts_used": [
+            "seed"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T4-A-E1",
+          "code": "import json\nm = {'pr_auc': 0.6, 'rule': 0.5}\nprint(json.dumps(m, sort_keys=True))\nprint('beats', m['pr_auc'] > m['rule'])\nprint('run', 'r1')\n",
+          "note": "",
+          "concepts_used": [
+            "tracking"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T4-A-E2",
+          "code": "fields = ['run_id', 'feature_set', 'model', 'params', 'metrics']\nprint(fields)\nprint('n', len(fields))\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "run log"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T4-A-E3",
+          "code": "print('beats_dummy', 0.55 > 0.5)\nprint('model', 0.55)\nprint('dummy', 0.5)\n",
+          "note": "",
+          "concepts_used": [
+            "beats dummy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T4-B-E1",
+          "code": "f = [0.4, 0.6, 0.5]\nprint(round(sum(f) / len(f), 3))\nprint('n', len(f))\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "CV mean"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T4-B-E2",
+          "code": "s = [{'name': 'A', 'fn': 2}, {'name': 'B', 'fn': 5}]\nprint(max(s, key=lambda x: x['fn'])['name'])\nprint('fn', 5)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "error slice"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T4-B-E3",
+          "code": "ents = ['e1', 'e1', 'e2']\nprint('n_groups', len(set(ents)))\nprint('n_rows', len(ents))\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "group CV"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S33-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "unit entity_pair_at_t0\ntarget needs_review_7d\nhorizon 7\n",
+          "expected_head": "unit entity_pair\ntarget needs_review_7d\nhorizon 7",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "prevalence 0.25\nn 4\npos 1\n",
+          "expected_head": "prevalence 0.25\nn 4\npos 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok True\ntarget needs_review_7d\npolicy review_not_fraud\n",
+          "expected_head": "ok True\ntarget needs_review_7d\npolicy review_not_fraud",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "maj 1\nacc 0.6666666666666666\nn 3\n",
+          "expected_head": "maj 1\nacc 0.6666666666666666\nn 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "acc 0.6666666666666666\npreds [0, 1, 1]\nkeep_rule True\n",
+          "expected_head": "acc 0.6666666666666666\npreds [0, 1, 1]\nkeep_rule True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cost 7\nfp 2\nfn 1\n",
+          "expected_head": "cost 7\nfp 2\nfn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "s0 0.5\ns2 0.881\nok True\n",
+          "expected_head": "s0 0.5\ns2 0.881\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "prob 0.55\npred 1\nthr 0.5\n",
+          "expected_head": "prob 0.55\npred 1\nthr 0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "l2 5\nn 2\nok True\n",
+          "expected_head": "l2 5\nn 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['shared_phone', 'amount', 'region']\ntop shared_phone\ncausal False\n",
+          "expected_head": "['y', 'z', 'x']\ntop y\ncausal False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "scaled True\nassume log_odds_linear\nok True\n",
+          "expected_head": "scaled True\nassume log_odds_linear\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "sign pos\nw 0.8\ncausal False\n",
+          "expected_head": "sign pos\nw 0.8\ncausal False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[0, 1]\nthr 0.3\nok True\n",
+          "expected_head": "[0, 1]\nthr 0.3\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "vote [1, 1]\nn_models 3\nok True\n",
+          "expected_head": "vote [1, 1]\nn_models 3\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "stump 0.6666666666666666\ndummy 0.6666666666666666\nok True\n",
+          "expected_head": "stump 0.6666666666666666\ndummy 0.6666666666666666\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "depth 4\nvalid 0.7\nseed 7\n",
+          "expected_head": "depth 4\nvalid 0.7\nseed 7",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "overfit True\ngap 0.35\nok True\n",
+          "expected_head": "overfit True\ngap 0.35\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[2, 9, 1]\nseed 1\nrepro True\n",
+          "expected_head": "[2, 9, 1]\nseed 1\nrepro True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{\"pr_auc\": 0.6, \"rule\": 0.5}\nbeats True\nrun r1\n",
+          "expected_head": "{\"pr_auc\": 0.6, \"rule\": 0.5}\nbeats True\nrun r1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['run_id', 'feature_set', 'model', 'params', 'metrics']\nn 5\nok True\n",
+          "expected_head": "['run_id', 'feature_set', 'model', 'params', 'metrics']\nn 5\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "beats_dummy True\nmodel 0.55\ndummy 0.5\n",
+          "expected_head": "beats_dummy True\nmodel 0.55\ndummy 0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.5\nn 3\nok True\n",
+          "expected_head": "0.5\nn 3\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "B\nfn 5\nok True\n",
+          "expected_head": "B\nfn 5\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "n_groups 2\nn_rows 3\nok True\n",
+          "expected_head": "n_groups 2\nn_rows 3\nok True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S33-T1-A-E1",
+          "code": "print('unit', 'entity_pair_at_t0')\nprint('target', 'needs_review_7d')\nprint('horizon', 7)\n",
+          "note": "Framing.",
+          "concepts_used": [
+            "unit target horizon"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T1-A-E2",
+          "code": "y=[0,1,0,0]\nprev=sum(y)/len(y)\nprint('prevalence', prev)\nprint('n', len(y))\nprint('ok', True)\n",
+          "note": "sum(y)/len.",
+          "concepts_used": [
+            "prevalence"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T1-A-E3",
+          "code": "target='needs_review_7d'\nprint('fraud_free', 'fraud' not in target.lower())\nprint('target', target)\nprint('ok', True)\n",
+          "note": "No fraud label.",
+          "concepts_used": [
+            "no fraud target"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T1-B-E1",
+          "code": "y=[1,1,0]\nmaj=1 if y.count(1)>=y.count(0) else 0\nprint('maj', maj)\nprint('dummy_acc', sum(yi==maj for yi in y)/len(y))\nprint('ok', True)\n",
+          "note": "Maj dummy.",
+          "concepts_used": [
+            "dummy majority"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T1-B-E2",
+          "code": "x,y=[0,1,1],[0,1,1]\npred=[1 if xi>=1 else 0 for xi in x]\nacc=sum(p==t for p,t in zip(pred,y))/len(y)\nprint('acc', acc)\nprint('rule', 'x>=1')\nprint('ok', True)\n",
+          "note": "Rule x>=1.",
+          "concepts_used": [
+            "rule baseline"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T1-B-E3",
+          "code": "fp,fn=2,1\nprint('cost', fp*1 + fn*5)\nprint('fp_w', 1, 'fn_w', 5)\nprint('ok', True)\n",
+          "note": "FN cost higher.",
+          "concepts_used": [
+            "asymmetric cost"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T2-A-E1",
+          "code": "import math\ndef sigmoid(z):\n    return 1/(1+math.exp(-z))\nprint(round(sigmoid(0),3), round(sigmoid(2),3))\nprint('ok', True)\nprint('fn', 'sigmoid')\n",
+          "note": "Theory sigmoid.",
+          "concepts_used": [
+            "sigmoid"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T2-A-E2",
+          "code": "import math\nw,b,x=1,0,0.2\np=1/(1+math.exp(-(w*x+b)))\npred=1 if p>=0.5 else 0\nprint(round(p,3), pred)\nprint('thr', 0.5)\nprint('ok', True)\n",
+          "note": "Score + thr 0.5.",
+          "concepts_used": [
+            "linear sigmoid thr"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T2-A-E3",
+          "code": "w=[1,2]\nprint(sum(wi*wi for wi in w))\nprint('L2', 'sum_w2')\nprint('ok', True)\n",
+          "note": "L2 sum w^2.",
+          "concepts_used": [
+            "L2"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T2-B-E1",
+          "code": "coefs={'shared_phone':0.9,'amount_7d':0.3,'region_LIM':-0.1}\nprint(sorted(coefs, key=lambda k: abs(coefs[k]), reverse=True))\nprint('top', max(coefs, key=lambda k: abs(coefs[k])))\nprint('causal', False)\n",
+          "note": "By abs coef.",
+          "concepts_used": [
+            "top |coef|"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T2-B-E2",
+          "code": "print(True)\nprint('scaled', True)\nprint('ok', True)\n",
+          "note": "Report scaled True.",
+          "concepts_used": [
+            "scaled flag"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T2-B-E3",
+          "code": "c=0.8\nprint('positive' if c>0 else 'negative')\nprint('coef', c)\nprint('causal', False)\n",
+          "note": "Direction not causal.",
+          "concepts_used": [
+            "coef sign"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T3-A-E1",
+          "code": "X=[0.1,0.4]; thr=0.3\npred=[1 if x>=thr else 0 for x in X]\nprint(pred)\nprint('thr', thr)\nprint('model', 'stump')\n",
+          "note": "Decision stump.",
+          "concepts_used": [
+            "stump"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T3-A-E2",
+          "code": "preds=[[1,0,1],[1,1,0],[1,0,0]]\nvotes=[1,0,1]\nmaj=1 if votes.count(1)>=votes.count(0) else 0\nprint(maj)\nprint('votes', votes)\nprint('ok', True)\n",
+          "note": "Ensemble majority idea.",
+          "concepts_used": [
+            "majority vote"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T3-A-E3",
+          "code": "X,y=[0.1,0.6,0.9],[0,1,1]\nstump=[1 if x>=0.5 else 0 for x in X]\nmaj=0 if y.count(0)>=y.count(1) else 1\ns_acc=sum(p==t for p,t in zip(stump,y))/len(y)\nd_acc=sum(t==maj for t in y)/len(y)\nprint(s_acc, d_acc)\nprint('beats_dummy', s_acc>=d_acc)\nprint('ok', True)\n",
+          "note": "Compare to dummy.",
+          "concepts_used": [
+            "stump vs dummy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T3-B-E1",
+          "code": "depth=[1,3,10]; valid_acc=[0.68,0.72,0.60]\ni=max(range(3), key=lambda j: valid_acc[j])\nprint('best_depth', depth[i])\nprint('valid', valid_acc[i])\nprint('ok', True)\n",
+          "note": "Best valid_acc.",
+          "concepts_used": [
+            "pick by valid"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T3-B-E2",
+          "code": "train,valid=0.99,0.60\noverfit=(train-valid)>0.2\nprint(overfit)\nprint('gap', train-valid)\nprint('ok', True)\n",
+          "note": "Train-valid gap.",
+          "concepts_used": [
+            "overfit gap"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T3-B-E3",
+          "code": "import random\nrandom.seed(42)\nprint([random.randint(0,9) for _ in range(3)])\nprint('seed', 42)\nprint('ok', True)\n",
+          "note": "random.seed(42).",
+          "concepts_used": [
+            "seed"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T4-A-E1",
+          "code": "import json\nm={'pr_auc':0.61,'baseline_rule_pr_auc':0.55,'dummy_pr_auc':0.5}\nprint(json.dumps(m, sort_keys=True))\nprint('n_keys', len(m))\nprint('ok', True)\n",
+          "note": "json.dumps sort_keys.",
+          "concepts_used": [
+            "metrics json"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T4-A-E2",
+          "code": "fields=['run_id','params','metrics','feature_set','data_cutoff']\nprint(fields)\nprint('n', len(fields))\nprint('ok', True)\n",
+          "note": "Tracking fields.",
+          "concepts_used": [
+            "run log fields"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T4-A-E3",
+          "code": "model,dummy=0.62,0.5\nprint(model>dummy)\nprint('beats_dummy', model>dummy)\nprint('ok', True)\n",
+          "note": "Demo beats_dummy.",
+          "concepts_used": [
+            "beats_dummy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T4-B-E1",
+          "code": "folds=[0.6,0.5,0.7]\nprint(round(sum(folds)/len(folds),3))\nprint('n_folds', len(folds))\nprint('ok', True)\n",
+          "note": "Mean folds.",
+          "concepts_used": [
+            "CV mean"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T4-B-E2",
+          "code": "slices={'A':1,'B':5,'C':2}\nworst=max(slices, key=slices.get)\nprint(worst)\nprint('fn', slices[worst])\nprint('ok', True)\n",
+          "note": "Worst FN slice.",
+          "concepts_used": [
+            "error slice"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S33-T4-B-E3",
+          "code": "ents=['E1','E1','E2','E3']\nprint(len(set(ents)))\nprint('groups', sorted(set(ents)))\nprint('group_cv', True)\n",
+          "note": "CV by entity groups.",
+          "concepts_used": [
+            "group CV"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S33-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "unit entity_pair_at_t0\ntarget needs_review_7d\nhorizon 7\n",
+          "expected_head": "unit entity_pair\ntarget needs_review_7d\nhorizon 7",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "prevalence 0.25\nn 4\nok True\n",
+          "expected_head": "prevalence 0.25\nn 4\npos 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "fraud_free True\ntarget needs_review_7d\nok True\n",
+          "expected_head": "ok True\ntarget needs_review_7d\npolicy review_not_fraud",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "maj 1\ndummy_acc 0.6666666666666666\nok True\n",
+          "expected_head": "maj 1\nacc 0.6666666666666666\nn 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T1-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "acc 1.0\nrule x>=1\nok True\n",
+          "expected_head": "acc 0.6666666666666666\npreds [0, 1, 1]\nkeep_rule True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "cost 7\nfp_w 1 fn_w 5\nok True\n",
+          "expected_head": "cost 7\nfp 2\nfn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.5 0.881\nok True\nfn sigmoid\n",
+          "expected_head": "s0 0.5\ns2 0.881\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.55 1\nthr 0.5\nok True\n",
+          "expected_head": "prob 0.55\npred 1\nthr 0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "5\nL2 sum_w2\nok True\n",
+          "expected_head": "l2 5\nn 2\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['shared_phone', 'amount_7d', 'region_LIM']\ntop shared_phone\ncausal False\n",
+          "expected_head": "['y', 'z', 'x']\ntop y\ncausal False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nscaled True\nok True\n",
+          "expected_head": "scaled True\nassume log_odds_linear\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "positive\ncoef 0.8\ncausal False\n",
+          "expected_head": "sign pos\nw 0.8\ncausal False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "[0, 1]\nthr 0.3\nmodel stump\n",
+          "expected_head": "[0, 1]\nthr 0.3\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T3-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "1\nvotes [1, 0, 1]\nok True\n",
+          "expected_head": "vote [1, 1]\nn_models 3\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1.0 0.6666666666666666\nbeats_dummy True\nok True\n",
+          "expected_head": "stump 0.6666666666666666\ndummy 0.6666666666666666\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T3-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "best_depth 3\nvalid 0.72\nok True\n",
+          "expected_head": "depth 4\nvalid 0.7\nseed 7",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T3-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "True\ngap 0.39\nok True\n",
+          "expected_head": "overfit True\ngap 0.35\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T3-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "[1, 0, 4]\nseed 42\nok True\n",
+          "expected_head": "[2, 9, 1]\nseed 1\nrepro True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{\"baseline_rule_pr_auc\": 0.55, \"dummy_pr_auc\": 0.5, \"pr_auc\": 0.61}\nn_keys 3\nok True\n",
+          "expected_head": "{\"pr_auc\": 0.6, \"rule\": 0.5}\nbeats True\nrun r1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['run_id', 'params', 'metrics', 'feature_set', 'data_cutoff']\nn 5\nok True\n",
+          "expected_head": "['run_id', 'feature_set', 'model', 'params', 'metrics']\nn 5\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nbeats_dummy True\nok True\n",
+          "expected_head": "beats_dummy True\nmodel 0.55\ndummy 0.5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.6\nn_folds 3\nok True\n",
+          "expected_head": "0.5\nn 3\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "B\nfn 5\nok True\n",
+          "expected_head": "B\nfn 5\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S33-T4-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "3\ngroups ['E1', 'E2', 'E3']\ngroup_cv True\n",
+          "expected_head": "n_groups 2\nn_rows 3\nok True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 18,
+      "code_tried": 24,
+      "code_ratio": 0.75,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

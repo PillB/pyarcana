@@ -1,0 +1,54 @@
+{
+  "agent": "newbie_b_live",
+  "attempt_id": "attempt_006",
+  "method": "llm_packet_only_no_generator",
+  "section_index": 29,
+  "persona": "skeptic",
+  "recorded_at": "2026-07-21T21:22:00+00:00",
+  "packet_only": true,
+  "symbol_verify": {
+    "source": "active.theory + iDo",
+    "taught": ["sqlite PK/CHECK", "append-only decisions", "anti-join/CTE", "ACID rollback", "ON CONFLICT upsert", "migrations/repo"]
+  },
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 1, "chosen_text": "Evitar duplicar el mismo par en orden invertido", "confidence": 0.93, "blocked_on": [], "note": "Theory CHECK entity_a < entity_b canonical order."},
+    {"question_index": 1, "chosen_index": 1, "chosen_text": "Nueva fila por cambio de decisión", "confidence": 0.93, "blocked_on": [], "note": "Theory append-only: insert new decision row, no overwrite."},
+    {"question_index": 2, "chosen_index": 1, "chosen_text": "Ser atómicas en la misma transacción lógica", "confidence": 0.93, "blocked_on": [], "note": "Theory ACID: decisión+evidencia same transaction."},
+    {"question_index": 3, "chosen_index": 1, "chosen_text": "Encapsula acceso a datos y facilita tests con :memory:", "confidence": 0.93, "blocked_on": [], "note": "Theory repository pattern + :memory: tests."}
+  ],
+  "exercises": [
+    {"exercise_id": "S29-T1-A-E1", "answer": "completed_from_packet", "code": "import sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('CREATE TABLE entities(id TEXT PRIMARY KEY)')\nc.execute(\"INSERT INTO entities VALUES ('e1')\")\nprint(c.execute('SELECT COUNT(*) FROM entities').fetchone()[0])\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["sqlite3", "PRIMARY KEY"], "note": "Theory entities table."},
+    {"exercise_id": "S29-T1-A-E2", "answer": "completed_from_packet", "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\ntry:\n    c.execute('insert into p values (1.5)')\nexcept sqlite3.IntegrityError:\n    print('bad_score')\n", "blocked_on": [], "confidence": 0.88, "concepts_used": ["CHECK", "IntegrityError"], "note": "Theory CHECK score 0..1."},
+    {"exercise_id": "S29-T1-A-E3", "answer": "completed_from_packet", "code": "print('e1' < 'e2')\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["canonical pair order"], "note": "Theory entity_a < entity_b."},
+    {"exercise_id": "S29-T1-B-E1", "answer": "completed_from_packet", "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.execute(\"insert into d values ('p1','match')\")\nc.execute(\"insert into d values ('p1','non_match')\")\nprint(c.execute('select count(*) from d').fetchone()[0])\n", "blocked_on": [], "confidence": 0.91, "concepts_used": ["append-only history"], "note": "Theory two labels = two history rows."},
+    {"exercise_id": "S29-T1-B-E2", "answer": "completed_from_packet", "code": "print({'source': 'crm_synth', 'record': 'r9'})\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["provenance"], "note": "Theory provenance source/record."},
+    {"exercise_id": "S29-T1-B-E3", "answer": "completed_from_packet", "code": "valid_to=None\nif valid_to is None:\n    print('open')\n", "blocked_on": [], "confidence": 0.92, "concepts_used": ["valid_to open"], "note": "Theory valid_to NULL = open."},
+    {"exercise_id": "S29-T2-A-E1", "answer": "completed_from_packet", "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\nrows = c.execute('select id from pairs where id not in (select pair_id from dec)').fetchall()\nprint([r[0] for r in rows])\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["anti-join"], "note": "Theory anti-join pairs without decision."},
+    {"exercise_id": "S29-T2-A-E2", "answer": "completed_from_packet", "code": "scores=[0.2,0.9,0.5]\nprint(sorted(scores, reverse=True)[0])\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["rank top score"], "note": "Theory window rank conceptual."},
+    {"exercise_id": "S29-T2-A-E3", "answer": "completed_from_packet", "code": "print('ranked')\n", "blocked_on": [], "confidence": 0.86, "concepts_used": ["CTE name"], "note": "Instruction CTE named ranked."},
+    {"exercise_id": "S29-T2-B-E1", "answer": "completed_from_packet", "code": "n=5\nprint(n * (n - 1) // 2)\n", "blocked_on": [], "confidence": 0.91, "concepts_used": ["C(n,2)"], "note": "Prior + theory pair cardinality."},
+    {"exercise_id": "S29-T2-B-E2", "answer": "completed_from_packet", "code": "print(None is None)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["None is"], "note": "Theory NULL vs Python None."},
+    {"exercise_id": "S29-T2-B-E3", "answer": "completed_from_packet", "code": "print('SCAN')\n", "blocked_on": [], "confidence": 0.87, "concepts_used": ["EXPLAIN SCAN"], "note": "Instruction default didactic SCAN."},
+    {"exercise_id": "S29-T3-A-E1", "answer": "completed_from_packet", "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('BEGIN')\nc.execute('insert into t values (1)')\nc.execute('ROLLBACK')\nprint(c.execute('select count(*) from t').fetchone()[0])\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["ROLLBACK"], "note": "Theory ACID rollback demo."},
+    {"exercise_id": "S29-T3-A-E2", "answer": "completed_from_packet", "code": "print('A,C,I,D')\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["ACID"], "note": "Theory ACID letters."},
+    {"exercise_id": "S29-T3-A-E3", "answer": "completed_from_packet", "code": "evidence_ok=False\nif not evidence_ok:\n    print('abort')\n", "blocked_on": [], "confidence": 0.91, "concepts_used": ["tx guard"], "note": "Theory no commit without evidence."},
+    {"exercise_id": "S29-T3-B-E1", "answer": "completed_from_packet", "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\nc.execute(\"insert into e values ('1','B') on conflict(id) do update set name=excluded.name\")\nprint(c.execute(\"select name from e where id='1'\").fetchone()[0])\n", "blocked_on": [], "confidence": 0.82, "concepts_used": ["ON CONFLICT upsert"], "note": "Theory upsert ON CONFLICT DO UPDATE."},
+    {"exercise_id": "S29-T3-B-E2", "answer": "completed_from_packet", "code": "print('pending')\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["job pending"], "note": "Theory recovery status pending."},
+    {"exercise_id": "S29-T3-B-E3", "answer": "completed_from_packet", "code": "conflict=True\nif conflict:\n    print('retry')\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["conflict retry"], "note": "Theory concurrency retry on duplicate."},
+    {"exercise_id": "S29-T4-A-E1", "answer": "completed_from_packet", "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\nc.execute(\"insert into schema_migrations values (2,'add_index')\")\nprint(c.execute('select max(v) from schema_migrations').fetchone()[0])\n", "blocked_on": [], "confidence": 0.91, "concepts_used": ["schema_migrations"], "note": "Theory schema_migrations versions."},
+    {"exercise_id": "S29-T4-A-E2", "answer": "completed_from_packet", "code": "print('idx_pairs_block_key')\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["index name"], "note": "Instruction suggested index name."},
+    {"exercise_id": "S29-T4-A-E3", "answer": "completed_from_packet", "code": "print('no_drop_without_backup')\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["safe migrations"], "note": "Theory no destructive drop without backup."},
+    {"exercise_id": "S29-T4-B-E1", "answer": "completed_from_packet", "code": "store={'e1':'Ana'}\nprint(store['e1'])\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["repo get"], "note": "Theory repository encapsulates access."},
+    {"exercise_id": "S29-T4-B-E2", "answer": "completed_from_packet", "code": "print({'pool_size': 5})\n", "blocked_on": [], "confidence": 0.84, "concepts_used": ["pooling"], "note": "Theory pooling concept."},
+    {"exercise_id": "S29-T4-B-E3", "answer": "completed_from_packet", "code": "pending_count=1\nprint(pending_count)\n", "blocked_on": [], "confidence": 0.91, "concepts_used": ["pending count"], "note": "Theory repo tests with :memory:."}
+  ],
+  "summary": {
+    "n_exercises": 24,
+    "n_answered": 24,
+    "n_blocked_exercises": 0,
+    "blocked_exercise_ids": [],
+    "n_selfcheck": 4,
+    "n_selfcheck_answered": 4,
+    "n_selfcheck_blocked": 0
+  }
+}

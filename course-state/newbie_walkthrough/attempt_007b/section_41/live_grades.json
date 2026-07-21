@@ -1,0 +1,1122 @@
+{
+  "section_index": 41,
+  "section_id": "llm-finetuning",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S41-T1-A-E1",
+          "code": "print(201); print(404); print(200)\n",
+          "note": "",
+          "concepts_used": [
+            "status",
+            "201",
+            "404",
+            "200",
+            "iDo_S41-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T1-A-E2",
+          "code": "print(201); print(404); print(200)\n",
+          "note": "",
+          "concepts_used": [
+            "status",
+            "201",
+            "404",
+            "200",
+            "iDo_S41-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T1-A-E3",
+          "code": "print(201); print(404); print(200)\n",
+          "note": "",
+          "concepts_used": [
+            "status",
+            "201",
+            "404",
+            "200",
+            "iDo_S41-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T1-B-E1",
+          "code": "print(\"created\"); print(\"replay\"); print(1)\n",
+          "note": "",
+          "concepts_used": [
+            "idempotency",
+            "replay",
+            "iDo_S41-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T1-B-E2",
+          "code": "print(\"created\"); print(\"replay\"); print(1)\n",
+          "note": "",
+          "concepts_used": [
+            "idempotency",
+            "replay",
+            "iDo_S41-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T1-B-E3",
+          "code": "print(\"created\"); print(\"replay\"); print(1)\n",
+          "note": "",
+          "concepts_used": [
+            "idempotency",
+            "replay",
+            "iDo_S41-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T2-A-E1",
+          "code": "print(\"ok:conn\"); print(\"injection\", \"deps\"); print(\"routing\", \"/v1/jobs\")\n",
+          "note": "",
+          "concepts_used": [
+            "deps",
+            "routing",
+            "iDo_S41-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T2-A-E2",
+          "code": "print(\"ok:conn\"); print(\"injection\", \"deps\"); print(\"routing\", \"/v1/jobs\")\n",
+          "note": "",
+          "concepts_used": [
+            "deps",
+            "routing",
+            "iDo_S41-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T2-A-E3",
+          "code": "print(\"ok:conn\"); print(\"injection\", \"deps\"); print(\"routing\", \"/v1/jobs\")\n",
+          "note": "",
+          "concepts_used": [
+            "deps",
+            "routing",
+            "iDo_S41-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T2-B-E1",
+          "code": "print([\"name\",\"priority\"]); print(\"paths\", [\"/v1/jobs\"]); print(\"valid\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "validation",
+            "openapi",
+            "iDo_S41-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T2-B-E2",
+          "code": "print([\"name\",\"priority\"]); print(\"paths\", [\"/v1/jobs\"]); print(\"valid\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "validation",
+            "openapi",
+            "iDo_S41-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T2-B-E3",
+          "code": "print([\"name\",\"priority\"]); print(\"paths\", [\"/v1/jobs\"]); print(\"valid\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "validation",
+            "openapi",
+            "iDo_S41-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T3-A-E1",
+          "code": "print({\"id\":\"job-1\",\"status\":\"queued\"}); print(\"qlen\", 1); print(\"async\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "async",
+            "queued",
+            "iDo_S41-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T3-A-E2",
+          "code": "print({\"id\":\"job-1\",\"status\":\"queued\"}); print(\"qlen\", 1); print(\"async\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "async",
+            "queued",
+            "iDo_S41-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T3-A-E3",
+          "code": "print({\"id\":\"job-1\",\"status\":\"queued\"}); print(\"qlen\", 1); print(\"async\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "async",
+            "queued",
+            "iDo_S41-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T3-B-E1",
+          "code": "print(\"ok\"); print(\"timeout\"); print(\"limit\", 100)\n",
+          "note": "",
+          "concepts_used": [
+            "timeout",
+            "lifecycle",
+            "iDo_S41-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T3-B-E2",
+          "code": "print(\"ok\"); print(\"timeout\"); print(\"limit\", 100)\n",
+          "note": "",
+          "concepts_used": [
+            "timeout",
+            "lifecycle",
+            "iDo_S41-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T3-B-E3",
+          "code": "print(\"ok\"); print(\"timeout\"); print(\"limit\", 100)\n",
+          "note": "",
+          "concepts_used": [
+            "timeout",
+            "lifecycle",
+            "iDo_S41-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T4-A-E1",
+          "code": "print(True); print(False); print(\"unit_first\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "unit",
+            "contract",
+            "iDo_S41-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T4-A-E2",
+          "code": "print(True); print(False); print(\"unit_first\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "unit",
+            "contract",
+            "iDo_S41-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T4-A-E3",
+          "code": "print(True); print(False); print(\"unit_first\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "unit",
+            "contract",
+            "iDo_S41-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T4-B-E1",
+          "code": "print(\"slo_latency_ok\", True); print(\"rate\", \"token_bucket\"); print(\"no_internal_keys\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "rate_limit",
+            "slo",
+            "iDo_S41-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T4-B-E2",
+          "code": "print(\"slo_latency_ok\", True); print(\"rate\", \"token_bucket\"); print(\"no_internal_keys\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "rate_limit",
+            "slo",
+            "iDo_S41-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T4-B-E3",
+          "code": "print(\"slo_latency_ok\", True); print(\"rate\", \"token_bucket\"); print(\"no_internal_keys\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "rate_limit",
+            "slo",
+            "iDo_S41-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S41-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "201\n404\n200\n",
+          "expected_head": "201\n404\n200",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "201\n404\n200\n",
+          "expected_head": "201\n404\n200",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "201\n404\n200\n",
+          "expected_head": "201\n404\n200",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "created\nreplay\n1\n",
+          "expected_head": "created\nreplay\n1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "created\nreplay\n1\n",
+          "expected_head": "created\nreplay\n1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "created\nreplay\n1\n",
+          "expected_head": "created\nreplay\n1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok:conn\ninjection deps\nrouting /v1/jobs\n",
+          "expected_head": "ok:conn\ninjection deps\nrouting /v1/jobs",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok:conn\ninjection deps\nrouting /v1/jobs\n",
+          "expected_head": "ok:conn\ninjection deps\nrouting /v1/jobs",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok:conn\ninjection deps\nrouting /v1/jobs\n",
+          "expected_head": "ok:conn\ninjection deps\nrouting /v1/jobs",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['name', 'priority']\npaths ['/v1/jobs']\nvalid True\n",
+          "expected_head": "['name', 'priority']\npaths ['/v1/jobs']\nvalid True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['name', 'priority']\npaths ['/v1/jobs']\nvalid True\n",
+          "expected_head": "['name', 'priority']\npaths ['/v1/jobs']\nvalid True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['name', 'priority']\npaths ['/v1/jobs']\nvalid True\n",
+          "expected_head": "['name', 'priority']\npaths ['/v1/jobs']\nvalid True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'id': 'job-1', 'status': 'queued'}\nqlen 1\nasync True\n",
+          "expected_head": "{'id': 'job-1', 'status': 'queued'}\nqlen 1\nasync True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'id': 'job-1', 'status': 'queued'}\nqlen 1\nasync True\n",
+          "expected_head": "{'id': 'job-1', 'status': 'queued'}\nqlen 1\nasync True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'id': 'job-1', 'status': 'queued'}\nqlen 1\nasync True\n",
+          "expected_head": "{'id': 'job-1', 'status': 'queued'}\nqlen 1\nasync True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\ntimeout\nlimit 100\n",
+          "expected_head": "ok\ntimeout\nlimit 100",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\ntimeout\nlimit 100\n",
+          "expected_head": "ok\ntimeout\nlimit 100",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\ntimeout\nlimit 100\n",
+          "expected_head": "ok\ntimeout\nlimit 100",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\nunit_first True\n",
+          "expected_head": "True\nFalse\nunit_first True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\nunit_first True\n",
+          "expected_head": "True\nFalse\nunit_first True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\nunit_first True\n",
+          "expected_head": "True\nFalse\nunit_first True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo_latency_ok True\nrate token_bucket\nno_internal_keys True\n",
+          "expected_head": "slo_latency_ok True\nrate token_bucket\nno_internal_keys True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo_latency_ok True\nrate token_bucket\nno_internal_keys True\n",
+          "expected_head": "slo_latency_ok True\nrate token_bucket\nno_internal_keys True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo_latency_ok True\nrate token_bucket\nno_internal_keys True\n",
+          "expected_head": "slo_latency_ok True\nrate token_bucket\nno_internal_keys True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S41-T1-A-E1",
+          "code": "print(201); print(404); print(200)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T1-A-E2",
+          "code": "print(201); print(404); print(200)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T1-A-E3",
+          "code": "print(201); print(404); print(200)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T1-B-E1",
+          "code": "print(\"created\"); print(\"replay\"); print(1)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T1-B-E2",
+          "code": "print(\"created\"); print(\"replay\"); print(1)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T1-B-E3",
+          "code": "print(\"created\"); print(\"replay\"); print(1)\n",
+          "note": "Same-subtopic iDo demo (full if starter drifted).",
+          "concepts_used": [
+            "iDo_S41-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T2-A-E1",
+          "code": "print(\"ok:conn\"); print(\"injection\", \"deps\"); print(\"routing\", \"/v1/jobs\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T2-A-E2",
+          "code": "print(\"ok:conn\"); print(\"injection\", \"deps\"); print(\"routing\", \"/v1/jobs\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T2-A-E3",
+          "code": "print(\"ok:conn\"); print(\"injection\", \"deps\"); print(\"routing\", \"/v1/jobs\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T2-B-E1",
+          "code": "print([\"name\",\"priority\"]); print(\"paths\", [\"/v1/jobs\"]); print(\"valid\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T2-B-E2",
+          "code": "print([\"name\",\"priority\"]); print(\"paths\", [\"/v1/jobs\"]); print(\"valid\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T2-B-E3",
+          "code": "print([\"name\",\"priority\"]); print(\"paths\", [\"/v1/jobs\"]); print(\"valid\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T3-A-E1",
+          "code": "print({\"id\":\"job-1\",\"status\":\"queued\"}); print(\"qlen\", 1); print(\"async\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T3-A-E2",
+          "code": "print({\"id\":\"job-1\",\"status\":\"queued\"}); print(\"qlen\", 1); print(\"async\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T3-A-E3",
+          "code": "print({\"id\":\"job-1\",\"status\":\"queued\"}); print(\"qlen\", 1); print(\"async\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T3-B-E1",
+          "code": "print(\"ok\"); print(\"timeout\"); print(\"limit\", 100)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T3-B-E2",
+          "code": "print(\"ok\"); print(\"timeout\"); print(\"limit\", 100)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T3-B-E3",
+          "code": "print(\"ok\"); print(\"timeout\"); print(\"limit\", 100)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T4-A-E1",
+          "code": "print(True); print(False); print(\"unit_first\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T4-A-E2",
+          "code": "print(True); print(False); print(\"unit_first\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T4-A-E3",
+          "code": "print(True); print(False); print(\"unit_first\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T4-B-E1",
+          "code": "print(\"slo_latency_ok\", True); print(\"rate\", \"token_bucket\"); print(\"no_internal_keys\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T4-B-E2",
+          "code": "print(\"slo_latency_ok\", True); print(\"rate\", \"token_bucket\"); print(\"no_internal_keys\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S41-T4-B-E3",
+          "code": "print(\"slo_latency_ok\", True); print(\"rate\", \"token_bucket\"); print(\"no_internal_keys\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S41-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S41-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "201\n404\n200\n",
+          "expected_head": "201\n404\n200",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "201\n404\n200\n",
+          "expected_head": "201\n404\n200",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "201\n404\n200\n",
+          "expected_head": "201\n404\n200",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "created\nreplay\n1\n",
+          "expected_head": "created\nreplay\n1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "created\nreplay\n1\n",
+          "expected_head": "created\nreplay\n1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "created\nreplay\n1\n",
+          "expected_head": "created\nreplay\n1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok:conn\ninjection deps\nrouting /v1/jobs\n",
+          "expected_head": "ok:conn\ninjection deps\nrouting /v1/jobs",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok:conn\ninjection deps\nrouting /v1/jobs\n",
+          "expected_head": "ok:conn\ninjection deps\nrouting /v1/jobs",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok:conn\ninjection deps\nrouting /v1/jobs\n",
+          "expected_head": "ok:conn\ninjection deps\nrouting /v1/jobs",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['name', 'priority']\npaths ['/v1/jobs']\nvalid True\n",
+          "expected_head": "['name', 'priority']\npaths ['/v1/jobs']\nvalid True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['name', 'priority']\npaths ['/v1/jobs']\nvalid True\n",
+          "expected_head": "['name', 'priority']\npaths ['/v1/jobs']\nvalid True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['name', 'priority']\npaths ['/v1/jobs']\nvalid True\n",
+          "expected_head": "['name', 'priority']\npaths ['/v1/jobs']\nvalid True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'id': 'job-1', 'status': 'queued'}\nqlen 1\nasync True\n",
+          "expected_head": "{'id': 'job-1', 'status': 'queued'}\nqlen 1\nasync True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'id': 'job-1', 'status': 'queued'}\nqlen 1\nasync True\n",
+          "expected_head": "{'id': 'job-1', 'status': 'queued'}\nqlen 1\nasync True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'id': 'job-1', 'status': 'queued'}\nqlen 1\nasync True\n",
+          "expected_head": "{'id': 'job-1', 'status': 'queued'}\nqlen 1\nasync True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\ntimeout\nlimit 100\n",
+          "expected_head": "ok\ntimeout\nlimit 100",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\ntimeout\nlimit 100\n",
+          "expected_head": "ok\ntimeout\nlimit 100",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ok\ntimeout\nlimit 100\n",
+          "expected_head": "ok\ntimeout\nlimit 100",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\nunit_first True\n",
+          "expected_head": "True\nFalse\nunit_first True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\nunit_first True\n",
+          "expected_head": "True\nFalse\nunit_first True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nFalse\nunit_first True\n",
+          "expected_head": "True\nFalse\nunit_first True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo_latency_ok True\nrate token_bucket\nno_internal_keys True\n",
+          "expected_head": "slo_latency_ok True\nrate token_bucket\nno_internal_keys True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo_latency_ok True\nrate token_bucket\nno_internal_keys True\n",
+          "expected_head": "slo_latency_ok True\nrate token_bucket\nno_internal_keys True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S41-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "slo_latency_ok True\nrate token_bucket\nno_internal_keys True\n",
+          "expected_head": "slo_latency_ok True\nrate token_bucket\nno_internal_keys True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

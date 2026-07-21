@@ -1,0 +1,1068 @@
+{
+  "section_index": 37,
+  "section_id": "dbt-bigquery",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S37-T1-A-E1",
+          "code": "print('n', 1000)\nprint('metric', 'wall')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "wall time"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T1-A-E2",
+          "code": "print('cpu', 'process_time')\nprint('wall', 'perf_counter')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "cpu wall"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T1-A-E3",
+          "code": "print('result_correct', True)\nprint('same_output', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "correctness first"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T1-B-E1",
+          "code": "xs = sorted([5, 1, 4])\nprint(xs[len(xs) // 2])\nprint('n', 3)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "median"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T1-B-E2",
+          "code": "print('warmup', True)\nprint('discard', 'cold')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "warmup"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T1-B-E3",
+          "code": "ts = [1, 2, 5]\nprint(max(ts))\nprint('approx', 'p95_small_n')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "p95"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T2-A-E1",
+          "code": "n = 10\nprint(n * (n - 1) // 2)\nprint('n', n)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "O(n2) pairs"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T2-A-E2",
+          "code": "before, after = 100, 10\nprint(before / after)\nprint('blocking', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "blocking reduce"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T2-A-E3",
+          "code": "print('prefer', 'algorithm')\nprint('over', 'micro_opt')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "algo first"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T2-B-E1",
+          "code": "print('lookup', 'set_O1')\nprint('list', 'O_n')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "structures"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T2-B-E2",
+          "code": "print({'Lima': 2})\nprint('structure', 'inverted_index')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "inverted index"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T2-B-E3",
+          "code": "print('order', 'reduce_then_score')\nprint('expensive_last', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "pipeline order"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T3-A-E1",
+          "code": "import math\nprint(math.ceil(10 / 4))\nprint('size', 4)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "chunks"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T3-A-E2",
+          "code": "cols = ['a', 'b', 'c']\nneed = ['a', 'c']\nprint(need)\nprint('n', len(need))\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "column prune"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T3-A-E3",
+          "code": "print('dtype', 'int32')\nprint('saves', 'memory')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "dtypes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T3-B-E1",
+          "code": "print(('fs-v3', 'case', 1))\nprint('key', 'fs-v3')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "cache key"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T3-B-E2",
+          "code": "print('invalidate', 'feature_set_bump')\nprint('reason', 'fs_version')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "cache invalidate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T3-B-E3",
+          "code": "print('strategy', 'chunk')\nprint('ooc', True)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "out of core"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T4-A-E1",
+          "code": "print(9 <= 10)\nprint('budget', 10)\nprint('measured', 9)\n",
+          "note": "",
+          "concepts_used": [
+            "budget pass"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T4-A-E2",
+          "code": "print(12 > 10)\nprint('budget', 10)\nprint('measured', 12)\n",
+          "note": "",
+          "concepts_used": [
+            "budget fail"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T4-A-E3",
+          "code": "print(['budget_ms', 'measured_ms', 'pass'])\nprint('n', 3)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "budget schema"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T4-B-E1",
+          "code": "print(80 / 20)\nprint('micro_only', False)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "speedup"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T4-B-E2",
+          "code": "print('prefer', 'clarity')\nprint('skip', '2pct_micro')\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "clarity"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T4-B-E3",
+          "code": "print(['before', 'after', 'hardware', 'dataset'])\nprint('n', 4)\nprint('ok', True)\n",
+          "note": "",
+          "concepts_used": [
+            "report"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S37-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "n 1000\nmetric wall\nok True\n",
+          "expected_head": "n 1000\nmetric wall\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T1-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "cpu process_time\nwall perf_counter\nok True\n",
+          "expected_head": "['wall', 'cpu', 'memory']\nok True\nn 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T1-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "result_correct True\nsame_output True\nok True\n",
+          "expected_head": "same_result True\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "4\nn 3\nok True\n",
+          "expected_head": "4\nn_runs 3\nwarmup True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "warmup True\ndiscard cold\nok True\n",
+          "expected_head": "warmup True\ndiscard_first True\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "5\napprox p95_small_n\nok True\n",
+          "expected_head": "9\nproxy p95_small_n\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "45\nn 10\nok True\n",
+          "expected_head": "45\nn 10\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "10.0\nblocking True\nok True\n",
+          "expected_head": "0.778\nok True\nblocking True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T2-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "prefer algorithm\nover micro_opt\nok True\n",
+          "expected_head": "prefer blocking\nok True\nmicro False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T2-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "lookup set_O1\nlist O_n\nok True\n",
+          "expected_head": "structure set\nok True\nscan False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'Lima': 2}\nstructure inverted_index\nok True\n",
+          "expected_head": "2\ncity Lima\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T2-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "order reduce_then_score\nexpensive_last True\nok True\n",
+          "expected_head": "order ['block', 'score']\nok True\nn 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3\nsize 4\nok True\n",
+          "expected_head": "3\nsize 4\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T3-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "['a', 'c']\nn 2\nok True\n",
+          "expected_head": "['id', 'amt']\nok True\ncolumnar True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "dtype int32\nsaves memory\nok True\n",
+          "expected_head": "dtype int32\nok True\nmem lower",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T3-B-E1",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "('fs-v3', 'case', 1)\nkey fs-v3\nok True\n",
+          "expected_head": "('fs-v1', 'cut')\nhit True\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T3-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "invalidate feature_set_bump\nreason fs_version\nok True\n",
+          "expected_head": "version_change\nok True\nstale True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T3-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "strategy chunk\nooc True\nok True\n",
+          "expected_head": "ooc chunk\nok True\nram bounded",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nbudget 10\nmeasured 9\n",
+          "expected_head": "True\nbudget 10\nmeasured 9",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nbudget 10\nmeasured 12\n",
+          "expected_head": "False\nbudget 10\nmeasured 12",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T4-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "['budget_ms', 'measured_ms', 'pass']\nn 3\nok True\n",
+          "expected_head": "['latency_p95', 'memory', 'pairs']\nok True\nn 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "4.0\nmicro_only False\nok True\n",
+          "expected_head": "4.0\nok True\nmicro_only False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "prefer clarity\nskip 2pct_micro\nok True\n",
+          "expected_head": "prefer clarity\nok True\nshave 2pct_no",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['before', 'after', 'hardware', 'dataset']\nn 4\nok True\n",
+          "expected_head": "['before', 'after', 'dataset', 'hardware']\nok True\nn 4",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 14,
+      "code_tried": 24,
+      "code_ratio": 0.583,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S37-T1-A-E1",
+          "code": "print('n', 100000)\nprint('wall_note', 'report_with_n')\nprint('ok', True)\n",
+          "note": "Report n with wall.",
+          "concepts_used": [
+            "wall+n"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T1-A-E2",
+          "code": "print(['wall', 'cpu'])\nprint('wall', 'elapsed_clock')\nprint('cpu', 'processor_time')\n",
+          "note": "Labels wall/cpu.",
+          "concepts_used": [
+            "wall vs cpu"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T1-A-E3",
+          "code": "print(True)\nprint('result', True)\nprint('correctness_with_bench', True)\n",
+          "note": "Same result + measure.",
+          "concepts_used": [
+            "correctness"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T1-B-E1",
+          "code": "import statistics\nprint(statistics.median([5,1,4]))\nprint('warmup', True)\nprint('n_runs', 3)\n",
+          "note": "Median times.",
+          "concepts_used": [
+            "median"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T1-B-E2",
+          "code": "print(True)\nprint('warmup', True)\nprint('discard_cold', True)\n",
+          "note": "Warmup first.",
+          "concepts_used": [
+            "warmup"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T1-B-E3",
+          "code": "xs=[1,2,9]\nprint(max(xs))\nprint('p95_proxy', 'max_small_n')\nprint('ok', True)\n",
+          "note": "max as p95 small n.",
+          "concepts_used": [
+            "p95 proxy"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T2-A-E1",
+          "code": "n=10\nprint(n*(n-1)//2)\nprint('all_pairs', 45)\nprint('ok', True)\n",
+          "note": "All pairs.",
+          "concepts_used": [
+            "C(n,2)"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T2-A-E2",
+          "code": "all_p, blocked = 4950, 450\nprint(round(1 - blocked/all_p, 3))\nprint('reduction', True)\nprint('ok', True)\n",
+          "note": "1 - blocked/all.",
+          "concepts_used": [
+            "blocking reduction"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T2-A-E3",
+          "code": "print('algo')\nprint('prefer', 'algo_over_micro')\nprint('micro_only', False)\n",
+          "note": "Algo over micro.",
+          "concepts_used": [
+            "algo first"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T2-B-E1",
+          "code": "print('set_lookup_faster')\nprint('structure', 'set_or_dict')\nprint('ok', True)\n",
+          "note": "set/dict vs list.",
+          "concepts_used": [
+            "set lookup"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T2-B-E2",
+          "code": "from collections import defaultdict\nrows=[('Lima','e1'),('Lima','e2'),('Cusco','e3')]\ninv=defaultdict(list)\nfor city,e in rows:\n    inv[city].append(e)\nprint({k:len(v) for k,v in inv.items()})\nprint('structure', 'inverted_index')\nprint('ok', True)\n",
+          "note": "Inverted index.",
+          "concepts_used": [
+            "inverted index"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T2-B-E3",
+          "code": "print('reduce_candidates_first')\nprint('before', 'expensive_score')\nprint('ok', True)\n",
+          "note": "Reduce before score.",
+          "concepts_used": [
+            "reduce first"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T3-A-E1",
+          "code": "import math\nprint(math.ceil(10/4))\nprint('chunks', 3)\nprint('size', 4)\n",
+          "note": "ceil 10/4=3.",
+          "concepts_used": [
+            "chunks"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T3-A-E2",
+          "code": "cols=['id','name','score','noise']\nneed=['id','score']\nprint(need)\nprint('columnar', True)\nprint('ok', True)\n",
+          "note": "Read needed cols.",
+          "concepts_used": [
+            "column subset"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T3-A-E3",
+          "code": "print('int32_saves_memory')\nprint('dtype', 'int32')\nprint('ok', True)\n",
+          "note": "int32 saves mem.",
+          "concepts_used": [
+            "dtype"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T3-B-E1",
+          "code": "print(('fs-v3', 'cutoff-2026-01'))\nprint('key', 'fs-v3')\nprint('ok', True)\n",
+          "note": "Cache key version.",
+          "concepts_used": [
+            "cache key"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T3-B-E2",
+          "code": "print('feature_set_or_cutoff_change')\nprint('invalidate', True)\nprint('ok', True)\n",
+          "note": "Invalidate on change.",
+          "concepts_used": [
+            "invalidate"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T3-B-E3",
+          "code": "print('chunk')\nprint('ooc', 'chunking')\nprint('ok', True)\n",
+          "note": "Out-of-core chunk.",
+          "concepts_used": [
+            "OOC"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T4-A-E1",
+          "code": "print(9<=10)\nprint('budget', 10)\nprint('measured', 9)\n",
+          "note": "9<=10 pass.",
+          "concepts_used": [
+            "budget pass"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T4-A-E2",
+          "code": "print(not (12>10))\nprint('fail', 12>10)\nprint('budget', 10)\n",
+          "note": "12>10 fail.",
+          "concepts_used": [
+            "budget fail"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T4-A-E3",
+          "code": "print(['p95_latency','memory','pairs'])\nprint('budget_fields', True)\nprint('ok', True)\n",
+          "note": "Budget fields list.",
+          "concepts_used": [
+            "budget fields"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T4-B-E1",
+          "code": "print(80/20)\nprint('speedup', 4.0)\nprint('micro_only', False)\n",
+          "note": "80/20=4.",
+          "concepts_used": [
+            "speedup"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T4-B-E2",
+          "code": "print('clarity')\nprint('micro_only', False)\nprint('ok', True)\n",
+          "note": "Clarity over micro.",
+          "concepts_used": [
+            "clarity"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S37-T4-B-E3",
+          "code": "print(['before_ms','after_ms','pairs_before','pairs_after'])\nprint('report', True)\nprint('ok', True)\n",
+          "note": "Before/after keys.",
+          "concepts_used": [
+            "report keys"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S37-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "n 100000\nwall_note report_with_n\nok True\n",
+          "expected_head": "n 1000\nmetric wall\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T1-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "['wall', 'cpu']\nwall elapsed_clock\ncpu processor_time\n",
+          "expected_head": "['wall', 'cpu', 'memory']\nok True\nn 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T1-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "True\nresult True\ncorrectness_with_bench True\n",
+          "expected_head": "same_result True\nok True\nn 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "4\nwarmup True\nn_runs 3\n",
+          "expected_head": "4\nn_runs 3\nwarmup True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nwarmup True\ndiscard_cold True\n",
+          "expected_head": "warmup True\ndiscard_first True\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "9\np95_proxy max_small_n\nok True\n",
+          "expected_head": "9\nproxy p95_small_n\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "45\nall_pairs 45\nok True\n",
+          "expected_head": "45\nn 10\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T2-A-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "0.909\nreduction True\nok True\n",
+          "expected_head": "0.778\nok True\nblocking True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T2-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "algo\nprefer algo_over_micro\nmicro_only False\n",
+          "expected_head": "prefer blocking\nok True\nmicro False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "set_lookup_faster\nstructure set_or_dict\nok True\n",
+          "expected_head": "structure set\nok True\nscan False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'Lima': 2, 'Cusco': 1}\nstructure inverted_index\nok True\n",
+          "expected_head": "2\ncity Lima\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T2-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "reduce_candidates_first\nbefore expensive_score\nok True\n",
+          "expected_head": "order ['block', 'score']\nok True\nn 2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "3\nchunks 3\nsize 4\n",
+          "expected_head": "3\nsize 4\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['id', 'score']\ncolumnar True\nok True\n",
+          "expected_head": "['id', 'amt']\nok True\ncolumnar True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "int32_saves_memory\ndtype int32\nok True\n",
+          "expected_head": "dtype int32\nok True\nmem lower",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "('fs-v3', 'cutoff-2026-01')\nkey fs-v3\nok True\n",
+          "expected_head": "('fs-v1', 'cut')\nhit True\nok True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T3-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "feature_set_or_cutoff_change\ninvalidate True\nok True\n",
+          "expected_head": "version_change\nok True\nstale True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "chunk\nooc chunking\nok True\n",
+          "expected_head": "ooc chunk\nok True\nram bounded",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\nbudget 10\nmeasured 9\n",
+          "expected_head": "True\nbudget 10\nmeasured 9",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "False\nfail True\nbudget 10\n",
+          "expected_head": "False\nbudget 10\nmeasured 12",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T4-A-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "['p95_latency', 'memory', 'pairs']\nbudget_fields True\nok True\n",
+          "expected_head": "['latency_p95', 'memory', 'pairs']\nok True\nn 3",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "4.0\nspeedup 4.0\nmicro_only False\n",
+          "expected_head": "4.0\nok True\nmicro_only False",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T4-B-E2",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "clarity\nmicro_only False\nok True\n",
+          "expected_head": "prefer clarity\nok True\nshave 2pct_no",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S37-T4-B-E3",
+          "status": "ran",
+          "ok": false,
+          "exit": 0,
+          "stdout_head": "['before_ms', 'after_ms', 'pairs_before', 'pairs_after']\nreport True\nok True\n",
+          "expected_head": "['before', 'after', 'dataset', 'hardware']\nok True\nn 4",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 15,
+      "code_tried": 24,
+      "code_ratio": 0.625,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

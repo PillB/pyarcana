@@ -1,0 +1,277 @@
+{
+  "agent": "newbie_b_live",
+  "attempt_id": "attempt_006",
+  "method": "llm_packet_only_no_generator",
+  "section_index": 10,
+  "recorded_at": "2026-07-21T23:15:00+00:00",
+  "packet_sha": "adf1b4b46fb5db1b",
+  "persona": "skeptic",
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Ejecutar el CLI/demo solo al correr el módulo, no al importar",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "Theory: if __name__ == '__main__' protects CLI so it does not run on import."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "flags > env > file > defaults",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "justification_from_packet": "Theory precedence: flags CLI > env > file > defaults."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Error de uso/parseo de argumentos",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "Theory exit 2 = usage/CLI invalid (argparse default)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "stderr",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "Theory: stdout=data, stderr=logs/progress."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "minor",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "Theory SemVer: compatible feature/subcommand → minor."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 0,
+      "chosen_text": ".env con API_TOKEN",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "Theory secrets out of repo; .env with tokens not committed."
+    }
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def _trim(s):\n    return s.strip()\n\ndef clean(s):\n    return _trim(s)\n\n__all__ = ['clean']\nprint(__all__)\nprint(clean('  X '))",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["__all__", "private helper"],
+      "justification_from_packet": "Theory __all__ public API; private helpers with _."
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# util compartido rompe el ciclo a<->b\ndef util_common(x):\n    return x\n\ndef a_f(x):\n    return util_common(x) + '-a'\n\ndef b_g(x):\n    return util_common(x) + '-b'\n\nprint('ok', a_f('z'), b_g('z'))",
+      "blocked_on": [],
+      "confidence": 0.9,
+      "concepts_used": ["break circular import"],
+      "justification_from_packet": "Theory extract third module to break cycles."
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "casos = [\n    \"normalize.py importa compare en el mismo paquete\",\n    \"plugin externo usa familiarity_core\",\n    \"ejecutar el CLI del paquete\",\n]\nrec = [\n    \"relativo (from .compare import ...)\",\n    \"absoluto (import familiarity_core...)\",\n    \"python -m familiarity_core (entry)\",\n]\nfor c, r in zip(casos, rec):\n    print(f'{c} -> {r}')",
+      "blocked_on": [],
+      "confidence": 0.9,
+      "concepts_used": ["absolute vs relative imports"],
+      "justification_from_packet": "Hints: relative inside package; absolute for plugins; -m for CLI."
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def _tokenize(s):\n    return s.split()\n\ndef normalize(s):\n    return ' '.join(_tokenize(s)).lower()\n\ndef compare(a, b):\n    return normalize(a) == normalize(b)\n\npublic = ['normalize', 'compare']\nprivate = ['_tokenize']\nprint('public', public)\nprint('private', private)",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["_ private convention"],
+      "justification_from_packet": "Theory _ marks private helpers; public normalize/compare."
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def normalize(s):\n    return ' '.join(s.split()).lower()\n\ndef compare(a, b):\n    return normalize(a) == normalize(b)\n\n__all__ = ['normalize', 'compare']\nprint(__all__)\nprint(compare('A', 'a'))",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["facade reexport"],
+      "justification_from_packet": "Theory facade reexports stable public API."
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print('BREAKING: compare(a,b)->bool se vuelve compare(a,b)->float score')\nprint('NEW_VERSION: 1.0.0 (major)')",
+      "blocked_on": [],
+      "confidence": 0.92,
+      "concepts_used": ["SemVer major breaking"],
+      "justification_from_packet": "Theory rename/signature change is major."
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "project = {\n    'name': 'familiarity-core',\n    'version': '0.1.0',\n    'requires-python': '>=3.11',\n}\nprint(project)",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["pyproject fields"],
+      "justification_from_packet": "Theory pyproject name version requires-python."
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "paths = [\n    'pyproject.toml',\n    'src/familiarity_core/__init__.py',\n    'src/familiarity_core/normalize.py',\n    'src/familiarity_core/cli.py',\n]\nfor p in paths:\n    print(p)",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["src layout"],
+      "justification_from_packet": "Theory src/familiarity_core layout."
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "print('cause: nombre del paquete no coincide con import')\nprint('cause: no se instaló editable (pip install -e .)')\nprint('cause: cwd incorrecto / packages discovery mal configurado')",
+      "blocked_on": [],
+      "confidence": 0.92,
+      "concepts_used": ["ModuleNotFoundError diagnosis"],
+      "justification_from_packet": "Theory post-install ModuleNotFoundError causes: name, install, cwd."
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "cambios = [\n    (\"renombrar normalize a clean_name (API pública)\", \"major\"),\n    (\"añadir flag --format a report\", \"minor\"),\n    (\"corregir typo en help\", \"patch\"),\n    (\"eliminar subcomando compare\", \"major\"),\n]\nfor c, n in cambios:\n    print(f'{c}: {n}')",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["SemVer classify"],
+      "justification_from_packet": "Theory breaking major, feature minor, fix patch."
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "dependencies = []\nprint('dependencies', dependencies)\nprint('requires-python', '>=3.11')\nprint('note: N1 stdlib only')",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["stdlib deps empty"],
+      "justification_from_packet": "Hints N1 stdlib dependencies=[] requires-python>=3.11."
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print('POLICY: renames de entidades de dominio se versionan major si son API pública')\nprint('POLICY: nuevas entidades opcionales son minor compatibles')\nprint('POLICY: documentar CHANGELOG y requires-python al cruzar a S11')",
+      "blocked_on": [],
+      "confidence": 0.9,
+      "concepts_used": ["compat policy S11"],
+      "justification_from_packet": "Theory SemVer + CHANGELOG for public API evolution."
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import argparse\np = argparse.ArgumentParser()\nsub = p.add_subparsers(dest='cmd', required=True)\nr = sub.add_parser('report')\nr.add_argument('--format', choices=['text', 'json'], default='text')\nns = p.parse_args(['report', '--format', 'json'])\nprint(ns)",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["argparse subparsers"],
+      "justification_from_packet": "Theory argparse subparsers; youDo report --format."
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "casos = [\n    (\"normalize ok\", 0),\n    (\"archivo de input no existe\", 1),\n    (\"flag desconocido\", 2),\n    (\"subcomando ausente\", 2),\n    (\"validación de config falla al arrancar\", 1),\n]\nfor c, code in casos:\n    print(f'{c}: {code}')",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["exit 0/1/2"],
+      "justification_from_packet": "Theory 0 success, 1 runtime, 2 usage."
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "print('HELP: familiarity normalize \"texto\" — limpia y normaliza un texto sintético')\nprint('HELP: familiarity report --format json — imprime un resumen del lote')\nprint('HELP: usa --help en cada subcomando para ver opciones y códigos de salida')",
+      "blocked_on": [],
+      "confidence": 0.9,
+      "concepts_used": ["operator-facing help"],
+      "justification_from_packet": "Theory help for operators; avoid framework jargon."
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from io import StringIO\nimport sys\n\ndef process(n):\n    print('event=done', file=sys.stderr)\n    return n * 2\n\nout, err = StringIO(), StringIO()\nold_out, old_err = sys.stdout, sys.stderr\nsys.stdout, sys.stderr = out, err\ntry:\n    result = process(3)\n    print(result)\nfinally:\n    sys.stdout, sys.stderr = old_out, old_err\nprint('stdout', out.getvalue().strip())\nprint('stderr', err.getvalue().strip())",
+      "blocked_on": [],
+      "confidence": 0.9,
+      "concepts_used": ["stdout data stderr log"],
+      "justification_from_packet": "Theory stdout data stderr progress."
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def read_input(path_or_dash, stdin_text=\"\", file_text=None):\n    if path_or_dash == '-':\n        return stdin_text\n    return file_text if file_text is not None else ''\n\nprint(read_input('-', stdin_text='desde stdin'))\nprint(read_input('file.csv', file_text='desde file'))",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["path or - stdin"],
+      "justification_from_packet": "Theory support path or '-' for stdin pipes."
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def bad_cli():\n    print('empezando')\n    print('{\"ok\": true}')\n    print('fin')\n\ndef good_cli():\n    print('{\"ok\": true}')\n\nprint('BAD')\nbad_cli()\nprint('GOOD')\ngood_cli()",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["clean stdout"],
+      "justification_from_packet": "Theory no progress prints on stdout; GOOD only JSON."
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "layers = ['defaults', 'file', 'env', 'flags']\nfor i, layer in enumerate(layers, start=1):\n    print(f'{i}:{layer}')",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["precedence ranks"],
+      "justification_from_packet": "Theory defaults < file < env < flags."
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def merge(defaults, file_cfg, env_cfg, flags):\n    out = dict(defaults)\n    for layer in (file_cfg, env_cfg, flags):\n        for k, v in layer.items():\n            if v is not None:\n                out[k] = v\n    return out\n\nprint(merge(\n    {\"log_level\": \"INFO\", \"jobs\": 1},\n    {\"log_level\": \"WARNING\"},\n    {\"log_level\": \"DEBUG\", \"jobs\": None},\n    {\"log_level\": \"ERROR\"},\n))",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["merge ignore None"],
+      "justification_from_packet": "Theory flags win; ignore None in higher layers."
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "print('result=INFO')\nprint('razón: flags CLI ganan a env (precedencia flags > env)')",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["flags beat env"],
+      "justification_from_packet": "Theory --log-level flag beats FAMILIARITY_LOG_LEVEL env."
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "for e in ['.env', '*.pem', 'credentials.json', '.venv/']:\n    print(f'ignore: {e}')",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["secrets gitignore"],
+      "justification_from_packet": "Hints .env *.pem credentials; secrets out of repo."
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def validate_config(cfg: dict) -> None:\n    for k in ('log_level', 'data_dir'):\n        if not cfg.get(k):\n            raise RuntimeError(f'missing required config: {k}')\n\nvalidate_config({\"log_level\": \"INFO\", \"data_dir\": \"data\"})\nprint(\"ok\")\ntry:\n    validate_config({\"log_level\": \"INFO\"})\nexcept RuntimeError as e:\n    print(e)",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["validate config startup"],
+      "justification_from_packet": "Theory validate config at startup with clear key errors."
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "inseguro = {\"log_level\": \"DEBUG\", \"echo_sql\": True, \"api_token\": \"hardcoded\"}\nseguro = {\"log_level\": \"INFO\", \"echo_sql\": False}\nprint('log_level: DEBUG → INFO')\nprint('echo_sql: True → False')\nprint('api_token: hardcoded → remove (env only, never default)')",
+      "blocked_on": [],
+      "confidence": 0.92,
+      "concepts_used": ["safe defaults"],
+      "justification_from_packet": "Theory no secrets in defaults; safer log level."
+    }
+  ]
+}

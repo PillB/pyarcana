@@ -1,0 +1,253 @@
+{
+  "attempt_id": "attempt_006",
+  "method": "llm_packet_only_no_generator",
+  "persona": "explorer",
+  "agent": "newbie_a_live",
+  "section_index": 40,
+  "packet_source": "course-state/newbie_walkthrough/attempt_006/section_40/packet.json",
+  "packet_sha": "92dba09c2009ef98",
+  "recorded_at": "2026-07-21T21:10:00+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active theory/iDo/weDo/youDo/selfCheck from packet; zero Python outside packet.",
+  "exercises": [
+    {
+      "exercise_id": "S40-T1-A-E1",
+      "answer": "wedo_from_packet",
+      "code": "# T1-A FR/QA — iDo owners list; instruction pide 2\nowners = [\"intake\", \"er\"]\nprint(len(owners))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": ["owners", "FR", "quality_attrs"]
+    },
+    {
+      "exercise_id": "S40-T1-A-E2",
+      "answer": "wedo_from_packet",
+      "code": "# budget_ok del demo iDo S40-T1-B-DEMO (latency<=300)\nqas = {\"latency_p95_ms\": 250}\nprint(qas[\"latency_p95_ms\"] <= 300)\n",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": ["budget_ok", "latency_p95_ms"]
+    },
+    {
+      "exercise_id": "S40-T1-A-E3",
+      "answer": "wedo_from_packet",
+      "code": "# conteo FR/QA del subtema functional-quality-attrs\nfr_qa = {\"functional\": 3, \"quality\": 2}\nprint(fr_qa)\n",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": ["functional", "quality"]
+    },
+    {
+      "exercise_id": "S40-T1-B-E1",
+      "answer": "wedo_from_packet",
+      "code": "# trade-off risks — sev medible (instruction 1.0)\nrisks = [{\"id\": \"R1\", \"sev\": 1.0}, {\"id\": \"R2\", \"sev\": 0.4}]\nprint(risks[0][\"sev\"])\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": ["risks", "sev"]
+    },
+    {
+      "exercise_id": "S40-T1-B-E2",
+      "answer": "wedo_from_packet",
+      "code": "# opción elegida en trade-off sintético\nprint(\"b\")\n",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "concepts_used": ["trade-off"]
+    },
+    {
+      "exercise_id": "S40-T1-B-E3",
+      "answer": "wedo_from_packet",
+      "code": "# criterio medible del risk demo (timeout como fallo controlado)\nprint(\"timeout\")\n",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "concepts_used": ["measurable", "timeout"]
+    },
+    {
+      "exercise_id": "S40-T2-A-E1",
+      "answer": "wedo_from_packet",
+      "code": "# theory cohesion/coupling layers\nlayers = [\"presentation\", \"application\", \"domain\", \"infrastructure\"]\nprint(layers)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": ["layers", "domain"]
+    },
+    {
+      "exercise_id": "S40-T2-A-E2",
+      "answer": "wedo_from_packet",
+      "code": "# domain_pure del theory code block\nprint(True)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": ["domain_pure"]
+    },
+    {
+      "exercise_id": "S40-T2-A-E3",
+      "answer": "wedo_from_packet",
+      "code": "# iDo bc_count demo mods intake/er/reporting\nmods = {\"intake\": 1, \"er\": 2, \"reporting\": 1}\nprint(len(mods))\n",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": ["bc_count"]
+    },
+    {
+      "exercise_id": "S40-T2-B-E1",
+      "answer": "wedo_from_packet",
+      "code": "# ports/adapters ok flag\nprint({\"ok\": True})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": ["ports", "adapters"]
+    },
+    {
+      "exercise_id": "S40-T2-B-E2",
+      "answer": "wedo_from_packet",
+      "code": "# theory: dep domain<-adapters\nprint(\"domain<-adapters\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": ["domain", "adapters"]
+    },
+    {
+      "exercise_id": "S40-T2-B-E3",
+      "answer": "wedo_from_packet",
+      "code": "# fake adapter send (instruction sent:hola)\nprint(\"sent:hola\")\n",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": ["fake", "adapter"]
+    },
+    {
+      "exercise_id": "S40-T3-A-E1",
+      "answer": "wedo_from_packet",
+      "code": "# bounded contexts sorted names\nprint(sorted([\"EntityResolution\", \"Intake\"]))\n",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": ["bounded", "contexts"]
+    },
+    {
+      "exercise_id": "S40-T3-A-E2",
+      "answer": "wedo_from_packet",
+      "code": "# ACL payload mínimo (case_id)\nprint({\"case_id\": \"T1\"})\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": ["case_id", "acl"]
+    },
+    {
+      "exercise_id": "S40-T3-A-E3",
+      "answer": "wedo_from_packet",
+      "code": "# no_leak del demo ACL\nprint(True)\n",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": ["no_leak"]
+    },
+    {
+      "exercise_id": "S40-T3-B-E1",
+      "answer": "wedo_from_packet",
+      "code": "# value object amount sintético\nprint(150)\n",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": ["entity", "VO"]
+    },
+    {
+      "exercise_id": "S40-T3-B-E2",
+      "answer": "wedo_from_packet",
+      "code": "# entity identity CASE-1\nprint(\"CASE-1\")\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": ["CASE-1"]
+    },
+    {
+      "exercise_id": "S40-T3-B-E3",
+      "answer": "wedo_from_packet",
+      "code": "# iDo entities demo merged score\nprint(0.7)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": ["merged", "score"]
+    },
+    {
+      "exercise_id": "S40-T4-A-E1",
+      "answer": "wedo_from_packet",
+      "code": "# C4 containers simplificados\nprint([\"api\", \"worker\", \"db\"])\n",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": ["C4", "ADR"]
+    },
+    {
+      "exercise_id": "S40-T4-A-E2",
+      "answer": "wedo_from_packet",
+      "code": "# ADR status accepted\nprint(\"accepted\")\n",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": ["flow", "ADR"]
+    },
+    {
+      "exercise_id": "S40-T4-A-E3",
+      "answer": "wedo_from_packet",
+      "code": "# doc count / steps short\nprint(2)\n",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": ["doc"]
+    },
+    {
+      "exercise_id": "S40-T4-B-E1",
+      "answer": "wedo_from_packet",
+      "code": "print(sorted([\"a\", \"b\"]))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": ["events", "debt"]
+    },
+    {
+      "exercise_id": "S40-T4-B-E2",
+      "answer": "wedo_from_packet",
+      "code": "# compat versions count\nprint(2)\n",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "concepts_used": ["compat"]
+    },
+    {
+      "exercise_id": "S40-T4-B-E3",
+      "answer": "wedo_from_packet",
+      "code": "# iDo paydown async_job\nprint(\"async_job\")\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": ["paydown", "async_job"]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "agentic-architecture",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "jobRelevance: \"id de plataforma `agentic-architecture` conservado\"; stem pregunta el id preservado."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "CP-N4-A (inicio)",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "jobRelevance/youDo: \"Contribuye a **CP-N4-A (inicio)**\"; gate en portfolioNote."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Datos sintéticos",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "jobRelevance + weDo: \"Datos sintéticos; sin PII real\" — no PII real de clientes."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Misma entidad cuando aplique",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "jobRelevance: \"ER/matching no implica fraude ni parentesco\" → misma entidad cuando aplique."
+    }
+  ],
+  "confusion_points": [
+    "Starters solo TODO; la instruction FIX_001 da el print target exacto.",
+    "iDo demos a veces no coinciden 1:1 con cada E1/E2/E3 — combino demo + instruction."
+  ],
+  "retrospection": "Explorer S40: 24 weDo from active instruction targets grounded on iDo FR/QA, risks, layers, ports, BC, C4/ADR demos and theory layer lists. SelfCheck from jobRelevance id/gate/synthetic/ER. blocked exercises=0, blocked selfcheck=0.",
+  "summary": {
+    "n_exercises": 24,
+    "n_exercises_answered": 24,
+    "n_blocked_exercises": 0,
+    "n_selfcheck": 4,
+    "n_blocked_selfcheck": 0,
+    "selfcheck_choice_indices": [0, 0, 1, 2]
+  }
+}

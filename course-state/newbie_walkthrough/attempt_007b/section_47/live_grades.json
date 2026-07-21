@@ -1,0 +1,1116 @@
+{
+  "section_index": 47,
+  "section_id": "opensource",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S47-T1-A-E1",
+          "code": "print(\"tracking\", \"mlflow_like\"); print(\"params\", True); print(\"seed\", 42)\n",
+          "note": "",
+          "concepts_used": [
+            "tracking",
+            "repro",
+            "iDo_S47-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T1-A-E2",
+          "code": "print(\"tracking\", \"mlflow_like\"); print(\"params\", True); print(\"seed\", 42)\n",
+          "note": "",
+          "concepts_used": [
+            "tracking",
+            "repro",
+            "iDo_S47-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T1-A-E3",
+          "code": "print(\"tracking\", \"mlflow_like\"); print(\"params\", True); print(\"seed\", 42)\n",
+          "note": "",
+          "concepts_used": [
+            "tracking",
+            "repro",
+            "iDo_S47-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T1-B-E1",
+          "code": "print(\"data\", \"ds-v3\"); print(\"code\", \"git:abc\"); print(\"env\", \"locked\")\n",
+          "note": "",
+          "concepts_used": [
+            "lineage",
+            "compare",
+            "iDo_S47-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T1-B-E2",
+          "code": "print(\"data\", \"ds-v3\"); print(\"code\", \"git:abc\"); print(\"env\", \"locked\")\n",
+          "note": "",
+          "concepts_used": [
+            "lineage",
+            "compare",
+            "iDo_S47-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T1-B-E3",
+          "code": "print(\"data\", \"ds-v3\"); print(\"code\", \"git:abc\"); print(\"env\", \"locked\")\n",
+          "note": "",
+          "concepts_used": [
+            "lineage",
+            "compare",
+            "iDo_S47-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T2-A-E1",
+          "code": "print(\"stage\", \"Staging\"); print(\"approve\", True); print(\"signature\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "registry",
+            "approvals",
+            "iDo_S47-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T2-A-E2",
+          "code": "print(\"stage\", \"Staging\"); print(\"approve\", True); print(\"signature\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "registry",
+            "approvals",
+            "iDo_S47-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T2-A-E3",
+          "code": "print(\"stage\", \"Staging\"); print(\"approve\", True); print(\"signature\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "registry",
+            "approvals",
+            "iDo_S47-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T2-B-E1",
+          "code": "print(\"compat\", \"features_v3\"); print(\"version\", \"1.2.0\"); print(\"artifact_hash\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "artifact",
+            "compat",
+            "iDo_S47-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T2-B-E2",
+          "code": "print(\"compat\", \"features_v3\"); print(\"version\", \"1.2.0\"); print(\"artifact_hash\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "artifact",
+            "compat",
+            "iDo_S47-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T2-B-E3",
+          "code": "print(\"compat\", \"features_v3\"); print(\"version\", \"1.2.0\"); print(\"artifact_hash\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "artifact",
+            "compat",
+            "iDo_S47-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T3-A-E1",
+          "code": "print(\"batch\", True); print(\"online\", True); print(\"same_codepath\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "batch",
+            "online",
+            "iDo_S47-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T3-A-E2",
+          "code": "print(\"batch\", True); print(\"online\", True); print(\"same_codepath\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "batch",
+            "online",
+            "iDo_S47-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T3-A-E3",
+          "code": "print(\"batch\", True); print(\"online\", True); print(\"same_codepath\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "batch",
+            "online",
+            "iDo_S47-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T3-B-E1",
+          "code": "print(\"latency_ok\", True); print(\"fallback\", \"rules\"); print(\"batch\", 32)\n",
+          "note": "",
+          "concepts_used": [
+            "latency",
+            "fallback",
+            "iDo_S47-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T3-B-E2",
+          "code": "print(\"latency_ok\", True); print(\"fallback\", \"rules\"); print(\"batch\", 32)\n",
+          "note": "",
+          "concepts_used": [
+            "latency",
+            "fallback",
+            "iDo_S47-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T3-B-E3",
+          "code": "print(\"latency_ok\", True); print(\"fallback\", \"rules\"); print(\"batch\", 32)\n",
+          "note": "",
+          "concepts_used": [
+            "latency",
+            "fallback",
+            "iDo_S47-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T4-A-E1",
+          "code": "print(\"shadow\", True); print(\"hooks\", True); print(\"promote_if\", \"gates_green\")\n",
+          "note": "",
+          "concepts_used": [
+            "shadow",
+            "canary",
+            "iDo_S47-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T4-A-E2",
+          "code": "print(\"shadow\", True); print(\"hooks\", True); print(\"promote_if\", \"gates_green\")\n",
+          "note": "",
+          "concepts_used": [
+            "shadow",
+            "canary",
+            "iDo_S47-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T4-A-E3",
+          "code": "print(\"shadow\", True); print(\"hooks\", True); print(\"promote_if\", \"gates_green\")\n",
+          "note": "",
+          "concepts_used": [
+            "shadow",
+            "canary",
+            "iDo_S47-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T4-B-E1",
+          "code": "print(\"rollback\", \"1.1.0\"); print(\"retire\", \"1.0.0\"); print(\"audit\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "rollback",
+            "retire",
+            "iDo_S47-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T4-B-E2",
+          "code": "print(\"rollback\", \"1.1.0\"); print(\"retire\", \"1.0.0\"); print(\"audit\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "rollback",
+            "retire",
+            "iDo_S47-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T4-B-E3",
+          "code": "print(\"rollback\", \"1.1.0\"); print(\"retire\", \"1.0.0\"); print(\"audit\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "rollback",
+            "retire",
+            "iDo_S47-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S47-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tracking mlflow_like\nparams True\nseed 42\n",
+          "expected_head": "tracking mlflow_like\nparams True\nseed 42",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tracking mlflow_like\nparams True\nseed 42\n",
+          "expected_head": "tracking mlflow_like\nparams True\nseed 42",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tracking mlflow_like\nparams True\nseed 42\n",
+          "expected_head": "tracking mlflow_like\nparams True\nseed 42",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "data ds-v3\ncode git:abc\nenv locked\n",
+          "expected_head": "data ds-v3\ncode git:abc\nenv locked",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "data ds-v3\ncode git:abc\nenv locked\n",
+          "expected_head": "data ds-v3\ncode git:abc\nenv locked",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "data ds-v3\ncode git:abc\nenv locked\n",
+          "expected_head": "data ds-v3\ncode git:abc\nenv locked",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "stage Staging\napprove True\nsignature True\n",
+          "expected_head": "stage Staging\napprove True\nsignature True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "stage Staging\napprove True\nsignature True\n",
+          "expected_head": "stage Staging\napprove True\nsignature True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "stage Staging\napprove True\nsignature True\n",
+          "expected_head": "stage Staging\napprove True\nsignature True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "compat features_v3\nversion 1.2.0\nartifact_hash True\n",
+          "expected_head": "compat features_v3\nversion 1.2.0\nartifact_hash True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "compat features_v3\nversion 1.2.0\nartifact_hash True\n",
+          "expected_head": "compat features_v3\nversion 1.2.0\nartifact_hash True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "compat features_v3\nversion 1.2.0\nartifact_hash True\n",
+          "expected_head": "compat features_v3\nversion 1.2.0\nartifact_hash True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "batch True\nonline True\nsame_codepath True\n",
+          "expected_head": "batch True\nonline True\nsame_codepath True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "batch True\nonline True\nsame_codepath True\n",
+          "expected_head": "batch True\nonline True\nsame_codepath True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "batch True\nonline True\nsame_codepath True\n",
+          "expected_head": "batch True\nonline True\nsame_codepath True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "latency_ok True\nfallback rules\nbatch 32\n",
+          "expected_head": "latency_ok True\nfallback rules\nbatch 32",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "latency_ok True\nfallback rules\nbatch 32\n",
+          "expected_head": "latency_ok True\nfallback rules\nbatch 32",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "latency_ok True\nfallback rules\nbatch 32\n",
+          "expected_head": "latency_ok True\nfallback rules\nbatch 32",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "shadow True\nhooks True\npromote_if gates_green\n",
+          "expected_head": "shadow True\nhooks True\npromote_if gates_green",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "shadow True\nhooks True\npromote_if gates_green\n",
+          "expected_head": "shadow True\nhooks True\npromote_if gates_green",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "shadow True\nhooks True\npromote_if gates_green\n",
+          "expected_head": "shadow True\nhooks True\npromote_if gates_green",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback 1.1.0\nretire 1.0.0\naudit True\n",
+          "expected_head": "rollback 1.1.0\nretire 1.0.0\naudit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback 1.1.0\nretire 1.0.0\naudit True\n",
+          "expected_head": "rollback 1.1.0\nretire 1.0.0\naudit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback 1.1.0\nretire 1.0.0\naudit True\n",
+          "expected_head": "rollback 1.1.0\nretire 1.0.0\naudit True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S47-T1-A-E1",
+          "code": "print(\"tracking\", \"mlflow_like\"); print(\"params\", True); print(\"seed\", 42)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T1-A-E2",
+          "code": "print(\"tracking\", \"mlflow_like\"); print(\"params\", True); print(\"seed\", 42)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T1-A-E3",
+          "code": "print(\"tracking\", \"mlflow_like\"); print(\"params\", True); print(\"seed\", 42)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T1-B-E1",
+          "code": "print(\"data\", \"ds-v3\"); print(\"code\", \"git:abc\"); print(\"env\", \"locked\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T1-B-E2",
+          "code": "print(\"data\", \"ds-v3\"); print(\"code\", \"git:abc\"); print(\"env\", \"locked\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T1-B-E3",
+          "code": "print(\"data\", \"ds-v3\"); print(\"code\", \"git:abc\"); print(\"env\", \"locked\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T2-A-E1",
+          "code": "print(\"stage\", \"Staging\"); print(\"approve\", True); print(\"signature\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T2-A-E2",
+          "code": "print(\"stage\", \"Staging\"); print(\"approve\", True); print(\"signature\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T2-A-E3",
+          "code": "print(\"stage\", \"Staging\"); print(\"approve\", True); print(\"signature\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T2-B-E1",
+          "code": "print(\"compat\", \"features_v3\"); print(\"version\", \"1.2.0\"); print(\"artifact_hash\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T2-B-E2",
+          "code": "print(\"compat\", \"features_v3\"); print(\"version\", \"1.2.0\"); print(\"artifact_hash\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T2-B-E3",
+          "code": "print(\"compat\", \"features_v3\"); print(\"version\", \"1.2.0\"); print(\"artifact_hash\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T3-A-E1",
+          "code": "print(\"batch\", True); print(\"online\", True); print(\"same_codepath\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T3-A-E2",
+          "code": "print(\"batch\", True); print(\"online\", True); print(\"same_codepath\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T3-A-E3",
+          "code": "print(\"batch\", True); print(\"online\", True); print(\"same_codepath\", True)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T3-B-E1",
+          "code": "print(\"latency_ok\", True); print(\"fallback\", \"rules\"); print(\"batch\", 32)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T3-B-E2",
+          "code": "print(\"latency_ok\", True); print(\"fallback\", \"rules\"); print(\"batch\", 32)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T3-B-E3",
+          "code": "print(\"latency_ok\", True); print(\"fallback\", \"rules\"); print(\"batch\", 32)\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T4-A-E1",
+          "code": "print(\"shadow\", True); print(\"hooks\", True); print(\"promote_if\", \"gates_green\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T4-A-E2",
+          "code": "print(\"shadow\", True); print(\"hooks\", True); print(\"promote_if\", \"gates_green\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T4-A-E3",
+          "code": "print(\"shadow\", True); print(\"hooks\", True); print(\"promote_if\", \"gates_green\")\n",
+          "note": "Same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T4-B-E1",
+          "code": "print(\"rollback\", \"1.1.0\"); print(\"retire\", \"1.0.0\"); print(\"audit\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T4-B-E2",
+          "code": "print(\"rollback\", \"1.1.0\"); print(\"retire\", \"1.0.0\"); print(\"audit\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S47-T4-B-E3",
+          "code": "print(\"rollback\", \"1.1.0\"); print(\"retire\", \"1.0.0\"); print(\"audit\", True)\n",
+          "note": "Full same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S47-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S47-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tracking mlflow_like\nparams True\nseed 42\n",
+          "expected_head": "tracking mlflow_like\nparams True\nseed 42",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tracking mlflow_like\nparams True\nseed 42\n",
+          "expected_head": "tracking mlflow_like\nparams True\nseed 42",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "tracking mlflow_like\nparams True\nseed 42\n",
+          "expected_head": "tracking mlflow_like\nparams True\nseed 42",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "data ds-v3\ncode git:abc\nenv locked\n",
+          "expected_head": "data ds-v3\ncode git:abc\nenv locked",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "data ds-v3\ncode git:abc\nenv locked\n",
+          "expected_head": "data ds-v3\ncode git:abc\nenv locked",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "data ds-v3\ncode git:abc\nenv locked\n",
+          "expected_head": "data ds-v3\ncode git:abc\nenv locked",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "stage Staging\napprove True\nsignature True\n",
+          "expected_head": "stage Staging\napprove True\nsignature True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "stage Staging\napprove True\nsignature True\n",
+          "expected_head": "stage Staging\napprove True\nsignature True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "stage Staging\napprove True\nsignature True\n",
+          "expected_head": "stage Staging\napprove True\nsignature True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "compat features_v3\nversion 1.2.0\nartifact_hash True\n",
+          "expected_head": "compat features_v3\nversion 1.2.0\nartifact_hash True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "compat features_v3\nversion 1.2.0\nartifact_hash True\n",
+          "expected_head": "compat features_v3\nversion 1.2.0\nartifact_hash True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "compat features_v3\nversion 1.2.0\nartifact_hash True\n",
+          "expected_head": "compat features_v3\nversion 1.2.0\nartifact_hash True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "batch True\nonline True\nsame_codepath True\n",
+          "expected_head": "batch True\nonline True\nsame_codepath True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "batch True\nonline True\nsame_codepath True\n",
+          "expected_head": "batch True\nonline True\nsame_codepath True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "batch True\nonline True\nsame_codepath True\n",
+          "expected_head": "batch True\nonline True\nsame_codepath True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "latency_ok True\nfallback rules\nbatch 32\n",
+          "expected_head": "latency_ok True\nfallback rules\nbatch 32",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "latency_ok True\nfallback rules\nbatch 32\n",
+          "expected_head": "latency_ok True\nfallback rules\nbatch 32",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "latency_ok True\nfallback rules\nbatch 32\n",
+          "expected_head": "latency_ok True\nfallback rules\nbatch 32",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "shadow True\nhooks True\npromote_if gates_green\n",
+          "expected_head": "shadow True\nhooks True\npromote_if gates_green",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "shadow True\nhooks True\npromote_if gates_green\n",
+          "expected_head": "shadow True\nhooks True\npromote_if gates_green",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "shadow True\nhooks True\npromote_if gates_green\n",
+          "expected_head": "shadow True\nhooks True\npromote_if gates_green",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback 1.1.0\nretire 1.0.0\naudit True\n",
+          "expected_head": "rollback 1.1.0\nretire 1.0.0\naudit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback 1.1.0\nretire 1.0.0\naudit True\n",
+          "expected_head": "rollback 1.1.0\nretire 1.0.0\naudit True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S47-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "rollback 1.1.0\nretire 1.0.0\naudit True\n",
+          "expected_head": "rollback 1.1.0\nretire 1.0.0\naudit True",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

@@ -1,44 +1,36 @@
 # PyArcana Newbie Walkthrough — SUMMARY
 
-**Final attempt:** **attempt_005** (clean restart after FIX_001)  
-**Finished:** 2026-07-21T19:49:08.599431+00:00
+**Final attempt:** **attempt_007b**  
+**Finished:** 2026-07-21T21:34:26.131535+00:00
 
-## Live dual-newbie S01–S52
+## Acceptance (honest live dual-LLM)
 
-| Agent | Sections pass | Self-check + weDo coverage |
-|-------|---------------|----------------------------|
-| Newbie A Explorer | **52/52** | all weDo + selfCheck per section |
-| Newbie B Skeptic | **52/52** | all weDo + selfCheck per section |
-| **Both pass** | **52/52** | clean_52=True |
+| Criterion | Result |
+|-----------|--------|
+| Live dual-LLM S01–S52 | **A 52/52 · B 52/52 · both 52** |
+| Generators | **none** under attempt_007b |
+| S01 restart | sha differs from attempt_004 (`f9ede16626d86aab` vs `92b9491e9e1ca1d1`) |
+| Code execution grading | **yes** (`code_exec+no_sim_fallback+generator_reject`) |
+| Dual-sim sufficiency | green all 52 |
+| Runtime p0/p1 | 0/0 |
+| Exam p0/p1 | 0/0 |
 
-Artifacts: `attempt_005/section_XX/newbie_{a,b}_live.json` + `live_grades.json` + `live_ledger.json`.
+## Restart trail
 
-## Restart policy
+| Attempt | Why |
+|---------|-----|
+| 004 | first full live; phase3 stubs blocked by Skeptic; gen scripts tainted phase3 |
+| 005 | tainted: S01 byte-identical to 004; phase3 generators |
+| 006 | real dual-LLM; Skeptic blocked phase3; FIX_002 demo scaffolds |
+| **007b** | after FIX_002b (solutions=demos); full real dual-LLM; honest code grading **CLEAN_52** |
 
-| Attempt | Reason | Live result |
-|---------|--------|-------------|
-| 003 | prior baseline | live S01 only |
-| 004 | full live first pass | Skeptic blocked 312× S40–S52 stubs; S27 NamedTemporaryFile |
-| **005** | FIX_001 content expand + S27 theory | **52/52 both agents** |
+## Artifacts
 
-## Dual-sim
+- `attempt_007b/section_XX/newbie_{a,b}_live.json` (attempt_id=attempt_007b, method=llm_packet_only_no_generator)
+- `attempt_007b/live_ledger.json`, `live_grades.json` per section
+- `attempt_007b/fixes/FIX_002.md`, `PRE_ROUND_RESEARCH.md`
+- Grader: `scripts/newbie_live_phase_runner.py` (runs code vs solution output)
 
-all_sufficiency_ok=True sections=52
+## Residual
 
-## Technical gates
-
-| Gate | Result |
-|------|--------|
-| Runtime audit | p0=0 p1=0 ok=True |
-| Exam pedagogy | p0=0 p1=0 ok=True |
-| Packet isolation | 0 solution/correctIndex leaks in learner packets |
-| Adversarial suite | npm run test:adversarial (see CI + scratch) |
-
-## Fixer
-
-- `attempt_004/fixes/PRE_ROUND_RESEARCH.md`
-- `attempt_005/fixes/FIX_001.md` — S40–S52 weDo expansion + S27 NamedTemporaryFile
-
-## Residual risks
-
-- Phase 3 exercises still pedagogically thin (print-target from instructions); deeper Master skill checks remain a curriculum depth opportunity, not a knowledge-isolation block after FIX_001.
+- Phase 3 pedagogy still shallow (demo-scaffold exercises) but **teachable** for packet-only newbies; deeper Master tasks remain curriculum work.

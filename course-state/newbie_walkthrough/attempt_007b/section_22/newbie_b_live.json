@@ -1,0 +1,279 @@
+{
+  "agent": "newbie_b_live",
+  "attempt_id": "attempt_007b",
+  "method": "llm_packet_only_no_generator",
+  "section_index": 22,
+  "recorded_at": "2026-07-21T21:26:00+00:00",
+  "responses": {
+    "persona": "skeptic",
+    "symbol_verify": {
+      "source": "active.theory + active.iDo demos + weDo instruction/hints/starters only",
+      "notes": "MIME/email approval from theory code + demos; no real SMTP."
+    },
+    "selfcheck": [
+      {
+        "question_index": 0,
+        "chosen_index": 1,
+        "chosen_text": "Solo drafts/.eml en sandbox y aprobación humana",
+        "confidence": 0.96,
+        "blocked_on": [],
+        "note": "Theory: no real send; drafts sandbox."
+      },
+      {
+        "question_index": 1,
+        "chosen_index": 2,
+        "chosen_text": "Solo evidencia débil de contacto a revisar; no prueba de fraude",
+        "confidence": 0.96,
+        "blocked_on": [],
+        "note": "Theory match≠fraude; demos disclaimer."
+      },
+      {
+        "question_index": 2,
+        "chosen_index": 1,
+        "chosen_text": "Solo los scopes mínimos (p. ej. draft) necesarios",
+        "confidence": 0.95,
+        "blocked_on": [],
+        "note": "Theory least privilege; demo denies mail.full."
+      },
+      {
+        "question_index": 3,
+        "chosen_index": 1,
+        "chosen_text": "Reutilizar el mismo draft_id si la key existe",
+        "confidence": 0.96,
+        "blocked_on": [],
+        "note": "Theory + final idempotency demo."
+      }
+    ],
+    "exercises": [
+      {
+        "exercise_id": "S22-T1-A-E1",
+        "answer": "completed_from_packet",
+        "code": "from email.mime.text import MIMEText\nmsg = MIMEText(\"Hola\", \"plain\", \"utf-8\")\nprint(msg[\"Content-Type\"])\n",
+        "blocked_on": [],
+        "confidence": 0.94,
+        "concepts_used": ["MIMEText"],
+        "note": "Hints MIMEText Content-Type."
+      },
+      {
+        "exercise_id": "S22-T1-A-E2",
+        "answer": "completed_from_packet",
+        "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart(\"mixed\")\nmsg[\"Subject\"] = \"Test\"\natt = MIMEApplication(b\"x\", Name=\"a.txt\")\natt.add_header(\"Content-Disposition\", \"attachment\", filename=\"a.txt\")\nmsg.attach(att)\nprint(\"a.txt\" in msg.as_string())\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["MIMEApplication"],
+        "note": "Demo MIME attach pattern."
+      },
+      {
+        "exercise_id": "S22-T1-A-E3",
+        "answer": "completed_from_packet",
+        "code": "from email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart(\"mixed\")\nalt = MIMEMultipart(\"alternative\")\nalt.attach(MIMEText(\"t\", \"plain\", \"utf-8\"))\nalt.attach(MIMEText(\"<p>h</p>\", \"html\", \"utf-8\"))\nmsg.attach(alt)\nprint(msg.as_string().count(\"Content-Type:\"))\n",
+        "blocked_on": [],
+        "confidence": 0.88,
+        "concepts_used": ["nested multipart"],
+        "note": "Hints alternative under mixed."
+      },
+      {
+        "exercise_id": "S22-T1-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import html\nprint(html.escape(\"<script>x</script>\"))\n",
+        "blocked_on": [],
+        "confidence": 0.96,
+        "concepts_used": ["html.escape"],
+        "note": "Hints html.escape."
+      },
+      {
+        "exercise_id": "S22-T1-B-E2",
+        "answer": "completed_from_packet",
+        "code": "import html\nname = \"<b>Ana</b>\"\nprint(\"Hola {name}\".format(name=html.escape(name)))\n",
+        "blocked_on": [],
+        "confidence": 0.94,
+        "concepts_used": ["escape before format"],
+        "note": "Hints escape before format."
+      },
+      {
+        "exercise_id": "S22-T1-B-E3",
+        "answer": "completed_from_packet",
+        "code": "urls = [\"https://example.pe/a\", \"https://evil.test\"]\nfor u in urls:\n    print(\"ok\" if \"example.pe\" in u else \"blocked\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["url allowlist"],
+        "note": "Starter two urls; demo sanitize pattern."
+      },
+      {
+        "exercise_id": "S22-T2-A-E1",
+        "answer": "completed_from_packet",
+        "code": "requested = [\"mail.draft\", \"mail.full\"]\nallowed = {\"mail.draft\", \"mail.readonly\"}\nprint([s for s in requested if s in allowed])\n",
+        "blocked_on": [],
+        "confidence": 0.96,
+        "concepts_used": ["scope filter"],
+        "note": "Starter filter → mail.draft."
+      },
+      {
+        "exercise_id": "S22-T2-A-E2",
+        "answer": "completed_from_packet",
+        "code": "granted = [\"mail.draft\"]\nprint(\"mail.full\" not in granted and \"admin\" not in granted)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["least privilege check"],
+        "note": "Hints no mail.full/admin."
+      },
+      {
+        "exercise_id": "S22-T2-A-E3",
+        "answer": "completed_from_packet",
+        "code": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\npast = (now - timedelta(hours=1)).isoformat()\nfuture = (now + timedelta(hours=1)).isoformat()\n\ndef status(iso):\n    exp = datetime.fromisoformat(iso)\n    return \"refresh\" if exp < now else \"valid\"\n\nprint(status(past))\nprint(status(future))\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["token expiry"],
+        "note": "Hints past refresh future valid."
+      },
+      {
+        "exercise_id": "S22-T2-B-E1",
+        "answer": "completed_from_packet",
+        "code": "store = {}\nstore[\"d001\"] = {\"status\": \"draft\"}\nprint(store[\"d001\"][\"status\"])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["draft store"],
+        "note": "Hints dict assignment."
+      },
+      {
+        "exercise_id": "S22-T2-B-E2",
+        "answer": "completed_from_packet",
+        "code": "from datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\nis_usable = now < expires_at\nprint(is_usable)\n",
+        "blocked_on": [],
+        "confidence": 0.94,
+        "concepts_used": ["expires_at"],
+        "note": "Hints now < expires → False."
+      },
+      {
+        "exercise_id": "S22-T2-B-E3",
+        "answer": "completed_from_packet",
+        "code": "store = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {\"status\": \"draft\"}\n    return i\n\nprint(create_draft())\nprint(create_draft())\n",
+        "blocked_on": [],
+        "confidence": 0.94,
+        "concepts_used": ["sequential draft ids"],
+        "note": "Hints d{n:03d} → d001 d002."
+      },
+      {
+        "exercise_id": "S22-T3-A-E1",
+        "answer": "completed_from_packet",
+        "code": "import re\npat = r\"^[^@]+@[^@]+\\.[^@]+$\"\nprint(bool(re.match(pat, \"ana@example.pe\")))\nprint(bool(re.match(pat, \"bad\")))\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["email regex"],
+        "note": "Hints re.match simple."
+      },
+      {
+        "exercise_id": "S22-T3-A-E2",
+        "answer": "completed_from_packet",
+        "code": "DIRECTORY = {\"C001\": \"ana@example.pe\"}\nem = DIRECTORY.get(\"C001\")\ndomain = em.split(\"@\")[1]\nprint(\"verified\" if domain == \"example.pe\" else \"rejected\")\n",
+        "blocked_on": [],
+        "confidence": 0.94,
+        "concepts_used": ["resolve verify domain"],
+        "note": "Starter C001 → verified."
+      },
+      {
+        "exercise_id": "S22-T3-A-E3",
+        "answer": "completed_from_packet",
+        "code": "a, b = \"ana.rojas@example.pe\", \"ana.rojas@example.com\"\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\nprint(round(score, 2), \"match_no_es_fraude\")\n",
+        "blocked_on": [],
+        "confidence": 0.85,
+        "concepts_used": ["similarity not fraud"],
+        "note": "Hints simple prefix score + note."
+      },
+      {
+        "exercise_id": "S22-T3-B-E1",
+        "answer": "completed_from_packet",
+        "code": "xs = [\"a@x\", \"b@x\", \"a@x\"]\nprint(list(dict.fromkeys(xs)))\n",
+        "blocked_on": [],
+        "confidence": 0.96,
+        "concepts_used": ["dedupe order"],
+        "note": "Hints dict.fromkeys."
+      },
+      {
+        "exercise_id": "S22-T3-B-E2",
+        "answer": "completed_from_packet",
+        "code": "rows = [{\"email\": \"p@other.test\", \"role\": \"cc\"}]\nfor r in rows:\n    if r[\"email\"].endswith(\"@other.test\"):\n        r[\"role\"] = \"bcc\"\nprint(rows)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["bcc external"],
+        "note": "Starter endswith other.test."
+      },
+      {
+        "exercise_id": "S22-T3-B-E3",
+        "answer": "completed_from_packet",
+        "code": "rows = [(\"a@example.pe\", \"to\"), (\"b@other.test\", \"cc\")]\nout = []\nfor em, role in rows:\n    if em.endswith(\"other.test\"):\n        role = \"bcc\"\n    out.append((em, role))\nvisible = sum(1 for _, r in out if r in (\"to\", \"cc\"))\nprint(visible)\n",
+        "blocked_on": [],
+        "confidence": 0.9,
+        "concepts_used": ["visible to+cc count"],
+        "note": "After move external→bcc, visible=1."
+      },
+      {
+        "exercise_id": "S22-T4-A-E1",
+        "answer": "completed_from_packet",
+        "code": "T = {\"draft\": {\"submit\": \"pending\"}}\nstate = \"draft\"\nstate = T[state][\"submit\"]\nprint(state)\n",
+        "blocked_on": [],
+        "confidence": 0.96,
+        "concepts_used": ["state transition"],
+        "note": "Starter submit → pending."
+      },
+      {
+        "exercise_id": "S22-T4-A-E2",
+        "answer": "completed_from_packet",
+        "code": "T = {\"draft\": {\"submit\": \"pending\"}, \"pending\": {\"approve\": \"approved\"}}\nstate, action = \"draft\", \"approve\"\nnxt = T.get(state, {}).get(action)\nprint(nxt if nxt else \"invalid\")\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["invalid transition"],
+        "note": "approve from draft → invalid."
+      },
+      {
+        "exercise_id": "S22-T4-A-E3",
+        "answer": "completed_from_packet",
+        "code": "log = []\nlog.append({\"from\": \"pending\", \"to\": \"approved\", \"actor\": \"rev1\"})\nprint(log)\n",
+        "blocked_on": [],
+        "confidence": 0.93,
+        "concepts_used": ["audit log"],
+        "note": "Hints append dict actor rev1."
+      },
+      {
+        "exercise_id": "S22-T4-B-E1",
+        "answer": "completed_from_packet",
+        "code": "import hashlib\nprint(hashlib.sha256(b\"run|to|v1\").hexdigest()[:8])\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["idem key"],
+        "note": "Hints sha256 hex[:8]."
+      },
+      {
+        "exercise_id": "S22-T4-B-E2",
+        "answer": "completed_from_packet",
+        "code": "store = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = f\"d{len(store)+1:03d}\"\n    return store[key]\n\na = create(\"k1\")\nb = create(\"k1\")\nprint(a == b)\n",
+        "blocked_on": [],
+        "confidence": 0.95,
+        "concepts_used": ["idempotent create"],
+        "note": "Hints cache dict same id."
+      },
+      {
+        "exercise_id": "S22-T4-B-E3",
+        "answer": "completed_from_packet",
+        "code": "audit = []\nstore = {}\n\ndef create(key):\n    if key in store:\n        audit.append(\"retry_hit\")\n        return store[key]\n    store[key] = \"d001\"\n    audit.append(\"create\")\n    return store[key]\n\ncreate(\"k\")\ncreate(\"k\")\nprint(audit)\n",
+        "blocked_on": [],
+        "confidence": 0.94,
+        "concepts_used": ["audit create retry"],
+        "note": "Hints events create then retry_hit."
+      }
+    ],
+    "forbidden_ack": "Do not use knowledge outside this packet.",
+    "packet_sha": "a238f3d396c575e9",
+    "summary": {
+      "n_exercises": 24,
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "blocked_exercise_ids": [],
+      "n_selfcheck": 4,
+      "n_selfcheck_answered": 4,
+      "n_selfcheck_blocked": 0,
+      "blocked_selfcheck_ids": [],
+      "residual_gaps": []
+    }
+  }
+}

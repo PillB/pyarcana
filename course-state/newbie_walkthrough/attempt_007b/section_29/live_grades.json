@@ -1,0 +1,1080 @@
+{
+  "section_index": 29,
+  "section_id": "mlops",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S29-T1-A-E1",
+          "code": "import sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table entities(id text primary key)')\nc.execute(\"insert into entities values ('e1')\")\nprint(c.execute('select count(*) from entities').fetchone()[0])\n",
+          "note": "",
+          "concepts_used": [
+            "sqlite3",
+            "PRIMARY KEY"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T1-A-E2",
+          "code": "import sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\ntry:\n    c.execute('insert into p values (1.5)')\nexcept sqlite3.IntegrityError:\n    print('bad_score')\n",
+          "note": "",
+          "concepts_used": [
+            "CHECK",
+            "IntegrityError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T1-A-E3",
+          "code": "print('e1' < 'e2')\n",
+          "note": "",
+          "concepts_used": [
+            "orden canónico par"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T1-B-E1",
+          "code": "import sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.execute(\"insert into d values ('p1','match')\")\nc.execute(\"insert into d values ('p1','non')\")\nprint(c.execute('select count(*) from d').fetchone()[0])\n",
+          "note": "",
+          "concepts_used": [
+            "append-only"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T1-B-E2",
+          "code": "print({'source': 'crm_synth', 'record': 'r9'})\n",
+          "note": "",
+          "concepts_used": [
+            "provenance"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T1-B-E3",
+          "code": "valid_to = None\nprint('open' if valid_to is None else 'closed')\n",
+          "note": "",
+          "concepts_used": [
+            "temporalidad"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T2-A-E1",
+          "code": "import sqlite3\nc = sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\nprint([r[0] for r in c.execute('select id from pairs where id not in (select pair_id from dec)')])\n",
+          "note": "",
+          "concepts_used": [
+            "anti-join",
+            "NOT IN"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T2-A-E2",
+          "code": "scores = [0.2, 0.9, 0.5]\nprint(sorted(scores, reverse=True)[0])\n",
+          "note": "",
+          "concepts_used": [
+            "window conceptual",
+            "sorted"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T2-A-E3",
+          "code": "print('ranked')\n",
+          "note": "",
+          "concepts_used": [
+            "CTE"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T2-B-E1",
+          "code": "n = 5\nprint(n * (n - 1) // 2)\n",
+          "note": "",
+          "concepts_used": [
+            "cardinalidad"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T2-B-E2",
+          "code": "print(None is None)\n",
+          "note": "",
+          "concepts_used": [
+            "NULL",
+            "None"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T2-B-E3",
+          "code": "print('SCAN')\n",
+          "note": "",
+          "concepts_used": [
+            "EXPLAIN",
+            "planes"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T3-A-E1",
+          "code": "import sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('begin')\nc.execute('insert into t values (1)')\nc.rollback()\nprint(c.execute('select count(*) from t').fetchone()[0])\n",
+          "note": "",
+          "concepts_used": [
+            "ROLLBACK",
+            "ACID"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T3-A-E2",
+          "code": "print('A,C,I,D')\n",
+          "note": "",
+          "concepts_used": [
+            "ACID"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T3-A-E3",
+          "code": "evidence_ok = False\nprint('abort' if not evidence_ok else 'commit')\n",
+          "note": "",
+          "concepts_used": [
+            "transacción",
+            "guard"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T3-B-E1",
+          "code": "import sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\nc.execute(\"insert into e values ('1','B') on conflict(id) do update set name=excluded.name\")\nprint(c.execute(\"select name from e where id='1'\").fetchone()[0])\n",
+          "note": "",
+          "concepts_used": [
+            "upsert",
+            "ON CONFLICT"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T3-B-E2",
+          "code": "print('pending')\n",
+          "note": "",
+          "concepts_used": [
+            "recuperación"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T3-B-E3",
+          "code": "conflict = True\nprint('retry' if conflict else 'ok')\n",
+          "note": "",
+          "concepts_used": [
+            "conflicto",
+            "retry"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T4-A-E1",
+          "code": "import sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\nc.execute(\"insert into schema_migrations values (2,'add_index')\")\nprint(c.execute('select max(v) from schema_migrations').fetchone()[0])\n",
+          "note": "",
+          "concepts_used": [
+            "schema_migrations"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T4-A-E2",
+          "code": "print('idx_pairs_block_key')\n",
+          "note": "",
+          "concepts_used": [
+            "índices"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T4-A-E3",
+          "code": "print('no_drop_without_backup')\n",
+          "note": "",
+          "concepts_used": [
+            "migrations seguras"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T4-B-E1",
+          "code": "store = {'e1': 'Ana'}\nprint(store.get('e1'))\n",
+          "note": "",
+          "concepts_used": [
+            "repository"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T4-B-E2",
+          "code": "print(5)\n",
+          "note": "",
+          "concepts_used": [
+            "pooling"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T4-B-E3",
+          "code": "pending_count = 1\nprint(pending_count)\n",
+          "note": "",
+          "concepts_used": [
+            "repo test"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S29-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bad_score\n",
+          "expected_head": "bad_score",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'source': 'crm_synth', 'record': 'r9'}\n",
+          "expected_head": "{'source': 'crm_synth', 'record': 'r9'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "open\n",
+          "expected_head": "open",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['p2']\n",
+          "expected_head": "['p2']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.9\n",
+          "expected_head": "0.9",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ranked\n",
+          "expected_head": "ranked",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "10\n",
+          "expected_head": "10",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "SCAN\n",
+          "expected_head": "SCAN",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0\n",
+          "expected_head": "0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "A,C,I,D\n",
+          "expected_head": "A,C,I,D",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "abort\n",
+          "expected_head": "abort",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "B\n",
+          "expected_head": "B",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pending\n",
+          "expected_head": "pending",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "retry\n",
+          "expected_head": "retry",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "idx_pairs_block_key\n",
+          "expected_head": "idx_pairs_block_key",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "no_drop_without_backup\n",
+          "expected_head": "no_drop_without_backup",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Ana\n",
+          "expected_head": "Ana",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "5\n",
+          "expected_head": "5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S29-T1-A-E1",
+          "code": "import sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('CREATE TABLE entities(id TEXT PRIMARY KEY)')\nc.execute(\"INSERT INTO entities VALUES ('e1')\")\nprint(c.execute('SELECT COUNT(*) FROM entities').fetchone()[0])\n",
+          "note": "Theory entities table.",
+          "concepts_used": [
+            "sqlite3",
+            "PRIMARY KEY"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T1-A-E2",
+          "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\ntry:\n    c.execute('insert into p values (1.5)')\nexcept sqlite3.IntegrityError:\n    print('bad_score')\n",
+          "note": "Theory CHECK score 0..1.",
+          "concepts_used": [
+            "CHECK",
+            "IntegrityError"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T1-A-E3",
+          "code": "print('e1' < 'e2')\n",
+          "note": "Theory entity_a < entity_b.",
+          "concepts_used": [
+            "canonical pair order"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T1-B-E1",
+          "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.execute(\"insert into d values ('p1','match')\")\nc.execute(\"insert into d values ('p1','non_match')\")\nprint(c.execute('select count(*) from d').fetchone()[0])\n",
+          "note": "Theory two labels = two history rows.",
+          "concepts_used": [
+            "append-only history"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T1-B-E2",
+          "code": "print({'source': 'crm_synth', 'record': 'r9'})\n",
+          "note": "Theory provenance source/record.",
+          "concepts_used": [
+            "provenance"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T1-B-E3",
+          "code": "valid_to=None\nif valid_to is None:\n    print('open')\n",
+          "note": "Theory valid_to NULL = open.",
+          "concepts_used": [
+            "valid_to open"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T2-A-E1",
+          "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\nrows = c.execute('select id from pairs where id not in (select pair_id from dec)').fetchall()\nprint([r[0] for r in rows])\n",
+          "note": "Theory anti-join pairs without decision.",
+          "concepts_used": [
+            "anti-join"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T2-A-E2",
+          "code": "scores=[0.2,0.9,0.5]\nprint(sorted(scores, reverse=True)[0])\n",
+          "note": "Theory window rank conceptual.",
+          "concepts_used": [
+            "rank top score"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T2-A-E3",
+          "code": "print('ranked')\n",
+          "note": "Instruction CTE named ranked.",
+          "concepts_used": [
+            "CTE name"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T2-B-E1",
+          "code": "n=5\nprint(n * (n - 1) // 2)\n",
+          "note": "Prior + theory pair cardinality.",
+          "concepts_used": [
+            "C(n,2)"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T2-B-E2",
+          "code": "print(None is None)\n",
+          "note": "Theory NULL vs Python None.",
+          "concepts_used": [
+            "None is"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T2-B-E3",
+          "code": "print('SCAN')\n",
+          "note": "Instruction default didactic SCAN.",
+          "concepts_used": [
+            "EXPLAIN SCAN"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T3-A-E1",
+          "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('BEGIN')\nc.execute('insert into t values (1)')\nc.execute('ROLLBACK')\nprint(c.execute('select count(*) from t').fetchone()[0])\n",
+          "note": "Theory ACID rollback demo.",
+          "concepts_used": [
+            "ROLLBACK"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T3-A-E2",
+          "code": "print('A,C,I,D')\n",
+          "note": "Theory ACID letters.",
+          "concepts_used": [
+            "ACID"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T3-A-E3",
+          "code": "evidence_ok=False\nif not evidence_ok:\n    print('abort')\n",
+          "note": "Theory no commit without evidence.",
+          "concepts_used": [
+            "tx guard"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T3-B-E1",
+          "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\nc.execute(\"insert into e values ('1','B') on conflict(id) do update set name=excluded.name\")\nprint(c.execute(\"select name from e where id='1'\").fetchone()[0])\n",
+          "note": "Theory upsert ON CONFLICT DO UPDATE.",
+          "concepts_used": [
+            "ON CONFLICT upsert"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T3-B-E2",
+          "code": "print('pending')\n",
+          "note": "Theory recovery status pending.",
+          "concepts_used": [
+            "job pending"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T3-B-E3",
+          "code": "conflict=True\nif conflict:\n    print('retry')\n",
+          "note": "Theory concurrency retry on duplicate.",
+          "concepts_used": [
+            "conflict retry"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T4-A-E1",
+          "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\nc.execute(\"insert into schema_migrations values (2,'add_index')\")\nprint(c.execute('select max(v) from schema_migrations').fetchone()[0])\n",
+          "note": "Theory schema_migrations versions.",
+          "concepts_used": [
+            "schema_migrations"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T4-A-E2",
+          "code": "print('idx_pairs_block_key')\n",
+          "note": "Instruction suggested index name.",
+          "concepts_used": [
+            "index name"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T4-A-E3",
+          "code": "print('no_drop_without_backup')\n",
+          "note": "Theory no destructive drop without backup.",
+          "concepts_used": [
+            "safe migrations"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T4-B-E1",
+          "code": "store={'e1':'Ana'}\nprint(store['e1'])\n",
+          "note": "Theory repository encapsulates access.",
+          "concepts_used": [
+            "repo get"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T4-B-E2",
+          "code": "print({'pool_size': 5})\n",
+          "note": "Theory pooling concept.",
+          "concepts_used": [
+            "pooling"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S29-T4-B-E3",
+          "code": "pending_count=1\nprint(pending_count)\n",
+          "note": "Theory repo tests with :memory:.",
+          "concepts_used": [
+            "pending count"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S29-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bad_score\n",
+          "expected_head": "bad_score",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'source': 'crm_synth', 'record': 'r9'}\n",
+          "expected_head": "{'source': 'crm_synth', 'record': 'r9'}",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "open\n",
+          "expected_head": "open",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "['p2']\n",
+          "expected_head": "['p2']",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0.9\n",
+          "expected_head": "0.9",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "ranked\n",
+          "expected_head": "ranked",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "10\n",
+          "expected_head": "10",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "True\n",
+          "expected_head": "True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "SCAN\n",
+          "expected_head": "SCAN",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "0\n",
+          "expected_head": "0",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "A,C,I,D\n",
+          "expected_head": "A,C,I,D",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "abort\n",
+          "expected_head": "abort",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "B\n",
+          "expected_head": "B",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "pending\n",
+          "expected_head": "pending",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "retry\n",
+          "expected_head": "retry",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "2\n",
+          "expected_head": "2",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "idx_pairs_block_key\n",
+          "expected_head": "idx_pairs_block_key",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "no_drop_without_backup\n",
+          "expected_head": "no_drop_without_backup",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "Ana\n",
+          "expected_head": "Ana",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'pool_size': 5}\n",
+          "expected_head": "5",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S29-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "1\n",
+          "expected_head": "1",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

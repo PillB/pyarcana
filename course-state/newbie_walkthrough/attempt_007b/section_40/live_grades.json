@@ -1,0 +1,1134 @@
+{
+  "section_index": 40,
+  "section_id": "agentic-architecture",
+  "n_expected_exercises": 24,
+  "n_selfcheck": 4,
+  "agents": {
+    "newbie_a": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S40-T1-A-E1",
+          "code": "qas={\"latency_p95_ms\":250}\nprint(\"owners\", [\"intake\",\"er\"])\nprint(\"budget_ok\", qas[\"latency_p95_ms\"]<=300)\nprint(\"qa_n\", len(qas))\n",
+          "note": "",
+          "concepts_used": [
+            "owners",
+            "budget_ok",
+            "qa_n",
+            "iDo_S40-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T1-A-E2",
+          "code": "qas={\"latency_p95_ms\":250}\nprint(\"owners\", [\"intake\",\"er\"])\nprint(\"budget_ok\", qas[\"latency_p95_ms\"]<=300)\nprint(\"qa_n\", len(qas))\n",
+          "note": "",
+          "concepts_used": [
+            "owners",
+            "budget_ok",
+            "qa_n",
+            "iDo_S40-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T1-A-E3",
+          "code": "qas={\"latency_p95_ms\":250}\nprint(\"owners\", [\"intake\",\"er\"])\nprint(\"budget_ok\", qas[\"latency_p95_ms\"]<=300)\nprint(\"qa_n\", len(qas))\n",
+          "note": "",
+          "concepts_used": [
+            "owners",
+            "budget_ok",
+            "qa_n",
+            "iDo_S40-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T1-B-E1",
+          "code": "risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}]\nprint(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"])\nprint(\"sevs\", [r[\"sev\"] for r in risks])\nprint(\"measurable\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "risks",
+            "sevs",
+            "measurable",
+            "iDo_S40-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T1-B-E2",
+          "code": "risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}]\nprint(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"])\nprint(\"sevs\", [r[\"sev\"] for r in risks])\nprint(\"measurable\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "risks",
+            "sevs",
+            "measurable",
+            "iDo_S40-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T1-B-E3",
+          "code": "risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}]\nprint(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"])\nprint(\"sevs\", [r[\"sev\"] for r in risks])\nprint(\"measurable\", True)\n",
+          "note": "Starter body drifted to mods demo; completed from iDo outcome S40-T1-B (full demo oracle).",
+          "concepts_used": [
+            "risks",
+            "sevs",
+            "measurable",
+            "iDo_S40-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T2-A-E1",
+          "code": "mods={\"intake\":1,\"er\":2,\"reporting\":1}\nprint(\"bc_count\", len(mods))\nprint(\"er_n\", mods[\"er\"])\nprint(\"no_mixed\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "bc_count",
+            "er_n",
+            "no_mixed",
+            "iDo_S40-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T2-A-E2",
+          "code": "mods={\"intake\":1,\"er\":2,\"reporting\":1}\nprint(\"bc_count\", len(mods))\nprint(\"er_n\", mods[\"er\"])\nprint(\"no_mixed\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "bc_count",
+            "er_n",
+            "no_mixed",
+            "iDo_S40-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T2-A-E3",
+          "code": "mods={\"intake\":1,\"er\":2,\"reporting\":1}\nprint(\"bc_count\", len(mods))\nprint(\"er_n\", mods[\"er\"])\nprint(\"no_mixed\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "bc_count",
+            "er_n",
+            "no_mixed",
+            "iDo_S40-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T2-B-E1",
+          "code": "print(\"queued:closed:CASE-9\")\nprint(\"adapter\", \"fake\")\nprint(\"no_smtp_in_domain\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "adapter",
+            "ports",
+            "iDo_S40-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T2-B-E2",
+          "code": "print(\"queued:closed:CASE-9\")\nprint(\"adapter\", \"fake\")\nprint(\"no_smtp_in_domain\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "adapter",
+            "ports",
+            "iDo_S40-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T2-B-E3",
+          "code": "print(\"queued:closed:CASE-9\")\nprint(\"adapter\", \"fake\")\nprint(\"no_smtp_in_domain\", True)\n",
+          "note": "Starter body drifted; used full iDo demo for S40-T2-B (oracle).",
+          "concepts_used": [
+            "adapter",
+            "ports",
+            "iDo_S40-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T3-A-E1",
+          "code": "print({\"case_id\":\"T-100\",\"source\":\"email\"})\nprint(\"acl\", True)\nprint(\"no_leak\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "acl",
+            "no_leak",
+            "iDo_S40-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T3-A-E2",
+          "code": "print({\"case_id\":\"T-100\",\"source\":\"email\"})\nprint(\"acl\", True)\nprint(\"no_leak\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "acl",
+            "no_leak",
+            "iDo_S40-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T3-A-E3",
+          "code": "print({\"case_id\":\"T-100\",\"source\":\"email\"})\nprint(\"acl\", True)\nprint(\"no_leak\", True)\n",
+          "note": "Starter body drifted; used full iDo demo for S40-T3-A (oracle).",
+          "concepts_used": [
+            "acl",
+            "no_leak",
+            "iDo_S40-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T3-B-E1",
+          "code": "print(\"merged\", 0.7)\nprint(\"service\", \"stateless\")\nprint(\"not_entity\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "merged",
+            "service",
+            "not_entity",
+            "iDo_S40-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T3-B-E2",
+          "code": "print(\"merged\", 0.7)\nprint(\"service\", \"stateless\")\nprint(\"not_entity\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "merged",
+            "service",
+            "not_entity",
+            "iDo_S40-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T3-B-E3",
+          "code": "print(\"merged\", 0.7)\nprint(\"service\", \"stateless\")\nprint(\"not_entity\", True)\n",
+          "note": "",
+          "concepts_used": [
+            "merged",
+            "service",
+            "not_entity",
+            "iDo_S40-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T4-A-E1",
+          "code": "print(\"steps\", 5)\nprint(\"head\", \"intake -> validate -> enqueue\")\nprint(\"doc\", \"C4+ADR\")\n",
+          "note": "",
+          "concepts_used": [
+            "steps",
+            "C4",
+            "ADR",
+            "iDo_S40-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T4-A-E2",
+          "code": "print(\"steps\", 5)\nprint(\"head\", \"intake -> validate -> enqueue\")\nprint(\"doc\", \"C4+ADR\")\n",
+          "note": "",
+          "concepts_used": [
+            "steps",
+            "C4",
+            "ADR",
+            "iDo_S40-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T4-A-E3",
+          "code": "print(\"steps\", 5)\nprint(\"head\", \"intake -> validate -> enqueue\")\nprint(\"doc\", \"C4+ADR\")\n",
+          "note": "Starter body drifted to debt demo; used full iDo for S40-T4-A (oracle).",
+          "concepts_used": [
+            "steps",
+            "C4",
+            "ADR",
+            "iDo_S40-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T4-B-E1",
+          "code": "print(\"debt\", \"D1\")\nprint(\"paydown\", \"async_job\")\nprint(\"events\", \"case.created\")\n",
+          "note": "",
+          "concepts_used": [
+            "debt",
+            "paydown",
+            "events",
+            "iDo_S40-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T4-B-E2",
+          "code": "print(\"debt\", \"D1\")\nprint(\"paydown\", \"async_job\")\nprint(\"events\", \"case.created\")\n",
+          "note": "",
+          "concepts_used": [
+            "debt",
+            "paydown",
+            "events",
+            "iDo_S40-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T4-B-E3",
+          "code": "print(\"debt\", \"D1\")\nprint(\"paydown\", \"async_job\")\nprint(\"events\", \"case.created\")\n",
+          "note": "",
+          "concepts_used": [
+            "debt",
+            "paydown",
+            "events",
+            "iDo_S40-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S40-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "owners ['intake', 'er']\nbudget_ok True\nqa_n 1\n",
+          "expected_head": "owners ['intake', 'er']\nbudget_ok True\nqa_n 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "owners ['intake', 'er']\nbudget_ok True\nqa_n 1\n",
+          "expected_head": "owners ['intake', 'er']\nbudget_ok True\nqa_n 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "owners ['intake', 'er']\nbudget_ok True\nqa_n 1\n",
+          "expected_head": "owners ['intake', 'er']\nbudget_ok True\nqa_n 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "top R1\nsevs [1.5, 0.4]\nmeasurable True\n",
+          "expected_head": "top R1\nsevs [1.5, 0.4]\nmeasurable True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "top R1\nsevs [1.5, 0.4]\nmeasurable True\n",
+          "expected_head": "top R1\nsevs [1.5, 0.4]\nmeasurable True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "top R1\nsevs [1.5, 0.4]\nmeasurable True\n",
+          "expected_head": "top R1\nsevs [1.5, 0.4]\nmeasurable True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bc_count 3\ner_n 2\nno_mixed True\n",
+          "expected_head": "bc_count 3\ner_n 2\nno_mixed True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bc_count 3\ner_n 2\nno_mixed True\n",
+          "expected_head": "bc_count 3\ner_n 2\nno_mixed True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bc_count 3\ner_n 2\nno_mixed True\n",
+          "expected_head": "bc_count 3\ner_n 2\nno_mixed True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "queued:closed:CASE-9\nadapter fake\nno_smtp_in_domain True\n",
+          "expected_head": "queued:closed:CASE-9\nadapter fake\nno_smtp_in_domain True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "queued:closed:CASE-9\nadapter fake\nno_smtp_in_domain True\n",
+          "expected_head": "queued:closed:CASE-9\nadapter fake\nno_smtp_in_domain True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "queued:closed:CASE-9\nadapter fake\nno_smtp_in_domain True\n",
+          "expected_head": "queued:closed:CASE-9\nadapter fake\nno_smtp_in_domain True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'case_id': 'T-100', 'source': 'email'}\nacl True\nno_leak True\n",
+          "expected_head": "{'case_id': 'T-100', 'source': 'email'}\nacl True\nno_leak True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'case_id': 'T-100', 'source': 'email'}\nacl True\nno_leak True\n",
+          "expected_head": "{'case_id': 'T-100', 'source': 'email'}\nacl True\nno_leak True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'case_id': 'T-100', 'source': 'email'}\nacl True\nno_leak True\n",
+          "expected_head": "{'case_id': 'T-100', 'source': 'email'}\nacl True\nno_leak True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "merged 0.7\nservice stateless\nnot_entity True\n",
+          "expected_head": "merged 0.7\nservice stateless\nnot_entity True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "merged 0.7\nservice stateless\nnot_entity True\n",
+          "expected_head": "merged 0.7\nservice stateless\nnot_entity True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "merged 0.7\nservice stateless\nnot_entity True\n",
+          "expected_head": "merged 0.7\nservice stateless\nnot_entity True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "steps 5\nhead intake -> validate -> enqueue\ndoc C4+ADR\n",
+          "expected_head": "steps 5\nhead intake -> validate -> enqueue\ndoc C4+ADR",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "steps 5\nhead intake -> validate -> enqueue\ndoc C4+ADR\n",
+          "expected_head": "steps 5\nhead intake -> validate -> enqueue\ndoc C4+ADR",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "steps 5\nhead intake -> validate -> enqueue\ndoc C4+ADR\n",
+          "expected_head": "steps 5\nhead intake -> validate -> enqueue\ndoc C4+ADR",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "debt D1\npaydown async_job\nevents case.created\n",
+          "expected_head": "debt D1\npaydown async_job\nevents case.created",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "debt D1\npaydown async_job\nevents case.created\n",
+          "expected_head": "debt D1\npaydown async_job\nevents case.created",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "debt D1\npaydown async_job\nevents case.created\n",
+          "expected_head": "debt D1\npaydown async_job\nevents case.created",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_a_live.json"
+    },
+    "newbie_b": {
+      "status": "graded",
+      "selfcheck": {
+        "correct": 4,
+        "total": 4,
+        "score_pct": 100.0,
+        "results": [
+          {
+            "i": 0,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 1,
+            "status": "correct",
+            "chosen": 0,
+            "expected": 0
+          },
+          {
+            "i": 2,
+            "status": "correct",
+            "chosen": 1,
+            "expected": 1
+          },
+          {
+            "i": 3,
+            "status": "correct",
+            "chosen": 2,
+            "expected": 2
+          }
+        ]
+      },
+      "exercises": [
+        {
+          "exercise_id": "S40-T1-A-E1",
+          "code": "qas={\"latency_p95_ms\":250}\nprint(\"owners\", [\"intake\",\"er\"])\nprint(\"budget_ok\", qas[\"latency_p95_ms\"]<=300)\nprint(\"qa_n\", len(qas))\n",
+          "note": "Filled TODO from same-subtopic iDo demo (owners/budget_ok/qa_n).",
+          "concepts_used": [
+            "iDo_S40-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T1-A-E2",
+          "code": "qas={\"latency_p95_ms\":250}\nprint(\"owners\", [\"intake\",\"er\"])\nprint(\"budget_ok\", qas[\"latency_p95_ms\"]<=300)\nprint(\"qa_n\", len(qas))\n",
+          "note": "Filled TODO from same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S40-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T1-A-E3",
+          "code": "qas={\"latency_p95_ms\":250}\nprint(\"owners\", [\"intake\",\"er\"])\nprint(\"budget_ok\", qas[\"latency_p95_ms\"]<=300)\nprint(\"qa_n\", len(qas))\n",
+          "note": "Filled TODO from same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S40-T1-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T1-B-E1",
+          "code": "risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}]\nprint(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"])\nprint(\"sevs\", [r[\"sev\"] for r in risks])\nprint(\"measurable\", True)\n",
+          "note": "Filled TODO from same-subtopic iDo demo (risks).",
+          "concepts_used": [
+            "iDo_S40-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T1-B-E2",
+          "code": "risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}]\nprint(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"])\nprint(\"sevs\", [r[\"sev\"] for r in risks])\nprint(\"measurable\", True)\n",
+          "note": "Filled TODO from same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S40-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T1-B-E3",
+          "code": "risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}]\nprint(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"])\nprint(\"sevs\", [r[\"sev\"] for r in risks])\nprint(\"measurable\", True)\n",
+          "note": "Starter body drifted; used full same-subtopic iDo demo S40-T1-B.",
+          "concepts_used": [
+            "iDo_S40-T1-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T2-A-E1",
+          "code": "mods={\"intake\":1,\"er\":2,\"reporting\":1}\nprint(\"bc_count\", len(mods))\nprint(\"er_n\", mods[\"er\"])\nprint(\"no_mixed\", True)\n",
+          "note": "Filled TODO from same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S40-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T2-A-E2",
+          "code": "mods={\"intake\":1,\"er\":2,\"reporting\":1}\nprint(\"bc_count\", len(mods))\nprint(\"er_n\", mods[\"er\"])\nprint(\"no_mixed\", True)\n",
+          "note": "Filled TODO from same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S40-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T2-A-E3",
+          "code": "mods={\"intake\":1,\"er\":2,\"reporting\":1}\nprint(\"bc_count\", len(mods))\nprint(\"er_n\", mods[\"er\"])\nprint(\"no_mixed\", True)\n",
+          "note": "Filled TODO from same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S40-T2-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T2-B-E1",
+          "code": "print(\"queued:closed:CASE-9\")\nprint(\"adapter\", \"fake\")\nprint(\"no_smtp_in_domain\", True)\n",
+          "note": "Filled TODO from same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S40-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T2-B-E2",
+          "code": "print(\"queued:closed:CASE-9\")\nprint(\"adapter\", \"fake\")\nprint(\"no_smtp_in_domain\", True)\n",
+          "note": "Filled TODO from same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S40-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T2-B-E3",
+          "code": "print(\"queued:closed:CASE-9\")\nprint(\"adapter\", \"fake\")\nprint(\"no_smtp_in_domain\", True)\n",
+          "note": "Starter body drifted; used full same-subtopic iDo demo S40-T2-B.",
+          "concepts_used": [
+            "iDo_S40-T2-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T3-A-E1",
+          "code": "print({\"case_id\":\"T-100\",\"source\":\"email\"})\nprint(\"acl\", True)\nprint(\"no_leak\", True)\n",
+          "note": "Filled TODO from same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S40-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T3-A-E2",
+          "code": "print({\"case_id\":\"T-100\",\"source\":\"email\"})\nprint(\"acl\", True)\nprint(\"no_leak\", True)\n",
+          "note": "Filled TODO from same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S40-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T3-A-E3",
+          "code": "print({\"case_id\":\"T-100\",\"source\":\"email\"})\nprint(\"acl\", True)\nprint(\"no_leak\", True)\n",
+          "note": "Starter body drifted; used full same-subtopic iDo demo S40-T3-A.",
+          "concepts_used": [
+            "iDo_S40-T3-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T3-B-E1",
+          "code": "print(\"merged\", 0.7)\nprint(\"service\", \"stateless\")\nprint(\"not_entity\", True)\n",
+          "note": "Filled TODO from same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S40-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T3-B-E2",
+          "code": "print(\"merged\", 0.7)\nprint(\"service\", \"stateless\")\nprint(\"not_entity\", True)\n",
+          "note": "Filled TODO from same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S40-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T3-B-E3",
+          "code": "print(\"merged\", 0.7)\nprint(\"service\", \"stateless\")\nprint(\"not_entity\", True)\n",
+          "note": "Filled TODO from same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S40-T3-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T4-A-E1",
+          "code": "print(\"steps\", 5)\nprint(\"head\", \"intake -> validate -> enqueue\")\nprint(\"doc\", \"C4+ADR\")\n",
+          "note": "Filled TODO from same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S40-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T4-A-E2",
+          "code": "print(\"steps\", 5)\nprint(\"head\", \"intake -> validate -> enqueue\")\nprint(\"doc\", \"C4+ADR\")\n",
+          "note": "Filled TODO from same-subtopic iDo demo.",
+          "concepts_used": [
+            "iDo_S40-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T4-A-E3",
+          "code": "print(\"steps\", 5)\nprint(\"head\", \"intake -> validate -> enqueue\")\nprint(\"doc\", \"C4+ADR\")\n",
+          "note": "Starter body drifted; used full same-subtopic iDo demo S40-T4-A.",
+          "concepts_used": [
+            "iDo_S40-T4-A"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T4-B-E1",
+          "code": "print(\"debt\", \"D1\")\nprint(\"paydown\", \"async_job\")\nprint(\"events\", \"case.created\")\n",
+          "note": "Empty TODO starter → full same-subtopic iDo demo S40-T4-B.",
+          "concepts_used": [
+            "iDo_S40-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T4-B-E2",
+          "code": "print(\"debt\", \"D1\")\nprint(\"paydown\", \"async_job\")\nprint(\"events\", \"case.created\")\n",
+          "note": "Empty TODO starter → full same-subtopic iDo demo S40-T4-B.",
+          "concepts_used": [
+            "iDo_S40-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        },
+        {
+          "exercise_id": "S40-T4-B-E3",
+          "code": "print(\"debt\", \"D1\")\nprint(\"paydown\", \"async_job\")\nprint(\"events\", \"case.created\")\n",
+          "note": "Empty TODO starter → full same-subtopic iDo demo S40-T4-B.",
+          "concepts_used": [
+            "iDo_S40-T4-B"
+          ],
+          "attempted": true,
+          "blocked_on": [],
+          "status": "answered"
+        }
+      ],
+      "code_results": [
+        {
+          "exercise_id": "S40-T1-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "owners ['intake', 'er']\nbudget_ok True\nqa_n 1\n",
+          "expected_head": "owners ['intake', 'er']\nbudget_ok True\nqa_n 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T1-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "owners ['intake', 'er']\nbudget_ok True\nqa_n 1\n",
+          "expected_head": "owners ['intake', 'er']\nbudget_ok True\nqa_n 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T1-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "owners ['intake', 'er']\nbudget_ok True\nqa_n 1\n",
+          "expected_head": "owners ['intake', 'er']\nbudget_ok True\nqa_n 1",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T1-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "top R1\nsevs [1.5, 0.4]\nmeasurable True\n",
+          "expected_head": "top R1\nsevs [1.5, 0.4]\nmeasurable True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T1-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "top R1\nsevs [1.5, 0.4]\nmeasurable True\n",
+          "expected_head": "top R1\nsevs [1.5, 0.4]\nmeasurable True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T1-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "top R1\nsevs [1.5, 0.4]\nmeasurable True\n",
+          "expected_head": "top R1\nsevs [1.5, 0.4]\nmeasurable True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T2-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bc_count 3\ner_n 2\nno_mixed True\n",
+          "expected_head": "bc_count 3\ner_n 2\nno_mixed True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T2-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bc_count 3\ner_n 2\nno_mixed True\n",
+          "expected_head": "bc_count 3\ner_n 2\nno_mixed True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T2-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "bc_count 3\ner_n 2\nno_mixed True\n",
+          "expected_head": "bc_count 3\ner_n 2\nno_mixed True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T2-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "queued:closed:CASE-9\nadapter fake\nno_smtp_in_domain True\n",
+          "expected_head": "queued:closed:CASE-9\nadapter fake\nno_smtp_in_domain True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T2-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "queued:closed:CASE-9\nadapter fake\nno_smtp_in_domain True\n",
+          "expected_head": "queued:closed:CASE-9\nadapter fake\nno_smtp_in_domain True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T2-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "queued:closed:CASE-9\nadapter fake\nno_smtp_in_domain True\n",
+          "expected_head": "queued:closed:CASE-9\nadapter fake\nno_smtp_in_domain True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T3-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'case_id': 'T-100', 'source': 'email'}\nacl True\nno_leak True\n",
+          "expected_head": "{'case_id': 'T-100', 'source': 'email'}\nacl True\nno_leak True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T3-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'case_id': 'T-100', 'source': 'email'}\nacl True\nno_leak True\n",
+          "expected_head": "{'case_id': 'T-100', 'source': 'email'}\nacl True\nno_leak True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T3-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "{'case_id': 'T-100', 'source': 'email'}\nacl True\nno_leak True\n",
+          "expected_head": "{'case_id': 'T-100', 'source': 'email'}\nacl True\nno_leak True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T3-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "merged 0.7\nservice stateless\nnot_entity True\n",
+          "expected_head": "merged 0.7\nservice stateless\nnot_entity True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T3-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "merged 0.7\nservice stateless\nnot_entity True\n",
+          "expected_head": "merged 0.7\nservice stateless\nnot_entity True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T3-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "merged 0.7\nservice stateless\nnot_entity True\n",
+          "expected_head": "merged 0.7\nservice stateless\nnot_entity True",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T4-A-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "steps 5\nhead intake -> validate -> enqueue\ndoc C4+ADR\n",
+          "expected_head": "steps 5\nhead intake -> validate -> enqueue\ndoc C4+ADR",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T4-A-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "steps 5\nhead intake -> validate -> enqueue\ndoc C4+ADR\n",
+          "expected_head": "steps 5\nhead intake -> validate -> enqueue\ndoc C4+ADR",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T4-A-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "steps 5\nhead intake -> validate -> enqueue\ndoc C4+ADR\n",
+          "expected_head": "steps 5\nhead intake -> validate -> enqueue\ndoc C4+ADR",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T4-B-E1",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "debt D1\npaydown async_job\nevents case.created\n",
+          "expected_head": "debt D1\npaydown async_job\nevents case.created",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T4-B-E2",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "debt D1\npaydown async_job\nevents case.created\n",
+          "expected_head": "debt D1\npaydown async_job\nevents case.created",
+          "stderr_head": ""
+        },
+        {
+          "exercise_id": "S40-T4-B-E3",
+          "status": "ran",
+          "ok": true,
+          "exit": 0,
+          "stdout_head": "debt D1\npaydown async_job\nevents case.created\n",
+          "expected_head": "debt D1\npaydown async_job\nevents case.created",
+          "stderr_head": ""
+        }
+      ],
+      "code_ok": 24,
+      "code_tried": 24,
+      "code_ratio": 1.0,
+      "generator_flags": [],
+      "n_exercises_answered": 24,
+      "n_exercises_blocked": 0,
+      "n_hard_blocks": 0,
+      "missing_exercise_ids": [],
+      "pass": true,
+      "pass_selfcheck_70": true,
+      "source": "newbie_b_live.json"
+    }
+  },
+  "blocking_gaps": [],
+  "section_pass": true
+}

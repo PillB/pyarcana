@@ -1,0 +1,269 @@
+{
+  "agent": "newbie_b_live",
+  "attempt_id": "attempt_006",
+  "method": "llm_packet_only_no_generator",
+  "section_index": 6,
+  "recorded_at": "2026-07-21T22:15:00+00:00",
+  "packet_sha": "54854c2439f22319",
+  "persona": "skeptic",
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "[3,4]",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "Theory slicing: xs[-2:] last two elements; stop exclusive semantics on windows."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "a también ve el append (alias)",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "Theory aliasing: b=a same object; mutate b mutates a."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Listar conflicto en conflicts sin silenciar",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory/demo dedup: unique + conflicts; do not silent-delete business conflicts."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "None (muta in-place)",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "Theory list.sort returns None and mutates; demo prints sort in-place retorna: None."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "salidas deterministas/reproducibles",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory/demo json.dumps sort_keys for deterministic dumps."
+    }
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "txs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nprint(ventana, len(ventana))\nempty = []\nv0 = empty[-2:]\nprint('ventana=', v0, 'len=', len(v0))",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["slicing", "negative indices"],
+      "justification_from_packet": "Theory txs[-3:] style windows; hints txs[-2:]; empty → []."
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "headers = ['id', 'monto']\nKEYS = tuple(headers)\nprint('KEYS', KEYS)\nmore = KEYS + ('canal',)\nprint('more', more)\nprint('KEYS sigue', KEYS)",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["tuple immutable"],
+      "justification_from_packet": "Theory tuples as stable contracts; + creates new tuple."
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "ids = ('C001', 'C002')\ntry:\n    ids.append('C003')\nexcept AttributeError as e:\n    print('AttributeError', e)\n    mut = list(ids)\n    mut.append('C003')\n    print(mut)\n    print('diagnóstico: tuple inmutable; convertir a list para mutar copia')",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["tuple no append", "list copy"],
+      "justification_from_packet": "Instruction AttributeError on tuple.append; list(ids) to mutate."
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "fila = ('C001', 'Lima', 10)\ncid, region, monto = fila\nprint(cid, region, monto)",
+      "blocked_on": [],
+      "confidence": 0.96,
+      "concepts_used": ["unpacking"],
+      "justification_from_packet": "Theory unpacking a,b = fila."
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "xs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\nprint('xs', xs, 'copia', copia)\ncopia.append(4)\nprint('xs tras copia.append', xs, 'copia', copia)",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["alias vs copy"],
+      "justification_from_packet": "Theory list.copy shallow; alias shares object."
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\ndeep = copy.deepcopy(rows)\nshallow[0]['tags'].append('b')\nprint('after shallow mut orig', rows)\ndeep[0]['tags'].append('d')\nprint('orig', rows)\nprint('deep', deep)",
+      "blocked_on": [],
+      "confidence": 0.92,
+      "concepts_used": ["deepcopy", "nested alias"],
+      "justification_from_packet": "Theory nested needs deepcopy; shallow shares inner dicts."
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "pares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\nprint(d)\nprint(d['C002'])",
+      "blocked_on": [],
+      "confidence": 0.96,
+      "concepts_used": ["dict from pairs"],
+      "justification_from_packet": "Theory dict modeling; dict(pares) from hints."
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "idx = {'C001': 'Ana'}\nprint(idx.get('C001'))\nprint(idx.get('C999', 'N/A'))\ntry:\n    print(idx['C999'])\nexcept KeyError as e:\n    print('KeyError', e)",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["get vs KeyError"],
+      "justification_from_packet": "Theory d.get(k, default) avoids KeyError."
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "defaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nmerged = {**defaults, **override}\nprint('merged', merged)\nprint('defaults intact', defaults)\n# peligro: no hacer defaults.update(override) sin copia\nsafe = dict(defaults)\nsafe.update(override)\nprint('safe', safe, 'defaults still', defaults)",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["merge without mutate"],
+      "justification_from_packet": "Theory update precedence; merge without mutating defaults."
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\nprint(unicos)",
+      "blocked_on": [],
+      "confidence": 0.96,
+      "concepts_used": ["set dedup", "sorted"],
+      "justification_from_packet": "Theory set unique + sorted for stable export."
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint('inter', sorted(a & b))\nprint('sym', sorted(a ^ b))",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["set & ^"],
+      "justification_from_packet": "Theory set intersection/difference ops; sorted determinism."
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def dedup_report(rows, key='id'):\n    seen = {}\n    unique = []\n    conflicts = []\n    for r in rows:\n        rid = r[key]\n        if rid not in seen:\n            seen[rid] = r\n            unique.append(r)\n        elif seen[rid] != r:\n            conflicts.append({'id': rid, 'a': seen[rid], 'b': r})\n    return {'unique': unique, 'conflicts': conflicts}\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["unique + conflicts"],
+      "justification_from_packet": "Demo S06-T3-A dedup_report pattern exact."
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "clients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n    print(c['id'], '→', len(c['contacts']))",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["nested count"],
+      "justification_from_packet": "Theory nested traversal client contacts."
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "clients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nflat = []\nfor c in clients:\n    for t in c['txs']:\n        flat.append({'client_id': c['id'], 'tx_id': t['id'], 'monto': t['monto']})\nprint(flat)",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["flatten nested"],
+      "justification_from_packet": "Theory flatten txs with client_id denormalized."
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "clients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    status = 'ok' if isinstance(txs, list) else 'review'\n    print(c['id'], status)",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["isinstance shape"],
+      "justification_from_packet": "Theory inconsistent shape → review with isinstance list."
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["get_nested dig"],
+      "justification_from_packet": "Theory dig/get_nested helpers; safe nested access."
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "clients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        tag = 'missing'\n    else:\n        tag = 'present'\n    print(f\"{c['id']}: {tag}\")",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["missing vs present"],
+      "justification_from_packet": "Hints: not in or is None → missing; '' = present."
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "vals = [None, '', 0, []]\nfor v in vals:\n    print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["falsy vs missing"],
+      "justification_from_packet": "Theory only None as missing here; 0/'' falsy but valid data."
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\nprint([r['id'] for r in ordered])",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["sorted key"],
+      "justification_from_packet": "Theory sorted(seq, key=fn) new list."
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "rows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\nordered = sorted(rows, key=lambda r: (r['region'], r['nombre']))\nfor r in ordered:\n    print(r['region'], r['nombre'])",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["multi-field key"],
+      "justification_from_packet": "Demo sorted by region then name; theory multi-field key tuple."
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "rows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\nprint('sort returns', ret, 'rows', rows)\ncopy_sorted = sorted(base)\nprint('sorted copy', copy_sorted, 'base intact', base)",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["sort None", "sorted copy"],
+      "justification_from_packet": "Theory sort returns None; sorted does not mutate."
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "jobs = [\n    'cola de llegada de filas',\n    'lookup frecuente por id',\n    'emails únicos de un lote',\n]\nfor j, struct in zip(jobs, ['list', 'dict', 'set']):\n    print(j, '→', struct)",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["choose structure"],
+      "justification_from_packet": "Theory: appends→list, lookups→dict, membership cohort→set."
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\nprint(s)",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["json sort_keys", "sorted ids"],
+      "justification_from_packet": "Theory/demo deterministic json.dumps sort_keys + sorted ids."
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "ids = ['C001', 'C002', 'C003', 'C004', 'C005']\nprint('list membership: O(n) por lookup')\nprint('set membership: O(1) promedio')\ns = set(ids)\nprint('C003 in set →', 'C003' in s)",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["O(n) list vs O(1) set"],
+      "justification_from_packet": "Theory membership list O(n) set O(1); micro demo membership."
+    }
+  ]
+}

@@ -1,0 +1,277 @@
+{
+  "agent": "newbie_b_live",
+  "attempt_id": "attempt_006",
+  "method": "llm_packet_only_no_generator",
+  "section_index": 11,
+  "recorded_at": "2026-07-21T23:30:00+00:00",
+  "packet_sha": "cd42f96605437753",
+  "persona": "skeptic",
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Evita el default mutable compartido entre instancias",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "Theory default_factory for mutable fields avoids shared default bug."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Una señal/dato numérico, no un veredicto de fraude o familia",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "justification_from_packet": "Theory: scores are data not legal verdicts of fraud/kinship."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Definir un puerto get/save implementable por fakes y adapters",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory Protocol EntityStore as port for get/save fakes."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "En la construcción (__post_init__/validate)",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "Theory fail at construction via __post_init__."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory prefer composition over fragile inheritance."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 1,
+      "chosen_text": "is_fraud() automático",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "Theory/tests: no is_fraud/is_related_family APIs in domain."
+    }
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    phones: list[str] = field(default_factory=list)\n\nprint(ClientRecord('C001', 'Ana Perez', ['999']))",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["dataclass", "default_factory"],
+      "justification_from_packet": "Theory/demo ClientRecord with default_factory list."
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    client_id: str\n    amount: float\n    currency: str\n\nprint(Transaction('T1', 'C001', 10.0, 'PEN'))",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["Transaction dataclass"],
+      "justification_from_packet": "YouDo Transaction required fields."
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n\n    @classmethod\n    def from_dict(cls, d: dict) -> 'ClientRecord':\n        return cls(d['client_id'], d['full_name'])\n\nraw = {\"client_id\": \"C007\", \"full_name\": \"Luis Ramos\"}\nc = ClientRecord.from_dict(raw)\nprint(type(c).__name__, c.client_id)",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["from_dict"],
+      "justification_from_packet": "Demo ClientRecord.from_dict."
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    amount: float\n\n    def __post_init__(self):\n        if self.amount <= 0:\n            raise ValueError('amount debe ser > 0')\n\nprint(Transaction('T1', 10))\ntry:\n    Transaction('T2', 0)\nexcept ValueError as e:\n    print('rejected', e)",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["__post_init__ invariant"],
+      "justification_from_packet": "Theory invariants in construction; amount > 0."
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    @classmethod\n    def from_dict(cls, d: dict) -> 'ClientRecord':\n        cid = str(d.get('client_id', '')).strip()\n        doc = str(d.get('document_id', '')).strip()\n        if not cid or not doc:\n            raise ValueError('client_id/document_id vacíos')\n        return cls(cid, doc)\n\nprint(ClientRecord.from_dict({'client_id': 'C1', 'document_id': 'DNI-1'}))\ntry:\n    ClientRecord.from_dict({'client_id': '', 'document_id': 'x'})\nexcept ValueError as e:\n    print(e)",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["factory validation"],
+      "justification_from_packet": "Theory from_dict + validate non-empty ids."
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print('INV: ClientRecord document_id no vacío')\nprint('INV: Transaction amount > 0')\nprint('INV: RelationshipEvidence signal_score en [0,1]')\nprint('INV: ResolvedEntity entity_id no vacío')",
+      "blocked_on": [],
+      "confidence": 0.92,
+      "concepts_used": ["domain invariants list"],
+      "justification_from_packet": "Theory/youDo invariants for domain types."
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Person:\n    first_name: str\n    last_name: str\n\n    @property\n    def full_name(self) -> str:\n        return f'{self.first_name} {self.last_name}'\n\nprint(Person('Ana', 'Perez').full_name)",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["@property"],
+      "justification_from_packet": "Theory/demo display_name property."
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    day_created: int\n\n    def age_days_since(self, day: int) -> int:\n        return day - self.day_created\n\nprint(Transaction('T1', 10).age_days_since(15))",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["instance method"],
+      "justification_from_packet": "Theory age_days_since method pattern."
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "class Signal:\n    def __init__(self):\n        self._score = 0.0\n\n    @property\n    def score(self):\n        return self._score\n\n    @score.setter\n    def score(self, v):\n        if not 0.0 <= v <= 1.0:\n            raise ValueError('score fuera de rango')\n        self._score = v\n\ns = Signal()\ns.score = 0.5\nprint('ok', s.score)\ntry:\n    s.score = 2\nexcept ValueError as e:\n    print('rejected', e)",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["validated setter"],
+      "justification_from_packet": "Theory setters validated when mutation part of model."
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    def __eq__(self, other):\n        if not isinstance(other, ClientRecord):\n            return NotImplemented\n        return self.document_id == other.document_id\n\na = ClientRecord('C1', 'DNI-1')\nb = ClientRecord('C2', 'DNI-1')\nprint(a == b)\nprint(ClientRecord('C3', 'DNI-9') == a)",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["eq business key"],
+      "justification_from_packet": "Theory __eq__ by business key document_id."
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Evidence:\n    left_id: str\n    right_id: str\n    score: float\n\ns = {Evidence('A', 'B', 0.5), Evidence('A', 'B', 0.5), Evidence('A', 'C', 0.1)}\nprint(len(s))",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["frozen set"],
+      "justification_from_packet": "Theory frozen value objects for sets."
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print('BUG: entidad mutable como key de dict — mutar campo de eq rompe lookup')\nprint('SAFE: frozen=True / key por document_id inmutable')",
+      "blocked_on": [],
+      "confidence": 0.91,
+      "concepts_used": ["mutable key bug"],
+      "justification_from_packet": "Theory mutable entities as dict keys are classic bugs."
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass PersonInfo:\n    first_name: str\n    last_name: str\n\n@dataclass\nclass Client:\n    client_id: str\n    person: PersonInfo\n\nprint(Client('C1', PersonInfo('Ana', 'Perez')))",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["composition has-a"],
+      "justification_from_packet": "Theory composition Client has PersonInfo."
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    evidences: list = field(default_factory=list)\n\n    def add_evidence(self, ev):\n        self.evidences.append(ev)\n\ncf = CaseFile('CASE1')\ncf.add_evidence({'s': 0.1})\ncf.add_evidence({'s': 0.2})\nprint('n=', len(cf.evidences))",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["CaseFile aggregate"],
+      "justification_from_packet": "Theory CaseFile has list of evidence."
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "print('JUST: Client y Person no son siempre is-a; roles evolucionan distinto')\nprint('JUST: composición evita jerarquías frágiles y acopla menos al modelo')",
+      "blocked_on": [],
+      "confidence": 0.92,
+      "concepts_used": ["why not inherit"],
+      "justification_from_packet": "Theory inheritance only for real subtypes."
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from typing import Protocol\n\nclass Scorer(Protocol):\n    def score(self, pair: tuple[str, str]) -> float: ...\n\nclass FakeScorer:\n    def score(self, pair: tuple[str, str]) -> float:\n        return 0.42\n\nprint(FakeScorer().score(('A', 'B')))",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["Protocol", "FakeScorer"],
+      "justification_from_packet": "Theory Protocol for ports + fakes."
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def apply(norm, text):\n    return norm(text)\n\ndef strip_norm(t):\n    return t.strip()\n\ndef casefold_norm(t):\n    return t.casefold()\n\nprint(apply(strip_norm, '  X '))\nprint(apply(casefold_norm, 'AbC'))",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["duck typing polymorphism"],
+      "justification_from_packet": "Theory duck typing / same function apply different norms."
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print('WHEN_NOT: una sola implementación sin tests de puerto (YAGNI)')\nprint('WHEN_NOT: Protocol por si acaso sin segundo adapter real')",
+      "blocked_on": [],
+      "confidence": 0.92,
+      "concepts_used": ["YAGNI Protocol"],
+      "justification_from_packet": "Theory do not introduce Protocol without need."
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n    password: str = ''\n\n    def to_dict(self):\n        return {'client_id': self.client_id, 'email': self.email}\n\nprint(ClientRecord('C1', 'a@ejemplo.pe', 'secret').to_dict())",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["to_dict no secrets"],
+      "justification_from_packet": "Theory serialize without password/PII unnecessary fields."
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "class Repo:\n    def __init__(self):\n        self._d = {}\n    def save(self, row):\n        self._d[row['id']] = row\n    def get(self, id):\n        return self._d.get(id)\n\nr = Repo()\nr.save({'id': 'C1', 'name': 'Ana'})\nprint(r.get('C1'))",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["in-memory repo"],
+      "justification_from_packet": "Demo InMemoryClientRepository save/get."
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "print('LAYER: cli (argparse/I/O)')\nprint('LAYER: service (orquesta)')\nprint('LAYER: domain/repo (entidades + persistencia)')",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["domain vs I/O boundary"],
+      "justification_from_packet": "Theory CLI → service → domain/repo."
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    def __post_init__(self):\n        if not self.document_id.strip():\n            raise ValueError('document_id vacío')\n\ntry:\n    ClientRecord('C1', '')\n    raise AssertionError('should fail')\nexcept ValueError:\n    print('pass')",
+      "blocked_on": [],
+      "confidence": 0.95,
+      "concepts_used": ["invariant test"],
+      "justification_from_packet": "Theory pure domain tests for invariants."
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "class FakeRepo:\n    def __init__(self):\n        self.d = {}\n    def save(self, row):\n        self.d[row['id']] = row\n    def get(self, id):\n        return self.d.get(id)\n\nclass Service:\n    def __init__(self, repo):\n        self.repo = repo\n    def register(self, id, name):\n        self.repo.save({'id': id, 'name': name})\n        return self.repo.get(id)\n\nsvc = Service(FakeRepo())\nassert svc.register('C1', 'Ana')['name'] == 'Ana'\nprint('pass')\nassert svc.repo.get('C1') is not None\nprint('pass')\nassert svc.repo.get('missing') is None\nprint('pass')",
+      "blocked_on": [],
+      "confidence": 0.93,
+      "concepts_used": ["fake repo service tests"],
+      "justification_from_packet": "Theory tests with fakes; demo service without is_fraud."
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "print('ANTES: BadClient.decide_fraud(score) emite veredicto')\nprint('DESPUÉS: RelationshipEvidence.signal_score es dato; sin is_fraud/is_related_family')",
+      "blocked_on": [],
+      "confidence": 0.94,
+      "concepts_used": ["remove fraud API"],
+      "justification_from_packet": "Theory/tests forbid is_fraud; scores are fields only."
+    }
+  ]
+}

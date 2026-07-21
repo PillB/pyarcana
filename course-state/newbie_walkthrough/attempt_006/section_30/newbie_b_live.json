@@ -1,0 +1,54 @@
+{
+  "agent": "newbie_b_live",
+  "attempt_id": "attempt_006",
+  "method": "llm_packet_only_no_generator",
+  "section_index": 30,
+  "persona": "skeptic",
+  "recorded_at": "2026-07-21T21:25:00+00:00",
+  "packet_only": true,
+  "symbol_verify": {
+    "source": "active.theory + iDo",
+    "taught": ["exact/jaccard/date_sim", "blocking", "weighted score", "union-find", "entity split", "precision/recall"]
+  },
+  "selfcheck": [
+    {"question_index": 0, "chosen_index": 2, "chosen_text": "Si dos registros son la misma entidad", "confidence": 0.93, "blocked_on": [], "note": "Packet: ER decide misma entidad — no fraude/parentesco/crédito."},
+    {"question_index": 1, "chosen_index": 1, "chosen_text": "Fracción de verdaderos matches que sobreviven al blocking", "confidence": 0.93, "blocked_on": [], "note": "Theory candidate recall = true matches surviving blocking."},
+    {"question_index": 2, "chosen_index": 2, "chosen_text": "clerical review", "confidence": 0.93, "blocked_on": [], "note": "Theory scores between t_low and t_high → review."},
+    {"question_index": 3, "chosen_index": 1, "chosen_text": "Leakage de identidad entre train y test", "confidence": 0.93, "blocked_on": [], "note": "Theory entity split avoids identity leakage."}
+  ],
+  "exercises": [
+    {"exercise_id": "S30-T1-A-E1", "answer": "completed_from_packet", "code": "a=b='a'\nprint(1.0 if a == b else 0.0)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["exact"], "note": "Theory exact comparator."},
+    {"exercise_id": "S30-T1-A-E2", "answer": "completed_from_packet", "code": "ta, tb = set('a b'.split()), set('b c'.split())\nprint(len(ta & tb) / len(ta | tb))\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["jaccard"], "note": "Theory token_jaccard 1/3."},
+    {"exercise_id": "S30-T1-A-E3", "answer": "completed_from_packet", "code": "from datetime import date\nd1 = d2 = date(2026, 1, 1)\nprint(1.0 if d1 == d2 else 0.0)\n", "blocked_on": [], "confidence": 0.91, "concepts_used": ["date_sim"], "note": "Theory same day → 1.0."},
+    {"exercise_id": "S30-T1-B-E1", "answer": "completed_from_packet", "code": "a,b='', 'x'\nif a == '' or b == '':\n    print('missing')\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["missingness"], "note": "Theory missing guard."},
+    {"exercise_id": "S30-T1-B-E2", "answer": "completed_from_packet", "code": "freq=10\nprint(1 / freq)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["frequency weight"], "note": "Theory 1/freq."},
+    {"exercise_id": "S30-T1-B-E3", "answer": "completed_from_packet", "code": "print('informative_missing')\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["informative missing"], "note": "Theory informative missingness label."},
+    {"exercise_id": "S30-T2-A-E1", "answer": "completed_from_packet", "code": "last,city='lopez','lima'\nprint(f'{last}|{city}')\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["block_key"], "note": "Theory block_key last|city."},
+    {"exercise_id": "S30-T2-A-E2", "answer": "completed_from_packet", "code": "found,gold_n=1,2\nprint(found / gold_n)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["candidate recall"], "note": "Theory recall found/gold."},
+    {"exercise_id": "S30-T2-A-E3", "answer": "completed_from_packet", "code": "n=4\nprint(n * (n - 1) // 2)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["C(n,2)"], "note": "Theory block pair cost."},
+    {"exercise_id": "S30-T2-B-E1", "answer": "completed_from_packet", "code": "sizes=[3,5]\nprint(sum(n * (n - 1) // 2 for n in sizes))\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["total block cost"], "note": "Demo cost over block sizes."},
+    {"exercise_id": "S30-T2-B-E2", "answer": "completed_from_packet", "code": "ta,tb='person','org'\nprint(ta != tb)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["impossible pairs"], "note": "Demo person vs org impossible."},
+    {"exercise_id": "S30-T2-B-E3", "answer": "completed_from_packet", "code": "print('filter_before_score')\n", "blocked_on": [], "confidence": 0.91, "concepts_used": ["pipeline"], "note": "Theory filter before heavy scorer."},
+    {"exercise_id": "S30-T3-A-E1", "answer": "completed_from_packet", "code": "print((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n", "blocked_on": [], "confidence": 0.91, "concepts_used": ["weighted avg"], "note": "Demo weighted field scores → 0.75."},
+    {"exercise_id": "S30-T3-A-E2", "answer": "completed_from_packet", "code": "s,t_high,t_low=0.7,0.9,0.5\nif s >= t_high:\n    print('auto_match')\nelif s <= t_low:\n    print('non_match')\nelse:\n    print('review')\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["thresholds"], "note": "Theory decide by thresholds."},
+    {"exercise_id": "S30-T3-A-E3", "answer": "completed_from_packet", "code": "print({'name': 0.9, 'email': 1.0})\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["explain scores"], "note": "Theory explainable field scores."},
+    {"exercise_id": "S30-T3-B-E1", "answer": "completed_from_packet", "code": "p={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)] = find(a)\nunion(1,2)\nunion(2,3)\nprint(find(1) == find(3))\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["Union-Find"], "note": "Theory UnionFind; starter provides find."},
+    {"exercise_id": "S30-T3-B-E2", "answer": "completed_from_packet", "code": "print(['match', 'non_match', 'uncertain'])\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["review actions"], "note": "Theory clerical options."},
+    {"exercise_id": "S30-T3-B-E3", "answer": "completed_from_packet", "code": "print('ER_only_same_entity')\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["privacy gate"], "note": "Theory ER only same entity."},
+    {"exercise_id": "S30-T4-A-E1", "answer": "completed_from_packet", "code": "a,b='e1','e2'\ntrain_e={'e1','e2','e3'}\nprint('train' if {a, b} <= train_e else 'test')\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["entity split"], "note": "Demo subset train_e."},
+    {"exercise_id": "S30-T4-A-E2", "answer": "completed_from_packet", "code": "matches,n=1,5\nprint(matches / n)\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["prevalence"], "note": "Theory match prevalence."},
+    {"exercise_id": "S30-T4-A-E3", "answer": "completed_from_packet", "code": "print('entity_split')\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["anti-leakage"], "note": "Theory split por entidad."},
+    {"exercise_id": "S30-T4-B-E1", "answer": "completed_from_packet", "code": "tp,fp=2,1\nprint(round(tp / (tp + fp), 2))\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["precision"], "note": "Theory precision tp/(tp+fp)."},
+    {"exercise_id": "S30-T4-B-E2", "answer": "completed_from_packet", "code": "tp,fn=2,2\nprint(tp / (tp + fn))\n", "blocked_on": [], "confidence": 0.94, "concepts_used": ["recall"], "note": "Theory recall tp/(tp+fn)."},
+    {"exercise_id": "S30-T4-B-E3", "answer": "completed_from_packet", "code": "print(['missing_phone'])\n", "blocked_on": [], "confidence": 0.9, "concepts_used": ["error slices"], "note": "Theory error slices e.g. missing phone."}
+  ],
+  "summary": {
+    "n_exercises": 24,
+    "n_answered": 24,
+    "n_blocked_exercises": 0,
+    "blocked_exercise_ids": [],
+    "n_selfcheck": 4,
+    "n_selfcheck_answered": 4,
+    "n_selfcheck_blocked": 0
+  }
+}

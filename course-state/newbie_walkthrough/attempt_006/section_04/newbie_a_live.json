@@ -1,0 +1,272 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "attempt_006",
+  "section_index": 4,
+  "packet_sha": "3f760c2b942b7a46",
+  "recorded_at": "2026-07-21T12:45:00Z",
+  "forbidden_honored": true,
+  "method": "llm_packet_only_no_generator",
+  "exercises": [
+    {
+      "exercise_id": "S04-T1-A-E1",
+      "code": "regiones = [\"Lima\", \"Cusco\", \"Piura\"]\nfor r in regiones:\n    print(r)\nprint(list(range(3)))",
+      "answer": "completed_from_packet",
+      "confidence": 0.98,
+      "blocked_on": [],
+      "concepts_used": ["for", "range"],
+      "justification_from_packet": "Hints: for r in regiones; range(3) → 0,1,2"
+    },
+    {
+      "exercise_id": "S04-T1-A-E2",
+      "code": "edades = [30, 17, 45, 22]\nn = 0\nfor e in edades:\n    if e >= 18:\n        n += 1\nprint(n)",
+      "answer": "completed_from_packet",
+      "confidence": 0.98,
+      "blocked_on": [],
+      "concepts_used": ["contador", "for"],
+      "justification_from_packet": "Hints: n==3"
+    },
+    {
+      "exercise_id": "S04-T1-A-E3",
+      "code": "lote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0}, {\"id\": \"C3\", \"monto\": -2}, {\"id\": \"C4\", \"monto\": 5}]\nfor reg in lote:\n    if reg[\"monto\"] > 0:\n        print(reg[\"id\"])",
+      "answer": "completed_from_packet",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["for", "filtro monto"],
+      "justification_from_packet": "Tests: C1 y C4"
+    },
+    {
+      "exercise_id": "S04-T1-B-E1",
+      "code": "ids = [\"A\", \"B\", \"C\"]\nfor i, x in enumerate(ids, start=1):\n    print(f\"fila {i}: {x}\")",
+      "answer": "completed_from_packet",
+      "confidence": 0.98,
+      "blocked_on": [],
+      "concepts_used": ["enumerate"],
+      "justification_from_packet": "iDo and hints: enumerate start=1"
+    },
+    {
+      "exercise_id": "S04-T1-B-E2",
+      "code": "nombres = [\"Ana\", \"Luis\", \"María\"]\nedades = [30, 25, 40]\nfor nom, edad in zip(nombres, edades):\n    print(f\"{nom}={edad}\")\nprint(list(zip(nombres, edades[:1])))",
+      "answer": "completed_from_packet",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["zip", "zip corto silencioso"],
+      "justification_from_packet": "Theory: zip stops at shortest; third name lost silently"
+    },
+    {
+      "exercise_id": "S04-T1-B-E3",
+      "code": "def zip_strict(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"desalineado\")\n    return list(zip(a, b))\ntry:\n    zip_strict([1, 2, 3], [10, 20])\nexcept ValueError:\n    print(\"DESALINEADO\")\ntry:\n    zip_strict([1, 2], [3, 4])\n    print(\"OK\")\nexcept ValueError:\n    print(\"DESALINEADO\")",
+      "answer": "completed_from_packet",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["zip_strict", "ValueError"],
+      "justification_from_packet": "iDo zip_strict helper exact pattern"
+    },
+    {
+      "exercise_id": "S04-T2-A-E1",
+      "code": "lines = [\"r1\", \"r2\", \"\", \"r3\"]\ni = 0\nout = []\nwhile i < len(lines):\n    line = lines[i]\n    i += 1\n    if line == \"\":\n        break\n    out.append(line)\nprint(out)",
+      "answer": "completed_from_packet",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["while", "centinela vacío"],
+      "justification_from_packet": "Hints: result ['r1','r2']; iDo END pattern"
+    },
+    {
+      "exercise_id": "S04-T2-A-E2",
+      "code": "intentos = 0\nMAX = 3\nwhile intentos < MAX:\n    intentos += 1\n    print(f\"intento {intentos}\")\nprint(\"done\", intentos)",
+      "answer": "completed_from_packet",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["while", "variable de control"],
+      "justification_from_packet": "Hints: increment inside while; done 3"
+    },
+    {
+      "exercise_id": "S04-T2-A-E3",
+      "code": "cola = [\"job1\", \"job2\", \"job3\"]\nwhile cola:\n    job = cola.pop(0)\n    print(job)\n    if job == \"job2\":\n        print(\"PAUSE\")\n        break\nprint(\"rest\", cola)",
+      "answer": "completed_from_packet",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["while", "pop", "break"],
+      "justification_from_packet": "Hints: rest ['job3']"
+    },
+    {
+      "exercise_id": "S04-T2-B-E1",
+      "code": "raw = [\"  \", \"Lima\", \"\", \"Cusco\"]\nfor x in raw:\n    if not x.strip():\n        continue\n    print(x)",
+      "answer": "completed_from_packet",
+      "confidence": 0.98,
+      "blocked_on": [],
+      "concepts_used": ["continue", "strip"],
+      "justification_from_packet": "iDo continue skips empty; only Lima Cusco"
+    },
+    {
+      "exercise_id": "S04-T2-B-E2",
+      "code": "codes = [200, 200, 500, 200]\nn_ok = 0\nfor code in codes:\n    if code >= 500:\n        print(\"STOP\")\n        break\n    print(\"ok\")\n    n_ok += 1\nprint(\"n_ok\", n_ok)",
+      "answer": "completed_from_packet",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["break", "contador"],
+      "justification_from_packet": "Hints: n_ok 2; break skips final 200"
+    },
+    {
+      "exercise_id": "S04-T2-B-E3",
+      "code": "buf = [\"a\", \"b\", \"END\"]\ni = 0\nout = []\nwhile True:\n    if i > 10:\n        raise RuntimeError(\"guard\")\n    line = buf[i]\n    i += 1\n    if line == \"END\":\n        break\n    out.append(line)\nprint(out)",
+      "answer": "completed_from_packet",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": ["while True", "break", "guardrail"],
+      "justification_from_packet": "iDo while with END; guardrail if i > 10"
+    },
+    {
+      "exercise_id": "S04-T3-A-E1",
+      "code": "sts = [\"accept\", \"reject\", \"accept\"]\nn_accept = n_reject = n_total = 0\nfor st in sts:\n    n_total += 1\n    if st == \"accept\":\n        n_accept += 1\n    elif st == \"reject\":\n        n_reject += 1\nprint(n_accept, n_reject, n_total)",
+      "answer": "completed_from_packet",
+      "confidence": 0.98,
+      "blocked_on": [],
+      "concepts_used": ["contadores"],
+      "justification_from_packet": "Tests 2 1 3; iDo counters pattern"
+    },
+    {
+      "exercise_id": "S04-T3-A-E2",
+      "code": "def tasa_reject(sts):\n    n_total = len(sts)\n    if not n_total:\n        return None\n    n_rej = sum(1 for s in sts if s == \"reject\")\n    return n_rej / n_total\nprint(tasa_reject([\"accept\", \"reject\", \"accept\"]))\nprint(tasa_reject([]))",
+      "answer": "completed_from_packet",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["tasa", "denominador", "None si vacío"],
+      "justification_from_packet": "Theory: n_total > 0 else None; no ZeroDivision"
+    },
+    {
+      "exercise_id": "S04-T3-A-E3",
+      "code": "rows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"review\"}, {\"id\": \"C3\", \"status\": \"review\"}]\nfirst = -1\nfor i, r in enumerate(rows):\n    if r[\"status\"] == \"review\":\n        first = i\n        print(first, r[\"id\"])\n        break\nif first == -1:\n    print(-1)",
+      "answer": "completed_from_packet",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["búsqueda", "enumerate", "break"],
+      "justification_from_packet": "Tests: 1 C2"
+    },
+    {
+      "exercise_id": "S04-T3-B-E1",
+      "code": "nums = [1, 2, 3, 4, 5]\ncuadrados = [x * x for x in nums]\npares = [x for x in nums if x % 2 == 0]\nprint(cuadrados)\nprint(pares)",
+      "answer": "completed_from_packet",
+      "confidence": 0.98,
+      "blocked_on": [],
+      "concepts_used": ["list comprehension"],
+      "justification_from_packet": "Hints: [x*x for x in nums]; pares if x%2==0"
+    },
+    {
+      "exercise_id": "S04-T3-B-E2",
+      "code": "rows = [{\"status\": \"reject\"}, {\"status\": \"accept\"}, {\"status\": \"reject\"}, {\"status\": \"review\"}]\nprint(sorted({r[\"status\"] for r in rows}))",
+      "answer": "completed_from_packet",
+      "confidence": 0.98,
+      "blocked_on": [],
+      "concepts_used": ["set comprehension", "sorted"],
+      "justification_from_packet": "Hints: sorted({r['status'] for r in rows})"
+    },
+    {
+      "exercise_id": "S04-T3-B-E3",
+      "code": "rows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"}, {\"id\": \"C3\", \"status\": \"accept\"}, {\"id\": \"C4\", \"status\": \"reject\"}]\nby = {r[\"id\"]: r[\"status\"] for r in rows}\nrejects = [r[\"id\"] for r in rows if r[\"status\"] == \"reject\"]\ntasa = len(rejects) / len(rows)\nprint(by)\nprint(\"reject\", rejects, tasa)",
+      "answer": "completed_from_packet",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["dict comprehension", "tasa"],
+      "justification_from_packet": "Hints: by id→status; tasa 0.5"
+    },
+    {
+      "exercise_id": "S04-T4-A-E1",
+      "code": "vals = [2, -1, 3]\ns = 0\nfor i, val in enumerate(vals):\n    if val > 0:\n        s += val\n    print(i, val, s)\nprint(\"final\", s)",
+      "answer": "completed_from_packet",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["traza", "acumulador"],
+      "justification_from_packet": "Hints: final s=5; print after sum positives"
+    },
+    {
+      "exercise_id": "S04-T4-A-E2",
+      "code": "filas = [\"a\", \"b\", \"c\"]\nn = 0\nfor f in filas:\n    n += 1  # un solo incremento (quitado el n+=1 duplicado)\nprint(n)",
+      "answer": "completed_from_packet",
+      "confidence": 0.98,
+      "blocked_on": [],
+      "concepts_used": ["bug contador", "traza"],
+      "justification_from_packet": "Hints: remove duplicate n+=1; result 3"
+    },
+    {
+      "exercise_id": "S04-T4-A-E3",
+      "code": "regs = [\"accept\", \"reject\", \"accept\"]\ncounts = {\"accept\": 0, \"reject\": 0}\nfor st in regs:\n    counts[st] = counts.get(st, 0) + 1\n    print(\"TRACE\", dict(counts))\nprint(\"FINAL\", counts)",
+      "answer": "completed_from_packet",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["TRACE", "dict contadores"],
+      "justification_from_packet": "iDo TRACE pattern; theory trazado de estado"
+    },
+    {
+      "exercise_id": "S04-T4-B-E1",
+      "code": "n = 5\nlin = quad = 0\nfor i in range(n):\n    lin += 1\nfor i in range(n):\n    for j in range(n):\n        quad += 1\nprint(lin, quad)",
+      "answer": "completed_from_packet",
+      "confidence": 0.98,
+      "blocked_on": [],
+      "concepts_used": ["O(n)", "O(n²)"],
+      "justification_from_packet": "Hints: 5 and 25"
+    },
+    {
+      "exercise_id": "S04-T4-B-E2",
+      "code": "data = [\"r0\", \"r1\", \"r2\"]\nfor i in range(len(data)):  # fixed: was range(1, len+1)\n    print(data[i])",
+      "answer": "completed_from_packet",
+      "confidence": 0.98,
+      "blocked_on": [],
+      "concepts_used": ["off-by-one", "range(len)"],
+      "justification_from_packet": "Hints: range(len(data)) → 0..n-1"
+    },
+    {
+      "exercise_id": "S04-T4-B-E3",
+      "code": "sts = [\"reject\", \"accept\", \"reject\", \"reject\", \"accept\"]\nn_reject = 0\nfor s in sts:\n    if s == \"reject\":\n        n_reject += 1\nn = len(sts)\ntasa = n_reject / n if n else None\nprint(n_reject, tasa)\nprint(\"nota: O(n) basta para la tasa; no hace falta pares O(n²)\")",
+      "answer": "completed_from_packet",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": ["O(n) vs O(n²)", "tasa"],
+      "justification_from_packet": "Tests: 3 0.6; theory one for is O(n)"
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.98,
+      "blocked_on": [],
+      "justification_from_packet": "Theory: range(3) → 0,1,2 stop exclusivo"
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory: zip stops at shortest; third lost silently"
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory: denominador = n_total registros intentados"
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory: continue skips to next loop iteration"
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "Theory: nested for is O(n²)"
+    }
+  ],
+  "summary": {
+    "n_exercises": 24,
+    "n_blocked_exercises": 0,
+    "blocked_exercise_ids": [],
+    "n_selfcheck": 5,
+    "n_blocked_selfcheck": 0
+  }
+}
