@@ -25,6 +25,30 @@ model User {
   exerciseAttempts     ExerciseAttempt[]
   subscription         Subscription?
   payments             Payment[]
+  feedbackReports      FeedbackReport[]
+}
+
+// User/guest feedback: bugs, ideas, recommendations
+model FeedbackReport {
+  id         String   @id @default(cuid())
+  type       String // BUG | IDEA | RECOMMENDATION | OTHER
+  status     String   @default("NEW") // NEW | REVIEWING | PLANNED | DONE | WONTFIX | DUPLICATE
+  title      String
+  body       String
+  sectionId  String?
+  pagePath   String?
+  userAgent  String?
+  email      String?
+  userId     String?
+  adminNote  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([type, createdAt])
+  @@index([userId])
 }
 
 // Per-user progress tracking for sub-steps (theory, ido, wedo, youdo, quiz)

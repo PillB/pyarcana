@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import {
   Users, TrendingUp, Award, Download, Search, Loader2,
-  ChevronRight, ArrowLeft, AlertCircle, FileText, Clock
+  ChevronRight, ArrowLeft, AlertCircle, FileText, Clock, MessageSquare
 } from 'lucide-react'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { AdminFeedbackPanel } from './AdminFeedbackPanel'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -331,119 +333,138 @@ export function AdminDashboard() {
           <span className="gradient-text">Dashboard del Maestro</span>
         </h1>
         <p className="mt-2 text-muted-foreground">
-          Monitorea el progreso, performance y gaps de todos los estudiantes.
+          Monitorea el progreso, performance y gaps de todos los estudiantes. Revisa feedback e ideas.
         </p>
       </motion.div>
 
-      {/* Stats */}
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard icon={Users} label="Estudiantes" value={String(students.length)} color="violet" />
-        <StatCard icon={TrendingUp} label="Completado promedio" value={`${avgCompletion}%`} color="emerald" />
-        <StatCard icon={Award} label="Score promedio" value={`${avgScore}%`} color="amber" />
-        <StatCard icon={FileText} label="Total exámenes" value={String(students.reduce((acc, s) => acc + s.examAttemptsCount, 0))} color="sky" />
-      </div>
+      <Tabs defaultValue="students" className="mt-6">
+        <TabsList>
+          <TabsTrigger value="students" className="gap-1.5">
+            <Users className="h-3.5 w-3.5" />
+            Estudiantes
+          </TabsTrigger>
+          <TabsTrigger value="feedback" className="gap-1.5" data-testid="admin-tab-feedback">
+            <MessageSquare className="h-3.5 w-3.5" />
+            Feedback
+          </TabsTrigger>
+        </TabsList>
 
-      {/* Export buttons */}
-      <div className="mt-6 flex flex-wrap gap-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => exportCSV('students')}
-          className="gap-2"
-          data-testid="admin-export"
-        >
-          <Download className="h-4 w-4" />
-          Exportar estudiantes (CSV)
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => exportCSV('attempts')}
-          className="gap-2"
-          data-testid="admin-export-attempts"
-        >
-          <Download className="h-4 w-4" />
-          Exportar intentos de examen (CSV)
-        </Button>
-      </div>
+        <TabsContent value="students" className="mt-4 space-y-4">
+          {/* Stats */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <StatCard icon={Users} label="Estudiantes" value={String(students.length)} color="violet" />
+            <StatCard icon={TrendingUp} label="Completado promedio" value={`${avgCompletion}%`} color="emerald" />
+            <StatCard icon={Award} label="Score promedio" value={`${avgScore}%`} color="amber" />
+            <StatCard icon={FileText} label="Total exámenes" value={String(students.reduce((acc, s) => acc + s.examAttemptsCount, 0))} color="sky" />
+          </div>
 
-      {/* Search */}
-      <div className="mt-6 relative max-w-sm">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          placeholder="Buscar por email o nombre..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="pl-9"
-        />
-      </div>
+          {/* Export buttons */}
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => exportCSV('students')}
+              className="gap-2"
+              data-testid="admin-export"
+            >
+              <Download className="h-4 w-4" />
+              Exportar estudiantes (CSV)
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => exportCSV('attempts')}
+              className="gap-2"
+              data-testid="admin-export-attempts"
+            >
+              <Download className="h-4 w-4" />
+              Exportar intentos de examen (CSV)
+            </Button>
+          </div>
 
-      {/* Students table */}
-      <Card className="mt-4 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="bg-muted/50">
-              <tr>
-                <th className="px-4 py-3 text-left font-medium">Estudiante</th>
-                <th className="px-4 py-3 text-left font-medium">Registro</th>
-                <th className="px-4 py-3 text-center font-medium">Completado</th>
-                <th className="px-4 py-3 text-center font-medium">Exámenes</th>
-                <th className="px-4 py-3 text-center font-medium">Score</th>
-                <th className="px-4 py-3 text-right font-medium"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredStudents.length === 0 && (
-                <tr>
-                  <td colSpan={6} className="px-4 py-8 text-center text-muted-foreground">
-                    No hay estudiantes registrados todavía.
-                  </td>
-                </tr>
-              )}
-              {filteredStudents.map((s) => (
-                <tr
-                  key={s.id}
-                  className="cursor-pointer border-t border-border/60 transition-colors hover:bg-accent/30"
-                  onClick={() => loadStudentDetail(s.id)}
-                  data-testid={`admin-student-row-${s.id}`}
-                >
-                  <td className="px-4 py-3">
-                    <div className="font-medium">{s.name || s.email.split('@')[0]}</div>
-                    <div className="text-xs text-muted-foreground">{s.email}</div>
-                  </td>
-                  <td className="px-4 py-3 text-xs text-muted-foreground">
-                    {new Date(s.createdAt).toLocaleDateString('es-PE')}
-                  </td>
-                  <td className="px-4 py-3 text-center">
-                    <div className="flex items-center justify-center gap-2">
-                      <div className="h-1.5 w-12 overflow-hidden rounded-full bg-muted">
-                        <div
-                          className="h-full gradient-primary"
-                          style={{ width: `${s.completionPct}%` }}
-                        />
-                      </div>
-                      <span className="text-xs">{s.completionPct}%</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 text-center text-xs">{s.examAttemptsCount}</td>
-                  <td className="px-4 py-3 text-center">
-                    {s.avgExamScore > 0 ? (
-                      <Badge variant={s.avgExamScore >= 70 ? 'default' : 'secondary'}>
-                        {s.avgExamScore}%
-                      </Badge>
-                    ) : (
-                      <span className="text-xs text-muted-foreground">—</span>
-                    )}
-                  </td>
-                  <td className="px-4 py-3 text-right">
-                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Card>
+          {/* Search */}
+          <div className="relative max-w-sm">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Buscar por email o nombre..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-9"
+            />
+          </div>
+
+          {/* Students table */}
+          <Card className="overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead className="bg-muted/50">
+                  <tr>
+                    <th className="px-4 py-3 text-left font-medium">Estudiante</th>
+                    <th className="px-4 py-3 text-left font-medium">Registro</th>
+                    <th className="px-4 py-3 text-center font-medium">Completado</th>
+                    <th className="px-4 py-3 text-center font-medium">Exámenes</th>
+                    <th className="px-4 py-3 text-center font-medium">Score</th>
+                    <th className="px-4 py-3 text-right font-medium"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredStudents.length === 0 && (
+                    <tr>
+                      <td colSpan={6} className="px-4 py-8 text-center text-muted-foreground">
+                        No hay estudiantes registrados todavía.
+                      </td>
+                    </tr>
+                  )}
+                  {filteredStudents.map((s) => (
+                    <tr
+                      key={s.id}
+                      className="cursor-pointer border-t border-border/60 transition-colors hover:bg-accent/30"
+                      onClick={() => loadStudentDetail(s.id)}
+                      data-testid={`admin-student-row-${s.id}`}
+                    >
+                      <td className="px-4 py-3">
+                        <div className="font-medium">{s.name || s.email.split('@')[0]}</div>
+                        <div className="text-xs text-muted-foreground">{s.email}</div>
+                      </td>
+                      <td className="px-4 py-3 text-xs text-muted-foreground">
+                        {new Date(s.createdAt).toLocaleDateString('es-PE')}
+                      </td>
+                      <td className="px-4 py-3 text-center">
+                        <div className="flex items-center justify-center gap-2">
+                          <div className="h-1.5 w-12 overflow-hidden rounded-full bg-muted">
+                            <div
+                              className="h-full gradient-primary"
+                              style={{ width: `${s.completionPct}%` }}
+                            />
+                          </div>
+                          <span className="text-xs">{s.completionPct}%</span>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 text-center text-xs">{s.examAttemptsCount}</td>
+                      <td className="px-4 py-3 text-center">
+                        {s.avgExamScore > 0 ? (
+                          <Badge variant={s.avgExamScore >= 70 ? 'default' : 'secondary'}>
+                            {s.avgExamScore}%
+                          </Badge>
+                        ) : (
+                          <span className="text-xs text-muted-foreground">—</span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3 text-right">
+                        <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="feedback" className="mt-4">
+          <AdminFeedbackPanel />
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }

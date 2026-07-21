@@ -13,6 +13,7 @@ import { ResourcesPage } from '@/components/course/ResourcesPage'
 import { AdminDashboard } from '@/components/course/AdminDashboard'
 import { AuthModal, UserMenu } from '@/components/course/AuthModal'
 import { Glossary } from '@/components/course/Glossary'
+import { FeedbackFab } from '@/components/course/FeedbackFab'
 import { PdfReport } from '@/components/course/PdfReport'
 import { LanguageToggle } from '@/components/course/LanguageToggle'
 import { PricingPage } from '@/components/course/PricingPage'
@@ -123,6 +124,7 @@ export default function Home() {
     <div className="flex min-h-screen bg-background">
       <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} defaultTab={authTab} />
       <Glossary open={glossaryOpen} onClose={() => setGlossaryOpen(false)} />
+      <FeedbackFab sectionId={activeSectionId} />
       <PdfReport open={pdfReportOpen} onClose={() => setPdfReportOpen(false)} />
 
       {/* Sidebar — desktop */}
