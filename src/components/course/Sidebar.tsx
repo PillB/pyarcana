@@ -24,7 +24,7 @@ interface SidebarProps {
   activeSectionId: string | null
   onSelectSection: (id: string) => void
   onHome: () => void
-  view: 'home' | 'section' | 'resources' | 'dashboard'
+  view: 'home' | 'section' | 'resources' | 'dashboard' | 'admin' | 'familiarity' | 'pricing'
 }
 
 const SUB_STEP_ICONS: Record<SubStep, React.ElementType> = {

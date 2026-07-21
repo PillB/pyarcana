@@ -50,7 +50,7 @@ export interface WeDoStep {
   /** V3 exercise id, e.g. S01-T1-A-E1 */
   id?: string
   subtopicId?: string
-  kind?: 'guided' | 'independent' | 'transfer'
+  kind?: 'guided' | 'independent' | 'transfer' | 'apply' | 'analyze' | string
   edgeCases?: string[]
   /** How the exercise is verified (tests / checklist / rubric) */
   tests?: string
@@ -113,8 +113,8 @@ export interface CourseSection {
   shortTitle: string
   tagline: string
   estimatedHours: number
-  level: 'Principiante' | 'Intermedio' | 'Avanzado' | 'Competente' | 'Senior' | 'Master'
-  phase: 0 | 1 | 2 | 3
+  level: string
+  phase?: 0 | 1 | 2 | 3
   icon: string // lucide icon name
   accentColor: string // tailwind gradient classes
   learningOutcomes: LearningOutcome[]

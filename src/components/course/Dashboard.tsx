@@ -221,7 +221,7 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
             const subStepsDone = safeCompletedSubSteps[section.id] || []
             const sectionProgress = Math.round((subStepsDone.length / 5) * 100)
             const isNext = section.id === nextSection.id
-            const Icon = (Icons as Record<string, React.ElementType>)[section.icon] || Icons.Circle
+            const Icon = (Icons as unknown as Record<string, React.ElementType>)[section.icon] || Icons.Circle
 
             return (
               <motion.button
