@@ -24,7 +24,7 @@
     "test:e2e-max:catalog": "node scripts/export_interaction_catalog.mjs",
     "test:e2e-max": "npm run test:e2e-max:catalog && npx playwright test -c scripts/e2e_max/playwright.max.config.ts",
     "test:e2e-max:shard": "npx playwright test -c scripts/e2e_max/playwright.max.config.ts",
-    "test:e2e-max:smoke": "npm run test:e2e-max:catalog && npx playwright test -c scripts/e2e_max/playwright.max.config.ts scripts/e2e_max/01_chrome_pages.spec.ts scripts/e2e_max/06_student_admin_flows.spec.ts",
+    "test:e2e-max:smoke": "npm run test:e2e-max:catalog && npx playwright test -c scripts/e2e_max/playwright.max.config.ts scripts/e2e_max/01_chrome_pages.spec.ts scripts/e2e_max/06_student_admin_flows.spec.ts scripts/e2e_max/11_admin_analytics.spec.ts",
     "test:glossary-intro": "python3 scripts/glossary_intro_audit.py",
     "test:glossary-coverage": "python3 scripts/glossary_coverage_audit.py",
     "test:i18n-parity": "node scripts/i18n_parity_check.mjs",

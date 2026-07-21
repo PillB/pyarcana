@@ -63,7 +63,13 @@ test.describe('E2E max — student + admin flows', () => {
     await loginAdmin(page)
     await gotoHash(page, 'admin')
     await expect(page.getByTestId('admin-students')).toBeVisible({ timeout: 30_000 })
-    await expect(page.getByTestId('admin-export')).toBeVisible()
+
+    // Export controls live on Estudiantes tab (Overview is default)
+    const studentsTab = page.getByTestId('admin-tab-students')
+    if (await studentsTab.isVisible().catch(() => false)) {
+      await studentsTab.click()
+    }
+    await expect(page.getByTestId('admin-export')).toBeVisible({ timeout: 15_000 })
 
     // API export
     const exp = await page.request.get(`${BASE}/api/admin/export?type=students`)
