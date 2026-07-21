@@ -5,31 +5,49 @@ export const section01: CourseSection = {
   index: 1,
   title: 'Setup & Entorno de Desarrollo',
   shortTitle: 'Setup & Entorno',
-  tagline: 'Python, VS Code, venv y Git listos para producción desde el día 1',
+  tagline:
+    'Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1',
   estimatedHours: 4,
   level: 'Principiante',
   phase: 0,
   icon: 'Wrench',
   accentColor: 'bg-gradient-to-br from-violet-500 to-violet-700',
   jobRelevance:
-    'El 90% de los problemas en equipos de data science no son de código, son de entorno. Un analista que sabe configurar venv, git y VS Code correctamente ahorra horas al equipo y se gana la confianza del líder técnico. En empresas peruanas como Interbank, BBVA o Caja Arequipa, el primer día te piden clonar un repo, levantar el entorno y correr un notebook. Si te trabas ahí, no pasas la semana de prueba.',
+    'El 90% de los problemas en equipos de data science no son de código: son de **entorno** (la máquina, el Python y los paquetes con los que corres el proyecto). Un analista que sabe crear un **entorno virtual** (carpeta aislada de Python + paquetes, con la herramienta `venv`), usar **Git** (historial de cambios del código) y un editor como VS Code ahorra horas al equipo. En empresas peruanas como Interbank, BBVA o Caja Arequipa, el primer día suelen pedirte **clonar un repo** (repositorio: la carpeta del proyecto con su historial Git en GitHub u otro remoto), **activar el entorno virtual** y correr un notebook. Si te trabas ahí, no pasas la semana de prueba. Esta sección te enseña cada una de esas palabras antes de usarla a fondo.',
   learningOutcomes: [
-    { text: 'Seleccionar e invocar el intérprete Python correcto y usar el REPL para inspección rápida' },
-    { text: 'Interpretar códigos de salida (0 vs no-cero) y distinguir PATH del directorio de trabajo' },
+    {
+      text: 'Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida',
+    },
+    {
+      text: 'Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo',
+    },
     { text: 'Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)' },
-    { text: 'Crear y activar entornos virtuales con venv (.venv) por proyecto' },
+    {
+      text: 'Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)',
+    },
     { text: 'Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)' },
-    { text: 'Inicializar un repo Git, hacer commit/push y abrir un Pull Request en GitHub' },
-    { text: 'Escribir un archivo requirements.txt reproducible y un .gitignore correcto' },
+    {
+      text: 'Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub',
+    },
+    {
+      text: 'Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)',
+    },
   ],
   theory: [
     {
       heading: 'Por qué el setup importa más de lo que crees',
       paragraphs: [
-        'Mucha gente salta el setup porque "ya aprenderá en el camino". Error. En producción, un entorno mal configurado genera errores fantasma: "a mí me funciona" es la frase más temida en Slack. Cuando trabajas en un equipo de data science, tu colega clona tu repo, ejecuta `pip install -r requirements.txt` y todo debería andar. Si no anda, perdiste credibilidad. Por eso esta sección no es un trámite — es la base sobre la que se construye todo lo demás.',
-        'En Perú, el stack que vas a encontrar en empresas medianas y grandes es bastante consistente: Python 3.11 o 3.12, VS Code o PyCharm, Git + GitHub (algunos usan GitLab), y entornos virtuales con `venv` (más común) o `conda` (en equipos más legacy o de investigación). Las startups más nuevas están migrando a `uv` que es brutalmente más rápido, pero todavía no es estándar. Vamos con `venv` porque es lo que vas a encontrar en el 95% de los puestos.',
-        'La regla de oro: **un proyecto = un entorno virtual = un requirements.txt**. Nunca instales paquetes globales. Nunca. Si lo haces, en 3 meses no vas a saber qué versión de pandas tenías cuando algo funcionaba y ahora no. El entorno virtual aísla las dependencias por proyecto, igual que una caja hermética. Cuando algo se rompe, sabes exactamente dónde buscar.',
+        '**Diccionario del día 1** (léelo antes de seguir; el resto de la sección profundiza cada término). **Intérprete:** el programa `python`/`python3` que ejecuta tu código. **Terminal (shell):** la ventana de texto donde escribes comandos. **Entorno virtual (`venv`):** una carpeta del proyecto (canónica: `.venv`) con su propio Python y paquetes, para no mezclar dependencias entre proyectos. **pip:** instalador de paquetes de terceros. **requirements.txt:** archivo que lista esas dependencias con versión. **Repo (repositorio):** la carpeta del proyecto bajo **Git** (control de versiones: historial de quién cambió qué). **Clonar:** copiar un repo desde un remoto (p. ej. **GitHub**) a tu laptop. **Commit:** guardar un snapshot del historial con un mensaje. **Pull Request (PR):** pedir que revisen e integren tus cambios. Pasa el cursor sobre estas palabras cuando veas el subrayado: el hover te repite la definición en esta y en lecciones siguientes.',
+        'Mucha gente salta el setup porque "ya aprenderá en el camino". Error. En producción, un entorno mal configurado genera errores fantasma: "a mí me funciona" es la frase más temida en Slack. Cuando trabajas en un equipo de data science, tu colega **clona tu repo** (copia el repositorio), crea su propio **entorno virtual**, ejecuta `pip install -r requirements.txt` (instala los paquetes listados) y todo debería andar. Si no anda, perdiste credibilidad. Por eso esta sección no es un trámite — es la base sobre la que se construye todo lo demás.',
+        'En Perú, el stack que vas a encontrar en empresas medianas y grandes es bastante consistente: Python 3.11 o 3.12, VS Code o PyCharm, Git + GitHub (algunos usan GitLab), y **entornos virtuales** con el módulo `venv` (más común) o `conda` (en equipos más legacy o de investigación). Las startups más nuevas están migrando a `uv` (más rápido), pero todavía no es estándar. Vamos con `venv` porque es lo que vas a encontrar en el 95% de los puestos.',
+        'La regla de oro: **un proyecto = un entorno virtual = un requirements.txt**. Nunca instales paquetes en el Python global del sistema. Nunca. Si lo haces, en 3 meses no vas a saber qué versión de pandas tenías cuando algo funcionaba y ahora no. El entorno virtual aísla las **dependencias** (paquetes que tu código necesita) por proyecto, igual que una caja hermética. Cuando algo se rompe, sabes exactamente dónde buscar.',
       ],
+      callout: {
+        type: 'tip',
+        title: 'Cómo usar este diccionario',
+        content:
+          'Si una frase usa una palabra en negrita o subrayada y no la recuerdas, vuelve a este bloque o pasa el cursor (hover) sobre el término. En lecciones siguientes el hover te refresca la misma definición sin volver a leer toda S01.',
+      },
     },
     {
       heading: 'El intérprete Python y el REPL',

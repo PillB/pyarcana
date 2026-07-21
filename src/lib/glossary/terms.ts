@@ -134,34 +134,190 @@ export const GLOSSARY_TERMS: GlossaryTerm[] = [
   },
   {
     id: 'virtual-environment-venv',
-    term: 'Virtual environment (venv)',
-    aliases: ["Virtual environment (venv)", "Virtual environment", "venv"],
+    term: 'Entorno virtual (venv)',
+    aliases: [
+      'Entorno virtual (venv)',
+      'entorno virtual',
+      'entornos virtuales',
+      'Virtual environment (venv)',
+      'Virtual environment',
+      'venv',
+      '.venv',
+    ],
     category: 'Tooling',
-    definition: 'Carpeta con instalación aislada de Python y paquetes. Evita conflictos entre proyectos.',
+    definition:
+      'Carpeta aislada del proyecto (canónica: .venv) con su propio Python y paquetes. Evita que las dependencias de un cliente rompan otro proyecto.',
+    firstSectionId: 'setup',
+  },
+  {
+    id: 'repositorio-repo',
+    term: 'Repositorio (repo)',
+    aliases: ['Repositorio (repo)', 'repositorio', 'repo', 'repository', 'repos'],
+    category: 'Tooling',
+    definition:
+      'Carpeta del proyecto bajo control de versiones Git: guarda el código y el historial de cambios. En la jerga se abrevia «repo».',
+    firstSectionId: 'setup',
+  },
+  {
+    id: 'git',
+    term: 'Git',
+    aliases: ['Git', 'git'],
+    category: 'Tooling',
+    definition:
+      'Sistema de control de versiones: registra quién cambió qué archivo y por qué (commits), en tu máquina y al sincronizar con remotos.',
+    firstSectionId: 'setup',
+  },
+  {
+    id: 'github',
+    term: 'GitHub',
+    aliases: ['GitHub', 'github'],
+    category: 'Tooling',
+    definition:
+      'Servicio en la nube (remoto) donde publicas repos Git, abres Pull Requests y colaboras con el equipo. No es lo mismo que Git (Git es el sistema; GitHub es un hosting).',
+    firstSectionId: 'setup',
+  },
+  {
+    id: 'clonar',
+    term: 'Clonar',
+    aliases: ['Clonar', 'clonar', 'clone', 'clonación'],
+    category: 'Tooling',
+    definition:
+      'Copiar un repositorio desde un remoto (p. ej. GitHub) a tu laptop con `git clone`, incluyendo el historial.',
+    firstSectionId: 'setup',
+  },
+  {
+    id: 'commit',
+    term: 'Commit',
+    aliases: ['Commit', 'commit', 'commits'],
+    category: 'Tooling',
+    definition:
+      'Snapshot del historial Git con un mensaje: guarda un punto de retorno de tus cambios (`git commit -m "..."`).',
+    firstSectionId: 'setup',
+  },
+  {
+    id: 'pull-request',
+    term: 'Pull Request (PR)',
+    aliases: ['Pull Request (PR)', 'Pull Request', 'pull request', 'PR'],
+    category: 'Tooling',
+    definition:
+      'Propuesta de cambios en un remoto (GitHub/GitLab) para que revisen e integren tu rama a main (u otra rama base).',
+    firstSectionId: 'setup',
+  },
+  {
+    id: 'path',
+    term: 'PATH',
+    aliases: ['PATH', 'Path'],
+    category: 'Tooling',
+    definition:
+      'Lista de carpetas donde el sistema operativo busca programas cuando escribes un comando (p. ej. `python`). Si Python no está en el PATH, la terminal «no lo reconoce».',
+    firstSectionId: 'setup',
+  },
+  {
+    id: 'interprete',
+    term: 'Intérprete',
+    aliases: ['Intérprete', 'intérprete', 'interprete', 'interpreter'],
+    category: 'Python',
+    definition:
+      'El programa Python que lee y ejecuta tu código (`python` / `python3`). Verificar la versión y la ruta evita instalar paquetes en un Python y ejecutar otro.',
+    firstSectionId: 'setup',
+  },
+  {
+    id: 'repl',
+    term: 'REPL',
+    aliases: ['REPL', 'repl'],
+    category: 'Python',
+    definition:
+      'Read–Eval–Print Loop: modo interactivo del intérprete (prompt `>>>`) para probar expresiones sin crear un archivo `.py`.',
     firstSectionId: 'setup',
   },
   {
     id: 'pip',
     term: 'pip',
-    aliases: ["pip"],
+    aliases: ['pip', 'Pip'],
     category: 'Tooling',
-    definition: 'Package installer for Python. Instala paquetes desde PyPI. pip install pandas, pip freeze > requirements.txt.',
+    definition:
+      'Instalador de paquetes de terceros desde PyPI. Úsalo como `python -m pip` para atarlo al mismo intérprete del entorno virtual.',
     firstSectionId: 'setup',
   },
   {
     id: 'requirements-txt',
     term: 'requirements.txt',
-    aliases: ["requirements.txt"],
+    aliases: ['requirements.txt', 'requirements'],
     category: 'Tooling',
-    definition: 'Archivo que lista las dependencias del proyecto con versiones pinneadas. Garantiza reproducibilidad.',
+    definition:
+      'Archivo de texto que lista dependencias del proyecto (a menudo con versión pinneada). Se restaura con `pip install -r requirements.txt`.',
+    firstSectionId: 'setup',
+  },
+  {
+    id: 'dependencias',
+    term: 'Dependencias',
+    aliases: ['Dependencias', 'dependencias', 'dependency', 'dependencies'],
+    category: 'Tooling',
+    definition:
+      'Paquetes o librerías que tu proyecto necesita para correr (pandas, numpy, etc.). En Python de terceros se instalan con pip en el venv.',
     firstSectionId: 'setup',
   },
   {
     id: 'conventional-commits',
     term: 'Conventional Commits',
-    aliases: ["Conventional Commits"],
+    aliases: ['Conventional Commits', 'conventional commits'],
     category: 'Tooling',
-    definition: 'Estándar para mensajes de git commit: feat:, fix:, docs:, refactor:, test:, chore:.',
+    definition:
+      'Estándar para mensajes de commit: prefijos feat:, fix:, docs:, refactor:, test:, chore: + descripción clara en imperativo.',
+    firstSectionId: 'setup',
+  },
+  {
+    id: 'terminal-shell',
+    term: 'Terminal (shell)',
+    aliases: ['Terminal (shell)', 'terminal', 'Terminal', 'shell', 'Shell', 'línea de comandos'],
+    category: 'Tooling',
+    definition:
+      'Ventana de texto donde escribes comandos al sistema (PowerShell, bash, zsh). Ahí corres `python`, `git` y activas el venv.',
+    firstSectionId: 'setup',
+  },
+  {
+    id: 'dotenv',
+    term: '.env',
+    aliases: ['.env', 'env file', 'archivo .env'],
+    category: 'Tooling',
+    definition:
+      'Archivo local de variables y secretos (API keys, contraseñas). Nunca se sube al repo; usa `.env.example` solo con nombres de claves.',
+    firstSectionId: 'setup',
+  },
+  {
+    id: 'gitignore',
+    term: '.gitignore',
+    aliases: ['.gitignore', 'gitignore'],
+    category: 'Tooling',
+    definition:
+      'Archivo que le dice a Git qué no trackear (p. ej. `.venv/`, `__pycache__/`, `.env`). Si un archivo ya está trackeado, hay que sacarlo del índice aparte.',
+    firstSectionId: 'setup',
+  },
+  {
+    id: 'ruff',
+    term: 'Ruff',
+    aliases: ['Ruff', 'ruff'],
+    category: 'Tooling',
+    definition:
+      'Linter y formateador de Python muy rápido. En S01 se usa `ruff check` para atrapar errores baratos antes del code review.',
+    firstSectionId: 'setup',
+  },
+  {
+    id: 'vs-code',
+    term: 'VS Code',
+    aliases: ['VS Code', 'vscode', 'Visual Studio Code', 'Vs Code'],
+    category: 'Tooling',
+    definition:
+      'Editor de código gratuito de Microsoft. Con la extensión Python (Pylance) y Ruff es el entorno recomendado de este curso.',
+    firstSectionId: 'setup',
+  },
+  {
+    id: 'notebook',
+    term: 'Notebook',
+    aliases: ['Notebook', 'notebook', 'Jupyter', 'jupyter', 'ipynb'],
+    category: 'Tooling',
+    definition:
+      'Documento interactivo (a menudo Jupyter `.ipynb`) que mezcla celdas de código y texto. Útil para exploración; el código de producción suele vivir en scripts `.py`.',
     firstSectionId: 'setup',
   },
   {

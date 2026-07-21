@@ -1,0 +1,70 @@
+{
+  "section": "setup",
+  "first_hits": {
+    "venv": {
+      "location": "jobRelevance",
+      "snippet": " Python + paquetes, con la herramienta `venv`), usar **Git** (historial de cambios del código) y un edit",
+      "defined_at_first_use": true
+    },
+    "repo": {
+      "location": "jobRelevance",
+      "snippet": "l primer día suelen pedirte **clonar un repo** (repositorio: la carpeta del proyecto con su historial Gi",
+      "defined_at_first_use": true
+    },
+    "git": {
+      "location": "jobRelevance",
+      "snippet": "tes, con la herramienta `venv`), usar **Git** (historial de cambios del código) y un editor como VS Cod",
+      "defined_at_first_use": true
+    },
+    "github": {
+      "location": "jobRelevance",
+      "snippet": "ta del proyecto con su historial Git en GitHub u otro remoto), **activar el entorno virtual** y correr un ",
+      "defined_at_first_use": true
+    },
+    "clonar": {
+      "location": "jobRelevance",
+      "snippet": "requipa, el primer día suelen pedirte **clonar un repo** (repositorio: la carpeta del proyecto con su hist",
+      "defined_at_first_use": true
+    },
+    "repl": {
+      "location": "theory.heading",
+      "snippet": "El intérprete Python y el REPL",
+      "defined_at_first_use": true
+    },
+    "interprete": {
+      "location": "theory.heading",
+      "snippet": "El intérprete Python y el REPL",
+      "defined_at_first_use": true
+    },
+    "pip": {
+      "location": "theory.heading",
+      "snippet": "pip, freeze y requirements.txt",
+      "defined_at_first_use": true
+    },
+    "requirements": {
+      "location": "theory.heading",
+      "snippet": "pip, freeze y requirements.txt",
+      "defined_at_first_use": true
+    },
+    "commit": {
+      "location": "theory.heading",
+      "snippet": "Git: commits y lectura de diffs",
+      "defined_at_first_use": true
+    },
+    "pr": {
+      "location": "theory.heading",
+      "snippet": "Ramas, Pull Requests y recuperación segura",
+      "defined_at_first_use": true
+    },
+    "path": {
+      "location": "theory.paragraph",
+      "snippet": "veces el comando `python` no está en el PATH (la lista de carpetas donde el sistema busca programas). En",
+      "defined_at_first_use": true
+    }
+  },
+  "issues": [],
+  "open_p0": [],
+  "open_p1": [],
+  "ok": true,
+  "has_day1_dictionary": true
+}

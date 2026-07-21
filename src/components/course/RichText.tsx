@@ -6,7 +6,7 @@ import { Callout } from './Callout'
 import { CodePlayground } from './CodePlayground'
 import { InlineAnnotated } from './InlineAnnotated'
 import type { TheoryBlock as TheoryBlockType, Callout as CalloutType, CodeExample } from '@/lib/types'
-import { termsAvailableAt, type GlossaryTerm } from '@/lib/glossary'
+import { GLOSSARY_TERMS, termsAvailableAt, type GlossaryTerm } from '@/lib/glossary'
 
 interface RichTextProps {
   content: string
@@ -21,13 +21,26 @@ interface RichTextProps {
  */
 export function RichText({ content, sectionId }: RichTextProps) {
   const blocks = parseBlocks(content)
-  const available = useMemo(() => termsAvailableAt(sectionId), [sectionId])
-  const seen = useMemo(() => new Set<string>(), [content, sectionId])
+  const available = useMemo(() => {
+    try {
+      const t = termsAvailableAt(sectionId)
+      return t.length ? t : GLOSSARY_TERMS
+    } catch {
+      return GLOSSARY_TERMS
+    }
+  }, [sectionId])
+  // New Set every render so React Strict Mode double-mount cannot reuse a filled seen set
+  const seen = new Set<string>()
+  // Annotate plain markdown first (so **bold** does not hide terms), then render HTML
   const annotate = (text: string) =>
-    annotateGlossaryTerms(renderInline(text), available, seen)
+    renderInline(annotateGlossaryTermsPlain(text, available, seen))
 
   return (
-    <div className="space-y-4 text-[15px] leading-relaxed text-foreground/90">
+    <div
+      className="space-y-4 text-[15px] leading-relaxed text-foreground/90"
+      data-glossary-terms={available.length}
+      data-testid={content.includes('Diccionario del día') ? 'richtext-day1' : undefined}
+    >
       {blocks.map((block, i) => {
         if (block.type === 'code') {
           const isRunnable =
@@ -227,7 +240,14 @@ function parseBlocks(text: string): Block[] {
 }
 
 function renderInline(text: string): string {
-  let out = text
+  // Protect term markers so bold/code regex do not split them
+  const markers: string[] = []
+  let out = text.replace(/⟦TERM:[^⟧]+⟧[\s\S]*?⟦\/TERM⟧/g, (m) => {
+    const i = markers.length
+    markers.push(m)
+    return `\u0001${i}\u0001`
+  })
+  out = out
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
@@ -242,31 +262,32 @@ function renderInline(text: string): string {
     /\[([^\]]+)\]\(([^)]+)\)/g,
     '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-primary underline decoration-primary/40 hover:decoration-primary">$1</a>'
   )
+  // Restore markers; escape only the inner matched text later via InlineAnnotated
+  out = out.replace(/\u0001(\d+)\u0001/g, (_, i) => markers[Number(i)])
   return out
 }
 
 /**
- * Mark first occurrence of each glossary alias (outside HTML tags / code).
- * Uses placeholders consumable by InlineAnnotated → TermHint.
+ * Mark first occurrence of each glossary alias in plain markdown (skip `code`).
+ * Markers ⟦TERM:id⟧…⟦/TERM⟧ survive renderInline and InlineAnnotated → TermHint.
  */
-function annotateGlossaryTerms(
-  html: string,
+function annotateGlossaryTermsPlain(
+  plain: string,
   terms: GlossaryTerm[],
   seen: Set<string>
 ): string {
-  if (!terms.length) return html
-  // Protect tags and code spans
-  const protectedParts: string[] = []
-  const withHoles = html.replace(/<[^>]+>|&[a-z]+;/gi, (m) => {
-    const i = protectedParts.length
-    protectedParts.push(m)
+  if (!terms.length) return plain
+  const holes: string[] = []
+  // Protect fenced-style inline code and already-marked spans
+  let text = plain.replace(/`[^`]+`/g, (m) => {
+    const i = holes.length
+    holes.push(m)
     return `\u0000${i}\u0000`
   })
 
-  let text = withHoles
   const sorted = [...terms].sort((a, b) => {
-    const al = Math.max(...a.aliases.map((x) => x.length))
-    const bl = Math.max(...b.aliases.map((x) => x.length))
+    const al = Math.max(...a.aliases.map((x) => x.length), 0)
+    const bl = Math.max(...b.aliases.map((x) => x.length), 0)
     return bl - al
   })
 
@@ -275,17 +296,21 @@ function annotateGlossaryTerms(
     for (const alias of [...term.aliases].sort((a, b) => b.length - a.length)) {
       if (alias.length < 3) continue
       const escaped = alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-      const re = new RegExp(`(?<![\\w/-])(${escaped})(?![\\w/-])`, 'i')
+      // No lookbehind (more portable): capture a non-word boundary char and put it back
+      const re = new RegExp(
+        `(^|[^A-Za-z0-9À-ÿ_./-])(${escaped})(?=[^A-Za-z0-9À-ÿ_./-]|$)`,
+        'i'
+      )
       if (!re.test(text)) continue
-      text = text.replace(re, (match) => {
+      text = text.replace(re, (_full, before: string, match: string) => {
         seen.add(term.id)
-        return `⟦TERM:${term.id}⟧${match}⟦/TERM⟧`
+        return `${before}⟦TERM:${term.id}⟧${match}⟦/TERM⟧`
       })
       break
     }
   }
 
-  return text.replace(/\u0000(\d+)\u0000/g, (_, i) => protectedParts[Number(i)])
+  return text.replace(/\u0000(\d+)\u0000/g, (_, i) => holes[Number(i)])
 }
 
 // === Sub-componentes para teoría estructurada ===

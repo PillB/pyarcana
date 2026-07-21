@@ -4,27 +4,57 @@ import { gotoHash, gotoSection, openTab } from './helpers/nav'
 const BASE = process.env.BASE_URL || 'http://localhost:3000'
 
 test.describe('Glossary hover + i18n chrome + contrast smoke', () => {
-  test('S01 theory annotates glossary terms with hover tooltips', async ({ page }) => {
+  test('S01 theory defines day-1 jargon and annotates hover tooltips', async ({ page }) => {
     await gotoSection(page, 'setup')
     await openTab(page, 'theory')
-    // At least one term hint should appear (venv/pip/etc. in setup prose)
+    const panel = page.locator('[data-state="active"][role="tabpanel"]')
+    const body = ((await panel.textContent()) || '').toLowerCase()
+    // Pedagogy: dictionary / micro-definitions present
+    expect(body).toMatch(/diccionario del d[ií]a|repositorio|entorno virtual/)
+    expect(body).toMatch(/historial|carpeta aislada|venv/)
+
     const hints = page.locator('[data-testid^="term-hint-"]')
     await page.waitForTimeout(800)
     const n = await hints.count()
-    // Soft: if content uses synonyms without exact alias, still require theory text
+    expect(n, 'expected glossary hover chips in S01 theory').toBeGreaterThan(0)
+
+    // Day-1 family: repo + entorno/venv must both annotate
+    const repoFamily = page.locator(
+      '[data-testid="term-hint-repositorio-repo"], [data-testid*="repositorio"]'
+    )
+    const venvFamily = page.locator(
+      '[data-testid="term-hint-virtual-environment-venv"], [data-testid*="virtual-environment"], [data-testid*="entorno"]'
+    )
+    await expect(repoFamily.first()).toBeVisible({ timeout: 10_000 })
+    await expect(venvFamily.first()).toBeVisible({ timeout: 10_000 })
+
+    await repoFamily.first().hover()
+    const tip = page.locator('[data-testid^="term-tooltip-"], [data-slot="tooltip-content"]')
+    await expect(tip.first()).toBeVisible({ timeout: 5000 })
+    const tipText = ((await tip.first().textContent()) || '').toLowerCase()
+    expect(tipText.length).toBeGreaterThan(10)
+    expect(tipText).toMatch(/carpeta|historial|repositorio|git|paquete|entorno|python/)
+  })
+
+  test('S02 theory still supports glossary hover pipeline', async ({ page }) => {
+    await gotoSection(page, 'basics')
+    await openTab(page, 'theory')
+    await page.waitForTimeout(600)
+    const hints = page.locator('[data-testid^="term-hint-"]')
+    const n = await hints.count()
     if (n === 0) {
-      const body = await page.locator('[data-state="active"][role="tabpanel"]').textContent()
-      expect((body || '').length).toBeGreaterThan(50)
+      const body = (await page.locator('[data-state="active"][role="tabpanel"]').textContent()) || ''
+      expect(body.length).toBeGreaterThan(40)
       test.info().annotations.push({
         type: 'note',
-        description: 'No term-hint matched in S01 theory this run (alias coverage)',
+        description: 'S02 theory had no auto-annotated aliases this run',
       })
       return
     }
     await hints.first().hover()
-    // Tooltip content from Radix
-    const tip = page.locator('[data-testid^="term-tooltip-"], [data-slot="tooltip-content"]')
-    await expect(tip.first()).toBeVisible({ timeout: 5000 })
+    await expect(
+      page.locator('[data-testid^="term-tooltip-"], [data-slot="tooltip-content"]').first()
+    ).toBeVisible({ timeout: 5000 })
   })
 
   test('language toggle switches chrome strings (es-PE → en)', async ({ page }) => {

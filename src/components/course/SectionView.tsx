@@ -334,15 +334,11 @@ function TheoryTab({ section, onDone, done }: { section: CourseSection; onDone: 
         <h2 className="text-xl font-semibold">Teoría</h2>
       </div>
       {section.theory.map((block, i) => (
-        <RichText
-          key={i}
-          sectionId={section.id}
-          content={block.heading + '\n\n' + block.paragraphs.join('\n\n')}
-        />
-      ))}
-      {/* Renderizar bloques estructurados si existen */}
-      {section.theory.map((block, i) => (
-        <div key={`structured-${i}`}>
+        <div key={i} className="space-y-4">
+          <RichText
+            sectionId={section.id}
+            content={block.heading + '\n\n' + block.paragraphs.join('\n\n')}
+          />
           {block.code && (
             <CodeBlock
               code={block.code.code}
