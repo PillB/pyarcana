@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import { z } from 'zod'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { syncFeedbackReport } from '@/lib/firebase/sync'
 
 const TYPES = ['BUG', 'IDEA', 'RECOMMENDATION', 'OTHER'] as const
 
@@ -82,6 +83,9 @@ export async function POST(request: Request) {
         status: 'NEW',
       },
     })
+
+    // Dual-write to Firebase Spark (Firestore) when configured
+    void syncFeedbackReport(row)
 
     return NextResponse.json({ id: row.id, status: row.status }, { status: 201 })
   } catch (e) {

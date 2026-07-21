@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { syncExamAttempt } from '@/lib/firebase/sync'
 import { z } from 'zod'
 
 const startSchema = z.object({
@@ -116,6 +117,8 @@ export async function POST(request: Request) {
         variantSeed: JSON.stringify(variantSeed),
       },
     })
+
+    void syncExamAttempt(attempt)
 
     // Return questions (without answers) + attempt ID
     return NextResponse.json({

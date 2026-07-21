@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { syncExamAttempt } from '@/lib/firebase/sync'
 import { z } from 'zod'
 
 const submitSchema = z.object({
@@ -83,7 +84,7 @@ export async function POST(request: Request) {
     const score = Math.round((correctCount / detailedAnswers.length) * 100)
 
     // Update the attempt with full detail
-    await db.examAttempt.update({
+    const updated = await db.examAttempt.update({
       where: { id: attemptId },
       data: {
         answers: JSON.stringify(detailedAnswers),
@@ -92,6 +93,8 @@ export async function POST(request: Request) {
         timeSpentSec,
       },
     })
+
+    void syncExamAttempt(updated)
 
     return NextResponse.json({
       attemptId,

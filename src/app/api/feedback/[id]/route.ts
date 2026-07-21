@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import { z } from 'zod'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { syncFeedbackReport } from '@/lib/firebase/sync'
 
 const STATUSES = [
   'NEW',
@@ -48,6 +49,8 @@ export async function PATCH(
         : {}),
     },
   })
+
+  void syncFeedbackReport(updated)
 
   return NextResponse.json({ item: updated })
 }

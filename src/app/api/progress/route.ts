@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { syncProgress } from '@/lib/firebase/sync'
 import { z } from 'zod'
 
 export async function GET() {
@@ -70,7 +71,7 @@ export async function POST(request: Request) {
 
     const { sectionId, subStep, completed } = parsed.data
 
-    await db.progress.upsert({
+    const row = await db.progress.upsert({
       where: {
         userId_sectionId_subStep: {
           userId: session.user.id,
@@ -90,6 +91,8 @@ export async function POST(request: Request) {
         completedAt: completed ? new Date() : null,
       },
     })
+
+    void syncProgress(row)
 
     return NextResponse.json({ success: true })
   } catch (error) {
@@ -119,7 +122,7 @@ export async function PATCH(request: Request) {
     const { sectionId, bookmarked } = parsed.data
 
     // Upsert a progress row with bookmark flag (use 'bookmark' as subStep placeholder)
-    await db.progress.upsert({
+    const row = await db.progress.upsert({
       where: {
         userId_sectionId_subStep: {
           userId: session.user.id,
@@ -136,6 +139,8 @@ export async function PATCH(request: Request) {
       },
       update: { bookmarked },
     })
+
+    void syncProgress(row)
 
     return NextResponse.json({ success: true })
   } catch (error) {

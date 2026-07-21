@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+import { syncUser } from '@/lib/firebase/sync'
 import bcrypt from 'bcryptjs'
 import { z } from 'zod'
 
@@ -71,6 +72,17 @@ export async function POST(request: Request) {
         passwordHash,
         role,
       },
+    })
+
+    // Mirror public profile to Firestore (never passwordHash)
+    void syncUser({
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+      country: user.country,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
     })
 
     return NextResponse.json({

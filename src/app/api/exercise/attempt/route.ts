@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { syncExerciseAttempt } from '@/lib/firebase/sync'
 import { z } from 'zod'
 
 const attemptSchema = z.object({
@@ -35,6 +36,8 @@ export async function POST(request: Request) {
         correct,
       },
     })
+
+    void syncExerciseAttempt(attempt)
 
     return NextResponse.json({ success: true, id: attempt.id })
   } catch (error) {
