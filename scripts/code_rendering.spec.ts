@@ -84,7 +84,7 @@ async function captureSurface(
 
 test.describe('Code rendering fidelity', () => {
   test('S01-S52 code, terminal, output, and playground text matches its source', async ({ page }, testInfo) => {
-    test.setTimeout(600_000)
+    test.setTimeout(480_000)
     const outputDir = testInfo.outputPath('code-fidelity')
     await mkdir(outputDir, { recursive: true })
     const manifest: ManifestEntry[] = []
@@ -95,6 +95,7 @@ test.describe('Code rendering fidelity', () => {
 
     for (const section of SECTION_IDS) {
       if (section !== 'setup') await selectSection(page, section)
+      const capturedVisualKinds = new Set<'code' | 'terminal'>()
 
       for (const tab of TABS) {
         const tabTrigger = page.getByTestId(`tab-${tab}`)
@@ -129,6 +130,9 @@ test.describe('Code rendering fidelity', () => {
           )
 
           const language = (await block.getAttribute('data-code-language')) || 'python'
+          const visualKind: 'code' | 'terminal' = ['bash', 'sh', 'shell'].includes(language)
+            ? 'terminal'
+            : 'code'
           const title = (await block.locator('div').first().textContent())?.trim() || language
           const entry: ManifestEntry = {
             section,
@@ -139,10 +143,10 @@ test.describe('Code rendering fidelity', () => {
             title,
             sourceLength: expected?.length ?? 0,
           }
-          // DOM/source comparison above is exhaustive. One representative image
-          // per populated section/tab keeps the visual artifact reviewable and
-          // avoids thousands of serial PNG writes dominating CI runtime.
-          if (CAPTURE_SCREENSHOTS && index === 0) {
+          // DOM/source comparison above is exhaustive. Capture at most one code
+          // window and one terminal window per section; repeated per-tab images
+          // add no fidelity signal and make hosted CI spend ~20 minutes on PNG I/O.
+          if (CAPTURE_SCREENSHOTS && !capturedVisualKinds.has(visualKind)) {
             Object.assign(
               entry,
               await captureSurface(
@@ -151,6 +155,7 @@ test.describe('Code rendering fidelity', () => {
                 `${String(surfaceNumber).padStart(4, '0')}-${section}-${tab}-code.png`,
               ),
             )
+            capturedVisualKinds.add(visualKind)
           }
           manifest.push(entry)
           surfaceNumber++
@@ -171,16 +176,6 @@ test.describe('Code rendering fidelity', () => {
             language: 'python',
             title: (await container.locator('div').first().textContent())?.trim() || 'Python playground',
             sourceLength: expected?.length ?? 0,
-          }
-          if (CAPTURE_SCREENSHOTS && index === 0) {
-            Object.assign(
-              entry,
-              await captureSurface(
-                container,
-                outputDir,
-                `${String(surfaceNumber).padStart(4, '0')}-${section}-${tab}-playground.png`,
-              ),
-            )
           }
           manifest.push(entry)
           surfaceNumber++

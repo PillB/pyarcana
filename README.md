@@ -67,7 +67,7 @@ hiding deterministic lockfile failures.
 The exhaustive browser workflow uses the rendered section ID as its readiness
 contract instead of waiting for network idleness from the Next.js development
 server. It still visits all 52 sections, but avoids HMR traffic turning every
-case into a timeout; the job is bounded to 25 minutes and superseded runs are
+case into a timeout; the job is bounded to 15 minutes and superseded runs are
 cancelled.
 
 Code examples have an additional fidelity contract. The syntax highlighter is
@@ -77,10 +77,11 @@ The adversarial suite checks every code object loaded from S01–S52, including
 the `check_arg.py` regression case. Playwright then visits all five tabs in all
 52 sections, reveals guided solutions, compares rendered code, terminal output,
 and playground source with the canonical text. It records every surface in a
-manifest and captures a representative code window for each populated
-section/tab plus each section's playground, with SHA-256 hashes in the
-`playwright-results` CI artifact. This preserves exhaustive text fidelity while
-avoiding thousands of serial PNG writes; the browser job is bounded to 25 minutes.
+manifest and captures at most one representative Python/code window and one
+shell/terminal window per section, with SHA-256 hashes in the
+`playwright-results` CI artifact. This preserves exhaustive text fidelity and
+both visual surface types while avoiding redundant PNG writes; the browser job
+is bounded to 15 minutes.
 
 The browser favicon is the compact PyArcana “P” botanical monogram in emerald,
 cream, and gold. It is separate from the larger logo so its Art Nouveau details
