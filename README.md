@@ -64,6 +64,12 @@ most three times, and clears Bun's download cache between attempts. This makes
 transient or corrupt package archives (including `xlsx`) recoverable without
 hiding deterministic lockfile failures.
 
+The exhaustive browser workflow uses the rendered section ID as its readiness
+contract instead of waiting for network idleness from the Next.js development
+server. It still visits all 52 sections, but avoids HMR traffic turning every
+case into a timeout; the job is bounded to 30 minutes and superseded runs are
+cancelled.
+
 ```bash
 bun run lint
 npx tsc --noEmit

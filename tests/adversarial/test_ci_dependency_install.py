@@ -31,6 +31,15 @@ class CiDependencyInstallContractTests(unittest.TestCase):
         self.assertIn("readonly max_attempts=3", wrapper)
         self.assertIn("bun pm cache rm", wrapper)
 
+    def test_browser_regression_uses_dom_readiness_and_is_bounded(self) -> None:
+        suite = (ROOT / "scripts/regression.spec.ts").read_text(encoding="utf-8")
+        workflow = (ROOT / ".github/workflows/tests.yml").read_text(encoding="utf-8")
+        self.assertIn("async function openSection", suite)
+        self.assertIn("data-section-id", suite)
+        self.assertNotIn("waitForLoadState('networkidle')", suite)
+        self.assertIn("timeout-minutes: 30", workflow)
+        self.assertIn("cancel-in-progress: true", workflow)
+
 
 if __name__ == "__main__":
     unittest.main()

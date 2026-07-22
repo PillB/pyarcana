@@ -41,6 +41,15 @@ const CAPSTONE_IDS = ['rpa-automation', 'integrator-phase1', 'integrator-phase2'
 // 5 sub-steps that MUST be present in every section
 const SUB_STEPS = ['theory', 'ido', 'wedo', 'youdo', 'quiz']
 
+async function openSection(page: Page, sectionId: string) {
+  await page.goto(`${BASE_URL}/#${sectionId}`, { waitUntil: 'domcontentloaded' })
+  await expect(page.getByTestId('section-root')).toHaveAttribute(
+    'data-section-id',
+    sectionId,
+    { timeout: 15_000 }
+  )
+}
+
 // ═══════════════════════════════════════════════════════════
 // TEST 1: All 52 sections are registered in the course index
 // ═══════════════════════════════════════════════════════════
@@ -89,9 +98,7 @@ test.describe('Section loading (browser)', () => {
         if (msg.type() === 'error') errors.push(msg.text())
       })
 
-      await page.goto(`${BASE_URL}/#${sectionId}`)
-      await page.waitForLoadState('networkidle')
-      await page.waitForTimeout(1000)
+      await openSection(page, sectionId)
 
       // Section content container exists
       const sectionContent = page.locator('#section-content')
@@ -122,14 +129,11 @@ test.describe('Section loading (browser)', () => {
 test.describe('Sub-step tabs functional', () => {
   for (const sectionId of ['setup', 'numpy', 'sklearn', 'rag', 'llm-agents']) {
     test(`${sectionId}: all 5 sub-step tabs switch content`, async ({ page }) => {
-      await page.goto(`${BASE_URL}/#${sectionId}`)
-      await page.waitForLoadState('networkidle')
-      await page.waitForTimeout(500)
+      await openSection(page, sectionId)
 
       for (const sub of SUB_STEPS) {
         const tab = page.locator(`[role="tab"][id$="-trigger-${sub}"]`)
         await tab.click()
-        await page.waitForTimeout(500)
 
         // The corresponding tab content should be visible
         const content = page.locator(`[data-state="active"][role="tabpanel"]`)
@@ -149,14 +153,11 @@ test.describe('Sub-step tabs functional', () => {
 test.describe('Capstone integrity', () => {
   for (const capstoneId of CAPSTONE_IDS) {
     test(`capstone "${capstoneId}" has You Do project`, async ({ page }) => {
-      await page.goto(`${BASE_URL}/#${capstoneId}`)
-      await page.waitForLoadState('networkidle')
-      await page.waitForTimeout(500)
+      await openSection(page, capstoneId)
 
       // Click You Do tab
       const youdoTab = page.locator('[role="tab"][id$="-trigger-youdo"]')
       await youdoTab.click()
-      await page.waitForTimeout(500)
 
       // Should have project content (not empty)
       const content = page.locator('[data-state="active"][role="tabpanel"]')
@@ -248,9 +249,7 @@ test.describe('Roadmap integrity', () => {
 // ═══════════════════════════════════════════════════════════
 test.describe('HUD overlay integrity', () => {
   test('section view has prev/next FABs and progress dots', async ({ page }) => {
-    await page.goto(`${BASE_URL}/#setup`)
-    await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(500)
+    await openSection(page, 'setup')
 
     // Prev FAB
     await expect(page.locator('button[aria-label="Sección anterior"]')).toBeVisible()
@@ -264,9 +263,7 @@ test.describe('HUD overlay integrity', () => {
   })
 
   test('compact top bar has section badge, title, progress ring', async ({ page }) => {
-    await page.goto(`${BASE_URL}/#numpy`)
-    await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(500)
+    await openSection(page, 'numpy')
 
     // Section badge
     await expect(page.locator('text=S6').first()).toBeVisible()
@@ -279,9 +276,7 @@ test.describe('HUD overlay integrity', () => {
   })
 
   test('job relevance popover and outcomes sheet triggers exist', async ({ page }) => {
-    await page.goto(`${BASE_URL}/#sklearn`)
-    await page.waitForLoadState('networkidle')
-    await page.waitForTimeout(500)
+    await openSection(page, 'sklearn')
 
     // Briefcase icon (job relevance trigger)
     await expect(page.locator('button[title="¿Para qué te sirve?"]').first()).toBeVisible()
@@ -297,9 +292,8 @@ test.describe('HUD overlay integrity', () => {
 test.describe('Geometric integrity (no overlaps)', () => {
   for (const sectionId of ['setup', 'numpy', 'sklearn', 'rag', 'llm-agents']) {
     test(`${sectionId}: no text element overlaps another`, async ({ page }) => {
-      await page.goto(`${BASE_URL}/#${sectionId}`)
-      await page.waitForLoadState('networkidle')
-      await page.waitForTimeout(1000)
+      await openSection(page, sectionId)
+      await page.waitForTimeout(250)
 
       // Bounding boxes + DOM depth + position (sticky/fixed chrome false positives)
       const data = await page.evaluate(() => {

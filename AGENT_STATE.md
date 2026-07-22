@@ -7,6 +7,9 @@
   at most three attempts, and cache clearing between attempts.
 - `tests/adversarial/test_ci_dependency_install.py` prevents unpinned Bun or a
   direct, non-retrying workflow install from returning.
+- The 52-section browser sweep waits on `section-root[data-section-id]`, not
+  Next.js/HMR network idleness; the job is bounded to 30 minutes and superseded
+  runs are cancelled.
 
 ## Current checkpoint (2026-07-22): NOT COMPLETE / CLEAN RUN COUNT = 0
 
