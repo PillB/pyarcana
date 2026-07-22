@@ -19,7 +19,9 @@ test.describe('PyArcana public GitHub Pages edition', () => {
     await page.getByRole('button', { name: /English/ }).click()
     await expect(page.getByText('The art of learning Python')).toBeVisible()
     await expect(page.getByRole('button', { name: /Start now/ })).toBeVisible()
-    await expect(page.getByText('Lessons in Peruvian Spanish')).toBeVisible()
+    await expect(
+      page.getByText('PyArcana · 52 sections · Lessons in Peruvian Spanish', { exact: true })
+    ).toBeVisible()
     await expect(page.getByRole('heading', { name: 'Course curriculum' })).toBeVisible()
   })
 
@@ -30,8 +32,13 @@ test.describe('PyArcana public GitHub Pages edition', () => {
       await expect(page.getByTestId(`tab-${tab}`)).toBeVisible()
     }
 
-    await page.getByText('Enterprise Relationship & Operations Intelligence Platform', { exact: true }).first().click()
+    await page.getByText('Capstone FINAL', { exact: true }).click()
     await expect(page.getByTestId('section-root')).toHaveAttribute('data-section-id', 'career-strategy')
+    await expect(
+      page.getByRole('heading', {
+        name: 'Enterprise Relationship & Operations Intelligence Platform: capstone final',
+      })
+    ).toBeVisible()
   })
 
   test('serves base-path assets without 404s', async ({ request }) => {
