@@ -56,20 +56,30 @@ async function captureSurface(
   outputDir: string,
   filename: string,
 ): Promise<Pick<ManifestEntry, 'screenshot' | 'screenshotSha256' | 'width' | 'height'>> {
-  const box = await locator.boundingBox()
-  expect(box, `${filename} should have a visible box`).not.toBeNull()
-  expect(box!.width, `${filename} should be wide enough to read`).toBeGreaterThan(80)
-  expect(box!.height, `${filename} should be tall enough to read`).toBeGreaterThan(20)
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      await locator.waitFor({ state: 'visible' })
+      const box = await locator.boundingBox()
+      if (!box) throw new Error(`${filename} has no visible box on attempt ${attempt}`)
+      expect(box.width, `${filename} should be wide enough to read`).toBeGreaterThan(80)
+      expect(box.height, `${filename} should be tall enough to read`).toBeGreaterThan(20)
 
-  const screenshotPath = path.join(outputDir, filename)
-  const png = await locator.screenshot({ path: screenshotPath, animations: 'disabled' })
-  expect(png.byteLength, `${filename} should not be an empty screenshot`).toBeGreaterThan(100)
-  return {
-    screenshot: filename,
-    screenshotSha256: createHash('sha256').update(png).digest('hex'),
-    width: Math.round(box!.width),
-    height: Math.round(box!.height),
+      const screenshotPath = path.join(outputDir, filename)
+      const png = await locator.screenshot({ path: screenshotPath, animations: 'disabled' })
+      expect(png.byteLength, `${filename} should not be an empty screenshot`).toBeGreaterThan(100)
+      return {
+        screenshot: filename,
+        screenshotSha256: createHash('sha256').update(png).digest('hex'),
+        width: Math.round(box.width),
+        height: Math.round(box.height),
+      }
+    } catch (error) {
+      if (attempt === 3) throw error
+      await locator.page().waitForTimeout(200)
+    }
   }
+
+  throw new Error(`unreachable screenshot retry state for ${filename}`)
 }
 
 test.describe('Code rendering fidelity', () => {
@@ -87,10 +97,18 @@ test.describe('Code rendering fidelity', () => {
       if (section !== 'setup') await selectSection(page, section)
 
       for (const tab of TABS) {
-        await page.getByTestId(`tab-${tab}`).click()
-        if (tab === 'wedo') await revealSolutions(page)
+        const tabTrigger = page.getByTestId(`tab-${tab}`)
+        await tabTrigger.click()
+        await expect(tabTrigger).toHaveAttribute('data-state', 'active')
+        await page.waitForTimeout(250)
+        if (tab === 'wedo') {
+          await revealSolutions(page)
+          await page.waitForTimeout(250)
+        }
 
-        const blocks = page.getByTestId('code-block')
+        const activePanel = page.locator('[role="tabpanel"][data-state="active"]')
+        await expect(activePanel).toBeVisible()
+        const blocks = activePanel.getByTestId('code-block')
         for (let index = 0; index < await blocks.count(); index++) {
           const block = blocks.nth(index)
           const code = block.locator('code[data-code-source]').first()
@@ -135,7 +153,7 @@ test.describe('Code rendering fidelity', () => {
           surfaceNumber++
         }
 
-        const playgrounds = page.locator('textarea[data-initial-code]')
+        const playgrounds = activePanel.locator('textarea[data-initial-code]')
         for (let index = 0; index < await playgrounds.count(); index++) {
           const editor = playgrounds.nth(index)
           const expected = await editor.getAttribute('data-initial-code')
