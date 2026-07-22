@@ -45,10 +45,17 @@ async function selectSection(page: Page, sectionId: string) {
 
 async function revealSolutions(page: Page) {
   const buttons = page.locator('[data-testid^="exercise-check-"]')
-  for (let index = 0; index < await buttons.count(); index++) {
-    const button = buttons.nth(index)
-    if ((await button.textContent())?.includes('Ver solución')) await button.click()
-  }
+  const revealed = await buttons.evaluateAll((elements) => {
+    let count = 0
+    for (const element of elements) {
+      if (!element.textContent?.includes('Ver solución')) continue
+      const button = element as HTMLElement
+      button.click()
+      count++
+    }
+    return count
+  })
+  await expect(page.locator('[data-testid^="exercise-feedback-"]')).toHaveCount(revealed)
 }
 
 async function captureSurface(
