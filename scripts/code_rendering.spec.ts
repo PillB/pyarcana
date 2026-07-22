@@ -109,31 +109,38 @@ test.describe('Code rendering fidelity', () => {
 
         const activePanel = page.locator('[role="tabpanel"][data-state="active"]')
         await expect(activePanel).toBeVisible()
+        const blockData = await activePanel.evaluate((panel) =>
+          Array.from(panel.querySelectorAll<HTMLElement>('[data-testid="code-block"]')).map(
+            (block) => {
+              const code = block.querySelector<HTMLElement>('code[data-code-source]')
+              const output = block.querySelector<HTMLElement>('code[data-output-source]')
+              return {
+                expected: code?.getAttribute('data-code-source') ?? null,
+                actual: code?.textContent ?? null,
+                outputExpected: output?.getAttribute('data-output-source') ?? null,
+                outputActual: output?.textContent ?? null,
+                fontFamily: code ? getComputedStyle(code).fontFamily : '',
+                language: block.getAttribute('data-code-language') || 'python',
+                title: block.firstElementChild?.textContent?.trim() || '',
+              }
+            },
+          ),
+        )
         const blocks = activePanel.getByTestId('code-block')
-        for (let index = 0; index < await blocks.count(); index++) {
-          const block = blocks.nth(index)
-          const code = block.locator('code[data-code-source]').first()
-          const expected = await code.getAttribute('data-code-source')
-          const actual = await code.textContent()
-          expect(actual, `${section}/${tab}/code-block-${index}`).toBe(expected)
-
-          const output = block.locator('code[data-output-source]')
-          if (await output.count()) {
-            expect(await output.textContent(), `${section}/${tab}/output-${index}`).toBe(
-              await output.getAttribute('data-output-source'),
-            )
+        for (const [index, data] of blockData.entries()) {
+          expect(data.actual, `${section}/${tab}/code-block-${index}`).toBe(data.expected)
+          if (data.outputExpected !== null) {
+            expect(data.outputActual, `${section}/${tab}/output-${index}`).toBe(data.outputExpected)
           }
-
-          const fontFamily = await code.evaluate((element) => getComputedStyle(element).fontFamily)
-          expect(fontFamily.toLowerCase(), `${section}/${tab}/code-block-${index} font`).toMatch(
+          expect(data.fontFamily.toLowerCase(), `${section}/${tab}/code-block-${index} font`).toMatch(
             /mono|courier/,
           )
 
-          const language = (await block.getAttribute('data-code-language')) || 'python'
+          const language = data.language
           const visualKind: 'code' | 'terminal' = ['bash', 'sh', 'shell'].includes(language)
             ? 'terminal'
             : 'code'
-          const title = (await block.locator('div').first().textContent())?.trim() || language
+          const title = data.title || language
           const entry: ManifestEntry = {
             section,
             tab,
@@ -141,7 +148,7 @@ test.describe('Code rendering fidelity', () => {
             kind: 'code-block',
             language,
             title,
-            sourceLength: expected?.length ?? 0,
+            sourceLength: data.expected?.length ?? 0,
           }
           // DOM/source comparison above is exhaustive. Hosted element screenshots
           // take ~10 seconds each, so retain only diagnostic visual anchors: the
@@ -155,7 +162,7 @@ test.describe('Code rendering fidelity', () => {
             Object.assign(
               entry,
               await captureSurface(
-                block,
+                blocks.nth(index),
                 outputDir,
                 `${String(surfaceNumber).padStart(4, '0')}-${section}-${tab}-code.png`,
               ),
@@ -166,21 +173,27 @@ test.describe('Code rendering fidelity', () => {
           surfaceNumber++
         }
 
-        const playgrounds = activePanel.locator('textarea[data-initial-code]')
-        for (let index = 0; index < await playgrounds.count(); index++) {
-          const editor = playgrounds.nth(index)
-          const expected = await editor.getAttribute('data-initial-code')
-          expect(await editor.inputValue(), `${section}/${tab}/playground-${index}`).toBe(expected)
-
-          const container = editor.locator('xpath=ancestor::div[@data-testid][1]')
+        const playgroundData = await activePanel.evaluate((panel) =>
+          Array.from(panel.querySelectorAll<HTMLTextAreaElement>('textarea[data-initial-code]')).map(
+            (editor) => ({
+              expected: editor.getAttribute('data-initial-code'),
+              actual: editor.value,
+              title:
+                editor.closest<HTMLElement>('div[data-testid]')?.firstElementChild?.textContent?.trim() ||
+                'Python playground',
+            }),
+          ),
+        )
+        for (const [index, data] of playgroundData.entries()) {
+          expect(data.actual, `${section}/${tab}/playground-${index}`).toBe(data.expected)
           const entry: ManifestEntry = {
             section,
             tab,
             surface: surfaceNumber,
             kind: 'playground',
             language: 'python',
-            title: (await container.locator('div').first().textContent())?.trim() || 'Python playground',
-            sourceLength: expected?.length ?? 0,
+            title: data.title,
+            sourceLength: data.expected?.length ?? 0,
           }
           manifest.push(entry)
           surfaceNumber++
