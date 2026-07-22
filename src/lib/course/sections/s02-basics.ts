@@ -6,7 +6,7 @@ export const section02: CourseSection = {
   title: 'Valores, tipos, operadores e I/O',
   shortTitle: 'Basics de Python',
   tagline: 'Literales, nombres, operadores, Decimal e I/O para el parser de intake',
-  estimatedHours: 6,
+  estimatedHours: 18,
   level: 'Principiante',
   phase: 0,
   icon: 'Code2',
@@ -264,15 +264,17 @@ subtotal 100.00 IGV 18.00 total 118.00`,
       subtopicId: 'S02-T4-A',
       paragraphs: [
         '**`input(prompt)`** siempre devuelve **`str`**, aunque el usuario escriba dígitos. En el browser/Pyodide a menudo **simulas input** con variables o parámetros de función (testeable). **`print(*args, sep=" ", end="\\n")`** controla separadores y fin de línea.',
-        'Las **f-strings** (`f"...{expr}..."`) son el formato preferido en S02: legibles, con expresiones cortas y especificadores (`{monto:.2f}`, `{nombre!r}`). Prompts y mensajes de error del intake van en **español claro** (“Ingresa el contacto:”, “ERROR en \'edad\': …”).',
+        'Las **f-strings** (`f"...{expr}..."`) son el formato preferido en S02: legibles, con expresiones cortas y especificadores (`{monto:.2f}`, `{nombre!r}`). Después de T3-B, todo monto de negocio continúa como `Decimal`: formatear con `.2f` no requiere convertirlo a float. Prompts y mensajes de error del intake van en **español claro** (“Ingresa el contacto:”, “ERROR en \'edad\': …”).',
         'Patrón profesional: separa **captura** (valores str), **parse** (tipos) y **reporte** (f-strings). Así puedes unit-testear el parse sin depender de la consola. Un resumen de cliente con 4–5 campos es el puente natural al You Do.',
       ],
       code: {
         language: 'python',
         title: 'reporte_fstring.py',
-        code: `# Simula input (testeable): no llames input() en demos de CI
+        code: `from decimal import Decimal
+
+# Simula input (testeable): no llames input() en demos de CI
 nombres = "María José"
-monto = 150.5
+monto = Decimal("150.50")
 print(f"Cliente: {nombres} | Monto: S/ {monto:.2f}")
 print("campos", "a", "b", sep=" | ")`,
         output: `Cliente: María José | Monto: S/ 150.50
@@ -521,9 +523,11 @@ subtotal=100.00 IGV=18.00 total=118.00`,
         code: {
           language: 'python',
           title: 'S02-T4-A-DEMO — reporte_fstring',
-          code: `# Simula input() con variables (testeable en Pyodide/CI)
+          code: `from decimal import Decimal
+
+# Simula input() con variables (testeable en Pyodide/CI)
 nombres = "María José"
-monto = 150.5
+monto = Decimal("150.50")
 print(f"Cliente: {nombres} | Monto: S/ {monto:.2f}")
 print("OK", "intake", sep=" · ")`,
           output: `Cliente: María José | Monto: S/ 150.50
@@ -824,20 +828,22 @@ for v in [" 21 ", "", "abc", "  "]:
         subtopicId: 'S02-T1-B',
         kind: 'transfer',
         instruction:
-          'E3 (transferencia) — Pipeline de 2 campos: `edad` (int) y `monto` (float) desde texto. Devuelve un dict con `raw`, `clean` y `errors`. Si un campo falla, el otro puede seguir OK; raw siempre conserva los strings originales. Prueba: ambos OK; edad inválida; monto inválido.',
-        hint: 'Reutiliza safe_int y escribe safe_float análogo. Acumula mensajes en errors[].',
+          'E3 (transferencia) — Pipeline de 2 campos: `edad` (`int`) y `monto` (`Decimal` cuantizado a céntimos) desde texto. Devuelve un dict con `raw`, `clean` y `errors`. Si un campo falla, el otro puede seguir OK; raw siempre conserva los strings originales. Prueba: ambos OK; edad inválida; monto inválido.',
+        hint: 'Reutiliza safe_int y escribe safe_decimal con Decimal(texto), InvalidOperation y quantize(Decimal("0.01")). Acumula mensajes en errors[].',
         hints: [
-          'Reutiliza safe_int y escribe safe_float análogo. Acumula mensajes en errors[].',
+          'Importa Decimal e InvalidOperation; nunca pases el monto por float.',
           'clean["edad"] = None si falla, pero raw["edad"] sigue siendo el string de entrada.',
         ],
         edgeCases: ['un campo falla otro ok', 'raw siempre presente'],
-        tests: 'structured errors; 3 escenarios; raw keys intactas.',
+        tests: 'Contrato exacto: monto válido es Decimal("150.50")/Decimal("99.00"); 3 escenarios; raw intacto; cero llamadas a float().',
         feedback:
           'Este es el embrión del parse_client del You Do: multi-campo, errores parciales, raw intacto.',
         starterCode: {
           language: 'python',
           title: 'pipeline_dos_campos.py',
-          code: `def safe_int(campo: str, valor: str):
+          code: `from decimal import Decimal, InvalidOperation
+
+def safe_int(campo: str, valor: str):
     texto = valor.strip()
     if texto == "":
         return (False, None, f"ERROR en '{campo}': valor vacío")
@@ -846,8 +852,8 @@ for v in [" 21 ", "", "abc", "  "]:
     except ValueError:
         return (False, None, f"ERROR en '{campo}': {valor!r} no es un entero válido")
 
-def safe_float(campo: str, valor: str):
-    # TODO: análogo con float()
+def safe_decimal(campo: str, valor: str):
+    # TODO: Decimal desde str + quantize a 0.01
     pass
 
 def pipeline(edad_txt: str, monto_txt: str) -> dict:
@@ -861,7 +867,9 @@ print(pipeline("30", "nope"))`,
         solutionCode: {
           language: 'python',
           title: 'pipeline_dos_campos.py',
-          code: `def safe_int(campo: str, valor: str):
+          code: `from decimal import Decimal, InvalidOperation
+
+def safe_int(campo: str, valor: str):
     texto = valor.strip()
     if texto == "":
         return (False, None, f"ERROR en '{campo}': valor vacío")
@@ -870,14 +878,14 @@ print(pipeline("30", "nope"))`,
     except ValueError:
         return (False, None, f"ERROR en '{campo}': {valor!r} no es un entero válido")
 
-def safe_float(campo: str, valor: str):
+def safe_decimal(campo: str, valor: str):
     texto = valor.strip()
     if texto == "":
         return (False, None, f"ERROR en '{campo}': valor vacío")
     try:
-        return (True, float(texto), None)
-    except ValueError:
-        return (False, None, f"ERROR en '{campo}': {valor!r} no es un número válido")
+        return (True, Decimal(texto).quantize(Decimal("0.01")), None)
+    except InvalidOperation:
+        return (False, None, f"ERROR en '{campo}': {valor!r} no es un monto decimal válido")
 
 def pipeline(edad_txt: str, monto_txt: str) -> dict:
     errors: list[str] = []
@@ -886,7 +894,7 @@ def pipeline(edad_txt: str, monto_txt: str) -> dict:
     clean["edad"] = val if ok else None
     if not ok:
         errors.append(msg)
-    ok, val, msg = safe_float("monto", monto_txt)
+    ok, val, msg = safe_decimal("monto", monto_txt)
     clean["monto"] = val if ok else None
     if not ok:
         errors.append(msg)
@@ -899,9 +907,9 @@ def pipeline(edad_txt: str, monto_txt: str) -> dict:
 print(pipeline(" 28 ", "150.50"))
 print(pipeline("xx", "99.0"))
 print(pipeline("30", "nope"))`,
-          output: `{'raw': {'edad': ' 28 ', 'monto': '150.50'}, 'clean': {'edad': 28, 'monto': 150.5}, 'errors': []}
-{'raw': {'edad': 'xx', 'monto': '99.0'}, 'clean': {'edad': None, 'monto': 99.0}, 'errors': ["ERROR en 'edad': 'xx' no es un entero válido"]}
-{'raw': {'edad': '30', 'monto': 'nope'}, 'clean': {'edad': 30, 'monto': None}, 'errors': ["ERROR en 'monto': 'nope' no es un número válido"]}`,
+          output: `{'raw': {'edad': ' 28 ', 'monto': '150.50'}, 'clean': {'edad': 28, 'monto': Decimal('150.50')}, 'errors': []}
+{'raw': {'edad': 'xx', 'monto': '99.0'}, 'clean': {'edad': None, 'monto': Decimal('99.00')}, 'errors': ["ERROR en 'edad': 'xx' no es un entero válido"]}
+{'raw': {'edad': '30', 'monto': 'nope'}, 'clean': {'edad': 30, 'monto': None}, 'errors': ["ERROR en 'monto': 'nope' no es un monto decimal válido"]}`,
         },
       },
       // ——— S02-T2-A ———
@@ -1956,32 +1964,22 @@ if __name__ == "__main__":
       },
       {
         question: '¿Qué imprime type("42").__name__ y la comparación 42 == "42"?',
-        options: [
-          "int y True",
-          "str y False",
-          "str y True",
-          "int y False",
-        ],
-        correctIndex: 1,
+        options: ["int y True", "str y True", "int y False", "str y False"],
+        correctIndex: 3,
         explanation:
           '"42" es str. 42 (int) no es igual a "42" (str). Hay que convertir de forma explícita antes de comparar o calcular.',
       },
       {
         question: '¿Por qué el teléfono de un cliente de intake se modela como str?',
-        options: [
-          'Porque int no existe en Python',
-          'Porque no es una cantidad aritmética y puede necesitar ceros o formato',
-          'Porque str es más rápido que int',
-          'Porque PEP 8 lo prohíbe como int',
-        ],
-        correctIndex: 1,
+        options: ['Porque no es una cantidad aritmética y puede necesitar ceros o formato', 'Porque int no existe en Python', 'Porque str es más rápido que int', 'Porque PEP 8 lo prohíbe como int'],
+        correctIndex: 0,
         explanation:
           'Teléfonos, DNI y códigos son identificadores de texto. Tratarlos como int invita a perder ceros y a operaciones sin sentido.',
       },
       {
         question: 'Tras `b = a` con `a = [1, 2]` y `b.append(3)`, ¿qué vale `a`?',
-        options: ['[1, 2]', '[1, 2, 3]', '[3]', 'Error'],
-        correctIndex: 1,
+        options: ['[1, 2]', '[3]', '[1, 2, 3]', 'Error'],
+        correctIndex: 2,
         explanation:
           'b es un alias del mismo objeto lista. Mutar b muta a. Usa copy() o slice para independizar.',
       },

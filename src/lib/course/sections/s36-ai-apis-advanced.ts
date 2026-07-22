@@ -6,7 +6,7 @@ export const section36: CourseSection = {
   title: "Clustering, anomalías y validación temporal",
   shortTitle: "Clustering y anomalías",
   tagline: "señales auxiliares evaluadas por utilidad de revisión; una anomalía nunca es conclusión de conducta indebida",
-  estimatedHours: 12,
+  estimatedHours: 19,
   level: "Competente a experto",
   phase: 2,
   icon: "ScanSearch",
@@ -404,7 +404,7 @@ auto_guilt False`,
       {
         id: "S36-T1-A-E1",
         subtopicId: "S36-T1-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Media de [1,2].",
         hint: "Revisa la demo.",
@@ -435,7 +435,7 @@ ok True`,
       {
         id: "S36-T1-A-E2",
         subtopicId: "S36-T1-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Scale z: (x-mu)/sd mu=0 sd=2 x=4.",
         hint: "Revisa la demo.",
@@ -466,7 +466,7 @@ ok True`,
       {
         id: "S36-T1-A-E3",
         subtopicId: "S36-T1-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "kmeans verdict flag false.",
         hint: "Revisa la demo.",
@@ -497,7 +497,7 @@ task cluster`,
       {
         id: "S36-T1-B-E1",
         subtopicId: "S36-T1-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "best k from scores.",
         hint: "Revisa la demo.",
@@ -528,7 +528,7 @@ ok True`,
       {
         id: "S36-T1-B-E2",
         subtopicId: "S36-T1-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "multi seed note.",
         hint: "Revisa la demo.",
@@ -559,7 +559,7 @@ stable check`,
       {
         id: "S36-T1-B-E3",
         subtopicId: "S36-T1-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "limit of internal metrics.",
         hint: "Revisa la demo.",
@@ -590,7 +590,7 @@ n 1`,
       {
         id: "S36-T2-A-E1",
         subtopicId: "S36-T2-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "dot weights.",
         hint: "Revisa la demo.",
@@ -621,7 +621,7 @@ pca True`,
       {
         id: "S36-T2-A-E2",
         subtopicId: "S36-T2-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "not decision model.",
         hint: "Revisa la demo.",
@@ -652,7 +652,7 @@ use viz`,
       {
         id: "S36-T2-A-E3",
         subtopicId: "S36-T2-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "n components 2.",
         hint: "Revisa la demo.",
@@ -683,7 +683,7 @@ explore True`,
       {
         id: "S36-T2-B-E1",
         subtopicId: "S36-T2-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "axis auto name false.",
         hint: "Revisa la demo.",
@@ -714,7 +714,7 @@ prudent True`,
       {
         id: "S36-T2-B-E2",
         subtopicId: "S36-T2-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "outlier may be scale.",
         hint: "Revisa la demo.",
@@ -745,7 +745,7 @@ auto_label False`,
       {
         id: "S36-T2-B-E3",
         subtopicId: "S36-T2-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "doc exploratory.",
         hint: "Revisa la demo.",
@@ -776,7 +776,7 @@ n 1`,
       {
         id: "S36-T3-A-E1",
         subtopicId: "S36-T3-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "sigma flag count.",
         hint: "Revisa la demo.",
@@ -807,7 +807,7 @@ ok True`,
       {
         id: "S36-T3-A-E2",
         subtopicId: "S36-T3-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "combine rule+score.",
         hint: "Revisa la demo.",
@@ -838,7 +838,7 @@ n 2`,
       {
         id: "S36-T3-A-E3",
         subtopicId: "S36-T3-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "review candidate not guilt.",
         hint: "Revisa la demo.",
@@ -869,7 +869,7 @@ ok True`,
       {
         id: "S36-T3-B-E1",
         subtopicId: "S36-T3-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "novelty vs outlier labels.",
         hint: "Revisa la demo.",
@@ -900,7 +900,7 @@ n 2`,
       {
         id: "S36-T3-B-E2",
         subtopicId: "S36-T3-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "contam 0.1 n=50 flags.",
         hint: "Revisa la demo.",
@@ -931,7 +931,7 @@ ok True`,
       {
         id: "S36-T3-B-E3",
         subtopicId: "S36-T3-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "tune to capacity.",
         hint: "Revisa la demo.",
@@ -962,7 +962,7 @@ n 1`,
       {
         id: "S36-T4-A-E1",
         subtopicId: "S36-T4-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "mean of rates.",
         hint: "Revisa la demo.",
@@ -993,7 +993,7 @@ ok True`,
       {
         id: "S36-T4-A-E2",
         subtopicId: "S36-T4-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "no future in fit.",
         hint: "Revisa la demo.",
@@ -1024,7 +1024,7 @@ split time`,
       {
         id: "S36-T4-A-E3",
         subtopicId: "S36-T4-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "window list len.",
         hint: "Revisa la demo.",
@@ -1055,7 +1055,7 @@ temporal True`,
       {
         id: "S36-T4-B-E1",
         subtopicId: "S36-T4-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "p@k 1,0,1 k=2.",
         hint: "Revisa la demo.",
@@ -1086,7 +1086,7 @@ auto_guilt False`,
       {
         id: "S36-T4-B-E2",
         subtopicId: "S36-T4-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "human review required.",
         hint: "Revisa la demo.",
@@ -1117,7 +1117,7 @@ labels scarce`,
       {
         id: "S36-T4-B-E3",
         subtopicId: "S36-T4-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "utility metric name.",
         hint: "Revisa la demo.",
@@ -1186,49 +1186,29 @@ if __name__=='__main__':
     questions: [
       {
         question: "Una anomalía en el triage significa:",
-        options: [
-          "Fraude probado",
-          "Señal de rareza a revisar",
-          "Parentesco",
-          "Despido",
-        ],
-        correctIndex: 1,
+        options: ["Fraude probado", "Parentesco", "Despido", "Señal de rareza a revisar"],
+        correctIndex: 3,
         explanation:
           "Señal auxiliar.",
       },
       {
         question: "contamination representa:",
-        options: [
-          "Tasa de fraude real",
-          "Hipótesis de fracción rara a flaggear",
-          "Accuracy",
-          "Kafka lag",
-        ],
+        options: ["Tasa de fraude real", "Hipótesis de fracción rara a flaggear", "Accuracy", "Kafka lag"],
         correctIndex: 1,
         explanation:
           "No es fraude rate.",
       },
       {
         question: "PCA en este curso se usa para:",
-        options: [
-          "Etiquetar culpa",
-          "Exploración/visualización prudente",
-          "Reemplazar el workbench",
-          "Borrar features",
-        ],
-        correctIndex: 1,
+        options: ["Etiquetar culpa", "Reemplazar el workbench", "Exploración/visualización prudente", "Borrar features"],
+        correctIndex: 2,
         explanation:
           "Exploratorio.",
       },
       {
         question: "Con labels escasos prioriza:",
-        options: [
-          "Solo accuracy global",
-          "precision@k y feedback humano",
-          "Aumentar contamination a 0.9",
-          "Eliminar reglas",
-        ],
-        correctIndex: 1,
+        options: ["precision@k y feedback humano", "Solo accuracy global", "Aumentar contamination a 0.9", "Eliminar reglas"],
+        correctIndex: 0,
         explanation:
           "Utilidad de cola.",
       },

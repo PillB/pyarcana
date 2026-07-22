@@ -6,7 +6,7 @@ export const section10: CourseSection = {
   title: "Módulos, packaging y CLI profesional",
   shortTitle: "Módulos & CLI",
   tagline: "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
-  estimatedHours: 10,
+  estimatedHours: 19,
   level: "Intermedio",
   phase: 0,
   icon: "Package",
@@ -146,7 +146,7 @@ layout src/familiarity_core/__init__.py`,
       paragraphs: [
         "**SemVer** simple: MAJOR.MINOR.PATCH. Breaking → major; feature compatible → minor; fix → patch. En 0.x es más flexible, pero documenta igual.",
         "`requires-python` y dependencies pinadas con criterio (mínimos, no caos de upper bounds sin razón).",
-        "Un **CHANGELOG** stub (Added/Changed/Fixed) evita amnesia entre sprints. Breaking de firma pública se anuncia.",
+        "Un **CHANGELOG** real, aunque breve (Added/Changed/Fixed con cambios concretos), evita amnesia entre sprints. Breaking de firma pública se anuncia.",
       ],
       code: {
         language: 'python',
@@ -285,8 +285,8 @@ print(cfg)`,
       heading: "Secretos, defaults y validación temprana",
       subtopicId: "S10-T4-B",
       paragraphs: [
-        "Secretos **fuera del repo**: `.env` en `.gitignore`, nunca en logs. Defaults seguros (TLS on, log level INFO, no debug PII).",
-        "`validate_config()` al arranque con errores claros (qué clave falta, qué subcomando la exige).",
+        "Secretos **fuera del repo**: `.env` en `.gitignore`, nunca en logs. El ETL local de este nivel **no inventa un API token**: solo un adaptador remoto futuro podría exigirlo. Defaults seguros (log level INFO, no debug PII).",
+        "`validate_config()` al arranque reporta qué clave falta y qué subcomando la exige: `input_path` para ingest y `manifest_path` para report.",
         "Fail-fast de config evita procesar 10k filas con un path mal tipeado.",
       ],
       code: {
@@ -297,23 +297,25 @@ print(cfg)`,
     for k in required_always:
         if not cfg.get(k):
             raise RuntimeError(f"config: falta {k}")
-    if command in {"ingest", "report"} and not cfg.get("api_token"):
-        raise RuntimeError(f"config: api_token requerido para {command}")
+    required_by_command = {"ingest": "input_path", "report": "manifest_path"}
+    required = required_by_command.get(command)
+    if required and not cfg.get(required):
+        raise RuntimeError(f"config: falta {required} para {command}")
 
 validate_config({"log_level": "INFO"}, "normalize")
-print("normalize ok sin token")
+print("normalize ok")
 try:
     validate_config({"log_level": "INFO"}, "ingest")
 except RuntimeError as e:
     print(e)`,
-        output: `normalize ok sin token
-config: api_token requerido para ingest`,
+        output: `normalize ok
+config: falta input_path para ingest`,
       },
       callout: {
         type: "danger",
         title: "Secretos",
         content:
-          "Si el token aparece en un traceback de DEBUG, ya se filtró. Redacta.",
+          "No agregues secretos que el comando local no usa. Si un adaptador remoto usa token, valídalo solo allí y jamás lo incluyas en traceback/log.",
       },
     },
   ],
@@ -537,16 +539,16 @@ default INFO`,
         demoId: "S10-T4-B-DEMO",
         subtopicId: "S10-T4-B",
         environment: "local-python",
-        description: "Abort si falta API_TOKEN solo cuando el subcomando lo requiere.",
+        description: "Abort con mensaje exacto si falta el path requerido por el subcomando local.",
         code: {
           language: 'python',
-          title: "token_validate.py",
-          code: `def need_token(command: str) -> bool:
-    return command in {"ingest", "report"}
+          title: "command_config_validate.py",
+          code: `REQUIRED = {"ingest": "input_path", "report": "manifest_path"}
 
 def validate(command: str, cfg: dict) -> None:
-    if need_token(command) and not cfg.get("API_TOKEN"):
-        raise SystemExit(f"config: API_TOKEN requerido para {command}")
+    key = REQUIRED.get(command)
+    if key and not cfg.get(key):
+        raise SystemExit(f"config: falta {key} para {command}")
 
 validate("normalize", {})
 print("normalize ok")
@@ -554,13 +556,13 @@ try:
     validate("ingest", {})
 except SystemExit as e:
     print("abort", e)
-validate("ingest", {"API_TOKEN": "secret-demo"})
+validate("ingest", {"input_path": "data/clients.csv"})
 print("ingest ok")`,
           output: `normalize ok
-abort config: API_TOKEN requerido para ingest
+abort config: falta input_path para ingest
 ingest ok`,
         },
-        why: "Validación temprana y contextual al subcomando.",
+        why: "Validación temprana y contextual, sin exigir secretos irrelevantes al ETL local.",
       },
     ],
   },
@@ -579,7 +581,7 @@ ingest ok`,
           "Imprime __all__ y clean('  X ').",
         ],
         edgeCases: ["import * no es recomendado; __all__ documenta intención"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -614,7 +616,7 @@ x`,
           "Imprime ok desde ambos lados.",
         ],
         edgeCases: ["Lazy import dentro de función es plan B"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -655,7 +657,7 @@ ok`,
           "Formato caso -> recomendación.",
         ],
         edgeCases: ["Evita manipular sys.path a mano en prod"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -694,7 +696,7 @@ ejecutar el CLI del paquete -> python -m familiarity_core`,
           "Usa dir() filtrado o una lista explícita.",
         ],
         edgeCases: ["Un solo _ es convención, no enforcement del runtime"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -745,7 +747,7 @@ True`,
           "from-style reexport simulado.",
         ],
         edgeCases: ["No reexportes _tokenize"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -781,7 +783,7 @@ True`,
           "Ejemplo: compare(a,b)->bool se vuelve compare(a,b)->float score.",
         ],
         edgeCases: ["Añadir argumento opcional con default puede ser minor"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -811,7 +813,7 @@ MIGRATION: usar compare(a,b) == 1.0 en vez de is True`,
           "Incluye requires-python >=3.11.",
         ],
         edgeCases: ["El nombre de distribución puede usar guiones; el import usa guion bajo"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -845,7 +847,7 @@ print(project)`,
           "Usa prefijo src/familiarity_core/.",
         ],
         edgeCases: ["tests/ fuera de src"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -881,7 +883,7 @@ pyproject.toml`,
           "Formato cause: ...",
         ],
         edgeCases: ["venv incorrecto es causa clásica"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -915,7 +917,7 @@ cause: se ejecuta un script que tapa el paquete en sys.path`,
           "Imprime cambio: nivel.",
         ],
         edgeCases: ["Deprecar primero reduce dolor del major"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -957,7 +959,7 @@ eliminar subcomando compare: major`,
           "requires-python>=3.11.",
         ],
         edgeCases: ["pytest como optional dev, no runtime"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -988,7 +990,7 @@ print(deps)`,
           "Imprime POLICY líneas.",
         ],
         edgeCases: ["Frozen entities pueden forzar major si cambia equality"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1021,7 +1023,7 @@ POLICY: S11 no rompe CLI de S10 sin bump y CHANGELOG`,
           "Imprime el namespace.",
         ],
         edgeCases: ["required=True en subparsers (py3.7+)"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1054,7 +1056,7 @@ print(ns)`,
           "Cinco casos.",
         ],
         edgeCases: ["argparse usa 2 por defecto en errores de parseo"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1099,7 +1101,7 @@ validación de config falla al arrancar: 1`,
           "Imprime HELP: ...",
         ],
         edgeCases: ["Ejemplos concretos > descripciones abstractas"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1132,7 +1134,7 @@ HELP: Si falla, revise el código de salida: 2=uso, 1=error de datos/config`,
           "Imprime ambos streams.",
         ],
         edgeCases: ["En CLI real: print(..., file=sys.stderr)"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1170,7 +1172,7 @@ stderr: event=done`,
           "Prueba ambos modos.",
         ],
         edgeCases: ["En prod usa pathlib.Path.read_text o sys.stdin.read"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1208,7 +1210,7 @@ desde file`,
           "GOOD solo JSON final.",
         ],
         edgeCases: ["jq falla si hay basura alrededor del JSON"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1260,7 +1262,7 @@ stderr_only empezando | fin |`,
           "Formato rank:layer",
         ],
         edgeCases: ["Documenta si algún flag es global vs por subcomando"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1291,7 +1293,7 @@ for i, name in enumerate(layers, 1):
           "El flag debe ganar.",
         ],
         edgeCases: ["jobs queda 1 porque env manda None"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1339,7 +1341,7 @@ print(merge(
           "Español claro.",
         ],
         edgeCases: ["Si el flag no se pasó (None), gana env"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1367,7 +1369,7 @@ razon=el flag CLI tiene mayor precedencia que la variable de entorno`,
           "Formato ignore: ...",
         ],
         edgeCases: [".env.example SÍ se commitea sin secretos"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1397,7 +1399,7 @@ ignore: credentials.json`,
           "Prueba ok y fail.",
         ],
         edgeCases: ["Mensajes con nombre de clave ayudan al operador"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1443,7 +1445,7 @@ config: falta clave requerida 'data_dir'`,
           "Sin secretos en defaults.",
         ],
         edgeCases: ["token default None + validate al usar"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1483,57 +1485,232 @@ api_token: 'hardcoded' -> None`,
       "Errores de uso vs runtime distinguibles por exit code",
       "Lógica importable sin side-effects",
       "README de precedencia de config",
+      "ingest ejecuta ETL CSV real: Decimal desde texto, clean/quarantine y manifest por fuente reconciliado",
+      "python -m unittest discover -s tests pasa en un checkout limpio",
     ],
-    starterCode: `"""familiarity_core — packaging + CLI (CP-N1-B/C).
-Este stub simula la estructura; en tu repo real usa src/ + pyproject.toml.
+    starterCode: `"""bootstrap_familiarity.py — crea un paquete real, instalable y testeable.
+Ejecuta: python bootstrap_familiarity.py; cd familiarity_core_project;
+python -m pip install -e .; python -m unittest discover -s tests.
 """
-from __future__ import annotations
-import argparse
-import sys
-from typing import Optional
+from pathlib import Path
 
-__all__ = ["normalize", "compare", "main"]
+FILES = {
+    "pyproject.toml": '''
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "familiarity-core"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+familiarity = "familiarity_core.cli:entrypoint"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+''',
+    "src/familiarity_core/__init__.py": '''
+from .core import compare, normalize, parse_monto, run_ingest
+
+__all__ = ["compare", "normalize", "parse_monto", "run_ingest"]
+''',
+    "src/familiarity_core/config.py": '''
+DEFAULTS = {"log_level": "INFO"}
+
+def merge_config(defaults, file_cfg, env_cfg, flags):
+    result = dict(defaults)
+    for layer in (file_cfg, env_cfg, flags):
+        result.update({key: value for key, value in layer.items() if value is not None})
+    return result
+
+def validate_config(config, command):
+    if config.get("log_level") not in {"DEBUG", "INFO", "WARNING", "ERROR"}:
+        raise ValueError("config: log_level inválido")
+    required = {"ingest": "input_path", "report": "manifest_path"}.get(command)
+    if required and not config.get(required):
+        raise ValueError("config: falta %s para %s" % (required, command))
+''',
+    "src/familiarity_core/core.py": '''
+from __future__ import annotations
+
+import csv
+import hashlib
+import json
+from decimal import Decimal, InvalidOperation
+from pathlib import Path
+
+CENT = Decimal("0.01")
 
 def normalize(text: str) -> str:
     return " ".join(text.split()).casefold()
 
-def compare(a: str, b: str) -> float:
-    return 1.0 if normalize(a) == normalize(b) else 0.0
+def compare(left: str, right: str) -> Decimal:
+    return Decimal("1.00") if normalize(left) == normalize(right) else Decimal("0.00")
 
-def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(
-        prog="familiarity",
-        description="CLI de familiaridad (datos sintéticos).",
-    )
-    sub = p.add_subparsers(dest="cmd", required=True)
-    sub.add_parser("ingest", help="ingerir archivos de entrada")
-    n = sub.add_parser("normalize", help="normalizar texto")
-    n.add_argument("text")
-    c = sub.add_parser("compare", help="comparar dos textos")
-    c.add_argument("a")
-    c.add_argument("b")
-    r = sub.add_parser("report", help="reporte simple")
-    r.add_argument("--format", choices=["text", "json"], default="text")
-    return p
+def parse_monto(raw: object) -> Decimal:
+    try:
+        value = Decimal(str(raw).strip().replace(",", ".")).quantize(CENT)
+        if not value.is_finite():
+            raise InvalidOperation
+    except (InvalidOperation, ValueError):
+        raise ValueError("monto inválido: %r" % (raw,)) from None
+    if value < Decimal("0"):
+        raise ValueError("monto negativo: %s" % value)
+    return value
 
-def main(argv: Optional[list[str]] = None) -> int:
-    ns = build_parser().parse_args(argv)
-    if ns.cmd == "normalize":
-        print(normalize(ns.text))
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+def run_ingest(input_path: Path, out_dir: Path) -> dict:
+    clean, quarantine = [], []
+    with input_path.open(encoding="utf-8", newline="") as handle:
+        reader = csv.DictReader(handle)
+        required = {"id", "name", "monto"}
+        if not reader.fieldnames or not required.issubset(reader.fieldnames):
+            raise ValueError("CSV requiere columnas id,name,monto")
+        for line_no, row in enumerate(reader, start=2):
+            try:
+                record_id = row["id"].strip()
+                if not record_id:
+                    raise ValueError("id vacío")
+                clean.append({
+                    "id": record_id,
+                    "name": normalize(row["name"]),
+                    "monto": str(parse_monto(row["monto"])),
+                })
+            except (KeyError, ValueError) as exc:
+                quarantine.append({"line": line_no, "reason": str(exc)})
+    source = {
+        "name": input_path.name,
+        "sha256": _sha256(input_path),
+        "n_in": len(clean) + len(quarantine),
+        "n_clean": len(clean),
+        "n_quarantine": len(quarantine),
+    }
+    source["reconcile_ok"] = source["n_in"] == source["n_clean"] + source["n_quarantine"]
+    manifest = {
+        "sources": [source],
+        "n_in": source["n_in"],
+        "n_clean": source["n_clean"],
+        "n_quarantine": source["n_quarantine"],
+        "reconcile_ok": source["reconcile_ok"],
+    }
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "clean.json").write_text(json.dumps(clean, ensure_ascii=False, indent=2), encoding="utf-8")
+    (out_dir / "quarantine.json").write_text(json.dumps(quarantine, ensure_ascii=False, indent=2), encoding="utf-8")
+    (out_dir / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    if not manifest["reconcile_ok"]:
+        raise RuntimeError("reconciliación falló")
+    return manifest
+''',
+    "src/familiarity_core/cli.py": '''
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+from .config import DEFAULTS, merge_config, validate_config
+from .core import compare, normalize, run_ingest
+
+def build_parser():
+    parser = argparse.ArgumentParser(prog="familiarity")
+    parser.add_argument("--log-level", choices=["DEBUG", "INFO", "WARNING", "ERROR"])
+    commands = parser.add_subparsers(dest="command", required=True)
+    ingest = commands.add_parser("ingest")
+    ingest.add_argument("--input", required=True)
+    ingest.add_argument("--out-dir", required=True)
+    normal = commands.add_parser("normalize")
+    normal.add_argument("text")
+    comp = commands.add_parser("compare")
+    comp.add_argument("left")
+    comp.add_argument("right")
+    report = commands.add_parser("report")
+    report.add_argument("--manifest", required=True)
+    return parser
+
+def main(argv=None):
+    args = build_parser().parse_args(argv)
+    flags = {"log_level": args.log_level}
+    command_cfg = {
+        "input_path": getattr(args, "input", None),
+        "manifest_path": getattr(args, "manifest", None),
+    }
+    config = merge_config(DEFAULTS, {}, {}, {**flags, **command_cfg})
+    try:
+        validate_config(config, args.command)
+        if args.command == "normalize":
+            print(normalize(args.text))
+        elif args.command == "compare":
+            print(compare(args.left, args.right))
+        elif args.command == "ingest":
+            print(json.dumps(run_ingest(Path(args.input), Path(args.out_dir)), sort_keys=True))
+        elif args.command == "report":
+            manifest = json.loads(Path(args.manifest).read_text(encoding="utf-8"))
+            print(json.dumps(manifest, sort_keys=True))
         return 0
-    if ns.cmd == "compare":
-        print(compare(ns.a, ns.b))
-        return 0
-    if ns.cmd == "report":
-        print("{"status": "ok"}" if ns.format == "json" else "status=ok")
-        return 0
-    if ns.cmd == "ingest":
-        print("ingest: ok", file=sys.stderr)
-        return 0
-    return 2
+    except (OSError, ValueError, RuntimeError, json.JSONDecodeError) as exc:
+        print("error: %s" % exc, file=sys.stderr)
+        return 1
+
+def entrypoint():
+    raise SystemExit(main())
+''',
+    "src/familiarity_core/__main__.py": '''
+from .cli import entrypoint
+
+entrypoint()
+''',
+    "tests/test_core.py": '''
+import tempfile
+import unittest
+from decimal import Decimal
+from pathlib import Path
+
+from familiarity_core import compare, parse_monto, run_ingest
+
+class CoreTests(unittest.TestCase):
+    def test_decimal_and_compare(self):
+        self.assertEqual(parse_monto("10,5"), Decimal("10.50"))
+        self.assertEqual(compare(" Ana ", "ana"), Decimal("1.00"))
+
+    def test_etl_reconciles_and_quarantines(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            source = root / "clients.csv"
+            source.write_text(chr(10).join([
+                "id,name,monto", "C1,Ana,10.50", "C2,Luis,abc",
+            ]) + chr(10), encoding="utf-8")
+            manifest = run_ingest(source, root / "out")
+            self.assertEqual((manifest["n_in"], manifest["n_clean"], manifest["n_quarantine"]), (2, 1, 1))
+            self.assertTrue(manifest["sources"][0]["reconcile_ok"])
 
 if __name__ == "__main__":
-    raise SystemExit(main())`,
+    unittest.main()
+''',
+    "README.md": '''
+# familiarity-core
+
+1. python -m pip install -e .
+2. python -m unittest discover -s tests
+3. familiarity ingest --input data/clients.csv --out-dir out
+4. familiarity report --manifest out/manifest.json
+
+Precedencia: flags > entorno > archivo > defaults. Esta base local no necesita secretos.
+Exit 0 = éxito, 1 = runtime/config, 2 = uso inválido de argparse.
+''',
+}
+
+root = Path("familiarity_core_project")
+for relative, body in FILES.items():
+    target = root / relative
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(body.strip() + chr(10), encoding="utf-8")
+print("created", len(FILES), "files in", root)`,
     portfolioNote:
       "Incluye captura de --help, tabla de exit codes y ejemplo de pipe `... | normalize > out.json 2> log.txt` con datos sintéticos.",
     rubric: [
@@ -1549,73 +1726,43 @@ if __name__ == "__main__":
     questions: [
       {
         question: "¿Para qué sirve `if __name__ == '__main__'`?",
-        options: [
-          "Acelerar el interpreter",
-          "Ejecutar el CLI/demo solo al correr el módulo, no al importar",
-          "Definir __all__",
-          "Instalar dependencias",
-        ],
+        options: ["Acelerar el interpreter", "Ejecutar el CLI/demo solo al correr el módulo, no al importar", "Definir __all__", "Instalar dependencias"],
         correctIndex: 1,
         explanation:
           "Evita side-effects al importar el paquete.",
       },
       {
         question: "Precedencia correcta de config…",
-        options: [
-          "defaults > flags > env > file",
-          "flags > env > file > defaults",
-          "env > flags > file > defaults",
-          "file > flags > env > defaults",
-        ],
-        correctIndex: 1,
+        options: ["defaults > flags > env > file", "env > flags > file > defaults", "file > flags > env > defaults", "flags > env > file > defaults"],
+        correctIndex: 3,
         explanation:
           "Flags CLI ganan; defaults son la base.",
       },
       {
         question: "Exit code 2 en CLI argparse suele significar…",
-        options: [
-          "Éxito",
-          "Error de uso/parseo de argumentos",
-          "Timeout de red",
-          "Fraude detectado",
-        ],
-        correctIndex: 1,
+        options: ["Error de uso/parseo de argumentos", "Éxito", "Timeout de red", "Fraude detectado"],
+        correctIndex: 0,
         explanation:
           "Convención: 2 usage; 1 runtime; 0 ok.",
       },
       {
         question: "¿Dónde van los logs de progreso?",
-        options: [
-          "stdout con el JSON",
-          "stderr",
-          "en el nombre del archivo",
-          "en __all__",
-        ],
-        correctIndex: 1,
+        options: ["stdout con el JSON", "en el nombre del archivo", "stderr", "en __all__"],
+        correctIndex: 2,
         explanation:
           "stderr deja stdout limpio para pipes.",
       },
       {
         question: "Añadir un subcomando nuevo compatible es tipicamente…",
-        options: [
-          "major",
-          "minor",
-          "borrar el repo",
-          "patch obligatorio siempre",
-        ],
+        options: ["major", "minor", "borrar el repo", "patch obligatorio siempre"],
         correctIndex: 1,
         explanation:
           "Feature compatible → minor en semver.",
       },
       {
         question: "¿Qué no debe ir al git del paquete?",
-        options: [
-          ".env con API_TOKEN",
-          "README.md",
-          "pyproject.toml",
-          "src/.../__init__.py",
-        ],
-        correctIndex: 0,
+        options: ["README.md", "pyproject.toml", "src/.../__init__.py", ".env con API_TOKEN"],
+        correctIndex: 3,
         explanation:
           "Secretos fuera del repo; usa .env.example sin valores reales.",
       },

@@ -33,6 +33,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from newbie_packet_builder import (  # noqa: E402
     active_section_files,
     build_packet,
+    build_validator_audit,
     extract_string_array,
     extract_string_field,
     parse_section_learner,
@@ -175,6 +176,8 @@ def scan_all(attempt_id: str) -> dict:
     d.mkdir(parents=True, exist_ok=True)
     packets_dir = d / "packets"
     packets_dir.mkdir(exist_ok=True)
+    validator_dir = d / "validator_artifacts"
+    validator_dir.mkdir(exist_ok=True)
     section_summaries = []
     all_gaps = []
     max_ok = 0
@@ -183,21 +186,16 @@ def scan_all(attempt_id: str) -> dict:
         pkt = build_packet(idx, attempt_id=attempt_id)
         sec_dir = d / f"section_{idx:02d}"
         sec_dir.mkdir(exist_ok=True)
-        lean = dict(pkt)
-        lean.pop("cumulative_taught_text", None)
-        if lean.get("active"):
-            lean["active"] = {
-                k: v for k, v in lean["active"].items() if k != "_taught_text"
-            }
         (sec_dir / "packet.json").write_text(
-            json.dumps(lean, ensure_ascii=False, indent=2), encoding="utf-8"
+            json.dumps(pkt, ensure_ascii=False, indent=2), encoding="utf-8"
         )
         (packets_dir / f"section_{idx:02d}.json").write_text(
-            json.dumps(lean, ensure_ascii=False, indent=2), encoding="utf-8"
+            json.dumps(pkt, ensure_ascii=False, indent=2), encoding="utf-8"
         )
-        gaps = pkt.get("heuristic_gaps") or []
-        (sec_dir / "gaps_heuristic.json").write_text(
-            json.dumps(gaps, indent=2, ensure_ascii=False), encoding="utf-8"
+        audit = build_validator_audit(idx, attempt_id=attempt_id)
+        gaps = audit["heuristic_gaps"]
+        (validator_dir / f"section_{idx:02d}.json").write_text(
+            json.dumps(audit, indent=2, ensure_ascii=False), encoding="utf-8"
         )
         for g in gaps:
             all_gaps.append(g)

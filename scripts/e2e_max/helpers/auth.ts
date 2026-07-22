@@ -4,14 +4,14 @@ import { gotoHash } from './nav'
 
 const BASE = process.env.BASE_URL || 'http://localhost:3000'
 
-export const DEMO_STUDENT = {
-  email: process.env.E2E_DEMO_EMAIL || 'demo@python-ds.pe',
-  password: process.env.E2E_DEMO_PASSWORD || 'demo1234',
+export const E2E_STUDENT = {
+  email: process.env.E2E_STUDENT_EMAIL || '',
+  password: process.env.E2E_STUDENT_PASSWORD || '',
 }
 
-export const DEMO_ADMIN = {
-  email: process.env.E2E_ADMIN_EMAIL || 'admin@python-ds.pe',
-  password: process.env.E2E_ADMIN_PASSWORD || 'admin123',
+export const E2E_ADMIN = {
+  email: process.env.E2E_ADMIN_EMAIL || '',
+  password: process.env.E2E_ADMIN_PASSWORD || '',
 }
 
 /** NextAuth credentials login via cookie jar (API), faster than UI. */
@@ -20,6 +20,9 @@ export async function loginViaApi(
   email: string,
   password: string
 ): Promise<void> {
+  if (!email || !password) {
+    throw new Error('E2E credentials are required through environment variables')
+  }
   const csrfRes = await page.request.get(`${BASE}/api/auth/csrf`, {
     timeout: 60_000,
   })
@@ -39,13 +42,13 @@ export async function loginViaApi(
 }
 
 export async function loginStudent(page: Page) {
-  await loginViaApi(page, DEMO_STUDENT.email, DEMO_STUDENT.password)
+  await loginViaApi(page, E2E_STUDENT.email, E2E_STUDENT.password)
   // Land on home so subsequent gotoSection is not fighting a sticky hash
   await gotoHash(page, '')
 }
 
 export async function loginAdmin(page: Page) {
-  await loginViaApi(page, DEMO_ADMIN.email, DEMO_ADMIN.password)
+  await loginViaApi(page, E2E_ADMIN.email, E2E_ADMIN.password)
   await gotoHash(page, 'admin')
 }
 

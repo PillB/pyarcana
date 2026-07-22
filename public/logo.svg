@@ -1,29 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 30 30" style="enable-background:new 0 0 30 30;" xml:space="preserve">
-<defs>
-  <style type="text/css">
-    .st194{fill:#2D2D2D;stroke:#FFFFFF;stroke-width:0.6317;stroke-miterlimit:10;}
-    .st23{fill:#FFFFFF;}
-
-    .z-breathe {
-      animation: breathe 2.5s ease-in-out infinite;
-    }
-
-    @keyframes breathe {
-      0%, 100% { opacity: 0.7; }
-      50% { opacity: 1; }
-    }
-  </style>
-</defs>
-
-<g>
-  <path class="st194" d="M24.51,28.51H5.49c-2.21,0-4-1.79-4-4V5.49c0-2.21,1.79-4,4-4h19.03c2.21,0,4,1.79,4,4v19.03
-    C28.51,26.72,26.72,28.51,24.51,28.51z"/>
-  <g class="z-breathe">
-    <path class="st23" d="M15.47,7.1l-1.3,1.85c-0.2,0.29-0.54,0.47-0.9,0.47h-7.1V7.09C6.16,7.1,15.47,7.1,15.47,7.1z"/>
-    <polygon class="st23" points="24.3,7.1 13.14,22.91 5.7,22.91 16.86,7.1"/>
-    <path class="st23" d="M14.53,22.91l1.31-1.86c0.2-0.29,0.54-0.47,0.9-0.47h7.09v2.33H14.53z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title description">
+  <title id="title">PyArcana</title>
+  <desc id="description">Monograma PA rodeado por hojas de estilo Art Nouveau</desc>
+  <defs>
+    <linearGradient id="emerald" x1="18" y1="12" x2="110" y2="116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#315b4a"/>
+      <stop offset="1" stop-color="#18382f"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="22" y1="18" x2="106" y2="110" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f2d58a"/>
+      <stop offset=".5" stop-color="#c9a227"/>
+      <stop offset="1" stop-color="#8c6717"/>
+    </linearGradient>
+  </defs>
+  <rect x="5" y="5" width="118" height="118" rx="31" fill="url(#emerald)"/>
+  <path d="M64 11C42 11 20 25 14 47c-5 19 1 42 16 56 9 8 21 13 34 14 13-1 25-6 34-14 15-14 21-37 16-56-6-22-28-36-50-36Z" fill="none" stroke="url(#gold)" stroke-width="3"/>
+  <path d="M28 88c-9-13-8-31 1-43m71 43c9-13 8-31-1-43" fill="none" stroke="#d8b95e" stroke-width="2.5" stroke-linecap="round"/>
+  <g fill="#d8b95e">
+    <path d="M28 72c-10-2-13-10-12-18 9 2 14 8 12 18Z"/>
+    <path d="M29 55c-7-6-6-14-2-20 7 5 9 12 2 20Z"/>
+    <path d="M30 87c-8 3-14-1-18-7 7-4 15-2 18 7Z"/>
+    <path d="M100 72c10-2 13-10 12-18-9 2-14 8-12 18Z"/>
+    <path d="M99 55c7-6 6-14 2-20-7 5-9 12-2 20Z"/>
+    <path d="M98 87c8 3 14-1 18-7-7-4-15-2-18 7Z"/>
   </g>
-</g>
+  <path d="M42 94V35h22c14 0 23 8 23 20 0 8-4 14-11 17l13 22H75L64 75h-9v19H42Zm13-31h9c6 0 10-3 10-8s-4-8-10-8h-9v16Z" fill="#fbf5e4"/>
+  <path d="M49 103c10 5 20 5 30 0" fill="none" stroke="#d8b95e" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="64" cy="103" r="3" fill="#d8b95e"/>
 </svg>

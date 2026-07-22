@@ -6,13 +6,13 @@ export const section29: CourseSection = {
   title: "SQL avanzado y modelado relacional",
   shortTitle: "SQL almacén ER",
   tagline: "esquema que preserva registros fuente, entidades, pares candidatos, decisiones y evidencia sin sobrescribir historia",
-  estimatedHours: 14,
+  estimatedHours: 18,
   level: "Competente",
   phase: 2,
   icon: "Database",
   accentColor: "bg-gradient-to-br from-sky-500 to-blue-800",
   jobRelevance:
-    "El **almacén de verdad del ER** (CP-N3-A) guarda fuentes, entidades, pares, decisiones y evidencia con historia. Esta sección (id `mlops` conservado) retematiza a V3 **SQL avanzado y modelado relacional**: claves, temporalidad, CTEs, ACID, upserts e índices. sqlite local; sin PII real.",
+    "El **almacén de verdad del ER** guarda fuentes, entidades, pares, decisiones y evidencia con historia. La práctica usa SQLite real: claves, temporalidad, CTEs, ACID, concurrencia, migraciones, repository e índices; sin PII real.",
   learningOutcomes: [
     { text: "Modelar claves y constraints correctos" },
     { text: "Preservar temporalidad y provenance" },
@@ -25,17 +25,17 @@ export const section29: CourseSection = {
   ],
   theory: [
     {
-      heading: "De MLOps a almacén relacional del ER (mapa CP-N3-A)",
+      heading: "Almacén relacional del ER para CP-N3-A",
       paragraphs: [
-        "En V3, **S29 no es MLflow/DVC**. Modelas el **almacén ER**: source_records, entities, candidate_pairs, decisions, evidence — **sin borrar historia**.",
-        "sqlite local del curso simula el almacén; los mismos principios aplican a Postgres en producción.",
+        "Modelas el **almacén ER**: source_records, entities, candidate_pairs, decisions y evidence, **sin borrar historia**.",
+        "SQLite local es una base real y reproducible para observar constraints, NULL, planes, transacciones y locks; las diferencias con otros motores se declaran cuando importan.",
         "Orden: **T1 Modelo** → **T2 Consulta** → **T3 Transacción** → **T4 Evolución**. Decisiones de match ≠ fraude.",
       ],
       callout: {
         type: "info",
-        title: "Contenido reubicado conceptualmente",
+        title: "Práctica observable",
         content:
-          "Legado MLOps de este archivo **no es el path V3 en S29**. Target: SQL del almacén ER.",
+          "Cada afirmación sobre NULL, índices o atomicidad se verifica con consultas y dos conexiones, no con strings que nombran el concepto.",
       },
     },
     {
@@ -1332,48 +1332,28 @@ if __name__ == "__main__":
     questions: [
       {
         question: "entity_a < entity_b en el par sirve para:",
-        options: [
-          "Inferir fraude",
-          "Evitar duplicar el mismo par en orden invertido",
-          "Borrar historia",
-          "Subir isolation",
-        ],
-        correctIndex: 1,
+        options: ["Evitar duplicar el mismo par en orden invertido", "Inferir fraude", "Borrar historia", "Subir isolation"],
+        correctIndex: 0,
         explanation:
           "Orden canónico de extremos del par.",
       },
       {
         question: "Append-only en decisions significa:",
-        options: [
-          "UPDATE del label in place sin rastro",
-          "Nueva fila por cambio de decisión",
-          "Drop de tabla cada noche",
-          "Solo un match eterno",
-        ],
-        correctIndex: 1,
+        options: ["UPDATE del label in place sin rastro", "Drop de tabla cada noche", "Nueva fila por cambio de decisión", "Solo un match eterno"],
+        correctIndex: 2,
         explanation:
           "Preserva historia y provenance.",
       },
       {
         question: "Decisión y evidencia deben:",
-        options: [
-          "Commitearse en transacciones separadas siempre",
-          "Ser atómicas en la misma transacción lógica",
-          "Ignorar rollback",
-          "Vivir solo en logs de texto",
-        ],
-        correctIndex: 1,
+        options: ["Commitearse en transacciones separadas siempre", "Ignorar rollback", "Vivir solo en logs de texto", "Ser atómicas en la misma transacción lógica"],
+        correctIndex: 3,
         explanation:
           "ACID del almacén de verdad.",
       },
       {
         question: "El repository pattern:",
-        options: [
-          "Esparce SQL por toda la app a propósito",
-          "Encapsula acceso a datos y facilita tests con :memory:",
-          "Reemplaza constraints",
-          "Marca fraude automático",
-        ],
+        options: ["Esparce SQL por toda la app a propósito", "Encapsula acceso a datos y facilita tests con :memory:", "Reemplaza constraints", "Marca fraude automático"],
         correctIndex: 1,
         explanation:
           "Borde de persistencia testeable.",

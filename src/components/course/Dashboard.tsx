@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { MuchaHalo, DividerVine } from '@/components/ornaments/Ornaments'
@@ -28,6 +29,8 @@ import { useProgressStore } from '@/lib/progress-store'
 import type { CourseSection, CourseMeta } from '@/lib/types'
 import * as Icons from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { IS_STATIC_SITE, siteAsset } from '@/lib/runtime-mode'
+import { t, useI18n } from '@/lib/i18n'
 
 interface DashboardProps {
   meta: CourseMeta
@@ -40,6 +43,9 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
   const { completedSections, completedSubSteps, quizScores, lastVisited, startDate, setStartDate } = useProgressStore()
   const { data: session } = useSession()
   const [mounted, setMounted] = useState(false)
+  const lang = useI18n((state) => state.lang)
+  const tr = (key: string) => t(key, lang)
+  const english = lang === 'en'
 
   // Prevent hydration mismatch: render with empty state on SSR
   useEffect(() => {
@@ -82,21 +88,32 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
         <div className="circuit-vine-bg pointer-events-none absolute inset-0" />
 
         <div className="relative z-10">
-          <Badge variant="outline" className="mb-4 gap-1.5 border-gold bg-background/70 backdrop-blur shadow-[0_0_0_1px_rgba(201,162,39,0.35)]">
-            <Sparkles className="h-3 w-3 text-gold" />
-            PyArcana · Curso online · Español peruano
-          </Badge>
+          <div className="mb-4 flex items-center gap-3">
+            <Image
+              src={siteAsset('/logo.svg')}
+              alt=""
+              width={48}
+              height={48}
+              className="h-12 w-12 rounded-2xl shadow-glow"
+            />
+            <Badge variant="outline" className="gap-1.5 border-gold bg-background/70 backdrop-blur shadow-[0_0_0_1px_rgba(201,162,39,0.35)]">
+              <Sparkles className="h-3 w-3 text-gold" />
+              {english ? 'PyArcana · 52 sections · Lessons in Peruvian Spanish' : 'PyArcana · 52 secciones · Español peruano'}
+            </Badge>
+          </div>
           <h1 className="font-display max-w-3xl text-5xl font-semibold tracking-tight sm:text-6xl lg:text-7xl" style={{ fontFamily: 'var(--font-display)' }}>
             <span className="gradient-text">{meta.title}</span>
           </h1>
           <p className="mt-1 max-w-xl text-xs uppercase tracking-[0.28em] text-gold/90 sm:text-sm" style={{ fontFamily: 'var(--font-subdisplay)' }}>
-            El arte de aprender Python
+            {english ? 'The art of learning Python' : 'El arte de aprender Python'}
           </p>
           <p className="font-subdisplay mt-4 max-w-2xl text-xl text-foreground/80 sm:text-2xl" style={{ fontFamily: 'var(--font-subdisplay)' }}>
-            {meta.subtitle}
+            {english ? 'From zero to data and responsible AI systems' : meta.subtitle}
           </p>
           <p className="mt-2 max-w-2xl text-sm text-muted-foreground sm:text-base">
-            {meta.description}
+            {english
+              ? 'A self-paced route with 52 sequential sections. The interface is available in English; lesson explanations and exercises remain authored in Peruvian Spanish.'
+              : meta.description}
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -109,10 +126,10 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
               className="gap-2 shadow-glow"
             >
               <Rocket className="h-4 w-4" />
-              {isReturning ? 'Continuar donde lo dejé' : 'Empezar ahora'}
+              {isReturning ? tr('progress.continue') : tr('progress.start')}
               <ArrowRight className="h-4 w-4" />
             </Button>
-            {!session?.user && (
+            {!IS_STATIC_SITE && !session?.user && (
               <Button
                 size="lg"
                 variant="outline"
@@ -120,19 +137,28 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
                 className="gap-2 border-gold"
               >
                 <Sparkles className="h-4 w-4 text-gold" />
-                Crear cuenta gratis
+                {tr('progress.createAccount')}
               </Button>
             )}
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Clock className="h-4 w-4" />
-              {meta.totalHours}h · {meta.totalSections} secciones
+              {meta.totalHours}h {english ? 'estimated (provisional plan)' : 'estimadas (plan provisional)'} · {meta.totalSections} {english ? 'sections' : 'secciones'}
             </div>
           </div>
 
-          {!session?.user && (
+          {!IS_STATIC_SITE && !session?.user && (
             <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-gold bg-accent/5 px-3 py-1.5 text-xs text-foreground/80">
               <Sparkles className="h-3 w-3 text-gold" />
-              Crea cuenta para guardar progreso, rendir exámenes con anti-plagio y ver tu dashboard
+              {tr('progress.createAccountDesc')}
+            </div>
+          )}
+          {IS_STATIC_SITE && (
+            <div
+              className="mt-4 max-w-2xl rounded-xl border border-gold/50 bg-background/75 px-4 py-3 text-xs text-foreground/80 backdrop-blur"
+              data-testid="static-site-notice"
+            >
+              <strong>Edición pública / Public edition:</strong> el progreso se guarda solo en este navegador.
+              GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración.
             </div>
           )}
         </div>
@@ -208,9 +234,9 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
       <section className="mt-10">
         <div className="mb-4 flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-bold tracking-tight">Currículum del curso</h2>
+            <h2 className="text-2xl font-bold tracking-tight">{tr('course.curriculum')}</h2>
             <p className="text-sm text-muted-foreground">
-              52 secciones · método I Do / We Do / You Do · proyectos de portafolio
+              {english ? '52 sections · I Do / We Do / You Do · portfolio projects' : '52 secciones · método I Do / We Do / You Do · proyectos de portafolio'}
             </p>
           </div>
         </div>
@@ -298,13 +324,15 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
             <div className="p-6 sm:p-8">
               <Badge variant="outline" className="mb-3 gap-1.5 border-primary/30 text-primary">
                 <Sparkles className="h-3 w-3" />
-                Pedagogía
+                {english ? 'Pedagogy' : 'Pedagogía'}
               </Badge>
               <h2 className="text-2xl font-bold tracking-tight">
-                Método <span className="gradient-text">I Do / We Do / You Do</span>
+                {english ? 'Method ' : 'Método '}<span className="gradient-text">I Do / We Do / You Do</span>
               </h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                Gradual Release of Responsibility — el mismo marco que usan profesores top de Corwin y Brilliant. Cada sección sigue 4 fases para que no te quedes pegado en "tutorial hell".
+                {english
+                  ? 'Gradual release of responsibility: first observe a complete process, then practise with support, and finally transfer the skill independently. Lesson content remains in Peruvian Spanish.'
+                  : 'Liberación gradual de responsabilidad: primero observas un proceso completo, luego practicas con apoyo y finalmente transfieres lo aprendido. Cada sección conserva las mismas cuatro fases para que sepas qué evidencia producir.'}
               </p>
 
               <div className="mt-5 space-y-3">
@@ -341,28 +369,28 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
 
             <div className="border-t bg-muted/30 p-6 sm:p-8 lg:border-l lg:border-t-0">
               <h3 className="text-sm font-semibold uppercase tracking-wide text-muted-foreground">
-                ¿Por qué este curso es diferente?
+                {tr('course.whyDifferent')}
               </h3>
               <div className="mt-4 space-y-4">
                 <Feature
                   icon={Target}
-                  title="Alineado al mercado peruano 2025-2026"
-                  desc="Keywords reales de LinkedIn, rangos salariales de Lima y skills que piden empresas como Interbank, BBVA, Caja Arequipa."
+                  title="Casos situados en Perú"
+                  desc="Practicas con escenarios sintéticos de trabajo y datos; no usamos información personal real ni prometemos resultados laborales."
                 />
                 <Feature
                   icon={Award}
-                  title="Proyectos que pesan en entrevistas"
-                  desc="Churn con SHAP, EDA de Netflix, pipeline sklearn con ColumnTransformer. Los mismos formatos que mandan empresas US."
+                  title="Proyectos con evidencia verificable"
+                  desc="Cada entrega pide código, pruebas, decisiones y límites para que puedas explicar qué construiste y cómo lo validaste."
                 />
                 <Feature
                   icon={BookOpen}
-                  title="Basado en 4 libros + investigación"
-                  desc="Python 101, Python Apprentice to Master, Python Awesome Job y python201, enriquecidos con artículos verificados de Medium."
+                  title="Ruta trazable y progresiva"
+                  desc="Los conceptos avanzan desde fundamentos hasta sistemas de datos e IA, con documentación oficial enlazada en cada sección."
                 />
                 <Feature
                   icon={TrendingUp}
-                  title="100% autónomo"
-                  desc="Sin profe, sin horario. Tú avanzas cuando puedas. El progreso se guarda en tu navegador."
+                  title="Aprendizaje autoguiado"
+                  desc="Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda solo en tu navegador."
                 />
               </div>
             </div>
@@ -372,18 +400,20 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
 
       {/* Certifications */}
       <section className="mt-12">
-        <h2 className="text-2xl font-bold tracking-tight">Certificaciones recomendadas</h2>
+        <h2 className="text-2xl font-bold tracking-tight">{english ? 'Optional external routes' : 'Rutas externas opcionales'}</h2>
         <p className="text-sm text-muted-foreground">
-          Hazlas en paralelo al curso. Complementan tu portafolio y suman en LinkedIn.
+          {english
+            ? 'Use them only when they fit your goal and experience. No credential guarantees employment; always verify requirements, current status, and cost on the official page.'
+            : 'Úsalas solo si encajan con tu objetivo y experiencia. Ninguna credencial garantiza empleo; revisa siempre requisitos, vigencia y costo en la página oficial antes de pagar.'}
         </p>
 
-        {/* Free certifications */}
-        <h3 className="mt-6 mb-3 text-sm font-semibold text-muted-foreground">Gratuitas (principiantes)</h3>
+        {/* Introductory learning routes */}
+        <h3 className="mt-6 mb-3 text-sm font-semibold text-muted-foreground">Introductorias y de práctica</h3>
         <div className="grid gap-4 sm:grid-cols-3">
           {[
-            { name: 'CS50P Harvard', desc: 'Python para no-programadores. Reconocido por reclutadores US.', url: 'https://cs50.harvard.edu/python' },
-            { name: 'Google Python Certificate', desc: 'IT Automation with Python. Marca fuerte en LinkedIn.', url: 'https://www.coursera.org/professional-certificates/google-it-automation' },
-            { name: 'Kaggle Learn', desc: 'Micro-cursos con badge visible en tu perfil Kaggle.', url: 'https://www.kaggle.com/learn' },
+            { name: 'CS50P · Harvard', desc: 'Curso abierto de Python con problem sets, proyecto final y certificado CS50 gratuito al cumplir sus requisitos.', url: 'https://cs50.harvard.edu/python' },
+            { name: 'Google IT Automation with Python', desc: 'Ruta para personas con fundamentos de TI: Python, Git, debugging, automatización y configuración. La modalidad con certificado puede tener costo.', url: 'https://grow.google/certificates/it-automation-python/' },
+            { name: 'Kaggle Learn', desc: 'Lecciones breves y práctica guiada para complementar temas concretos de datos y machine learning.', url: 'https://www.kaggle.com/learn' },
           ].map((c, i) => (
             <Card key={i} className="p-5">
               <Award className="h-6 w-6 text-primary" />
@@ -401,13 +431,13 @@ export function Dashboard({ meta, sections, onSelectSection, onOpenAuth }: Dashb
           ))}
         </div>
 
-        {/* Professional cloud certifications */}
-        <h3 className="mt-8 mb-3 text-sm font-semibold text-muted-foreground">Profesionales Cloud (avanzado — desbloquea roles remotos US/EU)</h3>
+        {/* Professional cloud credentials */}
+        <h3 className="mt-8 mb-3 text-sm font-semibold text-muted-foreground">Credenciales cloud avanzadas</h3>
         <div className="grid gap-4 sm:grid-cols-3">
           {[
-            { name: 'AWS ML Engineer Associate', desc: 'MLA-C01 · $150 · 130min · AWS domina LATAM. Reemplaza al MLS-C01 retirado Mar 2026.', url: 'https://aws.amazon.com/certification/certified-machine-learning-engineer-associate/', badge: '⭐ Recomendada #1' },
-            { name: 'GCP Professional ML Engineer', desc: 'PMLE · $200 · 120min · Fuerte en fintech LATAM (Nubank, MercadoLibre).', url: 'https://cloud.google.com/learn/certification/machine-learning-engineer' },
-            { name: 'Azure AI Engineer Associate', desc: 'AI-102 · $165 · 100min + labs · Microsoft enterprise en Perú (bancos, gobierno).', url: 'https://learn.microsoft.com/en-us/credentials/certifications/azure-ai-engineer/' },
+            { name: 'AWS Machine Learning Engineer – Associate', desc: 'Evalúa implementación y operación de cargas de ML en AWS. El proveedor recomienda experiencia práctica previa con sus servicios.', url: 'https://aws.amazon.com/certification/certified-machine-learning-engineer-associate/', badge: undefined },
+            { name: 'Google Cloud Professional Machine Learning Engineer', desc: 'Evalúa diseño, construcción y operación de soluciones ML en Google Cloud; la experiencia recomendada es avanzada.', url: 'https://cloud.google.com/learn/certification/machine-learning-engineer', badge: undefined },
+            { name: 'Microsoft Azure AI Apps and Agents Developer Associate', desc: 'Credencial AI-103 sobre soluciones de IA y agentes con Python y Microsoft Foundry. Sustituye en esta lista al retirado AI-102.', url: 'https://learn.microsoft.com/es-es/credentials/certifications/azure-ai-apps-and-agents-developer-associate/', badge: undefined },
           ].map((c, i) => (
             <Card key={i} className="p-5">
               <div className="flex items-center gap-2">

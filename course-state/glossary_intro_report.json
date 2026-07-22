@@ -1,8 +1,17 @@
 {
-  "generated_at": "2026-07-21T04:53:08.585924Z",
+  "generated_at": "2026-07-22T17:33:08.653846Z",
   "terms": 89,
   "sections": 52,
-  "forward_refs": 0,
-  "issues": [],
-  "ok": true
+  "forward_refs": 1,
+  "issues": [
+    {
+      "term": "f-string",
+      "id": "f-string",
+      "declared_first": "basics",
+      "found_first": "setup",
+      "severity": "P2",
+      "note": "Term appears before declared firstSectionId — update firstSectionId or add intro"
+    }
+  ],
+  "ok": false
 }

@@ -61,7 +61,7 @@ export const COURSE_META: CourseMeta = {
   description:
     'Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.',
   totalSections: 52,
-  totalHours: 520,
+  totalHours: 1040,
   targetRole: 'Data Analyst / Data Scientist / AI Engineer',
 }
 
@@ -87,8 +87,8 @@ export function getSectionsByPhase(phase: 0 | 1 | 2 | 3): CourseSection[] {
 
 // Phase metadata
 export const PHASES = [
-  { id: 0, name: 'Fundamentos', level: 'Principiante → Avanzado', sections: '1-13', hours: 122, color: 'from-violet-500 to-violet-700' },
-  { id: 1, name: 'Competente', level: 'Competente', sections: '14-26', hours: 150, color: 'from-blue-500 to-indigo-600' },
-  { id: 2, name: 'Senior', level: 'Senior', sections: '27-39', hours: 168, color: 'from-purple-500 to-fuchsia-600' },
-  { id: 3, name: 'Master', level: 'Master', sections: '40-52', hours: 160, color: 'from-amber-500 to-red-600' },
+  { id: 0, name: 'Fundamentos', level: 'Principiante → Avanzado', sections: '1-13', hours: 240, color: 'from-violet-500 to-violet-700' },
+  { id: 1, name: 'Competente', level: 'Competente', sections: '14-26', hours: 240, color: 'from-blue-500 to-indigo-600' },
+  { id: 2, name: 'Senior', level: 'Senior', sections: '27-39', hours: 240, color: 'from-purple-500 to-fuchsia-600' },
+  { id: 3, name: 'Master', level: 'Master', sections: '40-52', hours: 320, color: 'from-amber-500 to-red-600' },
 ] as const

@@ -6,7 +6,7 @@ export const section32: CourseSection = {
   title: "Feature engineering y pipelines sin leakage",
   shortTitle: "Features sin leakage",
   tagline: "tabla de features versionada cuya construcción en train e inferencia es idéntica y no usa información futura o de decisión",
-  estimatedHours: 14,
+  estimatedHours: 18,
   level: "Competente a experto",
   phase: 2,
   icon: "TableProperties",
@@ -484,7 +484,7 @@ fs_version v3`,
       {
         id: "S32-T1-A-E1",
         subtopicId: "S32-T1-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Lista features numéricas desde schema dict type→col; imprime sorted.",
         hint: "Revisa la demo del subtema.",
@@ -516,7 +516,7 @@ ok True`,
       {
         id: "S32-T1-A-E2",
         subtopicId: "S32-T1-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Calcula note_len y token_count simple de un texto sintético.",
         hint: "Revisa la demo del subtema.",
@@ -548,7 +548,7 @@ ok True`,
       {
         id: "S32-T1-A-E3",
         subtopicId: "S32-T1-A",
-        kind: "analyze",
+        kind: "transfer",
         instruction:
           "Valida que todas las keys del row están en catálogo.",
         hint: "Revisa la demo del subtema.",
@@ -580,7 +580,7 @@ n 2`,
       {
         id: "S32-T1-B-E1",
         subtopicId: "S32-T1-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Missing indicator + fill mediana [1,None,3].",
         hint: "Revisa la demo del subtema.",
@@ -614,7 +614,7 @@ filled [1.0, 3.0, 3.0]`,
       {
         id: "S32-T1-B-E2",
         subtopicId: "S32-T1-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "One-hot manual para canal in {app,web} con unknown.",
         hint: "Revisa la demo del subtema.",
@@ -647,7 +647,7 @@ dim 3`,
       {
         id: "S32-T1-B-E3",
         subtopicId: "S32-T1-B",
-        kind: "analyze",
+        kind: "transfer",
         instruction:
           "Z-score con mu=0, sd=2 para [2,4].",
         hint: "Revisa la demo del subtema.",
@@ -679,7 +679,7 @@ sd 2.0`,
       {
         id: "S32-T2-A-E1",
         subtopicId: "S32-T2-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Shared address binario entre dos entidades.",
         hint: "Revisa la demo del subtema.",
@@ -711,7 +711,7 @@ b av-1`,
       {
         id: "S32-T2-A-E2",
         subtopicId: "S32-T2-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Degree feature: cuenta vecinos de E1.",
         hint: "Revisa la demo del subtema.",
@@ -743,7 +743,7 @@ ok True`,
       {
         id: "S32-T2-A-E3",
         subtopicId: "S32-T2-A",
-        kind: "analyze",
+        kind: "transfer",
         instruction:
           "Min path len conocido dict; default 99 si missing.",
         hint: "Revisa la demo del subtema.",
@@ -775,7 +775,7 @@ ok True`,
       {
         id: "S32-T2-B-E1",
         subtopicId: "S32-T2-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Cuenta eventos en [t-3,t) con ts int.",
         hint: "Revisa la demo del subtema.",
@@ -807,7 +807,7 @@ W 3`,
       {
         id: "S32-T2-B-E2",
         subtopicId: "S32-T2-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Frecuencia por canal en ventana.",
         hint: "Revisa la demo del subtema.",
@@ -842,7 +842,7 @@ n 3`,
       {
         id: "S32-T2-B-E3",
         subtopicId: "S32-T2-B",
-        kind: "analyze",
+        kind: "transfer",
         instruction:
           "Excluye ts==t si política half-open.",
         hint: "Revisa la demo del subtema.",
@@ -875,7 +875,7 @@ ok True`,
       {
         id: "S32-T3-A-E1",
         subtopicId: "S32-T3-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Fit moda categorica y transform None→moda.",
         hint: "Revisa la demo del subtema.",
@@ -909,7 +909,7 @@ ok True`,
       {
         id: "S32-T3-A-E2",
         subtopicId: "S32-T3-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Pipeline secuencial: fill 0 luego *2.",
         hint: "Revisa la demo del subtema.",
@@ -941,7 +941,7 @@ ok True`,
       {
         id: "S32-T3-A-E3",
         subtopicId: "S32-T3-A",
-        kind: "analyze",
+        kind: "transfer",
         instruction:
           "Transform falla si not fitted (flag).",
         hint: "Revisa la demo del subtema.",
@@ -982,7 +982,7 @@ ok True`,
       {
         id: "S32-T3-B-E1",
         subtopicId: "S32-T3-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Round-trip json state median.",
         hint: "Revisa la demo del subtema.",
@@ -1015,7 +1015,7 @@ ok True`,
       {
         id: "S32-T3-B-E2",
         subtopicId: "S32-T3-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Version bump si vocab cambia.",
         hint: "Revisa la demo del subtema.",
@@ -1048,7 +1048,7 @@ ok True`,
       {
         id: "S32-T3-B-E3",
         subtopicId: "S32-T3-B",
-        kind: "analyze",
+        kind: "transfer",
         instruction:
           "Apply saved med to serve batch.",
         hint: "Revisa la demo del subtema.",
@@ -1080,7 +1080,7 @@ n 2`,
       {
         id: "S32-T4-A-E1",
         subtopicId: "S32-T4-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Time split: train ts<'2026-02-01'.",
         hint: "Revisa la demo del subtema.",
@@ -1113,7 +1113,7 @@ cut 2026-02-01`,
       {
         id: "S32-T4-A-E2",
         subtopicId: "S32-T4-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Group sizes por entity.",
         hint: "Revisa la demo del subtema.",
@@ -1146,7 +1146,7 @@ ok True`,
       {
         id: "S32-T4-A-E3",
         subtopicId: "S32-T4-A",
-        kind: "analyze",
+        kind: "transfer",
         instruction:
           "Verifica overlap entidades 0.",
         hint: "Revisa la demo del subtema.",
@@ -1178,7 +1178,7 @@ n_tr 2`,
       {
         id: "S32-T4-B-E1",
         subtopicId: "S32-T4-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Flag leakage names containing 'label' or 'decision'.",
         hint: "Revisa la demo del subtema.",
@@ -1210,7 +1210,7 @@ ok True`,
       {
         id: "S32-T4-B-E2",
         subtopicId: "S32-T4-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Skew: si serve_mean desvía >0.5 de train_mean alerta.",
         hint: "Revisa la demo del subtema.",
@@ -1242,7 +1242,7 @@ ok True`,
       {
         id: "S32-T4-B-E3",
         subtopicId: "S32-T4-B",
-        kind: "analyze",
+        kind: "transfer",
         instruction:
           "Feature set id format fs-vN.",
         hint: "Revisa la demo del subtema.",
@@ -1317,49 +1317,29 @@ if __name__ == '__main__':
     questions: [
       {
         question: "Fit de scaler debe hacerse en:",
-        options: [
-          "Test",
-          "Train",
-          "Todo el dataset sin split",
-          "Solo producción",
-        ],
-        correctIndex: 1,
+        options: ["Test", "Todo el dataset sin split", "Solo producción", "Train"],
+        correctIndex: 3,
         explanation:
           "Solo train.",
       },
       {
         question: "Una feature reviewer_decision es:",
-        options: [
-          "Útil y válida",
-          "Leakage de decisión",
-          "Obligatoria",
-          "Igual que amount",
-        ],
+        options: ["Útil y válida", "Leakage de decisión", "Obligatoria", "Igual que amount"],
         correctIndex: 1,
         explanation:
           "Label/decisión no es feature.",
       },
       {
         question: "Ventana half-open [t-W,t) excluye:",
-        options: [
-          "Todo el pasado",
-          "Eventos con ts>=t",
-          "Train",
-          "Catálogo",
-        ],
-        correctIndex: 1,
+        options: ["Todo el pasado", "Train", "Eventos con ts>=t", "Catálogo"],
+        correctIndex: 2,
         explanation:
           "No incluye t ni futuro.",
       },
       {
         question: "Split por entidad busca:",
-        options: [
-          "Maximizar overlap",
-          "Overlap 0 de entidades",
-          "Solo shuffle de filas",
-          "Ignorar tiempo",
-        ],
-        correctIndex: 1,
+        options: ["Overlap 0 de entidades", "Maximizar overlap", "Solo shuffle de filas", "Ignorar tiempo"],
+        correctIndex: 0,
         explanation:
           "Sin entidades cruzadas.",
       },

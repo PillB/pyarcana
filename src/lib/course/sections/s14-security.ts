@@ -6,7 +6,7 @@ export const section14: CourseSection = {
   title: "NumPy y cómputo vectorizado",
   shortTitle: "NumPy vectorizado",
   tagline: "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
-  estimatedHours: 10,
+  estimatedHours: 18,
   level: "Competente",
   phase: 1,
   icon: "ShieldCheck",
@@ -1343,49 +1343,29 @@ if __name__ == "__main__":
     questions: [
       {
         question: "¿Qué atributo del ndarray indica el tipo homogéneo de sus elementos?",
-        options: [
-          "shape",
-          "dtype",
-          "ndim",
-          "base",
-        ],
+        options: ["shape", "dtype", "ndim", "base"],
         correctIndex: 1,
         explanation:
           "dtype fija el tipo de cada elemento (float64, int32, etc.).",
       },
       {
         question: "Una máscara booleana a > 0.5 se usa principalmente para:",
-        options: [
-          "Cambiar el dtype",
-          "Filtrar o seleccionar elementos que cumplen la condición",
-          "Forzar una copy siempre",
-          "Aumentar ndim",
-        ],
-        correctIndex: 1,
+        options: ["Cambiar el dtype", "Forzar una copy siempre", "Aumentar ndim", "Filtrar o seleccionar elementos que cumplen la condición"],
+        correctIndex: 3,
         explanation:
           "Las máscaras booleanas filtran/seleccionan de forma vectorizada.",
       },
       {
         question: "axis=0 en una reducción sobre una matriz 2D suele agregar:",
-        options: [
-          "Por fila (colapsa columnas)",
-          "Por columna (colapsa filas)",
-          "Solo el elemento [0,0]",
-          "Nada; axis solo existe en pandas",
-        ],
-        correctIndex: 1,
+        options: ["Por columna (colapsa filas)", "Por fila (colapsa columnas)", "Solo el elemento [0,0]", "Nada; axis solo existe en pandas"],
+        correctIndex: 0,
         explanation:
           "axis=0 reduce a lo largo de las filas → un valor por columna.",
       },
       {
         question: "Mutar un slice simple de un ndarray normalmente:",
-        options: [
-          "Nunca afecta al original",
-          "Puede mutar el array base porque suele ser un view",
-          "Convierte todo a object",
-          "Borra el dtype",
-        ],
-        correctIndex: 1,
+        options: ["Nunca afecta al original", "Convierte todo a object", "Puede mutar el array base porque suele ser un view", "Borra el dtype"],
+        correctIndex: 2,
         explanation:
           "Los slices simples suelen ser views que comparten memoria.",
       },

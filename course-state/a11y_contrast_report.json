@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-21T04:53:09.767Z",
+  "generated_at": "2026-07-22T17:33:09.437Z",
   "method": "Token presence for light/dark. Pixel AA validated in Playwright via getComputedStyle RGB.",
   "themes": {
     ":root": {

@@ -75,7 +75,9 @@ export function AdminFeedbackPanel() {
   }, [filterStatus, filterType, toast])
 
   useEffect(() => {
-    load()
+    // The effect synchronizes filters with the remote feedback data source.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void load()
   }, [load])
 
   const updateItem = async (id: string, status: string) => {

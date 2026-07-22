@@ -6,7 +6,7 @@ export const section04: CourseSection = {
   title: "Iteración y resúmenes transaccionales",
   shortTitle: "Iteración & Resúmenes",
   tagline: "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
-  estimatedHours: 8,
+  estimatedHours: 18,
   level: "Principiante",
   phase: 0,
   icon: "Repeat",
@@ -1498,61 +1498,36 @@ if __name__ == "__main__":
     questions: [
       {
         question: "¿Qué produce list(range(3))?",
-        options: [
-          "[1,2,3]",
-          "[0,1,2]",
-          "[0,1,2,3]",
-          "[3]",
-        ],
-        correctIndex: 1,
+        options: ["[1,2,3]", "[0,1,2,3]", "[3]", "[0,1,2]"],
+        correctIndex: 3,
         explanation:
           "range(stop) es 0-inclusive y stop-exclusivo: 0,1,2.",
       },
       {
         question: "zip([1,2,3],[10,20]) sin strict…",
-        options: [
-          "Lanza ValueError",
-          "Empareja solo (1,10) y (2,20); el 3 se pierde en silencio",
-          "Rellena con None el tercero",
-          "Empareja en producto cartesiano",
-        ],
+        options: ["Lanza ValueError", "Empareja solo (1,10) y (2,20); el 3 se pierde en silencio", "Rellena con None el tercero", "Empareja en producto cartesiano"],
         correctIndex: 1,
         explanation:
           "zip se detiene en la secuencia más corta. Valida len o usa strict=True (3.10+) para fallar si difieren.",
       },
       {
         question: "Para la tasa de reject del gate, el denominador debe ser…",
-        options: [
-          "Solo n_accept",
-          "n_total de registros procesados (intentados)",
-          "Siempre 100",
-          "n_review únicamente",
-        ],
-        correctIndex: 1,
+        options: ["Solo n_accept", "Siempre 100", "n_total de registros procesados (intentados)", "n_review únicamente"],
+        correctIndex: 2,
         explanation:
           "tasa_reject = n_reject / n_total; si n_total==0 → None, no dividir.",
       },
       {
         question: "¿Qué hace continue en un for de líneas de intake?",
-        options: [
-          "Termina todo el programa",
-          "Salta al siguiente ciclo del bucle",
-          "Borra la lista",
-          "Convierte la línea en None",
-        ],
-        correctIndex: 1,
+        options: ["Salta al siguiente ciclo del bucle", "Termina todo el programa", "Borra la lista", "Convierte la línea en None"],
+        correctIndex: 0,
         explanation:
           "continue omite el resto del cuerpo y pasa a la siguiente iteración (p. ej. filas vacías).",
       },
       {
         question: "Un doble for anidado sobre n elementos es aproximadamente…",
-        options: [
-          "O(1)",
-          "O(n)",
-          "O(n²)",
-          "O(log n)",
-        ],
-        correctIndex: 2,
+        options: ["O(1)", "O(n)", "O(log n)", "O(n²)"],
+        correctIndex: 3,
         explanation:
           "n×n pasos → cuadrático. Los resúmenes de tasa bastan con un pase O(n).",
       },

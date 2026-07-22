@@ -6,7 +6,7 @@ export const section12: CourseSection = {
   title: "APIs, SQL y geodatos responsables",
   shortTitle: "APIs · SQL · Geo",
   tagline: "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
-  estimatedHours: 12,
+  estimatedHours: 19,
   level: "Intermedio",
   phase: 0,
   icon: "Gauge",
@@ -1676,61 +1676,36 @@ if __name__ == "__main__":
     questions: [
       {
         question: "Un 400 Bad Request del proveedor debe…",
-        options: [
-          "Reintentarse con backoff infinito",
-          "Tratarse como error de cliente (no retry ciego)",
-          "Ignorarse como 200",
-          "Borrar el cache",
-        ],
-        correctIndex: 1,
+        options: ["Reintentarse con backoff infinito", "Ignorarse como 200", "Borrar el cache", "Tratarse como error de cliente (no retry ciego)"],
+        correctIndex: 3,
         explanation:
           "4xx de cliente no son transitorios; reintentar no corrige el request.",
       },
       {
         question: "¿Dónde debe vivir el token de API?",
-        options: [
-          "Hardcodeado en el repo",
-          "En variable de entorno / secret store",
-          "En el log de provenance",
-          "En la URL pública del geocoder",
-        ],
+        options: ["Hardcodeado en el repo", "En variable de entorno / secret store", "En el log de provenance", "En la URL pública del geocoder"],
         correctIndex: 1,
         explanation:
           "Secretos fuera de código; nunca en logs ni git.",
       },
       {
         question: "SQL con f-string e input de usuario es…",
-        options: [
-          "La forma recomendada en SQLite",
-          "Inyección / inseguro; usar placeholders `?`",
-          "Obligatorio para índices",
-          "Necesario para JOIN",
-        ],
-        correctIndex: 1,
+        options: ["La forma recomendada en SQLite", "Obligatorio para índices", "Inyección / inseguro; usar placeholders `?`", "Necesario para JOIN"],
+        correctIndex: 2,
         explanation:
           "Placeholders parametrizados previenen inyección.",
       },
       {
         question: "Enviar document_id bancario a un geocoder público…",
-        options: [
-          "Está permitido si hay timeout",
-          "Viola la política de egress de CP-N1-C",
-          "Mejora el Haversine",
-          "Es requerido por SQLite",
-        ],
-        correctIndex: 1,
+        options: ["Viola la política de egress de CP-N1-C", "Está permitido si hay timeout", "Mejora el Haversine", "Es requerido por SQLite"],
+        correctIndex: 0,
         explanation:
           "Solo dirección/ciudad sintética autorizada; sin PII bancaria.",
       },
       {
         question: "1.2 km entre dos entidades sintéticas implica…",
-        options: [
-          "Parentesco automático",
-          "Fraude confirmado",
-          "Una geoseñal de relación, no un veredicto",
-          "Borrar el ER score",
-        ],
-        correctIndex: 2,
+        options: ["Parentesco automático", "Fraude confirmado", "Borrar el ER score", "Una geoseñal de relación, no un veredicto"],
+        correctIndex: 3,
         explanation:
           "Haversine alimenta relationship_signal_score; no kinship/fraude auto.",
       },

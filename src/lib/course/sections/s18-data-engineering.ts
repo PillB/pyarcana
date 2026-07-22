@@ -6,7 +6,7 @@ export const section18: CourseSection = {
   title: "EDA, estadística descriptiva e incertidumbre",
   shortTitle: "EDA e incertidumbre",
   tagline: "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
-  estimatedHours: 12,
+  estimatedHours: 18,
   level: "Competente",
   phase: 1,
   icon: "Wrench",
@@ -1365,49 +1365,29 @@ print(df.head())
     questions: [
       {
         question: "¿Qué comunica mejor un ticket “típico” con outliers fuertes?",
-        options: [
-          "Solo la media",
-          "Mediana (y opcionalmente IQR)",
-          "Solo el máximo",
-          "La moda de ids",
-        ],
+        options: ["Solo la media", "Mediana (y opcionalmente IQR)", "Solo el máximo", "La moda de ids"],
         correctIndex: 1,
         explanation:
           "La mediana es robusta a colas pesadas; la media se infla con outliers.",
       },
       {
         question: "Una correlación alta entre X e Y implica:",
-        options: [
-          "Que X causa Y",
-          "Asociación observada (no causal por sí sola)",
-          "Que no hay confusores",
-          "Que el IC es innecesario",
-        ],
-        correctIndex: 1,
+        options: ["Que X causa Y", "Que no hay confusores", "Que el IC es innecesario", "Asociación observada (no causal por sí sola)"],
+        correctIndex: 3,
         explanation:
           "Correlación no implica causalidad; puede haber confusores.",
       },
       {
         question: "¿Qué debe incluir un data note mínimo?",
-        options: [
-          "Solo el gráfico final",
-          "Origen, filtros, n y límites de cobertura",
-          "La contraseña del VPN",
-          "El prompt del LLM",
-        ],
-        correctIndex: 1,
+        options: ["Origen, filtros, n y límites de cobertura", "Solo el gráfico final", "La contraseña del VPN", "El prompt del LLM"],
+        correctIndex: 0,
         explanation:
           "El data note hace auditable y reproducible el EDA.",
       },
       {
         question: "El sesgo de muestra ocurre cuando:",
-        options: [
-          "std es alta",
-          "La muestra no representa la población de interés",
-          "Usas mediana",
-          "n > 30",
-        ],
-        correctIndex: 1,
+        options: ["std es alta", "Usas mediana", "La muestra no representa la población de interés", "n > 30"],
+        correctIndex: 2,
         explanation:
           "Selección no representativa sesga estimaciones aunque el cálculo sea correcto.",
       },

@@ -6,7 +6,7 @@ export const section07: CourseSection = {
   title: "Texto, Unicode y expresiones regulares",
   shortTitle: "Texto & Unicode",
   tagline: "Unicode latam, strings y regex sin sobrevalidar",
-  estimatedHours: 14,
+  estimatedHours: 18,
   level: "Intermedio",
   phase: 0,
   icon: "Languages",
@@ -131,17 +131,20 @@ Avenida Larco 123 , Miraflores`,
       heading: "Nombres, emails y teléfonos sin sobrevalidación",
       subtopicId: "S07-T2-B",
       paragraphs: [
-        "Email: strip + lower + presencia de `@` suele bastar en intake. Regex hiper-estrictas **rechazan válidos** (plus addressing, dominios nuevos).",
-        "Teléfono PE sintético de demo: extraer dígitos; opcionalmente validar longitud 9 para móvil — no inventes validación de operadora.",
+        "Email: strip + casefold y una comprobación **modesta pero completa**: exactamente un `@`, parte local y dominio no vacíos, y ningún espacio. No confirma que el buzón exista; solo decide `valid` o `review`. Regex hiper-estrictas **rechazan válidos** (plus addressing, Unicode, dominios nuevos).",
+        "Teléfono PE sintético de demo: extraer dígitos y conservar el prefijo de país `51` cuando viene como `+51`; opcionalmente revisar 9 dígitos locales — no inventes validación de operadora. El contrato de salida es dígitos (`51999000111`), no conservar el signo `+`.",
         "Nombre: collapse + NFC; title-case es cosmético y puede pelear con partículas (`del` → `Del`). Decide política y documenta.",
       ],
       code: {
         language: 'python',
         title: "norm_contact.py",
         code: `def normalize_email(raw: str) -> str:
-    s = raw.strip().lower()
-    if "@" not in s:
-        raise ValueError("email sin @")
+    s = raw.strip().casefold()
+    if s.count("@") != 1 or any(ch.isspace() for ch in s):
+        raise ValueError("email requiere un @ y cero espacios")
+    local, domain = s.split("@")
+    if not local or not domain:
+        raise ValueError("email requiere local y dominio")
     return s
 
 def normalize_phone_pe(raw: str) -> str:
@@ -361,9 +364,12 @@ find Unión: 10`,
           language: 'python',
           title: "S07-T2-B-DEMO — contact",
           code: `def normalize_email(raw: str) -> str:
-    s = raw.strip().lower()
-    if "@" not in s:
-        raise ValueError("sin @")
+    s = raw.strip().casefold()
+    if s.count("@") != 1 or any(ch.isspace() for ch in s):
+        raise ValueError("email requiere un @ y cero espacios")
+    local, domain = s.split("@")
+    if not local or not domain:
+        raise ValueError("email requiere local y dominio")
     return s
 
 def normalize_phone_pe(raw: str) -> str:
@@ -794,30 +800,49 @@ print(''.join(c for c in raw if c.isdigit()))`,
         subtopicId: "S07-T2-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — `normalize_email` strip+lower; imprime resultado de `'  A@B.COM '`.",
-        hint: "strip + lower",
+          "E1 (guiado) — Implementa `normalize_email`: strip+casefold, exactamente un `@`, local/dominio no vacíos y cero espacios. Imprime `'  A@B.COM '` y captura errores para `'@b.com'`, `'a@@b.com'` y `'a b@c.com'`.",
+        hint: "s.count('@') == 1; split; local/domain no vacíos; cero espacios",
         hints: [
-          "strip + lower",
-          "No uses regex.",
+          "s.count('@') == 1; split; local/domain no vacíos; cero espacios",
+          "No uses regex ni exijas .com; acepta plus addressing.",
         ],
-        edgeCases: ["strip lower"],
-        tests: "a@b.com",
-        feedback: "Base mínima del normalizador de email.",
+        edgeCases: ["local vacío", "doble @", "espacios", "plus válido"],
+        tests: "Contrato exacto: ok a@b.com; tres review_error; user+tag@example.com sigue válido.",
+        feedback: "Valida estructura mínima sin fingir que verificaste el buzón.",
         starterCode: {
           language: 'python',
           title: "email_lower.py",
           code: `def normalize_email(raw):
-    # TODO
+    # TODO contrato modesto, sin regex
     ...
-print(normalize_email('  A@B.COM '))`,
+
+for raw in ['  A@B.COM ', '@b.com', 'a@@b.com', 'a b@c.com']:
+    try:
+        print('ok', normalize_email(raw))
+    except ValueError as exc:
+        print('review_error', str(exc))`,
         },
         solutionCode: {
           language: 'python',
           title: "email_lower.py",
           code: `def normalize_email(raw):
-    return raw.strip().lower()
-print(normalize_email('  A@B.COM '))`,
-          output: `a@b.com`,
+    s = raw.strip().casefold()
+    if s.count('@') != 1 or any(ch.isspace() for ch in s):
+        raise ValueError('email requiere un @ y cero espacios')
+    local, domain = s.split('@')
+    if not local or not domain:
+        raise ValueError('email requiere local y dominio')
+    return s
+
+for raw in ['  A@B.COM ', '@b.com', 'a@@b.com', 'a b@c.com']:
+    try:
+        print('ok', normalize_email(raw))
+    except ValueError as exc:
+        print('review_error', str(exc))`,
+          output: `ok a@b.com
+review_error email requiere local y dominio
+review_error email requiere un @ y cero espacios
+review_error email requiere un @ y cero espacios`,
         },
       },
       {
@@ -855,7 +880,7 @@ print(digits)`,
         subtopicId: "S07-T2-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Muestra que la regex `^[a-z]+@[a-z]+\\.com$` rechaza un email válido con `+` y mayúsculas ya lower. Imprime rejected=True y la política recomendada (modest check de @).",
+          "E3 (transferencia) — Muestra que la regex `^[a-z]+@[a-z]+\\.com$` rechaza un email válido con `+`. Imprime rejected=True y la política exacta: un @, local/dominio no vacíos y cero espacios; la entregabilidad queda fuera de alcance.",
         hint: "fullmatch sobre email lower",
         hints: [
           "fullmatch sobre email lower",
@@ -880,9 +905,9 @@ email = 'user+tag@example.com'
 pat = r'^[a-z]+@[a-z]+\\.com$'
 rejected = re.fullmatch(pat, email) is None
 print('rejected_by_overfit', rejected)
-print('política: strip/lower + requiere @; sin regex hiper-estricta')`,
+print('política: un @, local/dominio no vacíos, cero espacios; entregabilidad no verificada')`,
           output: `rejected_by_overfit True
-política: strip/lower + requiere @; sin regex hiper-estricta`,
+política: un @, local/dominio no vacíos, cero espacios; entregabilidad no verificada`,
         },
       },
       {
@@ -1304,7 +1329,9 @@ Solo emitimos evidencia (raw, score, decision=review) para un humano.`,
       "Unicode NFC en campos de nombre",
       "Sin scraping/API en este incremento V3",
       "Datos sintéticos peruanos/latam",
-      "No overvalidation de email/teléfono",
+      "Email: un @, local/dominio no vacíos, cero espacios; plus permitido; inválido → review",
+      "Teléfono: solo dígitos y prefijo 51 preservado; no inferir operadora",
+      "transforms es un dict por campo con nombres ordenados (nfc, collapse_spaces, casefold, digits_only)",
       "Evidencia de match sin claims de parentesco",
     ],
     starterCode: `"""latam_normalize.py — Normalización latinoamericana (CP-N1-B / S07)
@@ -1329,18 +1356,18 @@ def normalize_nombre(raw: str) -> tuple[str, list[str]]:
 
 
 def normalize_email(raw: str) -> tuple[str, list[str]]:
-    # TODO: strip lower; ValueError si no hay @
+    # TODO: strip/casefold; exactamente un @, local+domain, sin espacios
     raise NotImplementedError
 
 
 def normalize_phone(raw: str) -> tuple[str, list[str]]:
-    # TODO: solo dígitos
+    # TODO: solo dígitos; conservar los dígitos 51 del prefijo +51
     raise NotImplementedError
 
 
 def normalize_record(raw: dict[str, Any]) -> dict[str, Any]:
     """→ {raw, normalized, transforms}."""
-    # TODO
+    # TODO: transforms={"nombre": [...], "email": [...], "telefono": [...]}
     raise NotImplementedError
 
 
@@ -1371,60 +1398,35 @@ if __name__ == "__main__":
     questions: [
       {
         question: "¿Por qué 'José' y 'Jose\\u0301' pueden fallar en == ?",
-        options: [
-          "Python no soporta tildes",
-          "Formas Unicode distintas (NFC vs NFD)",
-          "casefold borra la é",
-          "Son de tipos distintos",
-        ],
-        correctIndex: 1,
+        options: ["Python no soporta tildes", "casefold borra la é", "Formas Unicode distintas (NFC vs NFD)", "Son de tipos distintos"],
+        correctIndex: 2,
         explanation:
           "Misma apariencia, distinta secuencia de code points; normalize NFC antes de comparar.",
       },
       {
         question: "En nombres latam, si solo hay un token, la política segura es…",
-        options: [
-          "Inventar apellido2 vacío en silencio",
-          "Marcar review y conservar raw",
-          "Rechazar y borrar el registro",
-          "Asumir formato first/last US",
-        ],
-        correctIndex: 1,
+        options: ["Marcar review y conservar raw", "Inventar apellido2 vacío en silencio", "Rechazar y borrar el registro", "Asumir formato first/last US"],
+        correctIndex: 0,
         explanation:
           "Sin datos suficientes → review; no inventar demografía.",
       },
       {
         question: "¿Cuándo preferir str.replace/split sobre regex?",
-        options: [
-          "Nunca",
-          "Cuando la transformación es literal/simple",
-          "Solo en emails",
-          "Solo si el string es ASCII",
-        ],
+        options: ["Nunca", "Cuando la transformación es literal/simple", "Solo en emails", "Solo si el string es ASCII"],
         correctIndex: 1,
         explanation:
           "str methods son más legibles y evitan overfit/backtracking.",
       },
       {
         question: "fullmatch(r'\\d{8}', 'DNI 12345678') devuelve…",
-        options: [
-          "match del número",
-          "None (no es full match)",
-          "True booleano",
-          "excepción",
-        ],
-        correctIndex: 1,
+        options: ["match del número", "True booleano", "excepción", "None (no es full match)"],
+        correctIndex: 3,
         explanation:
           "fullmatch exige que toda la cadena cumpla el patrón.",
       },
       {
         question: "Un Jaccard 0.67 entre nombres debe…",
-        options: [
-          "Fusionar identidades automáticamente",
-          "Afirmar parentesco",
-          "Ir a review con evidencia (raw, score)",
-          "Borrar ambos registros",
-        ],
+        options: ["Fusionar identidades automáticamente", "Afirmar parentesco", "Ir a review con evidencia (raw, score)", "Borrar ambos registros"],
         correctIndex: 2,
         explanation:
           "Score medio → review; sin claims de identidad/parentesco.",

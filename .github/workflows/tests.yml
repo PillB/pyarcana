@@ -15,13 +15,15 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install bun
         uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.4'
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bash scripts/ci_bun_install.sh
 
       - name: Run ESLint
         run: bun run lint
@@ -34,16 +36,21 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install bun
         uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.4'
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bash scripts/ci_bun_install.sh
+
+      - name: Generate Prisma client
+        run: bun run db:generate
 
       - name: Type check
-        run: npx tsc --noEmit --skipLibCheck
+        run: npx tsc --noEmit
 
   adversarial-unit:
     name: Adversarial unit suite
@@ -54,13 +61,15 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install bun
         uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.4'
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bash scripts/ci_bun_install.sh
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -73,6 +82,63 @@ jobs:
       - name: Exam pedagogy + v3 counts
         run: npm run test:exam-pedagogy && npm run test:v3-counts
 
+  platform-builds:
+    name: Platform build (${{ matrix.mode }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [dynamic, static]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.4'
+
+      - name: Install dependencies
+        run: bash scripts/ci_bun_install.sh
+
+      - name: Generate Prisma client
+        if: matrix.mode == 'dynamic'
+        run: bun run db:generate
+
+      - name: Build dynamic LMS
+        if: matrix.mode == 'dynamic'
+        run: bun run build
+        env:
+          DATABASE_URL: file:./db/ci.db
+          NEXTAUTH_SECRET: ci-only-secret-not-used-outside-this-build
+          NEXTAUTH_URL: http://localhost:3000
+
+      - name: Build public GitHub Pages edition
+        if: matrix.mode == 'static'
+        run: bun run build:static
+        env:
+          NEXT_PUBLIC_BASE_PATH: /pyarcana
+
+      - name: Verify static artifact contract
+        if: matrix.mode == 'static'
+        run: python3 tests/adversarial/test_static_export_guard.py
+
+      - name: Install Playwright Chromium for public-site journeys
+        if: matrix.mode == 'static'
+        run: npx playwright install --with-deps chromium
+
+      - name: Run public GitHub Pages browser journeys
+        if: matrix.mode == 'static'
+        run: |
+          mkdir -p .ci-static
+          cp -R out .ci-static/pyarcana
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory .ci-static &
+          BASE_URL=http://127.0.0.1:4173 npx playwright test scripts/static_public.spec.ts --reporter=list
+
   regression-content:
     name: Content Regression (no sections removed)
     runs-on: ubuntu-latest
@@ -82,13 +148,15 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install bun
         uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.4'
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bash scripts/ci_bun_install.sh
 
       - name: Install Playwright
         run: npx playwright install --with-deps chromium
@@ -105,13 +173,15 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install bun
         uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.4'
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: bash scripts/ci_bun_install.sh
 
       - name: Install Playwright
         run: npx playwright install --with-deps chromium

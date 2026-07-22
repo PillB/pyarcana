@@ -6,7 +6,7 @@ export const section38: CourseSection = {
   title: "Concurrencia, observabilidad y workflows resilientes",
   shortTitle: "Concurrencia y resiliencia",
   tagline: "pipeline reanudable con trace por caso, métricas de cola y manejo de proveedor lento, proceso caído y reejecución",
-  estimatedHours: 14,
+  estimatedHours: 19,
   level: "Competente a experto",
   phase: 2,
   icon: "Activity",
@@ -413,7 +413,7 @@ runbook True`,
       {
         id: "S38-T1-A-E1",
         subtopicId: "S38-T1-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "pick cpu.",
         hint: "Revisa la demo.",
@@ -444,7 +444,7 @@ ok True`,
       {
         id: "S38-T1-A-E2",
         subtopicId: "S38-T1-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "pick io.",
         hint: "Revisa la demo.",
@@ -475,7 +475,7 @@ ok True`,
       {
         id: "S38-T1-A-E3",
         subtopicId: "S38-T1-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "measure first.",
         hint: "Revisa la demo.",
@@ -506,7 +506,7 @@ n 1`,
       {
         id: "S38-T1-B-E1",
         subtopicId: "S38-T1-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "json size.",
         hint: "Revisa la demo.",
@@ -537,7 +537,7 @@ compact True`,
       {
         id: "S38-T1-B-E2",
         subtopicId: "S38-T1-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "GIL note.",
         hint: "Revisa la demo.",
@@ -568,7 +568,7 @@ cpu_threads True`,
       {
         id: "S38-T1-B-E3",
         subtopicId: "S38-T1-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "prefer compact.",
         hint: "Revisa la demo.",
@@ -599,7 +599,7 @@ n 1`,
       {
         id: "S38-T2-A-E1",
         subtopicId: "S38-T2-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "allows 2 tokens.",
         hint: "Revisa la demo.",
@@ -630,7 +630,7 @@ ok True`,
       {
         id: "S38-T2-A-E2",
         subtopicId: "S38-T2-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "queue maxsize role.",
         hint: "Revisa la demo.",
@@ -661,7 +661,7 @@ maxsize 50`,
       {
         id: "S38-T2-A-E3",
         subtopicId: "S38-T2-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "rate limit protects.",
         hint: "Revisa la demo.",
@@ -692,7 +692,7 @@ ban_risk True`,
       {
         id: "S38-T2-B-E1",
         subtopicId: "S38-T2-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "timeout seconds field.",
         hint: "Revisa la demo.",
@@ -723,7 +723,7 @@ ok True`,
       {
         id: "S38-T2-B-E2",
         subtopicId: "S38-T2-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "finally close.",
         hint: "Revisa la demo.",
@@ -754,7 +754,7 @@ ok True`,
       {
         id: "S38-T2-B-E3",
         subtopicId: "S38-T2-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "hang without timeout.",
         hint: "Revisa la demo.",
@@ -785,7 +785,7 @@ n 1`,
       {
         id: "S38-T3-A-E1",
         subtopicId: "S38-T3-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "corr id present.",
         hint: "Revisa la demo.",
@@ -816,7 +816,7 @@ ok True`,
       {
         id: "S38-T3-A-E2",
         subtopicId: "S38-T3-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "three pillars.",
         hint: "Revisa la demo.",
@@ -847,7 +847,7 @@ n 3`,
       {
         id: "S38-T3-A-E3",
         subtopicId: "S38-T3-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "no raw pii.",
         hint: "Revisa la demo.",
@@ -878,7 +878,7 @@ redact True`,
       {
         id: "S38-T3-B-E1",
         subtopicId: "S38-T3-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "redact phone.",
         hint: "Revisa la demo.",
@@ -909,7 +909,7 @@ pii False`,
       {
         id: "S38-T3-B-E2",
         subtopicId: "S38-T3-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "slo ok compare.",
         hint: "Revisa la demo.",
@@ -940,7 +940,7 @@ limit 200`,
       {
         id: "S38-T3-B-E3",
         subtopicId: "S38-T3-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "error budget concept.",
         hint: "Revisa la demo.",
@@ -971,7 +971,7 @@ n 1`,
       {
         id: "S38-T4-A-E1",
         subtopicId: "S38-T4-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "states list.",
         hint: "Revisa la demo.",
@@ -1002,7 +1002,7 @@ n 4`,
       {
         id: "S38-T4-A-E2",
         subtopicId: "S38-T4-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "idem key format.",
         hint: "Revisa la demo.",
@@ -1033,7 +1033,7 @@ dup False`,
       {
         id: "S38-T4-A-E3",
         subtopicId: "S38-T4-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "resume step.",
         hint: "Revisa la demo.",
@@ -1064,7 +1064,7 @@ checkpoint True`,
       {
         id: "S38-T4-B-E1",
         subtopicId: "S38-T4-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "backoff attempt 3 base 0.1.",
         hint: "Revisa la demo.",
@@ -1095,7 +1095,7 @@ attempt 3`,
       {
         id: "S38-T4-B-E2",
         subtopicId: "S38-T4-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "dlq purpose.",
         hint: "Revisa la demo.",
@@ -1126,7 +1126,7 @@ replay controlled`,
       {
         id: "S38-T4-B-E3",
         subtopicId: "S38-T4-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "runbook true.",
         hint: "Revisa la demo.",
@@ -1197,49 +1197,29 @@ if __name__ == '__main__':
     questions: [
       {
         question: "Para CPU bound en CPython suele preferirse:",
-        options: [
-          "Miles de threads CPU",
-          "Procesos",
-          "Quitar timeouts",
-          "Logs con PII",
-        ],
+        options: ["Miles de threads CPU", "Procesos", "Quitar timeouts", "Logs con PII"],
         correctIndex: 1,
         explanation:
           "GIL.",
       },
       {
         question: "Backpressure evita:",
-        options: [
-          "Solo tests",
-          "Colas infinitas y OOM",
-          "Checkpoints",
-          "SLOs",
-        ],
-        correctIndex: 1,
+        options: ["Solo tests", "Checkpoints", "SLOs", "Colas infinitas y OOM"],
+        correctIndex: 3,
         explanation:
           "Cola acotada.",
       },
       {
         question: "Idempotencia permite:",
-        options: [
-          "Duplicar cobros",
-          "Reejecutar sin side effects duplicados",
-          "Borrar DLQ siempre",
-          "Ignorar corr ids",
-        ],
-        correctIndex: 1,
+        options: ["Reejecutar sin side effects duplicados", "Duplicar cobros", "Borrar DLQ siempre", "Ignorar corr ids"],
+        correctIndex: 0,
         explanation:
           "Keys.",
       },
       {
         question: "En logs de prod debes:",
-        options: [
-          "PII completa",
-          "Redactar PII y correlacionar",
-          "Desactivar métricas",
-          "No usar case_id",
-        ],
-        correctIndex: 1,
+        options: ["PII completa", "Desactivar métricas", "Redactar PII y correlacionar", "No usar case_id"],
+        correctIndex: 2,
         explanation:
           "Privacidad.",
       },

@@ -5,7 +5,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
-from newbie_agentic_validator import code_incomplete, justification_is_template  # noqa: E402
+from newbie_agentic_validator import (  # noqa: E402
+    code_incomplete,
+    justification_is_template,
+    provenance_issues,
+)
 
 
 class TestIncompleteCode(unittest.TestCase):
@@ -50,6 +54,70 @@ class TestTemplateJustification(unittest.TestCase):
             'Mi código: print(f"Hola, soy {nombre}") y if __name__.'
         )
         self.assertFalse(justification_is_template(j))
+
+
+def clean_meta():
+    return {
+        "evidence_origin": "live_agentic_transcript",
+        "generation_mode": "fresh_sequential_packet_read",
+        "restart_from": "landing",
+        "code_execution_used": False,
+    }
+
+
+def clean_live(agent_id: str, answer: str):
+    return {
+        "method": "live_agentic_packet_only_no_execution",
+        "artifact_origin": "direct_agent_output",
+        "restart_from": "landing",
+        "code_execution_used": False,
+        "agent_instance_id": agent_id,
+        "exercises": [{"exercise_id": "E1", "answer": answer}],
+        "selfcheck": [{"question_index": 0, "chosen_index": 1, "justification": answer}],
+    }
+
+
+class TestProvenance(unittest.TestCase):
+    def test_distinct_direct_live_agents_pass_provenance(self):
+        issues = provenance_issues(
+            clean_meta(),
+            {
+                "newbie_a": clean_live("agent-a-1234", "respuesta A"),
+                "newbie_b": clean_live("agent-b-5678", "respuesta B"),
+            },
+        )
+        self.assertEqual(issues, [])
+
+    def test_rebuild_meta_is_rejected_even_if_method_claims_live(self):
+        meta = {**clean_meta(), "source_exercises": "attempt_007b"}
+        issues = provenance_issues(
+            meta,
+            {
+                "newbie_a": clean_live("agent-a-1234", "respuesta A"),
+                "newbie_b": clean_live("agent-b-5678", "respuesta B"),
+            },
+            has_rebuild_report=True,
+        )
+        self.assertIn("TAINTED_ATTEMPT_ORIGIN", {i["tag"] for i in issues})
+
+    def test_same_agent_id_is_rejected(self):
+        issues = provenance_issues(
+            clean_meta(),
+            {
+                "newbie_a": clean_live("agent-same-1", "respuesta A"),
+                "newbie_b": clean_live("agent-same-1", "respuesta B"),
+            },
+        )
+        self.assertIn("SAME_AGENT_REUSED", {i["tag"] for i in issues})
+
+    def test_code_execution_is_rejected(self):
+        a = clean_live("agent-a-1234", "respuesta A")
+        a["code_execution_used"] = True
+        issues = provenance_issues(
+            clean_meta(),
+            {"newbie_a": a, "newbie_b": clean_live("agent-b-5678", "respuesta B")},
+        )
+        self.assertIn("PROVENANCE_AGENT_INVALID", {i["tag"] for i in issues})
 
 
 if __name__ == "__main__":

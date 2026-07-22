@@ -6,7 +6,7 @@ export const section37: CourseSection = {
   title: "Profiling, algoritmos y rendimiento",
   shortTitle: "Profiling y rendimiento",
   tagline: "reporte antes/después con mismo resultado, dataset, hardware y límites; optimización reversible y justificada",
-  estimatedHours: 12,
+  estimatedHours: 19,
   level: "Competente a experto",
   phase: 2,
   icon: "Timer",
@@ -421,7 +421,7 @@ ok True`,
       {
         id: "S37-T1-A-E1",
         subtopicId: "S37-T1-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "print n with wall note.",
         hint: "Revisa la demo.",
@@ -452,7 +452,7 @@ ok True`,
       {
         id: "S37-T1-A-E2",
         subtopicId: "S37-T1-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "cpu vs wall labels.",
         hint: "Revisa la demo.",
@@ -483,7 +483,7 @@ n 3`,
       {
         id: "S37-T1-A-E3",
         subtopicId: "S37-T1-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "result correctness flag.",
         hint: "Revisa la demo.",
@@ -514,7 +514,7 @@ n 1`,
       {
         id: "S37-T1-B-E1",
         subtopicId: "S37-T1-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "median [5,1,4].",
         hint: "Revisa la demo.",
@@ -546,7 +546,7 @@ warmup True`,
       {
         id: "S37-T1-B-E2",
         subtopicId: "S37-T1-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "warmup first.",
         hint: "Revisa la demo.",
@@ -577,7 +577,7 @@ ok True`,
       {
         id: "S37-T1-B-E3",
         subtopicId: "S37-T1-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "report p95 idea as max in small n.",
         hint: "Revisa la demo.",
@@ -608,7 +608,7 @@ ok True`,
       {
         id: "S37-T2-A-E1",
         subtopicId: "S37-T2-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "pairs n=10.",
         hint: "Revisa la demo.",
@@ -639,7 +639,7 @@ ok True`,
       {
         id: "S37-T2-A-E2",
         subtopicId: "S37-T2-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "reduction ratio.",
         hint: "Revisa la demo.",
@@ -670,7 +670,7 @@ blocking True`,
       {
         id: "S37-T2-A-E3",
         subtopicId: "S37-T2-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "prefer algo over micro.",
         hint: "Revisa la demo.",
@@ -701,7 +701,7 @@ micro False`,
       {
         id: "S37-T2-B-E1",
         subtopicId: "S37-T2-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "set lookup vs list note.",
         hint: "Revisa la demo.",
@@ -732,7 +732,7 @@ scan False`,
       {
         id: "S37-T2-B-E2",
         subtopicId: "S37-T2-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "inverted index cities.",
         hint: "Revisa la demo.",
@@ -763,7 +763,7 @@ ok True`,
       {
         id: "S37-T2-B-E3",
         subtopicId: "S37-T2-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "reduce before expensive score.",
         hint: "Revisa la demo.",
@@ -794,7 +794,7 @@ n 2`,
       {
         id: "S37-T3-A-E1",
         subtopicId: "S37-T3-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "chunk count for 10 size 4.",
         hint: "Revisa la demo.",
@@ -825,7 +825,7 @@ ok True`,
       {
         id: "S37-T3-A-E2",
         subtopicId: "S37-T3-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "columns subset.",
         hint: "Revisa la demo.",
@@ -856,7 +856,7 @@ columnar True`,
       {
         id: "S37-T3-A-E3",
         subtopicId: "S37-T3-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "dtype note int32.",
         hint: "Revisa la demo.",
@@ -887,7 +887,7 @@ mem lower`,
       {
         id: "S37-T3-B-E1",
         subtopicId: "S37-T3-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "cache key tuple.",
         hint: "Revisa la demo.",
@@ -918,7 +918,7 @@ ok True`,
       {
         id: "S37-T3-B-E2",
         subtopicId: "S37-T3-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "invalidate reason.",
         hint: "Revisa la demo.",
@@ -949,7 +949,7 @@ stale True`,
       {
         id: "S37-T3-B-E3",
         subtopicId: "S37-T3-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "ooc strategy chunk.",
         hint: "Revisa la demo.",
@@ -980,7 +980,7 @@ ram bounded`,
       {
         id: "S37-T4-A-E1",
         subtopicId: "S37-T4-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "pass if 9<=10.",
         hint: "Revisa la demo.",
@@ -1011,7 +1011,7 @@ measured 9`,
       {
         id: "S37-T4-A-E2",
         subtopicId: "S37-T4-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "fail if 12>10.",
         hint: "Revisa la demo.",
@@ -1042,7 +1042,7 @@ measured 12`,
       {
         id: "S37-T4-A-E3",
         subtopicId: "S37-T4-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "budget fields.",
         hint: "Revisa la demo.",
@@ -1073,7 +1073,7 @@ n 3`,
       {
         id: "S37-T4-B-E1",
         subtopicId: "S37-T4-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "speedup 80/20.",
         hint: "Revisa la demo.",
@@ -1104,7 +1104,7 @@ micro_only False`,
       {
         id: "S37-T4-B-E2",
         subtopicId: "S37-T4-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "clarity over 2%.",
         hint: "Revisa la demo.",
@@ -1135,7 +1135,7 @@ shave 2pct_no`,
       {
         id: "S37-T4-B-E3",
         subtopicId: "S37-T4-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "report keys.",
         hint: "Revisa la demo.",
@@ -1205,48 +1205,28 @@ if __name__=='__main__':
     questions: [
       {
         question: "Warmup sirve para:",
-        options: [
-          "Inflar métricas",
-          "Estabilizar benches descartando cold start",
-          "Borrar cache siempre",
-          "Evitar tests",
-        ],
-        correctIndex: 1,
+        options: ["Estabilizar benches descartando cold start", "Inflar métricas", "Borrar cache siempre", "Evitar tests"],
+        correctIndex: 0,
         explanation:
           "Cold start.",
       },
       {
         question: "Blocking reduce:",
-        options: [
-          "Solo logs",
-          "Pares candidatos O(n²)",
-          "Privacidad automáticamente",
-          "Seeds",
-        ],
-        correctIndex: 1,
+        options: ["Solo logs", "Privacidad automáticamente", "Pares candidatos O(n²)", "Seeds"],
+        correctIndex: 2,
         explanation:
           "Costo de pares.",
       },
       {
         question: "Performance budget en CI:",
-        options: [
-          "Es opcional teatro",
-          "Falla si se rompe el límite acordado",
-          "Solo se mide en prod un año después",
-          "Reemplaza tests funcionales",
-        ],
-        correctIndex: 1,
+        options: ["Es opcional teatro", "Solo se mide en prod un año después", "Reemplaza tests funcionales", "Falla si se rompe el límite acordado"],
+        correctIndex: 3,
         explanation:
           "Regresión perf.",
       },
       {
         question: "Microoptimizar 2% sin medición:",
-        options: [
-          "Best practice",
-          "Teatro; prioriza claridad y algos",
-          "Obligatorio",
-          "Invalida blocking",
-        ],
+        options: ["Best practice", "Teatro; prioriza claridad y algos", "Obligatorio", "Invalida blocking"],
         correctIndex: 1,
         explanation:
           "Costo total.",

@@ -1,15 +1,14 @@
 import type { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
-// === OAuth Providers ===
-// Uncomment the imports below when you configure OAuth credentials in .env
-// import GoogleProvider from 'next-auth/providers/google'
-// import AzureADProvider from 'next-auth/providers/azure-ad'
 import { db } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 
-// Build providers array — conditionally includes OAuth if env vars present
+// Used only to make unknown-user and wrong-password checks take the same bcrypt
+// path. It is a one-way hash, not a credential or fallback secret.
+const DUMMY_PASSWORD_HASH = '$2b$12$C6UzMDM.H6dfI/f/IKcEe.5WfIdnWn8WbzhFvwmh8DOyuSSy2aH2O'
+
 function buildProviders() {
-  const providers: any[] = [
+  return [
     CredentialsProvider({
       name: 'credentials',
       credentials: {
@@ -18,19 +17,19 @@ function buildProviders() {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('Email y password son requeridos')
-        }
-
-        const user = await db.user.findUnique({
-          where: { email: credentials.email.toLowerCase().trim() },
-        })
-
-        if (!user || !user.passwordHash) {
           throw new Error('Credenciales inválidas')
         }
 
-        const isValid = await bcrypt.compare(credentials.password, user.passwordHash)
-        if (!isValid) {
+        const email = credentials.email.toLowerCase().trim()
+        if (email.length > 254 || credentials.password.length > 128) {
+          throw new Error('Credenciales inválidas')
+        }
+
+        const user = await db.user.findUnique({ where: { email } })
+        const passwordHash = user?.passwordHash || DUMMY_PASSWORD_HASH
+        const isValid = await bcrypt.compare(credentials.password, passwordHash)
+
+        if (!user || !user.passwordHash || !isValid) {
           throw new Error('Credenciales inválidas')
         }
 
@@ -43,35 +42,6 @@ function buildProviders() {
       },
     }),
   ]
-
-  // === Google OAuth ===
-  // Requires: GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET in .env
-  // Import GoogleProvider at the top of this file
-  //
-  // if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
-  //   providers.push(
-  //     GoogleProvider({
-  //       clientId: process.env.GOOGLE_CLIENT_ID,
-  //       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  //     })
-  //   )
-  // }
-
-  // === Microsoft OAuth (Azure AD) ===
-  // Requires: MICROSOFT_CLIENT_ID, MICROSOFT_CLIENT_SECRET, MICROSOFT_TENANT_ID in .env
-  // Import AzureADProvider at the top of this file
-  //
-  // if (process.env.MICROSOFT_CLIENT_ID && process.env.MICROSOFT_CLIENT_SECRET) {
-  //   providers.push(
-  //     AzureADProvider({
-  //       clientId: process.env.MICROSOFT_CLIENT_ID,
-  //       clientSecret: process.env.MICROSOFT_CLIENT_SECRET,
-  //       tenantId: process.env.MICROSOFT_TENANT_ID,
-  //     })
-  //   )
-  // }
-
-  return providers
 }
 
 export const authOptions: NextAuthOptions = {
@@ -104,7 +74,9 @@ export const authOptions: NextAuthOptions = {
     signIn: '/',
     error: '/',
   },
-  secret: process.env.NEXTAUTH_SECRET || 'dev-secret-change-in-production-min-32-chars',
+  // There is deliberately no fallback. Deployments must provide a unique,
+  // high-entropy secret through their environment.
+  secret: process.env.NEXTAUTH_SECRET,
 }
 
 // Type augmentation for next-auth

@@ -6,13 +6,13 @@ export const section24: CourseSection = {
   title: "OCR y Document AI",
   shortTitle: "OCR Document AI",
   tagline: "extrae campos de documentos sintéticos, conserva bounding boxes/evidencia, abstiene bajo confidence y mide cada campo crítico",
-  estimatedHours: 12,
+  estimatedHours: 19,
   level: "Competente",
   phase: 1,
   icon: "Bot",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "El **document intake** de CP-N2-C convierte PDFs/imágenes sintéticas en campos con evidencia (bbox, confidence) y cola de revisión. Esta sección (id `rpa-advanced` conservado) retematiza a V3 **OCR y Document AI**. Abstenerse bajo confidence no es fallo: es control de calidad. Matching de campos no implica fraude.",
+    "El **document intake** de CP-N2-C convierte imágenes sintéticas reales en campos con evidencia (bbox, confidence) y cola de revisión. El OCR se consume mediante un contrato común con adapters `real` y `fake` explícitos; abstenerse bajo confidence es control de calidad.",
   learningOutcomes: [
     { text: "Preprocesar imágenes (DPI, deskew, crop, contraste)" },
     { text: "Corregir ruido y orientación" },
@@ -25,17 +25,17 @@ export const section24: CourseSection = {
   ],
   theory: [
     {
-      heading: "De “RPA avanzado” a OCR Document AI (intake CP-N2-C)",
+      heading: "OCR Document AI para intake CP-N2-C",
       paragraphs: [
-        "En V3, **S24 no es orquestación RPA genérica**. Aquí haces **document intake**: preprocesar imagen, OCR con confidence, schema, validación y golden set sintético.",
+        "Aquí haces **document intake**: crear y preprocesar una imagen sintética, ejecutar un adapter OCR con confidence, normalizar a schema, validar y medir un golden set.",
         "Todo documento es **sintético** (facturas demo, IDs fake). Conservas **bounding boxes** y te **abstienes** si confidence < umbral.",
         "Orden: **T1 Imagen** → **T2 OCR** → **T3 Extracción** → **T4 Evaluación**. Coincidir campos no prueba fraude.",
       ],
       callout: {
         type: "info",
-        title: "Contenido reubicado conceptualmente",
+        title: "Frontera real/fake",
         content:
-          "Material legado de RPA orquestación **no es el camino V3 en S24**. Target: OCR + Document AI para intake.",
+          "`TesseractAdapter` llama un motor real si está instalado. `FakeOcrAdapter` nunca se presenta como OCR: devuelve observaciones fijadas para contract tests de parsing, abstención y evaluación.",
       },
     },
     {
@@ -1205,49 +1205,29 @@ print("TODO intake")
     questions: [
       {
         question: "¿Qué haces si confidence de RUC es 0.6?",
-        options: [
-          "Aceptar igual",
-          "Inventar dígitos",
-          "Abstener y encolar revisión",
-          "Etiquetar fraude",
-        ],
-        correctIndex: 2,
+        options: ["Aceptar igual", "Inventar dígitos", "Etiquetar fraude", "Abstener y encolar revisión"],
+        correctIndex: 3,
         explanation:
           "Abstención bajo umbral es control de calidad.",
       },
       {
         question: "Un mismatch total vs líneas implica:",
-        options: [
-          "Fraude probado",
-          "Cola de revisión / corrección",
-          "Borrar el doc",
-          "Subir DPI",
-        ],
+        options: ["Fraude probado", "Cola de revisión / corrección", "Borrar el doc", "Subir DPI"],
         correctIndex: 1,
         explanation:
           "Validación ≠ acusación de fraude.",
       },
       {
         question: "¿Por qué medir accuracy por campo?",
-        options: [
-          "Es más corto",
-          "Los campos críticos pueden fallar aunque el global se vea bien",
-          "OCR no tiene global",
-          "Solo para imágenes",
-        ],
-        correctIndex: 1,
+        options: ["Es más corto", "OCR no tiene global", "Los campos críticos pueden fallar aunque el global se vea bien", "Solo para imágenes"],
+        correctIndex: 2,
         explanation:
           "Campos caros necesitan SLO propio.",
       },
       {
         question: "Archivo application/zip en intake de facturas:",
-        options: [
-          "Siempre OK",
-          "Gate reject/review por mime no permitido",
-          "OCR directo",
-          "Enviar por email",
-        ],
-        correctIndex: 1,
+        options: ["Gate reject/review por mime no permitido", "Siempre OK", "OCR directo", "Enviar por email"],
+        correctIndex: 0,
         explanation:
           "Allowlist de mime y tamaño.",
       },

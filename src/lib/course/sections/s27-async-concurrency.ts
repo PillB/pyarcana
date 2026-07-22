@@ -6,13 +6,13 @@ export const section27: CourseSection = {
   title: "Estrategia de pruebas con pytest",
   shortTitle: "Pytest y contratos",
   tagline: "convertir supuestos de normalización y matching en contratos ejecutables; cada bug reproducido obtiene test de regresión",
-  estimatedHours: 12,
+  estimatedHours: 18,
   level: "Competente",
   phase: 2,
   icon: "FlaskConical",
   accentColor: "bg-gradient-to-br from-violet-500 to-purple-700",
   jobRelevance:
-    "En banca, BPO y data platforms en Perú, un motor de **entity resolution** solo es confiable si sus supuestos de normalización y matching son **contratos ejecutables**. Esta sección (id de plataforma `async-concurrency` conservado) retematiza a V3 **Estrategia de pruebas con pytest** e **inicia CP-N3-A**: pirámide de riesgo, AAA, fixtures y regresión. Matching no implica fraude ni parentesco.",
+    "Un motor de **entity resolution** solo es confiable si sus supuestos de normalización y matching son contratos ejecutables. S27 inicia CP-N3-A con pirámide de riesgo, AAA, fixtures y regresión. Matching no implica fraude ni parentesco.",
   learningOutcomes: [
     { text: "Priorizar pruebas según riesgo y pirámide" },
     { text: "Escribir tests AAA con oráculos confiables" },
@@ -25,17 +25,17 @@ export const section27: CourseSection = {
   ],
   theory: [
     {
-      heading: "De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A)",
+      heading: "Estrategia pytest e inicio CP-N3-A",
       paragraphs: [
-        "En V3, **S27 no es el path principal de asyncio/TaskGroup**. Ese material se reubica. Aquí **inicias CP-N3-A**: convertir supuestos de normalización y matching en **contratos de prueba** con pytest.",
+        "Aquí **inicias CP-N3-A**: convertir supuestos de normalización y matching en **contratos de prueba** con pytest.",
         "El hilo: un módulo sintético `normalize_name` / `exact_match` sobre contactos fakes (`run_id=cpn3a-01`, `@example.pe`). Cada bug reproducido → test de regresión.",
         "Orden: **T1 Diseño** → **T2 Pytest** → **T3 Bordes** → **T4 Cobertura**. Privacidad: las pruebas no etiquetan fraude ni parentesco.",
       ],
       callout: {
         type: "info",
-        title: "Contenido reubicado conceptualmente",
+        title: "Datos seguros",
         content:
-          "Material legado de concurrencia async de este archivo **no es el camino V3 del estudiante en S27**. Target: pytest + contratos de normalización/matching (inicio CP-N3-A).",
+          "Todas las fixtures usan contactos sintéticos; una prueba de similitud no etiqueta fraude ni parentesco.",
       },
     },
     {
@@ -1354,49 +1354,29 @@ if __name__ == "__main__":
     questions: [
       {
         question: "En la pirámide de pruebas, la base más ancha suele ser:",
-        options: [
-          "E2E UI",
-          "Pruebas unitarias",
-          "Solo manual",
-          "Load tests en prod",
-        ],
-        correctIndex: 1,
+        options: ["E2E UI", "Solo manual", "Pruebas unitarias", "Load tests en prod"],
+        correctIndex: 2,
         explanation:
           "Muchas unitarias baratas; pocas E2E caras.",
       },
       {
         question: "Un oráculo confiable es:",
-        options: [
-          "Un print en consola",
-          "Una fuente de verdad determinista para el assert",
-          "El reloj del sistema sin fijar",
-          "El orden de un set",
-        ],
-        correctIndex: 1,
+        options: ["Una fuente de verdad determinista para el assert", "Un print en consola", "El reloj del sistema sin fijar", "El orden de un set"],
+        correctIndex: 0,
         explanation:
           "El assert necesita verdad estable (fija o propiedad).",
       },
       {
         question: "Si mutas un casefold y ningún test falla:",
-        options: [
-          "Está bien",
-          "El contrato es débil; el mutante sobrevivió",
-          "pytest está roto siempre",
-          "Ignora cobertura",
-        ],
+        options: ["Está bien", "El contrato es débil; el mutante sobrevivió", "pytest está roto siempre", "Ignora cobertura"],
         correctIndex: 1,
         explanation:
           "Mutación conceptual detecta tests inútiles.",
       },
       {
         question: "Las pruebas de matching en CP-N3-A demuestran:",
-        options: [
-          "Fraude automático",
-          "Parentescos",
-          "Contratos de misma entidad / normalización — no riesgo ni relación",
-          "Envío de correos",
-        ],
-        correctIndex: 2,
+        options: ["Fraude automático", "Parentescos", "Envío de correos", "Contratos de misma entidad / normalización — no riesgo ni relación"],
+        correctIndex: 3,
         explanation:
           "ER decide misma entidad; no fraude ni parentesco.",
       },

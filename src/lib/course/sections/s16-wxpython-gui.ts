@@ -6,7 +6,7 @@ export const section16: CourseSection = {
   title: "Calidad, limpieza y contratos de datos",
   shortTitle: "Calidad y contratos",
   tagline: "suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca arregla silenciosamente un dato",
-  estimatedHours: 12,
+  estimatedHours: 18,
   level: "Competente",
   phase: 1,
   icon: "Monitor",
@@ -1310,49 +1310,29 @@ if __name__ == "__main__":
     questions: [
       {
         question: "Un campo required con null debe:",
-        options: [
-          "Rellenarse siempre con 0",
-          "Generar violación/cuarentena o fail del gate",
-          "Ignorarse",
-          "Convertirse en category",
-        ],
-        correctIndex: 1,
+        options: ["Rellenarse siempre con 0", "Ignorarse", "Convertirse en category", "Generar violación/cuarentena o fail del gate"],
+        correctIndex: 3,
         explanation:
           "Required no se imputa en silencio.",
       },
       {
         question: "Conflicto de duplicados significa:",
-        options: [
-          "Misma clave con atributos distintos",
-          "Siempre filas idénticas",
-          "Solo NaNs",
-          "Schema drift de columnas",
-        ],
-        correctIndex: 0,
+        options: ["Siempre filas idénticas", "Misma clave con atributos distintos", "Solo NaNs", "Schema drift de columnas"],
+        correctIndex: 1,
         explanation:
           "Conflicto = misma key, valores distintos.",
       },
       {
         question: "La cuarentena debe:",
-        options: [
-          "Borrar evidencia",
-          "Conservar filas rechazadas con razón",
-          "Enviarse a producción sin marca",
-          "Imputar siempre",
-        ],
-        correctIndex: 1,
+        options: ["Borrar evidencia", "Enviarse a producción sin marca", "Conservar filas rechazadas con razón", "Imputar siempre"],
+        correctIndex: 2,
         explanation:
           "Evidencia + razón habilitan auditoría.",
       },
       {
         question: "Ante schema drift (columna required faltante):",
-        options: [
-          "Continuar con defaults ocultos",
-          "Fallar de forma explicable con el nombre de la columna",
-          "Inventar la columna con random",
-          "Silenciar logs",
-        ],
-        correctIndex: 1,
+        options: ["Fallar de forma explicable con el nombre de la columna", "Continuar con defaults ocultos", "Inventar la columna con random", "Silenciar logs"],
+        correctIndex: 0,
         explanation:
           "Fail explicable es el estándar del gate V3.",
       },

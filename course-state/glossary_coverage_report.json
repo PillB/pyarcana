@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-07-21T04:53:09.060149Z",
+  "generated_at": "2026-07-22T17:33:08.978271Z",
   "terms": 89,
   "sections": [
     {
@@ -196,8 +196,10 @@
     {
       "sectionId": "streamlit-dashboards",
       "introCount": 1,
-      "found": 1,
-      "missing": []
+      "found": 0,
+      "missing": [
+        "streamlit"
+      ]
     },
     {
       "sectionId": "integrator-phase1",
@@ -363,7 +365,7 @@
     }
   ],
   "sections_with_intros": 15,
-  "p1_missing_prose": 39,
+  "p1_missing_prose": 40,
   "issues": [
     {
       "sectionId": "setup",
@@ -635,6 +637,13 @@
       "sectionId": "testing",
       "termId": "coverage",
       "term": "Coverage",
+      "severity": "P1",
+      "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
+    },
+    {
+      "sectionId": "streamlit-dashboards",
+      "termId": "streamlit",
+      "term": "Streamlit",
       "severity": "P1",
       "note": "SSOT intro term aliases not found in section prose (hover may not fire)"
     }

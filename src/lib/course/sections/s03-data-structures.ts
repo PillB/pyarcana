@@ -6,7 +6,7 @@ export const section03: CourseSection = {
   title: 'Decisiones y reglas de validación',
   shortTitle: 'Decisiones & Reglas',
   tagline: 'Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy',
-  estimatedHours: 8,
+  estimatedHours: 18,
   level: 'Principiante',
   phase: 0,
   icon: 'GitBranch',
@@ -1989,56 +1989,36 @@ if __name__ == "__main__":
     questions: [
       {
         question: '¿Cuál es la forma correcta de chequear ausencia de un campo opcional en un validador?',
-        options: [
-          'if not campo:',
-          'if campo is None:',
-          'if campo == False:',
-          'if campo is 0:',
-        ],
-        correctIndex: 1,
+        options: ['if not campo:', 'if campo == False:', 'if campo is None:', 'if campo is 0:'],
+        correctIndex: 2,
         explanation:
           '`is None` distingue ausencia de valores falsy válidos como 0 o "". `if not campo` colapsa None, 0 y "" en el mismo camino.',
       },
       {
         question: 'En una cadena if/elif/else, ¿qué ocurre cuando la primera condición es verdadera?',
-        options: [
-          'Se evalúan todas las ramas y se combinan resultados',
-          'Se ejecuta esa rama y se omiten las siguientes',
-          'Se ejecuta también el else siempre',
-          'Python elige la rama más específica automáticamente',
-        ],
-        correctIndex: 1,
+        options: ['Se ejecuta esa rama y se omiten las siguientes', 'Se evalúan todas las ramas y se combinan resultados', 'Se ejecuta también el else siempre', 'Python elige la rama más específica automáticamente'],
+        correctIndex: 0,
         explanation:
           'La primera condición verdadera gana; elif/else posteriores no se ejecutan. Por eso el orden y las fronteras importan.',
       },
       {
         question: '¿Qué devuelve la expresión `"" or "default"` en Python?',
-        options: ['True', 'False', '""', '"default"'],
-        correctIndex: 3,
+        options: ['True', '"default"', 'False', '""'],
+        correctIndex: 1,
         explanation:
           '`or` hace short-circuit y devuelve el primer operando truthy (o el último si todos son falsy). `""` es falsy, así que resulta `"default"`.',
       },
       {
         question: 'Una allowlist de tipos de documento se implementa mejor como…',
-        options: [
-          'Una lista de if anidados por cada letra del código',
-          'Un set de literales y el operador in',
-          'Un float entre 0 y 1',
-          'assert tipo == "DNI" como única validación de producción',
-        ],
-        correctIndex: 1,
+        options: ['Una lista de if anidados por cada letra del código', 'Un float entre 0 y 1', 'assert tipo == "DNI" como única validación de producción', 'Un set de literales y el operador in'],
+        correctIndex: 3,
         explanation:
           'Un set + `in` es legible y eficiente. assert no debe ser la única validación de negocio (se desactiva con -O).',
       },
       {
         question: '¿Cuándo aporta más claridad `match/case` que `if` en un motor de reglas introductorio?',
-        options: [
-          'Siempre; match deprecó if en Python 3.12',
-          'Cuando el sujeto es un literal/estado finito (códigos) y hay case _',
-          'Solo para rangos numéricos de montos',
-          'Nunca; match está deprecado',
-        ],
-        correctIndex: 1,
+        options: ['Siempre; match deprecó if en Python 3.12', 'Solo para rangos numéricos de montos', 'Cuando el sujeto es un literal/estado finito (códigos) y hay case _', 'Nunca; match está deprecado'],
+        correctIndex: 2,
         explanation:
           'match es estable desde 3.10 y útil para estados finitos. Los rangos numéricos suelen ser más claros con if y comparaciones.',
       },

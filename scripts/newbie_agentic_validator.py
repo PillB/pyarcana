@@ -3,7 +3,7 @@
 Agentic pedagogy validator (NOT code-exec as pass bar).
 
 Success for dual-newbie gate:
-- Live artifacts exist for both agents with attempt_id + method llm_packet_only_no_generator
+- Live artifacts exist for two distinct agents with direct-live provenance
 - Every selfcheck answer has justification_from_packet with lexical support from packet
 - Every exercise either has blocked_on UNTAUGHT_* (honest gap) OR has justification + answer/code
 - Selfcheck chosen_index matches offline keys (fairness check) — keys never shown to newbies
@@ -17,6 +17,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -39,6 +40,23 @@ STOP = {
     "que", "por", "para", "con", "se", "su", "es", "son", "the", "to", "of", "in",
     "on", "is", "are", "and", "or", "as", "if", "not", "no", "tu", "más", "muy",
 }
+
+LIVE_METHOD = "live_agentic_packet_only_no_execution"
+LIVE_ORIGIN = "direct_agent_output"
+META_ORIGIN = "live_agentic_transcript"
+META_MODE = "fresh_sequential_packet_read"
+TAINT_MARKERS = (
+    "rebuilt",
+    "rebuild",
+    "copied",
+    "copy_from",
+    "codes_from",
+    "source_exercises",
+    "source_selfcheck",
+    "generator",
+    "produce_agent",
+    "programmatic",
+)
 
 
 def tokens(s: str) -> set[str]:
@@ -81,6 +99,90 @@ def load_live(path: Path) -> dict | None:
     if "responses" in data and isinstance(data["responses"], dict):
         return {**data, **data["responses"]}
     return data
+
+
+def provenance_issues(
+    meta: dict | None,
+    lives: dict[str, dict | None],
+    *,
+    has_rebuild_report: bool = False,
+) -> list[dict]:
+    """Fail closed on copied/rebuilt/generated or non-isolated evidence.
+
+    This intentionally validates explicit provenance rather than trusting a
+    filename or the old self-asserted ``llm_packet_only_no_generator`` label.
+    """
+    issues: list[dict] = []
+    meta = meta or {}
+    meta_blob = json.dumps(meta, ensure_ascii=False).lower()
+    if has_rebuild_report or any(marker in meta_blob for marker in TAINT_MARKERS):
+        issues.append({"tag": "TAINTED_ATTEMPT_ORIGIN", "detail": "rebuild/copy/generator fingerprint"})
+    required_meta = {
+        "evidence_origin": META_ORIGIN,
+        "generation_mode": META_MODE,
+        "restart_from": "landing",
+        "code_execution_used": False,
+    }
+    for key, expected in required_meta.items():
+        if meta.get(key) != expected:
+            issues.append(
+                {
+                    "tag": "PROVENANCE_META_INVALID",
+                    "detail": f"{key} must equal {expected!r}",
+                }
+            )
+
+    ids: dict[str, str] = {}
+    response_fingerprints: dict[str, str] = {}
+    for label in ("newbie_a", "newbie_b"):
+        raw = lives.get(label)
+        if not raw:
+            continue
+        blob = json.dumps(raw, ensure_ascii=False).lower()
+        if any(marker in blob for marker in TAINT_MARKERS):
+            issues.append(
+                {"tag": "TAINTED_AGENT_ORIGIN", "agent": label, "detail": "rebuild/copy/generator/code-exec fingerprint"}
+            )
+        required_live = {
+            "method": LIVE_METHOD,
+            "artifact_origin": LIVE_ORIGIN,
+            "restart_from": "landing",
+            "code_execution_used": False,
+        }
+        for key, expected in required_live.items():
+            if raw.get(key) != expected:
+                issues.append(
+                    {
+                        "tag": "PROVENANCE_AGENT_INVALID",
+                        "agent": label,
+                        "detail": f"{key} must equal {expected!r}",
+                    }
+                )
+        instance_id = raw.get("agent_instance_id")
+        if not isinstance(instance_id, str) or len(instance_id.strip()) < 8:
+            issues.append(
+                {
+                    "tag": "MISSING_AGENT_INSTANCE",
+                    "agent": label,
+                    "detail": "agent_instance_id must be an opaque id of at least 8 chars",
+                }
+            )
+        else:
+            ids[label] = instance_id.strip()
+        response_only = {
+            "exercises": raw.get("exercises") or [],
+            "selfcheck": raw.get("selfcheck") or raw.get("selfCheck") or [],
+            "confusion_points": raw.get("confusion_points") or [],
+        }
+        response_fingerprints[label] = hashlib.sha256(
+            json.dumps(response_only, ensure_ascii=False, sort_keys=True).encode()
+        ).hexdigest()
+
+    if len(ids) == 2 and len(set(ids.values())) != 2:
+        issues.append({"tag": "SAME_AGENT_REUSED", "detail": "newbie_a and newbie_b share agent_instance_id"})
+    if len(response_fingerprints) == 2 and len(set(response_fingerprints.values())) != 2:
+        issues.append({"tag": "COPIED_AGENT_RESPONSES", "detail": "A/B response payloads are byte-identical after normalization"})
+    return issues
 
 
 def normalize_selfcheck(data: dict) -> list[dict]:
@@ -184,7 +286,8 @@ def justification_is_template(just: str) -> bool:
 
 
 def validate_section(attempt_id: str, section_index: int) -> dict:
-    d = attempt_dir(attempt_id) / f"section_{section_index:02d}"
+    attempt_root = attempt_dir(attempt_id)
+    d = attempt_root / f"section_{section_index:02d}"
     d.mkdir(parents=True, exist_ok=True)
     # Prefer on-disk slim/full packet (fast); rebuild only if missing
     pkt = None
@@ -213,11 +316,31 @@ def validate_section(attempt_id: str, section_index: int) -> dict:
             break
     keys = extract_selfcheck_keys(target) if target else []
 
+    live_by_label = {
+        "newbie_a": load_live(d / "newbie_a_live.json"),
+        "newbie_b": load_live(d / "newbie_b_live.json"),
+    }
+    meta = None
+    meta_path = attempt_root / "meta.json"
+    if meta_path.exists():
+        try:
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            meta = None
+    prov_issues = provenance_issues(
+        meta,
+        live_by_label,
+        has_rebuild_report=(attempt_root / "rebuild_report.json").exists(),
+    )
+
     result = {
         "section_index": section_index,
         "section_id": pkt["active"].get("id"),
         "agents": {},
-        "blocking_gaps": [],
+        "blocking_gaps": [
+            {**issue, "severity": "P0"} for issue in prov_issues
+        ],
+        "provenance_pass": not prov_issues,
         "evaluation": "agentic_justification",
     }
 
@@ -226,7 +349,7 @@ def validate_section(attempt_id: str, section_index: int) -> dict:
         ("newbie_b", "newbie_b_live.json"),
     ):
         path = d / fname
-        raw = load_live(path)
+        raw = live_by_label[label]
         if not raw:
             result["agents"][label] = {"status": "missing", "pass": False}
             result["blocking_gaps"].append(
@@ -237,6 +360,19 @@ def validate_section(attempt_id: str, section_index: int) -> dict:
                     "detail": fname,
                 }
             )
+            continue
+
+        applicable_prov = [
+            issue
+            for issue in prov_issues
+            if issue.get("agent") in (None, label)
+        ]
+        if applicable_prov:
+            result["agents"][label] = {
+                "status": "tainted_provenance",
+                "pass": False,
+                "provenance_issues": applicable_prov,
+            }
             continue
 
         # authenticity
@@ -443,6 +579,7 @@ def validate_all(attempt_id: str) -> dict:
             if (r.get("agents") or {}).get("newbie_b", {}).get("pass")
         ),
         "both_pass": sum(1 for r in rows if r.get("section_pass")),
+        "provenance_pass": all(r.get("provenance_pass") for r in rows),
         "sections": [
             {
                 "section_index": r["section_index"],
@@ -461,7 +598,9 @@ def validate_all(attempt_id: str) -> dict:
             for r in rows
         ],
     }
-    summary["clean_52"] = summary["both_pass"] == 52
+    summary["clean_52"] = (
+        summary["both_pass"] == 52 and summary["provenance_pass"]
+    )
     summary["open_gaps"] = [
         g
         for r in rows

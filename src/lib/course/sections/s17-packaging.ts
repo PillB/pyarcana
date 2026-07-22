@@ -6,7 +6,7 @@ export const section17: CourseSection = {
   title: "Joins, reshape, groupby y cierre analítico",
   shortTitle: "Joins · groupby · cierre",
   tagline: "Executive Data Quality & EDA Portfolio con dataset limpio, notebook/script reproducible, reconciliación y preguntas de negocio",
-  estimatedHours: 14,
+  estimatedHours: 18,
   level: "Competente",
   phase: 1,
   icon: "Package",
@@ -1283,48 +1283,28 @@ if __name__ == "__main__":
     questions: [
       {
         question: "validate='one_to_one' en merge sirve para:",
-        options: [
-          "Imputar nulls",
-          "Fallar si la cardinalidad no es 1:1",
-          "Ordenar el DF",
-          "Crear MultiIndex",
-        ],
-        correctIndex: 1,
+        options: ["Fallar si la cardinalidad no es 1:1", "Imputar nulls", "Ordenar el DF", "Crear MultiIndex"],
+        correctIndex: 0,
         explanation:
           "validate verifica la cardinalidad del merge.",
       },
       {
         question: "Un anti-join left_only identifica:",
-        options: [
-          "Filas del left sin match en right",
-          "Solo matches perfectos",
-          "Duplicados exactos internos",
-          "Schema drift de dtypes",
-        ],
-        correctIndex: 0,
+        options: ["Solo matches perfectos", "Duplicados exactos internos", "Filas del left sin match en right", "Schema drift de dtypes"],
+        correctIndex: 2,
         explanation:
           "left_only = huérfanos del lado izquierdo.",
       },
       {
         question: "transform en groupby:",
-        options: [
-          "Siempre colapsa a una fila por grupo",
-          "Reinyecta el agregado al shape original",
-          "Elimina el index",
-          "Solo funciona con MultiIndex",
-        ],
-        correctIndex: 1,
+        options: ["Siempre colapsa a una fila por grupo", "Elimina el index", "Solo funciona con MultiIndex", "Reinyecta el agregado al shape original"],
+        correctIndex: 3,
         explanation:
           "transform alinea el resultado al índice original.",
       },
       {
         question: "Leakage temporal ocurre cuando:",
-        options: [
-          "Usas CSV en vez de Excel",
-          "Incluyes datos posteriores al cutoff en features/métricas del pasado",
-          "Haces melt",
-          "Documentas el denominador",
-        ],
+        options: ["Usas CSV en vez de Excel", "Incluyes datos posteriores al cutoff en features/métricas del pasado", "Haces melt", "Documentas el denominador"],
         correctIndex: 1,
         explanation:
           "Información del futuro contamina el análisis before/after.",

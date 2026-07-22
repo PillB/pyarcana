@@ -3,41 +3,34 @@ import { db } from '@/lib/db'
 import { syncUser } from '@/lib/firebase/sync'
 import bcrypt from 'bcryptjs'
 import { z } from 'zod'
+import {
+  RegistrationRequestError,
+  clientRateKey,
+  readBoundedJson,
+  registrationLimiter,
+} from '@/lib/registration-security'
 
-const registerSchema = z.object({
-  email: z.string().email('Email inválido'),
-  password: z.string().min(6, 'Password debe tener al menos 6 caracteres'),
-  name: z.string().min(2, 'Nombre muy corto').max(80).optional(),
-})
-
-// Simple in-memory rate limiting (per IP, resets on server restart)
-const rateLimit = new Map<string, { count: number; resetAt: number }>()
-const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000 // 15 min
-const RATE_LIMIT_MAX = 5
-
-function checkRateLimit(ip: string): boolean {
-  const now = Date.now()
-  const entry = rateLimit.get(ip)
-  if (!entry || now > entry.resetAt) {
-    rateLimit.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS })
-    return true
-  }
-  if (entry.count >= RATE_LIMIT_MAX) return false
-  entry.count++
-  return true
-}
+const registerSchema = z
+  .object({
+    email: z.string().trim().email('Email inválido').max(254, 'Email demasiado largo'),
+    password: z
+      .string()
+      .min(12, 'Password debe tener al menos 12 caracteres')
+      .max(128, 'Password demasiado largo'),
+    name: z.string().trim().min(2, 'Nombre muy corto').max(80, 'Nombre demasiado largo').optional(),
+  })
+  .strict()
 
 export async function POST(request: Request) {
   try {
-    const ip = request.headers.get('x-forwarded-for') || 'unknown'
-    if (!checkRateLimit(ip)) {
+    if (!registrationLimiter.allow(clientRateKey(request))) {
       return NextResponse.json(
         { error: 'Demasiados intentos. Intenta de nuevo en 15 minutos.' },
         { status: 429 }
       )
     }
 
-    const body = await request.json()
+    const body = await readBoundedJson(request)
     const parsed = registerSchema.safeParse(body)
     if (!parsed.success) {
       return NextResponse.json(
@@ -47,7 +40,7 @@ export async function POST(request: Request) {
     }
 
     const { email, password, name } = parsed.data
-    const emailLower = email.toLowerCase().trim()
+    const emailLower = email.toLowerCase()
 
     // Check if user exists
     const existing = await db.user.findUnique({ where: { email: emailLower } })
@@ -61,16 +54,14 @@ export async function POST(request: Request) {
     // Hash password with bcrypt (cost factor 12)
     const passwordHash = await bcrypt.hash(password, 12)
 
-    // Create user (first user becomes ADMIN for demo purposes)
-    const userCount = await db.user.count()
-    const role = userCount === 0 ? 'ADMIN' : 'STUDENT'
-
+    // Public registration is never an administrator-provisioning mechanism.
+    // Operators grant elevated roles out of band after identity verification.
     const user = await db.user.create({
       data: {
         email: emailLower,
         name: name || emailLower.split('@')[0],
         passwordHash,
-        role,
+        role: 'STUDENT',
       },
     })
 
@@ -83,16 +74,19 @@ export async function POST(request: Request) {
       country: user.country,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
-    })
+    }).catch((error) => console.error('Profile mirror failed:', error))
 
     return NextResponse.json({
       id: user.id,
       email: user.email,
       name: user.name,
-      role: user.role,
-      message: role === 'ADMIN' ? 'Cuenta admin creada (primer usuario)' : 'Cuenta creada',
+      role: 'STUDENT',
+      message: 'Cuenta creada',
     })
   } catch (error) {
+    if (error instanceof RegistrationRequestError) {
+      return NextResponse.json({ error: error.message }, { status: error.status })
+    }
     console.error('Register error:', error)
     return NextResponse.json({ error: 'Error interno del servidor' }, { status: 500 })
   }

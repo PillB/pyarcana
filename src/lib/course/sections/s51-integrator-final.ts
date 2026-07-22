@@ -6,13 +6,13 @@ export const section51: CourseSection = {
   title: "Observabilidad, gobernanza y UX del copiloto",
   shortTitle: "Obs y UX copiloto",
   tagline: "Auditable AI Operations Copilot con system card y dashboard; CF-5 congela artefactos e interfaces",
-  estimatedHours: 16,
+  estimatedHours: 19,
   level: "Master",
   phase: 3,
   icon: "Crown",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "Retemática V3 **Observabilidad, gobernanza y UX del copiloto** (id de plataforma `integrator-final` conservado; legado «Proyecto Integrador Final — Sistema AI Production-Grade»). Contribuye a **CP-N4-C (cierre) + CF-5 + Level-4 regression**: Auditable AI Operations Copilot aprobado con system card y dashboard operativo que permiten saber qué versión respondió, qué evidencia usó, qué tool llamó y cómo revertirla. CF-5 congela artefactos e interfaces para integración final. Datos sintéticos; sin PII real. ER/matching no implica fraude ni parentesco.",
+    "En equipos de plataforma y producto, observabilidad, gobernanza y ux del copiloto conecta decisiones técnicas con evidencia operativa. La práctica entrega dashboard redactado, SLO, audit trail y mecanismo de corrección o apelación y se promueve solo cuando se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
   learningOutcomes: [
     { text: "Traza prompts, retrieval y tools" },
     { text: "Mide tokens/costo/latency con redacción" },
@@ -25,26 +25,25 @@ export const section51: CourseSection = {
   ],
   theory: [
     {
-      heading: "Mapa V3 S51: Observabilidad, gobernanza y UX del copiloto",
+      heading: "Ruta de S51: Observabilidad, gobernanza y UX del copiloto",
       paragraphs: [
-        "En V3, **S51** retematiza el archivo de plataforma `integrator-final` hacia **Observabilidad, gobernanza y UX del copiloto**. **FINAL/CLOSE gate** (CLOSE + Level-4 regression + CF-5).",
-        "Incremento: Auditable AI Operations Copilot aprobado con system card y dashboard operativo que permiten saber qué versión respondió, qué evidencia usó, qué tool llamó y cómo revertirla. CF-5 congela artefactos e interfaces para integración final.",
-        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger.",
+        "Esta sección parte de S50 y usa únicamente contratos, pruebas y controles ya presentados. El caso `CASO-MOQ-051` es sintético y puede ejecutarse sin credenciales ni servicios externos.",
+        "Producto incremental: Auditable AI Operations Copilot y CF-5. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida: dashboard redactado, SLO, audit trail y mecanismo de corrección o apelación.",
+        "La secuencia mantiene liberación gradual: teoría con criterio medible, demo local, ejercicio guiado, validación independiente y transferencia con breach/uncertainty.",
       ],
       callout: {
         type: "info",
-        title: "Platform id preservado",
-        content:
-          "KEEP_PLATFORM_ID_RETHEME_CONTENT: `integrator-final`. Capstone: CP-N4-C (cierre) + CF-5 + Level-4 regression.",
+        title: "Gate de promoción",
+        content: "CP-N4-C + CF-5 · copiloto observable y contestable: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir. Si falta evidencia, no se promociona.",
       },
     },
     {
       heading: "traces de prompts/retrieval/tools",
       subtopicId: "S51-T1-A",
       paragraphs: [
-        "**traces de prompts/retrieval/tools** — outcome del blueprint phase3 para `traces-prompts-retrieval-tools`.",
-        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
-        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real.",
+        "Un trace correlaciona prompt template, retrieval, tool calls y respuesta con versiones; redacta antes de exportar observabilidad.",
+        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: trace reconstruible sin PII. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+        "Aplicación de `traces de prompts/retrieval/tools` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es trace reconstruible sin PII. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
@@ -58,16 +57,16 @@ get_case`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+          "Evidencia mínima de S51-T1-A: trace reconstruible sin PII. Si falta, responde `REDACT_AND_QUARANTINE_TRACE`; si no alcanza para decidir, `RESTORE_TRACE_CONTEXT`.",
       },
     },
     {
       heading: "tokens, costo, latency y redacción",
       subtopicId: "S51-T1-B",
       paragraphs: [
-        "**tokens, costo, latency y redacción** — outcome del blueprint phase3 para `tokens-cost-latency-redaction`.",
-        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
-        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real.",
+        "Tokens, costo y latencia se miden por etapa y percentil; redacción aplica a atributos, eventos, payloads y errores.",
+        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: dashboard por etapa con prueba de redacción. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+        "Aplicación de `tokens, costo, latency y redacción` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es dashboard por etapa con prueba de redacción. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
@@ -81,16 +80,16 @@ no_raw_pii True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+          "Antes de promover S51-T1-B, audita dashboard por etapa con prueba de redacción. Un breach activa `ALERT_COST_LATENCY` y una ausencia activa `FIX_REDACTION_PIPELINE`.",
       },
     },
     {
       heading: "registro de modelo/prompt/dataset",
       subtopicId: "S51-T2-A",
       paragraphs: [
-        "**registro de modelo/prompt/dataset** — outcome del blueprint phase3 para `registry-model-prompt-dataset`.",
-        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
-        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real.",
+        "Registry identifica modelo, prompt, dataset, índice y evaluador; un release apunta a un conjunto inmutable de versiones.",
+        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: respuesta enlazada a bundle versionado. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+        "Aplicación de `registro de modelo/prompt/dataset` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es respuesta enlazada a bundle versionado. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
@@ -104,16 +103,16 @@ system_card_link True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+          "La revisión de S51-T2-A conserva respuesta enlazada a bundle versionado; no conviertas `FREEZE_RELEASE_BUNDLE` ni `REGISTER_MISSING_VERSION` en éxito silencioso.",
       },
     },
     {
       heading: "cambio, acceso, retención y auditoría",
       subtopicId: "S51-T2-B",
       paragraphs: [
-        "**cambio, acceso, retención y auditoría** — outcome del blueprint phase3 para `change-access-retention-audit`.",
-        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
-        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real.",
+        "Change control registra autor/aprobador/riesgo; acceso y retención son mínimos, audit es append-only y también se depura según política.",
+        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: cambio y acceso auditables. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+        "Aplicación de `cambio, acceso, retención y auditoría` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es cambio y acceso auditables. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
@@ -127,16 +126,16 @@ cf5 freeze_interfaces`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+          "Contrato S51-T2-B: demuestra cambio y acceso auditables. Falla cerrada con `REJECT_UNGOVERNED_CHANGE` y deriva incertidumbre mediante `REQUEST_INDEPENDENT_APPROVAL`.",
       },
     },
     {
       heading: "SLO, feedback y drift",
       subtopicId: "S51-T3-A",
       paragraphs: [
-        "**SLO, feedback y drift** — outcome del blueprint phase3 para `slo-feedback-drift`.",
-        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
-        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real.",
+        "SLO combina disponibilidad/calidad/latencia; feedback es señal sesgada y drift exige slices, baseline y dueño antes de actuar.",
+        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: alerta accionable con owner/runbook. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+        "Aplicación de `SLO, feedback y drift` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es alerta accionable con owner/runbook. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
@@ -150,16 +149,16 @@ feedback thumbs+labels`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+          "Para S51-T3-A, el artefacto comprobable es alerta accionable con owner/runbook. Sin él corresponde `OPEN_COPILOT_INCIDENT` o, si faltan datos, `TRIAGE_DRIFT_SLICE`.",
       },
     },
     {
       heading: "incidents, rollback y postmortem",
       subtopicId: "S51-T3-B",
       paragraphs: [
-        "**incidents, rollback y postmortem** — outcome del blueprint phase3 para `incidents-rollback-postmortem`.",
-        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
-        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real.",
+        "Incidente contiene, revierte y comunica; postmortem sin culpa identifica condiciones sistémicas y acciones con fecha.",
+        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: simulacro de rollback y acciones verificadas. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+        "Aplicación de `incidents, rollback y postmortem` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es simulacro de rollback y acciones verificadas. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
@@ -173,16 +172,16 @@ timeline required`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+          "Promoción de S51-T3-B: prueba simulacro de rollback y acciones verificadas y registra por separado `ROLLBACK_AND_CONTAIN` (breach) y `CONVENE_INCIDENT_REVIEW` (missing).",
       },
     },
     {
       heading: "incertidumbre, citas y confirmaciones",
       subtopicId: "S51-T4-A",
       paragraphs: [
-        "**incertidumbre, citas y confirmaciones** — outcome del blueprint phase3 para `uncertainty-cites-confirm`.",
-        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
-        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real.",
+        "UX muestra incertidumbre, citas y alcance; confirmación resume efecto antes de una acción y permite corregir el dato fuente.",
+        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: usuario entiende evidencia y confirma acción. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+        "Aplicación de `incertidumbre, citas y confirmaciones` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es usuario entiende evidencia y confirma acción. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
@@ -196,16 +195,16 @@ confirm before_side_effects`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+          "El dueño de S51-T4-A acepta solo usuario entiende evidencia y confirma acción; una violación produce `BLOCK_UNCONFIRMED_ACTION` y un registro incompleto produce `ASK_USER_TO_CONFIRM`.",
       },
     },
     {
       heading: "accesibilidad, corrección y contestabilidad",
       subtopicId: "S51-T4-B",
       paragraphs: [
-        "**accesibilidad, corrección y contestabilidad** — outcome del blueprint phase3 para `a11y-correction-contestability`.",
-        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
-        "Integra el incremento **CP-N4-C (cierre) + CF-5 + Level-4 regression** sin exponer secretos ni PII real.",
+        "Accesibilidad cubre teclado/lector/contraste/lenguaje; contestabilidad explica revisión, apelación y respuesta humana sin dark patterns.",
+        "Contrato operativo. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida de este subtema: flujo WCAG y apelación completables. Error: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback. Criterio de éxito: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+        "Aplicación de `accesibilidad, corrección y contestabilidad` al caso peruano sintético `CASO-MOQ-051`: operación sintética de un copiloto para una entidad ficticia en Moquegua. La evidencia esperada es flujo WCAG y apelación completables. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
@@ -219,7 +218,7 @@ human_rights contestability`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+          "Cierre de S51-T4-B: conserva flujo WCAG y apelación completables, la evidencia de `FAIL_ACCESSIBILITY_GATE` y la ruta humana `ROUTE_CONTESTATION`.",
       },
     },
   ],
@@ -239,7 +238,7 @@ human_rights contestability`,
 spans ['prompt', 'retrieve', 'tool']
 audit True`,
         },
-        why: "Demuestra el outcome de S51-T1-A con Python verificable.",
+        why: "Hace observable `traces de prompts/retrieval/tools` con un caso local pequeño y deja como evidencia trace reconstruible sin PII; el demo modela el contrato, no un servicio externo.",
       },
       {
         demoId: "S51-T1-B-DEMO",
@@ -254,7 +253,7 @@ audit True`,
 redaction True
 latency_ms 900`,
         },
-        why: "Demuestra el outcome de S51-T1-B con Python verificable.",
+        why: "Hace observable `tokens, costo, latency y redacción` con un caso local pequeño y deja como evidencia dashboard por etapa con prueba de redacción; el demo modela el contrato, no un servicio externo.",
       },
       {
         demoId: "S51-T2-A-DEMO",
@@ -269,7 +268,7 @@ latency_ms 900`,
 versions {'model': 'm-2'}
 pin True`,
         },
-        why: "Demuestra el outcome de S51-T2-A con Python verificable.",
+        why: "Hace observable `registro de modelo/prompt/dataset` con un caso local pequeño y deja como evidencia respuesta enlazada a bundle versionado; el demo modela el contrato, no un servicio externo.",
       },
       {
         demoId: "S51-T2-B-DEMO",
@@ -284,7 +283,7 @@ pin True`,
 retention 180
 change_control True`,
         },
-        why: "Demuestra el outcome de S51-T2-B con Python verificable.",
+        why: "Hace observable `cambio, acceso, retención y auditoría` con un caso local pequeño y deja como evidencia cambio y acceso auditables; el demo modela el contrato, no un servicio externo.",
       },
       {
         demoId: "S51-T3-A-DEMO",
@@ -299,7 +298,7 @@ change_control True`,
 drift_watch True
 feedback_loop True`,
         },
-        why: "Demuestra el outcome de S51-T3-A con Python verificable.",
+        why: "Hace observable `SLO, feedback y drift` con un caso local pequeño y deja como evidencia alerta accionable con owner/runbook; el demo modela el contrato, no un servicio externo.",
       },
       {
         demoId: "S51-T3-B-DEMO",
@@ -314,7 +313,7 @@ feedback_loop True`,
 postmortem True
 action_items True`,
         },
-        why: "Demuestra el outcome de S51-T3-B con Python verificable.",
+        why: "Hace observable `incidents, rollback y postmortem` con un caso local pequeño y deja como evidencia simulacro de rollback y acciones verificadas; el demo modela el contrato, no un servicio externo.",
       },
       {
         demoId: "S51-T4-A-DEMO",
@@ -329,7 +328,7 @@ action_items True`,
 cites True
 confirm_gate True`,
         },
-        why: "Demuestra el outcome de S51-T4-A con Python verificable.",
+        why: "Hace observable `incertidumbre, citas y confirmaciones` con un caso local pequeño y deja como evidencia usuario entiende evidencia y confirma acción; el demo modela el contrato, no un servicio externo.",
       },
       {
         demoId: "S51-T4-B-DEMO",
@@ -344,834 +343,1195 @@ confirm_gate True`,
 correction True
 contest True`,
         },
-        why: "Demuestra el outcome de S51-T4-B con Python verificable.",
+        why: "Hace observable `accesibilidad, corrección y contestabilidad` con un caso local pequeño y deja como evidencia flujo WCAG y apelación completables; el demo modela el contrato, no un servicio externo.",
       },
     ],
   },
   weDo: {
-    intro: "24 ejercicios (8×E1 guided / E2 independent / E3 transfer) en es-PE con soluciones verificadas.",
+    intro: "S51 · Laboratorio Auditable AI Operations Copilot y CF-5: 24 retos locales. E1 repara una operación de dominio, E2 separa valid/invalid/missing y E3 demuestra recuperación fail-closed con ocho fixtures peruanos sintéticos distintos.",
     steps: [
       {
         id: "S51-T1-A-E1",
         subtopicId: "S51-T1-A",
         kind: "guided",
-        instruction:
-          "Ejercicio S51-T1-A-E1: usa el patrón del demo iDo del subtema S51-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T1-A; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T1-A-E1 · Calcula el contrato de `traces de prompts/retrieval/tools` sobre `CASO-MOQ-051-1A`. La entrada es el dict completo del starter; la operación debe demostrar trace completo, bundle versionado y cero PII. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REDACT_AND_QUARANTINE_TRACE` en E2.",
+        hint: "Relaciona los campos `trace_id`, `spans`, `versions`, `pii_in_trace` con la regla explicada en S51-T1-A.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T1-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Relaciona los campos `trace_id`, `spans`, `versions`, `pii_in_trace` con la regla explicada en S51-T1-A.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva trace reconstruible sin PII; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta pii_in_trace", "fixture adverso: trace completo, bundle versionado y cero PII", "CASO-MOQ-051-1A es sintético"],
+        tests: "El fixture `CASO-MOQ-051-1A` satisface un predicado de dominio real; imprime `S51-T1-A PASS` y el assert booleano pasa.",
+        feedback: "S51-T1-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REDACT_AND_QUARANTINE_TRACE y por qué faltar pii_in_trace exige RESTORE_TRACE_CONTEXT.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T1-A)
-`,
+          title: "s51-t1-a-e1.py",
+          code: `record = {"case_id": "CASO-MOQ-051-1A", **{"trace_id":"tr-moq-51","spans":{"prompt","retrieval","tool","answer"},"versions":{"prompt":"p3","model":"m2","index":"i4"},"pii_in_trace":False}}
+meets_contract = not record["trace_id"] or record["pii_in_trace"]
+status = "PASS" if meets_contract else "REDACT_AND_QUARANTINE_TRACE"
+print("S51-T1-A", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("trace_id", "t-1"); print("spans", ["prompt","retrieve","tool"]); print("audit", True)`,
-          output: `trace_id t-1
-spans ['prompt', 'retrieve', 'tool']
-audit True`,
+          title: "s51-t1-a-e1.py",
+          code: `record = {"case_id": "CASO-MOQ-051-1A", **{"trace_id":"tr-moq-51","spans":{"prompt","retrieval","tool","answer"},"versions":{"prompt":"p3","model":"m2","index":"i4"},"pii_in_trace":False}}
+meets_contract = record["trace_id"].startswith("tr-") and {"prompt","retrieval","tool","answer"} <= record["spans"] and all(record["versions"].values()) and not record["pii_in_trace"]
+status = "PASS" if meets_contract else "REDACT_AND_QUARANTINE_TRACE"
+print("S51-T1-A", status)
+assert meets_contract is True` ,
+          output: `S51-T1-A PASS` ,
         },
       },
       {
         id: "S51-T1-A-E2",
         subtopicId: "S51-T1-A",
         kind: "independent",
-        instruction:
-          "Ejercicio S51-T1-A-E2: usa el patrón del demo iDo del subtema S51-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T1-A; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T1-A-E2 · Modela tres rutas de `traces de prompts/retrieval/tools`: fixture válido, fixture adverso y registro sin `pii_in_trace`. Entrada: dict con case_id, trace_id, spans, versions, pii_in_trace. Salidas exactas: `PASS`, `REDACT_AND_QUARANTINE_TRACE`, `MISSING:pii_in_trace`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a pii_in_trace debe ocurrir antes de esa rama.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T1-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Primero se calcula `missing`; ningún acceso a pii_in_trace debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S51-T1-A: trace completo, bundle versionado y cero PII. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta pii_in_trace", "fixture adverso: trace completo, bundle versionado y cero PII", "CASO-MOQ-051-1A es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `pii_in_trace` ausente y produce exactamente `PASS REDACT_AND_QUARANTINE_TRACE MISSING:pii_in_trace`.",
+        feedback: "S51-T1-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REDACT_AND_QUARANTINE_TRACE y por qué faltar pii_in_trace exige RESTORE_TRACE_CONTEXT.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T1-A)
-`,
+          title: "s51-t1-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "trace_id", "spans", "versions", "pii_in_trace"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if not record["trace_id"] or record["pii_in_trace"] else "REDACT_AND_QUARANTINE_TRACE"
+
+valid = {"case_id": "CASO-MOQ-051-1A", **{"trace_id":"tr-moq-51","spans":{"prompt","retrieval","tool","answer"},"versions":{"prompt":"p3","model":"m2","index":"i4"},"pii_in_trace":False}}
+invalid = {"case_id": "CASO-MOQ-051-1A", **{"trace_id":"","spans":{"answer"},"versions":{"prompt":"","model":"latest"},"pii_in_trace":True}}
+incomplete = {**valid}
+incomplete.pop("pii_in_trace")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("trace_id", "t-1"); print("spans", ["prompt","retrieve","tool"]); print("audit", True)`,
-          output: `trace_id t-1
-spans ['prompt', 'retrieve', 'tool']
-audit True`,
+          title: "s51-t1-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "trace_id", "spans", "versions", "pii_in_trace"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["trace_id"].startswith("tr-") and {"prompt","retrieval","tool","answer"} <= record["spans"] and all(record["versions"].values()) and not record["pii_in_trace"] else "REDACT_AND_QUARANTINE_TRACE"
+
+valid = {"case_id": "CASO-MOQ-051-1A", **{"trace_id":"tr-moq-51","spans":{"prompt","retrieval","tool","answer"},"versions":{"prompt":"p3","model":"m2","index":"i4"},"pii_in_trace":False}}
+invalid = {"case_id": "CASO-MOQ-051-1A", **{"trace_id":"","spans":{"answer"},"versions":{"prompt":"","model":"latest"},"pii_in_trace":True}}
+incomplete = {**valid}
+incomplete.pop("pii_in_trace")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS REDACT_AND_QUARANTINE_TRACE MISSING:pii_in_trace` ,
         },
       },
       {
         id: "S51-T1-A-E3",
         subtopicId: "S51-T1-A",
         kind: "transfer",
-        instruction:
-          "Ejercicio S51-T1-A-E3: usa el patrón del demo iDo del subtema S51-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T1-A; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T1-A-E3 · Simula fallo cerrado para `traces de prompts/retrieval/tools` con tres fixtures distintos. `CASO-MOQ-051-1A` debe continuar, el adverso debe devolver `REDACT_AND_QUARANTINE_TRACE` y la ausencia de `pii_in_trace` debe devolver `RESTORE_TRACE_CONTEXT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `RESTORE_TRACE_CONTEXT` antes de evaluar el contenido.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T1-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Una ausencia no equivale a breach: enrútala a `RESTORE_TRACE_CONTEXT` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró trace completo, bundle versionado y cero PII; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta pii_in_trace", "fixture adverso: trace completo, bundle versionado y cero PII", "CASO-MOQ-051-1A es sintético"],
+        tests: "Fixtures `CASO-MOQ-051-1A`, adverso y sin `pii_in_trace` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S51-T1-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REDACT_AND_QUARANTINE_TRACE y por qué faltar pii_in_trace exige RESTORE_TRACE_CONTEXT.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T1-A)
-`,
+          title: "s51-t1-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "trace_id", "spans", "versions", "pii_in_trace"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if not record["trace_id"] or record["pii_in_trace"] else "REDACT_AND_QUARANTINE_TRACE"
+
+valid = {"case_id": "CASO-MOQ-051-1A", **{"trace_id":"tr-moq-51","spans":{"prompt","retrieval","tool","answer"},"versions":{"prompt":"p3","model":"m2","index":"i4"},"pii_in_trace":False}}
+invalid = {"case_id": "CASO-MOQ-051-1A", **{"trace_id":"","spans":{"answer"},"versions":{"prompt":"","model":"latest"},"pii_in_trace":True}}
+uncertain = {**valid}
+uncertain.pop("pii_in_trace")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("trace_id", "t-1"); print("spans", ["prompt","retrieve","tool"]); print("audit", True)`,
-          output: `trace_id t-1
-spans ['prompt', 'retrieve', 'tool']
-audit True`,
+          title: "s51-t1-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "trace_id", "spans", "versions", "pii_in_trace"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "RESTORE_TRACE_CONTEXT"
+    return "CONTINUE" if record["trace_id"].startswith("tr-") and {"prompt","retrieval","tool","answer"} <= record["spans"] and all(record["versions"].values()) and not record["pii_in_trace"] else "REDACT_AND_QUARANTINE_TRACE"
+
+valid = {"case_id": "CASO-MOQ-051-1A", **{"trace_id":"tr-moq-51","spans":{"prompt","retrieval","tool","answer"},"versions":{"prompt":"p3","model":"m2","index":"i4"},"pii_in_trace":False}}
+invalid = {"case_id": "CASO-MOQ-051-1A", **{"trace_id":"","spans":{"answer"},"versions":{"prompt":"","model":"latest"},"pii_in_trace":True}}
+uncertain = {**valid}
+uncertain.pop("pii_in_trace")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "REDACT_AND_QUARANTINE_TRACE", "RESTORE_TRACE_CONTEXT"]` ,
+          output: `CONTINUE REDACT_AND_QUARANTINE_TRACE RESTORE_TRACE_CONTEXT` ,
         },
       },
       {
         id: "S51-T1-B-E1",
         subtopicId: "S51-T1-B",
         kind: "guided",
-        instruction:
-          "Ejercicio S51-T1-B-E1: usa el patrón del demo iDo del subtema S51-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T1-B; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T1-B-E1 · Compara el contrato de `tokens, costo, latency y redacción` sobre `CASO-MOQ-051-1B`. La entrada es el dict completo del starter; la operación debe demostrar tokens cuadran, p95 bajo SLO y campos redactados. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `ALERT_COST_LATENCY` en E2.",
+        hint: "Relaciona los campos `prompt_tokens`, `retrieval_tokens`, `answer_tokens`, `total_tokens`, `p95_ms`, `slo_ms`, `redacted_fields` con la regla explicada en S51-T1-B.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T1-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Relaciona los campos `prompt_tokens`, `retrieval_tokens`, `answer_tokens`, `total_tokens`, `p95_ms`, `slo_ms`, `redacted_fields` con la regla explicada en S51-T1-B.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva dashboard por etapa con prueba de redacción; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta redacted_fields", "fixture adverso: tokens cuadran, p95 bajo SLO y campos redactados", "CASO-MOQ-051-1B es sintético"],
+        tests: "El fixture `CASO-MOQ-051-1B` satisface un predicado de dominio real; imprime `S51-T1-B PASS` y el assert booleano pasa.",
+        feedback: "S51-T1-B-E1: explica qué campo cambió la decisión, por qué el adverso activa ALERT_COST_LATENCY y por qué faltar redacted_fields exige FIX_REDACTION_PIPELINE.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T1-B)
-`,
+          title: "s51-t1-b-e1.py",
+          code: `record = {"case_id": "CASO-MOQ-051-1B", **{"prompt_tokens":800,"retrieval_tokens":400,"answer_tokens":300,"total_tokens":1500,"p95_ms":900,"slo_ms":1200,"redacted_fields":4}}
+meets_contract = record["total_tokens"] == 0 or record["p95_ms"] > record["slo_ms"]
+status = "PASS" if meets_contract else "ALERT_COST_LATENCY"
+print("S51-T1-B", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("tokens", 1200); print("redaction", True); print("latency_ms", 900)`,
-          output: `tokens 1200
-redaction True
-latency_ms 900`,
+          title: "s51-t1-b-e1.py",
+          code: `record = {"case_id": "CASO-MOQ-051-1B", **{"prompt_tokens":800,"retrieval_tokens":400,"answer_tokens":300,"total_tokens":1500,"p95_ms":900,"slo_ms":1200,"redacted_fields":4}}
+meets_contract = record["prompt_tokens"] + record["retrieval_tokens"] + record["answer_tokens"] == record["total_tokens"] and record["p95_ms"] <= record["slo_ms"] and record["redacted_fields"] >= 1
+status = "PASS" if meets_contract else "ALERT_COST_LATENCY"
+print("S51-T1-B", status)
+assert meets_contract is True` ,
+          output: `S51-T1-B PASS` ,
         },
       },
       {
         id: "S51-T1-B-E2",
         subtopicId: "S51-T1-B",
         kind: "independent",
-        instruction:
-          "Ejercicio S51-T1-B-E2: usa el patrón del demo iDo del subtema S51-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T1-B; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T1-B-E2 · Verifica tres rutas de `tokens, costo, latency y redacción`: fixture válido, fixture adverso y registro sin `redacted_fields`. Entrada: dict con case_id, prompt_tokens, retrieval_tokens, answer_tokens, total_tokens, p95_ms, slo_ms, redacted_fields. Salidas exactas: `PASS`, `ALERT_COST_LATENCY`, `MISSING:redacted_fields`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a redacted_fields debe ocurrir antes de esa rama.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T1-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Primero se calcula `missing`; ningún acceso a redacted_fields debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S51-T1-B: tokens cuadran, p95 bajo SLO y campos redactados. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta redacted_fields", "fixture adverso: tokens cuadran, p95 bajo SLO y campos redactados", "CASO-MOQ-051-1B es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `redacted_fields` ausente y produce exactamente `PASS ALERT_COST_LATENCY MISSING:redacted_fields`.",
+        feedback: "S51-T1-B-E2: explica qué campo cambió la decisión, por qué el adverso activa ALERT_COST_LATENCY y por qué faltar redacted_fields exige FIX_REDACTION_PIPELINE.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T1-B)
-`,
+          title: "s51-t1-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "prompt_tokens", "retrieval_tokens", "answer_tokens", "total_tokens", "p95_ms", "slo_ms", "redacted_fields"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["total_tokens"] == 0 or record["p95_ms"] > record["slo_ms"] else "ALERT_COST_LATENCY"
+
+valid = {"case_id": "CASO-MOQ-051-1B", **{"prompt_tokens":800,"retrieval_tokens":400,"answer_tokens":300,"total_tokens":1500,"p95_ms":900,"slo_ms":1200,"redacted_fields":4}}
+invalid = {"case_id": "CASO-MOQ-051-1B", **{"prompt_tokens":800,"retrieval_tokens":400,"answer_tokens":300,"total_tokens":900,"p95_ms":5000,"slo_ms":1200,"redacted_fields":0}}
+incomplete = {**valid}
+incomplete.pop("redacted_fields")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("tokens", 1200); print("redaction", True); print("latency_ms", 900)`,
-          output: `tokens 1200
-redaction True
-latency_ms 900`,
+          title: "s51-t1-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "prompt_tokens", "retrieval_tokens", "answer_tokens", "total_tokens", "p95_ms", "slo_ms", "redacted_fields"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["prompt_tokens"] + record["retrieval_tokens"] + record["answer_tokens"] == record["total_tokens"] and record["p95_ms"] <= record["slo_ms"] and record["redacted_fields"] >= 1 else "ALERT_COST_LATENCY"
+
+valid = {"case_id": "CASO-MOQ-051-1B", **{"prompt_tokens":800,"retrieval_tokens":400,"answer_tokens":300,"total_tokens":1500,"p95_ms":900,"slo_ms":1200,"redacted_fields":4}}
+invalid = {"case_id": "CASO-MOQ-051-1B", **{"prompt_tokens":800,"retrieval_tokens":400,"answer_tokens":300,"total_tokens":900,"p95_ms":5000,"slo_ms":1200,"redacted_fields":0}}
+incomplete = {**valid}
+incomplete.pop("redacted_fields")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS ALERT_COST_LATENCY MISSING:redacted_fields` ,
         },
       },
       {
         id: "S51-T1-B-E3",
         subtopicId: "S51-T1-B",
         kind: "transfer",
-        instruction:
-          "Ejercicio S51-T1-B-E3: usa el patrón del demo iDo del subtema S51-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T1-B; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T1-B-E3 · Extiende fallo cerrado para `tokens, costo, latency y redacción` con tres fixtures distintos. `CASO-MOQ-051-1B` debe continuar, el adverso debe devolver `ALERT_COST_LATENCY` y la ausencia de `redacted_fields` debe devolver `FIX_REDACTION_PIPELINE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `FIX_REDACTION_PIPELINE` antes de evaluar el contenido.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T1-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Una ausencia no equivale a breach: enrútala a `FIX_REDACTION_PIPELINE` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró tokens cuadran, p95 bajo SLO y campos redactados; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta redacted_fields", "fixture adverso: tokens cuadran, p95 bajo SLO y campos redactados", "CASO-MOQ-051-1B es sintético"],
+        tests: "Fixtures `CASO-MOQ-051-1B`, adverso y sin `redacted_fields` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S51-T1-B-E3: explica qué campo cambió la decisión, por qué el adverso activa ALERT_COST_LATENCY y por qué faltar redacted_fields exige FIX_REDACTION_PIPELINE.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T2-A)
-`,
+          title: "s51-t1-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "prompt_tokens", "retrieval_tokens", "answer_tokens", "total_tokens", "p95_ms", "slo_ms", "redacted_fields"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if record["total_tokens"] == 0 or record["p95_ms"] > record["slo_ms"] else "ALERT_COST_LATENCY"
+
+valid = {"case_id": "CASO-MOQ-051-1B", **{"prompt_tokens":800,"retrieval_tokens":400,"answer_tokens":300,"total_tokens":1500,"p95_ms":900,"slo_ms":1200,"redacted_fields":4}}
+invalid = {"case_id": "CASO-MOQ-051-1B", **{"prompt_tokens":800,"retrieval_tokens":400,"answer_tokens":300,"total_tokens":900,"p95_ms":5000,"slo_ms":1200,"redacted_fields":0}}
+uncertain = {**valid}
+uncertain.pop("redacted_fields")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("tokens", 1200); print("redaction", True); print("latency_ms", 900)`,
-          output: `tokens 1200
-redaction True
-latency_ms 900`,
+          title: "s51-t1-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "prompt_tokens", "retrieval_tokens", "answer_tokens", "total_tokens", "p95_ms", "slo_ms", "redacted_fields"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "FIX_REDACTION_PIPELINE"
+    return "CONTINUE" if record["prompt_tokens"] + record["retrieval_tokens"] + record["answer_tokens"] == record["total_tokens"] and record["p95_ms"] <= record["slo_ms"] and record["redacted_fields"] >= 1 else "ALERT_COST_LATENCY"
+
+valid = {"case_id": "CASO-MOQ-051-1B", **{"prompt_tokens":800,"retrieval_tokens":400,"answer_tokens":300,"total_tokens":1500,"p95_ms":900,"slo_ms":1200,"redacted_fields":4}}
+invalid = {"case_id": "CASO-MOQ-051-1B", **{"prompt_tokens":800,"retrieval_tokens":400,"answer_tokens":300,"total_tokens":900,"p95_ms":5000,"slo_ms":1200,"redacted_fields":0}}
+uncertain = {**valid}
+uncertain.pop("redacted_fields")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "ALERT_COST_LATENCY", "FIX_REDACTION_PIPELINE"]` ,
+          output: `CONTINUE ALERT_COST_LATENCY FIX_REDACTION_PIPELINE` ,
         },
       },
       {
         id: "S51-T2-A-E1",
         subtopicId: "S51-T2-A",
         kind: "guided",
-        instruction:
-          "Ejercicio S51-T2-A-E1: usa el patrón del demo iDo del subtema S51-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T2-A; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T2-A-E1 · Filtra el contrato de `registro de modelo/prompt/dataset` sobre `CASO-MOQ-051-2A`. La entrada es el dict completo del starter; la operación debe demostrar seis versiones explícitas y bundle inmutable. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `FREEZE_RELEASE_BUNDLE` en E2.",
+        hint: "Relaciona los campos `release`, `model`, `prompt`, `dataset`, `index`, `evaluator`, `immutable` con la regla explicada en S51-T2-A.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T2-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Relaciona los campos `release`, `model`, `prompt`, `dataset`, `index`, `evaluator`, `immutable` con la regla explicada en S51-T2-A.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva respuesta enlazada a bundle versionado; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta immutable", "fixture adverso: seis versiones explícitas y bundle inmutable", "CASO-MOQ-051-2A es sintético"],
+        tests: "El fixture `CASO-MOQ-051-2A` satisface un predicado de dominio real; imprime `S51-T2-A PASS` y el assert booleano pasa.",
+        feedback: "S51-T2-A-E1: explica qué campo cambió la decisión, por qué el adverso activa FREEZE_RELEASE_BUNDLE y por qué faltar immutable exige REGISTER_MISSING_VERSION.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: escribe el print final como en el demo iDo del mismo subtopicId
-`,
+          title: "s51-t2-a-e1.py",
+          code: `record = {"case_id": "CASO-MOQ-051-2A", **{"release":"copilot-7","model":"m2","prompt":"p3","dataset":"d5","index":"i4","evaluator":"e2","immutable":True}}
+meets_contract = not record["immutable"] or any(record[k] == "latest" for k in ("model","prompt","dataset","index"))
+status = "PASS" if meets_contract else "FREEZE_RELEASE_BUNDLE"
+print("S51-T2-A", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("registry", True); print("versions", {"model":"m-2"}); print("pin", True)`,
-          output: `registry True
-versions {'model': 'm-2'}
-pin True`,
+          title: "s51-t2-a-e1.py",
+          code: `record = {"case_id": "CASO-MOQ-051-2A", **{"release":"copilot-7","model":"m2","prompt":"p3","dataset":"d5","index":"i4","evaluator":"e2","immutable":True}}
+meets_contract = all(record[k] for k in ("release","model","prompt","dataset","index","evaluator")) and record["immutable"]
+status = "PASS" if meets_contract else "FREEZE_RELEASE_BUNDLE"
+print("S51-T2-A", status)
+assert meets_contract is True` ,
+          output: `S51-T2-A PASS` ,
         },
       },
       {
         id: "S51-T2-A-E2",
         subtopicId: "S51-T2-A",
         kind: "independent",
-        instruction:
-          "Ejercicio S51-T2-A-E2: usa el patrón del demo iDo del subtema S51-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T2-A; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T2-A-E2 · Clasifica tres rutas de `registro de modelo/prompt/dataset`: fixture válido, fixture adverso y registro sin `immutable`. Entrada: dict con case_id, release, model, prompt, dataset, index, evaluator, immutable. Salidas exactas: `PASS`, `FREEZE_RELEASE_BUNDLE`, `MISSING:immutable`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a immutable debe ocurrir antes de esa rama.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T2-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Primero se calcula `missing`; ningún acceso a immutable debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S51-T2-A: seis versiones explícitas y bundle inmutable. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta immutable", "fixture adverso: seis versiones explícitas y bundle inmutable", "CASO-MOQ-051-2A es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `immutable` ausente y produce exactamente `PASS FREEZE_RELEASE_BUNDLE MISSING:immutable`.",
+        feedback: "S51-T2-A-E2: explica qué campo cambió la decisión, por qué el adverso activa FREEZE_RELEASE_BUNDLE y por qué faltar immutable exige REGISTER_MISSING_VERSION.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T2-A)
-`,
+          title: "s51-t2-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "release", "model", "prompt", "dataset", "index", "evaluator", "immutable"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if not record["immutable"] or any(record[k] == "latest" for k in ("model","prompt","dataset","index")) else "FREEZE_RELEASE_BUNDLE"
+
+valid = {"case_id": "CASO-MOQ-051-2A", **{"release":"copilot-7","model":"m2","prompt":"p3","dataset":"d5","index":"i4","evaluator":"e2","immutable":True}}
+invalid = {"case_id": "CASO-MOQ-051-2A", **{"release":"latest","model":"latest","prompt":"","dataset":"latest","index":"latest","evaluator":"","immutable":False}}
+incomplete = {**valid}
+incomplete.pop("immutable")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("registry", True); print("versions", {"model":"m-2"}); print("pin", True)`,
-          output: `registry True
-versions {'model': 'm-2'}
-pin True`,
+          title: "s51-t2-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "release", "model", "prompt", "dataset", "index", "evaluator", "immutable"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if all(record[k] for k in ("release","model","prompt","dataset","index","evaluator")) and record["immutable"] else "FREEZE_RELEASE_BUNDLE"
+
+valid = {"case_id": "CASO-MOQ-051-2A", **{"release":"copilot-7","model":"m2","prompt":"p3","dataset":"d5","index":"i4","evaluator":"e2","immutable":True}}
+invalid = {"case_id": "CASO-MOQ-051-2A", **{"release":"latest","model":"latest","prompt":"","dataset":"latest","index":"latest","evaluator":"","immutable":False}}
+incomplete = {**valid}
+incomplete.pop("immutable")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS FREEZE_RELEASE_BUNDLE MISSING:immutable` ,
         },
       },
       {
         id: "S51-T2-A-E3",
         subtopicId: "S51-T2-A",
         kind: "transfer",
-        instruction:
-          "Ejercicio S51-T2-A-E3: usa el patrón del demo iDo del subtema S51-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T2-A; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T2-A-E3 · Defiende fallo cerrado para `registro de modelo/prompt/dataset` con tres fixtures distintos. `CASO-MOQ-051-2A` debe continuar, el adverso debe devolver `FREEZE_RELEASE_BUNDLE` y la ausencia de `immutable` debe devolver `REGISTER_MISSING_VERSION`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `REGISTER_MISSING_VERSION` antes de evaluar el contenido.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T2-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Una ausencia no equivale a breach: enrútala a `REGISTER_MISSING_VERSION` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró seis versiones explícitas y bundle inmutable; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta immutable", "fixture adverso: seis versiones explícitas y bundle inmutable", "CASO-MOQ-051-2A es sintético"],
+        tests: "Fixtures `CASO-MOQ-051-2A`, adverso y sin `immutable` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S51-T2-A-E3: explica qué campo cambió la decisión, por qué el adverso activa FREEZE_RELEASE_BUNDLE y por qué faltar immutable exige REGISTER_MISSING_VERSION.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T2-B)
-`,
+          title: "s51-t2-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "release", "model", "prompt", "dataset", "index", "evaluator", "immutable"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if not record["immutable"] or any(record[k] == "latest" for k in ("model","prompt","dataset","index")) else "FREEZE_RELEASE_BUNDLE"
+
+valid = {"case_id": "CASO-MOQ-051-2A", **{"release":"copilot-7","model":"m2","prompt":"p3","dataset":"d5","index":"i4","evaluator":"e2","immutable":True}}
+invalid = {"case_id": "CASO-MOQ-051-2A", **{"release":"latest","model":"latest","prompt":"","dataset":"latest","index":"latest","evaluator":"","immutable":False}}
+uncertain = {**valid}
+uncertain.pop("immutable")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("registry", True); print("versions", {"model":"m-2"}); print("pin", True)`,
-          output: `registry True
-versions {'model': 'm-2'}
-pin True`,
+          title: "s51-t2-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "release", "model", "prompt", "dataset", "index", "evaluator", "immutable"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "REGISTER_MISSING_VERSION"
+    return "CONTINUE" if all(record[k] for k in ("release","model","prompt","dataset","index","evaluator")) and record["immutable"] else "FREEZE_RELEASE_BUNDLE"
+
+valid = {"case_id": "CASO-MOQ-051-2A", **{"release":"copilot-7","model":"m2","prompt":"p3","dataset":"d5","index":"i4","evaluator":"e2","immutable":True}}
+invalid = {"case_id": "CASO-MOQ-051-2A", **{"release":"latest","model":"latest","prompt":"","dataset":"latest","index":"latest","evaluator":"","immutable":False}}
+uncertain = {**valid}
+uncertain.pop("immutable")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "FREEZE_RELEASE_BUNDLE", "REGISTER_MISSING_VERSION"]` ,
+          output: `CONTINUE FREEZE_RELEASE_BUNDLE REGISTER_MISSING_VERSION` ,
         },
       },
       {
         id: "S51-T2-B-E1",
         subtopicId: "S51-T2-B",
         kind: "guided",
-        instruction:
-          "Ejercicio S51-T2-B-E1: usa el patrón del demo iDo del subtema S51-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T2-B; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T2-B-E1 · Modela el contrato de `cambio, acceso, retención y auditoría` sobre `CASO-MOQ-051-2B`. La entrada es el dict completo del starter; la operación debe demostrar separación de funciones, scope read, retención y audit. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNGOVERNED_CHANGE` en E2.",
+        hint: "Relaciona los campos `author`, `approver`, `risk`, `access_scope`, `retention_days`, `audit_append_only` con la regla explicada en S51-T2-B.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T2-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Relaciona los campos `author`, `approver`, `risk`, `access_scope`, `retention_days`, `audit_append_only` con la regla explicada en S51-T2-B.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva cambio y acceso auditables; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta audit_append_only", "fixture adverso: separación de funciones, scope read, retención y audit", "CASO-MOQ-051-2B es sintético"],
+        tests: "El fixture `CASO-MOQ-051-2B` satisface un predicado de dominio real; imprime `S51-T2-B PASS` y el assert booleano pasa.",
+        feedback: "S51-T2-B-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNGOVERNED_CHANGE y por qué faltar audit_append_only exige REQUEST_INDEPENDENT_APPROVAL.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T2-B)
-`,
+          title: "s51-t2-b-e1.py",
+          code: `record = {"case_id": "CASO-MOQ-051-2B", **{"author":"dev-a","approver":"owner-b","risk":"medium","access_scope":"ops-read","retention_days":30,"audit_append_only":True}}
+meets_contract = record["author"] == record["approver"] or record["access_scope"].endswith("admin")
+status = "PASS" if meets_contract else "REJECT_UNGOVERNED_CHANGE"
+print("S51-T2-B", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("access_log", True); print("retention", 180); print("change_control", True)`,
-          output: `access_log True
-retention 180
-change_control True`,
+          title: "s51-t2-b-e1.py",
+          code: `record = {"case_id": "CASO-MOQ-051-2B", **{"author":"dev-a","approver":"owner-b","risk":"medium","access_scope":"ops-read","retention_days":30,"audit_append_only":True}}
+meets_contract = record["author"] != record["approver"] and record["risk"] in {"low","medium","high"} and record["access_scope"].endswith("-read") and record["retention_days"] <= 30 and record["audit_append_only"]
+status = "PASS" if meets_contract else "REJECT_UNGOVERNED_CHANGE"
+print("S51-T2-B", status)
+assert meets_contract is True` ,
+          output: `S51-T2-B PASS` ,
         },
       },
       {
         id: "S51-T2-B-E2",
         subtopicId: "S51-T2-B",
         kind: "independent",
-        instruction:
-          "Ejercicio S51-T2-B-E2: usa el patrón del demo iDo del subtema S51-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T2-B; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T2-B-E2 · Audita tres rutas de `cambio, acceso, retención y auditoría`: fixture válido, fixture adverso y registro sin `audit_append_only`. Entrada: dict con case_id, author, approver, risk, access_scope, retention_days, audit_append_only. Salidas exactas: `PASS`, `REJECT_UNGOVERNED_CHANGE`, `MISSING:audit_append_only`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a audit_append_only debe ocurrir antes de esa rama.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T2-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Primero se calcula `missing`; ningún acceso a audit_append_only debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S51-T2-B: separación de funciones, scope read, retención y audit. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta audit_append_only", "fixture adverso: separación de funciones, scope read, retención y audit", "CASO-MOQ-051-2B es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `audit_append_only` ausente y produce exactamente `PASS REJECT_UNGOVERNED_CHANGE MISSING:audit_append_only`.",
+        feedback: "S51-T2-B-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNGOVERNED_CHANGE y por qué faltar audit_append_only exige REQUEST_INDEPENDENT_APPROVAL.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T2-B)
-`,
+          title: "s51-t2-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "author", "approver", "risk", "access_scope", "retention_days", "audit_append_only"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["author"] == record["approver"] or record["access_scope"].endswith("admin") else "REJECT_UNGOVERNED_CHANGE"
+
+valid = {"case_id": "CASO-MOQ-051-2B", **{"author":"dev-a","approver":"owner-b","risk":"medium","access_scope":"ops-read","retention_days":30,"audit_append_only":True}}
+invalid = {"case_id": "CASO-MOQ-051-2B", **{"author":"dev-a","approver":"dev-a","risk":"unknown","access_scope":"global-admin","retention_days":3650,"audit_append_only":False}}
+incomplete = {**valid}
+incomplete.pop("audit_append_only")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("access_log", True); print("retention", 180); print("change_control", True)`,
-          output: `access_log True
-retention 180
-change_control True`,
+          title: "s51-t2-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "author", "approver", "risk", "access_scope", "retention_days", "audit_append_only"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["author"] != record["approver"] and record["risk"] in {"low","medium","high"} and record["access_scope"].endswith("-read") and record["retention_days"] <= 30 and record["audit_append_only"] else "REJECT_UNGOVERNED_CHANGE"
+
+valid = {"case_id": "CASO-MOQ-051-2B", **{"author":"dev-a","approver":"owner-b","risk":"medium","access_scope":"ops-read","retention_days":30,"audit_append_only":True}}
+invalid = {"case_id": "CASO-MOQ-051-2B", **{"author":"dev-a","approver":"dev-a","risk":"unknown","access_scope":"global-admin","retention_days":3650,"audit_append_only":False}}
+incomplete = {**valid}
+incomplete.pop("audit_append_only")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS REJECT_UNGOVERNED_CHANGE MISSING:audit_append_only` ,
         },
       },
       {
         id: "S51-T2-B-E3",
         subtopicId: "S51-T2-B",
         kind: "transfer",
-        instruction:
-          "Ejercicio S51-T2-B-E3: usa el patrón del demo iDo del subtema S51-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T2-B; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T2-B-E3 · Recupera fallo cerrado para `cambio, acceso, retención y auditoría` con tres fixtures distintos. `CASO-MOQ-051-2B` debe continuar, el adverso debe devolver `REJECT_UNGOVERNED_CHANGE` y la ausencia de `audit_append_only` debe devolver `REQUEST_INDEPENDENT_APPROVAL`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_INDEPENDENT_APPROVAL` antes de evaluar el contenido.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T2-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Una ausencia no equivale a breach: enrútala a `REQUEST_INDEPENDENT_APPROVAL` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró separación de funciones, scope read, retención y audit; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta audit_append_only", "fixture adverso: separación de funciones, scope read, retención y audit", "CASO-MOQ-051-2B es sintético"],
+        tests: "Fixtures `CASO-MOQ-051-2B`, adverso y sin `audit_append_only` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S51-T2-B-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNGOVERNED_CHANGE y por qué faltar audit_append_only exige REQUEST_INDEPENDENT_APPROVAL.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T3-A)
-`,
+          title: "s51-t2-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "author", "approver", "risk", "access_scope", "retention_days", "audit_append_only"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if record["author"] == record["approver"] or record["access_scope"].endswith("admin") else "REJECT_UNGOVERNED_CHANGE"
+
+valid = {"case_id": "CASO-MOQ-051-2B", **{"author":"dev-a","approver":"owner-b","risk":"medium","access_scope":"ops-read","retention_days":30,"audit_append_only":True}}
+invalid = {"case_id": "CASO-MOQ-051-2B", **{"author":"dev-a","approver":"dev-a","risk":"unknown","access_scope":"global-admin","retention_days":3650,"audit_append_only":False}}
+uncertain = {**valid}
+uncertain.pop("audit_append_only")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("access_log", True); print("retention", 180); print("change_control", True)`,
-          output: `access_log True
-retention 180
-change_control True`,
+          title: "s51-t2-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "author", "approver", "risk", "access_scope", "retention_days", "audit_append_only"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "REQUEST_INDEPENDENT_APPROVAL"
+    return "CONTINUE" if record["author"] != record["approver"] and record["risk"] in {"low","medium","high"} and record["access_scope"].endswith("-read") and record["retention_days"] <= 30 and record["audit_append_only"] else "REJECT_UNGOVERNED_CHANGE"
+
+valid = {"case_id": "CASO-MOQ-051-2B", **{"author":"dev-a","approver":"owner-b","risk":"medium","access_scope":"ops-read","retention_days":30,"audit_append_only":True}}
+invalid = {"case_id": "CASO-MOQ-051-2B", **{"author":"dev-a","approver":"dev-a","risk":"unknown","access_scope":"global-admin","retention_days":3650,"audit_append_only":False}}
+uncertain = {**valid}
+uncertain.pop("audit_append_only")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "REJECT_UNGOVERNED_CHANGE", "REQUEST_INDEPENDENT_APPROVAL"]` ,
+          output: `CONTINUE REJECT_UNGOVERNED_CHANGE REQUEST_INDEPENDENT_APPROVAL` ,
         },
       },
       {
         id: "S51-T3-A-E1",
         subtopicId: "S51-T3-A",
         kind: "guided",
-        instruction:
-          "Ejercicio S51-T3-A-E1: usa el patrón del demo iDo del subtema S51-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T3-A; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T3-A-E1 · Verifica el contrato de `SLO, feedback y drift` sobre `CASO-MOQ-051-3A`. La entrada es el dict completo del starter; la operación debe demostrar availability/faithfulness/drift bajo SLO con owner. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `OPEN_COPILOT_INCIDENT` en E2.",
+        hint: "Relaciona los campos `availability`, `availability_slo`, `faithfulness`, `faithfulness_slo`, `drift`, `max_drift`, `owner` con la regla explicada en S51-T3-A.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T3-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Relaciona los campos `availability`, `availability_slo`, `faithfulness`, `faithfulness_slo`, `drift`, `max_drift`, `owner` con la regla explicada en S51-T3-A.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva alerta accionable con owner/runbook; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta owner", "fixture adverso: availability/faithfulness/drift bajo SLO con owner", "CASO-MOQ-051-3A es sintético"],
+        tests: "El fixture `CASO-MOQ-051-3A` satisface un predicado de dominio real; imprime `S51-T3-A PASS` y el assert booleano pasa.",
+        feedback: "S51-T3-A-E1: explica qué campo cambió la decisión, por qué el adverso activa OPEN_COPILOT_INCIDENT y por qué faltar owner exige TRIAGE_DRIFT_SLICE.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T3-A)
-`,
+          title: "s51-t3-a-e1.py",
+          code: `record = {"case_id": "CASO-MOQ-051-3A", **{"availability":0.999,"availability_slo":0.995,"faithfulness":0.93,"faithfulness_slo":0.9,"drift":0.04,"max_drift":0.08,"owner":"ai-oncall"}}
+meets_contract = record["availability"] < record["availability_slo"] or record["drift"] > record["max_drift"]
+status = "PASS" if meets_contract else "OPEN_COPILOT_INCIDENT"
+print("S51-T3-A", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("slo", True); print("drift_watch", True); print("feedback_loop", True)`,
-          output: `slo True
-drift_watch True
-feedback_loop True`,
+          title: "s51-t3-a-e1.py",
+          code: `record = {"case_id": "CASO-MOQ-051-3A", **{"availability":0.999,"availability_slo":0.995,"faithfulness":0.93,"faithfulness_slo":0.9,"drift":0.04,"max_drift":0.08,"owner":"ai-oncall"}}
+meets_contract = record["availability"] >= record["availability_slo"] and record["faithfulness"] >= record["faithfulness_slo"] and record["drift"] <= record["max_drift"] and bool(record["owner"])
+status = "PASS" if meets_contract else "OPEN_COPILOT_INCIDENT"
+print("S51-T3-A", status)
+assert meets_contract is True` ,
+          output: `S51-T3-A PASS` ,
         },
       },
       {
         id: "S51-T3-A-E2",
         subtopicId: "S51-T3-A",
         kind: "independent",
-        instruction:
-          "Ejercicio S51-T3-A-E2: usa el patrón del demo iDo del subtema S51-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T3-A; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T3-A-E2 · Decide tres rutas de `SLO, feedback y drift`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, availability, availability_slo, faithfulness, faithfulness_slo, drift, max_drift, owner. Salidas exactas: `PASS`, `OPEN_COPILOT_INCIDENT`, `MISSING:owner`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T3-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S51-T3-A: availability/faithfulness/drift bajo SLO con owner. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta owner", "fixture adverso: availability/faithfulness/drift bajo SLO con owner", "CASO-MOQ-051-3A es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `owner` ausente y produce exactamente `PASS OPEN_COPILOT_INCIDENT MISSING:owner`.",
+        feedback: "S51-T3-A-E2: explica qué campo cambió la decisión, por qué el adverso activa OPEN_COPILOT_INCIDENT y por qué faltar owner exige TRIAGE_DRIFT_SLICE.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T3-A)
-`,
+          title: "s51-t3-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "availability", "availability_slo", "faithfulness", "faithfulness_slo", "drift", "max_drift", "owner"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["availability"] < record["availability_slo"] or record["drift"] > record["max_drift"] else "OPEN_COPILOT_INCIDENT"
+
+valid = {"case_id": "CASO-MOQ-051-3A", **{"availability":0.999,"availability_slo":0.995,"faithfulness":0.93,"faithfulness_slo":0.9,"drift":0.04,"max_drift":0.08,"owner":"ai-oncall"}}
+invalid = {"case_id": "CASO-MOQ-051-3A", **{"availability":0.8,"availability_slo":0.995,"faithfulness":0.4,"faithfulness_slo":0.9,"drift":0.3,"max_drift":0.08,"owner":""}}
+incomplete = {**valid}
+incomplete.pop("owner")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("slo", True); print("drift_watch", True); print("feedback_loop", True)`,
-          output: `slo True
-drift_watch True
-feedback_loop True`,
+          title: "s51-t3-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "availability", "availability_slo", "faithfulness", "faithfulness_slo", "drift", "max_drift", "owner"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["availability"] >= record["availability_slo"] and record["faithfulness"] >= record["faithfulness_slo"] and record["drift"] <= record["max_drift"] and bool(record["owner"]) else "OPEN_COPILOT_INCIDENT"
+
+valid = {"case_id": "CASO-MOQ-051-3A", **{"availability":0.999,"availability_slo":0.995,"faithfulness":0.93,"faithfulness_slo":0.9,"drift":0.04,"max_drift":0.08,"owner":"ai-oncall"}}
+invalid = {"case_id": "CASO-MOQ-051-3A", **{"availability":0.8,"availability_slo":0.995,"faithfulness":0.4,"faithfulness_slo":0.9,"drift":0.3,"max_drift":0.08,"owner":""}}
+incomplete = {**valid}
+incomplete.pop("owner")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS OPEN_COPILOT_INCIDENT MISSING:owner` ,
         },
       },
       {
         id: "S51-T3-A-E3",
         subtopicId: "S51-T3-A",
         kind: "transfer",
-        instruction:
-          "Ejercicio S51-T3-A-E3: usa el patrón del demo iDo del subtema S51-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T3-A; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T3-A-E3 · Contrasta fallo cerrado para `SLO, feedback y drift` con tres fixtures distintos. `CASO-MOQ-051-3A` debe continuar, el adverso debe devolver `OPEN_COPILOT_INCIDENT` y la ausencia de `owner` debe devolver `TRIAGE_DRIFT_SLICE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `TRIAGE_DRIFT_SLICE` antes de evaluar el contenido.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T3-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Una ausencia no equivale a breach: enrútala a `TRIAGE_DRIFT_SLICE` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró availability/faithfulness/drift bajo SLO con owner; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta owner", "fixture adverso: availability/faithfulness/drift bajo SLO con owner", "CASO-MOQ-051-3A es sintético"],
+        tests: "Fixtures `CASO-MOQ-051-3A`, adverso y sin `owner` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S51-T3-A-E3: explica qué campo cambió la decisión, por qué el adverso activa OPEN_COPILOT_INCIDENT y por qué faltar owner exige TRIAGE_DRIFT_SLICE.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T3-B)
-`,
+          title: "s51-t3-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "availability", "availability_slo", "faithfulness", "faithfulness_slo", "drift", "max_drift", "owner"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if record["availability"] < record["availability_slo"] or record["drift"] > record["max_drift"] else "OPEN_COPILOT_INCIDENT"
+
+valid = {"case_id": "CASO-MOQ-051-3A", **{"availability":0.999,"availability_slo":0.995,"faithfulness":0.93,"faithfulness_slo":0.9,"drift":0.04,"max_drift":0.08,"owner":"ai-oncall"}}
+invalid = {"case_id": "CASO-MOQ-051-3A", **{"availability":0.8,"availability_slo":0.995,"faithfulness":0.4,"faithfulness_slo":0.9,"drift":0.3,"max_drift":0.08,"owner":""}}
+uncertain = {**valid}
+uncertain.pop("owner")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("slo", True); print("drift_watch", True); print("feedback_loop", True)`,
-          output: `slo True
-drift_watch True
-feedback_loop True`,
+          title: "s51-t3-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "availability", "availability_slo", "faithfulness", "faithfulness_slo", "drift", "max_drift", "owner"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "TRIAGE_DRIFT_SLICE"
+    return "CONTINUE" if record["availability"] >= record["availability_slo"] and record["faithfulness"] >= record["faithfulness_slo"] and record["drift"] <= record["max_drift"] and bool(record["owner"]) else "OPEN_COPILOT_INCIDENT"
+
+valid = {"case_id": "CASO-MOQ-051-3A", **{"availability":0.999,"availability_slo":0.995,"faithfulness":0.93,"faithfulness_slo":0.9,"drift":0.04,"max_drift":0.08,"owner":"ai-oncall"}}
+invalid = {"case_id": "CASO-MOQ-051-3A", **{"availability":0.8,"availability_slo":0.995,"faithfulness":0.4,"faithfulness_slo":0.9,"drift":0.3,"max_drift":0.08,"owner":""}}
+uncertain = {**valid}
+uncertain.pop("owner")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "OPEN_COPILOT_INCIDENT", "TRIAGE_DRIFT_SLICE"]` ,
+          output: `CONTINUE OPEN_COPILOT_INCIDENT TRIAGE_DRIFT_SLICE` ,
         },
       },
       {
         id: "S51-T3-B-E1",
         subtopicId: "S51-T3-B",
         kind: "guided",
-        instruction:
-          "Ejercicio S51-T3-B-E1: usa el patrón del demo iDo del subtema S51-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T3-B; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T3-B-E1 · Clasifica el contrato de `incidents, rollback y postmortem` sobre `CASO-MOQ-051-3B`. La entrada es el dict completo del starter; la operación debe demostrar contención, last-good, RTO y acciones con dueño. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `ROLLBACK_AND_CONTAIN` en E2.",
+        hint: "Relaciona los campos `contained`, `rolled_back_to`, `rollback_minutes`, `rto_minutes`, `postmortem_actions`, `owners_assigned` con la regla explicada en S51-T3-B.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T3-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Relaciona los campos `contained`, `rolled_back_to`, `rollback_minutes`, `rto_minutes`, `postmortem_actions`, `owners_assigned` con la regla explicada en S51-T3-B.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva simulacro de rollback y acciones verificadas; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta owners_assigned", "fixture adverso: contención, last-good, RTO y acciones con dueño", "CASO-MOQ-051-3B es sintético"],
+        tests: "El fixture `CASO-MOQ-051-3B` satisface un predicado de dominio real; imprime `S51-T3-B PASS` y el assert booleano pasa.",
+        feedback: "S51-T3-B-E1: explica qué campo cambió la decisión, por qué el adverso activa ROLLBACK_AND_CONTAIN y por qué faltar owners_assigned exige CONVENE_INCIDENT_REVIEW.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T3-B)
-`,
+          title: "s51-t3-b-e1.py",
+          code: `record = {"case_id": "CASO-MOQ-051-3B", **{"contained":True,"rolled_back_to":"copilot-6","rollback_minutes":7,"rto_minutes":10,"postmortem_actions":4,"owners_assigned":True}}
+meets_contract = not record["contained"] or record["rollback_minutes"] > record["rto_minutes"]
+status = "PASS" if meets_contract else "ROLLBACK_AND_CONTAIN"
+print("S51-T3-B", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("rollback", "m-1"); print("postmortem", True); print("action_items", True)`,
-          output: `rollback m-1
-postmortem True
-action_items True`,
+          title: "s51-t3-b-e1.py",
+          code: `record = {"case_id": "CASO-MOQ-051-3B", **{"contained":True,"rolled_back_to":"copilot-6","rollback_minutes":7,"rto_minutes":10,"postmortem_actions":4,"owners_assigned":True}}
+meets_contract = record["contained"] and record["rolled_back_to"].startswith("copilot-") and record["rollback_minutes"] <= record["rto_minutes"] and record["postmortem_actions"] >= 1 and record["owners_assigned"]
+status = "PASS" if meets_contract else "ROLLBACK_AND_CONTAIN"
+print("S51-T3-B", status)
+assert meets_contract is True` ,
+          output: `S51-T3-B PASS` ,
         },
       },
       {
         id: "S51-T3-B-E2",
         subtopicId: "S51-T3-B",
         kind: "independent",
-        instruction:
-          "Ejercicio S51-T3-B-E2: usa el patrón del demo iDo del subtema S51-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T3-B; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T3-B-E2 · Calcula tres rutas de `incidents, rollback y postmortem`: fixture válido, fixture adverso y registro sin `owners_assigned`. Entrada: dict con case_id, contained, rolled_back_to, rollback_minutes, rto_minutes, postmortem_actions, owners_assigned. Salidas exactas: `PASS`, `ROLLBACK_AND_CONTAIN`, `MISSING:owners_assigned`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a owners_assigned debe ocurrir antes de esa rama.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T3-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Primero se calcula `missing`; ningún acceso a owners_assigned debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S51-T3-B: contención, last-good, RTO y acciones con dueño. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta owners_assigned", "fixture adverso: contención, last-good, RTO y acciones con dueño", "CASO-MOQ-051-3B es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `owners_assigned` ausente y produce exactamente `PASS ROLLBACK_AND_CONTAIN MISSING:owners_assigned`.",
+        feedback: "S51-T3-B-E2: explica qué campo cambió la decisión, por qué el adverso activa ROLLBACK_AND_CONTAIN y por qué faltar owners_assigned exige CONVENE_INCIDENT_REVIEW.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T3-B)
-`,
+          title: "s51-t3-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "contained", "rolled_back_to", "rollback_minutes", "rto_minutes", "postmortem_actions", "owners_assigned"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if not record["contained"] or record["rollback_minutes"] > record["rto_minutes"] else "ROLLBACK_AND_CONTAIN"
+
+valid = {"case_id": "CASO-MOQ-051-3B", **{"contained":True,"rolled_back_to":"copilot-6","rollback_minutes":7,"rto_minutes":10,"postmortem_actions":4,"owners_assigned":True}}
+invalid = {"case_id": "CASO-MOQ-051-3B", **{"contained":False,"rolled_back_to":"","rollback_minutes":90,"rto_minutes":10,"postmortem_actions":0,"owners_assigned":False}}
+incomplete = {**valid}
+incomplete.pop("owners_assigned")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("rollback", "m-1"); print("postmortem", True); print("action_items", True)`,
-          output: `rollback m-1
-postmortem True
-action_items True`,
+          title: "s51-t3-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "contained", "rolled_back_to", "rollback_minutes", "rto_minutes", "postmortem_actions", "owners_assigned"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["contained"] and record["rolled_back_to"].startswith("copilot-") and record["rollback_minutes"] <= record["rto_minutes"] and record["postmortem_actions"] >= 1 and record["owners_assigned"] else "ROLLBACK_AND_CONTAIN"
+
+valid = {"case_id": "CASO-MOQ-051-3B", **{"contained":True,"rolled_back_to":"copilot-6","rollback_minutes":7,"rto_minutes":10,"postmortem_actions":4,"owners_assigned":True}}
+invalid = {"case_id": "CASO-MOQ-051-3B", **{"contained":False,"rolled_back_to":"","rollback_minutes":90,"rto_minutes":10,"postmortem_actions":0,"owners_assigned":False}}
+incomplete = {**valid}
+incomplete.pop("owners_assigned")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS ROLLBACK_AND_CONTAIN MISSING:owners_assigned` ,
         },
       },
       {
         id: "S51-T3-B-E3",
         subtopicId: "S51-T3-B",
         kind: "transfer",
-        instruction:
-          "Ejercicio S51-T3-B-E3: usa el patrón del demo iDo del subtema S51-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T3-B; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T3-B-E3 · Instrumenta fallo cerrado para `incidents, rollback y postmortem` con tres fixtures distintos. `CASO-MOQ-051-3B` debe continuar, el adverso debe devolver `ROLLBACK_AND_CONTAIN` y la ausencia de `owners_assigned` debe devolver `CONVENE_INCIDENT_REVIEW`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `CONVENE_INCIDENT_REVIEW` antes de evaluar el contenido.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T3-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Una ausencia no equivale a breach: enrútala a `CONVENE_INCIDENT_REVIEW` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró contención, last-good, RTO y acciones con dueño; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta owners_assigned", "fixture adverso: contención, last-good, RTO y acciones con dueño", "CASO-MOQ-051-3B es sintético"],
+        tests: "Fixtures `CASO-MOQ-051-3B`, adverso y sin `owners_assigned` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S51-T3-B-E3: explica qué campo cambió la decisión, por qué el adverso activa ROLLBACK_AND_CONTAIN y por qué faltar owners_assigned exige CONVENE_INCIDENT_REVIEW.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T4-A)
-`,
+          title: "s51-t3-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "contained", "rolled_back_to", "rollback_minutes", "rto_minutes", "postmortem_actions", "owners_assigned"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if not record["contained"] or record["rollback_minutes"] > record["rto_minutes"] else "ROLLBACK_AND_CONTAIN"
+
+valid = {"case_id": "CASO-MOQ-051-3B", **{"contained":True,"rolled_back_to":"copilot-6","rollback_minutes":7,"rto_minutes":10,"postmortem_actions":4,"owners_assigned":True}}
+invalid = {"case_id": "CASO-MOQ-051-3B", **{"contained":False,"rolled_back_to":"","rollback_minutes":90,"rto_minutes":10,"postmortem_actions":0,"owners_assigned":False}}
+uncertain = {**valid}
+uncertain.pop("owners_assigned")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("rollback", "m-1"); print("postmortem", True); print("action_items", True)`,
-          output: `rollback m-1
-postmortem True
-action_items True`,
+          title: "s51-t3-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "contained", "rolled_back_to", "rollback_minutes", "rto_minutes", "postmortem_actions", "owners_assigned"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONVENE_INCIDENT_REVIEW"
+    return "CONTINUE" if record["contained"] and record["rolled_back_to"].startswith("copilot-") and record["rollback_minutes"] <= record["rto_minutes"] and record["postmortem_actions"] >= 1 and record["owners_assigned"] else "ROLLBACK_AND_CONTAIN"
+
+valid = {"case_id": "CASO-MOQ-051-3B", **{"contained":True,"rolled_back_to":"copilot-6","rollback_minutes":7,"rto_minutes":10,"postmortem_actions":4,"owners_assigned":True}}
+invalid = {"case_id": "CASO-MOQ-051-3B", **{"contained":False,"rolled_back_to":"","rollback_minutes":90,"rto_minutes":10,"postmortem_actions":0,"owners_assigned":False}}
+uncertain = {**valid}
+uncertain.pop("owners_assigned")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "ROLLBACK_AND_CONTAIN", "CONVENE_INCIDENT_REVIEW"]` ,
+          output: `CONTINUE ROLLBACK_AND_CONTAIN CONVENE_INCIDENT_REVIEW` ,
         },
       },
       {
         id: "S51-T4-A-E1",
         subtopicId: "S51-T4-A",
         kind: "guided",
-        instruction:
-          "Ejercicio S51-T4-A-E1: usa el patrón del demo iDo del subtema S51-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T4-A; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T4-A-E1 · Audita el contrato de `incertidumbre, citas y confirmaciones` sobre `CASO-MOQ-051-4A`. La entrada es el dict completo del starter; la operación debe demostrar incertidumbre/citas visibles y efecto confirmado. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `BLOCK_UNCONFIRMED_ACTION` en E2.",
+        hint: "Relaciona los campos `uncertainty_shown`, `citations_resolve`, `effect_summary`, `confirmation_required`, `confirmed` con la regla explicada en S51-T4-A.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T4-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Relaciona los campos `uncertainty_shown`, `citations_resolve`, `effect_summary`, `confirmation_required`, `confirmed` con la regla explicada en S51-T4-A.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva usuario entiende evidencia y confirma acción; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta confirmed", "fixture adverso: incertidumbre/citas visibles y efecto confirmado", "CASO-MOQ-051-4A es sintético"],
+        tests: "El fixture `CASO-MOQ-051-4A` satisface un predicado de dominio real; imprime `S51-T4-A PASS` y el assert booleano pasa.",
+        feedback: "S51-T4-A-E1: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_UNCONFIRMED_ACTION y por qué faltar confirmed exige ASK_USER_TO_CONFIRM.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T4-A)
-`,
+          title: "s51-t4-a-e1.py",
+          code: `record = {"case_id": "CASO-MOQ-051-4A", **{"uncertainty_shown":True,"citations_resolve":True,"effect_summary":"prepara borrador","confirmation_required":True,"confirmed":True}}
+meets_contract = not record["uncertainty_shown"] or not record["citations_resolve"] or not record["confirmed"]
+status = "PASS" if meets_contract else "BLOCK_UNCONFIRMED_ACTION"
+print("S51-T4-A", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("uncertainty", True); print("cites", True); print("confirm_gate", True)`,
-          output: `uncertainty True
-cites True
-confirm_gate True`,
+          title: "s51-t4-a-e1.py",
+          code: `record = {"case_id": "CASO-MOQ-051-4A", **{"uncertainty_shown":True,"citations_resolve":True,"effect_summary":"prepara borrador","confirmation_required":True,"confirmed":True}}
+meets_contract = record["uncertainty_shown"] and record["citations_resolve"] and bool(record["effect_summary"]) and (not record["confirmation_required"] or record["confirmed"])
+status = "PASS" if meets_contract else "BLOCK_UNCONFIRMED_ACTION"
+print("S51-T4-A", status)
+assert meets_contract is True` ,
+          output: `S51-T4-A PASS` ,
         },
       },
       {
         id: "S51-T4-A-E2",
         subtopicId: "S51-T4-A",
         kind: "independent",
-        instruction:
-          "Ejercicio S51-T4-A-E2: usa el patrón del demo iDo del subtema S51-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T4-A; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T4-A-E2 · Compara tres rutas de `incertidumbre, citas y confirmaciones`: fixture válido, fixture adverso y registro sin `confirmed`. Entrada: dict con case_id, uncertainty_shown, citations_resolve, effect_summary, confirmation_required, confirmed. Salidas exactas: `PASS`, `BLOCK_UNCONFIRMED_ACTION`, `MISSING:confirmed`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a confirmed debe ocurrir antes de esa rama.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T4-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Primero se calcula `missing`; ningún acceso a confirmed debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S51-T4-A: incertidumbre/citas visibles y efecto confirmado. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta confirmed", "fixture adverso: incertidumbre/citas visibles y efecto confirmado", "CASO-MOQ-051-4A es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `confirmed` ausente y produce exactamente `PASS BLOCK_UNCONFIRMED_ACTION MISSING:confirmed`.",
+        feedback: "S51-T4-A-E2: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_UNCONFIRMED_ACTION y por qué faltar confirmed exige ASK_USER_TO_CONFIRM.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T4-A)
-`,
+          title: "s51-t4-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "uncertainty_shown", "citations_resolve", "effect_summary", "confirmation_required", "confirmed"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if not record["uncertainty_shown"] or not record["citations_resolve"] or not record["confirmed"] else "BLOCK_UNCONFIRMED_ACTION"
+
+valid = {"case_id": "CASO-MOQ-051-4A", **{"uncertainty_shown":True,"citations_resolve":True,"effect_summary":"prepara borrador","confirmation_required":True,"confirmed":True}}
+invalid = {"case_id": "CASO-MOQ-051-4A", **{"uncertainty_shown":False,"citations_resolve":False,"effect_summary":"","confirmation_required":True,"confirmed":False}}
+incomplete = {**valid}
+incomplete.pop("confirmed")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("uncertainty", True); print("cites", True); print("confirm_gate", True)`,
-          output: `uncertainty True
-cites True
-confirm_gate True`,
+          title: "s51-t4-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "uncertainty_shown", "citations_resolve", "effect_summary", "confirmation_required", "confirmed"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["uncertainty_shown"] and record["citations_resolve"] and bool(record["effect_summary"]) and (not record["confirmation_required"] or record["confirmed"]) else "BLOCK_UNCONFIRMED_ACTION"
+
+valid = {"case_id": "CASO-MOQ-051-4A", **{"uncertainty_shown":True,"citations_resolve":True,"effect_summary":"prepara borrador","confirmation_required":True,"confirmed":True}}
+invalid = {"case_id": "CASO-MOQ-051-4A", **{"uncertainty_shown":False,"citations_resolve":False,"effect_summary":"","confirmation_required":True,"confirmed":False}}
+incomplete = {**valid}
+incomplete.pop("confirmed")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS BLOCK_UNCONFIRMED_ACTION MISSING:confirmed` ,
         },
       },
       {
         id: "S51-T4-A-E3",
         subtopicId: "S51-T4-A",
         kind: "transfer",
-        instruction:
-          "Ejercicio S51-T4-A-E3: usa el patrón del demo iDo del subtema S51-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T4-A; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T4-A-E3 · Aísla fallo cerrado para `incertidumbre, citas y confirmaciones` con tres fixtures distintos. `CASO-MOQ-051-4A` debe continuar, el adverso debe devolver `BLOCK_UNCONFIRMED_ACTION` y la ausencia de `confirmed` debe devolver `ASK_USER_TO_CONFIRM`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `ASK_USER_TO_CONFIRM` antes de evaluar el contenido.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T4-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Una ausencia no equivale a breach: enrútala a `ASK_USER_TO_CONFIRM` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró incertidumbre/citas visibles y efecto confirmado; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta confirmed", "fixture adverso: incertidumbre/citas visibles y efecto confirmado", "CASO-MOQ-051-4A es sintético"],
+        tests: "Fixtures `CASO-MOQ-051-4A`, adverso y sin `confirmed` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S51-T4-A-E3: explica qué campo cambió la decisión, por qué el adverso activa BLOCK_UNCONFIRMED_ACTION y por qué faltar confirmed exige ASK_USER_TO_CONFIRM.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T4-A)
-`,
+          title: "s51-t4-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "uncertainty_shown", "citations_resolve", "effect_summary", "confirmation_required", "confirmed"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if not record["uncertainty_shown"] or not record["citations_resolve"] or not record["confirmed"] else "BLOCK_UNCONFIRMED_ACTION"
+
+valid = {"case_id": "CASO-MOQ-051-4A", **{"uncertainty_shown":True,"citations_resolve":True,"effect_summary":"prepara borrador","confirmation_required":True,"confirmed":True}}
+invalid = {"case_id": "CASO-MOQ-051-4A", **{"uncertainty_shown":False,"citations_resolve":False,"effect_summary":"","confirmation_required":True,"confirmed":False}}
+uncertain = {**valid}
+uncertain.pop("confirmed")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("uncertainty", True); print("cites", True); print("confirm_gate", True)`,
-          output: `uncertainty True
-cites True
-confirm_gate True`,
+          title: "s51-t4-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "uncertainty_shown", "citations_resolve", "effect_summary", "confirmation_required", "confirmed"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "ASK_USER_TO_CONFIRM"
+    return "CONTINUE" if record["uncertainty_shown"] and record["citations_resolve"] and bool(record["effect_summary"]) and (not record["confirmation_required"] or record["confirmed"]) else "BLOCK_UNCONFIRMED_ACTION"
+
+valid = {"case_id": "CASO-MOQ-051-4A", **{"uncertainty_shown":True,"citations_resolve":True,"effect_summary":"prepara borrador","confirmation_required":True,"confirmed":True}}
+invalid = {"case_id": "CASO-MOQ-051-4A", **{"uncertainty_shown":False,"citations_resolve":False,"effect_summary":"","confirmation_required":True,"confirmed":False}}
+uncertain = {**valid}
+uncertain.pop("confirmed")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "BLOCK_UNCONFIRMED_ACTION", "ASK_USER_TO_CONFIRM"]` ,
+          output: `CONTINUE BLOCK_UNCONFIRMED_ACTION ASK_USER_TO_CONFIRM` ,
         },
       },
       {
         id: "S51-T4-B-E1",
         subtopicId: "S51-T4-B",
         kind: "guided",
-        instruction:
-          "Ejercicio S51-T4-B-E1: usa el patrón del demo iDo del subtema S51-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T4-A; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T4-B-E1 · Decide el contrato de `accesibilidad, corrección y contestabilidad` sobre `CASO-MOQ-051-4B`. La entrada es el dict completo del starter; la operación debe demostrar teclado/lector/contraste y corrección/apelación. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S51-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `FAIL_ACCESSIBILITY_GATE` en E2.",
+        hint: "Relaciona los campos `keyboard_complete`, `screen_reader_labels`, `contrast_ratio`, `min_contrast`, `correction_available`, `appeal_to_human` con la regla explicada en S51-T4-B.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T4-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Relaciona los campos `keyboard_complete`, `screen_reader_labels`, `contrast_ratio`, `min_contrast`, `correction_available`, `appeal_to_human` con la regla explicada en S51-T4-B.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva flujo WCAG y apelación completables; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta appeal_to_human", "fixture adverso: teclado/lector/contraste y corrección/apelación", "CASO-MOQ-051-4B es sintético"],
+        tests: "El fixture `CASO-MOQ-051-4B` satisface un predicado de dominio real; imprime `S51-T4-B PASS` y el assert booleano pasa.",
+        feedback: "S51-T4-B-E1: explica qué campo cambió la decisión, por qué el adverso activa FAIL_ACCESSIBILITY_GATE y por qué faltar appeal_to_human exige ROUTE_CONTESTATION.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T4-B)
-`,
+          title: "s51-t4-b-e1.py",
+          code: `record = {"case_id": "CASO-MOQ-051-4B", **{"keyboard_complete":True,"screen_reader_labels":True,"contrast_ratio":5.1,"min_contrast":4.5,"correction_available":True,"appeal_to_human":True}}
+meets_contract = not record["keyboard_complete"] or record["contrast_ratio"] < record["min_contrast"] or not record["appeal_to_human"]
+status = "PASS" if meets_contract else "FAIL_ACCESSIBILITY_GATE"
+print("S51-T4-B", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("a11y", True); print("correction", True); print("contest", True)`,
-          output: `a11y True
-correction True
-contest True`,
+          title: "s51-t4-b-e1.py",
+          code: `record = {"case_id": "CASO-MOQ-051-4B", **{"keyboard_complete":True,"screen_reader_labels":True,"contrast_ratio":5.1,"min_contrast":4.5,"correction_available":True,"appeal_to_human":True}}
+meets_contract = record["keyboard_complete"] and record["screen_reader_labels"] and record["contrast_ratio"] >= record["min_contrast"] and record["correction_available"] and record["appeal_to_human"]
+status = "PASS" if meets_contract else "FAIL_ACCESSIBILITY_GATE"
+print("S51-T4-B", status)
+assert meets_contract is True` ,
+          output: `S51-T4-B PASS` ,
         },
       },
       {
         id: "S51-T4-B-E2",
         subtopicId: "S51-T4-B",
         kind: "independent",
-        instruction:
-          "Ejercicio S51-T4-B-E2: usa el patrón del demo iDo del subtema S51-T4-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T4-B; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T4-B-E2 · Filtra tres rutas de `accesibilidad, corrección y contestabilidad`: fixture válido, fixture adverso y registro sin `appeal_to_human`. Entrada: dict con case_id, keyboard_complete, screen_reader_labels, contrast_ratio, min_contrast, correction_available, appeal_to_human. Salidas exactas: `PASS`, `FAIL_ACCESSIBILITY_GATE`, `MISSING:appeal_to_human`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a appeal_to_human debe ocurrir antes de esa rama.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T4-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Primero se calcula `missing`; ningún acceso a appeal_to_human debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S51-T4-B: teclado/lector/contraste y corrección/apelación. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta appeal_to_human", "fixture adverso: teclado/lector/contraste y corrección/apelación", "CASO-MOQ-051-4B es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `appeal_to_human` ausente y produce exactamente `PASS FAIL_ACCESSIBILITY_GATE MISSING:appeal_to_human`.",
+        feedback: "S51-T4-B-E2: explica qué campo cambió la decisión, por qué el adverso activa FAIL_ACCESSIBILITY_GATE y por qué faltar appeal_to_human exige ROUTE_CONTESTATION.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S51-T4-B)
-`,
+          title: "s51-t4-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "keyboard_complete", "screen_reader_labels", "contrast_ratio", "min_contrast", "correction_available", "appeal_to_human"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if not record["keyboard_complete"] or record["contrast_ratio"] < record["min_contrast"] or not record["appeal_to_human"] else "FAIL_ACCESSIBILITY_GATE"
+
+valid = {"case_id": "CASO-MOQ-051-4B", **{"keyboard_complete":True,"screen_reader_labels":True,"contrast_ratio":5.1,"min_contrast":4.5,"correction_available":True,"appeal_to_human":True}}
+invalid = {"case_id": "CASO-MOQ-051-4B", **{"keyboard_complete":False,"screen_reader_labels":False,"contrast_ratio":2.1,"min_contrast":4.5,"correction_available":False,"appeal_to_human":False}}
+incomplete = {**valid}
+incomplete.pop("appeal_to_human")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("a11y", True); print("correction", True); print("contest", True)`,
-          output: `a11y True
-correction True
-contest True`,
+          title: "s51-t4-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "keyboard_complete", "screen_reader_labels", "contrast_ratio", "min_contrast", "correction_available", "appeal_to_human"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["keyboard_complete"] and record["screen_reader_labels"] and record["contrast_ratio"] >= record["min_contrast"] and record["correction_available"] and record["appeal_to_human"] else "FAIL_ACCESSIBILITY_GATE"
+
+valid = {"case_id": "CASO-MOQ-051-4B", **{"keyboard_complete":True,"screen_reader_labels":True,"contrast_ratio":5.1,"min_contrast":4.5,"correction_available":True,"appeal_to_human":True}}
+invalid = {"case_id": "CASO-MOQ-051-4B", **{"keyboard_complete":False,"screen_reader_labels":False,"contrast_ratio":2.1,"min_contrast":4.5,"correction_available":False,"appeal_to_human":False}}
+incomplete = {**valid}
+incomplete.pop("appeal_to_human")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS FAIL_ACCESSIBILITY_GATE MISSING:appeal_to_human` ,
         },
       },
       {
         id: "S51-T4-B-E3",
         subtopicId: "S51-T4-B",
         kind: "transfer",
-        instruction:
-          "Ejercicio S51-T4-B-E3: usa el patrón del demo iDo del subtema S51-T4-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S51-T4-B; el print pendiente debe copiar esa forma.",
+        instruction: "S51-T4-B-E3 · Demuestra fallo cerrado para `accesibilidad, corrección y contestabilidad` con tres fixtures distintos. `CASO-MOQ-051-4B` debe continuar, el adverso debe devolver `FAIL_ACCESSIBILITY_GATE` y la ausencia de `appeal_to_human` debe devolver `ROUTE_CONTESTATION`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `ROUTE_CONTESTATION` antes de evaluar el contenido.",
         hints: [
-          "Busca en iDo el demo con subtopicId S51-T4-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Una ausencia no equivale a breach: enrútala a `ROUTE_CONTESTATION` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró teclado/lector/contraste y corrección/apelación; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta appeal_to_human", "fixture adverso: teclado/lector/contraste y corrección/apelación", "CASO-MOQ-051-4B es sintético"],
+        tests: "Fixtures `CASO-MOQ-051-4B`, adverso y sin `appeal_to_human` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S51-T4-B-E3: explica qué campo cambió la decisión, por qué el adverso activa FAIL_ACCESSIBILITY_GATE y por qué faltar appeal_to_human exige ROUTE_CONTESTATION.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: escribe el print final como en el demo iDo del mismo subtopicId
-`,
+          title: "s51-t4-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "keyboard_complete", "screen_reader_labels", "contrast_ratio", "min_contrast", "correction_available", "appeal_to_human"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if not record["keyboard_complete"] or record["contrast_ratio"] < record["min_contrast"] or not record["appeal_to_human"] else "FAIL_ACCESSIBILITY_GATE"
+
+valid = {"case_id": "CASO-MOQ-051-4B", **{"keyboard_complete":True,"screen_reader_labels":True,"contrast_ratio":5.1,"min_contrast":4.5,"correction_available":True,"appeal_to_human":True}}
+invalid = {"case_id": "CASO-MOQ-051-4B", **{"keyboard_complete":False,"screen_reader_labels":False,"contrast_ratio":2.1,"min_contrast":4.5,"correction_available":False,"appeal_to_human":False}}
+uncertain = {**valid}
+uncertain.pop("appeal_to_human")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("a11y", True); print("correction", True); print("contest", True)`,
-          output: `a11y True
-correction True
-contest True`,
+          title: "s51-t4-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "keyboard_complete", "screen_reader_labels", "contrast_ratio", "min_contrast", "correction_available", "appeal_to_human"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "ROUTE_CONTESTATION"
+    return "CONTINUE" if record["keyboard_complete"] and record["screen_reader_labels"] and record["contrast_ratio"] >= record["min_contrast"] and record["correction_available"] and record["appeal_to_human"] else "FAIL_ACCESSIBILITY_GATE"
+
+valid = {"case_id": "CASO-MOQ-051-4B", **{"keyboard_complete":True,"screen_reader_labels":True,"contrast_ratio":5.1,"min_contrast":4.5,"correction_available":True,"appeal_to_human":True}}
+invalid = {"case_id": "CASO-MOQ-051-4B", **{"keyboard_complete":False,"screen_reader_labels":False,"contrast_ratio":2.1,"min_contrast":4.5,"correction_available":False,"appeal_to_human":False}}
+uncertain = {**valid}
+uncertain.pop("appeal_to_human")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "FAIL_ACCESSIBILITY_GATE", "ROUTE_CONTESTATION"]` ,
+          output: `CONTINUE FAIL_ACCESSIBILITY_GATE ROUTE_CONTESTATION` ,
         },
       },
     ],
   },
   youDo: {
     title: "[FINAL] Observabilidad, gobernanza y UX del copiloto (CP-N4-C (cierre) + CF-5 + Level-4 regression)",
-    context:
-      "Proyecto de sección **S51** (Observabilidad, gobernanza y UX del copiloto). Gate: **CP-N4-C (cierre) + CF-5 + Level-4 regression**. Auditable AI Operations Copilot aprobado con system card y dashboard operativo que permiten saber qué versión respondió, qué evidencia usó, qué tool llamó y cómo revertirla. CF-5 congela artefactos e interfaces para integración final. **FINAL — CP-N4-C CLOSE + CF-5 + Level-4 regression**: Auditable AI Operations Copilot (system card + dashboard; qué versión, evidencia, tools, rollback). CF-5 congela interfaces. Nota FINAL. Usa solo datos sintéticos; no marques section_passed desde esta entrega de autoría.",
+    context: "Auditable AI Operations Copilot y CF-5. Trabaja sobre operación sintética de un copiloto para una entidad ficticia en Moquegua. Entrada: trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política. Salida: dashboard redactado, SLO, audit trail y mecanismo de corrección o apelación. El gate se bloquea ante: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback.",
     objectives: [
-      "FINAL: Auditable AI Operations Copilot aprobado con system card y dashboard operativo que permiten saber qué versión respondió, qué evidencia usó, qué tool llamó y cómo revertirla. CF-5 congela artefactos e interfaces para integración final.",
-      "Datos sintéticos; sin PII real ni secretos",
-      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
-      "Documentación en español profesional",
-      "Alineación al incremento/gate V3: CP-N4-C (cierre) + CF-5 + Level-4 regression",
+      "Convertir trace id, versiones de prompt/modelo/dataset, evidencia, feedback y política en dashboard redactado, SLO, audit trail y mecanismo de corrección o apelación.",
+      "Demostrar el gate: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+      "Probar el fallo: PII en trace, versión desconocida, drift o acción irreversible activa incidente y rollback.",
+      "Entregar evidencia reproducible, redactada, sin PII real, secretos ni servicios externos obligatorios.",
     ],
     requirements: [
-      "Dataset o fixtures sintéticos",
-      "Demo reproducible",
-      "Documentación en español profesional",
-      "Alineación al incremento/gate V3 de la sección",
+      "Usa exclusivamente fixtures sintéticos identificados por `CASO-MOQ-051`.",
+      "Incluye traces de prompt/retrieval/tool con redacción.",
+      "Incluye registry y change log de versiones.",
+      "Incluye SLO/drift/feedback/incidente/postmortem.",
+      "Incluye UX accesible con incertidumbre, citas, confirmación y contestabilidad.",
+      "Automatiza un caso normal, uno de breach (`ROLLBACK_COPILOT`) y uno incierto (`ESCALATE_TO_OWNER`).",
+      "Incluye comandos locales reproducibles, dependencias fijadas y salida esperada.",
+      "Registra riesgo residual, responsable, criterio de rollback y limitaciones conocidas.",
     ],
-    starterCode: `# S51 You Do — Observabilidad, gobernanza y UX del copiloto
-# Gate: CP-N4-C (cierre) + CF-5 + Level-4 regression
-# Auditable AI Operations Copilot aprobado con system card y dashboard operativo que permiten saber qué versión respondió,
+    starterCode: `CASE_ID = "CASO-MOQ-051"
+REQUIRED = ['traces_de_prompt_retrieval_tool_con_redaccion', 'registry_y_change_log_de_versiones', 'slo_drift_feedback_incidente_postmortem', 'ux_accesible_con_incertidumbre_citas_confirmacion_y_contestabili']
+evidence = {
+    "traces_de_prompt_retrieval_tool_con_redaccion": False,
+    "registry_y_change_log_de_versiones": False,
+    "slo_drift_feedback_incidente_postmortem": False,
+    "ux_accesible_con_incertidumbre_citas_confirmacion_y_contestabili": False
+}
 
-def main():
-    print("section", "S51")
-    print("gate", 'CP-N4-C (cierre) + CF-5 + Level-4 regression')
-    print("synthetic", True)
-    # TODO: implementar incremento del blueprint
+def readiness(bundle: dict[str, bool]) -> tuple[str, list[str]]:
+    missing = [name for name in REQUIRED if bundle.get(name) is not True]
+    return ("READY", []) if not missing else ("BLOCKED", missing)
 
-if __name__ == "__main__":
-    main()
+status, missing = readiness(evidence)
+print(CASE_ID, status)
+print("missing", ",".join(missing))
+assert status in {"READY", "BLOCKED"}
 `,
-    portfolioNote:
-      "FINAL. Entrega alineada a CP-N4-C (cierre) + CF-5 + Level-4 regression. Portfolio en español profesional; evidencia ejecutable; privacidad. Otra lane califica PASS; no editar checkpoint/ledger/seed.",
+    portfolioNote: "Evidencia de CP-N4-C + CF-5 · copiloto observable y contestable: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales del proyecto, no cambiando asserts.",
     rubric: [
-      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
-      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
-      { criterion: "Privacidad / sin PII real / sin secretos", weight: "20%" },
-      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
-      { criterion: "Código legible y límites claros", weight: "10%" },
-      { criterion: "Documentación en español profesional", weight: "10%" },
-      { criterion: "Nota FINAL de gate: CLOSE + Level-4 regression + CF-5", weight: "gate FINAL" },
+      { criterion: "Correctitud del contrato y gate", weight: "25%" },
+      { criterion: "Pruebas normal/breach/uncertain y recuperación", weight: "20%" },
+      { criterion: "Seguridad, privacidad y least privilege", weight: "15%" },
+      { criterion: "Reproducibilidad, lineage y evidencia", weight: "15%" },
+      { criterion: "Operación: SLO, observabilidad y rollback", weight: "15%" },
+      { criterion: "Comunicación de trade-offs y límites", weight: "10%" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: "El id de plataforma de S51 que se preserva es:",
-        options: [
-          "integrator-final",
-          "renamed-v3",
-          "legacy-drop",
-          "random",
-        ],
-        correctIndex: 0,
-        explanation:
-          "KEEP_PLATFORM_ID_RETHEME_CONTENT.",
-      },
-      {
-        question: "El incremento/gate V3 de S51 pertenece a:",
-        options: [
-          "CP-N4-C (cierre) + CF-5 + Level-4 regression",
-          "CP-N1-A",
-          "solo marketing",
-          "sin capstone",
-        ],
-        correctIndex: 0,
-        explanation:
-          "Blueprint phase3 capstone_notes.",
-      },
-      {
-        question: "Los ejemplos del curso deben usar:",
-        options: [
-          "PII real de clientes",
-          "Datos sintéticos",
-          "Secretos de prod",
-          "Claves API reales",
-        ],
-        correctIndex: 1,
-        explanation:
-          "Synthetic data only.",
-      },
-      {
-        question: "Entity resolution (si aparece) decide:",
-        options: [
-          "Fraude",
-          "Parentesco",
-          "Misma entidad cuando aplique",
-          "Sentimiento",
-        ],
+        question: "¿Qué evidencia permite aprobar `traces de prompts/retrieval/tools` en CASO-MOQ-051?",
+        options: ["un print sin assert ni versión", "una captura de pantalla sin fuente", "trace reconstruible sin PII", "datos personales reales para que parezca auténtico"],
         correctIndex: 2,
-        explanation:
-          "ER ≠ relación ≠ fraude.",
+        explanation: "La teoría exige trace reconstruible sin PII; evidencia decorativa o PII no satisface el contrato.",
+      },
+      {
+        question: "Si ocurre la condición de error de S51, ¿qué respuesta preserva seguridad y auditabilidad?",
+        options: ["emitir ROLLBACK_COPILOT y conservar evidencia", "continuar y ocultar el warning", "inventar evidencia faltante", "borrar el trace para reducir ruido"],
+        correctIndex: 0,
+        explanation: "El contrato falla cerrado con ROLLBACK_COPILOT; no convierte incertidumbre o breach en éxito.",
+      },
+      {
+        question: "¿Cuál resultado demuestra el gate `CP-N4-C + CF-5 · copiloto observable y contestable`?",
+        options: ["el archivo S51 existe, aunque no pruebe el gate", "se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir", "el README afirma que funciona", "se usó la herramienta más nueva"],
+        correctIndex: 1,
+        explanation: "El gate es conductual y medible: se puede reconstruir qué respondió, qué citó, qué tool llamó, quién aprobó y cómo revertir.",
+      },
+      {
+        question: "¿Qué tratamiento de `CASO-MOQ-051` respeta el alcance del curso?",
+        options: ["reemplazarlo por datos reales sin consentimiento", "subir secretos para facilitar la demo", "inferir fraude o parentesco desde ER", "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana"],
+        correctIndex: 3,
+        explanation: "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
       },
     ],
   },
   resources: {
     docs: [
       {
-        label: "Python docs",
-        url: "https://docs.python.org/3/",
-        note: "Referencia stdlib",
+        label: "OpenTelemetry",
+        url: "https://opentelemetry.io/docs/",
+        note: "Traces, metrics y logs",
       },
       {
-        label: "V3 section support",
-        url: "https://docs.python.org/3/library/",
-        note: "Apoyo S51 Observabilidad, gobernanza y UX del copiloto",
+        label: "W3C WCAG 2.2",
+        url: "https://www.w3.org/TR/WCAG22/",
+        note: "Accesibilidad verificable",
+      },
+      {
+        label: "NIST AI RMF",
+        url: "https://www.nist.gov/itl/ai-risk-management-framework",
+        note: "Gobernanza y operación de riesgo",
       },
     ],
     books: [
-      {
-        label: "Architecture / platform engineering refs",
-        note: "Alinear a Observabilidad, gobernanza y UX del copiloto",
-      },
-      {
-        label: "Site Reliability / Security basics",
-        note: "Operación y privacidad",
-      },
+      { label: "Designing Data-Intensive Applications", note: "Consulta selectiva: contratos, consistencia, operación y trade-offs; no reemplaza las instrucciones de la sección." },
+      { label: "Site Reliability Engineering", note: "Consulta selectiva: SLO, incidentes, capacidad y cambio seguro." },
     ],
     courses: [
-      {
-        label: "MDN / cloud / MLOps primers",
-        url: "https://developer.mozilla.org/",
-        note: "Complemento conceptual",
-      },
+      { label: "MIT OpenCourseWare — 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Referencia de práctica incremental y contratos verificables." },
+      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Referencia de problem sets, tests y proyecto final reproducible." },
     ],
   },
 }

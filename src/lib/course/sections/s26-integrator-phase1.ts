@@ -6,13 +6,13 @@ export const section26: CourseSection = {
   title: "Orquestación y VP RPA + AI Analyst",
   shortTitle: "VP RPA + AI Analyst",
   tagline: "VP RPA + AI Analyst: Excel/sistema → validación → análisis → modelo/IA → informe → aprobación → borrador de correo. Demo con datos sintéticos, evidencia de cada estado y recuperación de fallas",
-  estimatedHours: 16,
+  estimatedHours: 19,
   level: "Competente",
   phase: 1,
   icon: "Award",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "Cierras **CP-N2-C** orquestando el VP: Excel/sistema → validación → análisis → IA → informe → aprobación → borrador de correo, con **regresión N2** y **CF-2**. Esta sección (id `integrator-phase1` conservado) retematiza a V3 **Orquestación y VP RPA + AI Analyst**. HITL obligatorio; matching ≠ fraude.",
+    "Cierras **CP-N2-C** orquestando Excel/sistema → validación → análisis → IA → informe → aprobación → borrador de correo, con regresión N2 y CF-2. La aprobación humana es obligatoria; matching no equivale a fraude.",
   learningOutcomes: [
     { text: "Modelar tasks/flows/DAG con estados" },
     { text: "Configurar límites, metadata y schedules" },
@@ -27,15 +27,15 @@ export const section26: CourseSection = {
     {
       heading: "Cierre CP-N2-C: orquestación del VP y regresión N2",
       paragraphs: [
-        "En V3, **S26 cierra CP-N2-C** y prepara **regresión Level-2 (S14–S26)** + **CF-2** (contratos entre Familiarity, reporting y automatización). No marcas section_passed desde esta lane de contenido.",
+        "S26 cierra CP-N2-C y prepara la regresión de S14–S26 y CF-2: contratos entre análisis, reporting y automatización.",
         "El flujo canónico: **ingest Excel/sistema → validar → analizar → IA asistida → informe → aprobación humana → draft de correo**. Cada estado deja evidencia.",
         "Orden: **T1 Orquestación** → **T2 Resiliencia** → **T3 HITL** → **T4 Operación/E2E**. Privacidad: scores y matches no son veredictos de fraude.",
       ],
       callout: {
         type: "info",
-        title: "Promoción N2 (referencia)",
+        title: "Criterio de promoción N2",
         content:
-          "Promoción conceptual: CP-N2-A/B/C + regresión S14–S26 + CF-2. Esta autoría entrega el paquete de contenido; otra lane califica gates.",
+          "La promoción exige CP-N2-A/B/C, regresión S14–S26 y CF-2 aprobados con evidencia reproducible.",
       },
     },
     {
@@ -1206,49 +1206,29 @@ print("n2_regression", "re-run critical CP-N2-A/B/C + privacy + CF-2 contracts")
     questions: [
       {
         question: "El orden draft_email respecto a approve es:",
-        options: [
-          "Draft antes de approve",
-          "Approve antes de draft_email",
-          "En paralelo sin gate",
-          "Solo schedule",
-        ],
+        options: ["Draft antes de approve", "Approve antes de draft_email", "En paralelo sin gate", "Solo schedule"],
         correctIndex: 1,
         explanation:
           "Aprobación humana precede al borrador final.",
       },
       {
         question: "La regresión N2 incluye:",
-        options: [
-          "Solo un print",
-          "Tests críticos de capstones N2, E2E y controles de privacidad/seguridad",
-          "Borrar S14",
-          "Marcar passed sin tests",
-        ],
-        correctIndex: 1,
+        options: ["Solo un print", "Borrar S14", "Marcar passed sin tests", "Tests críticos de capstones N2, E2E y controles de privacidad/seguridad"],
+        correctIndex: 3,
         explanation:
           "Definición de regresión de nivel en el roadmap V3.",
       },
       {
         question: "Un send sin approve es:",
-        options: [
-          "Warning menor",
-          "Incidente P0",
-          "OK en sandbox siempre",
-          "Ignorable",
-        ],
-        correctIndex: 1,
+        options: ["Incidente P0", "Warning menor", "OK en sandbox siempre", "Ignorable"],
+        correctIndex: 0,
         explanation:
           "Cero envíos sin approve es SLO de seguridad.",
       },
       {
         question: "fraud_labels automáticos en el VP deben ser:",
-        options: [
-          "Maximizados",
-          "0 — solo evidencia para humanos",
-          "Igual al score de matching",
-          "Exportados a prensa",
-        ],
-        correctIndex: 1,
+        options: ["Maximizados", "Igual al score de matching", "0 — solo evidencia para humanos", "Exportados a prensa"],
+        correctIndex: 2,
         explanation:
           "Matching/score ≠ fraude.",
       },

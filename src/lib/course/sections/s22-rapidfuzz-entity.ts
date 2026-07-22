@@ -6,13 +6,13 @@ export const section22: CourseSection = {
   title: "Email, identidad y aprobación humana",
   shortTitle: "Email y aprobación",
   tagline: "crea borradores en sandbox o archivos .eml; ningún correo real se envía automáticamente y todo destinatario requiere confirmación",
-  estimatedHours: 12,
+  estimatedHours: 19,
   level: "Competente",
   phase: 1,
   icon: "GitCompare",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "En operaciones y RPA de banca, retail y BPO en Perú, un pipeline de correo seguro separa **borrador, aprobación y envío**. Esta sección (id de plataforma `rapidfuzz-entity` conservado) retematiza a V3 **Email, identidad y aprobación humana** e inicia **CP-N2-C**: MIME, scopes mínimos, resolución de destinatarios y cola de aprobación. Coincidir emails/nombres es evidencia de entrega, **no** prueba de fraude ni parentesco.",
+    "En operaciones y RPA, un pipeline de correo seguro separa **borrador, aprobación y envío**. S22 inicia **CP-N2-C** con MIME, scopes mínimos, resolución de destinatarios y cola de aprobación. Coincidir emails/nombres es evidencia de entrega, **no** prueba de fraude ni parentesco.",
   learningOutcomes: [
     { text: "Construir mensajes MIME con encoding y attachments" },
     { text: "Sanitizar templates HTML de correo" },
@@ -25,17 +25,17 @@ export const section22: CourseSection = {
   ],
   theory: [
     {
-      heading: "De “RapidFuzz/ER” a email con aprobación humana (mapa e inicio CP-N2-C)",
+      heading: "Email con aprobación humana e inicio CP-N2-C",
       paragraphs: [
-        "En V3, **S22 no es el path principal de entity resolution con RapidFuzz**. Ese material se reubica conceptualmente. Aquí **inicias CP-N2-C**: construir mensajes MIME, sanitizar HTML, scopes mínimos, drafts con expiración, resolver destinatarios y encolar aprobación humana.",
+        "Aquí **inicias CP-N2-C**: construir mensajes MIME, sanitizar HTML, aplicar scopes mínimos, crear drafts con expiración, resolver destinatarios y encolar aprobación humana.",
         "El hilo conductor es un **borrador sintético** (run_id `cpn2c-01`, contactos fakes `@example.pe`). **Ningún correo real se envía**: solo archivos `.eml` o drafts en sandbox.",
         "Orden: **T1 Mensaje** → **T2 Proveedor** → **T3 Destinatario** → **T4 Workflow**. Matching de contactos es para **entrega correcta**, nunca para inferir fraude o parentesco.",
       ],
       callout: {
         type: "info",
-        title: "Contenido reubicado conceptualmente",
+        title: "Límite operativo",
         content:
-          "Material legado de RapidFuzz/ER de este archivo **no es el camino V3 del estudiante en S22**. Target: email + identidad + aprobación humana (inicio CP-N2-C). Solo datos sintéticos.",
+          "Solo se crean `.eml` locales o drafts de sandbox con datos sintéticos; ninguna ruta de la lección envía correo.",
       },
     },
     {
@@ -1409,49 +1409,29 @@ print("TODO pipeline email")
     questions: [
       {
         question: "¿Qué garantiza no enviar correo real en el gate de S22?",
-        options: [
-          "Usar mail.full",
-          "Solo drafts/.eml en sandbox y aprobación humana",
-          "CC a todos",
-          "Desactivar UTF-8",
-        ],
+        options: ["Usar mail.full", "Solo drafts/.eml en sandbox y aprobación humana", "CC a todos", "Desactivar UTF-8"],
         correctIndex: 1,
         explanation:
           "El incremento exige borradores sandbox y confirmación de destinatario, no envío automático.",
       },
       {
         question: "Un score alto de similitud entre dos emails implica:",
-        options: [
-          "Fraude demostrado",
-          "Parentesco",
-          "Solo evidencia débil de contacto a revisar; no prueba de fraude",
-          "Envío automático",
-        ],
-        correctIndex: 2,
+        options: ["Fraude demostrado", "Parentesco", "Envío automático", "Solo evidencia débil de contacto a revisar; no prueba de fraude"],
+        correctIndex: 3,
         explanation:
           "Matching no es inferencia de fraude ni parentesco.",
       },
       {
         question: "Least privilege en OAuth de correo significa:",
-        options: [
-          "Pedir todos los scopes",
-          "Solo los scopes mínimos (p. ej. draft) necesarios",
-          "Compartir el refresh token en Slack",
-          "Usar la cuenta personal del CEO",
-        ],
-        correctIndex: 1,
+        options: ["Solo los scopes mínimos (p. ej. draft) necesarios", "Pedir todos los scopes", "Compartir el refresh token en Slack", "Usar la cuenta personal del CEO"],
+        correctIndex: 0,
         explanation:
           "Scopes mínimos reducen el blast radius.",
       },
       {
         question: "La idempotency key al reintentar create_draft debe:",
-        options: [
-          "Crear siempre un draft nuevo",
-          "Reutilizar el mismo draft_id si la key existe",
-          "Borrar el audit log",
-          "Enviar el correo",
-        ],
-        correctIndex: 1,
+        options: ["Crear siempre un draft nuevo", "Borrar el audit log", "Reutilizar el mismo draft_id si la key existe", "Enviar el correo"],
+        correctIndex: 2,
         explanation:
           "Reintento seguro no duplica.",
       },

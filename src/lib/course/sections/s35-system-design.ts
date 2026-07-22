@@ -6,7 +6,7 @@ export const section35: CourseSection = {
   title: "Explicabilidad, equidad e incertidumbre",
   shortTitle: "Explainability y equidad",
   tagline: "ficha de caso que distingue evidencia observada, contribución del modelo, incertidumbre y decisión humana",
-  estimatedHours: 12,
+  estimatedHours: 19,
   level: "Competente a experto",
   phase: 2,
   icon: "Scale",
@@ -415,7 +415,7 @@ ok True`,
       {
         id: "S35-T1-A-E1",
         subtopicId: "S35-T1-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Top feature por drop dict.",
         hint: "Revisa teoría.",
@@ -447,7 +447,7 @@ fraud False`,
       {
         id: "S35-T1-A-E2",
         subtopicId: "S35-T1-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Orden features por importance desc.",
         hint: "Revisa teoría.",
@@ -479,7 +479,7 @@ ok True`,
       {
         id: "S35-T1-A-E3",
         subtopicId: "S35-T1-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "Perm importance no implica causa.",
         hint: "Revisa teoría.",
@@ -510,7 +510,7 @@ ok True`,
       {
         id: "S35-T1-B-E1",
         subtopicId: "S35-T1-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "contrib = value*weight.",
         hint: "Revisa teoría.",
@@ -541,7 +541,7 @@ causal False`,
       {
         id: "S35-T1-B-E2",
         subtopicId: "S35-T1-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Plantilla 4 capas flags.",
         hint: "Revisa teoría.",
@@ -572,7 +572,7 @@ ok True`,
       {
         id: "S35-T1-B-E3",
         subtopicId: "S35-T1-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "Límite: correlación no basta.",
         hint: "Revisa teoría.",
@@ -603,7 +603,7 @@ note limits`,
       {
         id: "S35-T2-A-E1",
         subtopicId: "S35-T2-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Flag low_n si n<30.",
         hint: "Revisa teoría.",
@@ -635,7 +635,7 @@ ok True`,
       {
         id: "S35-T2-A-E2",
         subtopicId: "S35-T2-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Delta precision LIM-AQP.",
         hint: "Revisa teoría.",
@@ -666,7 +666,7 @@ ok True`,
       {
         id: "S35-T2-A-E3",
         subtopicId: "S35-T2-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "Reporta n junto a metric.",
         hint: "Revisa teoría.",
@@ -697,7 +697,7 @@ required n`,
       {
         id: "S35-T2-B-E1",
         subtopicId: "S35-T2-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Clasifica proxy risk high list.",
         hint: "Revisa teoría.",
@@ -728,7 +728,7 @@ ok True`,
       {
         id: "S35-T2-B-E2",
         subtopicId: "S35-T2-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "FP rate group A vs B daño.",
         hint: "Revisa teoría.",
@@ -759,7 +759,7 @@ fp_B 0.05`,
       {
         id: "S35-T2-B-E3",
         subtopicId: "S35-T2-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "Acción mitiga proxy.",
         hint: "Revisa teoría.",
@@ -790,7 +790,7 @@ fraud_eq False`,
       {
         id: "S35-T3-A-E1",
         subtopicId: "S35-T3-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "p=0.5 q=0.1 interval.",
         hint: "Revisa teoría.",
@@ -821,7 +821,7 @@ ok True`,
       {
         id: "S35-T3-A-E2",
         subtopicId: "S35-T3-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Cobertura conceptual label.",
         hint: "Revisa teoría.",
@@ -852,7 +852,7 @@ ok True`,
       {
         id: "S35-T3-A-E3",
         subtopicId: "S35-T3-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "Brier vs interval complementary.",
         hint: "Revisa teoría.",
@@ -883,7 +883,7 @@ n 2`,
       {
         id: "S35-T3-B-E1",
         subtopicId: "S35-T3-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "ood if any |z|>3.",
         hint: "Revisa teoría.",
@@ -915,7 +915,7 @@ ok True`,
       {
         id: "S35-T3-B-E2",
         subtopicId: "S35-T3-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Canal nuevo → ood policy.",
         hint: "Revisa teoría.",
@@ -946,7 +946,7 @@ ok True`,
       {
         id: "S35-T3-B-E3",
         subtopicId: "S35-T3-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "No auto fraud on ood.",
         hint: "Revisa teoría.",
@@ -977,7 +977,7 @@ ok True`,
       {
         id: "S35-T4-A-E1",
         subtopicId: "S35-T4-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Keys mínimas model card.",
         hint: "Revisa teoría.",
@@ -1008,7 +1008,7 @@ ok True`,
       {
         id: "S35-T4-A-E2",
         subtopicId: "S35-T4-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "out_of_scope fraud.",
         hint: "Revisa teoría.",
@@ -1039,7 +1039,7 @@ card True`,
       {
         id: "S35-T4-A-E3",
         subtopicId: "S35-T4-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "contestability True.",
         hint: "Revisa teoría.",
@@ -1070,7 +1070,7 @@ ok True`,
       {
         id: "S35-T4-B-E1",
         subtopicId: "S35-T4-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Estado siguiente de approved.",
         hint: "Revisa teoría.",
@@ -1101,7 +1101,7 @@ ok True`,
       {
         id: "S35-T4-B-E2",
         subtopicId: "S35-T4-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Override log fields.",
         hint: "Revisa teoría.",
@@ -1132,7 +1132,7 @@ ok True`,
       {
         id: "S35-T4-B-E3",
         subtopicId: "S35-T4-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "Retiro por drift flag.",
         hint: "Revisa teoría.",
@@ -1199,49 +1199,29 @@ if __name__ == '__main__':
     questions: [
       {
         question: "La ficha de caso debe separar:",
-        options: [
-          "Solo score",
-          "Evidencia, modelo, incertidumbre y decisión humana",
-          "Solo SHAP global",
-          "Solo UI",
-        ],
-        correctIndex: 1,
+        options: ["Solo score", "Solo SHAP global", "Evidencia, modelo, incertidumbre y decisión humana", "Solo UI"],
+        correctIndex: 2,
         explanation:
           "4 capas.",
       },
       {
         question: "Perm importance prueba:",
-        options: [
-          "Fraude",
-          "Sensibilidad del modelo a barajar features",
-          "Parentesco",
-          "Causalidad legal",
-        ],
-        correctIndex: 1,
+        options: ["Sensibilidad del modelo a barajar features", "Fraude", "Parentesco", "Causalidad legal"],
+        correctIndex: 0,
         explanation:
           "No causa.",
       },
       {
         question: "Ante OOD conviene:",
-        options: [
-          "Forzar pred 1",
-          "Abstener y escalar",
-          "Borrar logs",
-          "Ignorar",
-        ],
+        options: ["Forzar pred 1", "Abstener y escalar", "Borrar logs", "Ignorar"],
         correctIndex: 1,
         explanation:
           "Abstención.",
       },
       {
         question: "Model card out_of_scope incluye:",
-        options: [
-          "Nada",
-          "Usos prohibidos p.ej. etiqueta de fraude",
-          "Solo accuracy",
-          "Solo owner email personal",
-        ],
-        correctIndex: 1,
+        options: ["Nada", "Solo accuracy", "Solo owner email personal", "Usos prohibidos p.ej. etiqueta de fraude"],
+        correctIndex: 3,
         explanation:
           "Límites de uso.",
       },
