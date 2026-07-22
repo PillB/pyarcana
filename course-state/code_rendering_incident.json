@@ -31,7 +31,7 @@
     "browser_fidelity": {
       "status": "pending_ci",
       "test": "scripts/code_rendering.spec.ts",
-      "screenshots": "per rendered code-block and playground",
+      "screenshots": "representative code window per populated section/tab and one playground per section; every surface is still compared and listed",
       "manifest": "test-results/**/code-fidelity/manifest.json"
     }
   },

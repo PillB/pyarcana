@@ -18,7 +18,8 @@
   the reported snippet and every code object loaded from S01–S52. Playwright
   traverses every section/tab, reveals solutions, validates code/output/editor
   text against its canonical source, checks monospace rendering, and emits
-  hash-manifested screenshots when `CODE_FIDELITY_SCREENSHOTS=1`.
+  a complete surface manifest plus representative hash-manifested screenshots
+  per populated section/tab when `CODE_FIDELITY_SCREENSHOTS=1`.
 - Branding: `public/favicon.svg` is a bespoke small-format PyArcana botanical
   monogram and is wired through base-path-aware Next.js metadata.
 - Local evidence: lint, TypeScript, 50 Node adversarial tests, 64 Python
@@ -35,7 +36,7 @@
 - `tests/adversarial/test_ci_dependency_install.py` prevents unpinned Bun or a
   direct, non-retrying workflow install from returning.
 - The 52-section browser sweep waits on `section-root[data-section-id]`, not
-  Next.js/HMR network idleness; the screenshot-backed job is bounded to 45 minutes and superseded
+  Next.js/HMR network idleness; the screenshot-backed job is bounded to 25 minutes and superseded
   runs are cancelled.
 
 ## Current checkpoint (2026-07-22): NOT COMPLETE / CLEAN RUN COUNT = 0

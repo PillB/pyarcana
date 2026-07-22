@@ -84,7 +84,7 @@ async function captureSurface(
 
 test.describe('Code rendering fidelity', () => {
   test('S01-S52 code, terminal, output, and playground text matches its source', async ({ page }, testInfo) => {
-    test.setTimeout(CAPTURE_SCREENSHOTS ? 1_500_000 : 600_000)
+    test.setTimeout(600_000)
     const outputDir = testInfo.outputPath('code-fidelity')
     await mkdir(outputDir, { recursive: true })
     const manifest: ManifestEntry[] = []
@@ -139,7 +139,10 @@ test.describe('Code rendering fidelity', () => {
             title,
             sourceLength: expected?.length ?? 0,
           }
-          if (CAPTURE_SCREENSHOTS) {
+          // DOM/source comparison above is exhaustive. One representative image
+          // per populated section/tab keeps the visual artifact reviewable and
+          // avoids thousands of serial PNG writes dominating CI runtime.
+          if (CAPTURE_SCREENSHOTS && index === 0) {
             Object.assign(
               entry,
               await captureSurface(
@@ -169,7 +172,7 @@ test.describe('Code rendering fidelity', () => {
             title: (await container.locator('div').first().textContent())?.trim() || 'Python playground',
             sourceLength: expected?.length ?? 0,
           }
-          if (CAPTURE_SCREENSHOTS) {
+          if (CAPTURE_SCREENSHOTS && index === 0) {
             Object.assign(
               entry,
               await captureSurface(
