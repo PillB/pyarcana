@@ -1,0 +1,852 @@
+{
+  "attempt_id": "agentic_B2",
+  "section_index": 20,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "El instructor modela el proceso completo"
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Resuelves con pistas progresivas"
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Proyecto autónomo con rúbrica"
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Autoevaluación y examen por sección"
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Alineado al mercado peruano 2025-2026"
+      },
+      {
+        "title": "Proyectos que pesan en entrevistas"
+      },
+      {
+        "title": "Basado en 4 libros + investigación"
+      },
+      {
+        "title": "100% autónomo"
+      }
+    ],
+    "brand": "PyArcana"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Setup & Entorno de Desarrollo",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "testing",
+      "title": "OOP y modelo de dominio",
+      "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+      "learningOutcomes": [
+        "Modelar entidades con class/dataclass e instancias válidas",
+        "Imponer invariantes en construcción sin side-effects externos",
+        "Encapsular con properties y métodos de consulta seguros",
+        "Definir igualdad/hash y mutabilidad (frozen) consciente",
+        "Preferir composición a herencia frágil",
+        "Usar Protocol/duck typing para puertos del dominio",
+        "Separar dominio de I/O con repo/service y to_dict",
+        "Probar dominio puro y evitar APIs de fraude/parentesco"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "performance",
+      "title": "APIs, SQL y geodatos responsables",
+      "tagline": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+      "learningOutcomes": [
+        "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+        "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+        "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+        "Escribir contract tests del adaptador y fallback degradado offline",
+        "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+        "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+        "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+        "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+      ]
+    },
+    {
+      "index": 13,
+      "id": "rpa-automation",
+      "title": "Familiarity Evidence Dashboard y cierre de nivel",
+      "tagline": "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+      "learningOutcomes": [
+        "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+        "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+        "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+        "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+        "Producir score de evidencia con incertidumbre y explicación legible",
+        "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+        "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+        "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+      ]
+    },
+    {
+      "index": 14,
+      "id": "security",
+      "title": "NumPy y cómputo vectorizado",
+      "tagline": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+      "learningOutcomes": [
+        "Construir y validar ndarrays con dtype y shape correctos",
+        "Indexar y filtrar con máscaras booleanas de forma segura",
+        "Aplicar ufuncs y reducciones por eje para métricas de calidad",
+        "Resolver broadcasting y documentar compatibilidad de shapes",
+        "Distinguir views de copies y controlar mutabilidad",
+        "Manejar NaN/inf y evaluar estabilidad numérica",
+        "Vectorizar frente a loops con benchmark honesto",
+        "Medir memoria y probar equivalencia con tolerancia"
+      ]
+    },
+    {
+      "index": 15,
+      "id": "stdlib-deep",
+      "title": "Pandas: ingesta, selección y tipos",
+      "tagline": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
+      "learningOutcomes": [
+        "Modelar Series/DataFrame con Index estable",
+        "Leer CSV/Excel con parser y dtypes controlados",
+        "Seleccionar con loc/iloc y assign de forma idiomática",
+        "Evitar chained assignment y controlar copias",
+        "Tipar strings, nullable, fechas y categorías",
+        "Aplicar coerción explícita con schema y reporte",
+        "Exportar a CSV/Excel (y contrato Parquet) de forma reproducible",
+        "Documentar índices, provenance y uso de memoria"
+      ]
+    },
+    {
+      "index": 16,
+      "id": "wxpython-gui",
+      "title": "Calidad, limpieza y contratos de datos",
+      "tagline": "suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca arregla silenciosamente un dato",
+      "learningOutcomes": [
+        "Definir políticas de null por campo",
+        "Limitar imputación y usar indicadores de ausencia",
+        "Distinguir duplicados exactos de conflictos",
+        "Conservar evidencia al resolver claves/cardinalidad",
+        "Normalizar strings/números/fechas/categorías",
+        "Clasificar outliers plausibles vs errores",
+        "Implementar contratos de schema y cross-field",
+        "Cuarentenar fallos con métricas y audit trail"
+      ]
+    },
+    {
+      "index": 17,
+      "id": "packaging",
+      "title": "Joins, reshape, groupby y cierre analítico",
+      "tagline": "Executive Data Quality & EDA Portfolio con dataset limpio, notebook/script reproducible, reconciliación y preguntas de negocio",
+      "learningOutcomes": [
+        "Diseñar joins con claves y cardinalidad correctas",
+        "Usar validate y anti-join para detectar fan-out/huérfanos",
+        "Reshapear con concat/melt/pivot",
+        "Mantener nombres estables long/wide",
+        "Agregar con groupby/agg/transform",
+        "Construir ventanas, fechas y cohortes",
+        "Reconciliar denominadores y totales",
+        "Controlar leakage temporal antes/después"
+      ]
+    },
+    {
+      "index": 18,
+      "id": "data-engineering",
+      "title": "EDA, estadística descriptiva e incertidumbre",
+      "tagline": "EDA que diferencia hallazgo, hipótesis y decisión; cada conclusión referencia un cálculo y declara incertidumbre",
+      "learningOutcomes": [
+        "Resumir distribuciones con centro, dispersión y cuantiles",
+        "Elegir métricas robustas y escalas honestas",
+        "Identificar sesgo de población/muestra",
+        "Reportar intervalos y tamaños de efecto básicos",
+        "Interpretar correlación sin confundir causalidad",
+        "Segmentar y marcar anomalías con límites claros",
+        "Estructurar preguntas, hipótesis y evidencia",
+        "Entregar notebook/script reproducible con data notes"
+      ]
+    },
+    {
+      "index": 19,
+      "id": "databases-orm",
+      "title": "Visualización y comunicación accesible",
+      "tagline": "cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a evidencia y versión no visual equivalente",
+      "learningOutcomes": [
+        "Elegir charts por pregunta y audiencia",
+        "Diseñar ejes, escalas y encodings honestos",
+        "Producir figuras Matplotlib (estilo Seaborn opcional)",
+        "Anotar y exportar de forma reproducible",
+        "Construir vistas interactivas lógicas (filtros/tooltips simulados)",
+        "Proveer alternativas accesibles y cuidar performance",
+        "Documentar unidades, fuente y limitaciones",
+        "Aplicar contraste, alt text y no sobreclaim"
+      ]
+    }
+  ],
+  "active": {
+    "id": "rag",
+    "index": 20,
+    "title": "Automatización robusta de Excel",
+    "tagline": "adaptador que lee los formatos sintéticos del VP, produce un workbook de resultados sin dañar la plantilla y deja manifest de cambios",
+    "jobRelevance": "En finanzas, operaciones y reporting en Perú, **Excel sigue siendo el contrato de entrega**. Esta sección (id `rag` conservado) retematiza a V3 **Automatización robusta de Excel** para **CP-N2-B (excel factory)** con openpyxl, plantillas, conciliación y manifests — sin PII real.",
+    "learningOutcomes": [
+      "Manipular sheets, celdas, tablas y named ranges",
+      "Distinguir fórmulas de valores cacheados",
+      "Aplicar estilos, charts y plantillas",
+      "Manejar fechas, locales, merged cells y protección",
+      "Conciliar totales y trabajar con pivots lógicos",
+      "Preservar estructura y validaciones",
+      "Operar batch con corruptos y locks",
+      "Garantizar backups, idempotencia y tests estructurales"
+    ],
+    "theory": [
+      {
+        "heading": "De “RAG en producción” a Excel factory (mapa)",
+        "paragraphs": [
+          "En V3, **S20 no es el path principal de embeddings/vector stores**. Aquí construyes el **excel factory de CP-N2-B**: leer/escribir celdas, no pisar plantillas, conciliar totales y dejar **manifest** de cambios.",
+          "Usamos **openpyxl** en memoria/temp. Datos sintéticos de regiones y montos.",
+          "Orden: **T1 Modelo de libro** → **T2 Presentación** → **T3 Conciliación** → **T4 Operación robusta**."
+        ],
+        "code": "from openpyxl import Workbook\n\nwb = Workbook()\nws = wb.active\nws.title = \"Entrada\"\nws[\"A1\"] = \"region\"\nws[\"B1\"] = \"monto\"\nws[\"A2\"] = \"Lima\"\nws[\"B2\"] = 28.0\nwb.create_sheet(\"Salida\")\nprint(wb.sheetnames)\nprint(ws[\"A2\"].value, ws[\"B2\"].value)",
+        "code_output": "['Entrada', 'Salida']\nLima 28.0"
+      },
+      {
+        "heading": "sheets, celdas, tablas y named ranges",
+        "paragraphs": [
+          "Un workbook tiene **sheets**; las celdas se direccionan por coordenada (`A1`) o índice. Las **tablas** (display name) y **defined names** dan estabilidad frente a inserts de filas.",
+          "Lee por nombre de hoja, no por posición frágil si el VP reordena.",
+          "Documenta el mapa: hoja → rango → significado."
+        ],
+        "code": "from openpyxl import Workbook\n\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = 10\nws[\"A2\"] = 5\nws[\"A3\"] = \"=A1+A2\"\nprint(\"formula\", ws[\"A3\"].value)\n# cálculo python equivalente\nprint(\"python_sum\", ws[\"A1\"].value + ws[\"A2\"].value)",
+        "code_output": "formula =A1+A2\npython_sum 15"
+      },
+      {
+        "heading": "fórmulas vs valores cacheados",
+        "paragraphs": [
+          "openpyxl por defecto no evalúa fórmulas de Excel: lees el **string de fórmula** o un **valor cacheado** si existe en el archivo.",
+          "Para pipelines Python, suele ser más seguro **calcular en Python** y escribir valores, o documentar dependencia de Excel para recalcular.",
+          "Nunca asumas que `cell.value` numérico implica ausencia de fórmula en origen."
+        ],
+        "code": "from openpyxl import Workbook\n\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = 10\nws[\"A2\"] = 5\nws[\"A3\"] = \"=A1+A2\"\nprint(\"formula\", ws[\"A3\"].value)\n# cálculo python equivalente\nprint(\"python_sum\", ws[\"A1\"].value + ws[\"A2\"].value)",
+        "code_output": "formula =A1+A2\npython_sum 15"
+      },
+      {
+        "heading": "estilos, charts y plantillas",
+        "paragraphs": [
+          "Las **plantillas** (.xlsx) del VP traen estilos corporativos: no reconstruyas el libro desde cero si puedes rellenar celdas marcadas.",
+          "Estilos (Font, PatternFill, Alignment) y charts openpyxl se aplican con cuidado para no romper named styles.",
+          "Separa hoja de datos de hoja de presentación."
+        ],
+        "code": "from openpyxl import Workbook\nfrom datetime import date\n\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = date(2024, 6, 30)\nws.merge_cells(\"B1:C1\")\nws[\"B1\"] = \"Lima-Arequipa\"\nprint(ws[\"A1\"].value.isoformat())\nprint(\"merge\", ws.merged_cells.ranges)\nprint(\"C1_is_none\", ws[\"C1\"].value)",
+        "code_output": "2024-06-30\nmerge {<MergedCellRange B1:C1>}\nC1_is_none None"
+      },
+      {
+        "heading": "fechas, locales, celdas combinadas y protección",
+        "paragraphs": [
+          "Las **fechas** en Excel son seriales; openpyxl puede devolver `datetime`. Locales de display (dd/mm vs mm/dd) son del cliente Excel, no del valor.",
+          "**Merged cells**: escribe en la celda ancla (top-left). Leer celdas no ancla puede devolver None.",
+          "Protección de hoja/celda es señal al usuario, no seguridad criptográfica."
+        ],
+        "code": "from openpyxl import Workbook\nfrom datetime import date\n\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = date(2024, 6, 30)\nws.merge_cells(\"B1:C1\")\nws[\"B1\"] = \"Lima-Arequipa\"\nprint(ws[\"A1\"].value.isoformat())\nprint(\"merge\", ws.merged_cells.ranges)\nprint(\"C1_is_none\", ws[\"C1\"].value)",
+        "code_output": "2024-06-30\nmerge {<MergedCellRange B1:C1>}\nC1_is_none None"
+      },
+      {
+        "heading": "conciliación y pivots",
+        "paragraphs": [
+          "Antes de entregar, **concilia**: suma de detalle = total de portada; conteos por región = n del EDA.",
+          "Los pivots de Excel no siempre se refrescan con openpyxl: calcula la tabla pivote en pandas y escríbela como valores.",
+          "Tolerancia monetaria (p. ej. 0.01 PEN) debe documentarse."
+        ],
+        "code": "import pandas as pd\n\ndet = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\ntot_portada = 22.0\ntot_det = float(det[\"monto\"].sum())\npivot = det.groupby(\"region\", as_index=False)[\"monto\"].sum()\nprint(pivot.to_dict(orient=\"list\"))\nprint(\"ok\", abs(tot_det - tot_portada) < 0.01)",
+        "code_output": "{'region': ['Cusco', 'Lima'], 'monto': [7.0, 15.0]}\nok True"
+      },
+      {
+        "heading": "reglas de validación y preservación de estructura",
+        "paragraphs": [
+          "Data validation (listas, rangos) en plantillas debe **preservarse**. Al escribir, no borres rangos enteros si puedes actualizar celdas puntuales.",
+          "Valida headers esperados antes de cargar filas.",
+          "Estructura: mismas columnas, orden y tipos contractuales del VP."
+        ],
+        "code": "files = [\"a.xlsx\", \"b.xlsx\", \"c.xlsx\"]\nstatus = {}\nfor f in files:\n    if f.startswith(\"b\"):\n        status[f] = \"corrupt\"\n    else:\n        status[f] = \"ok\"\nprint(status)\nprint(\"ok_count\", sum(v == \"ok\" for v in status.values()))",
+        "code_output": "{'a.xlsx': 'ok', 'b.xlsx': 'corrupt', 'c.xlsx': 'ok'}\nok_count 2"
+      },
+      {
+        "heading": "batch, archivos corruptos y locks",
+        "paragraphs": [
+          "Procesa carpetas en batch con try/except por archivo. Corruptos → cuarentena + log; no detengas todo el lote sin política.",
+          "Locks (`~$' file`, PermissionError) se reintentan o se reportan.",
+          "Manifest lista: ok / corrupt / locked / skipped."
+        ],
+        "code": null,
+        "code_output": null
+      },
+      {
+        "heading": "backups, idempotencia y pruebas estructurales",
+        "paragraphs": [
+          "**Backup** del output anterior antes de sobrescribir. **Idempotencia**: re-ejecutar con mismos inputs produce mismo resultado lógico (o versiona outputs).",
+          "Tests estructurales: sheetnames, headers, n filas, total conciliado, no fórmulas rotas esperadas.",
+          "El manifest JSON es el artefacto de auditoría del excel factory."
+        ],
+        "code": null,
+        "code_output": null
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S20-T1-B-DEMO",
+          "description": "Leer/escribir sheets y celdas con openpyxl en workbook sintético",
+          "why": "Mapa de hojas estable es el primer contrato del adaptador.",
+          "code": "from openpyxl import Workbook\n\nwb = Workbook()\nws = wb.active\nws.title = \"Datos\"\nws.append([\"region\", \"monto\"])\nws.append([\"Lima\", 28.0])\nws.append([\"Cusco\", 22.5])\nout = wb.create_sheet(\"Resultados\")\nout[\"A1\"] = \"n_filas\"\nout[\"B1\"] = ws.max_row - 1\nprint(wb.sheetnames)\nprint(\"n\", out[\"B1\"].value)\nprint(\"A2\", ws[\"A2\"].value)",
+          "language": "python",
+          "output": "['Datos', 'Resultados']\nn 2\nA2 Lima"
+        },
+        {
+          "demoId": "S20-T2-A-DEMO",
+          "description": "Distinguir fórmula almacenada vs suma calculada en Python",
+          "why": "El factory prefiere valores Python auditables en hojas de salida.",
+          "code": "from openpyxl import Workbook\n\nwb = Workbook()\nws = wb.active\nws[\"B1\"] = 10\nws[\"B2\"] = 15\nws[\"B3\"] = \"=B1+B2\"\nformula = ws[\"B3\"].value\npy_val = ws[\"B1\"].value + ws[\"B2\"].value\nprint(\"es_formula\", isinstance(formula, str) and formula.startswith(\"=\"))\nprint(\"python_value\", py_val)\nprint(\"no_evaluado_por_openpyxl\", formula != py_val)",
+          "language": "python",
+          "output": "es_formula True\npython_value 25\nno_evaluado_por_openpyxl True"
+        },
+        {
+          "demoId": "S20-T2-B-DEMO",
+          "description": "Aplicar estilo de encabezado tipo plantilla corporativa",
+          "why": "Estilos consistentes sin rehacer la plantilla completa.",
+          "code": "from openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill, Alignment\n\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = \"Region\"\nws[\"B1\"] = \"Monto PEN\"\nfor col in (\"A\", \"B\"):\n    c = ws[f\"{col}1\"]\n    c.font = Font(bold=True, color=\"FFFFFF\")\n    c.fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\n    c.alignment = Alignment(horizontal=\"center\")\nws[\"A2\"] = \"Lima\"\nws[\"B2\"] = 28.0\nprint(ws[\"A1\"].font.bold, ws[\"A1\"].fill.fgColor.rgb)\nprint(ws[\"B2\"].value)",
+          "language": "python",
+          "output": "True 001F4E79\n28.0"
+        },
+        {
+          "demoId": "S20-T3-A-DEMO",
+          "description": "Escribir fecha ISO y respetar celda combinada (ancla)",
+          "why": "Fechas y merges sin romper el layout del VP.",
+          "code": "from openpyxl import Workbook\nfrom datetime import date\n\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = date(2024, 6, 30)\nws.merge_cells(\"B1:D1\")\nws[\"B1\"] = \"Cobertura: Lima|Arequipa|Cusco\"\nprint(ws[\"A1\"].value.isoformat())\nprint(\"anchor\", ws[\"B1\"].value)\nprint(\"non_anchor_D1\", ws[\"D1\"].value)",
+          "language": "python",
+          "output": "2024-06-30\nanchor Cobertura: Lima|Arequipa|Cusco\nnon_anchor_D1 None"
+        },
+        {
+          "demoId": "S20-T3-B-DEMO",
+          "description": "Conciliar total de portada con detalle y pivot por región",
+          "why": "Conciliación es el control de calidad del workbook de resultados.",
+          "code": "import pandas as pd\n\ndet = pd.DataFrame({\n    \"region\": [\"Lima\", \"Lima\", \"Arequipa\", \"Cusco\"],\n    \"monto\": [10.0, 12.0, 8.0, 5.5],\n})\nportada = 35.5\npivot = det.groupby(\"region\")[\"monto\"].sum().to_dict()\nprint(pivot)\nprint(\"reconcile\", abs(det[\"monto\"].sum() - portada) < 0.01)",
+          "language": "python",
+          "output": "{'Arequipa': 8.0, 'Cusco': 5.5, 'Lima': 22.0}\nreconcile True"
+        },
+        {
+          "demoId": "S20-T4-A-DEMO",
+          "description": "Validar headers y dominio de región antes de escribir salida",
+          "why": "Fail fast preserva la estructura contractual del VP.",
+          "code": "expected = [\"region\", \"monto\", \"n\"]\ngot = [\"region\", \"monto\", \"n\"]\nallowed = {\"Lima\", \"Arequipa\", \"Cusco\"}\nrows = [{\"region\": \"Lima\", \"monto\": 1.0, \"n\": 1}, {\"region\": \"Piura\", \"monto\": 1.0, \"n\": 1}]\nprint(\"headers_ok\", got == expected)\nbad = [r for r in rows if r[\"region\"] not in allowed]\nprint(\"bad_regions\", [r[\"region\"] for r in bad])\nprint(\"abort\", len(bad) > 0)",
+          "language": "python",
+          "output": "headers_ok True\nbad_regions ['Piura']\nabort True"
+        },
+        {
+          "demoId": "S20-T4-B-DEMO",
+          "description": "Simular batch con detección de corruptos y locks",
+          "why": "El lote continúa; los fallos quedan auditados.",
+          "code": "batch = [\n    (\"ok1.xlsx\", \"ok\"),\n    (\"bad.xlsx\", \"corrupt\"),\n    (\"lock.xlsx\", \"locked\"),\n    (\"ok2.xlsx\", \"ok\"),\n]\nmanifest = {}\nfor name, st in batch:\n    manifest[name] = st\nprint(manifest)\nprint({k: sum(1 for v in manifest.values() if v == k) for k in (\"ok\", \"corrupt\", \"locked\")})",
+          "language": "python",
+          "output": "{'ok1.xlsx': 'ok', 'bad.xlsx': 'corrupt', 'lock.xlsx': 'locked', 'ok2.xlsx': 'ok'}\n{'ok': 2, 'corrupt': 1, 'locked': 1}"
+        },
+        {
+          "demoId": null,
+          "description": "Escritura idempotente con backup lógico y tests estructurales",
+          "why": "Idempotencia + backup + tests cierran el excel factory.",
+          "code": "import hashlib, json\n\ndef build_output(rows):\n    # determinista\n    lines = [\"region,monto\"] + [f\"{r},{m}\" for r, m in sorted(rows)]\n    return \"\\n\".join(lines) + \"\\n\"\n\nrows = [(\"Lima\", 10), (\"Cusco\", 5)]\no1 = build_output(rows)\no2 = build_output(list(reversed(rows)))\nmanifest = {\n    \"sha1_8\": hashlib.sha1(o1.encode()).hexdigest()[:8],\n    \"idempotent\": o1 == o2,\n    \"backup\": \"results.prev.xlsx\",\n    \"tests\": {\"has_header\": o1.startswith(\"region,monto\"), \"n_data\": 2},\n}\nprint(json.dumps(manifest, ensure_ascii=False))",
+          "language": "python",
+          "output": "{\"sha1_8\": \"3e819052\", \"idempotent\": true, \"backup\": \"results.prev.xlsx\", \"tests\": {\"has_header\": true, \"n_data\": 2}}"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S20-T1-A-E1",
+          "instruction": "Crea Workbook, pon título de hoja 'Entrada' y A1='region'; imprime sheetnames y A1.",
+          "hints": [
+            "ws.title y ws['A1'].",
+            "from openpyxl import Workbook."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from openpyxl import Workbook\n# TODO\n"
+        },
+        {
+          "id": "S20-T1-A-E2",
+          "instruction": "append header y una fila Lima/10.0; imprime max_row.",
+          "hints": [
+            "ws.append.",
+            "max_row incluye header."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from openpyxl import Workbook\n# TODO\n"
+        },
+        {
+          "id": "S20-T1-A-E3",
+          "instruction": "Crea hojas Datos y Salida; imprime sheetnames ordenados por creación.",
+          "hints": [
+            "create_sheet.",
+            "Renombra active primero."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from openpyxl import Workbook\n# TODO\n"
+        },
+        {
+          "id": "S20-T1-B-E1",
+          "instruction": "Asigna fórmula =A1+A2 y print si startswith('=').",
+          "hints": [
+            "cell value string.",
+            "True esperado."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from openpyxl import Workbook\n# TODO\n"
+        },
+        {
+          "id": "S20-T1-B-E2",
+          "instruction": "Con A1=3 A2=4 calcula suma python e imprime 7 sin evaluar fórmula Excel.",
+          "hints": [
+            "Suma .value numéricos.",
+            "No uses data_only aquí."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from openpyxl import Workbook\n# TODO\n"
+        },
+        {
+          "id": "S20-T1-B-E3",
+          "instruction": "Función es_formula(v) True si str y empieza con =; prueba con '=A1' y 3.",
+          "hints": [
+            "isinstance str.",
+            "Dos prints."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S20-T2-A-E1",
+          "instruction": "Pon A1 bold=True e imprime font.bold.",
+          "hints": [
+            "Font(bold=True).",
+            "openpyxl.styles."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from openpyxl import Workbook\nfrom openpyxl.styles import Font\n# TODO\n"
+        },
+        {
+          "id": "S20-T2-A-E2",
+          "instruction": "Aplica PatternFill solid fgColor 1F4E79 a A1 e imprime que fill no es None.",
+          "hints": [
+            "PatternFill.",
+            "print True."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\n# TODO\n"
+        },
+        {
+          "id": "S20-T2-A-E3",
+          "instruction": "Escribe header_style(ws, cell) bold+fill; aplícalo a A1 y print bold.",
+          "hints": [
+            "Función mutadora.",
+            "Color corporativo."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill\n# TODO\n"
+        },
+        {
+          "id": "S20-T2-B-E1",
+          "instruction": "Escribe date(2024,1,15) en A1 e imprime isoformat.",
+          "hints": [
+            "datetime.date.",
+            "value.isoformat()."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from openpyxl import Workbook\nfrom datetime import date\n# TODO\n"
+        },
+        {
+          "id": "S20-T2-B-E2",
+          "instruction": "merge B1:C1, valor en B1 'x'; imprime C1 value (None esperado).",
+          "hints": [
+            "merge_cells.",
+            "Leer no ancla."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from openpyxl import Workbook\n# TODO\n"
+        },
+        {
+          "id": "S20-T2-B-E3",
+          "instruction": "Cuenta cuántos merge ranges hay tras merge A1:B1 y C1:D1; print int.",
+          "hints": [
+            "len(ws.merged_cells.ranges).",
+            "Dos merges."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from openpyxl import Workbook\n# TODO\n"
+        },
+        {
+          "id": "S20-T3-A-E1",
+          "instruction": "detalle sum 10+5, portada 15; print reconcile True con tol 0.01.",
+          "hints": [
+            "abs(diff)<0.01.",
+            "print bool."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S20-T3-A-E2",
+          "instruction": "Pivot suma por región con pandas; print dict de Lima/Cusco para montos 10,5 y 7.",
+          "hints": [
+            "groupby sum.",
+            "to_dict."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\n# TODO\n"
+        },
+        {
+          "id": "S20-T3-A-E3",
+          "instruction": "reconcile(det_sum, portada, tol=0.01) devuelve bool; prueba 22.0 vs 22.005 y 22.0 vs 23.",
+          "hints": [
+            "abs <= tol o <.",
+            "Dos prints."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S20-T3-B-E1",
+          "instruction": "headers got vs expected region/monto; print equality.",
+          "hints": [
+            "list compare.",
+            "True."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "expected=['region','monto']; got=['region','monto']\n# TODO\n"
+        },
+        {
+          "id": "S20-T3-B-E2",
+          "instruction": "Filtra regiones no permitidas de ['Lima','Piura'] con allowed Lima/Cusco; print bad list.",
+          "hints": [
+            "list comp.",
+            "print."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S20-T3-B-E3",
+          "instruction": "validate_rows(rows, allowed) retorna lista de regiones inválidas; prueba una inválida.",
+          "hints": [
+            "Comprensión.",
+            "print resultado."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S20-T4-A-E1",
+          "instruction": "De statuses ok/corrupt/ok cuenta ok; print 2.",
+          "hints": [
+            "sum genexp.",
+            "print."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "st=['ok','corrupt','ok']\n# TODO\n"
+        },
+        {
+          "id": "S20-T4-A-E2",
+          "instruction": "Clasifica nombre 'file.xlsx.lock' como locked si endswith .lock o contiene 'lock'; print status.",
+          "hints": [
+            "Regla simple didáctica.",
+            "print locked."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "name='report.lock'\n# TODO\n"
+        },
+        {
+          "id": "S20-T4-A-E3",
+          "instruction": "batch_status(files_dict) devuelve conteos por estado; input {'a':'ok','b':'corrupt'}.",
+          "hints": [
+            "Counter o dict.",
+            "print dict."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "from collections import Counter\n# TODO\n"
+        },
+        {
+          "id": "S20-T4-B-E1",
+          "instruction": "Imprime manifest con backup path y idempotent True.",
+          "hints": [
+            "dict.",
+            "json opcional."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        },
+        {
+          "id": "S20-T4-B-E2",
+          "instruction": "Muestra que build ordenado es idempotente: same hash para rows en distinto orden.",
+          "hints": [
+            "sorted + sha1.",
+            "print True."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import hashlib\n# TODO\n"
+        },
+        {
+          "id": "S20-T4-B-E3",
+          "instruction": "structural_ok(sheetnames, need) True si need subset de sheetnames; prueba need Entrada/Salida.",
+          "hints": [
+            "set issuperset.",
+            "print."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "# TODO\n"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Excel factory CP-N2-B",
+      "context": "Implementa un adaptador que lea formatos sintéticos del VP, genere workbook de resultados sin dañar la plantilla master y deje **manifest** de cambios/conciliación (**CP-N2-B excel factory**).",
+      "objectives": [
+        "Leer/escribir sheets con openpyxl",
+        "Calcular en Python valores de salida",
+        "Conciliar totales con tolerancia",
+        "Batch con corrupt/lock handling",
+        "Backup + idempotencia + tests estructurales"
+      ],
+      "requirements": [
+        "No modificar plantilla master in-place sin backup",
+        "Manifest JSON con estados y reconcile_ok",
+        "Datos sintéticos only",
+        "Headers validados",
+        "es-PE en etiquetas de hojas de presentación"
+      ],
+      "portfolioNote": "Workbook + manifest del factory; se enlaza al dashboard (S19) y al paquete de reportes (S21).",
+      "starterCode": "from openpyxl import Workbook\nimport json\n\n# TODO: plantilla → salida + manifest\nwb = Workbook()\nws = wb.active\nws.title = \"Entrada\"\nws.append([\"region\", \"monto\"])\nws.append([\"Lima\", 10.0])\nprint(wb.sheetnames)\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "openpyxl sin Excel instalado evalúa fórmulas automáticamente:",
+        "options": [
+          "Siempre sí",
+          "No; suele devolver la fórmula o cache si existe",
+          "Solo en Linux",
+          "Solo named ranges"
+        ]
+      },
+      {
+        "question": "Al escribir en celdas combinadas debes:",
+        "options": [
+          "Escribir en cualquier celda del merge",
+          "Escribir en la celda ancla (top-left)",
+          "Desmerge siempre",
+          "Usar solo CSV"
+        ]
+      },
+      {
+        "question": "Un manifest del excel factory debe permitir auditar:",
+        "options": [
+          "Solo el color de fuente",
+          "Estados de batch, conciliación y backups",
+          "La contraseña del VP",
+          "Embeddings"
+        ]
+      },
+      {
+        "question": "Idempotencia significa:",
+        "options": [
+          "Correr dos veces cambia totales al azar",
+          "Misma entrada → mismo resultado lógico",
+          "Borrar la plantilla",
+          "Ignorar headers"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "cecd7c28c679cace"
+}

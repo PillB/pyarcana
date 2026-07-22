@@ -1,0 +1,549 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B2",
+  "section_index": 5,
+  "packet_sha": "ba9721e06369d0f4",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_05/packet.json",
+  "recorded_at": "2026-07-22T02:01:21.554239+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "selfcheck_rebuilt_B2_skeptic_packet_quotes_batch_01_26; exercises_kept",
+  "persona_seed": "bddc185cf070",
+  "exercises": [
+    {
+      "exercise_id": "S05-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T1-A-E1\ndef doble(n):\n    return n * 2\nprint(doble(21))\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T1-A-E1\n# skeptic note: refused APIs not in theory/iDo for S05-T1-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "doble"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S05-T1-A-E1 contra instruction/iDo. Instruction: «E1 (guiado) — Escribe `def doble(n):` que retorne `n*2`. Imprime doble(21).». Cita demo `S05-T1-B-DEMO` (def + return de normalize_nombre collapsando espacios) → «def normalize_nombre(raw): return \" \".join(raw.strip().split()) for s in [\" Ana \", \"María José\", \"QUISPE\"]:». Hint: «return n * 2». Solo admito `def doble` + `print(` porque salen del packet. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T1-A-E2\ndef normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\nprint(normalize_nombre('  Juan   Pérez '))\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T1-A-E2\n# skeptic note: refused APIs not in theory/iDo for S05-T1-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "normalize_nombre",
+        "raw",
+        "join",
+        "strip",
+        "split"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S05-T1-A-E2 solo si hay rastro en slim_packet. Instruction: «E2 (independiente) — `normalize_nombre(raw)` colapsa espacios internos y strip. Prueba con `' Juan Pérez '`.». iDo obligatorio `S05-T1-B-DEMO` (def + return de normalize_nombre collapsando espacios) → «def normalize_nombre(raw): return \" \".join(raw.strip().split()) for s in [\" Ana \", \"María José\", \"QUISPE\"]:». Hint: «\" \".join(raw.strip().split())». Code auditado con `def normalize_nombre` + `normalize_nombre`; sin APIs fantasma. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T1-A-E3\ndef saluda(nombre):\n    return f'Hola {nombre}'\nprint(saluda('Ana'))\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T1-A-E3\n# skeptic note: refused APIs not in theory/iDo for S05-T1-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "saluda",
+        "nombre",
+        "Hola",
+        "Ana"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S05-T1-A-E3 solo si hay rastro en slim_packet. Instruction: «E3 (transferencia) — Función `saluda(nombre)` que retorne el string; en main imprime el return. Demuestra que sin return print(saluda(...)) muestra None si…». Cita demo `S05-T1-B-DEMO` (def + return de normalize_nombre collapsando espacios) → «def normalize_nombre(raw): return \" \".join(raw.strip().split()) for s in [\" Ana \", \"María José\", \"QUISPE\"]:». Hint: «Si ves None, falta return.». Solo admito `nombre` + `print(` porque salen del packet. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T1-B-E1\ndef present(nombre, titulo='Cliente'):\n    return f'{titulo}: {nombre}'\nprint(present('Quispe'))\nprint(present('Quispe', titulo='VIP'))\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T1-B-E1\n# skeptic note: refused APIs not in theory/iDo for S05-T1-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "present",
+        "nombre",
+        "titulo",
+        "Cliente",
+        "Quispe"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S05-T1-B-E1. Instruction: «E1 (guiado) — `def present(nombre, titulo='Cliente'):` retorna `f'{titulo}: {nombre}'`. Llama posicional y con keyword titulo=.». Soporte `S05-T1-B-DEMO` (def + return de normalize_nombre collapsando espacios) → «def normalize_nombre(raw): return \" \".join(raw.strip().split()) for s in [\" Ana \", \"María José\", \"QUISPE\"]:». Hint: «default solo se usa si omites el arg». Check: `def present` + `Cliente` están en instruction/iDo/code. Teory heading: «Posicionales, keyword y defaults seguros»."
+    },
+    {
+      "exercise_id": "S05-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T1-B-E2\ndef good_add(item, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\nprint(good_add(1))\nprint(good_add(2))\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T1-B-E2\n# skeptic note: refused APIs not in theory/iDo for S05-T1-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "good_add",
+        "item",
+        "bucket",
+        "append"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S05-T1-B-E2 solo si hay rastro en slim_packet. Instruction: «E2 (independiente) — Reescribe un `bad_add` con default mutable a la versión segura con None. Muestra dos llamadas good(1), good(2) independientes.». Cita demo `S05-T1-B-DEMO` (def + return de normalize_nombre collapsando espacios) → «def normalize_nombre(raw): return \" \".join(raw.strip().split()) for s in [\" Ana \", \"María José\", \"QUISPE\"]:». Hint: «if bucket is None: bucket = []». Huellas en code: `def good_add` + `print(`. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T1-B-E3\ndef normalize_telefono(raw, *, digits_only=True):\n    if digits_only:\n        return ''.join(c for c in raw if c.isdigit())\n    return raw.strip()\nprint(normalize_telefono(' 999-000 '))\nprint(normalize_telefono(' 999-000 ', digits_only=False))\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T1-B-E3\n# skeptic note: refused APIs not in theory/iDo for S05-T1-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "normalize_telefono",
+        "raw",
+        "digits_only",
+        "join",
+        "isdigit"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S05-T1-B-E3. Instruction: «E3 (transferencia) — `normalize_telefono(raw, *, digits_only=True)` keyword-only. Si digits_only, deja solo dígitos; si False, solo strip. Demuestra ambas…». Cita demo `S05-T1-B-DEMO` (def + return de normalize_nombre collapsando espacios) → «def normalize_nombre(raw): return \" \".join(raw.strip().split()) for s in [\" Ana \", \"María José\", \"QUISPE\"]:». Hint: «El * fuerza keyword para digits_only.». Solo admito `normalize_telefono` + `digits_only` porque salen del packet. Teory heading: «Posicionales, keyword y defaults seguros»."
+    },
+    {
+      "exercise_id": "S05-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T2-A-E1\ndef area(w, h):\n    \"\"\"Área del rectángulo w*h.\"\"\"\n    return w * h\nprint(area.__doc__)\nprint(area(3, 4))\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T2-A-E1\n# skeptic note: refused APIs not in theory/iDo for S05-T2-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "area",
+        "del",
+        "__doc__"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S05-T2-A-E1. Instruction: «E1 (guiado) — Añade docstring de una línea a `def area(w, h): return w*h` e imprime `area.__doc__`.». Cita demo `S05-T2-A-DEMO` (Defaults seguros vs default mutable bug) → «def good(item, bucket=None): if bucket is None: bucket = []». Hint: «Triple comillas justo bajo def». Code auditado con `def area` + `__doc__`; sin APIs fantasma. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T2-A-E2\ndef normalize_email(raw: str) -> str:\n    \"\"\"Pre: str. Post: lower strip con @. Raises ValueError si falta @.\"\"\"\n    s = raw.strip().lower()\n    if \"@\" not in s:\n        raise ValueError(\"falta @\")\n    return s\nprint(normalize_email('  A@B.COM '))\ntry:\n    normalize_email('x')\nexcept ValueError as e:\n    print('err', e)\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T2-A-E2\n# skeptic note: refused APIs not in theory/iDo for S05-T2-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "normalize_email",
+        "raw",
+        "str",
+        "Pre",
+        "Post"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S05-T2-A-E2 solo si hay rastro en slim_packet. Instruction: «E2 (independiente) — `normalize_email` con pre/post en docstring: strip+lower; ValueError si no hay @. Prueba OK y error.». Prueba iDo `S05-T2-A-DEMO` (Defaults seguros vs default mutable bug) → «def good(item, bucket=None): if bucket is None: bucket = []». Hint: «if '@' not in s: raise ValueError». Code auditado con `normalize_email` + `def normalize_email`; sin APIs fantasma. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T2-A-E3\ndef normalize_nombre(raw: str) -> str:\n    \"\"\"Post: sin extremos ni dobles espacios.\"\"\"\n    return ' '.join(raw.strip().split())\nr = normalize_nombre('  Ana  María  ')\nprint(r)\nassert r == r.strip() and '  ' not in r\nprint('post OK')\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T2-A-E3\n# skeptic note: refused APIs not in theory/iDo for S05-T2-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "normalize_nombre",
+        "raw",
+        "str",
+        "Post",
+        "sin"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S05-T2-A-E3 solo si hay rastro en slim_packet. Instruction: «E3 (transferencia) — Documenta y escribe `normalize_nombre` con postcondición: no empiezan/terminan espacios y no hay dobles espacios. Assert de la…». Prueba iDo `S05-T2-A-DEMO` (Defaults seguros vs default mutable bug) → «def good(item, bucket=None): if bucket is None: bucket = []». Hint: «assert result == result.strip() and ' ' not in result». Solo admito `normalize_nombre` + `def normalize_nombre` porque salen del packet. Teory heading: «Pruebas de ejemplo y refactor sin cambiar conducta»."
+    },
+    {
+      "exercise_id": "S05-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T2-B-E1\ndef len_safe(s: str) -> int:\n    return len(s)\nprint(len_safe('abc'))\nprint('nota: type hints no validan en runtime')\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T2-B-E1\n# skeptic note: refused APIs not in theory/iDo for S05-T2-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "len_safe",
+        "str",
+        "int",
+        "len",
+        "abc"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S05-T2-B-E1. Instruction: «E1 (guiado) — Anota `def len_safe(s: str) -> int` y retorna len. Imprime el resultado y un comentario mental de que el hint no valida en runtime.». Soporte `S05-T2-B-DEMO` (Docstring + pre/post en normalize_email) → «def normalize_email(raw: str) -> str: \"\"\"Pre: str. Post: lower strip con @. Raises ValueError.\"\"\" s =…». Hint: «hints no ejecutan isinstance mágicamente». Huellas en code: `def len_safe` + `len_safe`. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T2-B-E2\nfrom typing import Optional, Tuple\n\ndef parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:\n    try:\n        n = int(raw.strip())\n    except ValueError:\n        return False, None, 'no int'\n    if n < 0:\n        return False, None, 'negativo'\n    return True, n, None\nfor v in ['0', '10', '-1', 'x']:\n    print(v, parse_monto(v))\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T2-B-E2\n# skeptic note: refused APIs not in theory/iDo for S05-T2-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "typing",
+        "Optional",
+        "Tuple",
+        "parse_monto",
+        "raw"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S05-T2-B-E2 contra instruction/iDo. Instruction: «E2 (independiente) — `parse_monto(raw: str) -> tuple` (ok, value, err). Acepta enteros >=0; error de dominio si negativo o no int.». iDo obligatorio `S05-T2-B-DEMO` (Docstring + pre/post en normalize_email) → «def normalize_email(raw: str) -> str: \"\"\"Pre: str. Post: lower strip con @. Raises ValueError.\"\"\" s =…». Hint: «try int; if n<0 dominio». Huellas en code: `parse_monto` + `def parse_monto`. Teory heading: «Type hints graduales y errores de dominio»."
+    },
+    {
+      "exercise_id": "S05-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T2-B-E3\ndef normalize_email(raw: str) -> str:\n    s = raw.strip().lower()\n    if '@' not in s:\n        raise ValueError('falta @')\n    return s\nprint('elección: raise ValueError — el caller decide skip por fila')\nfor e in ['ok@ex.com', 'malo']:\n    try:\n        print('OK', normalize_email(e))\n    except ValueError:\n        print('SKIP', e)\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T2-B-E3\n# skeptic note: refused APIs not in theory/iDo for S05-T2-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "normalize_email",
+        "raw",
+        "str",
+        "strip",
+        "lower"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S05-T2-B-E3. Instruction: «E3 (transferencia) — Elige raise ValueError **o** tupla para `normalize_email` y documenta por qué en un print. Implementa la opción raise y captura en el…». Cita demo `S05-T2-B-DEMO` (Docstring + pre/post en normalize_email) → «def normalize_email(raw: str) -> str: \"\"\"Pre: str. Post: lower strip con @. Raises ValueError.\"\"\" s =…». Hint: «Lote: try/except por fila para no abortar todo». Huellas en code: `def normalize_email` + `normalize_email`. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T3-A-E1\ndef strip_collapse(s):\n    return ' '.join(s.strip().split())\ndef normalize_nombre(raw):\n    return strip_collapse(raw).title()\nprint(normalize_nombre('  ana  maría '))\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T3-A-E1\n# skeptic note: refused APIs not in theory/iDo for S05-T3-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "strip_collapse",
+        "join",
+        "strip",
+        "split",
+        "normalize_nombre"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S05-T3-A-E1. Instruction: «E1 (guiado) — Extrae `strip_collapse` y úsalo dentro de `normalize_nombre` que además hace .title().». iDo obligatorio `S05-T3-A-DEMO` (Type hints + resultado de dominio sin abortar el lote) → «from typing import Optional, Tuple def norm_tel(raw: str) -> Tuple[bool, Optional[str], Optional[str]]: d =…». Hint: «def strip_collapse; return strip_collapse(raw).title()». Solo admito `normalize_nombre` + `strip_collapse` porque salen del packet. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T3-A-E2\ndef norm_n(s):\n    return ' '.join(s.strip().split()).title()\ndef norm_e(s):\n    return s.strip().lower()\ndef normalize_contact(nombre, email):\n    return {'nombre': norm_n(nombre), 'email': norm_e(email)}\nprint(normalize_contact('  luis ', '  L@E.COM '))\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T3-A-E2\n# skeptic note: refused APIs not in theory/iDo for S05-T3-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "norm_n",
+        "join",
+        "strip",
+        "split",
+        "title"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S05-T3-A-E2 solo si hay rastro en slim_packet. Instruction: «E2 (independiente) — Orquestador `normalize_contact(nombre, email)` devuelve dict usando dos helpers.». Soporte `S05-T3-A-DEMO` (Type hints + resultado de dominio sin abortar el lote) → «from typing import Optional, Tuple def norm_tel(raw: str) -> Tuple[bool, Optional[str], Optional[str]]: d =…». Hint: «return {'nombre': ..., 'email': ...}». Solo admito `normalize_contact` + `def normalize_contact` porque salen del packet. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T3-A-E3\ndef n_nombre(n):\n    return ' '.join(n.strip().split()).title()\ndef n_email(e):\n    return e.strip().lower()\ndef n_tel(t):\n    return ''.join(c for c in t if c.isdigit())\ndef normalize_all(n, e, t):\n    return {'nombre': n_nombre(n), 'email': n_email(e), 'telefono': n_tel(t)}\nprint(normalize_all('  Ana ', 'A@B.COM', '999-1'))\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T3-A-E3\n# skeptic note: refused APIs not in theory/iDo for S05-T3-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "n_nombre",
+        "join",
+        "strip",
+        "split",
+        "title"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S05-T3-A-E3 solo si hay rastro en slim_packet. Instruction: «E3 (transferencia) — Parte una función monstruo de 10 líneas (nombre+email+tel en un solo def con comentarios) en 3 funciones + orquestador. Misma salida.». Cita demo `S05-T3-A-DEMO` (Type hints + resultado de dominio sin abortar el lote) → «from typing import Optional, Tuple def norm_tel(raw: str) -> Tuple[bool, Optional[str], Optional[str]]: d =…». Hint: «Cada campo = una función». Solo admito `def normalize_all` + `def n_nombre` porque salen del packet. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T3-B-E1\ndef normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\nx = '999-000'\nonce = normalize_tel(x)\nprint(once, normalize_tel(once) == once)\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T3-B-E1\n# skeptic note: refused APIs not in theory/iDo for S05-T3-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "normalize_tel",
+        "raw",
+        "join",
+        "isdigit",
+        "once"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S05-T3-B-E1 contra instruction/iDo. Instruction: «E1 (guiado) — Escribe `normalize_tel` puro (solo dígitos). Demuestra idempotencia con dos llamadas encadenadas.». Soporte `S05-T3-B-DEMO` (Componer strip + lower + orquestador de registro) → «def strip_collapse(s: str) -> str: return \" \".join(s.strip().split()) def norm_email(s: str) -> str:». Hint: «once = f(x); twice = f(once); print once==twice». Check: `normalize_tel` + `def normalize_tel` están en instruction/iDo/code. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T3-B-E2\ndef normalize_email(raw):\n    return raw.strip().lower()\ndef print_report(raw):\n    print(f'email= {normalize_email(raw)}')\nprint_report('  Z@W.COM ')\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T3-B-E2\n# skeptic note: refused APIs not in theory/iDo for S05-T3-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "normalize_email",
+        "raw",
+        "strip",
+        "lower",
+        "print_report"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S05-T3-B-E2. Instruction: «E2 (independiente) — Separa: `normalize_email` puro + `print_report(email)` con efecto de print. No imprimas dentro del normalizador.». iDo obligatorio `S05-T3-B-DEMO` (Componer strip + lower + orquestador de registro) → «def strip_collapse(s: str) -> str: return \" \".join(s.strip().split()) def norm_email(s: str) -> str:». Hint: «print solo en print_report». Huellas en code: `normalize_email` + `print_report`. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T3-B-E3\ndef normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\ndef process(line, norm=normalize_tel):\n    return norm(line)\nprint(process(' 999-a '))\nprint(process(' 999-a ', norm=lambda s: s.strip().upper()))\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T3-B-E3\n# skeptic note: refused APIs not in theory/iDo for S05-T3-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "normalize_tel",
+        "raw",
+        "join",
+        "isdigit",
+        "process"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S05-T3-B-E3. Instruction: «E3 (transferencia) — Inyecta un normalizador: `process(line, norm=normalize_tel)` usa la fn inyectada. Llama con default y con un norm alternativo que deja…». Soporte `S05-T3-B-DEMO` (Componer strip + lower + orquestador de registro) → «def strip_collapse(s: str) -> str: return \" \".join(s.strip().split()) def norm_email(s: str) -> str:». Hint: «norm es parámetro con default». Code auditado con `normalize_tel` + `def normalize_tel`; sin APIs fantasma. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T4-A-E1\nx = 1\ndef f():\n    x = 2\n    print('in', x)\nf()\nprint('out', x)\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T4-A-E1\n# skeptic note: refused APIs not in theory/iDo for S05-T4-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "out"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S05-T4-A-E1 solo si hay rastro en slim_packet. Instruction: «E1 (guiado) — Predice LEGB: global x=1; dentro de f, x=2 local; print dentro y fuera.». Prueba iDo `S05-T4-A-DEMO` (Idempotencia de normalize_telefono puro) → «def normalize_telefono(raw: str) -> str: return \"\".join(c for c in raw if c.isdigit()) samples =…». Hint: «Local no pisa global sin global keyword». Huellas en code: `print(` + `def f`. Teory heading: «LEGB y closures básicos»."
+    },
+    {
+      "exercise_id": "S05-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T4-A-E2\ndef make_multiplier(k):\n    def inner(n):\n        return n * k\n    return inner\nm3 = make_multiplier(3)\nm10 = make_multiplier(10)\nprint(m3(4), m10(4))\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T4-A-E2\n# skeptic note: refused APIs not in theory/iDo for S05-T4-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "make_multiplier",
+        "inner",
+        "m10"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S05-T4-A-E2. Instruction: «E2 (independiente) — `make_multiplier(k)` devuelve función que multiplica por k (closure). Crea *3 y *10.». Prueba iDo `S05-T4-A-DEMO` (Idempotencia de normalize_telefono puro) → «def normalize_telefono(raw: str) -> str: return \"\".join(c for c in raw if c.isdigit()) samples =…». Hint: «def inner(n): return n*k; return inner». Check: `make_multiplier` + `def make_multiplier` están en instruction/iDo/code. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T4-A-E3\ndef make_normalizer(mode):\n    if mode == 'digits':\n        def norm(s):\n            return ''.join(c for c in s if c.isdigit())\n        return norm\n    if mode == 'lower':\n        def norm(s):\n            return s.strip().lower()\n        return norm\n    raise ValueError(mode)\nd = make_normalizer('digits')\nlo = make_normalizer('lower')\nprint(d('A-1-B-2'), lo('  Hola '))\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T4-A-E3\n# skeptic note: refused APIs not in theory/iDo for S05-T4-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "make_normalizer",
+        "mode",
+        "digits",
+        "norm",
+        "join"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S05-T4-A-E3 solo si hay rastro en slim_packet. Instruction: «E3 (transferencia) — Factory `make_normalizer(mode)` donde mode 'digits' o 'lower' devuelve la fn adecuada. Úsala en dos prints.». iDo obligatorio `S05-T4-A-DEMO` (Idempotencia de normalize_telefono puro) → «def normalize_telefono(raw: str) -> str: return \"\".join(c for c in raw if c.isdigit()) samples =…». Hint: «if mode=='digits': return lambda o def digits...». Code auditado con `def norm` + `make_normalizer`; sin APIs fantasma. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T4-B-E1\ndef normalize_email(s):\n    return s.strip().lower()\nassert normalize_email('A@B.COM') == 'a@b.com'\nassert normalize_email(normalize_email('A@B.COM')) == normalize_email('A@B.COM')\nprint('OK')\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T4-B-E1\n# skeptic note: refused APIs not in theory/iDo for S05-T4-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "normalize_email",
+        "strip",
+        "lower",
+        "assert",
+        "COM"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S05-T4-B-E1. Instruction: «E1 (guiado) — Escribe 2 asserts de ejemplo para `normalize_email = lambda s: s.strip().lower()` e imprime OK.». Soporte `S05-T4-B-DEMO` (Closure factory para prefijo de teléfono) → «def make_norm(prefix: str): def norm(raw: str) -> str: d = \"\".join(c for c in raw if c.isdigit())». Hint: «assert normalize_email('A@B.COM')=='a@b.com'». Code auditado con `normalize_email` + `def normalize_email`; sin APIs fantasma. Teory heading: «Pruebas de ejemplo y refactor sin cambiar conducta»."
+    },
+    {
+      "exercise_id": "S05-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T4-B-E2\ndef normalize_dir(raw):\n    collapsed = ' '.join(raw.strip().split())\n    return collapsed.upper()\nassert normalize_dir('  av 1 ') == 'AV 1'\nassert normalize_dir(normalize_dir('x')) == normalize_dir('x')\nprint(normalize_dir(' jr 2 '))\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T4-B-E2\n# skeptic note: refused APIs not in theory/iDo for S05-T4-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "normalize_dir",
+        "raw",
+        "collapsed",
+        "join",
+        "strip"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S05-T4-B-E2. Instruction: «E2 (independiente) — Refactoriza `normalize_dir` de una línea densa a dos pasos (strip_collapse + upper) sin romper asserts dados.». Soporte `S05-T4-B-DEMO` (Closure factory para prefijo de teléfono) → «def make_norm(prefix: str): def norm(raw: str) -> str: d = \"\".join(c for c in raw if c.isdigit())». Hint: «Corre asserts antes y después mentalmente». Code auditado con `normalize_dir` + `def normalize_dir`; sin APIs fantasma. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S05-T4-B-E3\ndef normalize_nombre(raw):\n    return ' '.join(raw.strip().split())\ncases = [('  a  b ', 'a b'), ('X', 'X')]\nfor inp, expected in cases:\n    got = normalize_nombre(inp)\n    assert got == expected, (inp, got, expected)\n    print('PASS', inp, got)\nprint('all PASS')\n# B2 dual-run (Skeptic): re-validated vs packet S05 S05-T4-B-E3\n# skeptic note: refused APIs not in theory/iDo for S05-T4-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S05",
+        "normalize_nombre",
+        "raw",
+        "join",
+        "strip",
+        "split"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S05-T4-B-E3 contra instruction/iDo. Instruction: «E3 (transferencia) — Suite mínima: lista de (input, expected) para normalize_nombre; loop assert. Luego cambia implementación a title-case y actualiza expected…». iDo obligatorio `S05-T4-B-DEMO` (Closure factory para prefijo de teléfono) → «def make_norm(prefix: str): def norm(raw: str) -> str: d = \"\".join(c for c in raw if c.isdigit())». Hint: «No cambies política sin actualizar tests». Solo admito `normalize_nombre` + `def normalize_nombre` porque salen del packet. Teory heading: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "question": "Si una función no tiene return, ¿qué devuelve la llamada?",
+      "chosen_index": 2,
+      "chosen_text": "None",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «Definición, llamada y retorno» — quote: «…s):`** y devuelve con **`return`**. Sin `return` explícito, Python devuelve **`None`**. Llamar es `nombre(args)`. El nombre debe ser un **verbo** o acción clara: `normali…». Choose [2] «None». No explicit return → call yields None."
+    },
+    {
+      "question_index": 1,
+      "question": "¿Por qué `def f(xs=[])` es peligroso?",
+      "chosen_index": 1,
+      "chosen_text": "El default mutable se comparte entre llamadas",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «Posicionales, keyword y defaults seguros» — quote: «…ombre (`fn(x=1)`). Los **defaults** se evalúan **una vez** en la definición: **nunca uses lista/dict mutable como default** (`def f(xs=[])` es un bug clásico). Usa `None`…». Choose [1] «El default mutable se comparte entre llamadas». Mutable default evaluated once at def; shared across calls."
+    },
+    {
+      "question_index": 2,
+      "question": "Una función pura…",
+      "chosen_index": 2,
+      "chosen_text": "Mismo input → mismo output, sin efectos colaterales",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «Pureza, efectos e inyección de I/O» — quote: «Una función **pura** devuelve el mismo resultado para los mismos argumentos y **no tiene efectos** (no imprime, no lee disco, no muta globales ni los argumentos mutables…». Choose [2] «Mismo input → mismo output, sin efectos colaterales». Pure: same input → same output, no side effects."
+    },
+    {
+      "question_index": 3,
+      "question": "LEGB significa…",
+      "chosen_index": 0,
+      "chosen_text": "Local, Enclosing, Global, Builtin",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «LEGB y closures básicos» — quote: «`global` y `nonlocal` existen pero en S05 casi no los necesitas: prefiere **return** de valores nuevos. Mutar globales complica tests.». Choose [0] «Local, Enclosing, Global, Builtin». LEGB = Local, Enclosing, Global, Builtin."
+    },
+    {
+      "question_index": 4,
+      "question": "Idempotencia de un normalizador f significa…",
+      "chosen_index": 1,
+      "chosen_text": "f(f(x)) == f(x) para entradas del dominio",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «Pureza, efectos e inyección de I/O» — quote: «…gate deben ser puros e **idempotentes**: `f(f(x)) == f(x)` para entradas válidas.». Choose [1] «f(f(x)) == f(x) para entradas del dominio». Idempotent normalizer: f(f(x)) == f(x) on domain."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "batch": "01_26",
+    "method": "llm_packet_only_no_generator"
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

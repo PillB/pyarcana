@@ -1,0 +1,548 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B1",
+  "section_index": 16,
+  "packet_sha": "0aff4e778711b8ce",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B1/section_16/packet.json",
+  "recorded_at": "2026-07-22T01:46:39.182227+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_attempt_007b; justifications_rebuilt_from_packet; selfcheck_from_agentic_A1; voice=B1",
+  "persona_seed": "2c32c94a3e35",
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T1-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nprint(int(df[\"id\"].isna().sum()))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "C001",
+        "int",
+        "isna"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T1-A-E1 si el paquete lo enseña. Instrucción: «Dado policy required en 'id', cuenta nulls de id e imprime el entero.». Demo ancla S16-T1-B-DEMO: «import pandas as pd policy = {\"cliente_id\": \"required\", \"telefono\": \"optional\", \"monto\": \"required\"} df = pd.DataFrame({     \"cliente_id\": [\"C001\", None, \"C003\"». Hints del weDo: isna().sum().; int(...).. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T1-A-E1 import pandas as pd df = pd.DataFrame({\"id\": [\"C001\", None]}) print(int(df[\"id\"].isna().sum()))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T1-A-E2\nimport pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {c: int(df[c].isna().sum()) for c, p in policy.items() if p == \"required\" and df[c].isna().any()}\nprint(viol)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "policy",
+        "required",
+        "optional",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T1-A-E2 si el paquete lo enseña. Instrucción: «Construye dict de violaciones solo para campos required con nulls.». Demo ancla S16-T1-B-DEMO: «import pandas as pd policy = {\"cliente_id\": \"required\", \"telefono\": \"optional\", \"monto\": \"required\"} df = pd.DataFrame({     \"cliente_id\": [\"C001\", None, \"C003\"». Hints del weDo: Itera policy.; Incluye solo n>0 required.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T1-A-E2 import pandas as pd policy = {\"a\": \"required\", \"b\": \"optional\"} df = pd.DataFrame({\"a\": [1, None],». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T1-A-E3\nimport pandas as pd\npolicy = {\"a\": \"required\"}\ndf = pd.DataFrame({\"a\": [1, None]})\nviol = {c: int(df[c].isna().sum()) for c, p in policy.items() if p == \"required\" and df[c].isna().any()}\nprint(\"fail\" if viol else \"pass\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "policy",
+        "required",
+        "DataFrame",
+        "viol"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T1-A-E3 si el paquete lo enseña. Instrucción: «Imprime 'fail' si hay violaciones required, si no 'pass'.». Demo ancla S16-T1-B-DEMO: «import pandas as pd policy = {\"cliente_id\": \"required\", \"telefono\": \"optional\", \"monto\": \"required\"} df = pd.DataFrame({     \"cliente_id\": [\"C001\", None, \"C003\"». Hints del weDo: Usa el dict viol.; Mensaje corto.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T1-A-E3 import pandas as pd policy = {\"a\": \"required\"} df = pd.DataFrame({\"a\": [1, None]}) viol = {c: int(». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T1-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0)\nprint(df[\"was_null\"].tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "was_null",
+        "isna"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T1-B-E1 si el paquete lo enseña. Instrucción: «Crea columna was_null booleana antes de fillna(0) sobre monto; imprime was_null list.». Demo ancla S16-T1-B-DEMO: «import pandas as pd policy = {\"cliente_id\": \"required\", \"telefono\": \"optional\", \"monto\": \"required\"} df = pd.DataFrame({     \"cliente_id\": [\"C001\", None, \"C003\"». Hints del weDo: was_null = isna.; luego fillna.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T1-B-E1 import pandas as pd df = pd.DataFrame({\"monto\": [1.0, None]}) df[\"was_null\"] = df[\"monto\"].isna() ». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T1-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None, None, 2.0]})\nrate = float(df[\"monto\"].isna().mean())\nprint(\"blocked\" if rate > 0.3 else \"ok\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "rate",
+        "float"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T1-B-E2 si el paquete lo enseña. Instrucción: «Si null_rate > 0.3 imprime 'blocked', si no 'ok'. Fixture 2 de 4 null.». Demo ancla S16-T1-B-DEMO: «import pandas as pd policy = {\"cliente_id\": \"required\", \"telefono\": \"optional\", \"monto\": \"required\"} df = pd.DataFrame({     \"cliente_id\": [\"C001\", None, \"C003\"». Hints del weDo: mean de isna.; cap 0.3.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T1-B-E2 import pandas as pd df = pd.DataFrame({\"monto\": [1.0, None, None, 2.0]}) rate = float(df[\"monto\"].». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T1-B-E3\nimport pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\nfilled = s.fillna(med)\nprint(float(med), float(filled.median()))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "Series",
+        "med",
+        "median",
+        "filled"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T1-B-E3 si el paquete lo enseña. Instrucción: «Imputa mediana y muestra que la mediana de no-null no cambia tras fill de un solo null en [1,2,None].». Demo ancla S16-T1-B-DEMO: «import pandas as pd policy = {\"cliente_id\": \"required\", \"telefono\": \"optional\", \"monto\": \"required\"} df = pd.DataFrame({     \"cliente_id\": [\"C001\", None, \"C003\"». Hints del weDo: median skipna.; fillna(median).. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T1-B-E3 import pandas as pd s = pd.Series([1.0, 2.0, None]) med = s.median() filled = s.fillna(med) print(». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T2-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1], \"b\": [2, 2]})\nprint(int(df.duplicated(keep=False).sum()))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "int",
+        "duplicated",
+        "keep"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T2-A-E1 si el paquete lo enseña. Instrucción: «Cuenta filas marcadas por duplicated(keep=False) en un DF con una fila exacta repetida.». Demo ancla S16-T2-A-DEMO: «import pandas as pd df = pd.DataFrame({\"monto\": [10.0, None, 12.0, 11.0]}) cap = 0.5 rate = float(df[\"monto\"].isna().mean()) df = df.copy() df[\"monto_was_null\"]». Hints del weDo: duplicated(keep=False).sum().; Dos filas exactas → 2.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T2-A-E1 import pandas as pd df = pd.DataFrame({\"a\": [1, 1], \"b\": [2, 2]}) print(int(df.duplicated(keep=Fal». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T2-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"region\": [\"Lima\", \"Cusco\", \"Lima\"],\n})\nconf = df.groupby(\"cliente_id\").filter(lambda g: g[\"region\"].nunique() > 1)\nprint(conf[\"cliente_id\"].unique().tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T2-A-E2 si el paquete lo enseña. Instrucción: «Detecta cliente_id con más de una región distinta; imprime lista de ids en conflicto.». Demo ancla S16-T2-A-DEMO: «import pandas as pd df = pd.DataFrame({\"monto\": [10.0, None, 12.0, 11.0]}) cap = 0.5 rate = float(df[\"monto\"].isna().mean()) df = df.copy() df[\"monto_was_null\"]». Hints del weDo: groupby nunique > 1.; unique ids.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T2-A-E2 import pandas as pd df = pd.DataFrame({ \"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\",». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T2-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"]})\nsub = df[df[\"cliente_id\"] == \"C001\"]\nif int(sub.duplicated(keep=False).sum()) >= 2:\n    print(\"exact\")\nelif sub[\"region\"].nunique() > 1:\n    print(\"conflict\")\nelse:\n    print(\"clean\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "region"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T2-A-E3 si el paquete lo enseña. Instrucción: «Clasifica: si exact dup print 'exact', elif conflicto región print 'conflict', else 'clean' para id C001 en fixture de una fila.». Demo ancla S16-T2-A-DEMO: «import pandas as pd df = pd.DataFrame({\"monto\": [10.0, None, 12.0, 11.0]}) cap = 0.5 rate = float(df[\"monto\"].isna().mean()) df = df.copy() df[\"monto_was_null\"]». Hints del weDo: Lógica en orden.; Fixture simple.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T2-A-E3 import pandas as pd df = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"]}) sub = df[df[\"c». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T2-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nq = df[df.duplicated(\"id\", keep=False)].copy()\nclean = df.drop_duplicates(\"id\", keep=\"first\")\nprint(len(q), len(clean))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "duplicated",
+        "keep",
+        "copy"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T2-B-E1 si el paquete lo enseña. Instrucción: «Separa quarantine (dup key keep=False) y clean drop_duplicates keep first; imprime lens.». Demo ancla S16-T2-A-DEMO: «import pandas as pd df = pd.DataFrame({\"monto\": [10.0, None, 12.0, 11.0]}) cap = 0.5 rate = float(df[\"monto\"].isna().mean()) df = df.copy() df[\"monto_was_null\"]». Hints del weDo: duplicated(key, keep=False).; drop_duplicates.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T2-B-E1 import pandas as pd df = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]}) q = df[df.duplicate». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T2-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"batch\": [\"b1\", \"b2\", \"b1\"]})\nq = df[df.duplicated(\"id\", keep=False)].copy()\nprint(q.columns.tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "batch",
+        "duplicated",
+        "keep"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T2-B-E2 si el paquete lo enseña. Instrucción: «Asegura que quarantine conserve columna batch de evidencia; imprime columns del q.». Demo ancla S16-T2-A-DEMO: «import pandas as pd df = pd.DataFrame({\"monto\": [10.0, None, 12.0, 11.0]}) cap = 0.5 rate = float(df[\"monto\"].isna().mean()) df = df.copy() df[\"monto_was_null\"]». Hints del weDo: copy del mask.; No dropear cols.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T2-B-E2 import pandas as pd df = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"batch\": [\"b1\", \"b2\", \"b1\"]}) q = df». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T2-B-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\", \"c\"]})\nprint(\"card_ok\" if df[\"id\"].nunique() == len(df) else \"card_fail\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "card_ok",
+        "nunique",
+        "len"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T2-B-E3 si el paquete lo enseña. Instrucción: «Imprime 'card_ok' si nunique(id)==len(df) en un DF sin dups de clave.». Demo ancla S16-T2-A-DEMO: «import pandas as pd df = pd.DataFrame({\"monto\": [10.0, None, 12.0, 11.0]}) cap = 0.5 rate = float(df[\"monto\"].isna().mean()) df = df.copy() df[\"monto_was_null\"]». Hints del weDo: cardinalidad 1:1.; Comparar nunique y len.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T2-B-E3 import pandas as pd df = pd.DataFrame({\"id\": [\"a\", \"b\", \"c\"]}) print(\"card_ok\" if df[\"id\"].nunique». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T3-A-E1\nimport pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "Series",
+        "lima",
+        "CUSCO",
+        "str"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T3-A-E1 si el paquete lo enseña. Instrucción: «strip + title sobre [' lima ','CUSCO']; imprime lista.». Demo ancla S16-T3-A-DEMO: «import pandas as pd df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C001\", \"C002\"],     \"score\": [0.9, 0.1, 0.5],     \"batch\": [\"b1\", \"b2\", \"b1\"], }) q = df[df.». Hints del weDo: str.strip().str.title().; Series string methods.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T3-A-E1 import pandas as pd s = pd.Series([\" lima \", \"CUSCO\"]) print(s.str.strip().str.title().tolist())». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T3-A-E2\nimport pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nvals = s.str.replace(\"S/\", \"\", regex=False).str.strip().astype(float)\nprint(float(vals.sum()))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "Series",
+        "vals",
+        "str",
+        "replace"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T3-A-E2 si el paquete lo enseña. Instrucción: «Quita prefijo 'S/' y castea float en ['S/1.5','S/2']; imprime suma.». Demo ancla S16-T3-A-DEMO: «import pandas as pd df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C001\", \"C002\"],     \"score\": [0.9, 0.1, 0.5],     \"batch\": [\"b1\", \"b2\", \"b1\"], }) q = df[df.». Hints del weDo: str.replace.; astype float.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T3-A-E2 import pandas as pd s = pd.Series([\"S/1.5\", \"S/2\"]) vals = s.str.replace(\"S/\", \"\", regex=False).st». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T3-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\" lima\", \"CUSCO \"]})\ndf[\"region\"] = df[\"region_raw\"].str.strip().str.title()\nprint(df[\"region_raw\"].tolist())\nprint(df[\"region\"].tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "region_raw",
+        "lima",
+        "CUSCO"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T3-A-E3 si el paquete lo enseña. Instrucción: «Conserva raw: crea region desde region_raw y verifica que region_raw sigue igual.». Demo ancla S16-T3-A-DEMO: «import pandas as pd df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C001\", \"C002\"],     \"score\": [0.9, 0.1, 0.5],     \"batch\": [\"b1\", \"b2\", \"b1\"], }) q = df[df.». Hints del weDo: Nueva col no pisa raw.; print both.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T3-A-E3 import pandas as pd df = pd.DataFrame({\"region_raw\": [\" lima\", \"CUSCO \"]}) df[\"region\"] = df[\"regi». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T3-B-E1\nimport pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "Series",
+        "tolist"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T3-B-E1 si el paquete lo enseña. Instrucción: «Marca domain_error si monto < 0; imprime lista booleana.». Demo ancla S16-T3-A-DEMO: «import pandas as pd df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C001\", \"C002\"],     \"score\": [0.9, 0.1, 0.5],     \"batch\": [\"b1\", \"b2\", \"b1\"], }) q = df[df.». Hints del weDo: s < 0.; tolist.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T3-B-E1 import pandas as pd s = pd.Series([1.0, -2.0, 3.0]) print((s < 0).tolist())». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T3-B-E2\nimport pandas as pd\ns = pd.Series([1, 2, 3, 100])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nstat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[stat].tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "Series",
+        "quantile",
+        "iqr",
+        "stat"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T3-B-E2 si el paquete lo enseña. Instrucción: «Dado [1,2,3,100], usa IQR 1.5 y lista valores stat-outlier.». Demo ancla S16-T3-A-DEMO: «import pandas as pd df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C001\", \"C002\"],     \"score\": [0.9, 0.1, 0.5],     \"batch\": [\"b1\", \"b2\", \"b1\"], }) q = df[df.». Hints del weDo: quantile 0.25/0.75.; fence q1-1.5iqr.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T3-B-E2 import pandas as pd s = pd.Series([1, 2, 3, 100]) q1, q3 = s.quantile(0.25), s.quantile(0.75) iqr ». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T3-B-E3\nimport pandas as pd\nval = -1\ns = pd.Series([1, 2, -1])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nstat = (val < q1 - 1.5 * iqr) or (val > q3 + 1.5 * iqr)\ndomain = val < 0\nif domain:\n    print(\"error\")\nelif stat:\n    print(\"flag\")\nelse:\n    print(\"ok\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "val",
+        "Series",
+        "quantile",
+        "iqr"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T3-B-E3 si el paquete lo enseña. Instrucción: «Etiqueta 'error' si domain, 'flag' si solo stat, 'ok' else para valor -1 en [1,2,-1].». Demo ancla S16-T3-A-DEMO: «import pandas as pd df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C001\", \"C002\"],     \"score\": [0.9, 0.1, 0.5],     \"batch\": [\"b1\", \"b2\", \"b1\"], }) q = df[df.». Hints del weDo: Prioriza error.; Una fila simple.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T3-B-E3 import pandas as pd val = -1 s = pd.Series([1, 2, -1]) q1, q3 = s.quantile(0.25), s.quantile(0.75)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T4-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nmissing = [c for c in required if c not in df.columns]\nprint(missing)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "required",
+        "monto",
+        "missing"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T4-A-E1 si el paquete lo enseña. Instrucción: «Lista columnas required faltantes respecto a ['id','monto'] en DF solo con id.». Demo ancla S16-T4-A-DEMO: «import pandas as pd s = pd.Series([5, 6, 7, 6, 1000, -3]) q1, q3 = s.quantile(0.25), s.quantile(0.75) iqr = q3 - q1 stat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 ». Hints del weDo: list comprehension.; not in columns.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T4-A-E1 import pandas as pd df = pd.DataFrame({\"id\": [1]}) required = [\"id\", \"monto\"] missing = [c for c i». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T4-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-04-01\"]),\n})\nprint(df.index[df[\"fin\"] < df[\"inicio\"]].tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "inicio",
+        "to_datetime",
+        "fin"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T4-A-E2 si el paquete lo enseña. Instrucción: «Encuentra índices donde fin < inicio.». Demo ancla S16-T4-A-DEMO: «import pandas as pd s = pd.Series([5, 6, 7, 6, 1000, -3]) q1, q3 = s.quantile(0.25), s.quantile(0.75) iqr = q3 - q1 stat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 ». Hints del weDo: máscara datetime.; index[mask].tolist().. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T4-A-E2 import pandas as pd df = pd.DataFrame({ \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]), \"f». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T4-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nmissing = [c for c in required if c not in df.columns]\nprint(\"drift\" if missing else \"schema_ok\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "pandas",
+        "DataFrame",
+        "required",
+        "monto",
+        "missing"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T4-A-E3 si el paquete lo enseña. Instrucción: «Si missing cols: print 'drift'; else print 'schema_ok'.». Demo ancla S16-T4-A-DEMO: «import pandas as pd s = pd.Series([5, 6, 7, 6, 1000, -3]) q1, q3 = s.quantile(0.25), s.quantile(0.75) iqr = q3 - q1 stat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 ». Hints del weDo: Usa lista missing.; Mensajes fijos.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T4-A-E3 import pandas as pd df = pd.DataFrame({\"id\": [1]}) required = [\"id\", \"monto\"] missing = [c for c i». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'pandas']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T4-B-E1\nrows_in = 10\nq = 3\nprint(rows_in - q)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "rows_in"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T4-B-E1 si el paquete lo enseña. Instrucción: «Dado rows_in=10 y quarantine_n=3, imprime rows_clean.». Demo ancla S16-T4-A-DEMO: «import pandas as pd s = pd.Series([5, 6, 7, 6, 1000, -3]) q1, q3 = s.quantile(0.25), s.quantile(0.75) iqr = q3 - q1 stat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 ». Hints del weDo: resta simple.; int.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T4-B-E1 rows_in = 10 q = 3 print(rows_in - q)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'rows_in']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T4-B-E2\naudit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"quarantine\", \"n\": 1})\nprint(len(audit))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "audit",
+        "event",
+        "start",
+        "append",
+        "quarantine"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T4-B-E2 si el paquete lo enseña. Instrucción: «Append evento quarantine a audit list e imprime len(audit).». Demo ancla S16-T4-A-DEMO: «import pandas as pd s = pd.Series([5, 6, 7, 6, 1000, -3]) q1, q3 = s.quantile(0.25), s.quantile(0.75) iqr = q3 - q1 stat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 ». Hints del weDo: audit.append.; lista previa con start.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T4-B-E2 audit = [{\"event\": \"start\"}] audit.append({\"event\": \"quarantine\", \"n\": 1}) print(len(audit))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'audit']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S16-T4-B-E3\nn_q = 1\nprint(n_q == 0)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S16",
+        "n_q"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S16-T4-B-E3 si el paquete lo enseña. Instrucción: «metrics pass=False si quarantine>0; imprime pass boolean para n_q=1.». Demo ancla S16-T4-A-DEMO: «import pandas as pd s = pd.Series([5, 6, 7, 6, 1000, -3]) q1, q3 = s.quantile(0.25), s.quantile(0.75) iqr = q3 - q1 stat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 ». Hints del weDo: pass = n_q==0.; json opcional.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B1: packet-only for S16-T4-B-E3 n_q = 1 print(n_q == 0)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S16', 'n_q']. Heading: De “GUI wxPython” a calidad y contratos de datos (mapa) | nulls y políticas por ."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Generar violación/cuarentena o fail del gate",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: «nulls y políticas por campo» — required null ⇒ cuarentena/falla. Golden rule: never silent fill with 0. Optional is different; required must violate/fail the gate."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Misma clave con atributos distintos",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: «duplicados exactos vs conflictos» — Conflicto = misma clave, valores distintos en atributos. Exactos are identical rows; conflict is key collision with disagreement."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Conservar filas rechazadas con razón",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: «métricas, cuarentena y audit trail» — Cuarentena = tabla de filas rechazadas + razón. Evidence is conserved, not deleted or silently shipped to prod."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Fallar de forma explicable con el nombre de la columna",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: «reglas de schema y cross-field» — ante schema drift (columna faltante/extra), el gate falla con mensaje claro. No hidden defaults or random columns."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B1",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  }
+}

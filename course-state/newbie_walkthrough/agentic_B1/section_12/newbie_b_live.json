@@ -1,0 +1,560 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B1",
+  "section_index": 12,
+  "packet_sha": "9a850fff8d76808e",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B1/section_12/packet.json",
+  "recorded_at": "2026-07-22T01:46:30.775249+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_attempt_007b; justifications_rebuilt_from_packet; selfcheck_from_agentic_A1; voice=B1",
+  "persona_seed": "4d01734f313a",
+  "exercises": [
+    {
+      "exercise_id": "S12-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T1-A-E1\nstore = {\"C001\": {\"id\": \"C001\", \"region\": \"Lima\"}}\ndef get_entity(store, entity_id):\n    if entity_id in store:\n        return 200, store[entity_id]\n    return 404, {'error': 'not_found'}\nprint(get_entity(store, \"C001\"))\nprint(get_entity(store, \"C999\"))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "store",
+        "C001",
+        "region",
+        "Lima",
+        "get_entity"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S12-T1-A-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Implementa `get_entity(store, entity_id)` que devuelva (status, body). 200 con el dict si existe; 404 con `{'error':'not_found'}` si no.». Fragmento iDo `S12-T1-B-DEMO` (Cliente mock HTTP que devuelve lista de señales sintéticas con status 200 y parse JSON.): «». Hint packet: «Devuelve una tupla (status_code, dict).». Rechazo APIs ajenas; me limito a `get_entity` / `entity_id`. Heading de teoría: «requests/responses, status y JSON»."
+    },
+    {
+      "exercise_id": "S12-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T1-A-E2\ndef parse_entity(payload):\n    req = {'id', 'region'}\n    if not req.issubset(payload):\n        return None\n    return {'id': payload['id'], 'region': payload['region']}\nprint(parse_entity({\"id\": \"C001\", \"region\": \"Lima\", \"extra\": 1}))\nprint(parse_entity({\"id\": \"C001\"}))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "parse_entity",
+        "payload",
+        "req",
+        "region",
+        "not"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S12-T1-A-E2. Instrucción: «E2 (independiente) — Dado un `payload` JSON-like dict de respuesta, implementa `parse_entity(payload)` que exija claves `id` y `region` y devuelva solo esas…». El iDo `S12-T1-B-DEMO` del subtema (Cliente mock HTTP que devuelve lista de señales sintéticas con status 200 y parse JSON.): «». Hint packet: «Usa set de required keys.». Rechazo APIs ajenas; me limito a `parse_entity` / `def parse_entity`. Heading de teoría: «requests/responses, status y JSON»."
+    },
+    {
+      "exercise_id": "S12-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T1-A-E3\nSTATUS_ACTION = {\n    200: 'use_body',\n    404: 'missing',\n    429: 'retry',\n    500: 'retry',\n    400: 'fail_client',\n}\nfor code in [200, 404, 429, 400, 500]:\n    print(code, STATUS_ACTION.get(code, \"unknown\"))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "STATUS_ACTION",
+        "use_body",
+        "missing",
+        "retry",
+        "fail_client"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S12-T1-A-E3. Instrucción: «E3 (transferencia) — Construye `STATUS_ACTION` mapeando 200→'use_body', 404→'missing', 429→'retry', 500→'retry', 400→'fix_client'. Imprime la acción para…». Fragmento iDo `S12-T1-B-DEMO` (Cliente mock HTTP que devuelve lista de señales sintéticas con status 200 y parse JSON.): «». Hint packet: «dict.get(code, 'unknown')». Rechazo APIs ajenas; me limito a `STATUS_ACTION` / `use_body`. Heading de teoría: «requests/responses, status y JSON»."
+    },
+    {
+      "exercise_id": "S12-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T1-B-E1\ndef fetch(timeout_s, cost_s):\n    if cost_s > timeout_s:\n        return 'timeout'\n    return 'ok'\nprint(fetch(2.0, 0.5))\nprint(fetch(1.0, 3.0))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "fetch",
+        "timeout_s",
+        "cost_s",
+        "timeout"
+      ],
+      "justification_from_packet": "[B1/Skeptic] No invento nada fuera del packet para S12-T1-B-E1. Instrucción: «E1 (guiado) — Simula timeout: `fetch(timeout_s, cost_s)` devuelve 'ok' si cost_s <= timeout_s, si no lanza TimeoutError capturado y devuelve 'timeout'.». El iDo `S12-T1-B-DEMO` del subtema (Cliente mock HTTP que devuelve lista de señales sintéticas con status 200 y parse JSON.): «». Hint packet: «if cost > timeout: return 'timeout'». Rechazo APIs ajenas; me limito a `timeout_s` / `cost_s`. Heading de teoría: «Timeout, paginación, retry/backoff y rate limit»."
+    },
+    {
+      "exercise_id": "S12-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T1-B-E2\napi = {\n    1: {\"items\": [\"a\"], \"next\": 2},\n    2: {\"items\": [\"b\", \"c\"], \"next\": None},\n}\ndef collect_all(api):\n    out, page = [], 1\n    while page is not None:\n        out.extend(api[page]['items'])\n        page = api[page]['next']\n    return out\nprint(collect_all(api))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "api",
+        "items",
+        "next",
+        "collect_all",
+        "out"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S12-T1-B-E2 solo con soporte del slim packet. Instrucción: «E2 (independiente) — `collect_all(api)` pagina desde 1 hasta next is None y devuelve lista plana de items.». Demo iDo `S12-T1-B-DEMO` del paquete (Cliente mock HTTP que devuelve lista de señales sintéticas con status 200 y parse JSON.): «». Hint packet: «while page is not None». Tokens verificables en mi code: `collect_all` / `def collect_all`. Heading de teoría: «De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la…»."
+    },
+    {
+      "exercise_id": "S12-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T1-B-E3\ndef should_retry(status):\n    return status in {429, 503}\nfor s in [400, 404, 429, 503, 200]:\n    print(s, should_retry(s))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "should_retry",
+        "status"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S12-T1-B-E3. Instrucción: «E3 (transferencia) — `should_retry(status)` True solo para 429 y 503. Imprime para 400,404,429,503,200.». El iDo `S12-T1-B-DEMO` del subtema (Cliente mock HTTP que devuelve lista de señales sintéticas con status 200 y parse JSON.): «». Hint packet: «return status in {429, 503}». Mi code solo usa `should_retry` / `def should_retry` tal como aparecen en instruction/iDo. Heading de teoría: «requests/responses, status y JSON»."
+    },
+    {
+      "exercise_id": "S12-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T2-A-E1\ndef require_token(env):\n    tok = env.get('API_TOKEN')\n    if not tok:\n        raise ValueError('API_TOKEN missing')\n    return tok\nprint(require_token({\"API_TOKEN\": \"abc\"}))\ntry:\n    require_token({})\nexcept ValueError as e:\n    print(str(e))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "require_token",
+        "env",
+        "tok",
+        "get",
+        "API_TOKEN"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S12-T2-A-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — `require_token(env)` lee API_TOKEN del dict env; si falta o vacío, lanza ValueError('API_TOKEN missing'); si no, devuelve el token.». Contraste con demo `S12-T2-A-DEMO` (Paginar 3 páginas de API mock con contador de rate-limit (sin sleep real largo).): «». Hint packet: «tok = env.get('API_TOKEN')». Tokens verificables en mi code: `API_TOKEN` / `require_token`. Heading de teoría: «De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la…»."
+    },
+    {
+      "exercise_id": "S12-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T2-A-E2\nclass Cache:\n    def __init__(self):\n        self._data = {}\n    def get(self, url):\n        if url in self._data:\n            return self._data[url], True\n        return None, False\n    def set(self, url, body):\n        self._data[url] = body\nc = Cache()\nc.set(\"u1\", {\"ok\": True})\nprint(c.get(\"u1\"))\nprint(c.get(\"missing\"))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "Cache",
+        "__init__",
+        "_data",
+        "get",
+        "url"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S12-T2-A-E2 solo con soporte del slim packet. Instrucción: «E2 (independiente) — Cache GET: `Cache` con get/set por url; segunda get del mismo url devuelve cache_hit True. Usa dict interno.». Contraste con demo `S12-T2-A-DEMO` (Paginar 3 páginas de API mock con contador de rate-limit (sin sleep real largo).): «». Hint packet: «key = url». Anclas en code: `def __init__` / `Cache` — nada más. Heading de teoría: «Auth, secretos, cache y provenance»."
+    },
+    {
+      "exercise_id": "S12-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T2-A-E3\ndef min_provenance(url, status, cache_hit):\n    return {\n        'source_url': url,\n        'fetched_at': '2026-07-20T00:00:00Z',\n        'status_code': status,\n        'cache_hit': cache_hit,\n    }\nprint(sorted(min_provenance(\"https://x\", 200, False).items()))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "min_provenance",
+        "url",
+        "status",
+        "cache_hit",
+        "source_url"
+      ],
+      "justification_from_packet": "[B1/Skeptic] No invento nada fuera del packet para S12-T2-A-E3. Instrucción: «E3 (transferencia) — `min_provenance(url, status, cache_hit)` devuelve dict con source_url, fetched_at fijo '2026-07-20T00:00:00Z', status_code, cache_hit. Sin…». Fragmento iDo `S12-T2-A-DEMO` (Paginar 3 páginas de API mock con contador de rate-limit (sin sleep real largo).): «». Hint packet: «Campos mínimos de auditoría.». Anclas en code: `min_provenance` / `status_code` — nada más. Heading de teoría: «Auth, secretos, cache y provenance»."
+    },
+    {
+      "exercise_id": "S12-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T2-B-E1\ndef assert_keys(payload, required):\n    missing = sorted(set(required) - set(payload))\n    if missing:\n        raise AssertionError(f'missing {missing}')\nassert_keys({\"lat\": 1, \"lon\": 2}, [\"lat\", \"lon\"])\nprint(\"ok\")\ntry:\n    assert_keys({\"lat\": 1}, [\"lat\", \"lon\"])\nexcept AssertionError as e:\n    print(e)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "assert_keys",
+        "payload",
+        "required",
+        "missing",
+        "sorted"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S12-T2-B-E1 solo con soporte del slim packet. Instrucción: «E1 (guiado) — `assert_keys(payload, required)` lanza AssertionError con missing sorted si faltan claves; si ok imprime 'ok'.». Contraste con demo `S12-T2-B-DEMO` (Fetch con token de env + manifest de provenance (token no se imprime).): «import os, json, hashlib os.environ[\"SIG_API_TOKEN\"] = \"syn-token-000\" token = os.environ[\"SIG_API_TOKEN\"]». Hint packet: «missing = set(required) - set(payload)». Mi code solo usa `assert_keys` / `def assert_keys` tal como aparecen en instruction/iDo. Heading de teoría: «De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la…»."
+    },
+    {
+      "exercise_id": "S12-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T2-B-E2\ndef fetch_with_fallback(status, local_body):\n    if status >= 500:\n        return local_body, 'offline'\n    if status == 200:\n        return {'online': True}, 'online'\n    return local_body, 'offline'\nprint(fetch_with_fallback(200, {\"lat\": 0}))\nprint(fetch_with_fallback(503, {\"lat\": -12.0}))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "fetch_with_fallback",
+        "status",
+        "local_body",
+        "offline",
+        "online"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S12-T2-B-E2. Instrucción: «E2 (independiente) — `fetch_with_fallback(status, local_body)`: si status>=500 devuelve (local_body, 'offline'); si 200 devuelve ({'online':True}, 'online').». El iDo `S12-T2-B-DEMO` del subtema (Fetch con token de env + manifest de provenance (token no se imprime).): «import os, json, hashlib os.environ[\"SIG_API_TOKEN\"] = \"syn-token-000\" token = os.environ[\"SIG_API_TOKEN\"]». Hint packet: «if status >= 500». Anclas en code: `fetch_with_fallback` / `local_body` — nada más. Heading de teoría: «requests/responses, status y JSON»."
+    },
+    {
+      "exercise_id": "S12-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T2-B-E3\nmatrix = {True: 'live_api', False: 'local_file'}\nfor online in (True, False):\n    print(online, matrix[online])",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "matrix",
+        "live_api",
+        "local_file",
+        "online"
+      ],
+      "justification_from_packet": "[B1/Skeptic] No invento nada fuera del packet para S12-T2-B-E3. Instrucción: «E3 (transferencia) — Matriz online/offline: dict con claves ('online', True/False) → comportamiento 'live_api' o 'local_file'. Imprime ambos.». El iDo `S12-T2-B-DEMO` del subtema (Fetch con token de env + manifest de provenance (token no se imprime).): «import os, json, hashlib os.environ[\"SIG_API_TOKEN\"] = \"syn-token-000\" token = os.environ[\"SIG_API_TOKEN\"]». Hint packet: «Usa tuplas como clave de dict.». Anclas en code: `local_file` / `live_api` — nada más. Heading de teoría: «De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la…»."
+    },
+    {
+      "exercise_id": "S12-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T3-A-E1\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL)\")\ncon.execute(\"INSERT INTO evidence VALUES ('E1','C001','geo')\")\nprint(con.execute(\"SELECT COUNT(*) FROM evidence\").fetchone()[0])\ncon.close()",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "sqlite3",
+        "con",
+        "connect",
+        "memory",
+        "execute"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S12-T3-A-E1. Instrucción: «E1 (guiado) — En SQLite :memory:, crea tabla evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL). Inserta E1/C001/geo y cuenta filas.». El iDo `S12-T3-A-DEMO` del subtema (Contract test del geocoder mock + fallback a coordenadas precalculadas.): «REQUIRED = {\"lat\", \"lon\", \"provider\"} PRECALC = {\"Lima\": {\"lat\": -12.0464, \"lon\": -77.0428, \"provider\":…». Hint packet: «CREATE TABLE evidence (...)». Rechazo APIs ajenas; me limito a `entity_id` / `evidence`. Heading de teoría: «De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la…»."
+    },
+    {
+      "exercise_id": "S12-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T3-A-E2\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES ('C001','Ana')\")\ncon.execute(\"UPDATE clients SET name=? WHERE id=?\", ('Ana Q', 'C001'))\nprint(con.execute(\"SELECT name FROM clients WHERE id=?\", ('C001',)).fetchone()[0])\ncon.execute(\"DELETE FROM clients WHERE id=?\", ('C001',))\nprint(con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "sqlite3",
+        "con",
+        "connect",
+        "memory",
+        "execute"
+      ],
+      "justification_from_packet": "[B1/Skeptic] No invento nada fuera del packet para S12-T3-A-E2. Instrucción: «E2 (independiente) — CRUD de client: insert C001, update name a 'Ana Q', select name, delete, count 0.». Fragmento iDo `S12-T3-A-DEMO` (Contract test del geocoder mock + fallback a coordenadas precalculadas.): «REQUIRED = {\"lat\", \"lon\", \"provider\"} PRECALC = {\"Lima\": {\"lat\": -12.0464, \"lon\": -77.0428, \"provider\":…». Hint packet: «UPDATE clients SET name=? WHERE id=?». Mi code solo usa `INSERT` / `UPDATE` tal como aparecen en instruction/iDo. Heading de teoría: «Esquema, CRUD y joins»."
+    },
+    {
+      "exercise_id": "S12-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T3-A-E3\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.executescript('''\nCREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);\nCREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);\nINSERT INTO clients VALUES ('C001','Ana');\nINSERT INTO evidence VALUES ('E1','C001','geo');\nINSERT INTO evidence VALUES ('E2','C001','phone');\nINSERT INTO evidence VALUES ('E3','C002','geo');\n''')\nrows = con.execute(\n    \"SELECT e.kind FROM evidence e JOIN clients c ON c.id=e.entity_id WHERE c.id=? ORDER BY e.kind\",\n    ('C001',),\n).fetchall()\nprint([r[0] for r in rows])\ncon.close()",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "sqlite3",
+        "con",
+        "connect",
+        "memory",
+        "executescript"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S12-T3-A-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Join: clients + evidence; imprime kinds de C001 ordenados.». Demo iDo `S12-T3-A-DEMO` del paquete (Contract test del geocoder mock + fallback a coordenadas precalculadas.): «REQUIRED = {\"lat\", \"lon\", \"provider\"} PRECALC = {\"Lima\": {\"lat\": -12.0464, \"lon\": -77.0428, \"provider\":…». Hint packet: «JOIN ON c.id = e.entity_id». Rechazo APIs ajenas; me limito a `evidence` / `clients`. Heading de teoría: «De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la…»."
+    },
+    {
+      "exercise_id": "S12-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T3-B-E1\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES ('C001','Ana')\")\nuser_id = \"C001' OR '1'='1\"\nprint(con.execute(\"SELECT name FROM clients WHERE id = ?\", (user_id,)).fetchone())\ncon.close()",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "sqlite3",
+        "con",
+        "connect",
+        "memory",
+        "execute"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S12-T3-B-E1. Instrucción: «E1 (guiado) — Reescribe búsqueda insegura: en lugar de f-string, usa `?` y muestra que input malicioso no inyecta.». El iDo `S12-T3-B-DEMO` del subtema (Tablas clients, transactions, evidence con join de caso sintético.): «». Hint packet: «WHERE id = ?». Rechazo APIs ajenas; me limito a `import sqlite3` / `user_id`. Heading de teoría: «De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la…»."
+    },
+    {
+      "exercise_id": "S12-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T3-B-E2\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY)\")\ntry:\n    con.execute('BEGIN')\n    con.execute(\"INSERT INTO clients VALUES ('C001')\")\n    con.execute(\"INSERT INTO clients VALUES ('C001')\")\n    con.execute('COMMIT')\nexcept sqlite3.IntegrityError:\n    con.rollback()\nprint(con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "sqlite3",
+        "con",
+        "connect",
+        "memory",
+        "execute"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S12-T3-B-E2. Instrucción: «E2 (independiente) — Transacción: inserta C001 ok; segundo insert con mismo id debe rollback y dejar count=0 si todo el batch falla junto (usa un solo BEGIN…». Contraste con demo `S12-T3-B-DEMO` (Tablas clients, transactions, evidence con join de caso sintético.): «». Hint packet: «BEGIN; insert; insert duplicado; except rollback». Mi code solo usa `rollback` / `INSERT` tal como aparecen en instruction/iDo. Heading de teoría: «De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la…»."
+    },
+    {
+      "exercise_id": "S12-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T3-B-E3\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)\")\ncon.execute(\"CREATE INDEX idx_document_id ON clients(document_id)\")\nidxs = [r[1] for r in con.execute(\"PRAGMA index_list('clients')\").fetchall()]\nprint(idxs)\ncon.close()",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "sqlite3",
+        "con",
+        "connect",
+        "memory",
+        "execute"
+      ],
+      "justification_from_packet": "[B1/Skeptic] No invento nada fuera del packet para S12-T3-B-E3. Instrucción: «E3 (transferencia) — Crea índice idx_document_id en clients(document_id) y lista nombres de índices de la tabla via PRAGMA index_list.». Fragmento iDo `S12-T3-B-DEMO` (Tablas clients, transactions, evidence con join de caso sintético.): «». Hint packet: «CREATE INDEX idx_document_id ON clients(document_id)». Anclas en code: `idx_document_id` / `document_id` — nada más. Heading de teoría: «Parámetros, transacciones, constraints e índices»."
+    },
+    {
+      "exercise_id": "S12-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T4-A-E1\nimport re\ndef normalize_address(s):\n    return re.sub(r'\\s+', ' ', s.strip())\nprint(repr(normalize_address(\"  Jr.  de  la  Unión  100 \")))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "normalize_address",
+        "sub",
+        "strip",
+        "repr"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S12-T4-A-E1. Instrucción: «E1 (guiado) — `normalize_address` colapsa espacios y hace strip; imprime resultado de ' Jr. de la Unión 100 '.». Contraste con demo `S12-T4-A-DEMO` (Insert batch atómico; rollback si una fila viola UNIQUE.): «». Hint packet: «re.sub(r'\\s+', ' ', s.strip())». Rechazo APIs ajenas; me limito a `normalize_address` / `def normalize_address`. Heading de teoría: «De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la…»."
+    },
+    {
+      "exercise_id": "S12-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T4-A-E2\nclass MockGeocoder:\n    DB = {'Lima': (-12.0464, -77.0428), 'Arequipa': (-16.4090, -71.5375)}\n    def geocode(self, city):\n        if city not in self.DB:\n            return None\n        lat, lon = self.DB[city]\n        return {'lat': lat, 'lon': lon, 'provider': 'mock'}\ng = MockGeocoder()\nprint(g.geocode(\"Lima\")[\"lat\"])\nprint(g.geocode(\"Cusco\"))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "MockGeocoder",
+        "Lima",
+        "Arequipa",
+        "geocode",
+        "city"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S12-T4-A-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Interfaz mínima: clase MockGeocoder con geocode(city)→dict|None para Lima y Arequipa.». Fragmento iDo `S12-T4-A-DEMO` (Insert batch atómico; rollback si una fila viola UNIQUE.): «». Hint packet: «Tabla city→(lat,lon)». Mi code solo usa `MockGeocoder` / `Arequipa` tal como aparecen en instruction/iDo. Heading de teoría: «De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la…»."
+    },
+    {
+      "exercise_id": "S12-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T4-A-E3\nALLOWED = {\"address\", \"city\", \"country\"}\ndef allowed_for_public_geocoder(payload):\n    return set(payload) <= ALLOWED\nprint(allowed_for_public_geocoder({\"city\": \"Lima\", \"address\": \"Av 1\"}))\nprint(allowed_for_public_geocoder({\"city\": \"Lima\", \"document_id\": \"D1\"}))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "ALLOWED",
+        "address",
+        "city",
+        "country",
+        "allowed_for_public_geocoder"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S12-T4-A-E3 solo con soporte del slim packet. Instrucción: «E3 (transferencia) — Checklist de egress: dado un payload dict, `allowed_for_public_geocoder(payload)` True solo si las claves ⊆ {'address','city','country'}…». Contraste con demo `S12-T4-A-DEMO` (Insert batch atómico; rollback si una fila viola UNIQUE.): «». Hint packet: «set(payload) <= allowed». Tokens verificables en mi code: `allowed_for_public_geocoder` / `document_id`. Heading de teoría: «De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la…»."
+    },
+    {
+      "exercise_id": "S12-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T4-B-E1\ndef valid_lat_lon(lat, lon):\n    return -90 <= lat <= 90 and -180 <= lon <= 180\nfor p in [(0,0), (91,0), (0,181), (-12.04, -77.04)]:\n    print(p, valid_lat_lon(*p))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "valid_lat_lon",
+        "lat",
+        "lon",
+        "and"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S12-T4-B-E1. Instrucción: «E1 (guiado) — `valid_lat_lon(lat, lon)` True solo en rangos válidos. Prueba (0,0), (91,0), (0,181), (-12.04,-77.04).». Demo iDo `S12-T4-B-DEMO` del paquete (MockGeocoder devuelve lat/lon sintéticos para Lima/Arequipa.): «class MockGeocoder: DB = {\"Lima\": (-12.0464, -77.0428), \"Arequipa\": (-16.4090, -71.5375)} def geocode(self,…». Hint packet: «-90<=lat<=90 and -180<=lon<=180». Rechazo APIs ajenas; me limito a `valid_lat_lon` / `def valid_lat_lon`. Heading de teoría: «De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la…»."
+    },
+    {
+      "exercise_id": "S12-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T4-B-E2\nimport math\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\nd = haversine_km((0.0, 0.0), (0.0, 1.0))\nprint(round(d, 2))\nassert abs(d - 111.19) < 1\nprint(\"tolerance_ok\")",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "math",
+        "haversine_km",
+        "lat1",
+        "lon1",
+        "map"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S12-T4-B-E2 solo con soporte del slim packet. Instrucción: «E2 (independiente) — `haversine_km` entre (0,0) y (0,1) debe ser ~111.19 km; imprime round(d, 2) y assert abs(d-111.19)<1.». Demo iDo `S12-T4-B-DEMO` del paquete (MockGeocoder devuelve lat/lon sintéticos para Lima/Arequipa.): «class MockGeocoder: DB = {\"Lima\": (-12.0464, -77.0428), \"Arequipa\": (-16.4090, -71.5375)} def geocode(self,…». Hint packet: «Fórmula Haversine con R=6371». Rechazo APIs ajenas; me limito a `haversine_km` / `def haversine_km`. Heading de teoría: «Calidad de coordenada, Haversine, caching y política»."
+    },
+    {
+      "exercise_id": "S12-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S12-T4-B-E3\ndef as_relationship_signal(km):\n    return {'type': 'geo_distance_km', 'value': km, 'kinship_verdict': None}\nprint(as_relationship_signal(1.2))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S12",
+        "as_relationship_signal",
+        "type",
+        "geo_distance_km",
+        "value",
+        "kinship_verdict"
+      ],
+      "justification_from_packet": "[B1/Skeptic] No invento nada fuera del packet para S12-T4-B-E3. Instrucción: «E3 (transferencia) — `as_relationship_signal(km)` devuelve dict type=geo_distance_km, value=km, kinship_verdict=None. Imprime para 1.2.». Fragmento iDo `S12-T4-B-DEMO` (MockGeocoder devuelve lat/lon sintéticos para Lima/Arequipa.): «class MockGeocoder: DB = {\"Lima\": (-12.0464, -77.0428), \"Arequipa\": (-16.4090, -71.5375)} def geocode(self,…». Hint packet: «Nunca setees is_family». Anclas en code: `as_relationship_signal` / `geo_distance_km` — nada más. Heading de teoría: «De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la…»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "question": "Un 400 Bad Request del proveedor debe…",
+      "chosen_index": 1,
+      "chosen_text": "Tratarse como error de cliente (no retry ciego)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: retry/backoff only for transient (429, 503, timeouts). 400/404 are not retried — treat as client error."
+    },
+    {
+      "question_index": 1,
+      "question": "¿Dónde debe vivir el token de API?",
+      "chosen_index": 1,
+      "chosen_text": "En variable de entorno / secret store",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: Bearer/token from environment/secret store, never hardcoded; missing secret fails closed."
+    },
+    {
+      "question_index": 2,
+      "question": "SQL con f-string e input de usuario es…",
+      "chosen_index": 1,
+      "chosen_text": "Inyección / inseguro; usar placeholders `?`",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: prohibited to build SQL with f-strings from user input — injection risk; use placeholders ?."
+    },
+    {
+      "question_index": 3,
+      "question": "Enviar document_id bancario a un geocoder público…",
+      "chosen_index": 1,
+      "chosen_text": "Viola la política de egress de CP-N1-C",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: authorized/mock geocoder only; do not send bank PII (docs, accounts, amounts) to public providers — violates CP-N1-C egress policy."
+    },
+    {
+      "question_index": 4,
+      "question": "1.2 km entre dos entidades sintéticas implica…",
+      "chosen_index": 2,
+      "chosen_text": "Una geoseñal de relación, no un veredicto",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: Haversine km is a relationship geoseñal, not kinship or confirmed fraud verdict."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B1",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  }
+}

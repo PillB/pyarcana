@@ -1,0 +1,547 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B2",
+  "section_index": 18,
+  "packet_sha": "d6f28abf9fd69818",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_18/packet.json",
+  "recorded_at": "2026-07-22T02:00:41.624047+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_agentic_B1; justifications_rebuilt_from_packet; selfcheck_from_agentic_B1; voice=B2; selfcheck_B2_explorer_independent",
+  "persona_seed": "03461765edd4",
+  "exercises": [
+    {
+      "exercise_id": "S18-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T1-A-E1\nimport numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\nprint(len(montos), round(float(montos.mean()), 2), float(np.median(montos)))\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T1-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "numpy",
+        "montos",
+        "array",
+        "dtype"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T1-A-E1 siguiendo la instrucción del paquete: «Con montos = [10, 12, 14, 16, 100], imprime n, mean redondeada a 2 decimales y median.». Me apoyo en el demo S18-T1-B-DEMO (Resumir distribución de montos sintéticos con centro, dispersión y cuantiles). Fragmento iDo: «». Pistas: Usa len o .size; np.mean y np.median.; round(float(...), 2) para la media.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T1-A-E1 import numpy as np montos = np.array([10, 12, 14, 16, 100], dtype=float) print(len(». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T1-A-E2\nimport numpy as np\nm = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\nprint(round(float(q1), 2), round(float(q3), 2), round(float(q3 - q1), 2))\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T1-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "numpy",
+        "array",
+        "dtype",
+        "float"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T1-A-E2 siguiendo la instrucción del paquete: «Calcula Q1, Q3 e IQR de montos = [5, 8, 9, 10, 12, 13, 40] e imprímelos redondeados a 2 decimales.». Me apoyo en el demo S18-T1-B-DEMO (Resumir distribución de montos sintéticos con centro, dispersión y cuantiles). Fragmento iDo: «». Pistas: np.quantile con [0.25, 0.75].; IQR = Q3 - Q1.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T1-A-E2 import numpy as np m = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float) q1, q3 = np». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T1-A-E3\nimport numpy as np\n\ndef resumen(x):\n    a = np.asarray(x, dtype=float)\n    return {\"n\": int(a.size), \"mean\": round(float(a.mean()), 4), \"median\": round(float(np.median(a)), 4), \"std\": round(float(a.std(ddof=1)), 4)}\n\nprint(resumen([1, 2, 3, 4, 5]))\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T1-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "numpy",
+        "resumen",
+        "asarray",
+        "dtype"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T1-A-E3 siguiendo la instrucción del paquete: «Escribe resumen(x) que devuelva dict con n, mean, median, std (ddof=1) redondeados; pruébalo con [1,2,3,4,5].». Me apoyo en el demo S18-T1-B-DEMO (Resumir distribución de montos sintéticos con centro, dispersión y cuantiles). Fragmento iDo: «». Pistas: std con ddof=1.; Redondea mean/median/std a 4 decimales o 2 según print claro.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T1-A-E3 import numpy as np def resumen(x): a = np.asarray(x, dtype=float) return {\"n\": int(». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T1-B-E1\nimport numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nmu, med = float(x.mean()), float(np.median(x))\nprint(mu, med, round(mu / med, 2))\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T1-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "numpy",
+        "array",
+        "dtype",
+        "float"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T1-B-E1 siguiendo la instrucción del paquete: «Para x=[10,11,12,13,100], imprime mean, median y la razón mean/median redondeada a 2.». Me apoyo en el demo S18-T1-B-DEMO (Resumir distribución de montos sintéticos con centro, dispersión y cuantiles). Fragmento iDo: «». Pistas: np.mean y np.median.; ratio = mean/median.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T1-B-E1 import numpy as np x = np.array([10, 11, 12, 13, 100], dtype=float) mu, med = float». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T1-B-E2\nimport numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nprint(float(np.median(np.abs(x - np.median(x)))))\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T1-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "numpy",
+        "array",
+        "dtype",
+        "float"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T1-B-E2 siguiendo la instrucción del paquete: «Calcula MAD de x=[2,3,4,5,100] respecto a la mediana e imprímelo.». Me apoyo en el demo S18-T1-B-DEMO (Resumir distribución de montos sintéticos con centro, dispersión y cuantiles). Fragmento iDo: «». Pistas: MAD = median(|x - median(x)|).; Usa np.median y np.abs.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T1-B-E2 import numpy as np x = np.array([2, 3, 4, 5, 100], dtype=float) print(float(np.medi». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T1-B-E3\nimport numpy as np\nprint([round(float(v), 3) for v in np.log1p([0, 1, 9, 99])])\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T1-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "numpy",
+        "round",
+        "float",
+        "log1p"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T1-B-E3 siguiendo la instrucción del paquete: «Imprime log1p de [0, 1, 9, 99] redondeado a 3 decimales como lista.». Me apoyo en el demo S18-T1-B-DEMO (Resumir distribución de montos sintéticos con centro, dispersión y cuantiles). Fragmento iDo: «». Pistas: np.log1p.; tolist + round por elemento.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T1-B-E3 import numpy as np print([round(float(v), 3) for v in np.log1p([0, 1, 9, 99])])». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T2-A-E1\nmuestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nprint(round(muestra.count(\"Lima\") / len(muestra), 2))\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T2-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "muestra",
+        "Lima",
+        "Cusco",
+        "round"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T2-A-E1 siguiendo la instrucción del paquete: «Dada muestra=['Lima','Lima','Cusco','Lima'] y pob Lima=0.5 Cusco=0.5, imprime share de Lima en la muestra.». Me apoyo en el demo S18-T2-A-DEMO (Comparar media vs mediana/MAD y escala log1p en montos con outlier). Fragmento iDo: «». Pistas: Cuenta ocurrencias / n.; round a 2 decimales.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T2-A-E1 muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"] print(round(muestra.count(\"Lima\") / len». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T2-A-E2\nprint(round(8 / 10 - 0.5, 2))\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T2-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "round"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T2-A-E2 siguiendo la instrucción del paquete: «Calcula bias_pp = share_muestra - share_pob para Lima si muestra tiene 8 Lima y 2 Cusco; pob Lima=0.5.». Me apoyo en el demo S18-T2-A-DEMO (Comparar media vs mediana/MAD y escala log1p en montos con outlier). Fragmento iDo: «». Pistas: share = 8/10.; bias = share - 0.5.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T2-A-E2 print(round(8 / 10 - 0.5, 2))». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T2-A-E3\ndef max_bias(pob, counts):\n    n = sum(counts.values())\n    return max(abs(counts[k] / n - pob[k]) for k in pob)\nprint(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 9, \"Cusco\": 1}))\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T2-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "max_bias",
+        "pob",
+        "counts",
+        "sum"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T2-A-E3 siguiendo la instrucción del paquete: «Escribe max_bias(pob, counts) que devuelva el máximo |share-pob| y pruébalo con pob Lima:0.5 Cusco:0.5 y counts Lima:9 Cusco:1.». Me apoyo en el demo S18-T2-A-DEMO (Comparar media vs mediana/MAD y escala log1p en montos con outlier). Fragmento iDo: «». Pistas: share = count/sum(counts).; max de valores absolutos.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T2-A-E3 def max_bias(pob, counts): n = sum(counts.values()) return max(abs(counts[k] / n - ». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T2-B-E1\nimport math\nprint(round(1.96 * 2 / math.sqrt(16), 3))\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T2-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "math",
+        "round",
+        "sqrt"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T2-B-E1 siguiendo la instrucción del paquete: «Para media=10, s=2, n=16, imprime el margen 1.96*s/sqrt(n) redondeado a 3.». Me apoyo en el demo S18-T2-A-DEMO (Comparar media vs mediana/MAD y escala log1p en montos con outlier). Fragmento iDo: «». Pistas: import math o numpy sqrt.; margen = 1.96 * s / sqrt(n).. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T2-B-E1 import math print(round(1.96 * 2 / math.sqrt(16), 3))». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T2-B-E2\nprint(round((13 - 10) / 2, 2))\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T2-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "round"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T2-B-E2 siguiendo la instrucción del paquete: «Con ctrl mean=10, trat mean=13, sp=2, imprime Cohen's d redondeado a 2.». Me apoyo en el demo S18-T2-A-DEMO (Comparar media vs mediana/MAD y escala log1p en montos con outlier). Fragmento iDo: «». Pistas: d = (mb-ma)/sp.; round 2.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T2-B-E2 print(round((13 - 10) / 2, 2))». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T2-B-E3\ndiff, se = 4, 1.5\nprint((round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2)))\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T2-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "diff",
+        "round"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T2-B-E3 siguiendo la instrucción del paquete: «Dado diff=4, se=1.5, imprime ic95 como tupla (low, high) redondeada a 2.». Me apoyo en el demo S18-T2-A-DEMO (Comparar media vs mediana/MAD y escala log1p en montos con outlier). Fragmento iDo: «». Pistas: low = diff - 1.96*se.; high = diff + 1.96*se.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T2-B-E3 diff, se = 4, 1.5 print((round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2)))». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T3-A-E1\nimport numpy as np\nprint(round(float(np.corrcoef([1, 2, 3, 4], [2, 4, 6, 8])[0, 1]), 3))\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T3-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "numpy",
+        "round",
+        "float",
+        "corrcoef"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T3-A-E1 siguiendo la instrucción del paquete: «Calcula pearson de x=[1,2,3,4] e y=[2,4,6,8] con np.corrcoef e imprime redondeado a 3.». Me apoyo en el demo S18-T3-A-DEMO (Reportar IC 95% aproximado y Cohen's d entre dos grupos sintéticos). Fragmento iDo: «». Pistas: corrcoef[0,1].; Debe ser ~1.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T3-A-E1 import numpy as np print(round(float(np.corrcoef([1, 2, 3, 4], [2, 4, 6, 8])[0, 1])». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T3-A-E2\nr = 0.82\nif abs(r) > 0.5:\n    print(\"asociacion_observada\")\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T3-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "abs",
+        "asociacion_observada"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T3-A-E2 siguiendo la instrucción del paquete: «Imprime el string 'asociacion_observada' si abs(r)>0.5 para r=0.82; no uses 'causa'.». Me apoyo en el demo S18-T3-A-DEMO (Reportar IC 95% aproximado y Cohen's d entre dos grupos sintéticos). Fragmento iDo: «». Pistas: if abs(r)>0.5.; Mensaje fijo no causal.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T3-A-E2 r = 0.82 if abs(r) > 0.5: print(\"asociacion_observada\")». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T3-A-E3\nimport numpy as np\nz = np.arange(5, dtype=float)\nx = y = z.copy()\nr_raw = float(np.corrcoef(x, y)[0, 1])\nbx, by = np.polyfit(z, x, 1), np.polyfit(z, y, 1)\nrx, ry = x - (bx[0] * z + bx[1]), y - (by[0] * z + by[1])\nr_res = float(np.corrcoef(rx, ry)[0, 1]) if np.std(rx) > 0 and np.std(ry) > 0 else 0.0\nif np.isnan(r_res):\n    r_res = 0.0\nprint(round(r_raw, 3), round(r_res, 3))\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T3-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "numpy",
+        "arange",
+        "dtype",
+        "float"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T3-A-E3 siguiendo la instrucción del paquete: «Dado z confusor, x=z, y=z (n=5 z=0..4), muestra r_raw y r tras residualizar (polyfit grado 1). Imprime ambos redondeados a 3.». Me apoyo en el demo S18-T3-A-DEMO (Reportar IC 95% aproximado y Cohen's d entre dos grupos sintéticos). Fragmento iDo: «». Pistas: Residualiza x e y respecto a z.; corrcoef de residuales ≈ 0 o nan controlado.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T3-A-E3 import numpy as np z = np.arange(5, dtype=float) x = y = z.copy() r_raw = float(np.». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T3-B-E1\nimport numpy as np\nm = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\nprint(int((m > q3 + 1.5 * (q3 - q1)).sum()))\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T3-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "numpy",
+        "array",
+        "dtype",
+        "float"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T3-B-E1 siguiendo la instrucción del paquete: «Con montos=[10,12,11,13,50], calcula hi = Q3+1.5*IQR e imprime cuántos superan hi.». Me apoyo en el demo S18-T3-A-DEMO (Reportar IC 95% aproximado y Cohen's d entre dos grupos sintéticos). Fragmento iDo: «». Pistas: quantile 0.25/0.75.; suma booleana.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T3-B-E1 import numpy as np m = np.array([10, 12, 11, 13, 50], dtype=float) q1, q3 = np.quan». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T3-B-E2\nregiones, flags = [\"Lima\", \"Lima\", \"Cusco\"], [True, True, False]\nlima = [f for r, f in zip(regiones, flags) if r == \"Lima\"]\nprint(sum(lima) / len(lima))\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T3-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "regiones",
+        "flags",
+        "Lima",
+        "Cusco"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T3-B-E2 siguiendo la instrucción del paquete: «Dado regiones y flags anomalia [Lima T/F, Lima T, Cusco F], imprime tasa de anomalías en Lima.». Me apoyo en el demo S18-T3-A-DEMO (Reportar IC 95% aproximado y Cohen's d entre dos grupos sintéticos). Fragmento iDo: «». Pistas: Filtra región Lima.; mean de flags.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T3-B-E2 regiones, flags = [\"Lima\", \"Lima\", \"Cusco\"], [True, True, False] lima = [f for r, f». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T3-B-E3\nimport numpy as np\nm = np.array([1, 2, 3, 4, 100], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nprint(((m < q1 - 1.5 * iqr) | (m > q3 + 1.5 * iqr)).tolist())\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T3-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "numpy",
+        "array",
+        "dtype",
+        "float"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T3-B-E3 siguiendo la instrucción del paquete: «Marca anomalías Tukey en [1,2,3,4,100] e imprime lista booleana.». Me apoyo en el demo S18-T3-A-DEMO (Reportar IC 95% aproximado y Cohen's d entre dos grupos sintéticos). Fragmento iDo: «». Pistas: lo = Q1-1.5IQR, hi=Q3+1.5IQR.; tolist de bool.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T3-B-E3 import numpy as np m = np.array([1, 2, 3, 4, 100], dtype=float) q1, q3 = np.quantil». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T4-A-E1\nevidencia = {\"pregunta\": \"¿Cuál es el ticket mediano?\", \"hipotesis\": \"mediana estable\", \"resultado\": {\"n\": 10, \"median\": 5.0}}\nprint(evidencia[\"pregunta\"])\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T4-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "evidencia",
+        "pregunta",
+        "ticket",
+        "mediano"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T4-A-E1 siguiendo la instrucción del paquete: «Crea dict con claves pregunta, hipotesis, resultado(n=10, median=5.0) e imprime la pregunta.». Me apoyo en el demo S18-T4-A-DEMO (Segmentar por región y marcar anomalías Tukey sin claim causal). Fragmento iDo: «». Pistas: Dict literal.; print evidencia['pregunta'].. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T4-A-E1 evidencia = {\"pregunta\": \"¿Cuál es el ticket mediano?\", \"hipotesis\": \"mediana estab». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T4-A-E2\nmedian = 12\nif median < 15:\n    print(\"solo_hallazgo\")\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T4-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "median",
+        "solo_hallazgo"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T4-A-E2 siguiendo la instrucción del paquete: «Dado hallazgo median=12 y umbral de decisión de negocio=15, imprime 'solo_hallazgo' si no se alcanza el umbral.». Me apoyo en el demo S18-T4-A-DEMO (Segmentar por región y marcar anomalías Tukey sin claim causal). Fragmento iDo: «». Pistas: Compara median < 15.; No inventes decisión de campaña.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T4-A-E2 median = 12 if median < 15: print(\"solo_hallazgo\")». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T4-A-E3\ndef traza(pregunta, metrica, valor, limite):\n    print(\"P\", pregunta)\n    print(\"M\", metrica)\n    print(\"V\", valor)\n    print(\"L\", limite)\ntraza(\"ticket mediano\", \"median\", 12.0, \"web-only\")\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T4-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "traza",
+        "pregunta",
+        "metrica",
+        "valor"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T4-A-E3 siguiendo la instrucción del paquete: «Implementa traza(pregunta, metrica, valor, limite) que imprima las 4 líneas etiquetadas.». Me apoyo en el demo S18-T4-A-DEMO (Segmentar por región y marcar anomalías Tukey sin claim causal). Fragmento iDo: «». Pistas: Función con 4 prints.; Etiquetas fijas P/M/V/L.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T4-A-E3 def traza(pregunta, metrica, valor, limite): print(\"P\", pregunta) print(\"M\", metric». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T4-B-E1\nprint({\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]})\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T4-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "n_raw",
+        "n_final",
+        "filtros",
+        "monto"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T4-B-E1 siguiendo la instrucción del paquete: «Con n_raw=5 y n_final=4 tras filtro, imprime data note dict con esas claves y filtros=['monto>0'].». Me apoyo en el demo S18-T4-A-DEMO (Segmentar por región y marcar anomalías Tukey sin claim causal). Fragmento iDo: «». Pistas: Dict con n_raw, n_final, filtros.; print el dict.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T4-B-E1 print({\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]})». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T4-B-E2\nimport hashlib\nprint(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T4-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "hashlib",
+        "sha1",
+        "hexdigest"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T4-B-E2 siguiendo la instrucción del paquete: «Calcula sha1 hex de b'a,b\\n1,2\\n' y muestra los primeros 8 caracteres.». Me apoyo en el demo S18-T4-A-DEMO (Segmentar por región y marcar anomalías Tukey sin claim causal). Fragmento iDo: «». Pistas: hashlib.sha1(...).hexdigest()[:8].; encode no necesario si ya es bytes.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T4-B-E2 import hashlib print(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    },
+    {
+      "exercise_id": "S18-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S18-T4-B-E3\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, 0.0, 2.0]})\nprint({\"n_raw\": len(df), \"n_final\": len(df[df[\"monto\"] > 0]), \"seed\": 42})\n# B2 dual-run (Explorer): re-validated vs packet S18 S18-T4-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S18",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "n_raw"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S18-T4-B-E3 siguiendo la instrucción del paquete: «Dado df de 3 filas con monto, filtra >0, genera note con n_raw, n_final y seed=42; imprime note.». Me apoyo en el demo S18-T4-A-DEMO (Segmentar por región y marcar anomalías Tukey sin claim causal). Fragmento iDo: «». Pistas: len antes/después.; Incluye seed.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S18']. Mi código clave: «# explorer/B2: completed from packet iDo for S18-T4-B-E3 import pandas as pd df = pd.DataFrame({\"monto\": [1.0, 0.0, 2.0]}) print({\"n_raw\": l». Teoría cercana: De “Ingeniería de Datos Intermedia” a EDA e incertidumbre (mapa de la sección) | centro, dispersión ."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Mediana (y opcionalmente IQR)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Con outliers fuertes, el típico se comunica mejor con mediana (y opcionalmente IQR), no solo la media."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Asociación observada (no causal por sí sola)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Correlación alta implica asociación observada, no causalidad por sí sola."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Origen, filtros, n y límites de cobertura",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Data note mínimo: origen, filtros, n y límites de cobertura."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "La muestra no representa la población de interés",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Sesgo de muestra: la muestra no representa la población de interés."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

@@ -1,0 +1,547 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B1",
+  "section_index": 17,
+  "packet_sha": "b432ec23c9a51895",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B1/section_17/packet.json",
+  "recorded_at": "2026-07-22T01:46:41.300753+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_attempt_007b; justifications_rebuilt_from_packet; selfcheck_from_agentic_A1; voice=B1",
+  "persona_seed": "437691f9deec",
+  "exercises": [
+    {
+      "exercise_id": "S17-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T1-A-E1\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nprint(len(cli.merge(tx, on=\"cliente_id\", how=\"left\")))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T1-A-E1 siguiendo la instrucción del paquete: «Left merge cli y tx por cliente_id; imprime len del resultado.». Me apoyo en el demo S17-T1-B-DEMO (Elegir left join clientes-tx y validar fan-out 1:m). Fragmento iDo: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"],». Pistas: merge how='left'.; Cuenta filas.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T1-A-E1 import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]}) tx = pd.Da». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T1-A-E2\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]})\nprint(bool(cli[\"cliente_id\"].is_unique))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T1-A-E2 siguiendo la instrucción del paquete: «Imprime si la clave de cli es única (True/False).». Me apoyo en el demo S17-T1-B-DEMO (Elegir left join clientes-tx y validar fan-out 1:m). Fragmento iDo: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"],». Pistas: is_unique.; Series.cliente_id.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T1-A-E2 import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]}) print(bool». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T1-A-E3\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"] * 3, \"monto\": [1.0, 2.0, 3.0]})\nprint(len(cli.merge(tx, on=\"cliente_id\", how=\"inner\")))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T1-A-E3 siguiendo la instrucción del paquete: «Demuestra fan-out: 1 cliente x 3 tx → len merge == 3 con how=inner.». Me apoyo en el demo S17-T1-B-DEMO (Elegir left join clientes-tx y validar fan-out 1:m). Fragmento iDo: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"],». Pistas: merge inner.; print len.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T1-A-E3 import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\"]}) tx = pd.DataFrame(». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T1-B-E1\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(m.loc[m[\"_merge\"] == \"left_only\", \"cliente_id\"].tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T1-B-E1 siguiendo la instrucción del paquete: «Con indicator=True, lista cliente_id left_only.». Me apoyo en el demo S17-T1-B-DEMO (Elegir left join clientes-tx y validar fan-out 1:m). Fragmento iDo: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"],». Pistas: merge left indicator.; filtra _merge.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T1-B-E1 import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]}) tx». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T1-B-E2\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"monto\": [1.0, 2.0]})\ntry:\n    cli.merge(tx, on=\"cliente_id\", validate=\"one_to_one\")\nexcept Exception:\n    print(\"fail\")\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T1-B-E2 siguiendo la instrucción del paquete: «validate one_to_one debe fallar con dups a la derecha; imprime 'fail'.». Me apoyo en el demo S17-T1-B-DEMO (Elegir left join clientes-tx y validar fan-out 1:m). Fragmento iDo: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"],». Pistas: try MergeError o Exception.; validate=.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T1-B-E2 import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]}) tx = pd.Da». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T1-B-E3\nimport pandas as pd\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(len(m.loc[m[\"_merge\"] == \"left_only\", \"cliente_id\"].unique()))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T1-B-E3 siguiendo la instrucción del paquete: «Cuenta huérfanos (anti-join) entre cli y tx.». Me apoyo en el demo S17-T1-B-DEMO (Elegir left join clientes-tx y validar fan-out 1:m). Fragmento iDo: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"],». Pistas: left_only count.; nunique o len.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T1-B-E3 import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]}) tx». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T2-A-E1\nimport pandas as pd\nwide = pd.DataFrame({\"id\": [\"a\", \"b\"], \"a\": [1, 2], \"b\": [3, 4]})\nprint(len(wide.melt(id_vars=\"id\", value_vars=[\"a\", \"b\"])))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "wide",
+        "DataFrame",
+        "len"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T2-A-E1 siguiendo la instrucción del paquete: «melt id_vars=id value_vars a,b; imprime len long (debe 4 para 2 filas x 2).». Me apoyo en el demo S17-T2-A-DEMO (Detectar fan-out con validate y anti-join de clientes sin tx). Fragmento iDo: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"monto\": [1.0, 2.0]}) ok = c». Pistas: melt.; var_name value_name opcionales.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T2-A-E1 import pandas as pd wide = pd.DataFrame({\"id\": [\"a\", \"b\"], \"a\": [1, 2], \"b\": [3, 4]». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T2-A-E2\nimport pandas as pd\nlong = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\", \"b\"], \"k\": [\"m1\", \"m2\", \"m1\", \"m2\"], \"v\": [1, 2, 3, 4]})\nw = long.pivot_table(index=\"id\", columns=\"k\", values=\"v\", aggfunc=\"sum\").reset_index()\nprint(w.columns.tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "long",
+        "DataFrame",
+        "pivot_table"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T2-A-E2 siguiendo la instrucción del paquete: «pivot_table index=id columns=k values=v sum; imprime columns list tras reset.». Me apoyo en el demo S17-T2-A-DEMO (Detectar fan-out con validate y anti-join de clientes sin tx). Fragmento iDo: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"monto\": [1.0, 2.0]}) ok = c». Pistas: aggfunc sum.; reset_index.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T2-A-E2 import pandas as pd long = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\", \"b\"], \"k\": [\"m1\", \"m». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T2-A-E3\nimport pandas as pd\nprint(len(pd.concat([pd.DataFrame({\"x\": [1, 2]}), pd.DataFrame({\"x\": [3, 4]})], ignore_index=True)))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "len",
+        "concat",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T2-A-E3 siguiendo la instrucción del paquete: «concat de dos DF axis=0 ignore_index; imprime len.». Me apoyo en el demo S17-T2-A-DEMO (Detectar fan-out con validate y anti-join de clientes sin tx). Fragmento iDo: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"monto\": [1.0, 2.0]}) ok = c». Pistas: pd.concat(..., ignore_index=True).; mismas cols.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T2-A-E3 import pandas as pd print(len(pd.concat([pd.DataFrame({\"x\": [1, 2]}), pd.DataFrame(». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T2-B-E1\nimport pandas as pd\nlong = pd.DataFrame({\"id\": [\"a\", \"a\"], \"periodo\": [\"m1\", \"m2\"], \"monto\": [1, 2]})\nw = long.pivot_table(index=\"id\", columns=\"periodo\", values=\"monto\", aggfunc=\"sum\")\nw.columns = [str(c) for c in w.columns]\nprint(list(w.columns))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "long",
+        "DataFrame",
+        "periodo"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T2-B-E1 siguiendo la instrucción del paquete: «Aplana columnas MultiIndex nivel0_nivel1 e imprime nombres.». Me apoyo en el demo S17-T2-A-DEMO (Detectar fan-out con validate y anti-join de clientes sin tx). Fragmento iDo: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"monto\": [1.0, 2.0]}) ok = c». Pistas: map join o f-string.; tras pivot.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T2-B-E1 import pandas as pd long = pd.DataFrame({\"id\": [\"a\", \"a\"], \"periodo\": [\"m1\", \"m2\"],». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T2-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [1], \"monto\": [2.0]})\nprint(set(df.columns) == {\"cliente_id\", \"monto\"})\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "monto"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T2-B-E2 siguiendo la instrucción del paquete: «Valida set(columns)==expected; imprime True/False.». Me apoyo en el demo S17-T2-A-DEMO (Detectar fan-out con validate y anti-join de clientes sin tx). Fragmento iDo: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"monto\": [1.0, 2.0]}) ok = c». Pistas: set igualdad.; expected fijo.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T2-B-E2 import pandas as pd df = pd.DataFrame({\"cliente_id\": [1], \"monto\": [2.0]}) print(se». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T2-B-E3\nimport pandas as pd\nprint(pd.DataFrame({\"a\": [1], \"b\": [2]}).rename(columns={\"a\": \"monto\"}).columns.tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "rename",
+        "columns"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T2-B-E3 siguiendo la instrucción del paquete: «rename columns dict {'a':'monto'}; imprime columns.». Me apoyo en el demo S17-T2-A-DEMO (Detectar fan-out con validate y anti-join de clientes sin tx). Fragmento iDo: «import pandas as pd cli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]}) tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"monto\": [1.0, 2.0]}) ok = c». Pistas: rename(columns=...).; inplace False.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T2-B-E3 import pandas as pd print(pd.DataFrame({\"a\": [1], \"b\": [2]}).rename(columns={\"a\": \"». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T3-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 3.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().to_dict())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T3-A-E1 siguiendo la instrucción del paquete: «groupby region sum monto; imprime dict region->sum.». Me apoyo en el demo S17-T3-A-DEMO (Estabilizar nombres de columnas post-pivot al schema del portfolio). Fragmento iDo: «». Pistas: groupby sum.; to_dict.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T3-A-E1 import pandas as pd df = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\"». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T3-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 3.0]})\nprint(df.groupby(\"region\")[\"monto\"].transform(\"mean\").tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T3-A-E2 siguiendo la instrucción del paquete: «transform mean de monto por region; imprime lista alineada a filas.». Me apoyo en el demo S17-T3-A-DEMO (Estabilizar nombres de columnas post-pivot al schema del portfolio). Fragmento iDo: «». Pistas: groupby transform.; mismas filas que df.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T3-A-E2 import pandas as pd df = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\"». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T3-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 3.0]})\nout = df.groupby(\"region\", as_index=False).agg(total=(\"monto\", \"sum\"), n=(\"monto\", \"count\"))\nprint(out.columns.tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T3-A-E3 siguiendo la instrucción del paquete: «agg con total sum y n count as_index=False; imprime columnas.». Me apoyo en el demo S17-T3-A-DEMO (Estabilizar nombres de columnas post-pivot al schema del portfolio). Fragmento iDo: «». Pistas: named agg.; as_index=False.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T3-A-E3 import pandas as pd df = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\"». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T3-B-E1\nimport pandas as pd\nimport math\ns = pd.Series([1.0, 2.0, 3.0]).rolling(2).mean()\nprint([None if (isinstance(v, float) and math.isnan(v)) else float(v) for v in s.tolist()])\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "math",
+        "Series",
+        "rolling"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T3-B-E1 siguiendo la instrucción del paquete: «rolling(2).mean sobre [1,2,3]; imprime lista con primer valor nan como None.». Me apoyo en el demo S17-T3-A-DEMO (Estabilizar nombres de columnas post-pivot al schema del portfolio). Fragmento iDo: «». Pistas: rolling mean.; tolist y nan check.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T3-B-E1 import pandas as pd import math s = pd.Series([1.0, 2.0, 3.0]).rolling(2).mean() pr». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T3-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"fecha\": pd.to_datetime([\"2024-01-15\", \"2024-03-01\", \"2024-02-01\"])})\ndf[\"cohort\"] = df.groupby(\"cliente_id\")[\"fecha\"].transform(\"min\").dt.to_period(\"M\").astype(str)\nprint(df.drop_duplicates(\"cliente_id\").set_index(\"cliente_id\")[\"cohort\"].to_dict())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T3-B-E2 siguiendo la instrucción del paquete: «Asigna cohort YYYY-MM con min fecha por cliente; imprime dict id->cohort único.». Me apoyo en el demo S17-T3-A-DEMO (Estabilizar nombres de columnas post-pivot al schema del portfolio). Fragmento iDo: «». Pistas: groupby transform min.; dt.to_period('M').. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T3-B-E2 import pandas as pd df = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"fec». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T3-B-E3\nimport pandas as pd\ns = pd.Series([1.0, 3.0, 5.0], index=pd.to_datetime([\"2024-01-01\", \"2024-01-02\", \"2024-01-03\"])).sort_index()\nprint(float(s.rolling(2).mean().iloc[-1]))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "Series",
+        "index",
+        "to_datetime"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T3-B-E3 siguiendo la instrucción del paquete: «Ordena por fecha antes de rolling sobre montos diarios y muestra última media window 2.». Me apoyo en el demo S17-T3-A-DEMO (Estabilizar nombres de columnas post-pivot al schema del portfolio). Fragmento iDo: «». Pistas: sort_index.; rolling 2.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T3-B-E3 import pandas as pd s = pd.Series([1.0, 3.0, 5.0], index=pd.to_datetime([\"2024-01-0». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T4-A-E1\nparts = [10.0, 20.0, 70.0]\ntotal = 100.0\nprint(abs(sum(parts) - total) < 1e-9)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "parts",
+        "total",
+        "abs",
+        "sum"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T4-A-E1 siguiendo la instrucción del paquete: «Verifica abs(sum(parts)-total)<1e-9; imprime True.». Me apoyo en el demo S17-T4-A-DEMO (Construir cohorte mensual y media móvil de 2 periodos). Fragmento iDo: «». Pistas: sum y abs.; eps 1e-9.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T4-A-E1 parts = [10.0, 20.0, 70.0] total = 100.0 print(abs(sum(parts) - total) < 1e-9)». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T4-A-E2\nprint(10 / 40)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T4-A-E2 siguiendo la instrucción del paquete: «Tasa pagados/activos con activos=40 pagados=10; imprime 0.25.». Me apoyo en el demo S17-T4-A-DEMO (Construir cohorte mensual y media móvil de 2 periodos). Fragmento iDo: «». Pistas: división float.; print tasa.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T4-A-E2 print(10 / 40)». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T4-A-E3\nprint(100 - 60)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T4-A-E3 siguiendo la instrucción del paquete: «Bridge: total 100, lima 60, resto debe ser 40; imprime residual.». Me apoyo en el demo S17-T4-A-DEMO (Construir cohorte mensual y media móvil de 2 periodos). Fragmento iDo: «». Pistas: total - lima.; residual.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T4-A-E3 print(100 - 60)». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T4-B-E1\nimport pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-10\", \"2024-03-01\"]), \"monto\": [10.0, 999.0]})\nprint(tx.loc[tx[\"fecha\"] <= pd.Timestamp(\"2024-01-31\"), \"monto\"].tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "fecha",
+        "to_datetime"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T4-B-E1 siguiendo la instrucción del paquete: «Filtra fechas <= cutoff 2024-01-31; imprime montos list.». Me apoyo en el demo S17-T4-A-DEMO (Construir cohorte mensual y media móvil de 2 periodos). Fragmento iDo: «». Pistas: Timestamp cutoff.; máscara <=.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T4-B-E1 import pandas as pd tx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-10\", \"2024». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T4-B-E2\nimport pandas as pd\ntx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-10\", \"2024-03-01\"]), \"monto\": [10.0, 999.0]})\ncutoff = pd.Timestamp(\"2024-01-31\")\nprint(float(tx[\"monto\"].sum()) - float(tx.loc[tx[\"fecha\"] <= cutoff, \"monto\"].sum()))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "fecha",
+        "to_datetime"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T4-B-E2 siguiendo la instrucción del paquete: «Compara sum pre-cutoff vs sum total; imprime delta de leakage.». Me apoyo en el demo S17-T4-A-DEMO (Construir cohorte mensual y media móvil de 2 periodos). Fragmento iDo: «». Pistas: total - pre.; float.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T4-B-E2 import pandas as pd tx = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-10\", \"2024». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    },
+    {
+      "exercise_id": "S17-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S17-T4-B-E3\nimport pandas as pd\ntx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"fecha\": pd.to_datetime([\"2024-01-10\", \"2024-03-01\"]), \"monto\": [10.0, 999.0]})\nprint(tx[tx[\"fecha\"] <= pd.Timestamp(\"2024-01-31\")].groupby(\"cliente_id\")[\"monto\"].max().to_dict())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S17",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S17-T4-B-E3 siguiendo la instrucción del paquete: «Feature as-of: max monto con fecha<=cutoff por cliente; imprime dict.». Me apoyo en el demo S17-T4-A-DEMO (Construir cohorte mensual y media móvil de 2 periodos). Fragmento iDo: «». Pistas: filter then groupby max.; un cliente.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S17']. Mi código clave: «# explorer/B1: completed from packet iDo for S17-T4-B-E3 import pandas as pd tx = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"], \"fecha\": pd.». Teoría cercana: De “Packaging y CLI” a joins/groupby y cierre CP-N2-A (mapa) | claves y cardinalidad en joins | vali."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Explorer selfcheck S17 Q0: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «validate, duplicación accidental y anti-join»: «validate='one_to_one'|'one_to_many'|... hace fallar merges con cardinalidad rota». one_to_one falla si no es 1:1; no imputa ni ordena."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Explorer selfcheck S17 Q1: opción [0]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «validate…»: «indicator=True marca left_only/right_only/both. **Anti-join**: filas left_only (huérfanos)». left_only = filas del left sin match en right."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Explorer selfcheck S17 Q2: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «groupby / agg / transform»: «transform reinyecta el agregado al shape original (p. ej. score / mean_region)». No colapsa a una fila por grupo (eso es agg)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Explorer selfcheck S17 Q3: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «leakage temporal y controles…»: «**Leakage temporal**: usar información posterior al cutoff para features o métricas de un periodo anterior». Controles: cutoff estricto, as-of join."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B1",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  }
+}

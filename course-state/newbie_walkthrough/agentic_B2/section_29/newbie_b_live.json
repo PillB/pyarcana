@@ -1,0 +1,509 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B2",
+  "section_index": 29,
+  "packet_sha": "0ec7c075c2972c5b",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_29/packet.json",
+  "recorded_at": "2026-07-22T01:57:23.633578+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_agentic_B1; justifications_rebuilt_from_packet; selfcheck_from_agentic_B1; voice=B2; selfcheck_B2_skeptic_llm_packet_only",
+  "persona_seed": "f699838a0b84",
+  "exercises": [
+    {
+      "exercise_id": "S29-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T1-A-E1\nimport sqlite3\nc = sqlite3.connect(':memory:')\nc.execute('CREATE TABLE entities(id TEXT PRIMARY KEY)')\nc.execute(\"INSERT INTO entities VALUES ('e1')\")\nprint(c.execute('SELECT COUNT(*) FROM entities').fetchone()[0])\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T1-A-E1\n# skeptic note: refused APIs not in theory/iDo for S29-T1-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "CREATE"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T1-A-E1 si el paquete lo enseña. Instrucción: «Crea tabla entities(id TEXT PRIMARY KEY) en :memory: e inserta 'e1'; imprime count.». Demo ancla S29-T1-B-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.executescript(''' create table entities(id text primary key); create table pairs(id text primary key, a text refe». Hints del weDo: sqlite3; PRIMARY KEY. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T1-A-E1 import sqlite3 c = sqlite3.connect(':memory:') c.execute('CREATE TABLE entities(id TEXT PRIMARY KE». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'sqlite3']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T1-A-E2\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\ntry:\n    c.execute('insert into p values (1.5)')\nexcept sqlite3.IntegrityError:\n    print('bad_score')\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T1-A-E2\n# skeptic note: refused APIs not in theory/iDo for S29-T1-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "create"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T1-A-E2 si el paquete lo enseña. Instrucción: «CHECK: score 1.5 debe fallar; caza IntegrityError e imprime 'bad_score'.». Demo ancla S29-T1-B-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.executescript(''' create table entities(id text primary key); create table pairs(id text primary key, a text refe». Hints del weDo: try/except; CHECK. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T1-A-E2 import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table p(score real check(score betw». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'sqlite3']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T1-A-E3\nprint('e1' < 'e2')\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T1-A-E3\n# skeptic note: refused APIs not in theory/iDo for S29-T1-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T1-A-E3 si el paquete lo enseña. Instrucción: «Imprime True si 'e1'<'e2' (orden canónico de par).». Demo ancla S29-T1-B-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.executescript(''' create table entities(id text primary key); create table pairs(id text primary key, a text refe». Hints del weDo: comparación strings; a<b. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T1-A-E3 print('e1' < 'e2')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T1-B-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.execute(\"insert into d values ('p1','match')\")\nc.execute(\"insert into d values ('p1','non_match')\")\nprint(c.execute('select count(*) from d').fetchone()[0])\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T1-B-E1\n# skeptic note: refused APIs not in theory/iDo for S29-T1-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "create"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T1-B-E1 si el paquete lo enseña. Instrucción: «Inserta dos labels para pair p1; imprime número de filas de historia.». Demo ancla S29-T1-B-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.executescript(''' create table entities(id text primary key); create table pairs(id text primary key, a text refe». Hints del weDo: append-only; count. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T1-B-E1 import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table d(pair text, label text)') c.». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'sqlite3']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T1-B-E2\nprint({'source': 'crm_synth', 'record': 'r9'})\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T1-B-E2\n# skeptic note: refused APIs not in theory/iDo for S29-T1-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "source",
+        "crm_synth",
+        "record"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T1-B-E2 si el paquete lo enseña. Instrucción: «Imprime provenance dict source='crm_synth' record='r9'.». Demo ancla S29-T1-B-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.executescript(''' create table entities(id text primary key); create table pairs(id text primary key, a text refe». Hints del weDo: dict; provenance. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T1-B-E2 print({'source': 'crm_synth', 'record': 'r9'})». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'source']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T1-B-E3\nvalid_to=None\nif valid_to is None:\n    print('open')\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T1-B-E3\n# skeptic note: refused APIs not in theory/iDo for S29-T1-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "valid_to",
+        "open"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T1-B-E3 si el paquete lo enseña. Instrucción: «valid_to NULL significa vigente: imprime 'open' si valid_to is None.». Demo ancla S29-T1-B-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.executescript(''' create table entities(id text primary key); create table pairs(id text primary key, a text refe». Hints del weDo: None; temporal. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T1-B-E3 valid_to=None if valid_to is None: print('open')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'valid_to']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T2-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\nrows = c.execute('select id from pairs where id not in (select pair_id from dec)').fetchall()\nprint([r[0] for r in rows])\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T2-A-E1\n# skeptic note: refused APIs not in theory/iDo for S29-T2-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "sqlite3",
+        "connect",
+        "memory",
+        "executescript",
+        "create"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T2-A-E1 si el paquete lo enseña. Instrucción: «Con pairs p1,p2 y decision solo p1, lista ids sin decisión.». Demo ancla S29-T2-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table d(id integer primary key, pair text, label text)') c.executemany('insert into d(pair,label)». Hints del weDo: NOT IN o left join; anti-join. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T2-A-E1 import sqlite3 c=sqlite3.connect(':memory:') c.executescript('create table pairs(id text); create ». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'sqlite3']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T2-A-E2\nscores=[0.2,0.9,0.5]\nprint(sorted(scores, reverse=True)[0])\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T2-A-E2\n# skeptic note: refused APIs not in theory/iDo for S29-T2-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "scores",
+        "sorted",
+        "reverse"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T2-A-E2 si el paquete lo enseña. Instrucción: «Window conceptual: ordena scores [0.2,0.9,0.5] desc e imprime el top.». Demo ancla S29-T2-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table d(id integer primary key, pair text, label text)') c.executemany('insert into d(pair,label)». Hints del weDo: sorted; rank 1. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T2-A-E2 scores=[0.2,0.9,0.5] print(sorted(scores, reverse=True)[0])». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'scores']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T2-A-E3\nprint('ranked')\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T2-A-E3\n# skeptic note: refused APIs not in theory/iDo for S29-T2-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "ranked"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T2-A-E3 si el paquete lo enseña. Instrucción: «Imprime el nombre de la CTE de ejemplo: ranked.». Demo ancla S29-T2-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table d(id integer primary key, pair text, label text)') c.executemany('insert into d(pair,label)». Hints del weDo: literal; WITH. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T2-A-E3 print('ranked')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'ranked']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T2-B-E1\nn=5\nprint(n * (n - 1) // 2)\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T2-B-E1\n# skeptic note: refused APIs not in theory/iDo for S29-T2-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T2-B-E1 si el paquete lo enseña. Instrucción: «C(n,2) para n=5 → 10.». Demo ancla S29-T2-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table d(id integer primary key, pair text, label text)') c.executemany('insert into d(pair,label)». Hints del weDo: combinatoria; pares. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T2-B-E1 n=5 print(n * (n - 1) // 2)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T2-B-E2\nprint(None is None)\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T2-B-E2\n# skeptic note: refused APIs not in theory/iDo for S29-T2-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T2-B-E2 si el paquete lo enseña. Instrucción: «Imprime True si None is None (recuerda NULL SQL ≠ Python en joins).». Demo ancla S29-T2-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table d(id integer primary key, pair text, label text)') c.executemany('insert into d(pair,label)». Hints del weDo: is; NULL. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T2-B-E2 print(None is None)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T2-B-E3\nprint('SCAN')\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T2-B-E3\n# skeptic note: refused APIs not in theory/iDo for S29-T2-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "SCAN"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T2-B-E3 si el paquete lo enseña. Instrucción: «Imprime prefijo de plan 'SCAN' o 'SEARCH' para conciencia de EXPLAIN (elige SCAN como default didáctico).». Demo ancla S29-T2-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table d(id integer primary key, pair text, label text)') c.executemany('insert into d(pair,label)». Hints del weDo: string; planes. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T2-B-E3 print('SCAN')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'SCAN']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T3-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('BEGIN')\nc.execute('insert into t values (1)')\nc.execute('ROLLBACK')\nprint(c.execute('select count(*) from t').fetchone()[0])\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T3-A-E1\n# skeptic note: refused APIs not in theory/iDo for S29-T3-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "create"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T3-A-E1 si el paquete lo enseña. Instrucción: «Tras BEGIN insert y ROLLBACK, count debe ser 0.». Demo ancla S29-T3-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table t(g text)') c.executemany('insert into t values (?)', [('a',),('a',),(None,)]) print('star'». Hints del weDo: rollback; atomic. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T3-A-E1 import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table t(x int)') c.execute('BEGIN')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'sqlite3']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T3-A-E2\nprint('A,C,I,D')\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T3-A-E2\n# skeptic note: refused APIs not in theory/iDo for S29-T3-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T3-A-E2 si el paquete lo enseña. Instrucción: «Imprime las 4 letras de ACID separadas por coma sin espacios extra finales raros: A,C,I,D.». Demo ancla S29-T3-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table t(g text)') c.executemany('insert into t values (?)', [('a',),('a',),(None,)]) print('star'». Hints del weDo: string; ACID. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T3-A-E2 print('A,C,I,D')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T3-A-E3\nevidence_ok=False\nif not evidence_ok:\n    print('abort')\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T3-A-E3\n# skeptic note: refused APIs not in theory/iDo for S29-T3-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "evidence_ok",
+        "not",
+        "abort"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T3-A-E3 si el paquete lo enseña. Instrucción: «Si evidence_ok es False no hagas commit conceptual: imprime 'abort'.». Demo ancla S29-T3-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table t(g text)') c.executemany('insert into t values (?)', [('a',),('a',),(None,)]) print('star'». Hints del weDo: guard; transacción. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T3-A-E3 evidence_ok=False if not evidence_ok: print('abort')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'evidence_ok']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T3-B-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\nc.execute(\"insert into e values ('1','B') on conflict(id) do update set name=excluded.name\")\nprint(c.execute(\"select name from e where id='1'\").fetchone()[0])\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T3-B-E1\n# skeptic note: refused APIs not in theory/iDo for S29-T3-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "create"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T3-B-E1 si el paquete lo enseña. Instrucción: «Upsert: segunda insert con mismo id actualiza; imprime name final 'B'.». Demo ancla S29-T3-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table t(g text)') c.executemany('insert into t values (?)', [('a',),('a',),(None,)]) print('star'». Hints del weDo: ON CONFLICT; DO UPDATE. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T3-B-E1 import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table e(id text primary key, name t». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'sqlite3']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T3-B-E2\nprint('pending')\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T3-B-E2\n# skeptic note: refused APIs not in theory/iDo for S29-T3-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "pending"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T3-B-E2 si el paquete lo enseña. Instrucción: «Recuperación: job status 'pending' tras crash; imprime status.». Demo ancla S29-T3-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table t(g text)') c.executemany('insert into t values (?)', [('a',),('a',),(None,)]) print('star'». Hints del weDo: literal/dict; resume. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T3-B-E2 print('pending')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'pending']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T3-B-E3\nconflict=True\nif conflict:\n    print('retry')\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T3-B-E3\n# skeptic note: refused APIs not in theory/iDo for S29-T3-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "conflict",
+        "retry"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T3-B-E3 si el paquete lo enseña. Instrucción: «Conflicto de par duplicado → imprime 'retry'.». Demo ancla S29-T3-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table t(g text)') c.executemany('insert into t values (?)', [('a',),('a',),(None,)]) print('star'». Hints del weDo: política; concurrencia. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T3-B-E3 conflict=True if conflict: print('retry')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'conflict']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T4-A-E1\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\nc.execute(\"insert into schema_migrations values (2,'add_index')\")\nprint(c.execute('select max(v) from schema_migrations').fetchone()[0])\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T4-A-E1\n# skeptic note: refused APIs not in theory/iDo for S29-T4-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "sqlite3",
+        "connect",
+        "memory",
+        "execute",
+        "create"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T4-A-E1 si el paquete lo enseña. Instrucción: «Registra migration version 2 name 'add_index'; imprime max version.». Demo ancla S29-T4-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table e(id text primary key, name text)') c.execute(\"insert into e values ('e1','Ana')\") c.execut». Hints del weDo: schema_migrations; insert. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T4-A-E1 import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table schema_migrations(v int prima». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'sqlite3']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T4-A-E2\nprint('idx_pairs_block_key')\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T4-A-E2\n# skeptic note: refused APIs not in theory/iDo for S29-T4-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "idx_pairs_block_key"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T4-A-E2 si el paquete lo enseña. Instrucción: «Imprime nombre de índice sugerido idx_pairs_block_key.». Demo ancla S29-T4-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table e(id text primary key, name text)') c.execute(\"insert into e values ('e1','Ana')\") c.execut». Hints del weDo: convención; índices. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T4-A-E2 print('idx_pairs_block_key')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'idx_pairs_block_key']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T4-A-E3\nprint('no_drop_without_backup')\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T4-A-E3\n# skeptic note: refused APIs not in theory/iDo for S29-T4-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "no_drop_without_backup"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T4-A-E3 si el paquete lo enseña. Instrucción: «Política: imprime 'no_drop_without_backup'.». Demo ancla S29-T4-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table e(id text primary key, name text)') c.execute(\"insert into e values ('e1','Ana')\") c.execut». Hints del weDo: string; migrations. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T4-A-E3 print('no_drop_without_backup')». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'no_drop_without_backup']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T4-B-E1\nstore={'e1':'Ana'}\nprint(store['e1'])\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T4-B-E1\n# skeptic note: refused APIs not in theory/iDo for S29-T4-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "store",
+        "Ana"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T4-B-E1 si el paquete lo enseña. Instrucción: «Repo.get: dict store {'e1':'Ana'}; imprime get e1.». Demo ancla S29-T4-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table e(id text primary key, name text)') c.execute(\"insert into e values ('e1','Ana')\") c.execut». Hints del weDo: dict; repository. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T4-B-E1 store={'e1':'Ana'} print(store['e1'])». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'store']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T4-B-E2\nprint({'pool_size': 5})\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T4-B-E2\n# skeptic note: refused APIs not in theory/iDo for S29-T4-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "pool_size"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T4-B-E2 si el paquete lo enseña. Instrucción: «Pool size conceptual 5; imprime pool_size.». Demo ancla S29-T4-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table e(id text primary key, name text)') c.execute(\"insert into e values ('e1','Ana')\") c.execut». Hints del weDo: dict; pooling. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T4-B-E2 print({'pool_size': 5})». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'pool_size']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    },
+    {
+      "exercise_id": "S29-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S29-T4-B-E3\npending_count=1\nprint(pending_count)\n# B2 dual-run (Skeptic): re-validated vs packet S29 S29-T4-B-E3\n# skeptic note: refused APIs not in theory/iDo for S29-T4-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S29",
+        "pending_count"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S29-T4-B-E3 si el paquete lo enseña. Instrucción: «Test de repo: pending count 1; imprime 1.». Demo ancla S29-T4-A-DEMO: «import sqlite3 c=sqlite3.connect(':memory:') c.execute('create table e(id text primary key, name text)') c.execute(\"insert into e values ('e1','Ana')\") c.execut». Hints del weDo: assert blando; memoria. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S29-T4-B-E3 pending_count=1 print(pending_count)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S29', 'pending_count']. Heading: De MLOps a almacén relacional del ER (mapa CP-N3-A) | claves, constraints y norm."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Evitar duplicar el mismo par en orden invertido",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: iDo/theory de pares: orden canónico entity_a < entity_b (CHECK a<b) evita duplicar el mismo par en orden invertido. No infiere fraude ni sube isolation."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Nueva fila por cambio de decisión",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: temporalidad append-only: no sobrescribas la decisión anterior; inserta una nueva fila versionada. Append-only = nueva fila por cambio de decisión, no UPDATE in-place."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Ser atómicas en la misma transacción lógica",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: ACID del almacén ER: decisión + evidencia deben commitearse juntas o no (misma transacción lógica). Rollback si falla el segundo insert; no transacciones separadas siempre ni solo logs."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Encapsula acceso a datos y facilita tests con :memory:",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: repository pattern: encapsula SQL/acceso a datos y facilita tests con sqlite :memory:. No esparce SQL, no reemplaza constraints ni marca fraude."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

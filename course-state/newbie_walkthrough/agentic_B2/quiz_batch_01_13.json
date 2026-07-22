@@ -1,0 +1,2676 @@
+[
+  {
+    "section_index": 1,
+    "title": "Setup & Entorno de Desarrollo",
+    "outcomes": [
+      "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+      "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+      "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+      "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+      "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+      "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+      "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+    ],
+    "theory": [
+      {
+        "heading": "Por qué el setup importa más de lo que crees",
+        "paragraphs": [
+          "**Diccionario del día 1** (léelo antes de seguir; el resto de la sección profundiza cada término). **Intérprete:** el programa `python`/`python3` que ejecuta tu código. **Terminal (shell):** la ventana de texto donde escribes comandos. **Entorno virtual (`venv`):** una carpeta del proyecto (canónica: `.venv`) con su propio Python y paquetes, para no mezclar dependencias entre proyectos. **pip:** instalador de paquetes de terceros. **requirements.txt:** archivo que lista esas dependencias con versión. **Repo (repositorio):** la carpeta del proyecto bajo **Git** (control de versiones: historial de quién cambió qué). **Clonar:** copiar un repo desde un remoto (p. ej. **GitHub**) a tu laptop. **Commit:** guardar un snapshot del historial con un mensaje. **Pull Request (PR):** pedir que revisen e integren tus cambios. Pasa el cursor sobre estas palabras cuando veas el subrayado: el hover te repite la definición en esta y en lecciones siguientes.",
+          "Mucha gente salta el setup porque \"ya aprenderá en el camino\". Error. En producción, un entorno mal configurado genera errores fantasma: \"a mí me funciona\" es la frase más temida en Slack. Cuando trabajas en un equipo de data science, tu colega **clona tu repo** (copia el repositorio), crea su propio **entorno virtual**, ejecuta `pip install -r requirements.txt` (instala los paquetes listados) y todo debería andar. Si no anda, perdiste credibilidad. Por eso esta sección no es un trámite — es la base sobre la que se construye todo lo demás.",
+          "En Perú, el stack que vas a encontrar en empresas medianas y grandes es bastante consistente: Python 3.11 o 3.12, VS Code o PyCharm, Git + GitHub (algunos usan GitLab), y **entornos virtuales** con el módulo `venv` (más común) o `conda` (en equipos más legacy o de investigación). Las startups más nuevas están migrando a `uv` (más rápido), pero todavía no es estándar. Vamos con `venv` porque es lo que vas a encontrar en el 95% de los puestos."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "El intérprete Python y el REPL",
+        "paragraphs": [
+          "Cuando instalas Python, lo que realmente instalas es un **intérprete**: un programa que lee tu código y lo ejecuta. En la terminal, ese programa suele llamarse `python` o `python3`. La primera habilidad profesional no es escribir un algoritmo: es **verificar qué intérprete estás usando**. En Windows a veces el comando `python` no está en el PATH (la lista de carpetas donde el sistema busca programas). En macOS/Linux es común tener `python3` como comando principal. Por eso siempre empiezas con `python --version` (o `python3 --version`) y anotas la respuesta. Para este curso apuntamos a **Python 3.12 o superior**.",
+          "El **REPL** (Read–Eval–Print Loop) es el modo interactivo del intérprete. Lo abres escribiendo solo `python` (o `python3`) y Enter. Verás el prompt `>>>`. Ahí puedes escribir una expresión, presionar Enter, y Python la evalúa al instante: `2 + 2` devuelve `4`, `type(\"hola\")` devuelve `<class 'str'>`. Es ideal para probar una idea en 10 segundos sin crear un archivo. Para salir: `quit()` o `exit()`, o el carácter de fin de archivo (Ctrl-D en macOS/Linux, Ctrl-Z y Enter en Windows). Salir del REPL **no cierra** tu terminal: vuelves al prompt de la shell (`$` o `PS>`).",
+          "Hay una diferencia crítica entre **sesión REPL** y **script `.py`**. En el REPL cada línea se ejecuta al presionar Enter. En un script, escribes el programa completo en un archivo y lo lanzas con `python hello.py`. El script es lo que subes a GitHub y lo que corre en producción o en un pipeline. El REPL es tu laboratorio de bolsillo. Cuando un colega dice \"ábrelo en el intérprete y mira el tipo\", te está pidiendo el REPL. Cuando dice \"corre el entrypoint\", te está pidiendo un archivo. Confundir ambos genera la sensación de que \"a mí me funciona\" en la laptop y falla en el servidor."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "El intérprete en la terminal (comandos de verificación)",
+        "paragraphs": [
+          "Además del script, sigue verificando el intérprete desde la shell antes de crear venvs o instalar paquetes."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Terminal, rutas y códigos de salida",
+        "paragraphs": [
+          "La **terminal** (bash, zsh o PowerShell) es el lugar donde lanzas procesos: `python`, `git`, `mkdir`. Cada comando que escribes es un **proceso** hijo de la shell. Cuando termina, devuelve un **código de salida** (exit status): por convención, **0 significa éxito** y **cualquier valor distinto de 0 significa fallo**. En bash/zsh lo lees con `echo $?`. En PowerShell, con `echo $LASTEXITCODE`. CI, scripts y pipelines usan ese número para decidir si continúan o se detienen. Un mensaje de error en pantalla y un código 0 (o al revés) son cosas distintas: siempre mira el código cuando automatizas.",
+          "No confundas el **directorio de trabajo actual** (cwd: dónde “estás” con `cd` y `pwd` / `Get-Location`) con el **PATH** (lista de carpetas donde el sistema busca ejecutables como `python`). Puedes estar en `~/proyectos/python-ds-journey` y aun así fallar `python` si ese ejecutable no está en el PATH. Al revés: puedes tener Python en el PATH y fallar al abrir un archivo si tu cwd no es la carpeta del proyecto. `mkdir` y `cd` mueven o crean rutas relativas al cwd; no “instalan” Python en el PATH.",
+          "En Python, `sys.exit(n)` termina el proceso con código `n`. Es la forma limpia de señalizar éxito o error a la shell y a herramientas externas. Ejemplo: un script de validación sale con `0` si los argumentos son correctos y con `1` si faltan. En data ops verás el mismo contrato: un job ETL “failed” casi siempre es exit code distinto de cero, no solo un print rojo. Practica leer `$?` / `$LASTEXITCODE` después de cada comando crítico antes de culpar a la librería."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "cwd, PATH y códigos de salida en la shell",
+        "paragraphs": [
+          "Desde la shell, confirma cwd, PATH conceptual y códigos de salida con los mismos números 0/1 que usa `sys.exit`."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Componentes del stack que vamos a instalar",
+        "paragraphs": [
+          "Vamos a instalar 4 cosas, en este orden: (1) Python 3.12 desde python.org, (2) VS Code desde code.visualstudio.com, (3) Git desde git-scm.com, y (4) las extensiones de Python en VS Code. Cada una tiene su rol específico y no se mezclan. Python es el lenguaje. VS Code es el editor donde escribes código. Git es el sistema de control de versiones que registra cada cambio. GitHub es la nube donde publicas tu código para que otros lo vean y colaboren.",
+          "Una decisión clave: **¿venv o conda?** Para data science en Perú, `venv` es suficiente y es lo estándar. `conda` es más pesado (descarga 3-5 GB) y tiene su propio sistema de paquetes que a veces entra en conflicto con pip. Solo te recomiendo conda si trabajas con investigadores que ya lo usan, o si necesitas CUDA/GPU para deep learning. En el 90% de los casos de data analysis (pandas, numpy, sklearn, matplotlib), `venv` + pip es lo correcto.",
+          "Python viene con una biblioteca estándar que incluye módulos como `sys` (información del sistema), `datetime` (fechas y horas), `os` (sistema operativo), y `json` (manejo de JSON). Estos módulos **no necesitan `pip install`** — funcionan con solo hacer `import sys` o `from datetime import datetime`. En contraste, paquetes de terceros como `pandas`, `numpy`, o `matplotlib` NO vienen con Python y sí necesitan `pip install` antes de poder importarlos. Esta distinción es la causa #1 del error `ModuleNotFoundError` en principiantes: intentan `import pandas` sin haber hecho `pip install pandas` primero."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Entornos virtuales con venv",
+        "paragraphs": [
+          "Un **entorno virtual** es una carpeta autocontenida con su propio intérprete Python y su propio directorio de paquetes. La herramienta estándar de la biblioteca es el módulo **`venv`**: `python -m venv .venv`. La regla de oro no cambia: **un proyecto = un entorno = un conjunto de dependencias**. Así evitas que el pandas 2.x de un cliente rompa el notebook legacy de otro. Instalar paquetes “en el Python global” del sistema es la vía rápida al caos en tres meses.",
+          "**Nombre de la carpeta:** la documentación oficial de Python recomienda **`.venv`** (con punto): queda semi-oculto en listados Unix y se distingue de archivos `.env` de secretos. El nombre `venv` (sin punto) también es válido y lo verás en muchos tutoriales; en este curso el canónico es **`.venv`**, y tratamos `venv` como alias aceptado si ya lo usas. Ambos deben ir en `.gitignore` — nunca subas el entorno a GitHub (pesa decenas o cientos de MB y se regenera).",
+          "**Activación** engancha la shell al Python del entorno: en macOS/Linux, `source .venv/bin/activate`; en Windows PowerShell, `.venv\\Scripts\\Activate.ps1`. El prompt suele mostrar `(.venv)`. **`deactivate`** vuelve al Python anterior. Si rompes el entorno, no “reparas a mano” el site-packages: borras la carpeta `.venv` y la recreas con el mismo comando. `conda` sigue siendo alternativa en investigación o GPU, pero **no es el default** de este curso. Herramientas más nuevas como `uv` son tendencia; aquí dominas `venv` porque es lo que encontrarás en la mayoría de onboarding corporativos."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "pip, freeze y requirements.txt",
+        "paragraphs": [
+          "Con el `.venv` activado, instalas dependencias de **terceros** con **`python -m pip`**. El prefijo `python -m` ata pip al mismo intérprete que acabas de verificar: evita el clásico “pip instaló en un Python y `import` usa otro”. Comandos del día a día: `python -m pip install paquete`, pin con `paquete==1.2.3`, listar con `python -m pip list`, y exportar un snapshot con `python -m pip freeze > requirements.txt`. Para restaurar en otra máquina o en un entorno limpio: `python -m pip install -r requirements.txt`. La biblioteca estándar (`sys`, `datetime`, `pathlib`, `csv`, `json`…) **no** va a requirements: se importa sin `pip install`.",
+          "**`pip freeze`** escribe *todo* lo instalado en el entorno activo, incluidas **dependencias transitivas** (si instalas `requests`, también aparecen `urllib3`, `certifi`, etc.). Eso es un **snapshot reproducible** muy útil para clonar el entorno de un analista. No es un lockfile moderno con hashes y resolución completa (Poetry, PDM, `uv lock` van más allá). En S01 usamos freeze + `==` porque es el mínimo que encontrarás en onboarding corporativo y en muchos repos de data. Entiende el límite: freeze captura *lo que hay hoy* en *tu* venv; no resuelve conflictos multiplataforma ni firma paquetes.",
+          "Flujo profesional: (1) activar `.venv`, (2) instalar lo necesario, (3) `python -m pip freeze > requirements.txt`, (4) commitear el archivo (no la carpeta `.venv/`). Si un colega clona y hace `install -r`, debería obtener las mismas versiones pinneadas. Si ves `ModuleNotFoundError`, primero pregunta: ¿estoy en el venv correcto? ¿usé `python -m pip`? ¿el paquete es stdlib o de terceros? Diagnosticar en ese orden ahorra horas de “a mí me funciona”."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Git: commits y lectura de diffs",
+        "paragraphs": [
+          "Git es un **sistema de control de versiones**: registra *quién cambió qué y por qué*, no solo “guardar en la nube”. Flujo local mínimo: `git init` (una vez por repo), editas archivos, `git status` (¿qué cambió?), `git add` (staging), `git commit -m \"...\"` (punto de retorno con mensaje). Cada commit es un snapshot recuperable. GitHub/GitLab son **remotos** donde publicas esos commits; el historial útil empieza en tu máquina con mensajes claros.",
+          "La convención **Conventional Commits** usa un prefijo + descripción en **imperativo** y en minúsculas tras el prefijo: `feat:`, `fix:`, `docs:`, `refactor:`, `test:`, `chore:`. Ejemplos: `feat: agregar script hello_env`, `docs: documentar instalación del venv`, `fix: corregir ruta en README`. Evita “cambios”, “wip”, “arreglé algo”: en seis meses nadie (ni tú) sabrá qué mirar. Equipos de datos en bancos y fintech en Perú suelen pedir este estilo en code review.",
+          "Leer un **diff** es tan importante como escribir el commit. `git diff` muestra cambios *sin* stage; `git diff --staged` lo ya agregado; `git show` el último commit (o un hash). Líneas con `+` se añadieron; con `-` se quitaron. Un archivo nuevo aparece como todo `+`. Antes de `commit`, lee el diff: es tu última revisión de calidad y la misma habilidad que usarás al revisar un Pull Request de un colega."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Ramas, Pull Requests y recuperación segura",
+        "paragraphs": [
+          "Trabajar siempre en `main` es el atajo del principiante y el riesgo del equipo. El flujo profesional: crea una **rama de feature** con `git switch -c feat/nombre-corto`, haz commits ahí, publica con `git push -u origin feat/nombre-corto`, y abre un **Pull Request (PR)** en GitHub para revisar antes de integrar a `main`. El PR no es burocracia: es el lugar donde un colega lee el diff, comenta y aprueba. Nombres útiles: `feat/hello-env`, `docs/readme-install`, `fix/gitignore-env`.",
+          "Un **conflicto** aparece cuando dos ramas editaron las mismas líneas. Git marca el archivo; tú eliges el contenido final, `git add` y un commit de merge o de resolución. En S01 no necesitas ser experto en merges complejos: sí necesitas no paniquear y no “arreglar” con historial destructivo. La regla de oro de este curso: **no hagas `git push --force` a `main`**. Reescribe historial solo en ramas tuyas no compartidas y con permiso del equipo; en onboarding, ni eso.",
+          "Recuperación **no destructiva** del día a día: `git restore archivo` descarta cambios *sin commitear* en el working tree (vuelve a la última versión commiteada o staged, según el caso). `git stash` guarda cambios temporales y deja el árbol limpio; `git stash pop` los recupera. Prefiere restore/stash a `reset --hard` como primer reflejo: hard borra trabajo no commiteado de forma fácil de lamentar. Aprende primero a no perder trabajo; después, a reescribir con cuidado."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "VS Code y Ruff como calidad mínima",
+        "paragraphs": [
+          "El editor recomendado en este curso es **VS Code** con la extensión de **Python** (Pylance para tipos e IntelliSense) y **Ruff** (linter/formateador ultra rápido escrito en Rust). No sustituyen pensar: atrapan errores baratos antes del code review — imports sin usar, errores de sintaxis obvios, imports desordenados. En equipos de datos, un linter en el repo es el primer “CI humano” que corre en tu laptop.",
+          "La configuración mínima vive en **`pyproject.toml`** en la raíz del proyecto, sección `[tool.ruff]` y opcionalmente `[tool.ruff.lint]`. Valores sensatos para empezar: `line-length = 88`, `target-version` acorde a tu Python, y `select = [\"E\", \"F\", \"I\"]` (pycodestyle errores, pyflakes, isort). Instala el CLI en el venv: `python -m pip install ruff`. Ejecuta: `python -m ruff check ruta/` o un archivo. `ruff format` formatea; en S01 el foco es **`ruff check`**.",
+          "Flujo: escribes código → `ruff check` reporta (ej. **F401** import sin usar) → corriges o, en casos justificados avanzados, documentas un `noqa` (en S01 prefiere corregir). No habilites `select = [\"ALL\"]` el primer día: el ruido abruma y nadie arregla 200 reglas a la vez. Un mínimo que el equipo respeta vale más que un máximo que todos ignoran."
+        ],
+        "code": "[tool.ruff]\nline-length = 88\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"E\", \"F\", \"I\"]\n\n# Terminal (con venv activado y ruff instalado):\n# python -m ruff check scripts/hello_env.py\n# # F401: import sin usar → quita el import o úsalo\n# python -m ruff check scripts/hello_env.py   # exit 0 cuando está limpio"
+      },
+      {
+        "heading": "Archivos de calidad: ignore, secretos y README",
+        "paragraphs": [
+          "**.gitignore** le dice a Git qué no trackear. Mínimo Python/data: `.venv/`, `venv/`, `__pycache__/`, `*.pyc`, `.env`, `.ipynb_checkpoints/`, y a menudo `data/raw/` o dumps grandes si tu política es no versionar datos pesados. Incluye **ambos** nombres de entorno (`.venv/` y `venv/`) porque el ecosistema usa los dos. Plantilla base: https://github.com/github/gitignore (Python.gitignore). Ojo: si un archivo **ya** está trackeado, agregarlo al ignore no lo saca del historial: necesitas `git rm --cached archivo` y un commit.",
+          "**.env** guarda secretos y variables locales (API keys, contraseñas). **Nunca** va al repo. **`.env.example`** sí: lista las *claves* con valores vacíos o ficticios para que un colega sepa qué copiar a su `.env` privado. Ejemplo: `DATABASE_URL=` y `API_TOKEN=` sin valores reales. Si subiste un secreto por error, rotarlo (cambiar la clave en el proveedor) es más importante que solo borrar el archivo del commit siguiente: el historial puede conservarlo.",
+          "**README.md** es el onboarding del clon limpio: título, qué hace el repo, mención al **esqueleto CP-N1-A** (Client Intake & Data Quality), instalación (`python -m venv .venv`, activate, `python -m pip install -r requirements.txt`), uso (`python scripts/hello_env.py`), y una nota de seguridad (no commitear `.env`, datos sintéticos). Para S01 agrega `data/clients_synthetic.csv` (PII falsa) y `data/data_dictionary.md` describiendo columnas. Un repo sin README ni diccionario de datos no se puede auditar ni reutilizar en S02–S04."
+        ],
+        "code": ""
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S01-T1-B-DEMO",
+        "description": "Verificar el intérprete y abrir una sesión REPL mínima",
+        "why": "Si no sabes qué intérprete responde, todo lo demás (venv, pip, scripts) puede apuntar a otro Python y generar errores fantasma. El REPL confirma que el intérprete evalúa código; `quit()` demuestra que sales del REPL sin cerrar la terminal. ",
+        "code": "# 1) Verificar qué intérprete responde (anota la versión)\npython --version\n# Si falla, prueba:\npython3 --version\n\n# 2) Entrar al REPL (modo interactivo)\npython\n# En el prompt >>> escribe exactamente:\n\n# >>> 2 + 2\n# 4\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.12.3'   # ejemplo; la tuya puede ser otra 3.x\n# >>> type(\"Hola Perú\")\n# <class 'str'>\n# >>> quit()\n\n# 3) Tras quit(), vuelves a la shell. El proceso Python ya terminó.\n# Crear carpeta del proyecto (siguiente paso del setup)\nmkdir py"
+      },
+      {
+        "demoId": "S01-T2-A-DEMO",
+        "description": "Observar códigos de salida 0 y no-cero con sys.exit",
+        "why": "El código de salida es el contrato entre tu script y todo lo que lo invoca (shell, CI, orquestadores). 0 = sigamos; no-cero = detente o reintenta. Separar cwd (dónde estoy) de PATH (qué ejecutables existen) evita el clásico \"en mi máquina f",
+        "code": "# Éxito: el proceso Python termina con 0\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"exit_ok=$?\"\n# PowerShell:\n# python -c \"import sys; print('ok'); sys.exit(0)\"; echo \"exit_ok=$LASTEXITCODE\"\n\n# Fallo controlado: termina con 1 (la shell sigue viva)\npython3 -c \"import sys; print('fallo controlado'); sys.exit(1)\"\necho \"exit_fail=$?\"\n\n# Comando inexistente → también no-cero (mensaje distinto, mismo tipo de señal a CI)\nfalse\necho \"exit_false=$?\"\n\n# Rutas: cwd vs carpeta\npwd\nmkdir -p /tmp"
+      },
+      {
+        "demoId": "S01-T2-A-DEMO",
+        "description": "Verificar instalación de Python y crear carpeta del proyecto",
+        "why": "Siempre empezamos verificando que Python responde. En Windows, el PATH es el problema #1 — si te dice \"python no se reconoce como comando\", es porque no marcaste la casilla durante la instalación. La solución es reinstalar y asegurarte de m",
+        "code": "# Verificar que Python está instalado\npython --version\n# Python 3.12.3  <- lo que deberías ver\n\n# Si no está instalado, bajarlo de https://python.org/downloads\n# En Windows, MARCAR la casilla \"Add Python to PATH\" durante la instalación\n\n# Crear carpeta del proyecto\nmkdir python-ds-journey\ncd python-ds-journey\n\n# Verificar que pip (gestor de paquetes) funciona — preferir python -m pip\npython -m pip --version\n# pip 24.0 from ... (python 3.12)"
+      },
+      {
+        "demoId": "S01-T2-B-DEMO",
+        "description": "Crear y activar entorno virtual con .venv",
+        "why": "El entorno virtual aísla las dependencias por proyecto. `python -m venv` usa el mismo intérprete que acabas de verificar. Si rompes paquetes, borras `.venv/` y la recreas — no reinstalas el sistema. Activar no es opcional en el flujo diario",
+        "code": "# Canónico del curso: carpeta .venv (docs.python.org también la recomienda)\npython3 -m venv .venv\n# Equivalente aceptado si ya usas el nombre sin punto:\n# python3 -m venv venv\n\n# Activar en Windows (PowerShell)\n# .venv\\Scripts\\Activate.ps1\n\n# Activar en macOS/Linux\nsource .venv/bin/activate\n\n# El prompt suele mostrar (.venv). Verifica el intérprete del entorno:\nwhich python3\npython3 -c \"import sys; print(sys.prefix)\"\n# .../tu-proyecto/.venv\n\n# Para desactivar (vuelves al Python anterior):\ndeacti"
+      },
+      {
+        "demoId": "S01-T3-A-DEMO",
+        "description": "Instalar con python -m pip, freeze y reinstall -r",
+        "why": "python -m pip ata el instalador al intérprete del venv. freeze genera el contrato reproducible; install -r lo aplica en un entorno limpio. Eso es lo que un colega hará el día 1 al clonar tu repo.",
+        "code": "# .venv activado (prompt (.venv))\npython -m pip install requests==2.32.3\n\n# Snapshot (incluye transitivas: urllib3, certifi, ...)\npython -m pip freeze > requirements.txt\nhead -5 requirements.txt\n\n# Replicar en entorno limpio (demo rápida):\ndeactivate\npython3 -m venv .venv_clean\nsource .venv_clean/bin/activate   # Windows: .venv_clean\\Scripts\\Activate.ps1\npython -m pip install -r requirements.txt\npython -c \"import requests; print(requests.__version__)\"\n# 2.32.3\n\n# Stdlib no necesita pip:\npython -"
+      },
+      {
+        "demoId": "S01-T3-B-DEMO",
+        "description": "Primer commit Conventional Commits y lectura de git show",
+        "why": "Un commit con prefijo docs:/feat: es legible en el historial y en el PR. git show es la misma habilidad de lectura de diff que usarás al revisar código ajeno.",
+        "code": "git init\n# git config --global user.name \"Tu Nombre\"   # solo 1ª vez\n# git config --global user.email \"tu@correo.com\"\n\necho \"# python-ds-journey\" > README.md\ngit add README.md\ngit commit -m \"docs: agregar README inicial\"\n\necho \"\" >> README.md\necho \"Esqueleto CP-N1-A.\" >> README.md\ngit add README.md\ngit commit -m \"docs: mencionar esqueleto CP-N1-A\"\n\ngit log --oneline\ngit show HEAD --stat\n# Lee las líneas +/− : qué se agregó o quitó en el último commit"
+      },
+      {
+        "demoId": "S01-T4-A-DEMO",
+        "description": "Rama feature, push -u y plan de PR (sin force-push)",
+        "why": "La rama + PR es el flujo de equipo. restore/stash recuperan sin reescribir historial compartido. force-push a main está prohibido en este curso.",
+        "code": "# Asegura estar en main con working tree limpio\ngit switch main\n\ngit switch -c feat/hello-env\n# ... edita o crea scripts/hello_env.py ...\ngit add scripts/hello_env.py\ngit commit -m \"feat: agregar smoke hello_env\"\n\n# Publicar rama (requiere remote origin ya configurado)\ngit push -u origin feat/hello-env\n\n# Abrir PR en GitHub (UI) o con GitHub CLI:\n# gh pr create --title \"feat: smoke hello_env\" --body \"- Agrega scripts/hello_env.py\\n- Smoke del entorno\"\n\n# Recuperación local (demo):\n# echo \"temp\" "
+      },
+      {
+        "demoId": "S01-T4-B-DEMO",
+        "description": "Ruff check sobre un archivo con import sin usar",
+        "why": "Ruff atrapa basura barata (imports muertos, errores F/E) antes del review. La config en pyproject.toml es el contrato del repo, no solo del editor.",
+        "code": "# pyproject.toml en la raíz (mínimo):\n# [tool.ruff]\n# line-length = 88\n# target-version = \"py312\"\n# [tool.ruff.lint]\n# select = [\"E\", \"F\", \"I\"]\n\npython -m pip install ruff\n# hello_bad.py con: import sys  (sin usar) + print(\"hola\")\npython -m ruff check hello_bad.py\n# F401 [*] `sys` imported but unused\n\n# Tras quitar el import:\npython -m ruff check hello_bad.py\n# All checks passed!"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "¿Para qué sirve un entorno virtual (venv) en Python?",
+        "options": [
+          "Para acelerar la ejecución del código Python",
+          "Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones",
+          "Para conectarse a internet más rápido al instalar paquetes",
+          "Para compilar Python a código de máquina más eficiente"
+        ]
+      },
+      {
+        "question": "¿Cuál de los siguientes archivos SÍ debería estar en tu .gitignore?",
+        "options": [
+          "requirements.txt",
+          "README.md",
+          ".venv/ (o venv/)",
+          "hello.py"
+        ]
+      },
+      {
+        "question": "¿Cuál es un buen mensaje de commit siguiendo Conventional Commits?",
+        "options": [
+          "\"cambios\"",
+          "\"wip\"",
+          "\"feat: agregar cálculo de churn por segmento\"",
+          "\"arreglé el bug de ayer\""
+        ]
+      },
+      {
+        "question": "¿Qué comando te permite replicar el entorno de otro desarrollador?",
+        "options": [
+          "pip install pandas numpy",
+          "python -m venv venv",
+          "pip install -r requirements.txt",
+          "git clone https://github.com/usuario/repo.git"
+        ]
+      },
+      {
+        "question": "¿Por qué NO debes subir el archivo .env a GitHub?",
+        "options": [
+          "Porque pesa demasiado y ralentiza el git push",
+          "Porque suele contener credenciales (API keys, passwords, tokens) que son secretos",
+          "Porque GitHub no soporta archivos sin extensión",
+          "Porque entra en conflicto con requirements.txt"
+        ]
+      }
+    ],
+    "prior_titles": []
+  },
+  {
+    "section_index": 2,
+    "title": "Valores, tipos, operadores e I/O",
+    "outcomes": [
+      "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+      "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+      "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+      "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+      "Evaluar aritmética y comparaciones respetando precedencia",
+      "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+      "Usar input/print y f-strings para capturar y reportar datos",
+      "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+    ],
+    "theory": [
+      {
+        "heading": "De “Absolute Basics” a valores y tipos (mapa de la sección)",
+        "paragraphs": [
+          "En V3, **S02 no cubre condicionales, loops, funciones avanzadas ni comprehensions** como camino principal del estudiante. Esos temas se posponen a secciones posteriores. Aquí dominas lo que un parser de intake necesita primero: **qué es un valor**, **qué tipo tiene**, **cómo se nombra**, **cómo se opera** y **cómo entra/sale texto** sin perder el original.",
+          "El hilo conductor es un **registro sintético de cliente** (nombres, dos apellidos, contacto, dirección, y a veces edad o monto). Todo el material usa datos ficticios (`example.com`, teléfonos inventados). Nunca subas PII real al repo.",
+          "Orden pedagógico: **T1 Valores** (literales → inspección/conversión) → **T2 Nombres** (asignación/PEP 8 → identidad y copias) → **T3 Operadores** (precedencia → Decimal para dinero) → **T4 I/O** (f-strings → parse con errores). Los **ocho subtemas** están completos: theory + I Do + E1/E2/E3 por cada uno."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Literales y tipos básicos",
+        "paragraphs": [
+          "Un **literal** es un valor escrito directamente en el código: `34`, `150.5`, `\"Quispe\"`, `True`, `None`. Python clasifica cada valor en un **tipo**. Los tipos básicos de S02 son: **`int`** (enteros: `0`, `34`, `-7`), **`float`** (punto flotante: `150.5`, `1.0`), **`str`** (texto Unicode: `\"María José\"`, `\"Ñahui\"`), **`bool`** (`True` / `False`) y **`None`** (ausencia de valor; su tipo es **`NoneType`**).",
+          "La trampa clásica de intake: el número **`42`** (int) y el texto **`\"42\"`** (str) **no son el mismo valor**. `42 == \"42\"` es `False`. En formularios y CSV **casi todo llega como str**. Si sumas o comparas sin convertir, obtienes `TypeError` o lógica silenciosamente incorrecta. El teléfono **`999000111` debe modelarse como `str`**, no como `int`: no es una cantidad aritmética y puede tener ceros a la izquierda en otros países.",
+          "Para ver el tipo usa **`type(x)`** (devuelve la clase) o, en reportes didácticos, `type(x).__name__` (`\"int\"`, `\"str\"`, …). Más adelante preferirás `isinstance` para validar; primero entrenas el ojo con literales. Nota avanzada (no abuses): en Python **`bool` es subtipo de `int`**, así que `isinstance(True, int)` es `True`. Para lógica de negocio, trata `bool` como booleano, no como `0`/`1`, salvo que documentes una conversión explícita."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Inspección, conversión y validación",
+        "paragraphs": [
+          "**`type(x)`** responde “¿qué es esto ahora?”. **`isinstance(x, int)`** responde “¿puedo tratarlo como int?” (incluye subtipos). En parsers, `isinstance` suele ser más útil que comparar `type(x) is int`, porque documenta la intención de validación.",
+          "La conversión explícita usa constructores: **`int()`**, **`float()`**, **`str()`**. El texto de formularios trae espacios: **`valor.strip()`** antes de convertir. `int(\" 19 \")` funciona; `int(\"19.5\")` o `int(\"abc\")` lanzan **`ValueError`**. **Nunca uses `eval()`** sobre input de usuario: es un riesgo de seguridad y un anti-patrón de calidad de datos.",
+          "Validación profesional: capturar el fallo, **nombrar el campo** en el mensaje y **no tragar el error en silencio**. Un patrón útil es devolver una tupla `(ok, valor_o_None, mensaje_o_None)` o acumular errores en una lista. Así un campo inválido no impide reportar los demás, y el raw sigue disponible para depurar."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Asignación y convenciones de nombres",
+        "paragraphs": [
+          "**`=` asigna** un nombre a un valor en el namespace actual. **`==` compara** igualdad y devuelve un `bool`. En versiones modernas de Python, `if x = 1:` es **SyntaxError** (el walrus `:=` es otro tema y no es el default de S02). Mezclar `=` y `==` es el bug de novato más citado en code review junior.",
+          "PEP 8 (guía de estilo): **`snake_case`** para variables y funciones (`apellido_paterno`, `parse_client`), **`UPPER_CASE`** para constantes (`EDAD_MINIMA`, `IGV_TASA`), **`CapWords`** para clases (más adelante). Evita nombres de una sola letra confusos: **`l` / `O` / `I`** se confunden con `1` y `0`. Prefiere `longitud`, `indice`, `columna`.",
+          "En el schema de intake usa nombres estables y en español técnico claro: `nombres`, `apellido_paterno`, `apellido_materno`, `contacto`, `direccion`. No inventes parentesco real a partir de apellidos: son **campos de texto**, no una afirmación genealógica. Si un nombre no existe aún, Python lanza **`NameError`** — señal de typo o de usar antes de asignar."
+        ],
+        "code": "nombres_cliente = \"Ana\"\napellido_paterno = \"García\"\nEDAD_MINIMA = 18\nedad = 25\n\n# Comparación con == (no uses = aquí)\nif edad == EDAD_MINIMA:\n    print(\"edad mínima exacta\")\nelse:\n    print(f\"edad={edad}, mínima={EDAD_MINIMA}\")\n\n# NameError si descomentas:\n# print(apellido_materno)"
+      },
+      {
+        "heading": "Identidad, mutabilidad y copias superficiales",
+        "paragraphs": [
+          "**`==` compara valor**; **`is` / `is not` comparan identidad** (¿mismo objeto en memoria?). El idioma correcto para ausencia es **`x is None`** (no `x == None`, aunque a veces “funcione”). `id(x)` expone un identificador del objeto; úsalo para entender demos, no en lógica de negocio rutinaria.",
+          "Los **`str` son inmutables**: `.strip()` o concatenar devuelve **otro** string; el original no cambia. Las **`list` son mutables**: `append` altera el mismo objeto. Si `b = a` y `a` es una lista, **`b` es un alias**: mutar `b` muta `a`. Para independizar: **`a.copy()`** o **`a[:]`** (copia superficial).",
+          "Patrón de calidad de datos: guarda **`campo_raw`** (o un dict `raw`) con el texto original y trabaja en **`campo` / `clean`**. Si el parse falla, **el raw sigue ahí** para el mensaje de error y para reintentos. Nunca sobrescribas el original con la versión normalizada en el mismo nombre si necesitas auditoría."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Operadores y precedencia",
+        "paragraphs": [
+          "Los operadores aritméticos de S02: **`+`**, **`-`**, **`*`**, **`/`** (división verdadera → `float`), **`//`** (división entera hacia −∞), **`%`** (resto) y **`**`** (potencia). Las **comparaciones** (`==`, `!=`, `<`, `<=`, `>`, `>=`) devuelven `bool` y se combinan con la aritmética en expresiones de negocio (rangos, umbrales).",
+          "La **precedencia** importa: `*` y `/` van antes que `+` y `-`; `**` es aún más prioritario y se asocia a la derecha. Trampa clásica: **`-3**2` vale `-9`**, no `9`, porque el unario `-` se aplica al resultado de `3**2`. Usa **`(-3)**2`** si quieres el cuadrado del negativo. Cuando dudes, **paréntesis**: `(a + b) * c` no es lo mismo que `a + b * c`.",
+          "En intake peruano, un precio con IGV 18% se escribe mentalmente como *base × (1 + 0.18)*. Si escribes `base + base * 0.18` sin paréntesis extra, la precedencia de `*` ya lo resuelve; si mezclas sumas de líneas y tasas, **paréntesis explícitos** evitan bugs de code review. Para dinero real en soles, **T3-B usa `Decimal`** — aquí entrenas la expresión; allá entrenas la precisión."
+        ],
+        "code": "a, b, c = 10, 3, 2\nprint(\"10 // 3 =\", a // b)   # 3\nprint(\"10 % 3  =\", a % b)    # 1\nprint(\"3 ** 2  =\", b ** c)   # 9\nprint(\"a + b * c =\", a + b * c)      # 16\nprint(\"(a + b) * c =\", (a + b) * c)  # 26\nprint(\"-3**2 =\", -3**2)              # -9\nprint(\"(-3)**2 =\", (-3)**2)          # 9"
+      },
+      {
+        "heading": "Decimal para dinero y redondeo",
+        "paragraphs": [
+          "**`float` no es dinero.** `0.1 + 0.2` produce `0.30000000000000004` por representación binaria. En montos en **soles (S/)** de fintech, retail o bancos, usa **`decimal.Decimal`**. Construye desde **`str`**: `Decimal(\"0.1\")`, **nunca** `Decimal(0.1)` (ya arrastras el error del float).",
+          "Redondeo a céntimos: **`quantize(Decimal(\"0.01\"))`**. El redondeo bancario por defecto suele ser **`ROUND_HALF_EVEN`** (mitad al par). Importa: `from decimal import Decimal, ROUND_HALF_EVEN`. Patrón: subtotal + IGV 18% → quantize en cada paso monetario que debas mostrar o persistir.",
+          "En intake, el campo monto llega como **texto** (`\"150.50\"`). Parseas con `Decimal(texto.strip())`, capturas `InvalidOperation`, y reportas error con nombre de campo. **Convención S02: punto decimal** (`150.50`), no coma; si el CSV trae coma, documenta la normalización antes de Decimal."
+        ],
+        "code": "from decimal import Decimal, ROUND_HALF_EVEN\n\nprint(\"float:\", 0.1 + 0.2)\nprint(\"Decimal:\", Decimal(\"0.1\") + Decimal(\"0.2\"))\n\nsubtotal = Decimal(\"100.00\")\nigv = (subtotal * Decimal(\"0.18\")).quantize(\n    Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN\n)\ntotal = (subtotal + igv).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\nprint(\"subtotal\", subtotal, \"IGV\", igv, \"total\", total)"
+      },
+      {
+        "heading": "input, print y f-strings",
+        "paragraphs": [
+          "**`input(prompt)`** siempre devuelve **`str`**, aunque el usuario escriba dígitos. En el browser/Pyodide a menudo **simulas input** con variables o parámetros de función (testeable). **`print(*args, sep=\" \", end=\"\\n\")`** controla separadores y fin de línea.",
+          "Las **f-strings** (`f\"...{expr}...\"`) son el formato preferido en S02: legibles, con expresiones cortas y especificadores (`{monto:.2f}`, `{nombre!r}`). Prompts y mensajes de error del intake van en **español claro** (“Ingresa el contacto:”, “ERROR en 'edad': …”).",
+          "Patrón profesional: separa **captura** (valores str), **parse** (tipos) y **reporte** (f-strings). Así puedes unit-testear el parse sin depender de la consola. Un resumen de cliente con 4–5 campos es el puente natural al You Do."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Parsing de intake y mensajes de error",
+        "paragraphs": [
+          "Un **parser de intake** recibe un registro sintético, conserva **`*_raw`**, produce campos limpios (strip) y acumula **`errors: list[str]`** sin tragar excepciones. El raw **siempre** está, incluso si el clean es `None` o el campo está vacío.",
+          "Casos mínimos del gate CP-N1-A: **vacío** (mensaje accionable + raw `\"\"`), **Unicode** (García, Ñahui, María — round-trip sin errores ASCII), **número inválido** (`edad=\"abc\"` → error con nombre de campo, raw intacto). Los tests son **asserts** o pytest: no “mirar la consola y ya”.",
+          "Mensaje accionable = **qué campo**, **qué valor se recibió** (`!r` / repr), **qué se esperaba**. Evita `except: pass`. No afirmes parentesco real por dos apellidos: son **campos de texto** del schema."
+        ],
+        "code": "def safe_int(campo: str, valor: str):\n    try:\n        return True, int(valor.strip()), None\n    except ValueError:\n        msg = f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\"\n        return False, None, msg\n\nok, n, err = safe_int(\"edad\", \"abc\")\nprint(ok, n, err)\nraw = \"  Ñahui  \"\nprint(\"raw\", repr(raw), \"clean\", repr(raw.strip()))"
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S02-T1-B-DEMO",
+        "description": "Literales de un registro de cliente y type() de cada campo",
+        "why": "Antes de parsear, el analista debe “ver” el tipo de cada literal. Si el teléfono o un código viaja como int, o si comparas 42 con \"42\", el pipeline de calidad miente. Esta demo fija int/float/str/bool/NoneType y la distinción literal vs tex",
+        "code": "# Cliente sintético (no es persona real)\nnombres = \"María José\"\napellido_paterno = \"Quispe\"\nedad = 34\nmonto_soles = 150.5\nactivo = True\nreferencia = None\n\ncampos = [\n    (\"nombres\", nombres),\n    (\"apellido_paterno\", apellido_paterno),\n    (\"edad\", edad),\n    (\"monto_soles\", monto_soles),\n    (\"activo\", activo),\n    (\"referencia\", referencia),\n]\nfor label, valor in campos:\n    print(f\"{label}: valor={valor!r} type={type(valor).__name__}\")\n\nprint(\"type(42)=\", type(42).__name__)\nprint(\"type('42')="
+      },
+      {
+        "demoId": "S02-T2-A-DEMO",
+        "description": "Convertir campos de texto a número con mensaje de error por campo",
+        "why": "strip + int cubre el caso feliz con espacios. El caso \"abc\" no debe tumbar el notebook sin contexto: el mensaje nombra el campo y muestra el valor recibido. isinstance separa “ya es int” de “sigue siendo texto”.",
+        "code": ""
+      },
+      {
+        "demoId": "S02-T2-B-DEMO",
+        "description": "Renombrar a snake_case y usar == en comparaciones",
+        "why": "Code review junior en Perú mira nombres y = vs == antes que algoritmos. snake_case + constantes UPPER_CASE + == en el if es el contrato mínimo de legibilidad para el schema de intake.",
+        "code": ""
+      },
+      {
+        "demoId": "S02-T3-A-DEMO",
+        "description": "Alias vs copia y preservar raw tras normalizar",
+        "why": "El raw debe sobrevivir al strip. En estructuras mutables, el alias es la forma #1 de corromper el original “sin tocar raw”. copy()/slice y claves *_raw son el hábito que el parser de intake exige.",
+        "code": ""
+      },
+      {
+        "demoId": "S02-T3-B-DEMO",
+        "description": "Evaluar // % ** y corregir expresión con precedencia",
+        "why": "Antes de confiar en un cálculo de ticket, verificas // % ** y paréntesis. -3**2 es la trampa de precedencia más citada; (a+b)*c vs a+b*c es el bug de descuento/IGV en una línea.",
+        "code": "a, b, c = 10, 3, 2\nprint(\"10 // 3 =\", a // b)\nprint(\"10 % 3  =\", a % b)\nprint(\"3 ** 2  =\", b ** c)\nprint(\"a + b * c =\", a + b * c)\nprint(\"(a + b) * c =\", (a + b) * c)\nprint(\"-3**2 =\", -3**2)\nprint(\"(-3)**2 =\", (-3)**2)\n# Precio con IGV 18% (expresión; dinero exacto → Decimal en T3-B)\nbase = 100\ntotal = base * (1 + 0.18)\nprint(\"total con IGV (float demo) =\", total)"
+      },
+      {
+        "demoId": "S02-T4-A-DEMO",
+        "description": "Subtotal + IGV 18% con Decimal y quantize a 2 decimales",
+        "why": "En soles, float miente. Decimal desde str + quantize(0.01) es el contrato mínimo de montos en onboarding de data financiera en Perú.",
+        "code": ""
+      },
+      {
+        "demoId": "S02-T4-B-DEMO",
+        "description": "Capturar (simulado) y reportar nombre + monto con f-string",
+        "why": "input devuelve str; el reporte usa f-strings y :.2f. Separar captura de formato permite testear el parser sin consola interactiva.",
+        "code": ""
+      },
+      {
+        "demoId": null,
+        "description": "Parser mínimo: raw, clean, errors; 3 casos de prueba",
+        "why": "El gate no es “imprimió algo”: son asserts sobre raw, Unicode y errores accionables. Esta demo es el núcleo del You Do CP-N1-A.",
+        "code": "def safe_int(campo: str, valor: str):\n    try:\n        return True, int(valor.strip()), None\n    except ValueError:\n        return False, None, f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\"\n\ndef parse_client(nombres: str, apellido_materno: str, edad=None) -> dict:\n    errors: list[str] = []\n    rec = {\n        \"nombres_raw\": nombres,\n        \"apellido_materno_raw\": apellido_materno,\n        \"edad_raw\": edad,\n        \"nombres\": nombres.strip() if nombres and nombres.strip() else Non"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "¿Cuál es el tipo de None en Python?",
+        "options": [
+          "null",
+          "NoneType",
+          "void",
+          "str vacío"
+        ]
+      },
+      {
+        "question": "¿Qué imprime type(\"42\").__name__ y la comparación 42 == \"42\"?",
+        "options": [
+          "int y True",
+          "str y False",
+          "str y True",
+          "int y False"
+        ]
+      },
+      {
+        "question": "¿Por qué el teléfono de un cliente de intake se modela como str?",
+        "options": [
+          "Porque int no existe en Python",
+          "Porque no es una cantidad aritmética y puede necesitar ceros o formato",
+          "Porque str es más rápido que int",
+          "Porque PEP 8 lo prohíbe como int"
+        ]
+      },
+      {
+        "question": "Tras `b = a` con `a = [1, 2]` y `b.append(3)`, ¿qué vale `a`?",
+        "options": [
+          "[1, 2]",
+          "[1, 2, 3]",
+          "[3]",
+          "Error"
+        ]
+      },
+      {
+        "question": "¿Cuál es el idioma correcto para comprobar ausencia de valor?",
+        "options": [
+          "if x == None:",
+          "if x is None:",
+          "if x === null:",
+          "if not x == None:"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo"
+    ]
+  },
+  {
+    "section_index": 3,
+    "title": "Decisiones y reglas de validación",
+    "outcomes": [
+      "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+      "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+      "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+      "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+      "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+      "Leer una decision table y expresar reglas claras con if o match según el caso",
+      "Enunciar invariantes de campo con ejemplos accept/reject/review",
+      "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+    ],
+    "theory": [
+      {
+        "heading": "De “Data Structures” a decisiones de validación (mapa de la sección)",
+        "paragraphs": [
+          "En V3, **S03 no es el path principal de list/dict/CSV/JSON**. Esos temas viven conceptualmente en **S06** (y módulos posteriores). Aquí el estudiante domina lo que el **motor de reglas de intake** necesita: booleanos, control de flujo y políticas **accept / reject / review** sobre un registro sintético de cliente.",
+          "El hilo conductor es un **validador de campos** (`validate_field` / `validate_record`) que devuelve `{status, code, message}`. Datos ficticios únicamente (`example.com`, teléfonos inventados). Nunca subas PII real al repo.",
+          "Orden pedagógico: **T1 Booleanos** (comparaciones → truthiness) → **T2 Control** (if/elif/else → guards) → **T3 Reglas** (rangos/allowlists → decision tables/match) → **T4 Verificación** (invariantes → mensajes y tests de ramas)."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Comparaciones y el operador in",
+        "paragraphs": [
+          "Un **booleano de negocio** nace de una comparación: `==`, `!=`, `<`, `<=`, `>`, `>=`. En intake, comparas edades, montos, códigos y regiones. Python también permite **encadenar**: `18 <= edad <= 65` equivale a `(18 <= edad) and (edad <= 65)` y se evalúa de forma segura (la expresión del medio se calcula una sola vez en la cadena).",
+          "**Pertenencia**: `x in coleccion` / `x not in coleccion` funciona con str, list, set, dict (busca **claves**). Para allowlists de códigos fijos, un **`set` de literales** es ideal: lectura clara y chequeo O(1). Atención a **mayúsculas**: `\"dni\" in {\"DNI\"}` es `False` — normaliza antes o documenta el contrato.",
+          "**`is` vs `==`**: usa **`is None` / `is not None`** para ausencia. No uses `is` para comparar números o strings de negocio (`True is 1` es `False` aunque `True == 1` sea `True`). `==` pregunta “¿mismo valor?”; `is` pregunta “¿mismo objeto?”."
+        ],
+        "code": "region = \"Lima\"\nmonto = 1500\nALLOWED = {\"Lima\", \"Arequipa\", \"Cusco\"}\n\nprint(region == \"Lima\")          # True\nprint(monto >= 1000)             # True\nprint(region in ALLOWED)         # True\nprint(\"Piura\" not in ALLOWED)    # True\nprint(1000 <= monto <= 2000)     # True (encadenado)\n\n# is None para ausencia — no uses == por hábito en validadores\nvalor = None\nprint(valor is None)             # True"
+      },
+      {
+        "heading": "Qué es verdadero en un if (y qué no es “ausente”)",
+        "paragraphs": [
+          "Python evalúa la **truthiness** de un valor en `if`, `while`, `and` y `or`. Son **falsy** (por defecto): `None`, `False`, `0`, `0.0`, `0j`, `\"\"`, `()`, `[]`, `{}`, `set()`, `range(0)`. Casi todo lo demás es **truthy**, incluso `[0]` o `\"False\"`.",
+          "El error canónico del gate V3: **`if monto:` trata `0` como “no hay monto”**. En negocio, **cero puede ser válido** y **`None` significa ausente**. Separa políticas: presencia con `is None`, rango con comparaciones numéricas, vacío de texto con `== \"\"` o `not s.strip()` según el contrato.",
+          "`and` / `or` hacen **short-circuit** y **devuelven un operando** (no siempre `True`/`False`). `\"\" or \"default\"` → `\"default\"`; `0 and 99` → `0`. `not` sí devuelve booleano. Prioridad: `not` se une más fuerte que `and`, y `and` más que `or`."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Ramas de decisión con if/elif/else",
+        "paragraphs": [
+          "La forma canónica de una decisión exclusiva es **`if` / `elif` / `else`**. Se evalúan en orden; **la primera condición verdadera gana** y el resto no se ejecuta. El `else` es el catch-all (útil para `reject` o `review` por defecto).",
+          "**Indentación** define el bloque: 4 espacios es el estilo del curso. Un `if` seguido de otro `if` (sin `elif`) **no es excluyente**: ambos pueden dispararse y **sobrescribir** el status. Eso es un bug clásico al clasificar scores.",
+          "Para el motor de reglas, un patrón limpio es devolver un **solo status** por campo: `accept`, `review` o `reject`. Fronteras (`score >= 80`) deben estar documentadas en la tabla de ejemplos."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Salidas tempranas y ramas que nunca se tocan",
+        "paragraphs": [
+          "Una **guard clause** (salida temprana) valida precondiciones y **retorna de inmediato** con `reject`/`review`, dejando el camino feliz al final sin pirámide de `if` anidados. Mejora legibilidad y reduce bugs de indentación.",
+          "Orden típico en validadores: **1) ausencia (`is None`)** → **2) tipo** → **3) rango/allowlist** → **4) accept**. Si comparas `edad < 18` antes de chequear `None`, obtienes `TypeError`.",
+          "Una **rama muerta** es código que nunca se ejecuta porque una condición anterior ya la cubre (p. ej. `if x >= 0: ... elif x > 5:` — el `elif` solo vería negativos, nunca `x > 5`). Aprende a leer el orden como un revisor de PRs."
+        ],
+        "code": "def validate_edad(edad):\n    if edad is None:\n        return {\"status\": \"review\", \"code\": \"MISSING\"}\n    if not isinstance(edad, int):\n        return {\"status\": \"reject\", \"code\": \"BAD_TYPE\"}\n    if edad < 0 or edad > 120:\n        return {\"status\": \"reject\", \"code\": \"OUT_OF_RANGE\"}\n    if edad < 18:\n        return {\"status\": \"review\", \"code\": \"NEEDS_REVIEW\"}\n    return {\"status\": \"accept\", \"code\": "
+      },
+      {
+        "heading": "Reglas de dominio: rangos y listas permitidas",
+        "paragraphs": [
+          "Una **allowlist** es el conjunto de valores admitidos (`ALLOWED_REGIONES = {\"Lima\", \"Arequipa\", ...}`). Si el valor no está, suele ir a **`review`** (dato desconocido) o **`reject`** (política estricta). Nombra constantes en **`UPPER_CASE`**.",
+          "Un **rango** usa comparaciones o encadenamiento: `MIN_EDAD <= edad <= MAX_EDAD`. Combina reglas con **`and`/`or`** de forma explícita; documenta si el fallo de allowlist es distinto del fallo de rango (códigos `NOT_IN_ALLOWLIST` vs `OUT_OF_RANGE`).",
+          "Tri-estado en dominio: **accept** (cumple), **reject** (viola hard), **review** (ausente, desconocido u outlier suave). El cero en montos suele ser accept si el invariante lo permite."
+        ],
+        "code": "ALLOWED_REG = {\"Lima\", \"Arequipa\", \"Cusco\", \"Piura\"}\n\ndef rule_region_edad(region, edad):\n    if region is None or edad is None:\n        return \"review\"\n    if region not in ALLOWED_REG:\n        return \"review\"\n    if not (18 <= edad <= 65):\n        return \"reject\"\n    return \"accept\"\n\nfor r, e in [(\"Lima\", 30), (\"Tacna\", 30), (\"Lima\", 15), (None, 40)]:\n    print(r, e, \"→\", rule_region_edad(r, e))"
+      },
+      {
+        "heading": "Tablas de decisión y match/case",
+        "paragraphs": [
+          "Una **decision table** es una tabla de negocio: filas de condiciones → acción. Primero la escribes en español (o en un dict de ejemplos); después la implementas. Evita inventar ramas en el código que no estén en la tabla.",
+          "**`match` / `case`** (Python 3.10+) brilla cuando el sujeto es un **literal o estado finito** (`\"OK\"`, `\"MISSING\"`, códigos de error). Soporta **OR patterns** (`case \"A\" | \"B\":`) y el comodín **`case _:`** (debe ser explícito para defaults). El primer case que matchea gana.",
+          "**Cuándo preferir `if`**: rangos numéricos, combinaciones de varios campos, o condiciones que no son patrones de estructura. `match` no depreca `if`; elige por **claridad**."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Invariantes: promesas que el dato debe cumplir",
+        "paragraphs": [
+          "Un **invariante** de campo es una promesa en español: “`contacto` es un str de 9 dígitos, o `None` si aún no se capturó”. No es código todavía: es **especificación**. Los **ejemplos canónicos** (accept/reject/review/missing) son la forma más barata de validar que el invariante es usable.",
+          "Mínimo profesional: **al menos un ejemplo por estado de decisión** que tu regla produce. Si solo pruebas el camino feliz, el validador miente en producción.",
+          "`assert` sirve en desarrollo y tests, pero **no** como única validación de intake en producción (`python -O` desactiva asserts). Usa returns con `status`/`code`/`message` para reglas de negocio."
+        ],
+        "code": "def validate_contacto(c):\n    if c is None:\n        return \"review\"\n    if not isinstance(c, str) or not c.strip():\n        return \"reject\"\n    digits = c.strip()\n    if not digits.isdigit() or len(digits) != 9:\n        return \"reject\"\n    return \"accept\"\n\nregla = {\n    \"field\": \"contacto\",\n    \"invariant_text\": \"contacto es str de 9 dígitos o None (review)\",\n    \"examples\": [\n        {\"value\": \"9"
+      },
+      {
+        "heading": "Mensajes que se pueden ejecutar y pruebas por rama",
+        "paragraphs": [
+          "Un mensaje accionable nombra el **campo**, el **problema** y la **acción esperada**: `Campo 'edad'=-5 fuera de rango; usa 0–120.` Evita mensajes vagos como Error o inválido. Códigos estables (`MISSING`, `OUT_OF_RANGE`, `NOT_IN_ALLOWLIST`, `NEEDS_REVIEW`, `OK`) permiten métricas y i18n después.",
+          "**Un test por rama** del validador: si tienes 4 caminos (None, tipo mal, rango, OK), necesitas ≥4 casos. El else/default también cuenta.",
+          "No loguees secretos ni PII real. En el curso solo datos sintéticos. El ciclo **test rojo → arreglar regla → verde** es la forma de depurar off-by-one en fronteras (`>= 18` vs `> 18`)."
+        ],
+        "code": "def validate_edad_msg(edad):\n    if edad is None:\n        return {\n            \"status\": \"review\",\n            \"code\": \"MISSING\",\n            \"message\": \"Campo 'edad' ausente: envía un entero 0–120 o marca como desconocido.\",\n        }\n    if not isinstance(edad, int):\n        return {\n            \"status\": \"reject\",\n            \"code\": \"BAD_TYPE\",\n            \"message\": f\"Campo 'edad' recibió {ed"
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S03-T1-B-DEMO",
+        "description": "Comparar región y monto de un registro sintético",
+        "why": "Antes de escribir ifs de negocio, el analista predice booleanos sueltos. Cuatro comparaciones + dos membership checks fijan el vocabulario del motor de reglas.",
+        "code": ""
+      },
+      {
+        "demoId": "S03-T2-A-DEMO",
+        "description": "Tres campos: None, 0 y vacío bajo reglas distintas",
+        "why": "None, 0 y \"\" son todos falsy, pero la política de monto solo trata None como ausente y acepta cero. Este es el gate crítico del tri-estado.",
+        "code": ""
+      },
+      {
+        "demoId": "S03-T2-B-DEMO",
+        "description": "Clasificar score de calidad en accept/review/reject",
+        "why": "Tres scores, tres ramas. if/elif/else garantiza una sola etiqueta por registro — base del clasificador de calidad de intake.",
+        "code": ""
+      },
+      {
+        "demoId": "S03-T3-A-DEMO",
+        "description": "De pirámide a guards en validate_edad",
+        "why": "Misma matriz de casos, código lineal. Guards de None y tipo evitan TypeError y dejan el accept al final.",
+        "code": ""
+      },
+      {
+        "demoId": "S03-T3-B-DEMO",
+        "description": "Regla combinada región + edad",
+        "why": "Allowlist + rango en una sola función. Región desconocida → review; edad fuera de banda → reject; ausencia → review.",
+        "code": ""
+      },
+      {
+        "demoId": "S03-T4-A-DEMO",
+        "description": "Misma tabla en if/elif y en match",
+        "why": "Ambas implementaciones coinciden; case _ cubre desconocidos. Elige match cuando el sujeto es un código finito.",
+        "code": "def status_if(code: str) -> str:\n    if code == \"OK\":\n        return \"accept\"\n    elif code in (\"MISSING\", \"NEEDS_REVIEW\"):\n        return \"review\"\n    elif code in (\"OUT_OF_RANGE\", \"NOT_IN_ALLOWLIST\", \"BAD_TYPE\"):\n        return \"reject\"\n    else:\n        return \"review\"\n\ndef status_match(code: str) -> str:\n    match code:\n        case \"OK\":\n            return \"accept\"\n        case \"MISSING\" | \"NEEDS_REVIEW\":\n            return \"review\"\n        case \"OUT_OF_RANGE\" | \"NOT_IN_ALLOWLIST\" | \"BAD_TY"
+      },
+      {
+        "demoId": "S03-T4-B-DEMO",
+        "description": "Invariante de campo contacto + 4 ejemplos",
+        "why": "invariant_text + examples[] ejecutables: la especificación y la prueba viven juntas.",
+        "code": ""
+      },
+      {
+        "demoId": null,
+        "description": "Suite mínima de pruebas del motor de reglas",
+        "why": "Loop de casos; todos pass; el mensaje de BAD_TYPE muestra campo + valor recibido + tipo esperado.",
+        "code": "def validate_edad_msg(edad):\n    if edad is None:\n        return {\n            \"status\": \"review\",\n            \"code\": \"MISSING\",\n            \"message\": \"Campo 'edad' ausente: envía un entero 0–120 o marca como desconocido.\",\n        }\n    if not isinstance(edad, int):\n        return {\n            \"status\": \"reject\",\n            \"code\": \"BAD_TYPE\",\n            \"message\": f\"Campo 'edad' recibió {edad!r}; se espera int, no {type(edad).__name__}.\",\n        }\n    if edad < 0 or edad > 120:\n        r"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "¿Cuál es la forma correcta de chequear ausencia de un campo opcional en un validador?",
+        "options": [
+          "if not campo:",
+          "if campo is None:",
+          "if campo == False:",
+          "if campo is 0:"
+        ]
+      },
+      {
+        "question": "En una cadena if/elif/else, ¿qué ocurre cuando la primera condición es verdadera?",
+        "options": [
+          "Se evalúan todas las ramas y se combinan resultados",
+          "Se ejecuta esa rama y se omiten las siguientes",
+          "Se ejecuta también el else siempre",
+          "Python elige la rama más específica automáticamente"
+        ]
+      },
+      {
+        "question": "¿Qué devuelve la expresión `\"\" or \"default\"` en Python?",
+        "options": [
+          "True",
+          "False",
+          "\"\"",
+          "\"default\""
+        ]
+      },
+      {
+        "question": "Una allowlist de tipos de documento se implementa mejor como…",
+        "options": [
+          "Una lista de if anidados por cada letra del código",
+          "Un set de literales y el operador in",
+          "Un float entre 0 y 1",
+          "assert tipo == \"DNI\" como única validación de producción"
+        ]
+      },
+      {
+        "question": "¿Cuándo aporta más claridad `match/case` que `if` en un motor de reglas introductorio?",
+        "options": [
+          "Siempre; match deprecó if en Python 3.12",
+          "Cuando el sujeto es un literal/estado finito (códigos) y hay case _",
+          "Solo para rangos numéricos de montos",
+          "Nunca; match está deprecado"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O"
+    ]
+  },
+  {
+    "section_index": 4,
+    "title": "Iteración y resúmenes transaccionales",
+    "outcomes": [
+      "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+      "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+      "Escribir while con centinelas y condición de terminación explícita",
+      "Aplicar break/continue y guardrails contra loops infinitos",
+      "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+      "Escribir comprehensions legibles para filtros simples de resumen",
+      "Trazar el estado de un bucle para depurar contadores",
+      "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+    ],
+    "theory": [
+      {
+        "heading": "De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)",
+        "paragraphs": [
+          "En V3, **S04 no es el path principal de decorators, pathlib packaging ni datetime avanzado**. Esos temas viven en **S10** (módulos/CLI) y otras secciones. Aquí el estudiante domina lo que el **cierre de CP-N1-A** necesita: recorrer **múltiples registros**, acumular contadores, evitar loops infinitos y reportar **tasas con denominadores correctos**.",
+          "El hilo conductor es un **script de intake por lotes**: lee líneas sintéticas (o una lista en memoria que simula stdin), valida cada registro con el motor de reglas de S03, imprime por stdout un resumen y **conserva el original** de cada fila. Datos ficticios únicamente (`example.com`, teléfonos inventados). Nunca subas PII real al repo.",
+          "Orden pedagógico: **T1 Recorrido** (`for`/`range` → `enumerate`/`zip`) → **T2 Repetición** (`while`/centinelas → `break`/`continue`) → **T3 Patrones** (contadores/acumuladores → comprehensions) → **T4 Razonamiento** (trazado de estado → costo y off-by-one)."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "for, range y secuencias",
+        "paragraphs": [
+          "El bucle **`for x in secuencia:`** recorre cada elemento **una vez**, en orden. No necesitas un índice si solo te importa el valor. Las secuencias típicas de intake son: **listas de registros** (dicts), **líneas de texto** y **`range(n)`** cuando quieres un contador 0..n-1.",
+          "**`range(stop)`**, **`range(start, stop)`**, **`range(start, stop, step)`** producen enteros sin materializar una lista gigante. El **stop es exclusivo**: `range(3)` → 0,1,2. Eso evita el off-by-one clásico al numerar N filas.",
+          "En lotes de clientes sintéticos, el patrón base es `for registro in filas:` y dentro llamar a `validate_record`. No mutes la lista mientras la recorres salvo que sepas lo que haces; acumula resultados en otra lista."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "enumerate y zip sin desalinear",
+        "paragraphs": [
+          "**`enumerate(seq, start=0)`** te da `(índice, valor)` sin armar el índice a mano. Ideal para reportes “fila 1, fila 2…” (usa `start=1` para humanos) y para localizar el registro que falló en un lote.",
+          "**`zip(a, b)`** empareja elementos en paralelo. Se detiene en la **secuencia más corta**. Si `nombres` tiene 3 y `edades` tiene 2, el tercer nombre **desaparece en silencio** — un bug de calidad de datos. En Python 3.10+ existe `zip(..., strict=True)`; en cualquier versión puedes validar `len(a)==len(b)` antes de zipear (helper `zip_strict` en el demo).",
+          "Nunca asumas que dos columnas CSV llegaron alineadas solo porque “deberían”. Cuenta longitudes en tests de pipeline."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "while, centinelas y terminación",
+        "paragraphs": [
+          "**`while condicion:`** repite mientras la condición sea verdadera. Úsalo cuando **no sabes de antemano cuántas** iteraciones habrá: leer hasta línea vacía, reintentar hasta éxito, o procesar un stream.",
+          "Un **centinela** es un valor especial que marca el fin (p. ej. `\"\"`, `None`, `\"END\"`). El bucle debe **actualizar el estado** en cada vuelta; si la condición nunca se vuelve falsa, tienes un **loop infinito**.",
+          "En demos de browser no usamos `input()` interactivo real; simulamos un buffer de líneas. El patrón es el mismo: leer siguiente, chequear centinela, procesar."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "break, continue y prevención de loops infinitos",
+        "paragraphs": [
+          "**`break`** sale del bucle actual de inmediato. **`continue`** salta al **siguiente** ciclo sin ejecutar el resto del cuerpo. En intake: `continue` para saltar filas vacías; `break` al encontrar un centinela o un error fatal de configuración.",
+          "Prevención de infinito: (1) actualiza la variable de control, (2) pon un **máximo de iteraciones** en prototipos (`MAX = 10_000`), (3) evita `while True` sin break garantizado, (4) no hagas `i = i` por error tipográfico.",
+          "Un `while True` con break en el centinela es legítimo si el break es **obvio y testeado**. Documenta la condición de salida."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Contadores, acumuladores y búsqueda",
+        "paragraphs": [
+          "Un **contador** suma 1 por evento (`n_reject += 1`). Un **acumulador** suma cantidades (`total_monto += m`). Una **búsqueda** recorre hasta hallar (o no) un elemento y a menudo usa `break` o un flag.",
+          "Para **tasas** del gate CP-N1-A: `tasa_error = n_error / n_total` solo si **`n_total > 0`**. El denominador es el número de registros **intentados**, no solo los aceptados. Si no hay filas, reporta `None` o “N/A”, no dividas por cero.",
+          "Buscar el primer reject es O(n); contar todos también es O(n). No anides dos bucles sobre el mismo lote “por si acaso” sin necesidad."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Comprehensions legibles",
+        "paragraphs": [
+          "Una **list comprehension** `[expr for x in xs if cond]` construye una lista en una línea. Es idiomática cuando la transformación es **simple**. Si hay validación multi-rama o side effects (prints, I/O), usa un `for` explícito.",
+          "También existen **dict** y **set** comprehensions: `{k: v for ...}`, `{x for ...}`. No anides comprehensions de tres niveles “porque cabe”: la legibilidad del revisor manda.",
+          "En el resumen de intake, es útil: `rejects = [r for r in results if r['status']=='reject']`. El conteo sigue siendo `len(rejects)` con denominador `len(results)`."
+        ],
+        "code": "results = [\n    {\"id\": \"C001\", \"status\": \"accept\"},\n    {\"id\": \"C002\", \"status\": \"reject\"},\n    {\"id\": \"C003\", \"status\": \"review\"},\n    {\"id\": \"C004\", \"status\": \"reject\"},\n]\nrejects = [r[\"id\"] for r in results if r[\"status\"] == \"reject\"]\ncodes = {r[\"status\"] for r in results}\nby_id = {r[\"id\"]: r[\"status\"] for r in results}\nprint(\"rejects\", rejects)\nprint(\"codes\", sorted(codes))\nprint(\"by_id C002\","
+      },
+      {
+        "heading": "Trazado de estado",
+        "paragraphs": [
+          "**Trazar estado** es escribir (o imaginar) una tabla: iteración | variables | salida. Es la herramienta #1 para depurar off-by-one y contadores mal actualizados.",
+          "Antes de pedir ayuda, dibuja 3–5 filas de la traza con valores concretos del lote sintético. Si la traza no cuadra con el print, el bug está en la actualización del estado, no en “Python raro”.",
+          "En demos usamos `print` de depuración con prefijo `TRACE`. En producción preferirás logging (S09); aquí el objetivo es razonar el bucle."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Costo lineal/cuadrático y off-by-one",
+        "paragraphs": [
+          "Un solo `for` sobre n filas es **O(n)** (lineal). Dos bucles anidados sobre el mismo lote (`for a in xs: for b in xs:`) es **O(n²)** (cuadrático). Con 10 filas no se nota; con 100_000, el script “se cuelga”.",
+          "**Off-by-one**: `range(len(xs))` es correcto para índices 0..n-1; `range(1, len(xs))` se salta el primero; `range(len(xs)+1)` explota con IndexError. Fronteras inclusivas/exclusivas en filtros (`>=` vs `>`) también son off-by-one de negocio.",
+          "Para el gate: cuenta registros con un contador O(n); no recalcules la tasa dentro de un doble bucle. Debuggea índices imprimiendo `i` y `len`."
+        ],
+        "code": "xs = [\"a\", \"b\", \"c\"]\n# Lineal: 3 pasos\nlinear = 0\nfor _ in xs:\n    linear += 1\n# Cuadrático ingenuo: 9 pares\nquad = 0\nfor a in xs:\n    for b in xs:\n        quad += 1\nprint(\"linear\", linear, \"quadratic\", quad)\n\n# Off-by-one: último índice válido\nprint(\"last ok\", xs[len(xs) - 1])\ntry:\n    print(xs[len(xs)])\nexcept IndexError as e:\n    print(\"IndexError en len(xs):\", e)"
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S04-T1-B-DEMO",
+        "description": "Recorrer lote de registros sintéticos con for y range",
+        "why": "Un for por valor es el esqueleto del procesador por lotes; range(len) solo si necesitas índices.",
+        "code": "lote = [\n    {\"id\": \"C001\", \"edad\": 30},\n    {\"id\": \"C002\", \"edad\": 17},\n    {\"id\": \"C003\", \"edad\": 45},\n]\nfor reg in lote:\n    print(reg[\"id\"], \"edad=\", reg[\"edad\"])\nprint(\"n=\", len(lote), \"range →\", list(range(len(lote))))"
+      },
+      {
+        "demoId": "S04-T2-A-DEMO",
+        "description": "enumerate para reportar fila y zip strict para columnas",
+        "why": "enumerate numera para humanos; validar len (o zip strict en 3.10+) evita emparejar mal columnas.",
+        "code": "ids = [\"C001\", \"C002\", \"C003\"]\nregiones = [\"Lima\", \"Cusco\", \"Arequipa\"]\n\ndef zip_strict(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"desalineado\")\n    return zip(a, b)\n\nfor i, (rid, reg) in enumerate(zip_strict(ids, regiones), start=1):\n    print(f\"fila {i}: {rid} @ {reg}\")\nmal = [\"Lima\", \"Cusco\"]\ntry:\n    list(zip_strict(ids, mal))\nexcept ValueError:\n    print(\"desalineado detectado\")"
+      },
+      {
+        "demoId": "S04-T2-B-DEMO",
+        "description": "while con centinela END sobre buffer de líneas",
+        "why": "El centinela corta el lote; lo posterior no se procesa. i avanza siempre → no hay infinito.",
+        "code": "buf = [\"Ana|Lima\", \"Luis|Cusco\", \"END\", \"ignorada\"]\ni = 0\nout = []\nwhile i < len(buf):\n    line = buf[i]\n    i += 1\n    if line == \"END\":\n        break\n    out.append(line)\nprint(out)\nprint(\"indice final\", i)"
+      },
+      {
+        "demoId": "S04-T3-A-DEMO",
+        "description": "continue salta vacíos; break corta en ERROR fatal",
+        "why": "continue limpia ruido; break detiene el lote ante error de configuración.",
+        "code": "lines = [\"\", \"ok:1\", \"\", \"ok:2\", \"ERROR\", \"ok:3\"]\nkept = []\nfor ln in lines:\n    if not ln.strip():\n        continue\n    if ln.startswith(\"ERROR\"):\n        print(\"fatal, stop\")\n        break\n    kept.append(ln)\nprint(\"kept\", kept)"
+      },
+      {
+        "demoId": "S04-T3-B-DEMO",
+        "description": "Contadores accept/reject/review y tasa con denominador",
+        "why": "Un pase O(n) llena contadores; la tasa usa n total, no solo accepts.",
+        "code": "statuses = [\"accept\", \"reject\", \"review\", \"accept\", \"reject\"]\ncounts = {\"accept\": 0, \"reject\": 0, \"review\": 0}\nfor st in statuses:\n    counts[st] = counts.get(st, 0) + 1\nn = len(statuses)\ntasa_err = counts[\"reject\"] / n if n else None\nprint(counts)\nprint(\"n\", n, \"tasa_reject\", round(tasa_err, 2))"
+      },
+      {
+        "demoId": "S04-T4-A-DEMO",
+        "description": "Comprehensions para filtrar rejects del resumen",
+        "why": "Filtrar con comprehension es legible; el denominador sigue siendo len(rows).",
+        "code": "rows = [\n    {\"id\": \"C1\", \"status\": \"accept\"},\n    {\"id\": \"C2\", \"status\": \"reject\"},\n    {\"id\": \"C3\", \"status\": \"reject\"},\n]\nreject_ids = [r[\"id\"] for r in rows if r[\"status\"] == \"reject\"]\nn_rej = len(reject_ids)\nprint(reject_ids, \"tasa\", n_rej / len(rows))"
+      },
+      {
+        "demoId": "S04-T4-B-DEMO",
+        "description": "Tabla TRACE de contador durante el lote",
+        "why": "La traza hace visible cuándo sube el contador; base del debugging de resúmenes.",
+        "code": "flags = [True, False, True, True]\nn_ok = 0\nprint(\"i flag n_ok\")\nfor i, f in enumerate(flags):\n    if f:\n        n_ok += 1\n    print(i, f, n_ok)\nprint(\"FINAL\", n_ok)"
+      },
+      {
+        "demoId": null,
+        "description": "Detectar O(n²) ingenuo y off-by-one en range",
+        "why": "4 vs 16 pasos; range(1,len) omite el primer registro — bug clásico de resúmenes incompletos.",
+        "code": "n = 4\nsteps_linear = 0\nfor i in range(n):\n    steps_linear += 1\nsteps_quad = 0\nfor i in range(n):\n    for j in range(n):\n        steps_quad += 1\nprint(\"linear\", steps_linear, \"quad\", steps_quad)\ndata = [10, 20, 30]\n# off-by-one: range(1, len) salta index 0\nskipped = [data[i] for i in range(1, len(data))]\nprint(\"skipped_first\", skipped)"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "¿Qué produce list(range(3))?",
+        "options": [
+          "[1,2,3]",
+          "[0,1,2]",
+          "[0,1,2,3]",
+          "[3]"
+        ]
+      },
+      {
+        "question": "zip([1,2,3],[10,20]) sin strict…",
+        "options": [
+          "Lanza ValueError",
+          "Empareja solo (1,10) y (2,20); el 3 se pierde en silencio",
+          "Rellena con None el tercero",
+          "Empareja en producto cartesiano"
+        ]
+      },
+      {
+        "question": "Para la tasa de reject del gate, el denominador debe ser…",
+        "options": [
+          "Solo n_accept",
+          "n_total de registros procesados (intentados)",
+          "Siempre 100",
+          "n_review únicamente"
+        ]
+      },
+      {
+        "question": "¿Qué hace continue en un for de líneas de intake?",
+        "options": [
+          "Termina todo el programa",
+          "Salta al siguiente ciclo del bucle",
+          "Borra la lista",
+          "Convierte la línea en None"
+        ]
+      },
+      {
+        "question": "Un doble for anidado sobre n elementos es aproximadamente…",
+        "options": [
+          "O(1)",
+          "O(n)",
+          "O(n²)",
+          "O(log n)"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación"
+    ]
+  },
+  {
+    "section_index": 5,
+    "title": "Funciones, contratos y descomposición",
+    "outcomes": [
+      "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+      "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+      "Documentar pre/postcondiciones con docstrings alineados al código",
+      "Anotar type hints graduales y modelar errores de dominio",
+      "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+      "Distinguir pureza de efectos e inyectar I/O en el borde",
+      "Explicar LEGB y escribir closures/factories simples",
+      "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+    ],
+    "theory": [
+      {
+        "heading": "De “OOP” a funciones y contratos (mapa de la sección)",
+        "paragraphs": [
+          "En V3, **S05 no es el path principal de clases, herencia ni dunders de sklearn**. Eso vive en **S11** (OOP y modelo de dominio). Aquí el estudiante domina **funciones con contratos claros**: definición, parámetros seguros, docstrings, type hints graduales, pureza y un poco de LEGB — todo al servicio de **normalizadores** del inicio de **CP-N1-B**.",
+          "El hilo conductor es un conjunto de **funciones puras** `normalize_nombre`, `normalize_email`, `normalize_telefono`, `normalize_direccion` que transforman texto sintético sin tocar disco ni red. La I/O se inyecta o se deja fuera. Datos ficticios únicamente.",
+          "Orden pedagógico: **T1 Funciones** (def/return → params/defaults) → **T2 Contratos** (pre/post/docstrings → hints y errores de dominio) → **T3 Diseño** (funciones pequeñas → pureza/I/O) → **T4 Alcance** (LEGB/closures → tests y refactor)."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Definición, llamada y retorno",
+        "paragraphs": [
+          "Una función se define con **`def nombre(params):`** y devuelve con **`return`**. Sin `return` explícito, Python devuelve **`None`**. Llamar es `nombre(args)`. El nombre debe ser un **verbo** o acción clara: `normalize_email`, no `email2`.",
+          "Las funciones son valores: puedes pasarlas, guardarlas en listas y devolverlas. En S05 nos basta con **definir, llamar y retornar** resultados de normalización.",
+          "Un solo `return` temprano por caso de error de dominio es legible; evita funciones de 100 líneas con muchos returns confusos — mejor descomponer (T3)."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Posicionales, keyword y defaults seguros",
+        "paragraphs": [
+          "Argumentos **posicionales** se atan por orden; **keyword** por nombre (`fn(x=1)`). Los **defaults** se evalúan **una vez** en la definición: **nunca uses lista/dict mutable como default** (`def f(xs=[])` es un bug clásico). Usa `None` y crea la lista dentro.",
+          "Orden recomendado: obligatorios posicionales, luego opcionales con default. En llamadas, los keyword tras posicionales mejoran la lectura en sites de llamada largos.",
+          "Para normalizadores: `def normalize_telefono(raw, *, country=\"PE\")` con keyword-only opcional documenta la política regional sin confundir posiciones."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Pre/postcondiciones y docstrings",
+        "paragraphs": [
+          "Una **precondición** es lo que debe cumplirse **antes** de llamar (p. ej. `raw` es str). Una **postcondición** es lo que garantiza el return (p. ej. sin espacios extremos, minúsculas en email local-domain policy).",
+          "El **docstring** (PEP 257) documenta contrato en español o inglés consistente del proyecto: qué hace, parámetros, retorno, errores. No copies la firma; explica la política de negocio.",
+          "En intake sintético: pre = tipo str o None; post = forma canónica o ValueError/resultado de error de dominio según el diseño elegido."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Type hints graduales y errores de dominio",
+        "paragraphs": [
+          "Los **type hints** (`def f(x: str) -> str`) no convierten en runtime (salvo herramientas externas). Son documentación verificable con checkers. En S05 usamos hints **graduales**: anota lo público; no atasques con genéricos avanzados.",
+          "Un **error de dominio** no es un bug de Python: es un valor de negocio inválido. Opciones: `raise ValueError`, devolver `(ok, value, error)`, o un dict de resultado. Sé consistente en el módulo.",
+          "`Optional[str]` / `str | None` documenta ausencia. No uses hints falsos (`-> str` si puedes devolver None)."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Funciones pequeñas y composición",
+        "paragraphs": [
+          "Una función debe hacer **una cosa** en el nivel de abstracción correcto. Si normalizas nombre y además escribes archivo y logueas, sepáralas. **Componer** es llamar funciones pequeñas desde una orquestadora delgada.",
+          "Beneficio: tests unitarios fáciles, reuso en CLI (S10) y en ETL (S08). El orquestador `normalize_record` llama a cuatro normalizadores y arma el dict.",
+          "Regla práctica: si necesitas un comentario de sección en medio de la función, probablemente es otra función."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Pureza, efectos e inyección de I/O",
+        "paragraphs": [
+          "Una función **pura** devuelve el mismo resultado para los mismos argumentos y **no tiene efectos** (no imprime, no lee disco, no muta globales ni los argumentos mutables del caller sin documentarlo).",
+          "La **I/O** (stdin, archivos, red) se queda en el borde: `main`, CLI, o funciones `load_*` / `save_*`. Los normalizadores del gate deben ser puros e **idempotentes**: `f(f(x)) == f(x)` para entradas válidas.",
+          "**Inyección**: pasar una función `reader` o un path como argumento en vez de hardcodear `open('data.csv')` dentro del core facilita tests con fakes."
+        ],
+        "code": "def normalize_telefono(raw: str) -> str:\n    digits = \"\".join(ch for ch in raw if ch.isdigit())\n    return digits\n\n# Idempotencia\nx = \"999-000-111\"\ny = normalize_telefono(x)\nz = normalize_telefono(y)\nprint(y, z, \"idempotent=\", y == z)\n\n# I/O al borde (simulado) + lambda como inyección puntual\ndef process_line(line: str, norm=normalize_telefono) -> str:\n    return norm(line)\n\nprint(process_line(\" ("
+      },
+      {
+        "heading": "LEGB y closures básicos",
+        "paragraphs": [
+          "**LEGB**: orden de búsqueda de nombres — **L**ocal, **E**nclosing (funciones anidadas), **G**lobal, **B**uiltin. Si Python no halla el nombre, `NameError`.",
+          "Un **closure** es una función interna que recuerda variables del enclosing scope. Útil para fabricar normalizadores configurados (`make_stripper(chars)`), sin clases todavía.",
+          "`global` y `nonlocal` existen pero en S05 casi no los necesitas: prefiere **return** de valores nuevos. Mutar globales complica tests."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Pruebas de ejemplo y refactor sin cambiar conducta",
+        "paragraphs": [
+          "Antes de refactorizar, fija **ejemplos ejecutables**: `assert normalize_email('A@B.COM') == 'a@b.com'`. Luego cambia la forma interna; si los asserts siguen verdes, la conducta se preservó.",
+          "El refactor típico de S05: extraer `strip_collapse`, unificar defaults, renombrar. **No** cambies la política de negocio “de paso” sin actualizar tests y docstring.",
+          "Idempotencia se prueba con un loop o doble llamada. Fronteras: vacío, solo espacios, Unicode (`Ñ`, tildes), None si el contrato lo admite."
+        ],
+        "code": ""
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S05-T1-B-DEMO",
+        "description": "def + return de normalize_nombre collapsando espacios",
+        "why": "Una función, un return, casos con espacios y Unicode simple.",
+        "code": "def normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\n\nfor s in [\"  Ana  \", \"María  José\", \"QUISPE\"]:\n    print(repr(s), \"→\", repr(normalize_nombre(s)))"
+      },
+      {
+        "demoId": "S05-T2-A-DEMO",
+        "description": "Defaults seguros vs default mutable bug",
+        "why": "good crea listas nuevas; bad comparte el default entre llamadas.",
+        "code": "def good(item, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\n\ndef bad(item, bucket=[]):\n    bucket.append(item)\n    return bucket\n\nprint(\"good\", good(1), good(2))\nprint(\"bad \", bad(1), bad(2))"
+      },
+      {
+        "demoId": "S05-T2-B-DEMO",
+        "description": "Docstring + pre/post en normalize_email",
+        "why": "El contrato está en el docstring y se enforce con raise.",
+        "code": "def normalize_email(raw: str) -> str:\n    \"\"\"Pre: str. Post: lower strip con @. Raises ValueError.\"\"\"\n    s = raw.strip().lower()\n    if \"@\" not in s:\n        raise ValueError(\"falta @\")\n    return s\n\nprint(normalize_email(\"  X@Y.COM \"))\ntry:\n    normalize_email(\"x\")\nexcept ValueError as e:\n    print(\"ValueError\", e)"
+      },
+      {
+        "demoId": "S05-T3-A-DEMO",
+        "description": "Type hints + resultado de dominio sin abortar el lote",
+        "why": "Hints documentan la tupla; el lote puede seguir tras un False.",
+        "code": "from typing import Optional, Tuple\n\ndef norm_tel(raw: str) -> Tuple[bool, Optional[str], Optional[str]]:\n    d = \"\".join(c for c in raw if c.isdigit())\n    if len(d) != 9:\n        return False, None, \"se esperan 9 dígitos\"\n    return True, d, None\n\nfor v in [\"999000111\", \"123\", \"999-000-111\"]:\n    print(v, norm_tel(v))"
+      },
+      {
+        "demoId": "S05-T3-B-DEMO",
+        "description": "Componer strip + lower + orquestador de registro",
+        "why": "Orquestador delgado reutiliza piezas pequeñas.",
+        "code": "def strip_collapse(s: str) -> str:\n    return \" \".join(s.strip().split())\n\ndef norm_email(s: str) -> str:\n    return s.strip().lower()\n\ndef normalize_pair(nombre: str, email: str) -> dict:\n    return {\"nombre\": strip_collapse(nombre).title(), \"email\": norm_email(email)}\n\nprint(normalize_pair(\"  ana  perez \", \"  Ana@Example.COM \"))"
+      },
+      {
+        "demoId": "S05-T4-A-DEMO",
+        "description": "Idempotencia de normalize_telefono puro",
+        "why": "f(f(x))==f(x) en los tres samples; sin I/O en la función.",
+        "code": "def normalize_telefono(raw: str) -> str:\n    return \"\".join(c for c in raw if c.isdigit())\n\nsamples = [\"999-000-111\", \"(999) 000 111\", \"999000111\"]\nfor s in samples:\n    once = normalize_telefono(s)\n    twice = normalize_telefono(once)\n    print(s, \"→\", once, \"idem=\", once == twice)"
+      },
+      {
+        "demoId": "S05-T4-B-DEMO",
+        "description": "Closure factory para prefijo de teléfono",
+        "why": "La interna recuerda prefix del enclosing scope sin global.",
+        "code": "def make_norm(prefix: str):\n    def norm(raw: str) -> str:\n        d = \"\".join(c for c in raw if c.isdigit())\n        return prefix + d\n    return norm\n\npe = make_norm(\"+51\")\nprint(pe(\"999000111\"))\nprint(pe(\"999-000-111\"))"
+      },
+      {
+        "demoId": null,
+        "description": "Ejemplos assert antes y después de micro-refactor",
+        "why": "Misma suite de ejemplos en verde tras cambiar la implementación.",
+        "code": "def normalize_direccion(raw: str) -> str:\n    return \" \".join(raw.strip().split()).upper()\n\ndef examples(fn):\n    assert fn(\"  av. larco 123 \") == \"AV. LARCO 123\"\n    assert fn(fn(\"Calle 1\")) == fn(\"Calle 1\")\n    return True\n\nassert examples(normalize_direccion)\n\ndef normalize_direccion(raw: str) -> str:\n    parts = raw.strip().split()\n    return \" \".join(parts).upper()\n\nassert examples(normalize_direccion)\nprint(\"refactor OK\", normalize_direccion(\"  jr. unión 5 \"))"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "Si una función no tiene return, ¿qué devuelve la llamada?",
+        "options": [
+          "0",
+          "False",
+          "None",
+          "Error siempre"
+        ]
+      },
+      {
+        "question": "¿Por qué `def f(xs=[])` es peligroso?",
+        "options": [
+          "Python no permite defaults",
+          "El default mutable se comparte entre llamadas",
+          "Solo falla con type hints",
+          "Convierte xs en tupla"
+        ]
+      },
+      {
+        "question": "Una función pura…",
+        "options": [
+          "Siempre imprime el resultado",
+          "Lee un archivo de config global",
+          "Mismo input → mismo output, sin efectos colaterales",
+          "Solo puede usarse en clases"
+        ]
+      },
+      {
+        "question": "LEGB significa…",
+        "options": [
+          "Local, Enclosing, Global, Builtin",
+          "List, Else, Generator, Break",
+          "Loop, Eval, Global, Binary",
+          "Lambda, Except, Goto, Block"
+        ]
+      },
+      {
+        "question": "Idempotencia de un normalizador f significa…",
+        "options": [
+          "f se ejecuta solo una vez en la vida del proceso",
+          "f(f(x)) == f(x) para entradas del dominio",
+          "f no puede tener defaults",
+          "f siempre lanza ValueError"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales"
+    ]
+  },
+  {
+    "section_index": 6,
+    "title": "Colecciones y estructuras de datos",
+    "outcomes": [
+      "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+      "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+      "Modelar registros con dict, get e índices id→fila",
+      "Deduplicar con set y reportar conflictos sin borrarlos",
+      "Navegar list[dict] anidados cliente→contactos→txs",
+      "Acceder campos opcionales sin KeyError; missing vs vacío",
+      "Ordenar con sorted(..., key=) de forma estable",
+      "Elegir list/dict/set y producir JSON determinista"
+    ],
+    "theory": [
+      {
+        "heading": "De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)",
+        "paragraphs": [
+          "En V3, **S06 no es el path principal de NumPy arrays ni broadcasting**. Ese material se reubica conceptualmente hacia el bloque numérico/DS (p. ej. S14+). Aquí construyes el **modelo tabular en memoria** que CP-N1-B necesita: listas, tuplas, dicts, sets y estructuras anidadas **cliente → contactos → transacciones** con salidas **deterministas**.",
+          "El hilo conductor es un **mini almacén en RAM** con datos sintéticos latam (`example.com`, ids `C00x`). Sin pandas ni NumPy en este incremento. En S08 ese modelo se conecta a CSV/JSON y cuarentena.",
+          "Orden: **T1 Secuencias** → **T2 Dicts/sets** → **T3 Anidado y missing** → **T4 Orden y elección de estructura**."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Listas, tuplas y slicing",
+        "paragraphs": [
+          "Una **list** es mutable y ordenada: ideal para filas que crecen (`append`, `extend`). Una **tuple** es inmutable: ideal para **claves estables**, headers fijos o “contratos” de columnas que no deben mutarse por accidente.",
+          "El **slicing** `seq[i:j:k]` produce una **ventana** sin mutar el original (en listas/tuplas crea una nueva secuencia). `txs[-3:]` son las últimas tres transacciones. El stop es exclusivo, igual que en `range`.",
+          "Membership `x in seq` es O(n) en listas: útil para lotes pequeños de demo; para lookups masivos preferirás **set/dict** en T2."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Unpacking, aliasing y copia",
+        "paragraphs": [
+          "**Unpacking** `a, b = fila` o `head, *rest = fila` desempaqueta sin índices ruidosos. Falla si el largo no calza: eso es bueno (detecta shape roto).",
+          "**Aliasing**: `b = a` no copia; ambas variables apuntan al **mismo** objeto. Si `a` es una lista de dicts y mutas `b[0]['x']`, también cambia `a[0]`. Ese bug aparece al “clonar” clientes en memoria.",
+          "`list.copy()` / `seq[:]` hacen **copia superficial**. Para dicts anidados necesitas `copy.deepcopy` o reconstruir. En intake, shallow basta si solo reordenas filas sin mutar campos compartidos."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Diccionarios y pertenencia",
+        "paragraphs": [
+          "Un **dict** modela registros y **índices** `id → cliente`. Lookup promedio O(1). Construye índices con `{c['id']: c for c in filas}` cuando harás muchos accesos por clave.",
+          "`d.get(k)` o `d.get(k, default)` evita **KeyError** en campos opcionales. `k in d` prueba pertenencia de **clave**, no de valor.",
+          "`update` fusiona configs: el segundo dict **pisa** claves del primero. Documenta la precedencia (env > defaults) para no “pisar sin querer” políticas de normalización."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Deduplicación y operaciones de set",
+        "paragraphs": [
+          "Un **set** guarda elementos únicos (hashables). Ideal para **ids/emails** deduplicados y para **unión/intersección/diferencia** de cohortes de dos lotes.",
+          "Deduplicar **no es borrar a ciegas** cuando hay conflicto de negocio: dos filas con mismo `id` pero montos distintos deben **reportarse**, no silenciarse. El patrón es `unique` + `conflicts`.",
+          "Sets no conservan orden de inserción de forma que debas depender para exports estables en todos los contextos pedagógicos: ordena con `sorted(...)` al exportar."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Estructuras anidadas y recorridos",
+        "paragraphs": [
+          "El modelo CP-N1-B anida: `cliente = {id, nombre, contacts: [...], txs: [...]}`. Recorres con `for c in clients: for t in c['txs']:`.",
+          "**Aplanar** transacciones a filas densas (con `client_id` denormalizado) prepara el shape de export CSV en S08. **Contar** contactos por cliente valida integridad del grafo en memoria.",
+          "Shape inconsistente (falta clave `txs`, o no es lista) se detecta con `isinstance` y se manda a review — no asumas que todo dict llegó bien formado."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Acceso seguro y valores faltantes",
+        "paragraphs": [
+          "Campos opcionales: `contact.get('telefono')` puede devolver `None`. Encadenar `.get` en anidados evita KeyError: `(c.get('profile') or {}).get('phone')`.",
+          "Distingue **missing** (`None` / clave ausente) de **vacío falsy** (`''`, `0`, `[]`). Un teléfono `''` no es lo mismo que “no vino el campo”: el reporte de calidad debe etiquetar distinto si la política lo exige.",
+          "Helpers `dig(obj, *path)` o `get_nested` centralizan la política y se testean una vez."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Ordenamiento y key",
+        "paragraphs": [
+          "`sorted(seq, key=fn)` devuelve **nueva** lista. `list.sort(key=fn)` **muta in-place** y retorna `None` — un bug clásico si haces `x = rows.sort(...)`.",
+          "`key` multi-campo: `key=lambda r: (r['region'], r['nombre'])` ordena estable por región y luego nombre. La estabilidad de Timsort preserva el orden relativo de empates.",
+          "Para montos, asegúrate de que el tipo sea numérico antes de ordenar; strings `'100' < '20'` rompen el ranking."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Estructura adecuada, complejidad y determinismo",
+        "paragraphs": [
+          "Elige estructura por **operación dominante**: muchos appends → list; muchos lookups por id → dict; membership de cohortes → set; contrato fijo inmutable → tuple.",
+          "Complejidad: membership en list O(n); en set/dict O(1) promedio. No hagas `if x in big_list` dentro de un loop de n si puedes preindexar.",
+          "**Determinismo**: `json.dumps(obj, sort_keys=True, ensure_ascii=False)` + `sorted` de ids produce el mismo string en cada corrida. Reproducibilidad es parte del gate de calidad."
+        ],
+        "code": ""
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S06-T1-B-DEMO",
+        "description": "Ventana de transacciones con slicing y tupla de keys estables",
+        "why": "Slicing da la ventana; la tupla de keys fija el contrato de columnas sin mutación accidental.",
+        "code": ""
+      },
+      {
+        "demoId": "S06-T2-A-DEMO",
+        "description": "Bug de alias al 'copiar' lista de dicts de clientes",
+        "why": "Alias muta el original; dict(c) por fila basta si el nivel 1 es plano; deepcopy para anidados.",
+        "code": ""
+      },
+      {
+        "demoId": "S06-T2-B-DEMO",
+        "description": "Índice id→cliente y lookup seguro",
+        "why": "El índice dict hace lookup O(1); get encadenado evita KeyError en demos de intake.",
+        "code": ""
+      },
+      {
+        "demoId": "S06-T3-A-DEMO",
+        "description": "ids únicos; intersección de lotes; conflictos = mismo id datos distintos",
+        "why": "Dedup preserva primera vista; conflictos se listan sin borrar filas del reporte.",
+        "code": "rows = [\n    {\"id\": \"C001\", \"email\": \"a@ex.com\"},\n    {\"id\": \"C002\", \"email\": \"b@ex.com\"},\n    {\"id\": \"C001\", \"email\": \"a@ex.com\"},\n    {\"id\": \"C001\", \"email\": \"otro@ex.com\"},\n]\nseen = {}\nunique = []\nconflicts = []\nfor r in rows:\n    rid = r[\"id\"]\n    if rid not in seen:\n        seen[rid] = r\n        unique.append(r)\n    elif seen[rid] != r:\n        conflicts.append({\"id\": rid, \"a\": seen[rid], \"b\": r})\nprint(\"unique ids:\", sorted(seen))\nprint(\"n_conflicts:\", len(conflicts))\nprint(\"conflict email"
+      },
+      {
+        "demoId": "S06-T3-B-DEMO",
+        "description": "Modelo en memoria Client con contacts[] y txs[]",
+        "why": "El grafo cliente→contactos/txs es el núcleo del modelo tabular CP-N1-B en RAM.",
+        "code": ""
+      },
+      {
+        "demoId": "S06-T4-A-DEMO",
+        "description": "Extraer teléfono opcional de contacto anidado",
+        "why": "dig() centraliza acceso seguro; etiquetas missing vs empty alimentan el reporte de calidad.",
+        "code": ""
+      },
+      {
+        "demoId": "S06-T4-B-DEMO",
+        "description": "Ordenar clientes por región luego nombre",
+        "why": "sorted no muta; key multi-campo da orden estable región→nombre para exports.",
+        "code": "clients = [\n    {\"id\": \"C003\", \"nombre\": \"Zara\", \"region\": \"Lima\"},\n    {\"id\": \"C001\", \"nombre\": \"Ana\", \"region\": \"Lima\"},\n    {\"id\": \"C002\", \"nombre\": \"Bruno\", \"region\": \"Cusco\"},\n]\nordered = sorted(clients, key=lambda r: (r[\"region\"], r[\"nombre\"]))\nfor r in ordered:\n    print(r[\"region\"], r[\"nombre\"], r[\"id\"])\nmutated = clients[:]\nmutated.sort(key=lambda r: r[\"id\"])\nprint(\"sort in-place retorna:\", clients[:0].sort(key=lambda r: r[\"id\"]))\nprint(\"ids mutados:\", [r[\"id\"] for r in mutated])"
+      },
+      {
+        "demoId": null,
+        "description": "Mismo input → mismo JSON dump con sort_keys",
+        "why": "sort de filas + sort_keys hace reproducible el artefacto de demo del modelo en memoria.",
+        "code": "import json\ndata = {\n    \"clients\": [\n        {\"id\": \"C002\", \"region\": \"Cusco\"},\n        {\"id\": \"C001\", \"region\": \"Lima\"},\n    ],\n    \"generated_by\": \"s06-demo\",\n}\ndata[\"clients\"] = sorted(data[\"clients\"], key=lambda c: c[\"id\"])\na = json.dumps(data, sort_keys=True, ensure_ascii=False)\nb = json.dumps(data, sort_keys=True, ensure_ascii=False)\nprint(a)\nprint(\"determinista:\", a == b)"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "¿Qué produce xs[-2:] si xs = [1,2,3,4]?",
+        "options": [
+          "[1,2]",
+          "[3,4]",
+          "[4]",
+          "Error"
+        ]
+      },
+      {
+        "question": "b = a (listas) y mutas b.append(1). ¿Qué pasa con a?",
+        "options": [
+          "a no cambia",
+          "a también ve el append (alias)",
+          "se lanza error",
+          "a se convierte en tuple"
+        ]
+      },
+      {
+        "question": "Para reportar dos filas con mismo id y payload distinto debes…",
+        "options": [
+          "Borrar ambas",
+          "Quedarte con la última sin traza",
+          "Listar conflicto en conflicts sin silenciar",
+          "Convertir a set de dicts"
+        ]
+      },
+      {
+        "question": "rows.sort(key=...) retorna…",
+        "options": [
+          "la lista ordenada",
+          "None (muta in-place)",
+          "una tuple",
+          "un set"
+        ]
+      },
+      {
+        "question": "json.dumps(..., sort_keys=True) ayuda a…",
+        "options": [
+          "comprimir el archivo",
+          "salidas deterministas/reproducibles",
+          "validar schema JSON Schema",
+          "encriptar PII"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición"
+    ]
+  },
+  {
+    "section_index": 7,
+    "title": "Texto, Unicode y expresiones regulares",
+    "outcomes": [
+      "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+      "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+      "Manipular texto con métodos str idiomáticos antes de regex",
+      "Normalizar email/teléfono con reglas modestas sin overvalidation",
+      "Escribir patrones con grupos y anchors ^$",
+      "Compilar patrones, extraer con findall/finditer y conocer límites",
+      "Comparar por igualdad normalizada y Jaccard de tokens",
+      "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+    ],
+    "theory": [
+      {
+        "heading": "De “Adquisición multi-fuente” a texto Unicode y regex (mapa)",
+        "paragraphs": [
+          "En V3, **S07 no es el path principal de scraping, SQL ni APIs**. Esos temas se reubican. Aquí el estudiante domina **texto latinoamericano**: normalización Unicode, nombres con dos apellidos, métodos `str` antes de regex, y matching con evidencia **sin afirmar parentesco**.",
+          "El incremento CP-N1-B es un **normalizador de registro** que conserva `raw`, produce `normalized` y lista `transforms`. Datos sintéticos peruanos/latam; sin PII real.",
+          "Orden: **T1 Unicode** → **T2 str ops y contacto** → **T3 regex** → **T4 similitud y FP/FN**."
+        ],
+        "code": "import unicodedata\na = \"José\"\nb = \"Jose\\u0301\"\nprint(\"raw equal?\", a == b)\nprint(\"NFC equal?\", unicodedata.normalize(\"NFC\", a) == unicodedata.normalize(\"NFC\", b))\nprint(\"casefold:\", \"MAÑANA\".casefold())\nprint(\"ord ñ:\", ord(\"ñ\"))"
+      },
+      {
+        "heading": "Code points, normalización y casefold",
+        "paragraphs": [
+          "Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. La misma letra puede codificarse de formas distintas: **NFC** (compuesta) vs **NFD** (base + combining mark).",
+          "`unicodedata.normalize('NFC', s)` unifica formas antes de comparar. Sin eso, `'José' == 'Jose\\u0301'` puede ser False aunque se vean iguales.",
+          "`casefold()` es más agresivo que `lower()` para comparaciones case-insensitive (mejor para matching de nombres/emails normalizados)."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Tildes, ñ, partículas y apellidos compuestos",
+        "paragraphs": [
+          "En Perú y Latam es común **nombre(s) + apellido1 + apellido2**. No fuerces el formato US (first/last único). Conserva el **raw** siempre.",
+          "Partículas (`de`, `del`, `de la`, `y`) pueden ir en nombres o apellidos (`María del Carmen`, `de la Cruz`). Un parser **suave** tokeniza y aplica heurísticas; si no hay segundo apellido, marca **review** en vez de inventar.",
+          "Espacios múltiples se colapsan; tildes y ñ se preservan en la forma normalizada visible (NFC)."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "split / join / search / replace",
+        "paragraphs": [
+          "Antes de regex: `strip`, `split`, `join`, `replace`, `find`, `startswith`. El 80% de limpieza de direcciones y tokens se resuelve así.",
+          "`' '.join(s.split())` colapsa espacios. `split(',')` parsea CSV-like simple (sin comillas escapadas: ahí entra el módulo csv en S08).",
+          "`replace` es literal y predecible; úsalo para normalizar guiones o prefijos antes de invocar regex."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Nombres, emails y teléfonos sin sobrevalidación",
+        "paragraphs": [
+          "Email: strip + lower + presencia de `@` suele bastar en intake. Regex hiper-estrictas **rechazan válidos** (plus addressing, dominios nuevos).",
+          "Teléfono PE sintético de demo: extraer dígitos; opcionalmente validar longitud 9 para móvil — no inventes validación de operadora.",
+          "Nombre: collapse + NFC; title-case es cosmético y puede pelear con partículas (`del` → `Del`). Decide política y documenta."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Patrones, grupos y anchors",
+        "paragraphs": [
+          "Regex cuando el patrón es **regular de verdad**: DNI sintético 8 dígitos, códigos de región, prefijos. Usa `re` con **grupos** `(...)` y anchors `^$` para full match.",
+          "`re.fullmatch` ancla inicio y fin. `re.search` encuentra en medio. Confundirlos produce falsos positivos en validación de códigos.",
+          "Grupos con nombre `(?P<name>...)` mejoran legibilidad al extraer campos."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Compilación, extracción y límites",
+        "paragraphs": [
+          "`re.compile` reutiliza el patrón en loops (claridad + micro-ahorro). `findall` / `finditer` extraen múltiples matches de un log sintético.",
+          "Límites: **catastrophic backtracking** con patrones anidados ambiguos; **overfit** de validación que rechaza inputs reales. Prefiere patrones simples.",
+          "Si el patrón crece sin control, vuelve a `str` methods o a un parser explícito."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Exacta y por tokens (Jaccard simple)",
+        "paragraphs": [
+          "Matching de texto en intake: primero **igualdad normalizada** (NFC + casefold + collapse). Si no, **similitud por tokens** (Jaccard) como señal débil.",
+          "Jaccard = |A∩B| / |A∪B| sobre sets de tokens. Score medio → **review**, no auto-merge.",
+          "Nunca digas “es la misma persona” ni “parentesco” por un score. Conserva evidencia (score, raw A/B)."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "FP/FN y conservación de evidencia",
+        "paragraphs": [
+          "**FP** (false positive): el sistema dice match y no debería. **FN**: debería matchear y no lo hizo. En nombres latam, tildes y partículas mueven ambos.",
+          "Empaqueta evidencia: `{raw_a, raw_b, score, decision, reason}`. La decisión puede ser accept/review/reject de matching — **no** etiqueta familiar.",
+          "Documenta por qué no se afirma parentesco: falta de fuente autoritativa, riesgo legal/ético, score insuficiente."
+        ],
+        "code": ""
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S07-T1-B-DEMO",
+        "description": "Comparar 'José' vs 'Jose\\u0301' con y sin normalize",
+        "why": "NFC alinea formas visualmente idénticas antes de comparar o indexar nombres.",
+        "code": "import unicodedata\na = \"José\"\nb = \"Jose\\u0301\"\nprint(\"sin norm:\", a == b, [hex(ord(c)) for c in a], [hex(ord(c)) for c in b])\nna, nb = unicodedata.normalize(\"NFC\", a), unicodedata.normalize(\"NFC\", b)\nprint(\"NFC:\", na == nb, na)\nprint(\"casefold mañANA:\", \"mañANA\".casefold())"
+      },
+      {
+        "demoId": "S07-T2-A-DEMO",
+        "description": "Parse suave de 'María del Carmen Quispe Huamán'",
+        "why": "Heurística de dos apellidos finales; given puede incluir partículas del nombre.",
+        "code": "import unicodedata\nraw = \"María del Carmen Quispe Huamán\"\nnorm = unicodedata.normalize(\"NFC\", \" \".join(raw.split()))\ntoks = norm.split()\napellidos = toks[-2:]\ngiven = \" \".join(toks[:-2])\nprint(\"raw:\", raw)\nprint(\"given:\", given)\nprint(\"apellido1:\", apellidos[0], \"apellido2:\", apellidos[1])\nprint(\"conserva raw en pipeline: sí\")"
+      },
+      {
+        "demoId": "S07-T2-B-DEMO",
+        "description": "Limpiar dirección sintética: strip, colapsar espacios, join tokens",
+        "why": "str methods resuelven limpieza de dirección sin regex.",
+        "code": "raw = \"  Jr.  de  la  Unión   450  \"\nlimpio = \" \".join(raw.strip().split())\nprint(limpio)\nprint(limpio.replace(\"Jr.\", \"Jiron\"))\nprint(\"find Unión:\", limpio.find(\"Unión\"))"
+      },
+      {
+        "demoId": "S07-T3-A-DEMO",
+        "description": "normalize_email y normalize_phone_pe sintético",
+        "why": "Validación modesta acepta plus-addressing; regex overfit la rechazaría.",
+        "code": "def normalize_email(raw: str) -> str:\n    s = raw.strip().lower()\n    if \"@\" not in s:\n        raise ValueError(\"sin @\")\n    return s\n\ndef normalize_phone_pe(raw: str) -> str:\n    return \"\".join(ch for ch in raw if ch.isdigit())\n\nprint(normalize_email(\"  User+tag@Example.COM \"))\nprint(normalize_phone_pe(\"(+51) 999-000-111\"))\n# Overvalidation mala (no usar en prod de este curso):\nbad = r\"^[a-z]+@[a-z]+\\.com$\"\nimport re\nprint(\"overfit rejects plus?\", re.fullmatch(bad, \"user+tag@example.com\") is No"
+      },
+      {
+        "demoId": "S07-T3-B-DEMO",
+        "description": "Extraer DNI sintético 8 dígitos con grupos",
+        "why": "Grupos nombran la captura; fullmatch exige cadena exacta.",
+        "code": "import re\npat = re.compile(r\"DNI\\s+(?P<dni>\\d{8})\\b\")\ntext = \"Cliente demo DNI 12345678 activo\"\nm = pat.search(text)\nprint(m.group(\"dni\") if m else None)\nprint(\"fullmatch solo digitos:\", bool(re.fullmatch(r\"\\d{8}\", \"12345678\")))\nprint(\"fullmatch con prefijo:\", bool(re.fullmatch(r\"\\d{8}\", \"DNI 12345678\")))"
+      },
+      {
+        "demoId": "S07-T4-A-DEMO",
+        "description": "compile de patrón teléfono; finditer sobre log sintético",
+        "why": "compile + finditer extrae múltiples señales de un log sin overfit de validación.",
+        "code": "import re\nphone = re.compile(r\"\\b9\\d{8}\\b\")\nlog = \"ok 999111222 noise 12345 otro 988777666\"\nprint(\"findall:\", phone.findall(log))\nfor m in phone.finditer(log):\n    print(m.group(), \"at\", m.start())\nprint(\"riesgo: evita patrones con cuantificadores anidados ambiguos\")"
+      },
+      {
+        "demoId": "S07-T4-B-DEMO",
+        "description": "token_jaccard('Juan Perez', 'Juan P. Perez')",
+        "why": "Score medio cae en review; no se auto-fusiona ni se afirma identidad.",
+        "code": "def token_jaccard(a: str, b: str) -> float:\n    A = set(a.replace(\".\", \" \").casefold().split())\n    B = set(b.replace(\".\", \" \").casefold().split())\n    if not A and not B:\n        return 1.0\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\n\ns = token_jaccard(\"Juan Perez\", \"Juan P. Perez\")\nprint(\"score\", round(s, 3))\nprint(\"decision\", \"review\" if 0.4 <= s < 1.0 else (\"exact\" if s == 1.0 else \"no_match\"))"
+      },
+      {
+        "demoId": null,
+        "description": "Tabla FP/FN de 4 pares sintéticos",
+        "why": "Clasificar FP/FN enseña costo de over/under matching en nombres latam.",
+        "code": "# truth: same_entity sintético solo para ejercicio de métricas (no legal)\nrows = [\n    {\"a\": \"Ana\", \"b\": \"Ana\", \"pred\": \"match\", \"truth\": \"match\"},\n    {\"a\": \"José\", \"b\": \"Jose\", \"pred\": \"match\", \"truth\": \"match\"},\n    {\"a\": \"Luis\", \"b\": \"Luisa\", \"pred\": \"match\", \"truth\": \"no\"},\n    {\"a\": \"María del Carmen\", \"b\": \"Maria Carmen\", \"pred\": \"no\", \"truth\": \"match\"},\n]\nfor r in rows:\n    if r[\"pred\"] == \"match\" and r[\"truth\"] == \"no\":\n        tag = \"FP\"\n    elif r[\"pred\"] == \"no\" and r[\"truth\"] == \"ma"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "¿Por qué 'José' y 'Jose\\u0301' pueden fallar en == ?",
+        "options": [
+          "Python no soporta tildes",
+          "Formas Unicode distintas (NFC vs NFD)",
+          "casefold borra la é",
+          "Son de tipos distintos"
+        ]
+      },
+      {
+        "question": "En nombres latam, si solo hay un token, la política segura es…",
+        "options": [
+          "Inventar apellido2 vacío en silencio",
+          "Marcar review y conservar raw",
+          "Rechazar y borrar el registro",
+          "Asumir formato first/last US"
+        ]
+      },
+      {
+        "question": "¿Cuándo preferir str.replace/split sobre regex?",
+        "options": [
+          "Nunca",
+          "Cuando la transformación es literal/simple",
+          "Solo en emails",
+          "Solo si el string es ASCII"
+        ]
+      },
+      {
+        "question": "fullmatch(r'\\d{8}', 'DNI 12345678') devuelve…",
+        "options": [
+          "match del número",
+          "None (no es full match)",
+          "True booleano",
+          "excepción"
+        ]
+      },
+      {
+        "question": "Un Jaccard 0.67 entre nombres debe…",
+        "options": [
+          "Fusionar identidades automáticamente",
+          "Afirmar parentesco",
+          "Ir a review con evidencia (raw, score)",
+          "Borrar ambos registros"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos"
+    ]
+  },
+  {
+    "section_index": 8,
+    "title": "Archivos, CSV, JSON y contratos de ingesta",
+    "outcomes": [
+      "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+      "Manejar newlines y escritura atómica (temp + replace)",
+      "Leer/escribir CSV con headers y casts controlados",
+      "Enviar filas irregulares a cuarentena con motivo",
+      "Serializar/deserializar JSON (array y JSONL)",
+      "Validar schema mínimo, nulls y defaults compatibles",
+      "Calcular hashes, backup y provenance de inputs",
+      "Emitir manifest con conteos reconciliados in=clean+quarantine"
+    ],
+    "theory": [
+      {
+        "heading": "De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)",
+        "paragraphs": [
+          "En V3, **S08 no es el path principal de pandas groupby/merge/EDA**. Ese material se reubica al nivel 2 de data. Aquí cierras el gate **CP-N1-B**: ingesta **CSV + JSON** con **pathlib**, **cuarentena**, **hashes**, **manifest** y reconciliación de conteos — en **stdlib**.",
+          "Integra normalizadores (S05–S07) y el modelo en memoria (S06). Entorno declarado **local-python** (filesystem). Datos sintéticos en `data/`; salidas en `out/`.",
+          "Orden: **T1 Archivos** → **T2 CSV** → **T3 JSON** → **T4 Provenance y manifest**."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "pathlib, with, modos y encodings",
+        "paragraphs": [
+          "`pathlib.Path` unifica rutas. `Path.read_text(encoding='utf-8')` / `write_text` son convenientes; `with path.open(...) as f` da control de modo.",
+          "Modos: `r` lectura, `w` trunca, `a` append, `x` crea exclusivo. Siempre declara **`encoding='utf-8'`** en texto. `errors=` (`strict` default, `replace`) debe ser decisión documentada.",
+          "`path.exists()` / `is_file()` evitan sorpresas. No asumas el cwd: usa paths relativos al proyecto o `Path(__file__).resolve().parent`."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Newlines y escritura atómica",
+        "paragraphs": [
+          "CSV en Python: abre con `newline=''` para que el módulo csv controle terminadores. Texto universal: prefiere `\\n` en salidas del pipeline.",
+          "**Escritura atómica**: escribe a un archivo temporal en el mismo directorio y luego `os.replace(tmp, dest)`. Si el proceso muere a medias, no dejas el destino truncado.",
+          "Detectar `\\r\\n` en inputs ayuda a documentar provenance de origen Windows vs Unix."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Dialectos, headers y tipos",
+        "paragraphs": [
+          "`csv.DictReader` / `DictWriter` trabajan con headers. Declara `fieldnames`. Cast de tipos (`int`, `float`) es **explícito** y fallos van a reject/cuarentena — no silencies con 0 mágico sin traza.",
+          "Fechas pueden quedarse como string ISO en N1-B si no hay parser de calendario aún; lo importante es el **contrato de columnas** documentado.",
+          "Dialectos (delimitador `;` vs `,`) se configuran; no asumas Excel latam sin mirar el archivo."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Filas irregulares y cuarentena",
+        "paragraphs": [
+          "Filas con **más/menos columnas** que el header son irregulares. No las “arregles” en silencio: mándalas a `quarantine.csv` con **motivo** y conserva el raw.",
+          "Resumen de motivos (`contador por reason`) alimenta el manifest y el dashboard de calidad.",
+          "Good path escribe solo filas que pasaron schema + casts + normalización."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Objetos/arrays y serialización JSON",
+        "paragraphs": [
+          "`json.loads` / `dumps` y `load` / `dump` sobre archivos. JSON objects → dict; arrays → list. **JSONL** (un objeto por línea) es útil para streams de txs.",
+          "`ensure_ascii=False` preserva tildes legibles. `sort_keys=True` ayuda a determinismo en manifests.",
+          "`datetime` no es serializable por defecto: convierte a `isoformat()` o str para evitar TypeError."
+        ],
+        "code": "import json\nfrom datetime import date\ndata = [{\"id\": \"T1\", \"día\": date(2026, 1, 15).isoformat()}]\ns = json.dumps(data, ensure_ascii=False, sort_keys=True)\nprint(s)\nprint(json.loads(s)[0][\"id\"])"
+      },
+      {
+        "heading": "Schema, nulls y evolución compatible",
+        "paragraphs": [
+          "Valida **required keys** antes de normalizar. `null` JSON → `None` en Python. Distingue null explícito de clave ausente si la política lo requiere.",
+          "Evolución: añadir campo opcional con **default** no rompe lectores viejos. Quitar required sí es breaking.",
+          "`validate_schema(obj, required)` retorna ok/errors para cuarentena."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Backups, hashes y provenance",
+        "paragraphs": [
+          "`hashlib.sha256` del contenido del input fija un fingerprint en el manifest. Si el CSV cambia, el hash cambia — detectas reprocesos.",
+          "Backup: copia `input.bak` o a `backups/` **antes** de transformar. No mutes el original in place.",
+          "Provenance mínima: `{path, sha256, bytes, received_at}` por fuente."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Reconciliación y manifest de corrida",
+        "paragraphs": [
+          "Manifest JSON de la corrida: timestamps, hashes de inputs, conteos `n_in`, `n_clean`, `n_quarantine`, razones, versión de script.",
+          "**Reconciliación**: `n_in == n_clean + n_quarantine` (para un stream). Si no cuadra, **falla la corrida** — no publiques clean a medias.",
+          "Evidencia del gate CP-N1-B: scripts + fixtures + manifest de demo + tests + README."
+        ],
+        "code": ""
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S08-T1-B-DEMO",
+        "description": "Leer y escribir intake UTF-8 con Path",
+        "why": "Path + UTF-8 explícito es la base de toda ingesta local del gate.",
+        "code": "from pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / \"intake.txt\"\np.write_text(\"cliente;José Quispe\\n\", encoding=\"utf-8\")\ntext = p.read_text(encoding=\"utf-8\")\nprint(text.strip())\nprint(\"exists\", p.exists(), \"size\", p.stat().st_size)"
+      },
+      {
+        "demoId": "S08-T2-A-DEMO",
+        "description": "write_atomic(path, text)",
+        "why": "os.replace hace el swap atómico del artefacto de salida.",
+        "code": "from pathlib import Path\nimport os, tempfile\n\ndef write_atomic(path: Path, text: str) -> None:\n    path = Path(path)\n    tmp = path.with_name(path.name + \".tmp\")\n    tmp.write_text(text, encoding=\"utf-8\")\n    os.replace(tmp, path)\n\ntd = Path(tempfile.mkdtemp())\ndest = td / \"clean.csv\"\nwrite_atomic(dest, \"id,nombre\\nC001,Ana\\n\")\nprint(dest.read_text(encoding=\"utf-8\"))\nprint(\"tmp gone\", not (td / \"clean.csv.tmp\").exists())"
+      },
+      {
+        "demoId": "S08-T2-B-DEMO",
+        "description": "Ingesta CSV de clientes con tipos monto/fecha string",
+        "why": "DictReader + cast explícito de monto; fecha como string ISO documentado.",
+        "code": "import csv, io\nraw = \"id,nombre,monto,fecha\\nC001,Ana,10.5,2026-01-10\\nC002,Luis,20,2026-01-11\\n\"\nrows = []\nfor row in csv.DictReader(io.StringIO(raw)):\n    row[\"monto\"] = float(row[\"monto\"])\n    # fecha queda ISO string (contrato N1-B)\n    rows.append(row)\nfor r in rows:\n    print(r[\"id\"], r[\"monto\"], type(r[\"monto\"]).__name__, r[\"fecha\"])"
+      },
+      {
+        "demoId": "S08-T3-A-DEMO",
+        "description": "Separar good.csv vs quarantine.csv",
+        "why": "Cuarentena con motivo deja audit trail; good solo tiene filas sanas.",
+        "code": "import csv, io\nfrom pathlib import Path\nimport tempfile\n\ntext = \"id,nombre\\nC001,Ana\\nC002,Luis,EXTRA\\nbadonly\\n\"\nreader = csv.reader(io.StringIO(text))\nheader = next(reader)\ngood, quar = [], []\nfor row in reader:\n    if len(row) != len(header):\n        quar.append({\"raw\": \",\".join(row), \"reason\": \"col_count\"})\n    else:\n        good.append(dict(zip(header, row)))\ntd = Path(tempfile.mkdtemp())\nwith (td / \"good.csv\").open(\"w\", newline=\"\", encoding=\"utf-8\") as f:\n    w = csv.DictWriter(f, fieldnam"
+      },
+      {
+        "demoId": "S08-T3-B-DEMO",
+        "description": "Exportar results a JSON array + JSONL",
+        "why": "Array JSON para batch pequeño; JSONL para append y streaming de txs.",
+        "code": "import json\nfrom pathlib import Path\nimport tempfile\nrows = [{\"id\": \"T1\", \"monto\": 10}, {\"id\": \"T2\", \"monto\": 5}]\ntd = Path(tempfile.mkdtemp())\n(td / \"txs.json\").write_text(\n    json.dumps(rows, ensure_ascii=False, indent=2), encoding=\"utf-8\"\n)\nwith (td / \"txs.jsonl\").open(\"w\", encoding=\"utf-8\") as f:\n    for r in rows:\n        f.write(json.dumps(r, ensure_ascii=False) + \"\\n\")\nprint((td / \"txs.json\").read_text(encoding=\"utf-8\"))\nprint(\"jsonl lines\", (td / \"txs.jsonl\").read_text(encoding=\"utf-8\")"
+      },
+      {
+        "demoId": "S08-T4-A-DEMO",
+        "description": "validate_schema(obj, required) + campo opcional nuevo",
+        "why": "Required estricto + defaults opcionales permiten evolucionar el contrato.",
+        "code": ""
+      },
+      {
+        "demoId": "S08-T4-B-DEMO",
+        "description": "sha256 de input CSV + backup .bak",
+        "why": "Hash + backup del crudo son la provenance mínima del gate.",
+        "code": "from pathlib import Path\nimport hashlib, shutil, tempfile\ntd = Path(tempfile.mkdtemp())\nsrc = td / \"clients.csv\"\nsrc.write_text(\"id,nombre\\nC001,Ana\\n\", encoding=\"utf-8\")\ndigest = hashlib.sha256(src.read_bytes()).hexdigest()\nbak = Path(str(src) + \".bak\")\nshutil.copy2(src, bak)\nprint(digest)\nprint(\"backup_ok\", bak.exists() and bak.read_bytes() == src.read_bytes())"
+      },
+      {
+        "demoId": null,
+        "description": "manifest.json de una corrida ETL",
+        "why": "El manifest es la evidencia publicable de la corrida CP-N1-B.",
+        "code": "import json\nfrom pathlib import Path\nimport tempfile\nmanifest = {\n    \"run_id\": \"demo-001\",\n    \"n_in\": 5,\n    \"n_clean\": 4,\n    \"n_quarantine\": 1,\n    \"inputs\": [{\"name\": \"clients.csv\", \"sha256\": \"deadbeef\"}],\n    \"reconcile_ok\": True,\n}\nmanifest[\"reconcile_ok\"] = (\n    manifest[\"n_in\"] == manifest[\"n_clean\"] + manifest[\"n_quarantine\"]\n)\ntd = Path(tempfile.mkdtemp())\npath = td / \"manifest.json\"\npath.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding=\"utf-8\")\nprint(path.read_tex"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "¿Por qué declarar encoding='utf-8' al abrir texto?",
+        "options": [
+          "Es más rápido",
+          "Evita depender del locale del SO (p. ej. Windows)",
+          "Comprime el archivo",
+          "Activa pathlib"
+        ]
+      },
+      {
+        "question": "Escritura atómica típica es…",
+        "options": [
+          "open(dest,'w') y escribir directo siempre",
+          "escribir temp y os.replace al destino",
+          "solo print al stdout",
+          "append eterno al mismo file"
+        ]
+      },
+      {
+        "question": "Una fila CSV con columnas de más debe…",
+        "options": [
+          "Ignorarse en silencio",
+          "Rellenarse con None sin traza",
+          "Ir a cuarentena con motivo",
+          "Pisar el header"
+        ]
+      },
+      {
+        "question": "Reconciliación del manifest exige…",
+        "options": [
+          "n_clean > n_in",
+          "n_in == n_clean + n_quarantine",
+          "solo n_quarantine == 0",
+          "hash del clean == hash del input"
+        ]
+      },
+      {
+        "question": "Si reconcile falla, el pipeline debe…",
+        "options": [
+          "Publicar clean igual",
+          "Fallar (exit non-zero) / fail closed",
+          "Borrar el manifest",
+          "Convertir a pandas automáticamente"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares"
+    ]
+  },
+  {
+    "section_index": 9,
+    "title": "Excepciones, debugging y logging seguro",
+    "outcomes": [
+      "Elegir tipos de excepción, raise con contexto y chaining con from",
+      "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+      "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+      "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+      "Configurar logging con niveles y campos estructurados",
+      "Propagar correlation_id y redactar email/teléfono/dirección",
+      "Decidir fail-fast vs cuarentena según data|config|provider",
+      "Reintentar solo errores transitorios con operaciones idempotentes"
+    ],
+    "theory": [
+      {
+        "heading": "De “Data Visualization” a excepciones, debugging y logging (mapa)",
+        "paragraphs": [
+          "En V3, **S09 no es el path principal de matplotlib/seaborn/plotly**. Ese material se reubica al tramo de reporting/visualización de datos. Aquí arranca **CP-N1-C**: el pipeline de familiaridad necesita **excepciones específicas**, **diagnóstico** y **logging sin PII**.",
+          "El hilo conductor es un **pipeline de intake sintético** (clientes `C00x`, emails `ejemplo.pe`): validar filas, capturar fallos, redactar PII en logs y decidir fail-fast vs cuarentena. Entorno **local-python**.",
+          "Orden: **T1 Excepciones** → **T2 Diagnóstico** → **T3 Logging** → **T4 Resiliencia**. Id de plataforma `visualization` se conserva."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Tipos específicos, raise y chaining",
+        "paragraphs": [
+          "Prefiere **tipos concretos**: `ValueError` (valor ilegal), `TypeError` (tipo incorrecto), `KeyError` (clave ausente), `OSError`/`FileNotFoundError` (I/O). `except Exception` genérico oculta la causa y complica el triage.",
+          "`raise ValueError('monto no numérico: …')` da contexto accionable. **`raise NewError(...) from e`** encadena la causa (`__cause__`) sin perder el traceback original — útil al traducir fallos de parse a errores de dominio.",
+          "Una **custom Exception ligera** (`class DataLoadError(Exception): ...`) nombra el borde de tu capa sin reinventar la jerarquía de la stdlib."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Fronteras de recuperación y cleanup",
+        "paragraphs": [
+          "`try/except/else/finally`: **else** corre solo si no hubo excepción; **finally** siempre (cleanup). `with` garantiza cierre de handles vía context managers.",
+          "No uses **`except:` bare** ni tragues `Exception` sin re-raise o cuarentena documentada. Decide: **manejar** (recuperable: fila mala) vs **propagar** (fatal: config inválida).",
+          "Config rota → fail-fast. Fila de datos inválida → cuarentena y continúa el lote. El borde del job es un contrato operativo, no un gusto de estilo."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Traceback y debugger",
+        "paragraphs": [
+          "Un **traceback** lista frames del más reciente al más profundo (o viceversa según herramienta). El frame útil suele ser **tu código**, no el de la stdlib.",
+          "`breakpoint()` / `pdb` inspeccionan variables en vivo. En demos del curso usamos **`traceback` + prints controlados** cuando no hay TTY interactivo.",
+          "Al loguear stacks, **nunca** imprimas secretos ni PII completa que haya en locals. Redacta o omite."
+        ],
+        "code": "import traceback\n\ndef normalize(row: dict) -> str:\n    return row[\"email\"].lower().strip()\n\ndef process(batch: list[dict]) -> None:\n    for r in batch:\n        normalize(r)\n\ntry:\n    process([{\"id\": \"C001\"}, {\"id\": \"C002\", \"email\": \"a@ejemplo.pe\"}])\nexcept KeyError:\n    tb = traceback.format_exc()\n    # solo frames de demo: buscar normalize\n    for line in tb.splitlines():\n        if \"normalize\" i"
+      },
+      {
+        "heading": "Reproducción mínima, hipótesis y causa raíz",
+        "paragraphs": [
+          "**Minimal repro**: reduce 200 filas a la **menor entrada** que dispara el bug. Facilita tests de regresión y code review.",
+          "Formula **hipótesis falsables** («si el apellido2 vacío rompe el join, entonces con apellido2='X' pasa»). Descartar es progreso.",
+          "Un **test de regresión** rojo→verde documenta la causa raíz y evita reintroducir el fallo. 5-whys ligero: no pares en el síntoma."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Niveles y estructura de logging",
+        "paragraphs": [
+          "Niveles: **DEBUG** (detalle dev), **INFO** (progreso), **WARNING** (anomalía recuperable), **ERROR** (fallo de unidad), **CRITICAL** (job/proceso).",
+          "Usa un **Logger de módulo** (`logging.getLogger(__name__)`) en vez de configurar el root a ciegas. Handlers y formatters se arman una vez en el entrypoint.",
+          "Logs **estructurados** (`key=value` o JSON) con campos estables (`stage`, `record_id`, `duration_ms`) se pueden buscar en agregadores. Los prints libres no escalan."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Correlation IDs y redacción de PII",
+        "paragraphs": [
+          "Un **correlation_id** (o request_id) viaja por capas (CLI → service → repo) para unir logs del mismo job/lote.",
+          "**Nunca** loguees email, teléfono o dirección completos. Usa máscaras: `a***@ejemplo.pe`, `***4567`.",
+          "Helpers `mask_email` / `mask_phone` deben ser el **único** camino a logs; audits fallan si alguien hace `log.info(row)`."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Fallar rápido vs continuar con cuarentena",
+        "paragraphs": [
+          "Taxonomía: **data** (fila), **config** (delimiter, schema path), **provider** (timeout de API/archivo remoto). La política difiere.",
+          "**Fail-fast** en config: seguir procesando con schema roto multiplica basura. **Cuarentena** en data: una fila mala no debe tumbar el lote entero.",
+          "Éxito parcial es válido si el manifest contabiliza `ok + quarantined = input`. Documenta la política en README del job."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Idempotencia, retries y cuarentena",
+        "paragraphs": [
+          "**Retry solo errores transitorios** (`TimeoutError`, 503). `ValueError` de datos **no** se reintenta: va a cuarentena.",
+          "Operaciones **idempotentes** (misma clave de escritura) permiten re-correr un job sin duplicar side-effects. Clave típica: `(source, record_id, version)`.",
+          "Backoff simple (sleep creciente) reduce thundering herd. Tras max_attempts → cuarentena o fail según la política."
+        ],
+        "code": "import time\n\ndef fetch_with_retry(fn, max_attempts=3):\n    last = None\n    for attempt in range(1, max_attempts + 1):\n        try:\n            return fn(attempt)\n        except TimeoutError as e:\n            last = e\n            time.sleep(0.01 * attempt)  # backoff demo\n        except ValueError:\n            raise  # no retry\n    raise last\n\ncalls = {\"n\": 0}\n\ndef flaky(attempt):\n    calls[\"n\"] +="
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S09-T1-B-DEMO",
+        "description": "Validar fila de intake y encadenar ParseError → ValidationError.",
+        "why": "El chaining preserva la causa de parse al subir a validación de dominio.",
+        "code": "class ParseError(Exception):\n    pass\n\nclass ValidationError(Exception):\n    pass\n\ndef parse_monto(raw: str) -> float:\n    try:\n        return float(str(raw).replace(\",\", \".\"))\n    except (TypeError, ValueError) as e:\n        raise ParseError(f\"monto no parseable: {raw!r}\") from e\n\ndef validate_intake(row: dict) -> dict:\n    try:\n        monto = parse_monto(row.get(\"monto\"))\n    except ParseError as e:\n        raise ValidationError(f\"id={row.get('id')}: validación falló\") from e\n    if monto < 0"
+      },
+      {
+        "demoId": "S09-T2-A-DEMO",
+        "description": "Leer lote con finally que cierra handle; re-raise si config inválida.",
+        "why": "finally corre siempre; config inválida no se traga — se propaga.",
+        "code": "from __future__ import annotations\n\nfrom io import StringIO\nfrom typing import List, Optional\n\nclass ConfigError(Exception):\n    pass\n\ndef leer_lote(payload: str, encoding: Optional[str]) -> List[str]:\n    if not encoding:\n        raise ConfigError(\"encoding requerido\")\n    handle = StringIO(payload)\n    try:\n        return [ln.rstrip(\"\\n\") for ln in handle]\n    finally:\n        handle.close()\n        print(\"finally: recurso cerrado\")\n\nprint(\"ok\", leer_lote(\"fila1\\nfila2\\n\", \"utf-8\"))\ntry:\n    l"
+      },
+      {
+        "demoId": "S09-T2-B-DEMO",
+        "description": "Reproducir KeyError en normalizer y ubicar frame con traceback.",
+        "why": "El frame útil es normalize_email: falta la clave email en C002.",
+        "code": "import traceback\n\ndef normalize_email(row: dict) -> str:\n    return row[\"email\"].strip().lower()\n\ndef run_batch(rows: list[dict]) -> list[str]:\n    return [normalize_email(r) for r in rows]\n\nrows = [{\"id\": \"C001\", \"email\": \"a@ejemplo.pe\"}, {\"id\": \"C002\"}]\ntry:\n    run_batch(rows)\nexcept KeyError as e:\n    print(\"error:\", type(e).__name__, e)\n    # simula inspección de debugger: frames relevantes\n    for fr in traceback.extract_tb(e.__traceback__):\n        if fr.name in {\"normalize_email\", \"run_b"
+      },
+      {
+        "demoId": "S09-T3-A-DEMO",
+        "description": "De un lote de 200 filas sintéticas al caso mínimo de apellidos.",
+        "why": "Reducir a 'Solo' permite un test de regresión de una línea.",
+        "code": "def apellidos(nombre: str) -> list[str]:\n    toks = [t for t in nombre.split() if t.lower() not in {\"de\", \"del\", \"la\"}]\n    if len(toks) < 3:  # nombre + 2 apellidos\n        raise ValueError(f\"nombre incompleto: {nombre!r}\")\n    return toks[-2:]\n\n# simula 200 filas: casi todas ok\nlote = [f\"Ana Perez Lopez {i}\" for i in range(198)]\nlote += [\"Juan Perez\", \"Solo\"]\nfallos = []\nfor n in lote:\n    try:\n        apellidos(n)\n    except ValueError as e:\n        fallos.append(str(e))\nprint(\"total_fallos\","
+      },
+      {
+        "demoId": "S09-T3-B-DEMO",
+        "description": "Logger de pipeline con campos stage, record_id, duration_ms.",
+        "why": "Campos estables permiten filtrar por stage y record_id en operación.",
+        "code": "import logging, io, time\n\nbuf = io.StringIO()\nlog = logging.getLogger(\"familiarity.pipeline\")\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter(\"%(levelname)s %(message)s\"))\nlog.addHandler(h)\nlog.propagate = False\n\ndef stage_normalize(record_id: str) -> None:\n    t0 = time.perf_counter()\n    log.info(\"stage=normalize record_id=%s event=start\", record_id)\n    _ = record_id.lower()\n    ms = int((time.perf_counter() - t0) * 1000)\n    log"
+      },
+      {
+        "demoId": "S09-T4-A-DEMO",
+        "description": "Log de error con email enmascarado y correlation_id.",
+        "why": "El log es accionable sin filtrar PII completa.",
+        "code": "import logging, io\n\ndef mask_email(email: str) -> str:\n    local, _, domain = email.partition(\"@\")\n    return f\"{(local[:1] or '*')}***@{domain}\" if domain else \"***\"\n\nbuf = io.StringIO()\nlog = logging.getLogger(\"familiarity.audit\")\nlog.handlers.clear()\nlog.setLevel(logging.ERROR)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter(\"%(message)s\"))\nlog.addHandler(h)\nlog.propagate = False\n\ncorr = \"corr-9c2e\"\nraw_email = \"lucia.mendez@ejemplo.pe\"\nlog.error(\n    \"correlation_id=%s stage="
+      },
+      {
+        "demoId": "S09-T4-B-DEMO",
+        "description": "Lote: 1 fila mala a cuarentena; config rota aborta.",
+        "why": "Data → cuarentena; config → fail-fast. Conteos reconciliados.",
+        "code": "def process_batch(rows, config):\n    if config.get(\"required_fields\") is None:\n        raise RuntimeError(\"config: required_fields ausente\")\n    req = config[\"required_fields\"]\n    ok, q = [], []\n    for r in rows:\n        missing = [k for k in req if not r.get(k)]\n        if missing:\n            q.append({\"id\": r.get(\"id\"), \"reason\": f\"data:missing:{','.join(missing)}\"})\n        else:\n            ok.append(r)\n    return {\"ok\": ok, \"quarantined\": q, \"in\": len(rows)}\n\nrows = [\n    {\"id\": \"C001\", "
+      },
+      {
+        "demoId": null,
+        "description": "Retry 3× en TimeoutError; ValueError va a cuarentena sin retry.",
+        "why": "Transitorio se reintenta; error de datos no gasta reintentos.",
+        "code": "def with_retry(fn, max_attempts=3):\n    for attempt in range(1, max_attempts + 1):\n        try:\n            return (\"ok\", fn(attempt))\n        except TimeoutError:\n            if attempt == max_attempts:\n                return (\"fail_timeout\", None)\n        except ValueError as e:\n            return (\"quarantine\", str(e))\n    return (\"fail\", None)\n\nstate = {\"t\": 0}\n\ndef flaky(attempt):\n    state[\"t\"] += 1\n    if attempt < 3:\n        raise TimeoutError(\"red\")\n    return \"payload\"\n\nprint(with_retr"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "¿Para qué sirve `raise NewError(...) from e`?",
+        "options": [
+          "Ignorar el error original",
+          "Encadenar la causa en __cause__ sin perder contexto",
+          "Convertir todo a SystemExit",
+          "Silenciar el traceback"
+        ]
+      },
+      {
+        "question": "Un delimiter vacío en config del job debería…",
+        "options": [
+          "Cuarentenar una fila y seguir",
+          "Fail-fast (abortar el job)",
+          "Reintentar 3 veces siempre",
+          "Loguear el row completo con PII"
+        ]
+      },
+      {
+        "question": "¿Qué va a stdout en una CLI bien diseñada?",
+        "options": [
+          "Logs DEBUG y el JSON de salida mezclados",
+          "Solo datos; diagnóstico a stderr",
+          "Solo tracebacks",
+          "Secretos de config"
+        ]
+      },
+      {
+        "question": "mask_email('ana@ejemplo.pe') de forma segura podría ser…",
+        "options": [
+          "ana@ejemplo.pe sin cambios",
+          "a***@ejemplo.pe",
+          "None",
+          "El hash MD5 del password"
+        ]
+      },
+      {
+        "question": "TimeoutError en un fetch remoto típico…",
+        "options": [
+          "Nunca se reintenta",
+          "Puede reintentarse con backoff; ValueError de datos no",
+          "Se convierte en KeyError",
+          "Implica fraude"
+        ]
+      },
+      {
+        "question": "¿Cuál es un buen minimal repro?",
+        "options": [
+          "Todo el CSV de producción",
+          "La entrada más pequeña que reproduce el bug",
+          "Reiniciar el servidor tres veces",
+          "Borrar los tests"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta"
+    ]
+  },
+  {
+    "section_index": 10,
+    "title": "Módulos, packaging y CLI profesional",
+    "outcomes": [
+      "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+      "Definir API pública estable y helpers privados",
+      "Crear paquete instalable con layout src y pyproject.toml",
+      "Aplicar semver simple y requires-python / deps con criterio",
+      "Implementar subcomandos argparse con exit codes 0/1/2",
+      "Separar stdout (datos) de stderr (diagnóstico)",
+      "Implementar precedencia flags > env > archivo > defaults",
+      "Mantener secretos fuera del repo y validar config al arranque"
+    ],
+    "theory": [
+      {
+        "heading": "De “scikit-learn ML pipeline” a módulos, packaging y CLI (mapa)",
+        "paragraphs": [
+          "En V3, **S10 no es el path principal de Pipeline/ColumnTransformer/SHAP**. Ese material se reubica al tramo de ML tabular. Aquí empaquetas **familiarity_core**: módulos limpios, **pyproject.toml**, **CLI** con subcomandos y **config por precedencia**.",
+          "Integra el ETL de CP-N1-B y la observabilidad de S09. Entorno **local-python**. Id de plataforma `sklearn` se conserva.",
+          "Orden: **T1 Módulos** → **T2 Paquetes** → **T3 CLI** → **T4 Configuración**."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Imports, namespaces y __main__",
+        "paragraphs": [
+          "`import pkg.mod` y `from pkg.mod import name` cargan el módulo una vez en `sys.modules`. **`__name__`** es el nombre del módulo, o `'__main__'` si se ejecuta como script.",
+          "`if __name__ == '__main__':` protege el CLI/demo para que no corra al importar. **`__all__`** documenta la API pública de `from mod import *` (y comunica intención).",
+          "Los **imports circulares** se rompen extrayendo un tercer módulo, importando dentro de funciones (lazy) o invirtiendo dependencias. Prefiere diseño a hacks."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Dependencias cíclicas y API pública",
+        "paragraphs": [
+          "Prefijo `_` marca helpers **privados** (convención). La fachada (`__init__.py` o `api.py`) reexporta solo lo estable.",
+          "Una **API pública pequeña** (p. ej. 4 símbolos) reduce breaking changes. Versiona la intención: añadir es minor; renombrar/eliminar es major.",
+          "Lazy import dentro de funciones evita ciclos y acelera el import del paquete cuando un submódulo es pesado."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Layout src, pyproject.toml y builds",
+        "paragraphs": [
+          "Layout **src/**: `src/familiarity_core/...` evita importar el paquete desde el repo sin instalar. `pyproject.toml` declara name, version, requires-python y el build backend (setuptools/hatchling).",
+          "`pip install -e .` instala en editable: cambias código y el import refleja al toque. Ideal en desarrollo del CLI.",
+          "Si ves `ModuleNotFoundError` post-install, revisa nombre del paquete, packages discovery y el cwd."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Versionado y compatibilidad",
+        "paragraphs": [
+          "**SemVer** simple: MAJOR.MINOR.PATCH. Breaking → major; feature compatible → minor; fix → patch. En 0.x es más flexible, pero documenta igual.",
+          "`requires-python` y dependencies pinadas con criterio (mínimos, no caos de upper bounds sin razón).",
+          "Un **CHANGELOG** stub (Added/Changed/Fixed) evita amnesia entre sprints. Breaking de firma pública se anuncia."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "argparse, subcomandos y exit codes",
+        "paragraphs": [
+          "`argparse.ArgumentParser` + **subparsers** modelan `ingest|normalize|compare|report`. Cada subcomando tiene flags propios.",
+          "Exit codes: **0** éxito, **2** uso/CLI inválido (argparse default), **1** error de runtime/negocio. Scripts y CI dependen de esto.",
+          "Separa el parse de args de la lógica: `main(argv) -> int` retorna el código; el entrypoint hace `sys.exit(main())`."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "stdin/stdout/stderr y ayuda",
+        "paragraphs": [
+          "**stdout** = datos (JSON, CSV). **stderr** = logs y progreso. Así `cmd > out.json` no contamina el archivo.",
+          "Soportar path o **`-`** para stdin habilita pipes: `cat data.json | familiarity normalize`.",
+          "No mezcles `print` de debug en stdout. Progress bars y logs van a stderr."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Archivo/env/flags y precedencia",
+        "paragraphs": [
+          "Precedencia canónica: **flags CLI > variables de entorno > archivo de config > defaults**.",
+          "Documenta la tabla en README. Un flag `--log-level` debe ganar a `FAMILIARITY_LOG_LEVEL`.",
+          "Implementa un `merge_config` puro y testeable: dicts por capa, reduce de menor a mayor prioridad."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Secretos, defaults y validación temprana",
+        "paragraphs": [
+          "Secretos **fuera del repo**: `.env` en `.gitignore`, nunca en logs. Defaults seguros (TLS on, log level INFO, no debug PII).",
+          "`validate_config()` al arranque con errores claros (qué clave falta, qué subcomando la exige).",
+          "Fail-fast de config evita procesar 10k filas con un path mal tipeado."
+        ],
+        "code": ""
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S10-T1-B-DEMO",
+        "description": "Separar normalize y cli en funciones; demo con guard __main__.",
+        "why": "La lógica vive en normalize; el entrypoint solo orquesta.",
+        "code": ""
+      },
+      {
+        "demoId": "S10-T2-A-DEMO",
+        "description": "Fachada que exporta solo 4 símbolos públicos.",
+        "why": "Cuatro símbolos estables; helpers con _ fuera de la API.",
+        "code": ""
+      },
+      {
+        "demoId": "S10-T2-B-DEMO",
+        "description": "Modelo mínimo de layout src + metadatos instalables.",
+        "why": "El layout src + pyproject es el contrato de packaging del curso.",
+        "code": ""
+      },
+      {
+        "demoId": "S10-T3-A-DEMO",
+        "description": "Bump 0.1.0 → 0.2.0 por subcomando nuevo (minor).",
+        "why": "Feature compatible sube minor; documenta en CHANGELOG.",
+        "code": ""
+      },
+      {
+        "demoId": "S10-T3-B-DEMO",
+        "description": "CLI con subcomandos ingest|normalize|compare|report y exit codes.",
+        "why": "Subparsers + return codes hacen la CLI operable en scripts.",
+        "code": ""
+      },
+      {
+        "demoId": "S10-T4-A-DEMO",
+        "description": "Datos a stdout y diagnóstico a stderr (simula pipe normalize).",
+        "why": "El pipe de datos queda limpio; logs viven en stderr.",
+        "code": "import sys\nfrom io import StringIO\n\ndef normalize_cmd(raw: str, err: StringIO) -> str:\n    err.write(\"stage=normalize event=start\\n\")\n    out = raw.strip().casefold()\n    err.write(\"stage=normalize event=done\\n\")\n    return out\n\nstderr = StringIO()\ndata = normalize_cmd('  {\"name\": \"Ana\"}  ', stderr)\nprint(data)  # stdout\nprint(\"--- stderr ---\")\nprint(stderr.getvalue().strip())"
+      },
+      {
+        "demoId": "S10-T4-B-DEMO",
+        "description": "FAMILIARITY_LOG_LEVEL vs --log-level: gana el flag.",
+        "why": "Precedencia flags > env > default documentada y testeable.",
+        "code": "def resolve_log_level(default=\"INFO\", env=None, flag=None) -> str:\n    level = default\n    if env:\n        level = env\n    if flag:\n        level = flag\n    return level\n\nprint(\"solo env\", resolve_log_level(env=\"DEBUG\"))\nprint(\"flag gana\", resolve_log_level(env=\"DEBUG\", flag=\"ERROR\"))\nprint(\"default\", resolve_log_level())"
+      },
+      {
+        "demoId": null,
+        "description": "Abort si falta API_TOKEN solo cuando el subcomando lo requiere.",
+        "why": "Validación temprana y contextual al subcomando.",
+        "code": "def need_token(command: str) -> bool:\n    return command in {\"ingest\", \"report\"}\n\ndef validate(command: str, cfg: dict) -> None:\n    if need_token(command) and not cfg.get(\"API_TOKEN\"):\n        raise SystemExit(f\"config: API_TOKEN requerido para {command}\")\n\nvalidate(\"normalize\", {})\nprint(\"normalize ok\")\ntry:\n    validate(\"ingest\", {})\nexcept SystemExit as e:\n    print(\"abort\", e)\nvalidate(\"ingest\", {\"API_TOKEN\": \"secret-demo\"})\nprint(\"ingest ok\")"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "¿Para qué sirve `if __name__ == '__main__'`?",
+        "options": [
+          "Acelerar el interpreter",
+          "Ejecutar el CLI/demo solo al correr el módulo, no al importar",
+          "Definir __all__",
+          "Instalar dependencias"
+        ]
+      },
+      {
+        "question": "Precedencia correcta de config…",
+        "options": [
+          "defaults > flags > env > file",
+          "flags > env > file > defaults",
+          "env > flags > file > defaults",
+          "file > flags > env > defaults"
+        ]
+      },
+      {
+        "question": "Exit code 2 en CLI argparse suele significar…",
+        "options": [
+          "Éxito",
+          "Error de uso/parseo de argumentos",
+          "Timeout de red",
+          "Fraude detectado"
+        ]
+      },
+      {
+        "question": "¿Dónde van los logs de progreso?",
+        "options": [
+          "stdout con el JSON",
+          "stderr",
+          "en el nombre del archivo",
+          "en __all__"
+        ]
+      },
+      {
+        "question": "Añadir un subcomando nuevo compatible es tipicamente…",
+        "options": [
+          "major",
+          "minor",
+          "borrar el repo",
+          "patch obligatorio siempre"
+        ]
+      },
+      {
+        "question": "¿Qué no debe ir al git del paquete?",
+        "options": [
+          ".env con API_TOKEN",
+          "README.md",
+          "pyproject.toml",
+          "src/.../__init__.py"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta",
+      "Excepciones, debugging y logging seguro"
+    ]
+  },
+  {
+    "section_index": 11,
+    "title": "OOP y modelo de dominio",
+    "outcomes": [
+      "Modelar entidades con class/dataclass e instancias válidas",
+      "Imponer invariantes en construcción sin side-effects externos",
+      "Encapsular con properties y métodos de consulta seguros",
+      "Definir igualdad/hash y mutabilidad (frozen) consciente",
+      "Preferir composición a herencia frágil",
+      "Usar Protocol/duck typing para puertos del dominio",
+      "Separar dominio de I/O con repo/service y to_dict",
+      "Probar dominio puro y evitar APIs de fraude/parentesco"
+    ],
+    "theory": [
+      {
+        "heading": "De “Testing pytest/CI” a OOP y modelo de dominio (mapa)",
+        "paragraphs": [
+          "En V3, **S11 no es el path principal de pytest fixtures/coverage/CI** (ese material se reubica como soporte de calidad). Aquí modelas el **dominio de familiaridad**: `ClientRecord`, `ResolvedEntity`, `Transaction`, `RelationshipEvidence`.",
+          "Ninguna clase emite veredicto de **fraude** ni **parentesco**. Los scores son **datos**, no decisiones legales. Entorno **local-python**. Id de plataforma `testing` se conserva.",
+          "Orden: **T1 Objetos** → **T2 Encapsulación** → **T3 Diseño** → **T4 Límites** (repos/tests)."
+        ],
+        "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    emails: list[str] = field(default_factory=list)\n\nc = ClientRecord(\"C001\", \"Ana Perez\", [\"ana@ejemplo.pe\"])\nprint(c)\nprint(type(c).__name__, c.client_id)"
+      },
+      {
+        "heading": "Clases, instancias y dataclass",
+        "paragraphs": [
+          "Una **clase** define el molde; una **instancia** es un objeto concreto. `@dataclass` genera `__init__`, `__repr__` y opcionalmente comparación.",
+          "Campos con **type hints** y `default_factory` para mutables (listas/dicts) evitan el clásico bug del default compartido.",
+          "Migrar dicts anónimos a tipos nombra el dominio y habilita invariantes en T1-B."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Invariantes y estados válidos",
+        "paragraphs": [
+          "`__post_init__` en dataclasses valida justo después de construir. Si el estado es inválido, **falla al crear** — no dejes objetos a medias.",
+          "Método `validate()` reutilizable ayuda en factories `from_dict`. Sin side-effects de negocio externos (no llama APIs al validar).",
+          "Ejemplo: `document_id` no vacío; fechas de transacción coherentes."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Propiedades y métodos",
+        "paragraphs": [
+          "`@property` expone campos calculados (`display_name`, `masked_email`) sin mutación peligrosa desde afuera.",
+          "Métodos de instancia encapsulan consultas (`age_days_since`). Evita exponer PII raw en la superficie pública si puedes ofrecer máscaras.",
+          "Setters validados solo cuando la mutación es parte del modelo; si no, prefiere frozen/nuevas instancias."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Igualdad, hash y mutabilidad consciente",
+        "paragraphs": [
+          "`__eq__` por **business key** (document_id / entity_id) evita comparar basura de campos opcionales. **`frozen=True`** habilita hash seguro para sets/dicts.",
+          "Entidades mutables como keys de dict son una fuente clásica de bugs: el hash cambia si mutas campos del eq.",
+          "Value objects (Evidence) suelen ser frozen; agregados con listas pueden ser mutables con cuidado."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Composición antes que herencia",
+        "paragraphs": [
+          "**has-a** (composición) suele modelar mejor casos: `CaseFile` tiene lista de `RelationshipEvidence` y una `ResolvedEntity`.",
+          "Herencia solo si hay **subtipo real** (is-a). Evita jerarquías frágiles `Client(Person(BaseEntity...))` solo para reutilizar un campo.",
+          "Mixins con cautela: complejidad invisible. Prefiere funciones o colaboración entre objetos."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Protocolos y polimorfismo con propósito",
+        "paragraphs": [
+          "`typing.Protocol` describe un **puerto** (EntityStore con get/save) sin forzar herencia. Duck typing estructural.",
+          "Útil para fakes en tests y para no acoplar dominio a una DB. Evita ABC pesados si Protocol basta.",
+          "No introduzcas Protocol 'por si acaso' con una sola implementación y sin tests — YAGNI."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Repositorios, servicios y serialización",
+        "paragraphs": [
+          "**Repository** light: get/save. **Service** light: orquesta dominio sin conocer CLI ni HTTP. `to_dict`/`from_dict` en el borde.",
+          "Serializa sin password fields ni PII innecesaria. DTOs de borde no tienen que ser las entidades internas.",
+          "CLI (S10) llama al service; el service no imprime ni parsea argparse."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Dependencias y pruebas del dominio",
+        "paragraphs": [
+          "Tests del dominio son **puros**: sin red, sin DB real. Fakes del Protocol bastan.",
+          "Assert de invariantes y de **ausencia** de APIs peligrosas (`is_fraud`, `is_related_family`).",
+          "Scores de resolución/relación son campos; un test puede verificar que existen como float y que no hay método de veredicto."
+        ],
+        "code": ""
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S11-T1-B-DEMO",
+        "description": "ClientRecord dataclass desde dict sintético.",
+        "why": "from_dict nombra el borde dict→dominio.",
+        "code": "from dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    emails: list[str] = field(default_factory=list)\n\n    @classmethod\n    def from_dict(cls, d: dict) -> \"ClientRecord\":\n        return cls(d[\"client_id\"], d[\"full_name\"], list(d.get(\"emails\", [])))\n\nraw = {\"client_id\": \"C001\", \"full_name\": \"Ana Perez\", \"emails\": [\"ana@ejemplo.pe\"]}\nc = ClientRecord.from_dict(raw)\nprint(c)"
+      },
+      {
+        "demoId": "S11-T2-A-DEMO",
+        "description": "ClientRecord rechaza document_id vacío.",
+        "why": "Invariante en construcción: no hay instancia inválida.",
+        "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    def __post_init__(self) -> None:\n        if not str(self.document_id).strip():\n            raise ValueError(\"document_id vacío\")\n\nprint(ClientRecord(\"C001\", \"DNI-100\"))\ntry:\n    ClientRecord(\"C002\", \"\")\nexcept ValueError as e:\n    print(\"rejected\", e)"
+      },
+      {
+        "demoId": "S11-T2-B-DEMO",
+        "description": "display_name y masked_email como properties.",
+        "why": "La superficie pública no necesita el email completo para mostrar.",
+        "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    first_name: str\n    last_name: str\n    email: str\n\n    @property\n    def display_name(self) -> str:\n        return f\"{self.first_name} {self.last_name}\"\n\n    @property\n    def masked_email(self) -> str:\n        local, _, domain = self.email.partition(\"@\")\n        return f\"{local[:1]}***@{domain}\"\n\nc = ClientRecord(\"Lucía\", \"Méndez\", \"lucia@ejemplo.pe\")\nprint(c.display_name)\nprint(c.masked_email)"
+      },
+      {
+        "demoId": "S11-T3-A-DEMO",
+        "description": "ResolvedEntity frozen por valor; set de entidades.",
+        "why": "frozen permite usar entidades en sets sin sorpresas de mutación.",
+        "code": ""
+      },
+      {
+        "demoId": "S11-T3-B-DEMO",
+        "description": "CaseFile compone list[RelationshipEvidence] + entidad resuelta.",
+        "why": "Composición ensambla el caso sin herencia artificial.",
+        "code": ""
+      },
+      {
+        "demoId": "S11-T4-A-DEMO",
+        "description": "Protocol EntityStore con get/save; FakeStore en memoria.",
+        "why": "El service depende del Protocol, no de una clase base pesada.",
+        "code": ""
+      },
+      {
+        "demoId": "S11-T4-B-DEMO",
+        "description": "InMemoryClientRepository + service que no decide fraude.",
+        "why": "Service orquesta persistencia; no emite veredictos de fraude.",
+        "code": "from dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n    def to_dict(self):\n        return {\"client_id\": self.client_id, \"email\": self.email}\n\nclass InMemoryClientRepository:\n    def __init__(self):\n        self._d = {}\n    def save(self, c: ClientRecord):\n        self._d[c.client_id] = c\n    def get(self, cid: str):\n        return self._d.get(cid)\n\nclass ClientService:\n    def __init__(self, repo):\n        self.repo = repo\n    def register(self, cl"
+      },
+      {
+        "demoId": null,
+        "description": "Tests de RelationshipEvidence: solo señales; sin is_fraud().",
+        "why": "La suite protege el límite ético del modelo.",
+        "code": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass RelationshipEvidence:\n    left_id: str\n    right_id: str\n    signal_score: float\n\ndef test_signal_bounds():\n    ev = RelationshipEvidence(\"E1\", \"E2\", 0.7)\n    assert 0 <= ev.signal_score <= 1\n    assert not hasattr(ev, \"is_fraud\")\n    return \"pass\"\n\ndef test_no_family_verdict():\n    assert not hasattr(RelationshipEvidence, \"is_related_family\")\n    return \"pass\"\n\nprint(test_signal_bounds())\nprint(test_no_family_verdict())"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "¿Por qué `field(default_factory=list)` y no `= []`?",
+        "options": [
+          "Es más corto",
+          "Evita el default mutable compartido entre instancias",
+          "Obliga a usar Protocol",
+          "Activa el garbage collector"
+        ]
+      },
+      {
+        "question": "RelationshipEvidence.signal_score representa…",
+        "options": [
+          "Veredicto legal de parentesco",
+          "Una señal/dato numérico, no un veredicto de fraude o familia",
+          "Password hasheado",
+          "Exit code del CLI"
+        ]
+      },
+      {
+        "question": "Un Protocol EntityStore sirve para…",
+        "options": [
+          "Conectarse solo a Postgres",
+          "Definir un puerto get/save implementable por fakes y adapters",
+          "Reemplazar dataclass",
+          "Serializar a PDF"
+        ]
+      },
+      {
+        "question": "Objeto inválido: ¿cuándo fallar?",
+        "options": [
+          "Al final del mes",
+          "En la construcción (__post_init__/validate)",
+          "Nunca",
+          "Solo en producción"
+        ]
+      },
+      {
+        "question": "Client hereda de Person…",
+        "options": [
+          "Siempre es la mejor opción",
+          "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar",
+          "Es obligatoria en Python",
+          "Impide tests"
+        ]
+      },
+      {
+        "question": "¿Qué no debe tener el dominio de familiaridad?",
+        "options": [
+          "to_dict",
+          "is_fraud() automático",
+          "Invariantes",
+          "Tests unitarios"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta",
+      "Excepciones, debugging y logging seguro",
+      "Módulos, packaging y CLI profesional"
+    ]
+  },
+  {
+    "section_index": 12,
+    "title": "APIs, SQL y geodatos responsables",
+    "outcomes": [
+      "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+      "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+      "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+      "Escribir contract tests del adaptador y fallback degradado offline",
+      "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+      "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+      "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+      "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+    ],
+    "theory": [
+      {
+        "heading": "De “Performance & concurrency” a APIs, SQL y geodatos (mapa de la sección)",
+        "paragraphs": [
+          "En V3, **S12 no es el path principal de multiprocessing, profiling ni logging de producción**. Ese material se reubica conceptualmente hacia el tramo de sistemas/ops. Aquí construyes el **incremento CP-N1-C de adquisición y geoevidencia**: cliente HTTP síncrono resiliente, SQLite parametrizado y geocoder mock/autorizado **sin PII bancaria a servicios públicos**.",
+          "El hilo conductor es un **adaptador de señales sintéticas** (listas de entidades, evidencias y coordenadas) con timeout, cache, provenance y fallback offline. Solo datos sintéticos latam (`example.com`, Lima/Arequipa, ids `C00x`).",
+          "Orden: **T1 HTTP** → **T2 Auth/cache/contracts** → **T3 SQL** → **T4 Geodatos responsables**."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "requests/responses, status y JSON",
+        "paragraphs": [
+          "Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerpo (a menudo JSON). En este curso usamos un **cliente mock** o `urllib` con fixtures: la pedagogía es status + parse, no la librería de red.",
+          "**2xx** = éxito; **4xx** = error del cliente (no reintentes a ciegas); **5xx** = error del servidor (candidatos a retry con límite). Siempre parsea con manejo de cuerpo vacío o JSON inválido.",
+          "**Timeout es obligatorio**: sin `timeout=` un socket colgado congela el pipeline. Headers (`Accept`, `User-Agent`) documentan el contrato del adaptador."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Timeout, paginación, retry/backoff y rate limit",
+        "paragraphs": [
+          "**Timeout** acota la espera por request. **Paginación** (`page` o `cursor`/`next`) recorre colecciones grandes sin traer todo de una vez.",
+          "**Retry/backoff** solo en errores **transitorios** (429, 503, timeouts). Un **400** o **404** no se reintenta. Respeta `Retry-After` y un **max_retries** duro.",
+          "Rate limit: duerme entre páginas o respeta cuotas del proveedor. En demo usamos `sleep` simbólico o contador de delays."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Auth, secretos, cache y provenance",
+        "paragraphs": [
+          "Autenticación **Bearer** o basic lee el token de **variable de entorno**, nunca hardcodeado. Si falta el secreto, falla cerrado con mensaje claro.",
+          "**Cache de GET** por hash de URL con **TTL** reduce costo y latencia; no caches respuestas de escritura ni datos sensibles sin política.",
+          "**Provenance**: cada fetch deja `source_url`, `fetched_at`, `status_code`, `cache_hit`. **Nunca loguees el token**."
+        ],
+        "code": "import os, hashlib, time, json\n\nos.environ[\"API_TOKEN\"] = \"demo-token-not-real\"\n\ndef get_token():\n    tok = os.environ.get(\"API_TOKEN\")\n    if not tok:\n        raise RuntimeError(\"API_TOKEN missing\")\n    return tok\n\nCACHE = {}\ndef cached_get(url, ttl=60):\n    key = hashlib.sha256(url.encode()).hexdigest()[:12]\n    now = time.time()\n    if key in CACHE and now - CACHE[key][\"ts\"] < ttl:\n        retu"
+      },
+      {
+        "heading": "Contract tests y fallback",
+        "paragraphs": [
+          "Un **contract test** fija las claves obligatorias del JSON del proveedor (fixture). Si el schema cambia, el test falla antes de producción.",
+          "**Fallback degradado**: si 5xx o red caída, lee coordenadas/precomputados locales y marca `mode=offline` en provenance.",
+          "Feature flag offline permite demos reproducibles sin red — obligatorio en CP-N1-C."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Esquema, CRUD y joins",
+        "paragraphs": [
+          "SQLite vía `sqlite3` basta para el almacén local de CP-N1-C: tablas `clients`, `transactions`, `evidence`.",
+          "CRUD = CREATE/INSERT/SELECT/UPDATE (y DELETE con cuidado). **JOIN** une evidencias a entidades por `entity_id`.",
+          "Empieza transacciones explícitas cuando un caso toca varias filas; en T3-B profundizamos COMMIT/ROLLBACK."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Parámetros, transacciones, constraints e índices",
+        "paragraphs": [
+          "Usa placeholders `?` (o `:name`). **Prohibido** armar SQL con f-strings de input de usuario: es inyección.",
+          "`executemany` + `BEGIN`/`COMMIT` hacen batch atómico; un UNIQUE roto → `ROLLBACK` y reporte de fila.",
+          "`UNIQUE`/`NOT NULL` e **índices** en `document_id` / `entity_id` aceleran lookups del dashboard."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Normalización y geocoding autorizado",
+        "paragraphs": [
+          "Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No inventes campos que no vinieron.",
+          "Solo **geocoder autorizado/mock**. Política del curso: **no envíes PII bancaria** (docs, cuentas, montos) a proveedores públicos.",
+          "`MockGeocoder` devuelve lat/lon fijos por ciudad de demo (Lima, Arequipa) para demos offline reproducibles."
+        ],
+        "code": "import re\n\ndef normalize_address(s: str) -> str:\n    s = re.sub(r\"\\s+\", \" \", s.strip())\n    return s.title()\n\nclass MockGeocoder:\n    TABLE = {\n        \"Lima\": (-12.0464, -77.0428),\n        \"Arequipa\": (-16.4090, -71.5375),\n    }\n    def geocode(self, city: str):\n        coords = self.TABLE.get(city.title())\n        if not coords:\n            return None\n        lat, lon = coords\n        return {\""
+      },
+      {
+        "heading": "Calidad de coordenada, Haversine, caching y política",
+        "paragraphs": [
+          "Valida **lat ∈ [-90,90]** y **lon ∈ [-180,180]** antes de calcular. Coordenadas basura no entran al mapa.",
+          "**Haversine** estima km entre dos puntos; sirve como **geoseñal de relación**, no como veredicto de parentesco o fraude.",
+          "Cachea geocodes bajo TTL/política del proveedor. Documenta que distancia es **señal**, no kinship."
+        ],
+        "code": "import math\n\ndef valid_coord(lat, lon):\n    return -90 <= lat <= 90 and -180 <= lon <= 180\n\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\n\nlima = (-12.0464, -77.0428)"
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S12-T1-B-DEMO",
+        "description": "Cliente mock HTTP que devuelve lista de señales sintéticas con status 200 y parse JSON.",
+        "why": "El adaptador ve el contrato real (status + JSON) sin red externa.",
+        "code": ""
+      },
+      {
+        "demoId": "S12-T2-A-DEMO",
+        "description": "Paginar 3 páginas de API mock con contador de rate-limit (sin sleep real largo).",
+        "why": "Paginación + respeto de ritmo son el esqueleto de adquisición resiliente.",
+        "code": ""
+      },
+      {
+        "demoId": "S12-T2-B-DEMO",
+        "description": "Fetch con token de env + manifest de provenance (token no se imprime).",
+        "why": "Provenance auditable sin filtrar secretos.",
+        "code": "import os, json, hashlib\nos.environ[\"SIG_API_TOKEN\"] = \"syn-token-000\"\ntoken = os.environ[\"SIG_API_TOKEN\"]\nurl = \"https://api.example.com/v1/signals/C001\"\nbody = {\"entity_id\": \"C001\", \"signals\": [\"geo\"]}\nmanifest = {\n    \"source_url\": url,\n    \"fetched_at\": \"2026-07-20T15:00:00Z\",\n    \"status_code\": 200,\n    \"body_sha12\": hashlib.sha256(json.dumps(body, sort_keys=True).encode()).hexdigest()[:12],\n    \"auth_scheme\": \"bearer\",\n    \"token_present\": bool(token),\n}\nprint(json.dumps(manifest, sort_key"
+      },
+      {
+        "demoId": "S12-T3-A-DEMO",
+        "description": "Contract test del geocoder mock + fallback a coordenadas precalculadas.",
+        "why": "Contrato + fallback hacen demos reproducibles cuando el proveedor no responde.",
+        "code": "REQUIRED = {\"lat\", \"lon\", \"provider\"}\nPRECALC = {\"Lima\": {\"lat\": -12.0464, \"lon\": -77.0428, \"provider\": \"precalc\"}}\n\ndef contract_ok(d):\n    return not (REQUIRED - set(d.keys()))\n\ndef geocode(city, fail_online=False):\n    if fail_online:\n        return {**PRECALC[city], \"mode\": \"offline_fallback\"}\n    online = {\"lat\": -12.0464, \"lon\": -77.0428, \"provider\": \"mock\", \"mode\": \"online\"}\n    assert contract_ok(online)\n    return online\n\nprint(\"online\", geocode(\"Lima\"))\nprint(\"fallback\", geocode(\"Lima\""
+      },
+      {
+        "demoId": "S12-T3-B-DEMO",
+        "description": "Tablas clients, transactions, evidence con join de caso sintético.",
+        "why": "El join de caso es el corazón del almacén local del dashboard.",
+        "code": ""
+      },
+      {
+        "demoId": "S12-T4-A-DEMO",
+        "description": "Insert batch atómico; rollback si una fila viola UNIQUE.",
+        "why": "Transacciones evitan estados a medias cuando hay conflicto de negocio.",
+        "code": ""
+      },
+      {
+        "demoId": "S12-T4-B-DEMO",
+        "description": "MockGeocoder devuelve lat/lon sintéticos para Lima/Arequipa.",
+        "why": "Geocoder intercambiable y offline para demos sin egress de PII.",
+        "code": "class MockGeocoder:\n    DB = {\"Lima\": (-12.0464, -77.0428), \"Arequipa\": (-16.4090, -71.5375)}\n    def geocode(self, city):\n        if city not in self.DB:\n            return None\n        lat, lon = self.DB[city]\n        return {\"city\": city, \"lat\": lat, \"lon\": lon, \"provider\": \"authorized_mock\"}\n\ng = MockGeocoder()\nfor c in (\"Lima\", \"Arequipa\", \"Iquitos\"):\n    print(c, g.geocode(c))"
+      },
+      {
+        "demoId": null,
+        "description": "Distancia entre dos puntos sintéticos Lima–Callao como geoseñal.",
+        "why": "La distancia alimenta relationship_signal_score, no un veredicto legal.",
+        "code": "import math\n\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\n\nlima = (-12.0464, -77.0428)\ncallao = (-12.0500, -77.1250)\nkm = haversine_km(lima, callao)\nsignal = {\"type\": \"geo_distance_km\", \"value\": round(km, 2), \"verdict\": None}\nprint(signal)\nprint(\"disclaimer\", \"sign"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "Un 400 Bad Request del proveedor debe…",
+        "options": [
+          "Reintentarse con backoff infinito",
+          "Tratarse como error de cliente (no retry ciego)",
+          "Ignorarse como 200",
+          "Borrar el cache"
+        ]
+      },
+      {
+        "question": "¿Dónde debe vivir el token de API?",
+        "options": [
+          "Hardcodeado en el repo",
+          "En variable de entorno / secret store",
+          "En el log de provenance",
+          "En la URL pública del geocoder"
+        ]
+      },
+      {
+        "question": "SQL con f-string e input de usuario es…",
+        "options": [
+          "La forma recomendada en SQLite",
+          "Inyección / inseguro; usar placeholders `?`",
+          "Obligatorio para índices",
+          "Necesario para JOIN"
+        ]
+      },
+      {
+        "question": "Enviar document_id bancario a un geocoder público…",
+        "options": [
+          "Está permitido si hay timeout",
+          "Viola la política de egress de CP-N1-C",
+          "Mejora el Haversine",
+          "Es requerido por SQLite"
+        ]
+      },
+      {
+        "question": "1.2 km entre dos entidades sintéticas implica…",
+        "options": [
+          "Parentesco automático",
+          "Fraude confirmado",
+          "Una geoseñal de relación, no un veredicto",
+          "Borrar el ER score"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta",
+      "Excepciones, debugging y logging seguro",
+      "Módulos, packaging y CLI profesional",
+      "OOP y modelo de dominio"
+    ]
+  },
+  {
+    "section_index": 13,
+    "title": "Familiarity Evidence Dashboard y cierre de nivel",
+    "outcomes": [
+      "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+      "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+      "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+      "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+      "Producir score de evidencia con incertidumbre y explicación legible",
+      "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+      "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+      "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+    ],
+    "theory": [
+      {
+        "heading": "De “RPA & automatización” al Familiarity Evidence Dashboard (mapa)",
+        "paragraphs": [
+          "En V3, **S13 no es el path principal de Playwright, Ollama, OCR ni Prefect**. Ese material se reubica al tramo de automatización avanzada. Aquí cierras **CP-N1-C** con un **Familiarity Evidence Dashboard**: ER por reglas, señales de relación separadas, explicación humana y operación responsable.",
+          "Promoción de nivel: tres capstones N1, **regresión S01–S13 (level-1)** y **CF-1** aprobados. Solo datos sintéticos pseudonimizados.",
+          "Orden: **T1 Identidad (ER)** → **T2 Relación** → **T3 Decisión** → **T4 Producto/ops + CF-1**."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Normalización, blocking y entity resolution",
+        "paragraphs": [
+          "Normaliza nombres y `document_id` (casefold, quitar espacios/guiones) antes de comparar. **Blocking** reduce pares candidatos (p. ej. apellido+región).",
+          "ER **determinista por reglas** produce `entity_resolution_score` ∈ [0,1]. No uses ER probabilístico avanzado aquí (S30+).",
+          "No colapses ER con señales de relación: son scores **separados** en la ficha de caso."
+        ],
+        "code": "import re\n\ndef norm_doc(d: str) -> str:\n    return re.sub(r\"[^a-z0-9]\", \"\", d.casefold())\n\ndef norm_name(n: str) -> str:\n    return re.sub(r\"\\s+\", \" \", n.casefold().strip())\n\ndef block_key(rec):\n    ap = norm_name(rec[\"name\"]).split()[-1]\n    return f\"{ap}|{rec['region'].casefold()}\"\n\na = {\"name\": \"Ana Quispe\", \"document_id\": \"D-12.34\", \"region\": \"Lima\"}\nb = {\"name\": \"ANA  QUISPE\", \"document_id\": "
+      },
+      {
+        "heading": "Verdad etiquetada, precision/recall y revisión clerical",
+        "paragraphs": [
+          "Con pares etiquetados sintéticos calculas **TP/FP/FN** → precision/recall simples.",
+          "Scores en **banda de duda** van a **cola clerical** (humano), no a auto-merge.",
+          "Un **FP no implica fraude**: es error de matching de identidad, no veredicto legal."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Email/teléfono/dirección compartidos, distancia y apellidos",
+        "paragraphs": [
+          "Señales: mismo email/teléfono/dirección normalizados, distancia geo bajo umbral, solapamiento de tokens de apellido.",
+          "Agrégalas en `relationship_signal_score` con pesos documentados. **No es veredicto de parentesco**.",
+          "Cada señal debe poder listarse en la explicación de la ficha."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Transacciones directas y contrapartes comunes",
+        "paragraphs": [
+          "Txs directas A↔B y contrapartes comunes (A y C pagan a D) son **evidencia de relación operativa**, no de colusión.",
+          "Modela un graphlet simple y emite objetos `RelationshipEvidence` con tipo y traza.",
+          "Disclaimer obligatorio: common counterparty ≠ collusion claim."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Score de evidencia, incertidumbre y explicación",
+        "paragraphs": [
+          "Agrega ER + señales de relación con pesos y produce `evidence_score`, banda de **incertidumbre** (low/med/high) y **bullets** legibles.",
+          "Campos de auditoría: inputs usados, missing fields, versión de reglas.",
+          "Señales conflictivas → explicación honesta, no score maquillado."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Umbral de revisión, abstención y no inferencia automática",
+        "paragraphs": [
+          "Umbrales: accept_pair / needs_review / abstain según score e incertidumbre. **Nunca** `auto_fraud=true` ni `is_family=true`.",
+          "Human-in-the-loop: la acción operativa es de **datos** (revisar/aceptar/rechazar par), no veredicto legal.",
+          "Auditoría: elimina cualquier path que setee parentesco/fraude automático."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "Dashboard/mapa pseudonimizado y ficha de caso",
+        "paragraphs": [
+          "Scaffold estático (HTML/template o dicts listos para UI): puntos de mapa con coords sintéticas y tooltips de geoseñal trazable.",
+          "**Pseudonimiza** nombres en vista (`A*** Q***`). Ficha muestra ER score **y** relationship score por separado.",
+          "No es un design system completo (eso es tramo producto/UI posterior)."
+        ],
+        "code": "def pseudonymize(name: str) -> str:\n    parts = name.split()\n    return \" \".join(p[0] + \"***\" for p in parts if p)\n\ncases = [\n    {\n        \"case_id\": \"CASE-1\",\n        \"display_name\": pseudonymize(\"Ana Quispe\"),\n        \"entity_resolution_score\": 0.92,\n        \"relationship_signal_score\": 0.41,\n        \"lat\": -12.0464,\n        \"lon\": -77.0428,\n        \"geo_tooltip\": \"geo_distance_km=1.2; source=m"
+      },
+      {
+        "heading": "Privacidad, acceso, pruebas, demo y runbook",
+        "paragraphs": [
+          "**Privacy sheet**: datos sintéticos, retención local, sin egress de PII bancaria, roles de acceso (viewer/reviewer).",
+          "**Tests green** de ER, señales y umbrales. **Demo de un comando**. **Runbook** incluye incidente de PII en log.",
+          "Artefactos **CF-1** + notas de **regresión level-1 (S01–S13)** cierran el nivel."
+        ],
+        "code": "privacy = {\n    \"data_class\": \"synthetic_only\",\n    \"pii_real\": False,\n    \"egress_public_geocoder\": \"city_address_only\",\n    \"roles\": [\"viewer\", \"reviewer\"],\n}\nrunbook_steps = [\n    \"setup venv\",\n    \"load synthetic fixtures\",\n    \"run ER + signals\",\n    \"open dashboard\",\n    \"process review queue\",\n]\nincident = {\n    \"trigger\": \"token_or_name_in_log\",\n    \"action\": [\"rotate_secret\", \"redact_logs"
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S13-T1-B-DEMO",
+        "description": "Emparejar 2 registros sintéticos por documento normalizado + bloque región.",
+        "why": "Reglas deterministas transparentes antes de cualquier modelo probabilístico.",
+        "code": ""
+      },
+      {
+        "demoId": "S13-T2-A-DEMO",
+        "description": "Evaluar 20 pares etiquetados sintéticos; listar 3 para revisión humana por score en duda.",
+        "why": "Métricas + cola clerical cierran el loop de calidad de ER.",
+        "code": "import random\nrandom.seed(13)\n# synthetic labels and scores\npairs = []\nfor i in range(20):\n    y = 1 if i % 3 == 0 else 0\n    score = 0.85 if y == 1 else 0.2\n    if i in (4, 9, 15):\n        score = 0.55  # gray band\n    pairs.append({\"id\": f\"P{i}\", \"y\": y, \"score\": score, \"pred\": int(score >= 0.7)})\ntp = sum(1 for p in pairs if p[\"y\"] == 1 and p[\"pred\"] == 1)\nfp = sum(1 for p in pairs if p[\"y\"] == 0 and p[\"pred\"] == 1)\nfn = sum(1 for p in pairs if p[\"y\"] == 1 and p[\"pred\"] == 0)\nreview = [p[\"id\""
+      },
+      {
+        "demoId": "S13-T2-B-DEMO",
+        "description": "Dos entidades: shared phone + 1.2 km → señales con explicación.",
+        "why": "Explicación lista para la ficha sin veredicto de parentesco.",
+        "code": ""
+      },
+      {
+        "demoId": "S13-T3-A-DEMO",
+        "description": "Grafo simple A↔B y contraparte común D → lista RelationshipEvidence.",
+        "why": "Graphlet mínimo con disclaimers operativos.",
+        "code": ""
+      },
+      {
+        "demoId": "S13-T3-B-DEMO",
+        "description": "Ficha con score, uncertainty low/med/high y 3 bullets de por qué.",
+        "why": "La ficha es el artefacto humano del dashboard.",
+        "code": ""
+      },
+      {
+        "demoId": "S13-T4-A-DEMO",
+        "description": "Scores en zona gris → status=needs_review; nunca auto_fraud=true.",
+        "why": "Política de abstención y revisión protege al estudiante y al usuario final.",
+        "code": "def decide(score, unc):\n    if unc == \"high\" or 0.4 <= score <= 0.7:\n        return \"needs_review\"\n    if score < 0.4:\n        return \"abstain\"\n    return \"accept_pair\"\n\nsamples = [(0.55, \"med\"), (0.9, \"low\"), (0.15, \"low\")]\nfor sc, u in samples:\n    print({\"score\": sc, \"uncertainty\": u, \"status\": decide(sc, u), \"auto_fraud\": False, \"is_family\": False})"
+      },
+      {
+        "demoId": "S13-T4-B-DEMO",
+        "description": "Scaffold de 3 casos sintéticos pseudonimizados listos para dashboard/mapa.",
+        "why": "Producto mínimo: ficha + mapa con scores separados.",
+        "code": "def pseudo(n):\n    return \" \".join(p[0] + \"***\" for p in n.split())\n\ncases = [\n    (\"CASE-1\", \"Ana Quispe\", 0.91, 0.4, -12.0464, -77.0428),\n    (\"CASE-2\", \"Luis Huamán\", 0.52, 0.66, -16.4090, -71.5375),\n    (\"CASE-3\", \"María Rojas\", 0.77, 0.22, -12.05, -77.12),\n]\nfor cid, name, er, rel, lat, lon in cases:\n    print({\n        \"case_id\": cid,\n        \"display\": pseudo(name),\n        \"entity_resolution_score\": er,\n        \"relationship_signal_score\": rel,\n        \"map\": (lat, lon),\n    })"
+      },
+      {
+        "demoId": null,
+        "description": "Runbook: setup → load synthetic → run ER → open dashboard → review queue (+ regresión N1).",
+        "why": "Operación N1 completa sin marcar passed en checkpoint/ledger.",
+        "code": "steps = [\n    \"1. setup: python -m venv .venv && pip install -r requirements.txt\",\n    \"2. load synthetic fixtures (no real PII)\",\n    \"3. run ER + relationship signals\",\n    \"4. open dashboard scaffold\",\n    \"5. process clerical review queue\",\n    \"6. level-1 regression notes: re-run critical checks S01-S13\",\n    \"7. CF-1: privacy sheet + demo script + access notes\",\n]\nfor s in steps:\n    print(s)\nprint(\"demo_cmd: python -m demo_n1_dashboard --synthetic\")\nprint(\"section_passed_written_by_this_l"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "entity_resolution_score y relationship_signal_score deben…",
+        "options": [
+          "Fusionarse siempre en un solo número sin etiqueta",
+          "Mantenerse separados en la ficha de caso",
+          "Reemplazarse por is_family",
+          "Ocultarse al revisor"
+        ]
+      },
+      {
+        "question": "Un false positive de ER implica…",
+        "options": [
+          "Fraude confirmado",
+          "Parentesco automático",
+          "Error de matching; no es veredicto legal de fraude",
+          "Borrar la cola clerical"
+        ]
+      },
+      {
+        "question": "En zona gris de score el sistema debe…",
+        "options": [
+          "Marcar auto_fraud=true",
+          "Encolar needs_review / abstenerse según política",
+          "Setear is_family",
+          "Publicar PII real en el mapa"
+        ]
+      },
+      {
+        "question": "CF-1 en S13 incluye…",
+        "options": [
+          "Solo un modelo de deep learning",
+          "Privacy sheet, acceso, tests, demo y runbook",
+          "Hardcodear tokens en el repo",
+          "Marcar section_passed desde el author lane"
+        ]
+      },
+      {
+        "question": "Level-1 regression notes en el You Do exigen…",
+        "options": [
+          "Ignorar S01–S12",
+          "Re-chequear paths críticos S01–S13 en runbook (sin editar ledger aquí)",
+          "Borrar el dashboard",
+          "Enviar PII a geocoder público"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta",
+      "Excepciones, debugging y logging seguro",
+      "Módulos, packaging y CLI profesional",
+      "OOP y modelo de dominio",
+      "APIs, SQL y geodatos responsables"
+    ]
+  }
+]

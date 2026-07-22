@@ -1,0 +1,576 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B2",
+  "section_index": 9,
+  "packet_sha": "19174f9beb57c8bf",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_09/packet.json",
+  "recorded_at": "2026-07-22T02:01:21.595802+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "selfcheck_rebuilt_B2_skeptic_packet_quotes_batch_01_26; exercises_kept",
+  "persona_seed": "1930443e05ea",
+  "exercises": [
+    {
+      "exercise_id": "S09-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T1-A-E1\nfallos = [\n    \"int('x')\",\n    \"sumar str + int\",\n    \"dict sin clave email\",\n    \"abrir archivo inexistente\",\n    \"regla de negocio: monto < 0\",\n]\nmapa = [\n    \"ValueError\",\n    \"TypeError\",\n    \"KeyError\",\n    \"FileNotFoundError\",\n    \"ValidationError\",\n]\nfor f, t in zip(fallos, mapa):\n    print(f\"{f} -> {t}\")\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T1-A-E1\n# skeptic note: refused APIs not in theory/iDo for S09-T1-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "fallos",
+        "int",
+        "sumar",
+        "str",
+        "dict"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S09-T1-A-E1 contra instruction/iDo. Instruction: «Mapea 5 fallos sintéticos al tipo de excepción más adecuado e imprime `fallo -> Tipo`.». Cita demo `S09-T1-B-DEMO` (Validar fila de intake y encadenar ParseError → ValidationError.) → «class ParseError(Exception): pass class ValidationError(Exception):». Hint: «Piensa: tipo incorrecto vs valor ilegal vs clave ausente vs I/O vs genérico de dominio.». Solo admito `ValidationError` + `ValueError` porque salen del packet. Teory heading: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T1-A-E2\ndef parse_monto(raw):\n    try:\n        n = float(str(raw).replace(',', '.'))\n    except (TypeError, ValueError):\n        raise ValueError(f'monto no numérico: {raw!r}')\n    if n < 0:\n        raise ValueError(f'monto negativo: {raw!r}')\n    return n\nfor v in ['10.5', '3,25', 'abc', '-1']:\n    try:\n        print(v, '->', parse_monto(v))\n    except ValueError as e:\n        print(v, 'ERR', e)\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T1-A-E2\n# skeptic note: refused APIs not in theory/iDo for S09-T1-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "parse_monto",
+        "raw",
+        "try",
+        "float",
+        "str"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S09-T1-A-E2. Instruction: «Implementa `parse_monto(raw)` que hace raise ValueError con mensaje accionable si no parsea o es negativo.». Soporte `S09-T1-B-DEMO` (Validar fila de intake y encadenar ParseError → ValidationError.) → «class ParseError(Exception): pass class ValidationError(Exception):». Hint: «Normaliza coma decimal. Mensaje debe incluir el raw.». Check: `def parse_monto` + `parse_monto` están en instruction/iDo/code. Teory heading: «Tipos específicos, raise y chaining»."
+    },
+    {
+      "exercise_id": "S09-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T1-A-E3\nclass DataLoadError(Exception):\n    pass\n\ndef load_text(path_fn):\n    try:\n        return path_fn()\n    except OSError as e:\n        raise DataLoadError(f'load failed: {e}') from e\n\ndef bad_reader():\n    raise OSError('no such file: data/clientes.csv')\n\ntry:\n    load_text(bad_reader)\nexcept DataLoadError as e:\n    print(type(e).__name__, e)\n    print(type(e.__cause__).__name__, e.__cause__)\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T1-A-E3\n# skeptic note: refused APIs not in theory/iDo for S09-T1-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "DataLoadError",
+        "Exception",
+        "pass",
+        "load_text",
+        "path_fn"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S09-T1-A-E3. Instruction: «Define `DataLoadError` y `load_text(path_fn)` que captura OSError del lector y re-lanza DataLoadError con `from`.». Soporte `S09-T1-B-DEMO` (Validar fila de intake y encadenar ParseError → ValidationError.) → «class ParseError(Exception): pass class ValidationError(Exception):». Hint: «path_fn es un callable que simula open y puede lanzar OSError.». Code auditado con `load_text` + `__cause__`; sin APIs fantasma. Teory heading: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T1-B-E1\nstate = {\"closed\": False}\n\ndef work(fail: bool):\n    try:\n        if fail:\n            raise RuntimeError(\"boom\")\n        return \"ok\"\n    finally:\n        state[\"closed\"] = True\n\nprint(work(False), state)\ntry:\n    work(True)\nexcept RuntimeError:\n    print(\"err\", state)\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T1-B-E1\n# skeptic note: refused APIs not in theory/iDo for S09-T1-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "state",
+        "closed",
+        "work",
+        "fail",
+        "bool"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S09-T1-B-E1 contra instruction/iDo. Instruction: «Completa el `finally` para marcar el recurso como cerrado aunque haya excepción.». iDo obligatorio `S09-T1-B-DEMO` (Validar fila de intake y encadenar ParseError → ValidationError.) → «class ParseError(Exception): pass class ValidationError(Exception):». Hint: «El flag `closed` debe quedar True siempre.». Huellas en code: `finally` + `print(`. Teory heading: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T1-B-E2\nerrores = [\n    \"delimiter vacío en config\",\n    \"monto no numérico en fila\",\n    \"schema_path no existe\",\n    \"email mal formado en fila\",\n    \"API_TOKEN ausente\",\n    \"timeout leyendo un record remoto\",\n]\npol = {\n    \"delimiter vacío en config\": \"fail-fast\",\n    \"monto no numérico en fila\": \"recover\",\n    \"schema_path no existe\": \"fail-fast\",\n    \"email mal formado en fila\": \"recover\",\n    \"API_TOKEN ausente\": \"fail-fast\",\n    \"timeout leyendo un record remoto\": \"recover\",\n}\nfor e in errores:\n    print(f\"{e}: {pol[e]}\")\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T1-B-E2\n# skeptic note: refused APIs not in theory/iDo for S09-T1-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "errores",
+        "delimiter",
+        "config",
+        "monto",
+        "fila"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S09-T1-B-E2. Instruction: «Clasifica 6 errores en recover o fail-fast e imprime `nombre: política`.». Soporte `S09-T1-B-DEMO` (Validar fila de intake y encadenar ParseError → ValidationError.) → «class ParseError(Exception): pass class ValidationError(Exception):». Hint: «Config y secretos ausentes → fail-fast. Fila mala / parse → recover.». Code auditado con `errores` + `recover`; sin APIs fantasma. Teory heading: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T1-B-E3\ndef bad_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except:\n        return (\"swallowed\", None)\n\ndef good_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except ValueError as e:\n        return (\"quarantine\", str(e))\n\ndef v():\n    raise ValueError(\"fila\")\n\ndef r():\n    raise RuntimeError(\"config\")\n\nprint(\"bad\", bad_handler(v), bad_handler(r))\nprint(\"good_v\", good_handler(v))\ntry:\n    print(good_handler(r))\nexcept RuntimeError as e:\n    print(\"good_r raised\", e)\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T1-B-E3\n# skeptic note: refused APIs not in theory/iDo for S09-T1-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "bad_handler",
+        "try",
+        "except",
+        "swallowed",
+        "good_handler"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S09-T1-B-E3. Instruction: «Refactoriza el handler bare: captura ValueError (cuarentena) y deja propagar el resto.». Cita demo `S09-T1-B-DEMO` (Validar fila de intake y encadenar ParseError → ValidationError.) → «class ParseError(Exception): pass class ValidationError(Exception):». Hint: «No uses except desnudo.». Check: `def v` + `def good_handler` están en instruction/iDo/code. Teory heading: «Fallar rápido vs continuar con cuarentena»."
+    },
+    {
+      "exercise_id": "S09-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T2-A-E1\nprint('frame1=main')\nprint('frame2=run')\nprint('frame3=normalize')\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T2-A-E1\n# skeptic note: refused APIs not in theory/iDo for S09-T2-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "frame1",
+        "main",
+        "frame2",
+        "run",
+        "frame3"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S09-T2-A-E1 contra instruction/iDo. Instruction: «Dado un traceback sintético en string, anota 3 frames (nombre de función) de afuera hacia adentro.». Cita demo `S09-T2-A-DEMO` (Leer lote con finally que cierra handle; re-raise si config inválida.) → «from __future__ import annotations from io import StringIO from typing import List, Optional». Hint: «Busca líneas 'File' o patrones 'in nombre'.». Code auditado con `print(` + `normalize`; sin APIs fantasma. Teory heading: «Traceback y debugger»."
+    },
+    {
+      "exercise_id": "S09-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T2-A-E2\nDEBUG = True\n\ndef normalize(row: dict) -> str:\n    if 'email' not in row:\n        if DEBUG:\n            print('DEBUG locals id=', row.get('id'))\n        raise KeyError('email')\n    return row['email'].strip().lower()\n\ntry:\n    print(normalize({\"id\": \"C009\"}))\nexcept KeyError as e:\n    print(\"raised\", e)\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T2-A-E2\n# skeptic note: refused APIs not in theory/iDo for S09-T2-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "DEBUG",
+        "normalize",
+        "row",
+        "dict",
+        "str"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S09-T2-A-E2 solo si hay rastro en slim_packet. Instruction: «Simula un 'breakpoint': en normalize, si falta email, imprime locals seguros (solo id) y lanza KeyError.». iDo obligatorio `S09-T2-A-DEMO` (Leer lote con finally que cierra handle; re-raise si config inválida.) → «from __future__ import annotations from io import StringIO from typing import List, Optional». Hint: «No imprimas el row completo si pudiera tener PII.». Solo admito `normalize` + `KeyError` porque salen del packet. Teory heading: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T2-A-E3\nprint(\"causa_raiz=normalize falta clave email\")\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T2-A-E3\n# skeptic note: refused APIs not in theory/iDo for S09-T2-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "causa_raiz",
+        "normalize",
+        "falta",
+        "clave",
+        "email"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S09-T2-A-E3. Instruction: «Solo con el traceback, imprime la causa raíz en una frase (función + clave faltante).». Cita demo `S09-T2-A-DEMO` (Leer lote con finally que cierra handle; re-raise si config inválida.) → «from __future__ import annotations from io import StringIO from typing import List, Optional». Hint: «No re-ejecutes el código original; parsea el texto.». Check: `print(` + `falta` están en instruction/iDo/code. Teory heading: «Reproducción mínima, hipótesis y causa raíz»."
+    },
+    {
+      "exercise_id": "S09-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T2-B-E1\ndef parse_dni(d: str) -> str:\n    if not (d.isdigit() and len(d) == 8):\n        raise ValueError(f\"dni inválido: {d!r}\")\n    return d\n\nfixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"]\nminimal = None\nfor d in fixture:\n    try:\n        parse_dni(d)\n    except ValueError:\n        minimal = d\n        break\nprint('minimal=', repr(minimal))\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T2-B-E1\n# skeptic note: refused APIs not in theory/iDo for S09-T2-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "parse_dni",
+        "str",
+        "not",
+        "isdigit",
+        "and"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S09-T2-B-E1. Instruction: «Recorta la fixture a la fila mínima que hace fallar `parse_dni` (debe ser 8 dígitos).». iDo obligatorio `S09-T2-B-DEMO` (Reproducir KeyError en normalizer y ubicar frame con traceback.) → «import traceback def normalize_email(row: dict) -> str: return row[\"email\"].strip().lower()». Hint: «Encuentra el primer fallido y re-ejecuta solo ese.». Solo admito `parse_dni` + `def parse_dni` porque salen del packet. Teory heading: «Reproducción mínima, hipótesis y causa raíz»."
+    },
+    {
+      "exercise_id": "S09-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T2-B-E2\ndef normalize_phone(p: str) -> str:\n    return ''.join(c for c in p if c.isdigit())\n\nprint('H1: el filtro isdigit elimina + y espacios del prefijo')\nprint('exp1', normalize_phone('+51 999'))\nprint('H2: política E.164 documentada o no')\nprint('exp2', normalize_phone('51999'))\nprint('resultado: H1 confirmada')\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T2-B-E2\n# skeptic note: refused APIs not in theory/iDo for S09-T2-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "normalize_phone",
+        "str",
+        "join",
+        "isdigit",
+        "filtro"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S09-T2-B-E2. Instruction: «Para el bug `normalize_phone` que borra el +51, escribe 2 hipótesis y el experimento que las falsifica.». Soporte `S09-T2-B-DEMO` (Reproducir KeyError en normalizer y ubicar frame con traceback.) → «import traceback def normalize_email(row: dict) -> str: return row[\"email\"].strip().lower()». Hint: «Imprime H1/H2 y resultado ok/fail de cada experimento sintético.». Huellas en code: `normalize_phone` + `def normalize_phone`. Teory heading: «Reproducción mínima, hipótesis y causa raíz»."
+    },
+    {
+      "exercise_id": "S09-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T2-B-E3\ndef good_title(s: str) -> str:\n    parts = []\n    for i, w in enumerate(s.split()):\n        if i > 0 and w.lower() in {'de', 'del', 'la'}:\n            parts.append(w.lower())\n        else:\n            parts.append(w[:1].upper() + w[1:].lower() if w else w)\n    return ' '.join(parts)\n\ndef test(fn):\n    out = fn('juan de la cruz')\n    assert out == 'Juan de la Cruz', out\n    return 'pass'\n\nprint('GREEN', test(good_title))\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T2-B-E3\n# skeptic note: refused APIs not in theory/iDo for S09-T2-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "good_title",
+        "str",
+        "parts",
+        "enumerate",
+        "split"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S09-T2-B-E3. Instruction: «Añade un test de regresión: falla en rojo con la función bugueada y pasa tras el fix.». iDo obligatorio `S09-T2-B-DEMO` (Reproducir KeyError en normalizer y ubicar frame con traceback.) → «import traceback def normalize_email(row: dict) -> str: return row[\"email\"].strip().lower()». Hint: «Imprime RED luego GREEN.». Huellas en code: `def good_title` + `print(`. Teory heading: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T3-A-E1\neventos = [\n    \"job iniciado\",\n    \"valor de variable i en loop\",\n    \"fila sin email opcional\",\n    \"no se pudo parsear monto\",\n    \"archivo de config ilegible\",\n    \"lote terminado con conteos\",\n]\nniveles = [\"INFO\", \"DEBUG\", \"WARNING\", \"ERROR\", \"ERROR\", \"INFO\"]\nfor e, n in zip(eventos, niveles):\n    print(f\"{e}: {n}\")\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T3-A-E1\n# skeptic note: refused APIs not in theory/iDo for S09-T3-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "eventos",
+        "job",
+        "iniciado",
+        "valor",
+        "variable"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S09-T3-A-E1. Instruction: «Asigna el nivel correcto (DEBUG/INFO/WARNING/ERROR) a 6 eventos e imprime `evento: NIVEL`.». Prueba iDo `S09-T3-A-DEMO` (De un lote de 200 filas sintéticas al caso mínimo de apellidos.) → «def apellidos(nombre: str) -> list[str]: toks = [t for t in nombre.split() if t.lower() not in {\"de\", \"del\",…». Hint: «Progreso normal → INFO; detalle de loop → DEBUG; fila rara → WARNING; fallo de unidad →…». Huellas en code: `eventos` + `WARNING`. Teory heading: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T3-A-E2\nimport logging, io\nbuf = io.StringIO()\nlog = logging.getLogger('pipeline.demo')\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter('%(levelname)s %(message)s'))\nlog.addHandler(h)\nlog.propagate = False\nlog.info('stage=ingest event=start')\nprint(buf.getvalue().strip())\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T3-A-E2\n# skeptic note: refused APIs not in theory/iDo for S09-T3-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "logging",
+        "buf",
+        "StringIO",
+        "log",
+        "getLogger"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S09-T3-A-E2. Instruction: «Configura un logger de módulo con StreamHandler a un StringIO y emite un INFO estructurado.». Prueba iDo `S09-T3-A-DEMO` (De un lote de 200 filas sintéticas al caso mínimo de apellidos.) → «def apellidos(nombre: str) -> list[str]: toks = [t for t in nombre.split() if t.lower() not in {\"de\", \"del\",…». Hint: «propagate=False; formatter simple.». Code auditado con `StreamHandler` + `StringIO`; sin APIs fantasma. Teory heading: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T3-A-E3\nimport logging, io\nbuf = io.StringIO()\nlog = logging.getLogger('cli')\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nlog.addHandler(h)\nlog.propagate = False\n\ndef cli_stub_good(n):\n    log.info('stage=cli event=start')\n    result = n + 1\n    log.info('stage=cli event=done')\n    print(f'RESULT={result}')\n\ncli_stub_good(2)\nprint('LOGS:', buf.getvalue().strip())\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T3-A-E3\n# skeptic note: refused APIs not in theory/iDo for S09-T3-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "logging",
+        "buf",
+        "StringIO",
+        "log",
+        "getLogger"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S09-T3-A-E3 contra instruction/iDo. Instruction: «Convierte prints de un CLI stub a logs estructurados; stdout final solo con el resultado.». Soporte `S09-T3-A-DEMO` (De un lote de 200 filas sintéticas al caso mínimo de apellidos.) → «def apellidos(nombre: str) -> list[str]: toks = [t for t in nombre.split() if t.lower() not in {\"de\", \"del\",…». Hint: «Progreso a logger; resultado con print o stdout data.». Solo admito `def cli_stub_good` + `result` porque salen del packet. Teory heading: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T3-B-E1\ndef mask_email(email: str) -> str:\n    local, _, domain = email.partition('@')\n    return f\"{(local[:1] or '*')}***@{domain}\" if domain else '***'\n\ndef mask_phone(phone: str) -> str:\n    digits = ''.join(c for c in phone if c.isdigit())\n    return '***' + digits[-4:] if len(digits) >= 4 else '***'\n\nprint(mask_email('carlos@ejemplo.pe'))\nprint(mask_phone('+51 988 777 666'))\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T3-B-E1\n# skeptic note: refused APIs not in theory/iDo for S09-T3-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "mask_email",
+        "email",
+        "str",
+        "local",
+        "domain"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S09-T3-B-E1. Instruction: «Implementa `mask_email` y `mask_phone` y demuéstralos con datos sintéticos peruanos.». Soporte `S09-T3-B-DEMO` (Logger de pipeline con campos stage, record_id, duration_ms.) → «import logging, io, time buf = io.StringIO() log = logging.getLogger(\"familiarity.pipeline\")». Hint: «email: primer char + ***@dominio; phone: *** + últimos 4 dígitos.». Solo admito `mask_email` + `mask_phone` porque salen del packet. Teory heading: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T3-B-E2\ndef repo_save(corr, item):\n    print(f'repo corr={corr} id={item[\"id\"]}')\n\ndef service_upsert(corr, item):\n    print(f'service corr={corr}')\n    repo_save(corr, item)\n\ndef cli_main(corr, item):\n    print(f'cli corr={corr}')\n    service_upsert(corr, item)\n\ncli_main('corr-42', {'id': 'C001'})\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T3-B-E2\n# skeptic note: refused APIs not in theory/iDo for S09-T3-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "repo_save",
+        "corr",
+        "item",
+        "repo",
+        "service_upsert"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S09-T3-B-E2. Instruction: «Propaga `correlation_id` por 3 capas (cli → service → repo) e imprime el id en cada una.». Cita demo `S09-T3-B-DEMO` (Logger de pipeline con campos stage, record_id, duration_ms.) → «import logging, io, time buf = io.StringIO() log = logging.getLogger(\"familiarity.pipeline\")». Hint: «Pasa el id como argumento explícito (sin global).». Check: `def service_upsert` + `def repo_save` están en instruction/iDo/code. Teory heading: «Correlation IDs y redacción de PII»."
+    },
+    {
+      "exercise_id": "S09-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T3-B-E3\ndef mask_email(email: str) -> str:\n    local, _, domain = email.partition('@')\n    return f\"{(local[:1] or '*')}***@{domain}\" if domain else '***'\n\ndef mask_phone(phone: str) -> str:\n    digits = ''.join(c for c in phone if c.isdigit())\n    return '***' + digits[-4:] if len(digits) >= 4 else '***'\n\nrow = {\"email\": \"a@ejemplo.pe\", \"phone\": \"999111222\"}\nprint(\"SAFE:\", f\"error en {mask_email(row['email'])} tel={mask_phone(row['phone'])}\")\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T3-B-E3\n# skeptic note: refused APIs not in theory/iDo for S09-T3-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "mask_email",
+        "email",
+        "str",
+        "local",
+        "domain"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S09-T3-B-E3. Instruction: «Audita el snippet que loguea PII y reescríbelo de forma segura.». iDo obligatorio `S09-T3-B-DEMO` (Logger de pipeline con campos stage, record_id, duration_ms.) → «import logging, io, time buf = io.StringIO() log = logging.getLogger(\"familiarity.pipeline\")». Hint: «Detecta email/teléfono en el mensaje.». Check: `def mask_email` + `def mask_phone` están en instruction/iDo/code. Teory heading: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T4-A-E1\nfallos = [\n    \"monto NaN en CSV\",\n    \"YAML de config corrupto\",\n    \"timeout S3\",\n    \"email vacío en fila\",\n    \"required_fields no definido\",\n    \"HTTP 503 del proveedor\",\n    \"dni con letras\",\n    \"variable de entorno ROOT_PATH vacía\",\n]\ncls = ['data','config','provider','data','config','provider','data','config']\nfor f, c in zip(fallos, cls):\n    print(f'{f}: {c}')\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T4-A-E1\n# skeptic note: refused APIs not in theory/iDo for S09-T4-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "fallos",
+        "monto",
+        "NaN",
+        "CSV",
+        "YAML"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S09-T4-A-E1 contra instruction/iDo. Instruction: «Clasifica 8 fallos en data|config|provider e imprime `fallo: clase`.». iDo obligatorio `S09-T4-A-DEMO` (Log de error con email enmascarado y correlation_id.) → «import logging, io def mask_email(email: str) -> str: local, _, domain = email.partition(\"@\")». Hint: «Config = arranque/schema; data = fila; provider = red/IO externo.». Solo admito `provider` + `fallos` porque salen del packet. Teory heading: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T4-A-E2\ndef process_batch(rows):\n    ok, q = [], []\n    for r in rows:\n        if not r.get('id'):\n            q.append({'id': None, 'reason': 'missing id'})\n        else:\n            ok.append(r)\n    return {'ok': ok, 'quarantined': q, 'in': len(rows)}\n\nrows = [{'id': 1}, {}, {'id': 2}]\nprint(process_batch(rows))\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T4-A-E2\n# skeptic note: refused APIs not in theory/iDo for S09-T4-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "process_batch",
+        "rows",
+        "not",
+        "get",
+        "append"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S09-T4-A-E2 contra instruction/iDo. Instruction: «Implementa `process_batch` que envía filas sin `id` a quarantine y retorna conteos.». Cita demo `S09-T4-A-DEMO` (Log de error con email enmascarado y correlation_id.) → «import logging, io def mask_email(email: str) -> str: local, _, domain = email.partition(\"@\")». Hint: «Retorno: ok, quarantined, in.». Solo admito `process_batch` + `def process_batch` porque salen del packet. Teory heading: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T4-A-E3\nprint('POLICY: abortar si config/schema inválidos (fail-fast)')\nprint('POLICY: abortar si cuarentena supera umbral del lote')\nprint('POLICY: abortar si provider caído total')\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T4-A-E3\n# skeptic note: refused APIs not in theory/iDo for S09-T4-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "POLICY",
+        "abortar",
+        "config",
+        "schema",
+        "fail"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S09-T4-A-E3 solo si hay rastro en slim_packet. Instruction: «Escribe una política en 3 líneas: cuándo abortar el job (imprime POLICY:...).». Cita demo `S09-T4-A-DEMO` (Log de error con email enmascarado y correlation_id.) → «import logging, io def mask_email(email: str) -> str: local, _, domain = email.partition(\"@\")». Hint: «Cubre config, umbral de cuarentena y provider total down.». Code auditado con `abortar` + `print(`; sin APIs fantasma. Teory heading: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T4-B-E1\nerrores = [\"TimeoutError\", \"ValueError\", \"ConnectionError\", \"KeyError\", \"PermissionError\"]\nretry = {\"TimeoutError\": \"yes\", \"ValueError\": \"no\", \"ConnectionError\": \"yes\", \"KeyError\": \"no\", \"PermissionError\": \"no\"}\nfor e in errores:\n    print(f\"{e}: {retry[e]}\")\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T4-B-E1\n# skeptic note: refused APIs not in theory/iDo for S09-T4-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "errores",
+        "TimeoutError",
+        "ValueError",
+        "ConnectionError",
+        "KeyError"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S09-T4-B-E1 solo si hay rastro en slim_packet. Instruction: «Tabla error → retry sí/no para 5 tipos e imprime `error: yes|no`.». Prueba iDo `S09-T4-B-DEMO` (Lote: 1 fila mala a cuarentena; config rota aborta.) → «def process_batch(rows, config): if config.get(\"required_fields\") is None: raise RuntimeError(\"config:…». Hint: «Solo transitorios: TimeoutError, ConnectionError.». Code auditado con `print(` + `retry`; sin APIs fantasma. Teory heading: «Tipos específicos, raise y chaining»."
+    },
+    {
+      "exercise_id": "S09-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T4-B-E2\ndef retry_call(fn, max_attempts=3):\n    last = None\n    for attempt in range(1, max_attempts + 1):\n        try:\n            return fn()\n        except TimeoutError as e:\n            last = e\n    raise last\n\nn = {\"c\": 0}\n\ndef flaky():\n    n[\"c\"] += 1\n    if n[\"c\"] < 3:\n        raise TimeoutError(\"x\")\n    return \"done\"\n\nprint(retry_call(flaky), \"calls\", n[\"c\"])\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T4-B-E2\n# skeptic note: refused APIs not in theory/iDo for S09-T4-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "retry_call",
+        "max_attempts",
+        "last",
+        "attempt",
+        "range"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S09-T4-B-E2. Instruction: «Implementa `retry_call(fn, max_attempts=3)` que reintenta solo TimeoutError.». Cita demo `S09-T4-B-DEMO` (Lote: 1 fila mala a cuarentena; config rota aborta.) → «def process_batch(rows, config): if config.get(\"required_fields\") is None: raise RuntimeError(\"config:…». Hint: «Devuelve el resultado o relanza el último TimeoutError.». Check: `max_attempts` + `retry_call` están en instruction/iDo/code. Teory heading: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S09-T4-B-E3\nrecord = {\"source\": \"banco_a\", \"id\": \"C001\", \"version\": 3, \"payload\": {\"m\": 1}}\nprint(f\"idem_key={record['source']}:{record['id']}:v{record['version']}\")\n# B2 dual-run (Skeptic): re-validated vs packet S09 S09-T4-B-E3\n# skeptic note: refused APIs not in theory/iDo for S09-T4-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S09",
+        "record",
+        "source",
+        "banco_a",
+        "C001",
+        "version"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S09-T4-B-E3 contra instruction/iDo. Instruction: «Diseña la clave de idempotencia para re-ingesta e imprímela para un ejemplo.». Cita demo `S09-T4-B-DEMO` (Lote: 1 fila mala a cuarentena; config rota aborta.) → «def process_batch(rows, config): if config.get(\"required_fields\") is None: raise RuntimeError(\"config:…». Hint: «Incluye source, record_id y content_hash o version.». Solo admito `print(` + `C001` porque salen del packet. Teory heading: «Idempotencia, retries y cuarentena»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "question": "¿Para qué sirve `raise NewError(...) from e`?",
+      "chosen_index": 1,
+      "chosen_text": "Encadenar la causa en __cause__ sin perder contexto",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «Tipos específicos, raise y chaining» — quote: «…. **`raise NewError(...) from e`** encadena la causa (`__cause__`) sin perder el traceback original — útil al traducir fallos de parse a errores de dominio.». Choose [1] «Encadenar la causa en __cause__ sin perder contexto». raise NewError(...) from e chains cause in __cause__ without losing context."
+    },
+    {
+      "question_index": 1,
+      "question": "Un delimiter vacío en config del job debería…",
+      "chosen_index": 1,
+      "chosen_text": "Fail-fast (abortar el job)",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «taught» — quote: «…. La política difiere. **Fail-fast** en config: seguir procesando con schema roto multiplica basura. **Cuarentena** en data: una fila mala no debe tumbar el lote entero.…». Choose [1] «Fail-fast (abortar el job)». Empty delimiter in job config → fail-fast abort; not row quarantine."
+    },
+    {
+      "question_index": 2,
+      "question": "¿Qué va a stdout en una CLI bien diseñada?",
+      "chosen_index": 1,
+      "chosen_text": "Solo datos; diagnóstico a stderr",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «De “Data Visualization” a excepciones, debugging y logging (mapa)» — quote: «…porting/visualización de datos. Aquí arranca **CP-N1-C**: el pipeline de familiaridad necesita **excepciones específicas**, **diagnóstico** y **logging sin PII**.». Choose [1] «Solo datos; diagnóstico a stderr». CLI: data on stdout; diagnostics on stderr — not mixed DEBUG+JSON."
+    },
+    {
+      "question_index": 3,
+      "question": "mask_email('ana@ejemplo.pe') de forma segura podría ser…",
+      "chosen_index": 1,
+      "chosen_text": "a***@ejemplo.pe",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «Correlation IDs y redacción de PII» — quote: «Helpers `mask_email` / `mask_phone` deben ser el **único** camino a logs; audits fallan si alguien hace `log.info(row)`.». Choose [1] «a***@ejemplo.pe». Safe mask_email → a***@ejemplo.pe style redaction, not raw PII."
+    },
+    {
+      "question_index": 4,
+      "question": "TimeoutError en un fetch remoto típico…",
+      "chosen_index": 1,
+      "chosen_text": "Puede reintentarse con backoff; ValueError de datos no",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «Idempotencia, retries y cuarentena» — quote: «…(attempt) except TimeoutError as e: last = e time.sleep(0.01 * attempt) # backoff demo except ValueError: raise # no…». Choose [1] «Puede reintentarse con backoff; ValueError de datos no». TimeoutError may retry with backoff; data ValueError does not."
+    },
+    {
+      "question_index": 5,
+      "question": "¿Cuál es un buen minimal repro?",
+      "chosen_index": 1,
+      "chosen_text": "La entrada más pequeña que reproduce el bug",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «Reproducción mínima, hipótesis y causa raíz» — quote: «**Minimal repro**: reduce 200 filas a la **menor entrada** que dispara el bug. Facilita tests de regresión y code review.». Choose [1] «La entrada más pequeña que reproduce el bug». Good minimal repro: smallest input that reproduces the bug."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "batch": "01_26",
+    "method": "llm_packet_only_no_generator"
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 6,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

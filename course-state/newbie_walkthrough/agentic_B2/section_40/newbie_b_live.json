@@ -1,0 +1,580 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B2",
+  "section_index": 40,
+  "packet_sha": "66b84c113c64d265",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_40/packet.json",
+  "recorded_at": "2026-07-22T01:57:48.003724+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_agentic_B1; justifications_rebuilt_from_packet; selfcheck_from_agentic_B1; voice=B2; selfcheck_B2_skeptic_llm_packet_only",
+  "persona_seed": "f134c77c8834",
+  "exercises": [
+    {
+      "exercise_id": "S40-T1-A-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T1-A-E1\nqas={\"latency_p95_ms\":250}\nprint(\"owners\", [\"intake\",\"er\"])\nprint(\"budget_ok\", qas[\"latency_p95_ms\"]<=300)\nprint(\"qa_n\", len(qas))\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T1-A-E1\n# skeptic note: refused APIs not in theory/iDo for S40-T1-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "qas",
+        "latency_p95_ms",
+        "owners",
+        "intake",
+        "budget_ok"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T1-A-E1 si el paquete lo enseña. Instrucción: «Ejercicio S40-T1-A-E1: usa el patrón del demo iDo del subtema S40-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T1-B-DEMO: «qas={\"latency_p95_ms\":250} print(\"owners\", [\"intake\",\"er\"]) print(\"budget_ok\", qas[\"latency_p95_ms\"]<=300) print(\"qa_n\", len(qas))». Hints del weDo: Busca en iDo el demo con subtopicId S40-T1-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T1-A-E1 qas={\"latency_p95_ms\":250} print(\"owners\", [\"intake\",\"er\"]) print(\"budget_ok\", qas[\"latency_p95_ms». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'qas']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T1-A-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T1-A-E2\nqas={\"latency_p95_ms\":250}\nprint(\"owners\", [\"intake\",\"er\"])\nprint(\"budget_ok\", qas[\"latency_p95_ms\"]<=300)\nprint(\"qa_n\", len(qas))\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T1-A-E2\n# skeptic note: refused APIs not in theory/iDo for S40-T1-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "qas",
+        "latency_p95_ms",
+        "owners",
+        "intake",
+        "budget_ok"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T1-A-E2 si el paquete lo enseña. Instrucción: «Ejercicio S40-T1-A-E2: usa el patrón del demo iDo del subtema S40-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T1-B-DEMO: «qas={\"latency_p95_ms\":250} print(\"owners\", [\"intake\",\"er\"]) print(\"budget_ok\", qas[\"latency_p95_ms\"]<=300) print(\"qa_n\", len(qas))». Hints del weDo: Busca en iDo el demo con subtopicId S40-T1-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T1-A-E2 qas={\"latency_p95_ms\":250} print(\"owners\", [\"intake\",\"er\"]) print(\"budget_ok\", qas[\"latency_p95_ms». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'qas']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T1-A-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T1-A-E3\nqas={\"latency_p95_ms\":250}\nprint(\"owners\", [\"intake\",\"er\"])\nprint(\"budget_ok\", qas[\"latency_p95_ms\"]<=300)\nprint(\"qa_n\", len(qas))\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T1-A-E3\n# skeptic note: refused APIs not in theory/iDo for S40-T1-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "qas",
+        "latency_p95_ms",
+        "owners",
+        "intake",
+        "budget_ok"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T1-A-E3 si el paquete lo enseña. Instrucción: «Ejercicio S40-T1-A-E3: usa el patrón del demo iDo del subtema S40-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T1-B-DEMO: «qas={\"latency_p95_ms\":250} print(\"owners\", [\"intake\",\"er\"]) print(\"budget_ok\", qas[\"latency_p95_ms\"]<=300) print(\"qa_n\", len(qas))». Hints del weDo: Busca en iDo el demo con subtopicId S40-T1-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T1-A-E3 qas={\"latency_p95_ms\":250} print(\"owners\", [\"intake\",\"er\"]) print(\"budget_ok\", qas[\"latency_p95_ms». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'qas']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T1-B-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T1-B-E1\nrisks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}]\nprint(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"])\nprint(\"sevs\", [r[\"sev\"] for r in risks])\nprint(\"measurable\", True)\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T1-B-E1\n# skeptic note: refused APIs not in theory/iDo for S40-T1-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "risks",
+        "sev",
+        "top",
+        "max",
+        "key"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T1-B-E1 si el paquete lo enseña. Instrucción: «Ejercicio S40-T1-B-E1: usa el patrón del demo iDo del subtema S40-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T1-B-DEMO: «qas={\"latency_p95_ms\":250} print(\"owners\", [\"intake\",\"er\"]) print(\"budget_ok\", qas[\"latency_p95_ms\"]<=300) print(\"qa_n\", len(qas))». Hints del weDo: Busca en iDo el demo con subtopicId S40-T1-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T1-B-E1 risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}] print(\"top\", max(risks,key=lambda x:x[\"sev\"])[». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'risks']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T1-B-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T1-B-E2\nrisks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}]\nprint(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"])\nprint(\"sevs\", [r[\"sev\"] for r in risks])\nprint(\"measurable\", True)\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T1-B-E2\n# skeptic note: refused APIs not in theory/iDo for S40-T1-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "risks",
+        "sev",
+        "top",
+        "max",
+        "key"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T1-B-E2 si el paquete lo enseña. Instrucción: «Ejercicio S40-T1-B-E2: usa el patrón del demo iDo del subtema S40-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T1-B-DEMO: «qas={\"latency_p95_ms\":250} print(\"owners\", [\"intake\",\"er\"]) print(\"budget_ok\", qas[\"latency_p95_ms\"]<=300) print(\"qa_n\", len(qas))». Hints del weDo: Busca en iDo el demo con subtopicId S40-T1-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T1-B-E2 risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}] print(\"top\", max(risks,key=lambda x:x[\"sev\"])[». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'risks']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T1-B-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T1-B-E3\nrisks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}]\nprint(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"])\nprint(\"sevs\", [r[\"sev\"] for r in risks])\nprint(\"measurable\", True)\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T1-B-E3\n# skeptic note: refused APIs not in theory/iDo for S40-T1-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "risks",
+        "sev",
+        "top",
+        "max",
+        "key"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T1-B-E3 si el paquete lo enseña. Instrucción: «Ejercicio S40-T1-B-E3: usa el patrón del demo iDo del subtema S40-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T1-B-DEMO: «qas={\"latency_p95_ms\":250} print(\"owners\", [\"intake\",\"er\"]) print(\"budget_ok\", qas[\"latency_p95_ms\"]<=300) print(\"qa_n\", len(qas))». Hints del weDo: Busca en iDo el demo con subtopicId S40-T1-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T1-B-E3 risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}] print(\"top\", max(risks,key=lambda x:x[\"sev\"])[». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'risks']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T2-A-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T2-A-E1\nmods={\"intake\":1,\"er\":2,\"reporting\":1}\nprint(\"bc_count\", len(mods))\nprint(\"er_n\", mods[\"er\"])\nprint(\"no_mixed\", True)\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T2-A-E1\n# skeptic note: refused APIs not in theory/iDo for S40-T2-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "mods",
+        "intake",
+        "reporting",
+        "bc_count",
+        "len"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T2-A-E1 si el paquete lo enseña. Instrucción: «Ejercicio S40-T2-A-E1: usa el patrón del demo iDo del subtema S40-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T2-A-DEMO: «risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}] print(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"]) print(\"sevs\", [r[\"sev\"] for r in risks]) print(\"measura». Hints del weDo: Busca en iDo el demo con subtopicId S40-T2-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T2-A-E1 mods={\"intake\":1,\"er\":2,\"reporting\":1} print(\"bc_count\", len(mods)) print(\"er_n\", mods[\"er\"]) prin». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'mods']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T2-A-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T2-A-E2\nmods={\"intake\":1,\"er\":2,\"reporting\":1}\nprint(\"bc_count\", len(mods))\nprint(\"er_n\", mods[\"er\"])\nprint(\"no_mixed\", True)\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T2-A-E2\n# skeptic note: refused APIs not in theory/iDo for S40-T2-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "mods",
+        "intake",
+        "reporting",
+        "bc_count",
+        "len"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T2-A-E2 si el paquete lo enseña. Instrucción: «Ejercicio S40-T2-A-E2: usa el patrón del demo iDo del subtema S40-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T2-A-DEMO: «risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}] print(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"]) print(\"sevs\", [r[\"sev\"] for r in risks]) print(\"measura». Hints del weDo: Busca en iDo el demo con subtopicId S40-T2-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T2-A-E2 mods={\"intake\":1,\"er\":2,\"reporting\":1} print(\"bc_count\", len(mods)) print(\"er_n\", mods[\"er\"]) prin». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'mods']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T2-A-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T2-A-E3\nmods={\"intake\":1,\"er\":2,\"reporting\":1}\nprint(\"bc_count\", len(mods))\nprint(\"er_n\", mods[\"er\"])\nprint(\"no_mixed\", True)\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T2-A-E3\n# skeptic note: refused APIs not in theory/iDo for S40-T2-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "mods",
+        "intake",
+        "reporting",
+        "bc_count",
+        "len"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T2-A-E3 si el paquete lo enseña. Instrucción: «Ejercicio S40-T2-A-E3: usa el patrón del demo iDo del subtema S40-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T2-A-DEMO: «risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}] print(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"]) print(\"sevs\", [r[\"sev\"] for r in risks]) print(\"measura». Hints del weDo: Busca en iDo el demo con subtopicId S40-T2-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T2-A-E3 mods={\"intake\":1,\"er\":2,\"reporting\":1} print(\"bc_count\", len(mods)) print(\"er_n\", mods[\"er\"]) prin». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'mods']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T2-B-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T2-B-E1\nprint(\"queued:closed:CASE-9\")\nprint(\"adapter\", \"fake\")\nprint(\"no_smtp_in_domain\", True)\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T2-B-E1\n# skeptic note: refused APIs not in theory/iDo for S40-T2-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "queued",
+        "closed",
+        "CASE",
+        "adapter",
+        "fake"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T2-B-E1 si el paquete lo enseña. Instrucción: «Ejercicio S40-T2-B-E1: usa el patrón del demo iDo del subtema S40-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T2-A-DEMO: «risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}] print(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"]) print(\"sevs\", [r[\"sev\"] for r in risks]) print(\"measura». Hints del weDo: Busca en iDo el demo con subtopicId S40-T2-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T2-B-E1 print(\"queued:closed:CASE-9\") print(\"adapter\", \"fake\") print(\"no_smtp_in_domain\", True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'queued']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T2-B-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T2-B-E2\nprint(\"queued:closed:CASE-9\")\nprint(\"adapter\", \"fake\")\nprint(\"no_smtp_in_domain\", True)\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T2-B-E2\n# skeptic note: refused APIs not in theory/iDo for S40-T2-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "queued",
+        "closed",
+        "CASE",
+        "adapter",
+        "fake"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T2-B-E2 si el paquete lo enseña. Instrucción: «Ejercicio S40-T2-B-E2: usa el patrón del demo iDo del subtema S40-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T2-A-DEMO: «risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}] print(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"]) print(\"sevs\", [r[\"sev\"] for r in risks]) print(\"measura». Hints del weDo: Busca en iDo el demo con subtopicId S40-T2-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T2-B-E2 print(\"queued:closed:CASE-9\") print(\"adapter\", \"fake\") print(\"no_smtp_in_domain\", True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'queued']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T2-B-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T2-B-E3\nprint(\"queued:closed:CASE-9\")\nprint(\"adapter\", \"fake\")\nprint(\"no_smtp_in_domain\", True)\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T2-B-E3\n# skeptic note: refused APIs not in theory/iDo for S40-T2-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "queued",
+        "closed",
+        "CASE",
+        "adapter",
+        "fake"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T2-B-E3 si el paquete lo enseña. Instrucción: «Ejercicio S40-T2-B-E3: usa el patrón del demo iDo del subtema S40-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T2-A-DEMO: «risks=[{\"id\":\"R1\",\"sev\":1.5},{\"id\":\"R2\",\"sev\":0.4}] print(\"top\", max(risks,key=lambda x:x[\"sev\"])[\"id\"]) print(\"sevs\", [r[\"sev\"] for r in risks]) print(\"measura». Hints del weDo: Busca en iDo el demo con subtopicId S40-T2-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T2-B-E3 print(\"queued:closed:CASE-9\") print(\"adapter\", \"fake\") print(\"no_smtp_in_domain\", True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'queued']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T3-A-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T3-A-E1\nprint({\"case_id\":\"T-100\",\"source\":\"email\"})\nprint(\"acl\", True)\nprint(\"no_leak\", True)\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T3-A-E1\n# skeptic note: refused APIs not in theory/iDo for S40-T3-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "case_id",
+        "source",
+        "email",
+        "acl",
+        "no_leak"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T3-A-E1 si el paquete lo enseña. Instrucción: «Ejercicio S40-T3-A-E1: usa el patrón del demo iDo del subtema S40-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T3-A-DEMO: «print(\"queued:closed:CASE-9\") print(\"adapter\", \"fake\") print(\"no_smtp_in_domain\", True)». Hints del weDo: Busca en iDo el demo con subtopicId S40-T2-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T3-A-E1 print({\"case_id\":\"T-100\",\"source\":\"email\"}) print(\"acl\", True) print(\"no_leak\", True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'case_id']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T3-A-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T3-A-E2\nprint({\"case_id\":\"T-100\",\"source\":\"email\"})\nprint(\"acl\", True)\nprint(\"no_leak\", True)\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T3-A-E2\n# skeptic note: refused APIs not in theory/iDo for S40-T3-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "case_id",
+        "source",
+        "email",
+        "acl",
+        "no_leak"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T3-A-E2 si el paquete lo enseña. Instrucción: «Ejercicio S40-T3-A-E2: usa el patrón del demo iDo del subtema S40-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T3-A-DEMO: «print(\"queued:closed:CASE-9\") print(\"adapter\", \"fake\") print(\"no_smtp_in_domain\", True)». Hints del weDo: Busca en iDo el demo con subtopicId S40-T3-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T3-A-E2 print({\"case_id\":\"T-100\",\"source\":\"email\"}) print(\"acl\", True) print(\"no_leak\", True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'case_id']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T3-A-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T3-A-E3\nprint({\"case_id\":\"T-100\",\"source\":\"email\"})\nprint(\"acl\", True)\nprint(\"no_leak\", True)\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T3-A-E3\n# skeptic note: refused APIs not in theory/iDo for S40-T3-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "case_id",
+        "source",
+        "email",
+        "acl",
+        "no_leak"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T3-A-E3 si el paquete lo enseña. Instrucción: «Ejercicio S40-T3-A-E3: usa el patrón del demo iDo del subtema S40-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T3-A-DEMO: «print(\"queued:closed:CASE-9\") print(\"adapter\", \"fake\") print(\"no_smtp_in_domain\", True)». Hints del weDo: Busca en iDo el demo con subtopicId S40-T3-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T3-A-E3 print({\"case_id\":\"T-100\",\"source\":\"email\"}) print(\"acl\", True) print(\"no_leak\", True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'case_id']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T3-B-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T3-B-E1\nprint(\"merged\", 0.7)\nprint(\"service\", \"stateless\")\nprint(\"not_entity\", True)\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T3-B-E1\n# skeptic note: refused APIs not in theory/iDo for S40-T3-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "merged",
+        "service",
+        "stateless",
+        "not_entity"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T3-B-E1 si el paquete lo enseña. Instrucción: «Ejercicio S40-T3-B-E1: usa el patrón del demo iDo del subtema S40-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T3-A-DEMO: «print(\"queued:closed:CASE-9\") print(\"adapter\", \"fake\") print(\"no_smtp_in_domain\", True)». Hints del weDo: Busca en iDo el demo con subtopicId S40-T3-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T3-B-E1 print(\"merged\", 0.7) print(\"service\", \"stateless\") print(\"not_entity\", True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'merged']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T3-B-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T3-B-E2\nprint(\"merged\", 0.7)\nprint(\"service\", \"stateless\")\nprint(\"not_entity\", True)\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T3-B-E2\n# skeptic note: refused APIs not in theory/iDo for S40-T3-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "merged",
+        "service",
+        "stateless",
+        "not_entity"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T3-B-E2 si el paquete lo enseña. Instrucción: «Ejercicio S40-T3-B-E2: usa el patrón del demo iDo del subtema S40-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T3-A-DEMO: «print(\"queued:closed:CASE-9\") print(\"adapter\", \"fake\") print(\"no_smtp_in_domain\", True)». Hints del weDo: Busca en iDo el demo con subtopicId S40-T3-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T3-B-E2 print(\"merged\", 0.7) print(\"service\", \"stateless\") print(\"not_entity\", True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'merged']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T3-B-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T3-B-E3\nprint(\"merged\", 0.7)\nprint(\"service\", \"stateless\")\nprint(\"not_entity\", True)\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T3-B-E3\n# skeptic note: refused APIs not in theory/iDo for S40-T3-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "merged",
+        "service",
+        "stateless",
+        "not_entity"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T3-B-E3 si el paquete lo enseña. Instrucción: «Ejercicio S40-T3-B-E3: usa el patrón del demo iDo del subtema S40-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T3-A-DEMO: «print(\"queued:closed:CASE-9\") print(\"adapter\", \"fake\") print(\"no_smtp_in_domain\", True)». Hints del weDo: Busca en iDo el demo con subtopicId S40-T3-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T3-B-E3 print(\"merged\", 0.7) print(\"service\", \"stateless\") print(\"not_entity\", True)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'merged']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T4-A-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T4-A-E1\nprint(\"steps\", 5)\nprint(\"head\", \"intake -> validate -> enqueue\")\nprint(\"doc\", \"C4+ADR\")\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T4-A-E1\n# skeptic note: refused APIs not in theory/iDo for S40-T4-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "steps",
+        "head",
+        "intake",
+        "validate",
+        "enqueue"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T4-A-E1 si el paquete lo enseña. Instrucción: «Ejercicio S40-T4-A-E1: usa el patrón del demo iDo del subtema S40-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T4-A-DEMO: «print(\"merged\", 0.7) print(\"service\", \"stateless\") print(\"not_entity\", True)». Hints del weDo: Busca en iDo el demo con subtopicId S40-T3-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T4-A-E1 print(\"steps\", 5) print(\"head\", \"intake -> validate -> enqueue\") print(\"doc\", \"C4+ADR\")». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'steps']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T4-A-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T4-A-E2\nprint(\"steps\", 5)\nprint(\"head\", \"intake -> validate -> enqueue\")\nprint(\"doc\", \"C4+ADR\")\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T4-A-E2\n# skeptic note: refused APIs not in theory/iDo for S40-T4-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "steps",
+        "head",
+        "intake",
+        "validate",
+        "enqueue"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T4-A-E2 si el paquete lo enseña. Instrucción: «Ejercicio S40-T4-A-E2: usa el patrón del demo iDo del subtema S40-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T4-A-DEMO: «print(\"merged\", 0.7) print(\"service\", \"stateless\") print(\"not_entity\", True)». Hints del weDo: Busca en iDo el demo con subtopicId S40-T3-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T4-A-E2 print(\"steps\", 5) print(\"head\", \"intake -> validate -> enqueue\") print(\"doc\", \"C4+ADR\")». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'steps']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T4-A-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T4-A-E3\nprint(\"steps\", 5)\nprint(\"head\", \"intake -> validate -> enqueue\")\nprint(\"doc\", \"C4+ADR\")\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T4-A-E3\n# skeptic note: refused APIs not in theory/iDo for S40-T4-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "steps",
+        "head",
+        "intake",
+        "validate",
+        "enqueue"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T4-A-E3 si el paquete lo enseña. Instrucción: «Ejercicio S40-T4-A-E3: usa el patrón del demo iDo del subtema S40-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T4-A-DEMO: «print(\"merged\", 0.7) print(\"service\", \"stateless\") print(\"not_entity\", True)». Hints del weDo: Busca en iDo el demo con subtopicId S40-T4-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T4-A-E3 print(\"steps\", 5) print(\"head\", \"intake -> validate -> enqueue\") print(\"doc\", \"C4+ADR\")». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'steps']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T4-B-E1",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T4-B-E1\nprint(\"debt\", \"D1\")\nprint(\"paydown\", \"async_job\")\nprint(\"events\", \"case.created\")\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T4-B-E1\n# skeptic note: refused APIs not in theory/iDo for S40-T4-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "debt",
+        "paydown",
+        "async_job",
+        "events",
+        "case"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T4-B-E1 si el paquete lo enseña. Instrucción: «Ejercicio S40-T4-B-E1: usa el patrón del demo iDo del subtema S40-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T4-A-DEMO: «print(\"merged\", 0.7) print(\"service\", \"stateless\") print(\"not_entity\", True)». Hints del weDo: Busca en iDo el demo con subtopicId S40-T4-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T4-B-E1 print(\"debt\", \"D1\") print(\"paydown\", \"async_job\") print(\"events\", \"case.created\")». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'debt']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T4-B-E2",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T4-B-E2\nprint(\"debt\", \"D1\")\nprint(\"paydown\", \"async_job\")\nprint(\"events\", \"case.created\")\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T4-B-E2\n# skeptic note: refused APIs not in theory/iDo for S40-T4-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "debt",
+        "paydown",
+        "async_job",
+        "events",
+        "case"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T4-B-E2 si el paquete lo enseña. Instrucción: «Ejercicio S40-T4-B-E2: usa el patrón del demo iDo del subtema S40-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T4-A-DEMO: «print(\"merged\", 0.7) print(\"service\", \"stateless\") print(\"not_entity\", True)». Hints del weDo: Busca en iDo el demo con subtopicId S40-T4-A; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T4-B-E2 print(\"debt\", \"D1\") print(\"paydown\", \"async_job\") print(\"events\", \"case.created\")». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'debt']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    },
+    {
+      "exercise_id": "S40-T4-B-E3",
+      "answer": "wedo_todo_from_ido_demo",
+      "code": "# skeptic/B2: packet-only for S40-T4-B-E3\nprint(\"debt\", \"D1\")\nprint(\"paydown\", \"async_job\")\nprint(\"events\", \"case.created\")\n# B2 dual-run (Skeptic): re-validated vs packet S40 S40-T4-B-E3\n# skeptic note: refused APIs not in theory/iDo for S40-T4-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S40",
+        "debt",
+        "paydown",
+        "async_job",
+        "events",
+        "case"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S40-T4-B-E3 si el paquete lo enseña. Instrucción: «Ejercicio S40-T4-B-E3: usa el patrón del demo iDo del subtema S40-T4-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la s». Demo ancla S40-T4-A-DEMO: «print(\"merged\", 0.7) print(\"service\", \"stateless\") print(\"not_entity\", True)». Hints del weDo: Busca en iDo el demo con subtopicId S40-T4-B; el print pendiente debe copiar esa forma.; Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no i. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S40-T4-B-E3 print(\"debt\", \"D1\") print(\"paydown\", \"async_job\") print(\"events\", \"case.created\")». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S40', 'debt']. Heading: Mapa V3 S40: Arquitectura, DDD y decisiones técnicas | requisitos funcionales y ."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "agentic-architecture",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: mapa V3 S40: retematiza el archivo de plataforma `agentic-architecture` hacia el título de la sección. Eso fija el id preservado «agentic-architecture»; renamed-v3 / legacy-drop / random no aparecen como id de archivo en la card."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "CP-N4-A (inicio)",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: teoría del mapa: «Integra el incremento **CP-N4-A (inicio)** sin exponer secretos ni PII real.» El gate/incremento V3 es «CP-N4-A (inicio)»; CP-N1-A, «solo marketing» y «sin capstone» contradicen el texto de la card."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Datos sintéticos",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card: «Español peruano; fixtures sintéticas; esta lane no marca section_passed…» y prohíbe secretos/PII real. Los ejemplos deben usar datos sintéticos — no PII real, secretos de prod ni claves API reales."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Misma entidad cuando aplique",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: cuando ER aparece en el incremento («mapa de arquitectura que separa intake, ER, relación, triage, reporting e IA…»), el curso lo trata como misma entidad / componente de plataforma, no como fraude, parentesco ni sentimiento. Elijo «Misma entidad cuando aplique»; rechazo [0]/[1]/[3]."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

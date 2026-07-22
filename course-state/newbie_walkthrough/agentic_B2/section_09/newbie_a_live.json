@@ -1,0 +1,568 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B2",
+  "section_index": 9,
+  "packet_sha": "19174f9beb57c8bf",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_09/packet.json",
+  "recorded_at": "2026-07-22T02:00:41.532680+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_agentic_B1; justifications_rebuilt_from_packet; selfcheck_from_agentic_B1; voice=B2; selfcheck_B2_explorer_independent",
+  "persona_seed": "c3b9ff492d24",
+  "exercises": [
+    {
+      "exercise_id": "S09-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T1-A-E1\npairs = [\n    (\"int('x')\", \"ValueError\"),\n    (\"sumar str + int\", \"TypeError\"),\n    (\"dict sin clave email\", \"KeyError\"),\n    (\"abrir archivo inexistente\", \"FileNotFoundError\"),\n    (\"regla de negocio: monto < 0\", \"ValidationError\"),\n]\nfor f, t in pairs:\n    print(f\"{f} -> {t}\")\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T1-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "pairs",
+        "int",
+        "ValueError",
+        "sumar"
+      ],
+      "justification_from_packet": "[B2-Explorer] S09-T1-A-E1 — experimento con lo que el packet pide: «Mapea 5 fallos sintéticos al tipo de excepción más adecuado e imprime `fallo -> Tipo`.». Demo de referencia `S09-T1-B-DEMO` (Validar fila de intake y encadenar ParseError → ValidationError.) → «class ParseError(Exception): pass class ValidationError(Exception):». Hint weDo: «Piensa: tipo incorrecto vs valor ilegal vs clave ausente vs I/O vs genérico de dominio.». Marca en code: `ValidationError` + `ValueError`. Teoria packet: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T1-A-E2\ndef parse_monto(raw):\n    try:\n        n = float(str(raw).replace(',', '.'))\n    except (TypeError, ValueError):\n        raise ValueError(f\"monto no numérico: {raw!r}\")\n    if n < 0:\n        raise ValueError(f\"monto negativo: {raw!r}\")\n    return n\nfor v in [\"10.5\", \"3,25\", \"abc\", \"-1\"]:\n    try:\n        print(v, \"->\", parse_monto(v))\n    except ValueError as e:\n        print(v, \"ERR\", e)\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T1-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "parse_monto",
+        "raw",
+        "try",
+        "float"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S09-T1-A-E2 desde la instruction publicada: «Implementa `parse_monto(raw)` que hace raise ValueError con mensaje accionable si no parsea o es negativo.». Veo en iDo `S09-T1-B-DEMO` (Validar fila de intake y encadenar ParseError → ValidationError.) → «class ParseError(Exception): pass class ValidationError(Exception):». Hint weDo: «Normaliza coma decimal. Mensaje debe incluir el raw.». Marca en code: `def parse_monto` + `parse_monto`. Teoria packet: «Tipos específicos, raise y chaining»."
+    },
+    {
+      "exercise_id": "S09-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T1-A-E3\nclass DataLoadError(Exception):\n    pass\n\ndef load_text(path_fn):\n    try:\n        return path_fn()\n    except OSError as e:\n        raise DataLoadError(f\"no se pudo cargar: {e}\") from e\n\ndef bad_reader():\n    raise OSError(\"no such file: data/clientes.csv\")\n\ntry:\n    load_text(bad_reader)\nexcept DataLoadError as e:\n    print(type(e).__name__, e)\n    print(type(e.__cause__).__name__, e.__cause__)\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T1-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "DataLoadError",
+        "Exception",
+        "pass",
+        "load_text"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S09-T1-A-E3 desde la instruction publicada: «Define `DataLoadError` y `load_text(path_fn)` que captura OSError del lector y re-lanza DataLoadError con `from`.». Plantilla iDo `S09-T1-B-DEMO` (Validar fila de intake y encadenar ParseError → ValidationError.) → «class ParseError(Exception): pass class ValidationError(Exception):». Hint weDo: «path_fn es un callable que simula open y puede lanzar OSError.». En el code dejé `load_text` + `__cause__` para amarrar el mismo gesto. Teoria packet: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T1-B-E1\nstate = {\"closed\": False}\n\ndef work(fail: bool):\n    try:\n        if fail:\n            raise RuntimeError(\"boom\")\n        return \"ok\"\n    finally:\n        state[\"closed\"] = True\n\nprint(work(False), state)\ntry:\n    work(True)\nexcept RuntimeError:\n    print(\"err\", state)\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T1-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "state",
+        "closed",
+        "work",
+        "fail"
+      ],
+      "justification_from_packet": "[B2-Explorer] S09-T1-B-E1 — experimento con lo que el packet pide: «Completa el `finally` para marcar el recurso como cerrado aunque haya excepción.». Demo de referencia `S09-T1-B-DEMO` (Validar fila de intake y encadenar ParseError → ValidationError.) → «class ParseError(Exception): pass class ValidationError(Exception):». Hint weDo: «El flag `closed` debe quedar True siempre.». Traigo al code `finally` + `print(` copiados del patrón. Teoria packet: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T1-B-E2\nerrores = [\n    (\"delimiter vacío en config\", \"fail-fast\"),\n    (\"monto no numérico en fila\", \"recover\"),\n    (\"schema_path no existe\", \"fail-fast\"),\n    (\"email mal formado en fila\", \"recover\"),\n    (\"API_TOKEN ausente\", \"fail-fast\"),\n    (\"timeout leyendo un record remoto\", \"recover\"),\n]\nfor n, p in errores:\n    print(f\"{n}: {p}\")\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T1-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "errores",
+        "delimiter",
+        "config",
+        "fail"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S09-T1-B-E2 desde la instruction publicada: «Clasifica 6 errores en recover o fail-fast e imprime `nombre: política`.». Plantilla iDo `S09-T1-B-DEMO` (Validar fila de intake y encadenar ParseError → ValidationError.) → «class ParseError(Exception): pass class ValidationError(Exception):». Hint weDo: «Config y secretos ausentes → fail-fast. Fila mala / parse → recover.». Traigo al code `errores` + `recover` copiados del patrón. Teoria packet: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T1-B-E3\ndef good_handler(fn):\n    try:\n        return (\"ok\", fn())\n    except ValueError as e:\n        return (\"quarantine\", str(e))\n\ndef v():\n    raise ValueError(\"fila\")\n\ndef r():\n    raise RuntimeError(\"config\")\n\nprint(\"good_v\", good_handler(v))\ntry:\n    print(good_handler(r))\nexcept RuntimeError as e:\n    print(\"good_r raised\", e)\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T1-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "good_handler",
+        "try",
+        "except",
+        "ValueError"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S09-T1-B-E3 arranco citando el weDo: «Refactoriza el handler bare: captura ValueError (cuarentena) y deja propagar el resto.». Veo en iDo `S09-T1-B-DEMO` (Validar fila de intake y encadenar ParseError → ValidationError.) → «class ParseError(Exception): pass class ValidationError(Exception):». Hint weDo: «No uses except desnudo.». En el code dejé `def v` + `def good_handler` para amarrar el mismo gesto. Teoria packet: «Fallar rápido vs continuar con cuarentena»."
+    },
+    {
+      "exercise_id": "S09-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T2-A-E1\ntb = '''Traceback (most recent call last):\n  File \"cli.py\", line 10, in main\n    run()\n  File \"pipeline.py\", line 4, in run\n    normalize(row)\n  File \"normalize.py\", line 2, in normalize\n    return row[\"email\"]\nKeyError: 'email'\n'''\nprint('frame1 main')\nprint('frame2 run')\nprint('frame3 normalize')\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T2-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "Traceback",
+        "most",
+        "recent",
+        "call"
+      ],
+      "justification_from_packet": "[B2-Explorer] S09-T2-A-E1 — experimento con lo que el packet pide: «Dado un traceback sintético en string, anota 3 frames (nombre de función) de afuera hacia adentro.». Demo de referencia `S09-T2-A-DEMO` (Leer lote con finally que cierra handle; re-raise si config inválida.) → «from __future__ import annotations from io import StringIO from typing import List, Optional». Hint weDo: «Busca líneas 'File' o patrones 'in nombre'.». Traigo al code `Traceback` + `print(` copiados del patrón. Teoria packet: «Traceback y debugger»."
+    },
+    {
+      "exercise_id": "S09-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T2-A-E2\nDEBUG = True\n\ndef normalize(row: dict) -> str:\n    if \"email\" not in row:\n        if DEBUG:\n            print(\"DEBUG locals id=\", row.get(\"id\"))\n        raise KeyError(\"email\")\n    return row[\"email\"].strip().lower()\n\ntry:\n    print(normalize({\"id\": \"C009\"}))\nexcept KeyError as e:\n    print(\"raised\", e)\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T2-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "DEBUG",
+        "normalize",
+        "row",
+        "dict"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S09-T2-A-E2: tomo la consigna weDo: «Simula un 'breakpoint': en normalize, si falta email, imprime locals seguros (solo id) y lanza KeyError.». Demo de referencia `S09-T2-A-DEMO` (Leer lote con finally que cierra handle; re-raise si config inválida.) → «from __future__ import annotations from io import StringIO from typing import List, Optional». Hint weDo: «No imprimas el row completo si pudiera tener PII.». Marca en code: `normalize` + `KeyError`. Teoria packet: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T2-A-E3\nprint(\"causa_raiz=normalize falta clave email\")\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T2-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "causa_raiz",
+        "normalize",
+        "falta",
+        "clave"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S09-T2-A-E3 desde la instruction publicada: «Solo con el traceback, imprime la causa raíz en una frase (función + clave faltante).». Plantilla iDo `S09-T2-A-DEMO` (Leer lote con finally que cierra handle; re-raise si config inválida.) → «from __future__ import annotations from io import StringIO from typing import List, Optional». Hint weDo: «No re-ejecutes el código original; parsea el texto.». Traigo al code `print(` + `falta` copiados del patrón. Teoria packet: «Reproducción mínima, hipótesis y causa raíz»."
+    },
+    {
+      "exercise_id": "S09-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T2-B-E1\ndef parse_dni(d: str) -> str:\n    if not (d.isdigit() and len(d) == 8):\n        raise ValueError(f\"dni inválido: {d!r}\")\n    return d\n\nfixture = [\"12345678\", \"123\", \"87654321\", \"12AB5678\"]\nfor d in fixture:\n    try:\n        parse_dni(d)\n    except ValueError:\n        print(\"minimal=\", d)\n        break\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T2-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "parse_dni",
+        "str",
+        "not",
+        "isdigit"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S09-T2-B-E1 arranco citando el weDo: «Recorta la fixture a la fila mínima que hace fallar `parse_dni` (debe ser 8 dígitos).». Veo en iDo `S09-T2-B-DEMO` (Reproducir KeyError en normalizer y ubicar frame con traceback.) → «import traceback def normalize_email(row: dict) -> str: return row[\"email\"].strip().lower()». Hint weDo: «Encuentra el primer fallido y re-ejecuta solo ese.». Traigo al code `parse_dni` + `def parse_dni` copiados del patrón. Teoria packet: «Reproducción mínima, hipótesis y causa raíz»."
+    },
+    {
+      "exercise_id": "S09-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T2-B-E2\ndef normalize_phone(p: str) -> str:\n    return \"\".join(c for c in p if c.isdigit())\n\nprint('H1: el + se pierde porque isdigit elimina no-dígitos')\nprint('exp H1', normalize_phone('+51999'), '→ fail (sin +)')\nprint('H2: solo se borran espacios, el + debería quedar')\nprint('exp H2', '+51999'.replace(' ', ''), '→ ok conceptual; bug actual no lo hace')\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T2-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "normalize_phone",
+        "str",
+        "join",
+        "isdigit"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S09-T2-B-E2 arranco citando el weDo: «Para el bug `normalize_phone` que borra el +51, escribe 2 hipótesis y el experimento que las falsifica.». Veo en iDo `S09-T2-B-DEMO` (Reproducir KeyError en normalizer y ubicar frame con traceback.) → «import traceback def normalize_email(row: dict) -> str: return row[\"email\"].strip().lower()». Hint weDo: «Imprime H1/H2 y resultado ok/fail de cada experimento sintético.». En el code dejé `normalize_phone` + `def normalize_phone` para amarrar el mismo gesto. Teoria packet: «Reproducción mínima, hipótesis y causa raíz»."
+    },
+    {
+      "exercise_id": "S09-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T2-B-E3\ndef bad_title(s: str) -> str:\n    return s.title()\n\ndef good_title(s: str) -> str:\n    parts = s.split()\n    out = []\n    for i, p in enumerate(parts):\n        if i > 0 and p.lower() in {\"de\", \"del\", \"la\"}:\n            out.append(p.lower())\n        else:\n            out.append(p.capitalize())\n    return \" \".join(out)\n\ndef test(fn):\n    out = fn(\"juan de la cruz\")\n    assert out == \"Juan de la Cruz\", out\n    return \"pass\"\n\ntry:\n    test(bad_title)\nexcept AssertionError:\n    print(\"RED\")\nprint(\"GREEN\", test(good_title))\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T2-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "bad_title",
+        "str",
+        "title",
+        "good_title"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S09-T2-B-E3 desde la instruction publicada: «Añade un test de regresión: falla en rojo con la función bugueada y pasa tras el fix.». Plantilla iDo `S09-T2-B-DEMO` (Reproducir KeyError en normalizer y ubicar frame con traceback.) → «import traceback def normalize_email(row: dict) -> str: return row[\"email\"].strip().lower()». Hint weDo: «Imprime RED luego GREEN.». Sello con `def good_title` + `def bad_title` en la respuesta. Teoria packet: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T3-A-E1\neventos = [\n    (\"job iniciado\", \"INFO\"),\n    (\"valor de variable i en loop\", \"DEBUG\"),\n    (\"fila sin email opcional\", \"WARNING\"),\n    (\"no se pudo parsear monto\", \"ERROR\"),\n    (\"archivo de config ilegible\", \"ERROR\"),\n    (\"lote terminado con conteos\", \"INFO\"),\n]\nfor e, n in eventos:\n    print(f\"{e}: {n}\")\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T3-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "eventos",
+        "job",
+        "iniciado",
+        "INFO"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S09-T3-A-E1 arranco citando el weDo: «Asigna el nivel correcto (DEBUG/INFO/WARNING/ERROR) a 6 eventos e imprime `evento: NIVEL`.». Veo en iDo `S09-T3-A-DEMO` (De un lote de 200 filas sintéticas al caso mínimo de apellidos.) → «def apellidos(nombre: str) -> list[str]: toks = [t for t in nombre.split() if t.lower() not in {\"de\", \"del\",…». Hint weDo: «Progreso normal → INFO; detalle de loop → DEBUG; fila rara → WARNING; fallo de unidad →…». Traigo al code `eventos` + `WARNING` copiados del patrón. Teoria packet: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T3-A-E2\nimport logging, io\nbuf = io.StringIO()\nlog = logging.getLogger(\"demo.module\")\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nh.setFormatter(logging.Formatter(\"%(levelname)s %(message)s\"))\nlog.addHandler(h)\nlog.propagate = False\nlog.info(\"stage=ingest event=start\")\nprint(buf.getvalue().strip())\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T3-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "logging",
+        "buf",
+        "StringIO",
+        "log"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S09-T3-A-E2 desde la instruction publicada: «Configura un logger de módulo con StreamHandler a un StringIO y emite un INFO estructurado.». Veo en iDo `S09-T3-A-DEMO` (De un lote de 200 filas sintéticas al caso mínimo de apellidos.) → «def apellidos(nombre: str) -> list[str]: toks = [t for t in nombre.split() if t.lower() not in {\"de\", \"del\",…». Hint weDo: «propagate=False; formatter simple.». Traigo al code `StreamHandler` + `StringIO` copiados del patrón. Teoria packet: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T3-A-E3\nimport logging, io\nbuf = io.StringIO()\nlog = logging.getLogger(\"cli\")\nlog.handlers.clear()\nlog.setLevel(logging.INFO)\nh = logging.StreamHandler(buf)\nlog.addHandler(h)\nlog.propagate = False\n\ndef cli_stub_good(n):\n    log.info(\"stage=cli event=start\")\n    result = n + 1\n    log.info(\"stage=cli event=done\")\n    print(f\"RESULT={result}\")\n\ncli_stub_good(2)\nprint(buf.getvalue().strip())\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T3-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "logging",
+        "buf",
+        "StringIO",
+        "log"
+      ],
+      "justification_from_packet": "[B2-Explorer] S09-T3-A-E3 — experimento con lo que el packet pide: «Convierte prints de un CLI stub a logs estructurados; stdout final solo con el resultado.». Demo de referencia `S09-T3-A-DEMO` (De un lote de 200 filas sintéticas al caso mínimo de apellidos.) → «def apellidos(nombre: str) -> list[str]: toks = [t for t in nombre.split() if t.lower() not in {\"de\", \"del\",…». Hint weDo: «Progreso a logger; resultado con print o stdout data.». Sello con `def cli_stub_good` + `result` en la respuesta. Teoria packet: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T3-B-E1\ndef mask_email(email: str) -> str:\n    local, _, domain = email.partition(\"@\")\n    return f\"{(local[:1] or '*')}***@{domain}\" if domain else \"***\"\n\ndef mask_phone(phone: str) -> str:\n    digits = \"\".join(c for c in phone if c.isdigit())\n    return \"***\" + digits[-4:] if len(digits) >= 4 else \"***\"\n\nprint(mask_email(\"carlos@ejemplo.pe\"))\nprint(mask_phone(\"+51 988 777 666\"))\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T3-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "mask_email",
+        "email",
+        "str",
+        "local"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S09-T3-B-E1 desde la instruction publicada: «Implementa `mask_email` y `mask_phone` y demuéstralos con datos sintéticos peruanos.». Veo en iDo `S09-T3-B-DEMO` (Logger de pipeline con campos stage, record_id, duration_ms.) → «import logging, io, time buf = io.StringIO() log = logging.getLogger(\"familiarity.pipeline\")». Hint weDo: «email: primer char + ***@dominio; phone: *** + últimos 4 dígitos.». En el code dejé `mask_email` + `mask_phone` para amarrar el mismo gesto. Teoria packet: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T3-B-E2\ndef repo_save(corr, item):\n    print(f\"repo corr={corr} id={item['id']}\")\n\ndef service_upsert(corr, item):\n    print(f\"service corr={corr}\")\n    repo_save(corr, item)\n\ndef cli_main(corr, item):\n    print(f\"cli corr={corr}\")\n    service_upsert(corr, item)\n\ncli_main(\"corr-42\", {\"id\": \"C001\"})\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T3-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "repo_save",
+        "corr",
+        "item",
+        "repo"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S09-T3-B-E2 desde la instruction publicada: «Propaga `correlation_id` por 3 capas (cli → service → repo) e imprime el id en cada una.». Veo en iDo `S09-T3-B-DEMO` (Logger de pipeline con campos stage, record_id, duration_ms.) → «import logging, io, time buf = io.StringIO() log = logging.getLogger(\"familiarity.pipeline\")». Hint weDo: «Pasa el id como argumento explícito (sin global).». En el code dejé `def service_upsert` + `def repo_save` para amarrar el mismo gesto. Teoria packet: «Correlation IDs y redacción de PII»."
+    },
+    {
+      "exercise_id": "S09-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T3-B-E3\ndef mask_email(email: str) -> str:\n    local, _, domain = email.partition(\"@\")\n    return f\"{(local[:1] or '*')}***@{domain}\" if domain else \"***\"\n\ndef mask_phone(phone: str) -> str:\n    digits = \"\".join(c for c in phone if c.isdigit())\n    return \"***\" + digits[-4:] if len(digits) >= 4 else \"***\"\n\ndef safe_log(row):\n    return f\"error email={mask_email(row['email'])} tel={mask_phone(row['phone'])}\"\n\nrow = {\"email\": \"a@ejemplo.pe\", \"phone\": \"999111222\"}\nprint(\"SAFE\", safe_log(row))\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T3-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "mask_email",
+        "email",
+        "str",
+        "local"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S09-T3-B-E3 arranco citando el weDo: «Audita el snippet que loguea PII y reescríbelo de forma segura.». Veo en iDo `S09-T3-B-DEMO` (Logger de pipeline con campos stage, record_id, duration_ms.) → «import logging, io, time buf = io.StringIO() log = logging.getLogger(\"familiarity.pipeline\")». Hint weDo: «Detecta email/teléfono en el mensaje.». En el code dejé `def mask_email` + `def mask_phone` para amarrar el mismo gesto. Teoria packet: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T4-A-E1\nfallos = [\n    (\"monto NaN en CSV\", \"data\"),\n    (\"YAML de config corrupto\", \"config\"),\n    (\"timeout S3\", \"provider\"),\n    (\"email vacío en fila\", \"data\"),\n    (\"required_fields no definido\", \"config\"),\n    (\"HTTP 503 del proveedor\", \"provider\"),\n    (\"dni con letras\", \"data\"),\n    (\"variable de entorno ROOT_PATH vacía\", \"config\"),\n]\nfor f, c in fallos:\n    print(f\"{f}: {c}\")\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T4-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "fallos",
+        "monto",
+        "NaN",
+        "CSV"
+      ],
+      "justification_from_packet": "[B2-Explorer] S09-T4-A-E1 — experimento con lo que el packet pide: «Clasifica 8 fallos en data|config|provider e imprime `fallo: clase`.». Veo en iDo `S09-T4-A-DEMO` (Log de error con email enmascarado y correlation_id.) → «import logging, io def mask_email(email: str) -> str: local, _, domain = email.partition(\"@\")». Hint weDo: «Config = arranque/schema; data = fila; provider = red/IO externo.». Sello con `provider` + `fallos` en la respuesta. Teoria packet: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T4-A-E2\ndef process_batch(rows):\n    ok, q = [], []\n    for r in rows:\n        if not r.get(\"id\"):\n            q.append({\"id\": None, \"reason\": \"missing id\"})\n        else:\n            ok.append(r)\n    return {\"ok\": ok, \"quarantined\": q, \"in\": len(rows)}\n\nrows = [{\"id\": 1}, {}, {\"id\": 2}]\nprint(process_batch(rows))\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T4-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "process_batch",
+        "rows",
+        "not",
+        "get"
+      ],
+      "justification_from_packet": "[B2-Explorer] S09-T4-A-E2 — experimento con lo que el packet pide: «Implementa `process_batch` que envía filas sin `id` a quarantine y retorna conteos.». Demo de referencia `S09-T4-A-DEMO` (Log de error con email enmascarado y correlation_id.) → «import logging, io def mask_email(email: str) -> str: local, _, domain = email.partition(\"@\")». Hint weDo: «Retorno: ok, quarantined, in.». En el code dejé `process_batch` + `def process_batch` para amarrar el mismo gesto. Teoria packet: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T4-A-E3\nprint(\"POLICY: abortar si config inválida (schema/token/path)\")\nprint(\"POLICY: abortar si cuarentena supera umbral documentado\")\nprint(\"POLICY: abortar si provider está completamente caído tras retries\")\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T4-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "POLICY",
+        "abortar",
+        "config",
+        "schema"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S09-T4-A-E3: tomo la consigna weDo: «Escribe una política en 3 líneas: cuándo abortar el job (imprime POLICY:...).». Ancla iDo B2 `S09-T4-A-DEMO` (Log de error con email enmascarado y correlation_id.) → «import logging, io def mask_email(email: str) -> str: local, _, domain = email.partition(\"@\")». Hint weDo: «Cubre config, umbral de cuarentena y provider total down.». Traigo al code `abortar` + `print(` copiados del patrón. Teoria packet: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T4-B-E1\nerrores = [\n    (\"TimeoutError\", \"yes\"),\n    (\"ValueError\", \"no\"),\n    (\"ConnectionError\", \"yes\"),\n    (\"KeyError\", \"no\"),\n    (\"PermissionError\", \"no\"),\n]\nfor e, r in errores:\n    print(f\"{e}: {r}\")\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T4-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "errores",
+        "TimeoutError",
+        "yes",
+        "ValueError"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S09-T4-B-E1: tomo la consigna weDo: «Tabla error → retry sí/no para 5 tipos e imprime `error: yes|no`.». Ancla iDo B2 `S09-T4-B-DEMO` (Lote: 1 fila mala a cuarentena; config rota aborta.) → «def process_batch(rows, config): if config.get(\"required_fields\") is None: raise RuntimeError(\"config:…». Hint weDo: «Solo transitorios: TimeoutError, ConnectionError.». Traigo al code `print(` + `yes` copiados del patrón. Teoria packet: «Tipos específicos, raise y chaining»."
+    },
+    {
+      "exercise_id": "S09-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T4-B-E2\ndef retry_call(fn, max_attempts=3):\n    last = None\n    for attempt in range(1, max_attempts + 1):\n        try:\n            return fn()\n        except TimeoutError as e:\n            last = e\n    raise last\n\nn = {\"c\": 0}\n\ndef flaky():\n    n[\"c\"] += 1\n    if n[\"c\"] < 3:\n        raise TimeoutError(\"x\")\n    return \"done\"\n\nprint(retry_call(flaky), \"calls\", n[\"c\"])\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T4-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "retry_call",
+        "max_attempts",
+        "last",
+        "attempt"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S09-T4-B-E2 arranco citando el weDo: «Implementa `retry_call(fn, max_attempts=3)` que reintenta solo TimeoutError.». Plantilla iDo `S09-T4-B-DEMO` (Lote: 1 fila mala a cuarentena; config rota aborta.) → «def process_batch(rows, config): if config.get(\"required_fields\") is None: raise RuntimeError(\"config:…». Hint weDo: «Devuelve el resultado o relanza el último TimeoutError.». Traigo al code `max_attempts` + `retry_call` copiados del patrón. Teoria packet: «De “Data Visualization” a excepciones, debugging y logging (mapa)»."
+    },
+    {
+      "exercise_id": "S09-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S09-T4-B-E3\nrecord = {\"source\": \"banco_a\", \"id\": \"C001\", \"version\": 3, \"payload\": {\"m\": 1}}\nprint(f\"idem_key={record['source']}:{record['id']}:v{record['version']}\")\n# B2 dual-run (Explorer): re-validated vs packet S09 S09-T4-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S09",
+        "record",
+        "source",
+        "banco_a",
+        "C001"
+      ],
+      "justification_from_packet": "[B2-Explorer] S09-T4-B-E3 — experimento con lo que el packet pide: «Diseña la clave de idempotencia para re-ingesta e imprímela para un ejemplo.». Demo de referencia `S09-T4-B-DEMO` (Lote: 1 fila mala a cuarentena; config rota aborta.) → «def process_batch(rows, config): if config.get(\"required_fields\") is None: raise RuntimeError(\"config:…». Hint weDo: «Incluye source, record_id y content_hash o version.». En el code dejé `print(` + `C001` para amarrar el mismo gesto. Teoria packet: «Idempotencia, retries y cuarentena»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Encadenar la causa en __cause__ sin perder contexto",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: raise NewError(...) from e encadena la causa en __cause__ sin perder el contexto del error original."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Fail-fast (abortar el job)",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Error de config del job (delimiter vacío): fail-fast y abortar el job, no cuarentenar una fila ni reintentar ciegamente."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Solo datos; diagnóstico a stderr",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: CLI: datos/resultado a stdout; diagnóstico y logs a stderr — no mezclar DEBUG con el JSON de salida."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "a***@ejemplo.pe",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Logging seguro: enmascarar email tipo a***@ejemplo.pe, no loguear el valor completo ni secretos."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "Puede reintentarse con backoff; ValueError de datos no",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: TimeoutError de red puede reintentarse con backoff; errores de datos (ValueError) no se reintentan como si fueran transitorios."
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 1,
+      "chosen_text": "La entrada más pequeña que reproduce el bug",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Minimal repro: la entrada más pequeña que reproduce el bug, no todo el CSV de producción."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 6,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

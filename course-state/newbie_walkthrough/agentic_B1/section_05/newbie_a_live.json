@@ -1,0 +1,546 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B1",
+  "section_index": 5,
+  "packet_sha": "ba9721e06369d0f4",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B1/section_05/packet.json",
+  "recorded_at": "2026-07-22T01:46:15.898001+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_attempt_007b; justifications_rebuilt_from_packet; selfcheck_from_agentic_A1; voice=B1",
+  "persona_seed": "3c77eb9f34be",
+  "exercises": [
+    {
+      "exercise_id": "S05-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T1-A-E1\ndef doble(n):\n    return n * 2\nprint(doble(21))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "doble"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S05-T1-A-E1 me baso en la instrucción del paquete: «E1 (guiado) — Escribe `def doble(n):` que retorne `n*2`. Imprime doble(21).». El patrón iDo `S05-T1-B-DEMO` me da la forma (def + return de normalize_nombre collapsando espacios): «def normalize_nombre(raw): return \" \".join(raw.strip().split()) for s in [\" Ana \", \"María José\", \"QUISPE\"]:». Pista del paquete: «return n * 2». Mi respuesta incluye `def doble` / `print(`, alineado a esa demo. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T1-A-E2\ndef normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\nprint(normalize_nombre('  Juan   Pérez '))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "normalize_nombre",
+        "raw",
+        "join",
+        "strip"
+      ],
+      "justification_from_packet": "[B1/Explorer] S05-T1-A-E2: copio el encargo del weDo: «E2 (independiente) — `normalize_nombre(raw)` colapsa espacios internos y strip. Prueba con `' Juan Pérez '`.». Cruce con iDo `S05-T1-B-DEMO` (def + return de normalize_nombre collapsando espacios): «def normalize_nombre(raw): return \" \".join(raw.strip().split()) for s in [\" Ana \", \"María José\", \"QUISPE\"]:». Pista del paquete: «\" \".join(raw.strip().split())». Tokens que copié al code: `def normalize_nombre` / `normalize_nombre`. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T1-A-E3\ndef saluda(nombre):\n    return f'Hola {nombre}'\nprint(saluda('Ana'))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "saluda",
+        "nombre",
+        "Hola",
+        "Ana"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S05-T1-A-E3 leo literalmente: «E3 (transferencia) — Función `saluda(nombre)` que retorne el string; en main imprime el return. Demuestra que sin return print(saluda(...)) muestra None si…». Miro el demo iDo `S05-T1-B-DEMO` (def + return de normalize_nombre collapsando espacios): «def normalize_nombre(raw): return \" \".join(raw.strip().split()) for s in [\" Ana \", \"María José\", \"QUISPE\"]:». Pista del paquete: «Si ves None, falta return.». En el code dejo `nombre` / `print(` como ancla del mismo patrón. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T1-B-E1\ndef present(nombre, titulo='Cliente'):\n    return f'{titulo}: {nombre}'\nprint(present('Quispe'))\nprint(present('Quispe', titulo='VIP'))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "present",
+        "nombre",
+        "titulo",
+        "Cliente"
+      ],
+      "justification_from_packet": "[B1/Explorer] S05-T1-B-E1: copio el encargo del weDo: «E1 (guiado) — `def present(nombre, titulo='Cliente'):` retorna `f'{titulo}: {nombre}'`. Llama posicional y con keyword titulo=.». Miro el demo iDo `S05-T1-B-DEMO` (def + return de normalize_nombre collapsando espacios): «def normalize_nombre(raw): return \" \".join(raw.strip().split()) for s in [\" Ana \", \"María José\", \"QUISPE\"]:». Pista del paquete: «default solo se usa si omites el arg». Tokens que copié al code: `def present` / `Cliente`. Teoría cercana: «Posicionales, keyword y defaults seguros»."
+    },
+    {
+      "exercise_id": "S05-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T1-B-E2\ndef good_add(item, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\nprint(good_add(1))\nprint(good_add(2))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "good_add",
+        "item",
+        "bucket",
+        "append"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S05-T1-B-E2 me baso en la instrucción del paquete: «E2 (independiente) — Reescribe un `bad_add` con default mutable a la versión segura con None. Muestra dos llamadas good(1), good(2) independientes.». El patrón iDo `S05-T1-B-DEMO` me da la forma (def + return de normalize_nombre collapsando espacios): «def normalize_nombre(raw): return \" \".join(raw.strip().split()) for s in [\" Ana \", \"María José\", \"QUISPE\"]:». Pista del paquete: «if bucket is None: bucket = []». Mi respuesta incluye `def good_add` / `print(`, alineado a esa demo. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T1-B-E3\ndef normalize_telefono(raw, *, digits_only=True):\n    s = raw.strip()\n    if digits_only:\n        return ''.join(c for c in s if c.isdigit())\n    return s\nprint(normalize_telefono(' 999-000 '))\nprint(normalize_telefono(' 999-000 ', digits_only=False))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "normalize_telefono",
+        "raw",
+        "digits_only",
+        "strip"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S05-T1-B-E3 siguiendo el texto de la instrucción: «E3 (transferencia) — `normalize_telefono(raw, *, digits_only=True)` keyword-only. Si digits_only, deja solo dígitos; si False, solo strip. Demuestra ambas…». El patrón iDo `S05-T1-B-DEMO` me da la forma (def + return de normalize_nombre collapsando espacios): «def normalize_nombre(raw): return \" \".join(raw.strip().split()) for s in [\" Ana \", \"María José\", \"QUISPE\"]:». Pista del paquete: «El * fuerza keyword para digits_only.». En el code dejo `normalize_telefono` / `digits_only` como ancla del mismo patrón. Teoría cercana: «Posicionales, keyword y defaults seguros»."
+    },
+    {
+      "exercise_id": "S05-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T2-A-E1\ndef area(w, h):\n    \"\"\"Área de un rectángulo w×h.\"\"\"\n    return w * h\nprint(area.__doc__)\nprint(area(3, 4))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "area",
+        "__doc__"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S05-T2-A-E1 siguiendo el texto de la instrucción: «E1 (guiado) — Añade docstring de una línea a `def area(w, h): return w*h` e imprime `area.__doc__`.». El patrón iDo `S05-T2-A-DEMO` me da la forma (Defaults seguros vs default mutable bug): «def good(item, bucket=None): if bucket is None: bucket = []». Pista del paquete: «Triple comillas justo bajo def». En el code dejo `def area` / `__doc__` como ancla del mismo patrón. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T2-A-E2\ndef normalize_email(raw: str) -> str:\n    \"\"\"Pre: str. Post: lower strip con @. Raises ValueError.\"\"\"\n    s = raw.strip().lower()\n    if \"@\" not in s:\n        raise ValueError(\"falta @\")\n    return s\nprint(normalize_email('  A@B.COM '))\ntry:\n    normalize_email('x')\nexcept ValueError as e:\n    print('err', e)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "normalize_email",
+        "raw",
+        "str",
+        "Pre"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S05-T2-A-E2 leo literalmente: «E2 (independiente) — `normalize_email` con pre/post en docstring: strip+lower; ValueError si no hay @. Prueba OK y error.». El patrón iDo `S05-T2-A-DEMO` me da la forma (Defaults seguros vs default mutable bug): «def good(item, bucket=None): if bucket is None: bucket = []». Pista del paquete: «if '@' not in s: raise ValueError». Mi respuesta incluye `normalize_email` / `def normalize_email`, alineado a esa demo. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T2-A-E3\ndef normalize_nombre(raw: str) -> str:\n    \"\"\"Post: sin extremos ni dobles espacios.\"\"\"\n    return \" \".join(raw.strip().split())\nr = normalize_nombre('  Ana  María  ')\nprint(r)\nassert r == r.strip() and '  ' not in r\nprint('post OK')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "normalize_nombre",
+        "raw",
+        "str",
+        "Post"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S05-T2-A-E3 siguiendo el texto de la instrucción: «E3 (transferencia) — Documenta y escribe `normalize_nombre` con postcondición: no empiezan/terminan espacios y no hay dobles espacios. Assert de la…». Cruce con iDo `S05-T2-A-DEMO` (Defaults seguros vs default mutable bug): «def good(item, bucket=None): if bucket is None: bucket = []». Pista del paquete: «assert result == result.strip() and ' ' not in result». Tokens que copié al code: `normalize_nombre` / `def normalize_nombre`. Teoría cercana: «Pruebas de ejemplo y refactor sin cambiar conducta»."
+    },
+    {
+      "exercise_id": "S05-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T2-B-E1\ndef len_safe(s: str) -> int:\n    return len(s)\nprint(len_safe('abc'))\nprint('Nota: el hint no valida en runtime')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "len_safe",
+        "str",
+        "int",
+        "len"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S05-T2-B-E1 me baso en la instrucción del paquete: «E1 (guiado) — Anota `def len_safe(s: str) -> int` y retorna len. Imprime el resultado y un comentario mental de que el hint no valida en runtime.». El patrón iDo `S05-T2-B-DEMO` me da la forma (Docstring + pre/post en normalize_email): «def normalize_email(raw: str) -> str: \"\"\"Pre: str. Post: lower strip con @. Raises ValueError.\"\"\" s =…». Pista del paquete: «hints no ejecutan isinstance mágicamente». Tokens que copié al code: `def len_safe` / `len_safe`. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T2-B-E2\nfrom typing import Optional, Tuple\n\ndef parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:\n    try:\n        n = int(raw.strip())\n    except ValueError:\n        return False, None, 'no es int'\n    if n < 0:\n        return False, None, 'negativo'\n    return True, n, None\nfor v in ['0', '10', '-1', 'x']:\n    print(v, parse_monto(v))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "typing",
+        "Optional",
+        "Tuple",
+        "parse_monto"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S05-T2-B-E2 siguiendo el texto de la instrucción: «E2 (independiente) — `parse_monto(raw: str) -> tuple` (ok, value, err). Acepta enteros >=0; error de dominio si negativo o no int.». Replico la forma del demo `S05-T2-B-DEMO` (Docstring + pre/post en normalize_email): «def normalize_email(raw: str) -> str: \"\"\"Pre: str. Post: lower strip con @. Raises ValueError.\"\"\" s =…». Pista del paquete: «try int; if n<0 dominio». Mi respuesta incluye `parse_monto` / `def parse_monto`, alineado a esa demo. Teoría cercana: «Type hints graduales y errores de dominio»."
+    },
+    {
+      "exercise_id": "S05-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T2-B-E3\ndef normalize_email(raw: str) -> str:\n    s = raw.strip().lower()\n    if '@' not in s:\n        raise ValueError('falta @')\n    return s\nprint('Política: raise por fila; try/except en el lote no aborta todo')\nfor e in ['ok@ex.com', 'malo']:\n    try:\n        print('OK', normalize_email(e))\n    except ValueError:\n        print('SKIP', e)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "normalize_email",
+        "raw",
+        "str",
+        "strip"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S05-T2-B-E3 me baso en la instrucción del paquete: «E3 (transferencia) — Elige raise ValueError **o** tupla para `normalize_email` y documenta por qué en un print. Implementa la opción raise y captura en el…». Cruce con iDo `S05-T2-B-DEMO` (Docstring + pre/post en normalize_email): «def normalize_email(raw: str) -> str: \"\"\"Pre: str. Post: lower strip con @. Raises ValueError.\"\"\" s =…». Pista del paquete: «Lote: try/except por fila para no abortar todo». Mi respuesta incluye `def normalize_email` / `normalize_email`, alineado a esa demo. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T3-A-E1\ndef strip_collapse(s):\n    return ' '.join(s.strip().split())\ndef normalize_nombre(raw):\n    return strip_collapse(raw).title()\nprint(normalize_nombre('  ana  maría '))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "strip_collapse",
+        "join",
+        "strip",
+        "split"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S05-T3-A-E1 me baso en la instrucción del paquete: «E1 (guiado) — Extrae `strip_collapse` y úsalo dentro de `normalize_nombre` que además hace .title().». Miro el demo iDo `S05-T3-A-DEMO` (Type hints + resultado de dominio sin abortar el lote): «from typing import Optional, Tuple def norm_tel(raw: str) -> Tuple[bool, Optional[str], Optional[str]]: d =…». Pista del paquete: «def strip_collapse; return strip_collapse(raw).title()». Mi respuesta incluye `normalize_nombre` / `strip_collapse`, alineado a esa demo. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T3-A-E2\ndef norm_n(s):\n    return ' '.join(s.strip().split()).title()\ndef norm_e(s):\n    return s.strip().lower()\ndef normalize_contact(nombre, email):\n    return {'nombre': norm_n(nombre), 'email': norm_e(email)}\nprint(normalize_contact('  luis ', '  L@E.COM '))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "norm_n",
+        "join",
+        "strip",
+        "split"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S05-T3-A-E2 leo literalmente: «E2 (independiente) — Orquestador `normalize_contact(nombre, email)` devuelve dict usando dos helpers.». El patrón iDo `S05-T3-A-DEMO` me da la forma (Type hints + resultado de dominio sin abortar el lote): «from typing import Optional, Tuple def norm_tel(raw: str) -> Tuple[bool, Optional[str], Optional[str]]: d =…». Pista del paquete: «return {'nombre': ..., 'email': ...}». Tokens que copié al code: `normalize_contact` / `def normalize_contact`. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T3-A-E3\ndef norm_n(s):\n    return ' '.join(s.strip().split()).title()\ndef norm_e(s):\n    return s.strip().lower()\ndef norm_t(s):\n    return ''.join(c for c in s if c.isdigit())\ndef normalize_all(n, e, t):\n    return {'nombre': norm_n(n), 'email': norm_e(e), 'telefono': norm_t(t)}\nprint(normalize_all('  Ana ', 'A@B.COM', '999-1'))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "norm_n",
+        "join",
+        "strip",
+        "split"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S05-T3-A-E3 siguiendo el texto de la instrucción: «E3 (transferencia) — Parte una función monstruo de 10 líneas (nombre+email+tel en un solo def con comentarios) en 3 funciones + orquestador. Misma salida.». Cruce con iDo `S05-T3-A-DEMO` (Type hints + resultado de dominio sin abortar el lote): «from typing import Optional, Tuple def norm_tel(raw: str) -> Tuple[bool, Optional[str], Optional[str]]: d =…». Pista del paquete: «Cada campo = una función». En el code dejo `def norm_t` / `norm_t` como ancla del mismo patrón. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T3-B-E1\ndef normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\nx = '999-000'\nonce = normalize_tel(x)\nprint(once, normalize_tel(once) == once)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "normalize_tel",
+        "raw",
+        "join",
+        "isdigit"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S05-T3-B-E1 siguiendo el texto de la instrucción: «E1 (guiado) — Escribe `normalize_tel` puro (solo dígitos). Demuestra idempotencia con dos llamadas encadenadas.». El patrón iDo `S05-T3-B-DEMO` me da la forma (Componer strip + lower + orquestador de registro): «def strip_collapse(s: str) -> str: return \" \".join(s.strip().split()) def norm_email(s: str) -> str:». Pista del paquete: «once = f(x); twice = f(once); print once==twice». Queda reflejado con `normalize_tel` / `def normalize_tel` en mi solución. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T3-B-E2\ndef normalize_email(raw):\n    return raw.strip().lower()\ndef print_report(raw):\n    print('email=', normalize_email(raw))\nprint_report('  Z@W.COM ')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "normalize_email",
+        "raw",
+        "strip",
+        "lower"
+      ],
+      "justification_from_packet": "[B1/Explorer] S05-T3-B-E2: copio el encargo del weDo: «E2 (independiente) — Separa: `normalize_email` puro + `print_report(email)` con efecto de print. No imprimas dentro del normalizador.». Replico la forma del demo `S05-T3-B-DEMO` (Componer strip + lower + orquestador de registro): «def strip_collapse(s: str) -> str: return \" \".join(s.strip().split()) def norm_email(s: str) -> str:». Pista del paquete: «print solo en print_report». Tokens que copié al code: `normalize_email` / `print_report`. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T3-B-E3\ndef normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\ndef process(line, norm=normalize_tel):\n    return norm(line)\nprint(process(' 999-a '))\nprint(process(' 999-a ', norm=lambda s: s.strip().upper()))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "normalize_tel",
+        "raw",
+        "join",
+        "isdigit"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S05-T3-B-E3 leo literalmente: «E3 (transferencia) — Inyecta un normalizador: `process(line, norm=normalize_tel)` usa la fn inyectada. Llama con default y con un norm alternativo que deja…». Miro el demo iDo `S05-T3-B-DEMO` (Componer strip + lower + orquestador de registro): «def strip_collapse(s: str) -> str: return \" \".join(s.strip().split()) def norm_email(s: str) -> str:». Pista del paquete: «norm es parámetro con default». En el code dejo `normalize_tel` / `def normalize_tel` como ancla del mismo patrón. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T4-A-E1\nx = 1\ndef f():\n    x = 2\n    print('in', x)\nf()\nprint('out', x)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "out"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S05-T4-A-E1 me baso en la instrucción del paquete: «E1 (guiado) — Predice LEGB: global x=1; dentro de f, x=2 local; print dentro y fuera.». Cruce con iDo `S05-T4-A-DEMO` (Idempotencia de normalize_telefono puro): «def normalize_telefono(raw: str) -> str: return \"\".join(c for c in raw if c.isdigit()) samples =…». Pista del paquete: «Local no pisa global sin global keyword». Tokens que copié al code: `print(` / `def f`. Teoría cercana: «LEGB y closures básicos»."
+    },
+    {
+      "exercise_id": "S05-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T4-A-E2\ndef make_multiplier(k):\n    def inner(n):\n        return n * k\n    return inner\nm3 = make_multiplier(3)\nm10 = make_multiplier(10)\nprint(m3(4), m10(4))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "make_multiplier",
+        "inner",
+        "m10"
+      ],
+      "justification_from_packet": "[B1/Explorer] En S05-T4-A-E2 me baso en la instrucción del paquete: «E2 (independiente) — `make_multiplier(k)` devuelve función que multiplica por k (closure). Crea *3 y *10.». El patrón iDo `S05-T4-A-DEMO` me da la forma (Idempotencia de normalize_telefono puro): «def normalize_telefono(raw: str) -> str: return \"\".join(c for c in raw if c.isdigit()) samples =…». Pista del paquete: «def inner(n): return n*k; return inner». Mi respuesta incluye `make_multiplier` / `def make_multiplier`, alineado a esa demo. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T4-A-E3\ndef make_normalizer(mode):\n    if mode == 'digits':\n        def digits(s):\n            return ''.join(c for c in s if c.isdigit())\n        return digits\n    if mode == 'lower':\n        def lower(s):\n            return s.strip().lower()\n        return lower\n    raise ValueError(mode)\nd = make_normalizer('digits')\nlo = make_normalizer('lower')\nprint(d('A-1-B-2'), lo('  Hola '))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "make_normalizer",
+        "mode",
+        "digits",
+        "join"
+      ],
+      "justification_from_packet": "[B1/Explorer] Armo S05-T4-A-E3 siguiendo el texto de la instrucción: «E3 (transferencia) — Factory `make_normalizer(mode)` donde mode 'digits' o 'lower' devuelve la fn adecuada. Úsala en dos prints.». Cruce con iDo `S05-T4-A-DEMO` (Idempotencia de normalize_telefono puro): «def normalize_telefono(raw: str) -> str: return \"\".join(c for c in raw if c.isdigit()) samples =…». Pista del paquete: «if mode=='digits': return lambda o def digits...». En el code dejo `make_normalizer` / `def make_normalizer` como ancla del mismo patrón. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T4-B-E1\ndef normalize_email(s):\n    return s.strip().lower()\nassert normalize_email('A@B.COM') == 'a@b.com'\nassert normalize_email(normalize_email('A@B.COM')) == normalize_email('A@B.COM')\nprint('OK')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "normalize_email",
+        "strip",
+        "lower",
+        "assert"
+      ],
+      "justification_from_packet": "[B1/Explorer] S05-T4-B-E1: copio el encargo del weDo: «E1 (guiado) — Escribe 2 asserts de ejemplo para `normalize_email = lambda s: s.strip().lower()` e imprime OK.». Cruce con iDo `S05-T4-B-DEMO` (Closure factory para prefijo de teléfono): «def make_norm(prefix: str): def norm(raw: str) -> str: d = \"\".join(c for c in raw if c.isdigit())». Pista del paquete: «assert normalize_email('A@B.COM')=='a@b.com'». Mi respuesta incluye `normalize_email` / `def normalize_email`, alineado a esa demo. Teoría cercana: «Pruebas de ejemplo y refactor sin cambiar conducta»."
+    },
+    {
+      "exercise_id": "S05-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T4-B-E2\ndef strip_collapse(raw):\n    return ' '.join(raw.strip().split())\ndef normalize_dir(raw):\n    return strip_collapse(raw).upper()\nassert normalize_dir('  av 1 ') == 'AV 1'\nassert normalize_dir(normalize_dir('x')) == normalize_dir('x')\nprint(normalize_dir(' jr 2 '))",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "strip_collapse",
+        "raw",
+        "join",
+        "strip"
+      ],
+      "justification_from_packet": "[B1/Explorer] S05-T4-B-E2: copio el encargo del weDo: «E2 (independiente) — Refactoriza `normalize_dir` de una línea densa a dos pasos (strip_collapse + upper) sin romper asserts dados.». Replico la forma del demo `S05-T4-B-DEMO` (Closure factory para prefijo de teléfono): «def make_norm(prefix: str): def norm(raw: str) -> str: d = \"\".join(c for c in raw if c.isdigit())». Pista del paquete: «Corre asserts antes y después mentalmente». Tokens que copié al code: `strip_collapse` / `normalize_dir`. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S05-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S05-T4-B-E3\ndef normalize_nombre(raw):\n    return ' '.join(raw.strip().split())\ncases = [('  a  b ', 'a b'), ('X', 'X')]\nfor inp, exp in cases:\n    got = normalize_nombre(inp)\n    assert got == exp, (inp, got, exp)\n    print('PASS', inp, got)\nprint('all PASS')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S05",
+        "normalize_nombre",
+        "raw",
+        "join",
+        "strip"
+      ],
+      "justification_from_packet": "[B1/Explorer] Para resolver S05-T4-B-E3 leo literalmente: «E3 (transferencia) — Suite mínima: lista de (input, expected) para normalize_nombre; loop assert. Luego cambia implementación a title-case y actualiza expected…». Replico la forma del demo `S05-T4-B-DEMO` (Closure factory para prefijo de teléfono): «def make_norm(prefix: str): def norm(raw: str) -> str: d = \"\".join(c for c in raw if c.isdigit())». Pista del paquete: «No cambies política sin actualizar tests». Mi respuesta incluye `normalize_nombre` / `def normalize_nombre`, alineado a esa demo. Teoría cercana: «De “OOP” a funciones y contratos (mapa de la sección)»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "None",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría: sin return explícito, 'Python devuelve None'."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "El default mutable se comparte entre llamadas",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría de defaults: se evalúan una vez en la definición; 'nunca uses lista/dict mutable como default (`def f(xs=[])` es un bug clásico)' porque se comparte entre llamadas."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Mismo input → mismo output, sin efectos colaterales",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría: función pura = mismos argumentos → mismo resultado y 'no tiene efectos' (no imprime, no lee disco, no muta globales)."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Local, Enclosing, Global, Builtin",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría LEGB: 'orden de búsqueda de nombres — Local, Enclosing (funciones anidadas), Global, Builtin'."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "f(f(x)) == f(x) para entradas del dominio",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Teoría de idempotencia: los normalizadores deben ser idempotentes: 'f(f(x)) == f(x) para entradas válidas'."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B1",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  }
+}

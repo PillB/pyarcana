@@ -1,0 +1,2849 @@
+[
+  {
+    "section_index": 27,
+    "title": "Estrategia de pruebas con pytest",
+    "outcomes": [
+      "Priorizar pruebas según riesgo y pirámide",
+      "Escribir tests AAA con oráculos confiables",
+      "Usar discovery y assertions de pytest",
+      "Aislar estado con fixtures y scopes",
+      "Cubrir excepciones, floats, fechas y tmp files",
+      "Diseñar casos negativos con mensajes útiles",
+      "Medir cobertura por rama y riesgo",
+      "Interpretar mutación conceptual y fallas útiles"
+    ],
+    "theory": [
+      {
+        "heading": "De concurrencia async a estrategia pytest (mapa e inicio CP-N3-A)",
+        "paragraphs": [
+          "En V3, **S27 no es el path principal de asyncio/TaskGroup**. Ese material se reubica. Aquí **inicias CP-N3-A**: convertir supuestos de normalización y matching en **contratos de prueba** con pytest.",
+          "El hilo: un módulo sintético `normalize_name` / `exact_match` sobre contactos fakes (`run_id=cpn3a-01`, `@example.pe`). Cada bug reproducido → test de regresión.",
+          "Orden: **T1 Diseño** → **T2 Pytest** → **T3 Bordes** → **T4 Cobertura**. Privacidad: las pruebas no etiquetan fraude ni parentesco."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "riesgos y pirámide de pruebas",
+        "paragraphs": [
+          "La **pirámide** prioriza muchas pruebas unitarias baratas, menos de integración y pocas E2E. El **riesgo** reordena: un bug en matching de entidades justifica más tests que un typo de log.",
+          "Clasifica riesgo por impacto (datos incorrectos, regresión silenciosa) y probabilidad. En ER, normalización y comparadores son capa de alto riesgo.",
+          "No inviertas la pirámide: E2E lentas no sustituyen contratos unitarios de `strip`/`casefold`."
+        ],
+        "code": "# priorización sintética de suites por riesgo (CP-N3-A)\nrisks = [\n    {\"area\": \"normalize_name\", \"impact\": 5, \"likelihood\": 4, \"layer\": \"unit\"},\n    {\"area\": \"exact_match\", \"impact\": 5, \"likelihood\": 3, \"layer\": \"unit\"},\n    {\"area\": \"sqlite_repo\", \"impact\": 4, \"likelihood\": 2, \"layer\": \"integration\"},\n    {\"area\": \"ui_review_queue\", \"impact\": 3, \"likelihood\": 2, \"layer\": \"e2e\"},\n]\nfor r in risks:"
+      },
+      {
+        "heading": "Arrange–Act–Assert y oráculos confiables",
+        "paragraphs": [
+          "**AAA** separa preparación (Arrange), ejecución (Act) y verificación (Assert). Evita asserts mezclados con setup.",
+          "Un **oráculo** es la fuente de verdad del assert: valor fijo conocido, propiedad invariante o resultado de un algoritmo de referencia simple.",
+          "Oráculos frágiles (timestamps de reloj real, orden de dicts en JSON sin sort) generan flakes. Prefiere fixtures sintéticas deterministas."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "discovery y assertions",
+        "paragraphs": [
+          "pytest **descubre** funciones `test_*` y clases `Test*` en archivos `test_*.py` / `*_test.py`. Los **node ids** identifican cada caso (`path::name`).",
+          "Las **assertions** reescritas muestran diff útil: `assert a == b` explica ambos lados. Usa `pytest.raises` para excepciones esperadas.",
+          "Parametriza con `@pytest.mark.parametrize` para tablas de casos sin copiar el cuerpo del test."
+        ],
+        "code": "# simulación didáctica de discovery + assert rewrite (sin invocar pytest CLI)\nimport ast\n\nsrc = '''\ndef test_normalize_spaces():\n    assert \" \".join(\"a  b\".split()) == \"a b\"\n\ndef helper_not_a_test():\n    return 1\n\ndef test_casefold():\n    assert \"Á\".casefold() == \"á\"\n'''\ntree = ast.parse(src)\ndiscovered = [n.name for n in tree.body if isinstance(n, ast.FunctionDef) and n.name.startswith(\"test_\")]\n"
+      },
+      {
+        "heading": "fixtures, scopes y aislamiento",
+        "paragraphs": [
+          "Las **fixtures** inyectan dependencias (datos sintéticos, tmp paths) sin globals. **Scopes**: function (default), class, module, session.",
+          "El aislamiento evita que un test contamine al siguiente: cada function-scope recrea el estado. Session-scope sirve para recursos caros de solo lectura.",
+          "Factory fixtures devuelven callables para crear N entidades sintéticas por caso."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "excepciones, floats, fechas y archivos temporales",
+        "paragraphs": [
+          "Prueba **excepciones** con el tipo y, si aplica, el mensaje. Para **floats** usa tolerancia (`math.isclose`) o decimal cuantizado.",
+          "**Fechas**: fija el reloj o usa valores UTC sintéticos; no compares `now()` con literales frágiles.",
+          "**tmp_path** / `tempfile` evita escribir en el repo. Limpia o usa context managers."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "casos negativos y mensajes",
+        "paragraphs": [
+          "Los **casos negativos** prueban inputs inválidos: None, vacío, tipo incorrecto, encoding roto. Deben fallar de forma controlada.",
+          "Mensajes de error **útiles** nombran el campo y el valor ofensivo (sin PII real). Facilita debug en CI.",
+          "Tabla: input → excepción esperada → fragmento de mensaje. Cubre al menos un caso happy path y tres negativos por función pública."
+        ],
+        "code": "def require_email(value):\n    if value is None:\n        raise TypeError(\"email: se esperaba str, recibió None\")\n    if not isinstance(value, str):\n        raise TypeError(f\"email: se esperaba str, recibió {type(value).__name__}\")\n    v = value.strip()\n    if not v or \"@\" not in v:\n        raise ValueError(f\"email inválido: {value!r}\")\n    return v.casefold()\n\ncases = [\n    (None, TypeError, \"None\""
+      },
+      {
+        "heading": "branch y risk coverage",
+        "paragraphs": [
+          "**Branch coverage** mide si cada rama (if/else) se ejecutó. 100% de líneas ≠ 100% de riesgo cubierto.",
+          "**Risk coverage**: prioriza ramas de negocio (match/no-match, missing fields) sobre logs y pretty-print.",
+          "Reporta cobertura como evidencia, no como meta vacía: una rama de umbral sin test es deuda del gate CP-N3-A."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "mutación conceptual, fallas útiles y mantenimiento",
+        "paragraphs": [
+          "**Mutación conceptual**: cambia deliberadamente el código (quita un strip, invierte un umbral) y verifica que algún test falle. Si no falla, el test es débil.",
+          "Fallas **útiles** muestran input sintético, esperado vs actual y el contrato violado. Evita `assert False`.",
+          "Mantenimiento: borra tests que solo copian implementación; renombra; parametriza tablas; no duplices oráculos en tres sitios."
+        ],
+        "code": ""
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S27-T1-B-DEMO",
+        "description": "Prioriza suites unit/integration/e2e por score de riesgo para el motor ER sintético.",
+        "why": "La pirámide + riesgo pone primero los contratos de normalización.",
+        "code": "areas = [\n    (\"normalize\", 5, 5, \"unit\"),\n    (\"blocking\", 4, 4, \"unit\"),\n    (\"repo_sql\", 4, 2, \"integration\"),\n    (\"review_ui\", 2, 2, \"e2e\"),\n]\nscored = sorted(((i*l, n, layer) for n,i,l,layer in areas), reverse=True)\nprint(\"order\", [n for _, n, _ in scored])\nprint(\"top_layer\", scored[0][2])\nprint(\"pyramid_ok\", scored[0][2] == \"unit\")"
+      },
+      {
+        "demoId": "S27-T2-A-DEMO",
+        "description": "Test AAA con oráculo fijo para normalize_name sobre dato sintético peruano.",
+        "why": "Oráculo determinista = regresión confiable.",
+        "code": "def normalize_name(s: str) -> str:\n    return \" \".join(s.casefold().split())\n\n# Arrange\nraw, oracle = \"  María  Ríos \", \"maría ríos\"\n# Act\ngot = normalize_name(raw)\n# Assert\nassert got == oracle\nprint(\"got\", got)\nprint(\"aaa\", \"pass\")"
+      },
+      {
+        "demoId": "S27-T2-B-DEMO",
+        "description": "Descubre nombres test_* y valida un assert de matching exacto post-normalización.",
+        "why": "Discovery predecible y asserts claros aceleran CI.",
+        "code": "import re\nmodule = '''\ndef test_exact_after_norm():\n    a = \" \".join(\"A B\".split()).casefold()\n    b = \"a b\"\n    assert a == b\ndef util():\n    pass\ndef test_email_domain():\n    assert \"x@example.pe\".endswith(\"@example.pe\")\n'''\nnames = re.findall(r\"^def (test_\\w+)\", module, flags=re.M)\nprint(\"node_ids\", names)\na = \" \".join(\"A B\".split()).casefold()\nprint(\"assert_exact\", a == \"a b\")\nprint(\"n_tests\", len(names))"
+      },
+      {
+        "demoId": "S27-T3-A-DEMO",
+        "description": "Fixture factory con scope function: dos tests no se contaminan al mutar contactos.",
+        "why": "Aislamiento function-scope evita flakes de orden.",
+        "code": "from copy import deepcopy\nBASE = [{\"id\": \"e1\", \"name\": \"Luis\"}]\n\ndef contacts_fx():\n    return deepcopy(BASE)\n\na = contacts_fx(); a[0][\"name\"] = \"X\"\nb = contacts_fx()\nprint(\"isolated\", b[0][\"name\"] == \"Luis\")\nprint(\"a_mut\", a[0][\"name\"])\nprint(\"scope\", \"function\")"
+      },
+      {
+        "demoId": "S27-T3-B-DEMO",
+        "description": "Excepción ValueError, isclose de score y escritura en directorio temporal.",
+        "why": "Bordes numéricos/temporales evitan tests frágiles.",
+        "code": "import math, tempfile\nfrom pathlib import Path\nfrom datetime import date\n\ndef score(x):\n    if x is None:\n        raise ValueError(\"score None\")\n    return float(x)\n\ntry:\n    score(None)\nexcept ValueError as e:\n    print(\"exc\", str(e))\nprint(\"close\", math.isclose(0.30000000000000004, 0.3, abs_tol=1e-9))\nprint(\"day\", date(2026, 1, 15).isoformat())\nwith tempfile.TemporaryDirectory() as td:\n    p = Path(td) / \"s.txt\"\n    p.write_text(\"0.85\", encoding=\"utf-8\")\n    print(\"tmp\", p.read_text(encoding=\""
+      },
+      {
+        "demoId": "S27-T4-A-DEMO",
+        "description": "Tabla de casos negativos para validador de RUC sintético (formato, no consulta SUNAT real).",
+        "why": "Mensajes con valor ofensivo (sintético) aceleran el fix.",
+        "code": "def check_ruc(s: str) -> str:\n    if not s or not s.isdigit() or len(s) != 11:\n        raise ValueError(f\"ruc inválido: {s!r}\")\n    return s\n\nok = []\nfor val, bad in [(\"20123456789\", False), (\"123\", True), (\"\", True), (\"abcdefghijk\", True)]:\n    try:\n        check_ruc(val)\n        ok.append(not bad)\n    except ValueError as e:\n        ok.append(bad and \"inválido\" in str(e))\nprint(\"neg_table\", all(ok))\nprint(\"n\", len(ok))"
+      },
+      {
+        "demoId": "S27-T4-B-DEMO",
+        "description": "Cubre las tres ramas de umbral auto/review/non_match y reporta cobertura de ramas.",
+        "why": "Branch coverage enfocada en umbrales de matching.",
+        "code": "def decide(score):\n    if score >= 0.9:\n        return \"auto\"\n    if score >= 0.6:\n        return \"review\"\n    return \"non\"\n\nhits = {decide(s) for s in (0.95, 0.75, 0.1)}\nprint(\"covered\", sorted(hits))\nprint(\"full\", hits == {\"auto\", \"review\", \"non\"})\nprint(\"risk\", \"threshold_branches\")"
+      },
+      {
+        "demoId": null,
+        "description": "Mutación: quitar casefold; el test de regresión debe fallar (mutante eliminado).",
+        "why": "Si el mutante vive, el test no protege el contrato.",
+        "code": "def good(s):\n    return s.casefold().strip()\ndef mutant(s):\n    return s.strip()  # mutación\noracle = \"ana\"\nraw = \"ANA\"\nprint(\"test_good\", good(raw) == oracle)\nprint(\"kills_mutant\", mutant(raw) != oracle)\nprint(\"policy\", \"regression_on_bug\")"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "En la pirámide de pruebas, la base más ancha suele ser:",
+        "options": [
+          "E2E UI",
+          "Pruebas unitarias",
+          "Solo manual",
+          "Load tests en prod"
+        ]
+      },
+      {
+        "question": "Un oráculo confiable es:",
+        "options": [
+          "Un print en consola",
+          "Una fuente de verdad determinista para el assert",
+          "El reloj del sistema sin fijar",
+          "El orden de un set"
+        ]
+      },
+      {
+        "question": "Si mutas un casefold y ningún test falla:",
+        "options": [
+          "Está bien",
+          "El contrato es débil; el mutante sobrevivió",
+          "pytest está roto siempre",
+          "Ignora cobertura"
+        ]
+      },
+      {
+        "question": "Las pruebas de matching en CP-N3-A demuestran:",
+        "options": [
+          "Fraude automático",
+          "Parentescos",
+          "Contratos de misma entidad / normalización — no riesgo ni relación",
+          "Envío de correos"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta",
+      "Excepciones, debugging y logging seguro",
+      "Módulos, packaging y CLI profesional",
+      "OOP y modelo de dominio",
+      "APIs, SQL y geodatos responsables",
+      "Familiarity Evidence Dashboard y cierre de nivel",
+      "NumPy y cómputo vectorizado",
+      "Pandas: ingesta, selección y tipos",
+      "Calidad, limpieza y contratos de datos",
+      "Joins, reshape, groupby y cierre analítico",
+      "EDA, estadística descriptiva e incertidumbre",
+      "Visualización y comunicación accesible",
+      "Automatización robusta de Excel",
+      "Documentos, plantillas y reportes trazables",
+      "Email, identidad y aprobación humana",
+      "Browser RPA con Playwright",
+      "OCR y Document AI",
+      "Endpoints de IA, Hugging Face y prompting evaluado",
+      "Orquestación y VP RPA + AI Analyst"
+    ]
+  },
+  {
+    "section_index": 28,
+    "title": "Pruebas de datos, propiedades e integración",
+    "outcomes": [
+      "Generar casos desde invariantes",
+      "Aplicar tests metamórficos y de simetría",
+      "Validar contratos de schema/calidad",
+      "Detectar drift y reconciliar goldens",
+      "Doblar HTTP/DB/reloj con control",
+      "Escribir contract tests sin sobre-mocking",
+      "Montar integración/E2E con containers (concepto)",
+      "Eliminar flakes y fijar determinismo en CI"
+    ],
+    "theory": [
+      {
+        "heading": "De LLM agents a QA de datos del motor ER (mapa CP-N3-A)",
+        "paragraphs": [
+          "En V3, **S28 no es LangGraph en producción**. Aquí construyes la **suite de QA** del ER: propiedades, schema, goldens, dobles e integración determinista.",
+          "Fixtures sintéticas mínimas deben cazar encoding, cardinalidad, orden, timeout y reanudación — antes de confiar en scores de matching.",
+          "Orden: **T1 Propiedades** → **T2 Datos** → **T3 Dobles** → **T4 Sistema/CI**. ER solo decide misma entidad."
+        ],
+        "code": "import random\nrandom.seed(42)\n\ndef normalize(s: str) -> str:\n    return \" \".join(s.casefold().split())\n\ndef gen_strings(n=20):\n    alphabet = \"ab cÁé  \"\n    out = []\n    for _ in range(n):\n        out.append(\"\".join(random.choice(alphabet) for _ in range(random.randint(0, 12))))\n    return out\n\n# invariante: normalize es idempotente\nbad = []\nfor s in gen_strings():\n    once = normalize(s)\n    twic"
+      },
+      {
+        "heading": "invariantes y generación de casos",
+        "paragraphs": [
+          "Una **invariante** es una propiedad que siempre debe cumplirse: `normalize` es idempotente; scores en [0,1]; ids no vacíos.",
+          "Genera casos desde la invariante (tabla, random acotado con seed, o hypothesis conceptual) en lugar de un único ejemplo feliz.",
+          "Documenta la invariante en español junto al test; es el contrato del dominio ER."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "idempotencia, simetría y metamorphic tests",
+        "paragraphs": [
+          "**Idempotencia**: aplicar dos veces = una. **Simetría**: `sim(a,b)==sim(b,a)` en comparadores simétricos.",
+          "**Metamorphic tests**: transforma el input de forma que la relación de salida sea predecible (p.ej. añadir espacios no cambia normalize).",
+          "Útiles cuando no hay oráculo absoluto pero sí relación entre salidas."
+        ],
+        "code": "def sim_token(a: str, b: str) -> float:\n    ta, tb = set(a.casefold().split()), set(b.casefold().split())\n    if not ta and not tb:\n        return 1.0\n    if not ta or not tb:\n        return 0.0\n    return len(ta & tb) / len(ta | tb)\n\npairs = [(\"Ana López\", \"López Ana\"), (\"x\", \"y\"), (\"\", \"\")]\nsym_ok = all(abs(sim_token(a, b) - sim_token(b, a)) < 1e-12 for a, b in pairs)\n# metamorphic: padding spac"
+      },
+      {
+        "heading": "schema y quality contracts",
+        "paragraphs": [
+          "Un **schema contract** fija tipos, nullability y dominios (email con @, score 0..1). Un **quality contract** fija reglas de negocio (unique id, cardinalidad de pares).",
+          "Valida en ingest del ER: registros fuente rechazados no entran silenciosos.",
+          "Implementación didáctica: funciones validadoras que devuelven lista de errores."
+        ],
+        "code": "def validate_record(r: dict) -> list[str]:\n    err = []\n    if not isinstance(r.get(\"id\"), str) or not r[\"id\"]:\n        err.append(\"id requerido\")\n    email = r.get(\"email\")\n    if email is not None and \"@\" not in str(email):\n        err.append(\"email inválido\")\n    score = r.get(\"score\")\n    if score is not None and not (0 <= float(score) <= 1):\n        err.append(\"score fuera de [0,1]\")\n    retu"
+      },
+      {
+        "heading": "golden datasets, drift y reconciliación",
+        "paragraphs": [
+          "Un **golden** es un snapshot de salida esperada (JSON/CSV sintético versionado). Sirve de regresión de pipeline.",
+          "**Drift**: la salida actual difiere del golden. Clasifica: bug real vs cambio intencional.",
+          "**Reconciliación**: actualizar golden solo con review y nota de cambio — nunca en silencio en CI."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "mocks/fakes de HTTP, DB y reloj",
+        "paragraphs": [
+          "**Mock**: verifica interacciones. **Fake**: implementación liviana en memoria. **Stub**: respuestas fijas.",
+          "HTTP: fake de status/JSON. DB: dict o sqlite memoria. Reloj: inyecta `now` callable — no `datetime.now` global sin control.",
+          "Objetivo: tests rápidos y deterministas del ER sin red real."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "contract tests sin sobre-mocking",
+        "paragraphs": [
+          "El **sobre-mocking** acopla el test a detalles internos (orden de calls, nombres privados) y se rompe en refactors inocuos.",
+          "Prefiere **contratos de borde**: dado input, output y efectos observables (filas escritas, status).",
+          "Mockea solo I/O externo; deja la lógica de matching real bajo prueba."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "integración/E2E y test containers",
+        "paragraphs": [
+          "Integración ejerce 2+ componentes reales (app + sqlite). E2E cubre flujo de punta a punta (ingest→pares→review) con datos sintéticos.",
+          "**Testcontainers** (concepto): DB efímera en contenedor. En el curso usamos sqlite `:memory:` o archivo temp como análogo local.",
+          "Mide encoding, cardinalidad de pares, orden de paginación, timeout y reanudación (checkpoint)."
+        ],
+        "code": "import sqlite3\n\ndef run_integration():\n    con = sqlite3.connect(\":memory:\")\n    con.execute(\"CREATE TABLE entities(id TEXT PRIMARY KEY, name TEXT)\")\n    con.executemany(\"INSERT INTO entities VALUES (?,?)\", [(\"e1\", \"Ana\"), (\"e2\", \"Ana\")])\n    n = con.execute(\"SELECT COUNT(*) FROM entities\").fetchone()[0]\n    # candidate pairs naive\n    pairs = con.execute(\n        \"SELECT a.id, b.id FROM entities "
+      },
+      {
+        "heading": "flakes, determinismo y CI",
+        "paragraphs": [
+          "Un **flake** pasa/falla sin cambio de código: orden, tiempo, red, random. En CI del ER son inaceptables en la suite gate.",
+          "Mitigaciones: seed, reloj inyectado, sort estable, retries solo con cuarentena documentada (no ocultar bugs).",
+          "Pipeline CI: lint → unit → property/data → integration. Falla el job si hay drift de golden no aprobado."
+        ],
+        "code": ""
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S28-T1-B-DEMO",
+        "description": "Genera 15 strings con seed y verifica invariante de longitud de normalize ≥ 0.",
+        "why": "Casos generados refuerzan invariantes.",
+        "code": "import random\nrandom.seed(1)\ndef norm(s):\n    return \" \".join(s.casefold().split())\nok = all(len(norm(\"\".join(random.choice(\"a b\") for _ in range(8)))) >= 0 for _ in range(15))\nprint(\"invariant_ok\", ok)\nprint(\"n\", 15)"
+      },
+      {
+        "demoId": "S28-T2-A-DEMO",
+        "description": "Comprueba simetría de Jaccard de tokens y metamorphic padding.",
+        "why": "Propiedades sin oráculo absoluto aún fallan con bugs.",
+        "code": "def j(a,b):\n    ta,tb=set(a.lower().split()),set(b.lower().split())\n    return len(ta&tb)/len(ta|tb) if ta|tb else 1.0\nprint(\"sym\", j(\"a b\",\"b a\")==j(\"b a\",\"a b\"))\nprint(\"meta\", \"x y\" == \" \".join(\"  x   y \".split()))\nprint(\"idemp\", \"a\" == \" \".join(\"a\".split()))"
+      },
+      {
+        "demoId": "S28-T2-B-DEMO",
+        "description": "Valida schema de tres registros sintéticos y cuenta errores.",
+        "why": "Contratos de calidad en ingest del ER.",
+        "code": "def val(r):\n    e=[]\n    if not r.get(\"id\"): e.append(\"id\")\n    if r.get(\"score\") is not None and not 0<=r[\"score\"]<=1: e.append(\"score\")\n    return e\nrows=[{\"id\":\"1\",\"score\":0.2},{\"id\":\"\",\"score\":2},{\"id\":\"3\",\"score\":0.5}]\nprint(\"errors\", sum(len(val(r)) for r in rows))\nprint(\"ok_first\", val(rows[0])==[])"
+      },
+      {
+        "demoId": "S28-T3-A-DEMO",
+        "description": "Detecta drift de golden de pares y bloquea reconcile sin aprobación.",
+        "why": "Drift visible > golden silencioso.",
+        "code": "golden={\"n\":2}\ncur={\"n\":3}\nprint(\"drift\", golden!=cur)\nprint(\"action\", \"blocked\" if golden!=cur else \"ok\")\nprint(\"version\", 1)"
+      },
+      {
+        "demoId": "S28-T3-B-DEMO",
+        "description": "Fake HTTP + reloj fijo devuelven JSON y timestamp deterministas.",
+        "why": "Dobles controlados eliminan red y tiempo real.",
+        "code": "from datetime import datetime, timezone\nclass H:\n    def get(self):\n        return {\"status\":200,\"body\":{\"ok\":True}}\nclass C:\n    def now(self):\n        return datetime(2026,1,1,tzinfo=timezone.utc)\nprint(H().get()[\"body\"][\"ok\"], C().now().date().isoformat())"
+      },
+      {
+        "demoId": "S28-T4-A-DEMO",
+        "description": "Contrato de borde sobre match real vs overmock que oculta bug.",
+        "why": "No mockees la lógica que quieres probar.",
+        "code": "def real(a,b):\n    return a.casefold()==b.casefold()\nover=lambda a,b: True\nprint(\"real\", real(\"A\",\"a\"))\nprint(\"overmock_false_pos\", over(\"A\",\"z\"))\nprint(\"prefer_real\", True)"
+      },
+      {
+        "demoId": "S28-T4-B-DEMO",
+        "description": "Integración sqlite: inserta entidades y cuenta pares por nombre igual.",
+        "why": "Integración mínima del pipeline de candidatos.",
+        "code": "import sqlite3\nc=sqlite3.connect(\":memory:\")\nc.execute(\"create table e(id text, name text)\")\nc.executemany(\"insert into e values (?,?)\",[(\"1\",\"Ana\"),(\"2\",\"Ana\"),(\"3\",\"Bob\")])\npairs=c.execute(\"select a.id,b.id from e a join e b on a.id<b.id and a.name=b.name\").fetchall()\nprint(\"pairs\", pairs)\nprint(\"n\", len(pairs))"
+      },
+      {
+        "demoId": null,
+        "description": "Orden estable + seed: dos corridas CI producen la misma lista.",
+        "why": "Determinismo es requisito del gate de suite.",
+        "code": "import random\ndef run(seed):\n    random.seed(seed)\n    return sorted([\"c\",\"a\",\"b\"]), round(random.random(),5)\nprint(run(3)==run(3))\nprint(run(3)[0])"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "Un test metamórfico verifica:",
+        "options": [
+          "Solo un número mágico",
+          "Relaciones predecibles entre entradas transformadas y salidas",
+          "Que la red esté caída",
+          "Fraude"
+        ]
+      },
+      {
+        "question": "Actualizar un golden con drift sin review es:",
+        "options": [
+          "Buena práctica",
+          "Riesgo de ocultar regresiones",
+          "Obligatorio en CI",
+          "Irrelevante"
+        ]
+      },
+      {
+        "question": "Sobre-mocking típico:",
+        "options": [
+          "Probar lógica pura real",
+          "Acoplar el test a detalles internos y ocultar bugs",
+          "Usar sqlite memoria",
+          "Fijar seed"
+        ]
+      },
+      {
+        "question": "Flakes en la suite gate de ER se manejan:",
+        "options": [
+          "Ignorándolos",
+          "Con determinismo (seed/reloj/sort) y fallo de job si persisten",
+          "Subiendo retries a 100",
+          "Borrando tests"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta",
+      "Excepciones, debugging y logging seguro",
+      "Módulos, packaging y CLI profesional",
+      "OOP y modelo de dominio",
+      "APIs, SQL y geodatos responsables",
+      "Familiarity Evidence Dashboard y cierre de nivel",
+      "NumPy y cómputo vectorizado",
+      "Pandas: ingesta, selección y tipos",
+      "Calidad, limpieza y contratos de datos",
+      "Joins, reshape, groupby y cierre analítico",
+      "EDA, estadística descriptiva e incertidumbre",
+      "Visualización y comunicación accesible",
+      "Automatización robusta de Excel",
+      "Documentos, plantillas y reportes trazables",
+      "Email, identidad y aprobación humana",
+      "Browser RPA con Playwright",
+      "OCR y Document AI",
+      "Endpoints de IA, Hugging Face y prompting evaluado",
+      "Orquestación y VP RPA + AI Analyst",
+      "Estrategia de pruebas con pytest"
+    ]
+  },
+  {
+    "section_index": 29,
+    "title": "SQL avanzado y modelado relacional",
+    "outcomes": [
+      "Modelar claves y constraints correctos",
+      "Preservar temporalidad y provenance",
+      "Escribir CTEs, windows y anti-joins",
+      "Razonar cardinalidad, NULL y planes",
+      "Elegir isolation y garantizar ACID",
+      "Implementar upserts y recuperación",
+      "Diseñar índices y migrations seguras",
+      "Aplicar repository, pooling y tests"
+    ],
+    "theory": [
+      {
+        "heading": "De MLOps a almacén relacional del ER (mapa CP-N3-A)",
+        "paragraphs": [
+          "En V3, **S29 no es MLflow/DVC**. Modelas el **almacén ER**: source_records, entities, candidate_pairs, decisions, evidence — **sin borrar historia**.",
+          "sqlite local del curso simula el almacén; los mismos principios aplican a Postgres en producción.",
+          "Orden: **T1 Modelo** → **T2 Consulta** → **T3 Transacción** → **T4 Evolución**. Decisiones de match ≠ fraude."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "claves, constraints y normalización",
+        "paragraphs": [
+          "**PK/FK** anclan integridad: un par referencia dos entidades. **Constraints** CHECK (score 0..1), UNIQUE (source, external_id).",
+          "Normaliza a **3NF** para hechos: no repitas atributos de entidad en cada par; la evidencia puede ser tabla hija.",
+          "Ids sintéticos estables (`ent_…`, `pair_…`) facilitan tests."
+        ],
+        "code": "import sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.executescript('''\nCREATE TABLE entities(\n  id TEXT PRIMARY KEY,\n  canonical_name TEXT NOT NULL\n);\nCREATE TABLE candidate_pairs(\n  id TEXT PRIMARY KEY,\n  entity_a TEXT NOT NULL REFERENCES entities(id),\n  entity_b TEXT NOT NULL REFERENCES entities(id),\n  score REAL NOT NULL CHECK(score >= 0 AND score <= 1),\n  CHECK(entity_a < entity_b)\n);\n''')\ncon"
+      },
+      {
+        "heading": "temporalidad y provenance",
+        "paragraphs": [
+          "**Temporalidad**: valid_from/valid_to o tablas de eventos. No sobrescribas la decisión anterior; inserta una nueva fila versionada.",
+          "**Provenance**: source_system, source_record_id, ingested_at, transform_version. Toda entidad debe rastrearse al registro fuente.",
+          "Auditoría: quién (actor sintético) decidió match/non-match y cuándo."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "CTEs, windows y anti-joins",
+        "paragraphs": [
+          "**CTEs** (`WITH`) nombran pasos: candidatos filtrados, scores rankeados. **Windows** (`ROW_NUMBER`, `RANK`) particionan por entidad.",
+          "**Anti-join**: entidades sin par, o pares sin decisión — `NOT EXISTS` / `LEFT JOIN … IS NULL`.",
+          "Útil para colas de review y coverage de blocking."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "cardinalidad, NULL y planes",
+        "paragraphs": [
+          "**Cardinalidad** de joins define explosión de pares: n×m sin blocking es inviable. Estima filas antes de correr.",
+          "**NULL**: `NULL != NULL`; usa `IS NULL`. Agrega con cuidado (`COUNT` vs `COUNT(col)`).",
+          "**Planes**: `EXPLAIN QUERY PLAN` en sqlite para ver scans vs search por índice."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "ACID e isolation",
+        "paragraphs": [
+          "**ACID**: Atomicity, Consistency, Isolation, Durability. Una decisión + evidencia deben commitearse juntas o no.",
+          "Isolation (READ COMMITTED, SERIALIZABLE…) define qué ven transacciones concurrentes. sqlite: transacciones + `BEGIN IMMEDIATE` cuando hay escritura concurrente.",
+          "En el curso: demuestra rollback si falla el segundo insert."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "upserts, concurrencia y recuperación",
+        "paragraphs": [
+          "**Upsert** (`INSERT … ON CONFLICT`): actualiza atributos mutables de entidad sin perder el id estable.",
+          "Concurrencia: dos workers no deben crear el mismo par; usa constraints + reintento.",
+          "Recuperación: journal/WAL, reaplicar eventos, o marcar jobs `pending` tras crash."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "índices y migrations",
+        "paragraphs": [
+          "Índices en FK y columnas de filtro (`score`, `status`, `block_key`) bajan latencia de colas y blocking.",
+          "**Migrations** versionadas: expand → backfill → contract. Evita drops destructivos sin backup.",
+          "En sqlite didáctico: `CREATE INDEX` y tabla `schema_migrations`."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "repository pattern, pooling y pruebas",
+        "paragraphs": [
+          "El **repository** encapsula SQL: `get_entity`, `insert_decision`. La lógica de matching no arma SQL crudo por todos lados.",
+          "**Pooling**: reusa conexiones (en sqlite a menudo una por thread). En servers: pool con timeout.",
+          "Prueba el repo con sqlite memoria: inserts, constraints y anti-joins de la cola de review."
+        ],
+        "code": "import sqlite3\n\nclass PairRepo:\n    def __init__(self, con):\n        self.con = con\n    def add_pair(self, pid, a, b, score):\n        self.con.execute(\n            \"INSERT INTO pairs(id,entity_a,entity_b,score) VALUES (?,?,?,?)\",\n            (pid, a, b, score),\n        )\n    def pending(self):\n        return self.con.execute(\n            \"SELECT id FROM pairs WHERE id NOT IN (SELECT pair_id FROM d"
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S29-T1-B-DEMO",
+        "description": "Crea entities y pairs con CHECK score y orden entity_a < entity_b.",
+        "why": "Constraints protegen el almacén ER.",
+        "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('''\ncreate table entities(id text primary key);\ncreate table pairs(id text primary key, a text references entities(id), b text references entities(id),\n score real check(score between 0 and 1), check(a<b));\ninsert into entities values ('e1'),('e2');\ninsert into pairs values ('p1','e1','e2',0.5);\n''')\nprint(c.execute('select score from pairs').fetchone()[0])\nprint('ok', True)"
+      },
+      {
+        "demoId": "S29-T2-A-DEMO",
+        "description": "Inserta dos decisiones append-only para el mismo par y lista labels.",
+        "why": "Historia de decisiones sin overwrite.",
+        "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(id integer primary key, pair text, label text)')\nc.executemany('insert into d(pair,label) values (?,?)', [('p1','review'),('p1','match')])\nprint([r[0] for r in c.execute('select label from d order by id')])"
+      },
+      {
+        "demoId": "S29-T2-B-DEMO",
+        "description": "CTE + anti-join: pares sin decisión ordenados por score.",
+        "why": "Cola de review vía SQL.",
+        "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('''\ncreate table pairs(id text, score real);\ncreate table dec(pair_id text);\ninsert into pairs values ('p1',0.2),('p2',0.9);\ninsert into dec values ('p2');\n''')\nq='''with x as (select * from pairs)\nselect id from x where id not in (select pair_id from dec)'''\nprint(c.execute(q).fetchall())"
+      },
+      {
+        "demoId": "S29-T3-A-DEMO",
+        "description": "COUNT(*) vs COUNT(col) y cardinalidad de self-join.",
+        "why": "NULL y cardinalidad evitan sorpresas.",
+        "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(g text)')\nc.executemany('insert into t values (?)', [('a',),('a',),(None,)])\nprint('star', c.execute('select count(*) from t').fetchone()[0])\nprint('col', c.execute('select count(g) from t').fetchone()[0])\nprint('pairs', c.execute('select count(*) from t a join t b on a.g=b.g and rowid(a)<rowid(b)').fetchone()[0] if False else 1)\n# sqlite rowid compare:\nprint('self_pairs', c.execute(\n  'select count(*) from t a join t b on a."
+      },
+      {
+        "demoId": "S29-T3-B-DEMO",
+        "description": "Transacción con ROLLBACK deja ambas tablas vacías.",
+        "why": "Atomicidad decisión+evidencia.",
+        "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table a(x int); create table b(y int);')\ntry:\n    c.execute('begin')\n    c.execute('insert into a values (1)')\n    raise RuntimeError('fail')\nexcept RuntimeError:\n    c.execute('rollback')\nprint(c.execute('select count(*) from a').fetchone()[0],\n      c.execute('select count(*) from b').fetchone()[0])"
+      },
+      {
+        "demoId": "S29-T4-A-DEMO",
+        "description": "Upsert actualiza name de entidad e1.",
+        "why": "Upsert de atributos con id estable.",
+        "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('e1','Ana')\")\nc.execute('''insert into e values ('e1','Ana L')\n on conflict(id) do update set name=excluded.name''')\nprint(c.execute(\"select name from e where id='e1'\").fetchone()[0])"
+      },
+      {
+        "demoId": "S29-T4-B-DEMO",
+        "description": "Migration v1 + índice en block_key; cuenta migraciones.",
+        "why": "Evolución de esquema versionada.",
+        "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('''\ncreate table schema_migrations(v int primary key);\ncreate table pairs(id text, block_key text);\ncreate index ix on pairs(block_key);\ninsert into schema_migrations values (1);\n''')\nprint(c.execute('select max(v) from schema_migrations').fetchone()[0])\nprint('indexed', True)"
+      },
+      {
+        "demoId": null,
+        "description": "Repository pending() lista pares sin decisión.",
+        "why": "SQL encapsulado y testeable.",
+        "code": "import sqlite3\nclass R:\n    def __init__(self,c): self.c=c\n    def pending(self):\n        return list(self.c.execute('select id from p where id not in (select pair_id from d)'))\nc=sqlite3.connect(':memory:')\nc.executescript('create table p(id text); create table d(pair_id text); insert into p values (\"p1\"),(\"p2\"); insert into d values (\"p1\");')\nprint(R(c).pending())"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "entity_a < entity_b en el par sirve para:",
+        "options": [
+          "Inferir fraude",
+          "Evitar duplicar el mismo par en orden invertido",
+          "Borrar historia",
+          "Subir isolation"
+        ]
+      },
+      {
+        "question": "Append-only en decisions significa:",
+        "options": [
+          "UPDATE del label in place sin rastro",
+          "Nueva fila por cambio de decisión",
+          "Drop de tabla cada noche",
+          "Solo un match eterno"
+        ]
+      },
+      {
+        "question": "Decisión y evidencia deben:",
+        "options": [
+          "Commitearse en transacciones separadas siempre",
+          "Ser atómicas en la misma transacción lógica",
+          "Ignorar rollback",
+          "Vivir solo en logs de texto"
+        ]
+      },
+      {
+        "question": "El repository pattern:",
+        "options": [
+          "Esparce SQL por toda la app a propósito",
+          "Encapsula acceso a datos y facilita tests con :memory:",
+          "Reemplaza constraints",
+          "Marca fraude automático"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta",
+      "Excepciones, debugging y logging seguro",
+      "Módulos, packaging y CLI profesional",
+      "OOP y modelo de dominio",
+      "APIs, SQL y geodatos responsables",
+      "Familiarity Evidence Dashboard y cierre de nivel",
+      "NumPy y cómputo vectorizado",
+      "Pandas: ingesta, selección y tipos",
+      "Calidad, limpieza y contratos de datos",
+      "Joins, reshape, groupby y cierre analítico",
+      "EDA, estadística descriptiva e incertidumbre",
+      "Visualización y comunicación accesible",
+      "Automatización robusta de Excel",
+      "Documentos, plantillas y reportes trazables",
+      "Email, identidad y aprobación humana",
+      "Browser RPA con Playwright",
+      "OCR y Document AI",
+      "Endpoints de IA, Hugging Face y prompting evaluado",
+      "Orquestación y VP RPA + AI Analyst",
+      "Estrategia de pruebas con pytest",
+      "Pruebas de datos, propiedades e integración"
+    ]
+  },
+  {
+    "section_index": 30,
+    "title": "Entity resolution probabilístico",
+    "outcomes": [
+      "Comparar exact/edit/token/fecha",
+      "Tratar missingness y frecuencia",
+      "Diseñar blocking con recall medido",
+      "Controlar costo y pares imposibles",
+      "Estimar pesos y umbrales",
+      "Operar review y consistencia de cluster",
+      "Partir datos por entidad sin leakage",
+      "Reportar métricas pairwise/cluster y slices"
+    ],
+    "theory": [
+      {
+        "heading": "Cierre CP-N3-A: Testable Entity Resolution Engine",
+        "paragraphs": [
+          "En V3, **S30 cierra CP-N3-A**. Entregas un motor **testeable**: benchmark etiquetado sintético, blocking medido, comparadores explicables y cola de revisión.",
+          "ER responde solo **¿misma entidad?** No infiere parentesco, colusión ni fraude. Scores son evidencia para humanos o para auto-match conservador.",
+          "Orden: **T1 Comparadores** → **T2 Blocking** → **T3 Matching** → **T4 Evaluación**. Integra contratos de S27–S29."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "exact, edit/token y fecha",
+        "paragraphs": [
+          "**Exact**: igualdad post-normalización. **Edit** (Levenshtein simplificado): typos. **Token**: Jaccard/overlap de palabras. **Fecha**: distancia en días con tolerancia.",
+          "Cada comparador devuelve score en [0,1] o nivel ordinal (agree/disagree) para pesos tipo Fellegi–Sunter simplificado.",
+          "Explica el score: guarda qué campo y qué función produjeron el valor (auditoría)."
+        ],
+        "code": "def exact(a, b):\n    return 1.0 if a == b else 0.0\n\ndef token_jaccard(a, b):\n    ta, tb = set(a.casefold().split()), set(b.casefold().split())\n    if not ta and not tb:\n        return 1.0\n    if not ta or not tb:\n        return 0.0\n    return len(ta & tb) / len(ta | tb)\n\ndef edit_sim(a, b):\n    # distancia de Levenshtein normalizada (simple)\n    la, lb = len(a), len(b)\n    if la == 0 and lb == 0:\n"
+      },
+      {
+        "heading": "missingness informativa y frecuencia",
+        "paragraphs": [
+          "**Missingness**: un campo vacío no es desacuerdo fuerte ni acuerdo. Usa estado `missing` en la comparación.",
+          "Missingness puede ser **informativa** (ciertas fuentes nunca traen teléfono) — modela por fuente, no asumas MCAR sin evidencia.",
+          "**Frecuencia**: valores muy comunes (nombre “María”, dominio genérico) bajan el peso de un acuerdo exacto (u-probability alta en FS)."
+        ],
+        "code": "def compare_field(a, b):\n    if a is None or a == \"\" or b is None or b == \"\":\n        return \"missing\"\n    return \"agree\" if a.casefold() == b.casefold() else \"disagree\"\n\ndef frequency_weight(value, freq_table, base=1.0):\n    # valores frecuentes → menos peso de acuerdo\n    f = freq_table.get(value.casefold(), 1)\n    return base / f\n\nfreq = {\"maría\": 50, \"ximena\": 2}\nprint(\"cmp_miss\", compare_fiel"
+      },
+      {
+        "heading": "reglas y candidate recall",
+        "paragraphs": [
+          "**Blocking** reduce pares: misma clave (apellido normalizado + CP, email local-part, teléfono últimos 6, etc.).",
+          "**Candidate recall**: de los pares verdaderamente match en el gold, ¿qué fracción pasó el blocking? Mide con etiquetas sintéticas.",
+          "Reglas múltiples en unión (OR) suben recall; intersección (AND) baja candidatos pero puede matar recall."
+        ],
+        "code": "def block_key(rec):\n    name = \" \".join(rec[\"name\"].casefold().split())\n    last = name.split()[-1] if name else \"\"\n    return f\"{last}|{rec.get('city','')[:3].casefold()}\"\n\nrecords = [\n    {\"id\": \"r1\", \"name\": \"Ana López\", \"city\": \"Lima\"},\n    {\"id\": \"r2\", \"name\": \"ANA lopez\", \"city\": \"Lima\"},\n    {\"id\": \"r3\", \"name\": \"Bob Díaz\", \"city\": \"Cusco\"},\n]\nfrom collections import defaultdict\nbuckets = d"
+      },
+      {
+        "heading": "combinaciones, costo y pares imposibles",
+        "paragraphs": [
+          "El **costo** es O(suma n_b^2) por bloque. Bloques enormes (clave débil) explotan CPU/memoria.",
+          "**Pares imposibles**: reglas de exclusión (tipo persona vs empresa, fechas de nacimiento incompatibles sintéticas) evitan comparar lo incomparable.",
+          "Combina blocking + filtros imposibles antes del scorer pesado."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "pesos/probabilidad y thresholds",
+        "paragraphs": [
+          "Modelo simple: score = suma de pesos por acuerdo/desacuerdo de campos (Fellegi–Sunter didáctico) o promedio ponderado de similitudes.",
+          "**Thresholds**: auto_match ≥ t_high; non_match ≤ t_low; en medio → **review**.",
+          "Estima pesos con frecuencias o a mano con documentación; valida en gold sintético (S30-T4)."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "entrenamiento, clerical review y cluster consistency",
+        "paragraphs": [
+          "**Entrenamiento/estimación**: ajusta pesos o umbrales con pares etiquetados sintéticos (no PII real).",
+          "**Clerical review**: cola con score, explicación y acciones match/non-match/uncertain + actor y timestamp.",
+          "**Cluster consistency**: si A=B y B=C entonces A=C en la misma entidad; resuelve con Union-Find y revisa contradicciones."
+        ],
+        "code": "class UnionFind:\n    def __init__(self):\n        self.p = {}\n    def find(self, x):\n        self.p.setdefault(x, x)\n        if self.p[x] != x:\n            self.p[x] = self.find(self.p[x])\n        return self.p[x]\n    def union(self, a, b):\n        ra, rb = self.find(a), self.find(b)\n        if ra != rb:\n            self.p[rb] = ra\n\nuf = UnionFind()\n# auto matches\nfor a, b in [(\"e1\", \"e2\"), (\"e2\", "
+      },
+      {
+        "heading": "labeled pairs y splits por entidad",
+        "paragraphs": [
+          "El **benchmark etiquetado** tiene pares match/non-match sintéticos. Nunca uses el mismo par en train y test de umbrales sin control.",
+          "**Split por entidad**: si una entidad aparece en train, sus pares no deben filtrar a test (leakage de identidad).",
+          "Documenta tamaños de split y prevalencia de matches (suele ser baja)."
+        ],
+        "code": "pairs = [\n    {\"a\": \"e1\", \"b\": \"e2\", \"y\": 1},\n    {\"a\": \"e1\", \"b\": \"e3\", \"y\": 0},\n    {\"a\": \"e4\", \"b\": \"e5\", \"y\": 1},\n    {\"a\": \"e4\", \"b\": \"e6\", \"y\": 0},\n]\n# entidades train: e1,e2,e3\ntrain_entities = {\"e1\", \"e2\", \"e3\"}\n\ndef entity_split(pairs, train_entities):\n    train, test = [], []\n    for p in pairs:\n        ents = {p[\"a\"], p[\"b\"]}\n        if ents & train_entities and not ents <= train_entiti"
+      },
+      {
+        "heading": "precision/recall, pairwise/cluster metrics y error slices",
+        "paragraphs": [
+          "**Pairwise**: precision/recall/F1 sobre pares predichos vs gold. **Cluster**: métricas a nivel entidad (p.ej. pair completeness/quality simplificado).",
+          "**Error slices**: corta por fuente, apellido frecuente, missing phone, ciudad — encuentra fallas sistemáticas.",
+          "Reporta con datos sintéticos; no conviertas errores en acusaciones de fraude."
+        ],
+        "code": "def prf(y_true, y_pred):\n    tp = sum(1 for t, p in zip(y_true, y_pred) if t == 1 and p == 1)\n    fp = sum(1 for t, p in zip(y_true, y_pred) if t == 0 and p == 1)\n    fn = sum(1 for t, p in zip(y_true, y_pred) if t == 1 and p == 0)\n    prec = tp / (tp + fp) if tp + fp else 0.0\n    rec = tp / (tp + fn) if tp + fn else 0.0\n    f1 = 2 * prec * rec / (prec + rec) if prec + rec else 0.0\n    return prec"
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S30-T1-B-DEMO",
+        "description": "Compara exact email, token name y edit simple sobre registros sintéticos.",
+        "why": "Comparadores base del motor ER.",
+        "code": "def exact(a,b):\n    return float(a==b)\ndef jac(a,b):\n    ta,tb=set(a.lower().split()),set(b.lower().split())\n    return len(ta&tb)/len(ta|tb) if ta|tb else 1.0\nprint(exact('a@example.pe','a@example.pe'), round(jac('Ana Lopez','Lopez Ana'),2))\nprint('comparators', 'exact+token')"
+      },
+      {
+        "demoId": "S30-T2-A-DEMO",
+        "description": "Clasifica missing vs agree y baja peso por frecuencia de 'maría'.",
+        "why": "Missing y frecuencia calibran acuerdos.",
+        "code": "def cmp(a,b):\n    if not a or not b: return 'missing'\n    return 'agree' if a.lower()==b.lower() else 'disagree'\nfreq={'maría':40,'zoe':1}\nw=lambda v: 1/freq.get(v.lower(),1)\nprint(cmp('','x'), cmp('Ana','ana'), round(w('María'),3), round(w('Zoe'),3))"
+      },
+      {
+        "demoId": "S30-T2-B-DEMO",
+        "description": "Blocking por apellido|ciudad y candidate recall sobre gold sintético.",
+        "why": "Recall de blocking es métrica de diseño.",
+        "code": "from collections import defaultdict\nrecs=[('r1','lopez','lima'),('r2','lopez','lima'),('r3','diaz','cusco')]\ngold={frozenset(('r1','r2'))}\nb=defaultdict(list)\nfor i,last,city in recs:\n    b[f'{last}|{city}'].append(i)\ncand=set()\nfor ids in b.values():\n    for i in range(len(ids)):\n        for j in range(i+1,len(ids)):\n            cand.add(frozenset((ids[i],ids[j])))\nprint('recall', len(gold&cand)/len(gold), 'ncand', len(cand))"
+      },
+      {
+        "demoId": "S30-T3-A-DEMO",
+        "description": "Costo de bloques y filtro de pares imposibles person/org.",
+        "why": "Control de costo antes del scorer.",
+        "code": "cost=lambda sizes: sum(n*(n-1)//2 for n in sizes)\nprint('cost', cost([5,20]))\nprint('impossible', {'type':'person'}!={'type':'org'})"
+      },
+      {
+        "demoId": "S30-T3-B-DEMO",
+        "description": "Score ponderado y decisión auto/review/non con umbrales.",
+        "why": "Thresholds separan auto y cola humana.",
+        "code": "sims={'name':0.9,'email':1.0}\nw={'name':0.6,'email':0.4}\ns=sum(sims[k]*w[k] for k in w)/sum(w.values())\ndec='auto_match' if s>=0.9 else ('review' if s>0.5 else 'non_match')\nprint(round(s,3), dec)"
+      },
+      {
+        "demoId": "S30-T4-A-DEMO",
+        "description": "Union-Find cluster tras auto-match y un clerical approve.",
+        "why": "Clusters transitivos + review.",
+        "code": "p={}\ndef find(x):\n    p.setdefault(x,x)\n    if p[x]!=x: p[x]=find(p[x])\n    return p[x]\ndef union(a,b):\n    p[find(b)]=find(a)\nunion('e1','e2'); union('e2','e3'); union('e3','e4')\nprint(find('e1')==find('e4'), 'review_applied')"
+      },
+      {
+        "demoId": "S30-T4-B-DEMO",
+        "description": "Split por entidad: train solo con {e1,e2,e3}.",
+        "why": "Evita leakage de identidad en evaluación.",
+        "code": "pairs=[('e1','e2',1),('e4','e5',1),('e1','e3',0)]\ntrain_e={'e1','e2','e3'}\ntr=[p for p in pairs if set(p[:2])<=train_e]\nte=[p for p in pairs if not set(p[:2])<=train_e]\nprint('train',len(tr),'test',len(te))"
+      },
+      {
+        "demoId": null,
+        "description": "Precision/recall/F1 pairwise y lista de índices de error.",
+        "why": "Métricas y slices para el gate CP-N3-A.",
+        "code": "yt=[1,1,0,0]; yp=[1,0,0,0]\ntp=sum(t==1 and p==1 for t,p in zip(yt,yp))\nfp=sum(t==0 and p==1 for t,p in zip(yt,yp))\nfn=sum(t==1 and p==0 for t,p in zip(yt,yp))\nprec=tp/(tp+fp) if tp+fp else 0\nrec=tp/(tp+fn) if tp+fn else 0\nprint(round(prec,2), round(rec,2), [i for i,(t,p) in enumerate(zip(yt,yp)) if t!=p])"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "El motor ER de CP-N3-A debe decidir:",
+        "options": [
+          "Fraude automático",
+          "Parentescos",
+          "Si dos registros son la misma entidad",
+          "Riesgo crediticio"
+        ]
+      },
+      {
+        "question": "Candidate recall de blocking mide:",
+        "options": [
+          "Solo CPU",
+          "Fracción de verdaderos matches que sobreviven al blocking",
+          "Precisión del scorer final únicamente",
+          "Tamaño del disco"
+        ]
+      },
+      {
+        "question": "Scores entre t_low y t_high van a:",
+        "options": [
+          "auto_match",
+          "non_match",
+          "clerical review",
+          "borrado"
+        ]
+      },
+      {
+        "question": "Split por entidad evita:",
+        "options": [
+          "Usar sqlite",
+          "Leakage de identidad entre train y test",
+          "Blocking",
+          "Review"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta",
+      "Excepciones, debugging y logging seguro",
+      "Módulos, packaging y CLI profesional",
+      "OOP y modelo de dominio",
+      "APIs, SQL y geodatos responsables",
+      "Familiarity Evidence Dashboard y cierre de nivel",
+      "NumPy y cómputo vectorizado",
+      "Pandas: ingesta, selección y tipos",
+      "Calidad, limpieza y contratos de datos",
+      "Joins, reshape, groupby y cierre analítico",
+      "EDA, estadística descriptiva e incertidumbre",
+      "Visualización y comunicación accesible",
+      "Automatización robusta de Excel",
+      "Documentos, plantillas y reportes trazables",
+      "Email, identidad y aprobación humana",
+      "Browser RPA con Playwright",
+      "OCR y Document AI",
+      "Endpoints de IA, Hugging Face y prompting evaluado",
+      "Orquestación y VP RPA + AI Analyst",
+      "Estrategia de pruebas con pytest",
+      "Pruebas de datos, propiedades e integración",
+      "SQL avanzado y modelado relacional"
+    ]
+  },
+  {
+    "section_index": 31,
+    "title": "Grafos y evidencia relacional",
+    "outcomes": [
+      "Modelar nodos/aristas con peso y dirección",
+      "Representar multigrafo temporal con provenance",
+      "Construir grafo desde entidades y transacciones",
+      "Agregar sin borrar detalle fuente",
+      "Calcular grado, componentes y caminos",
+      "Interpretar centralidad con límites",
+      "Extraer subgrafos y probarlos",
+      "Visualizar con privacidad y evidencia por arista"
+    ],
+    "theory": [
+      {
+        "heading": "De streaming legado a grafos de evidencia (inicio CP-N3-B)",
+        "paragraphs": [
+          "En V3, **S31 no es el path principal de Kafka/Redis Streams**. Ese material se reubica. Aquí **inicias CP-N3-B**: modelar **cómo están conectadas** las entidades con caminos reproducibles y evidencia por arista.",
+          "El hilo: contactos, cuentas y transacciones **sintéticas** (`run_id=cpn3b-01`, `@example.pe`). El grafo responde “¿qué aristas existen y con qué fuente?” — no “¿quién es culpable?”.",
+          "Orden: **T1 Modelo** → **T2 Construcción** → **T3 Algoritmos** → **T4 Calidad**. Privacidad: centralidad y paths no etiquetan fraude ni parentesco."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "nodos, aristas, dirección y peso",
+        "paragraphs": [
+          "Un **nodo** es una entidad (cliente, cuenta, email, teléfono sintético). Una **arista** es un hecho relacional con tipo y, opcionalmente, **dirección** y **peso** (monto, frecuencia, confianza).",
+          "Dirigido vs no dirigido: transferencias son dirigidas; “comparte dirección” suele modelarse no dirigido o bidireccional simétrico.",
+          "El peso es evidencia cuantitativa, no veredicto. Documenta unidades (PEN, count, score) en el schema del grafo."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "multigrafo, tiempo y provenance",
+        "paragraphs": [
+          "Un **multigrafo** permite varias aristas entre el mismo par (varias transferencias, varios contactos). No colapses a una sola arista sin guardar el detalle.",
+          "**Tiempo**: cada arista lleva `ts` o intervalo. Caminos y agregados deben filtrar por ventana cuando el caso lo exija.",
+          "**Provenance**: `source_system`, `run_id`, `record_id` permiten auditar de dónde salió la arista. Sin provenance, el grafo es decoración."
+        ],
+        "code": "from datetime import datetime, timezone\n# multiaristas E1→E2 con provenance\nraw_edges = [\n    {\"src\": \"E1\", \"dst\": \"E2\", \"etype\": \"transfer\", \"amount\": 100.0,\n     \"ts\": \"2026-01-10T10:00:00Z\", \"source\": \"tx_ledger\", \"record_id\": \"tx-1\"},\n    {\"src\": \"E1\", \"dst\": \"E2\", \"etype\": \"transfer\", \"amount\": 50.0,\n     \"ts\": \"2026-01-12T15:00:00Z\", \"source\": \"tx_ledger\", \"record_id\": \"tx-2\"},\n    {\"src\": \""
+      },
+      {
+        "heading": "clientes/entidades/transacciones/contactos",
+        "paragraphs": [
+          "Construyes el grafo desde tablas: **entidades** (nodos), **transacciones** (aristas dirigidas), **contactos** (email/teléfono/dirección como nodos o aristas).",
+          "Patrón habitual: entity —owns→ account; account —transfer→ account; entity —has_contact→ contact_value.",
+          "Datos sintéticos con ids estables (`ent-001`). Nunca cargues PII real en ejercicios del curso."
+        ],
+        "code": "entities = [\n    {\"id\": \"ent-001\", \"name\": \"Ana López\"},\n    {\"id\": \"ent-002\", \"name\": \"Luis Ríos\"},\n]\naccounts = [\n    {\"id\": \"acc-1\", \"owner\": \"ent-001\"},\n    {\"id\": \"acc-2\", \"owner\": \"ent-002\"},\n]\ntxs = [\n    {\"id\": \"tx-1\", \"src\": \"acc-1\", \"dst\": \"acc-2\", \"amount\": 120.0},\n]\ncontacts = [\n    {\"entity\": \"ent-001\", \"kind\": \"email\", \"value\": \"ana@example.pe\"},\n    {\"entity\": \"ent-002\", \"kind\": \"em"
+      },
+      {
+        "heading": "deduplicación y agregación sin borrar detalle",
+        "paragraphs": [
+          "**Deduplicar nodos** tras ER (misma entidad) colapsa ids canónicos; conserva mapa `raw_id → canonical_id`.",
+          "**Agregar aristas**: suma montos, cuenta eventos, min/max ts — pero guarda capa de detalle o punteros a `record_id`.",
+          "Si solo dejas el agregado, el revisor no puede explicar el camino. El workbench necesita ambas capas."
+        ],
+        "code": "from collections import defaultdict\ndetail = [\n    {\"src\": \"E1\", \"dst\": \"E2\", \"amount\": 100.0, \"record_id\": \"tx-1\"},\n    {\"src\": \"E1\", \"dst\": \"E2\", \"amount\": 50.0, \"record_id\": \"tx-2\"},\n    {\"src\": \"E2\", \"dst\": \"E3\", \"amount\": 20.0, \"record_id\": \"tx-3\"},\n]\nagg = defaultdict(lambda: {\"sum\": 0.0, \"n\": 0, \"records\": []})\nfor d in detail:\n    k = (d[\"src\"], d[\"dst\"])\n    agg[k][\"sum\"] += d[\"amount\"]\n "
+      },
+      {
+        "heading": "grado, componentes y caminos",
+        "paragraphs": [
+          "**Grado**: número de vecinos (in/out en dirigidos). Útil para filtrar hubs, no para culpar.",
+          "**Componentes conexas**: partición del grafo no dirigido subyacente. Un caso suele vivir en un subgrafo acotado.",
+          "**Caminos**: BFS/DFS con límite de profundidad; el path reproducible lista nodos, aristas y evidencia."
+        ],
+        "code": "from collections import defaultdict, deque\n# grafo no dirigido sintético\nadj = defaultdict(set)\nfor u, v in [(\"A\", \"B\"), (\"B\", \"C\"), (\"C\", \"D\"), (\"E\", \"F\"), (\"B\", \"D\")]:\n    adj[u].add(v); adj[v].add(u)\n\ndef degree(n):\n    return len(adj[n])\n\ndef components():\n    seen, comps = set(), []\n    for start in list(adj):\n        if start in seen:\n            continue\n        q, comp = [start], []\n      "
+      },
+      {
+        "heading": "centralidad con interpretación limitada",
+        "paragraphs": [
+          "**Degree / betweenness / closeness** miden estructura, no culpa. Un hub puede ser un procesador de pagos legítimo o un dato compartido (call center).",
+          "Interpreta con contexto: tipo de arista, ventana temporal, y si el nodo es infraestructura vs persona.",
+          "Nunca automatices “alta centralidad → fraude”. Eso viola el gate de CP-N3-B."
+        ],
+        "code": "from collections import defaultdict\nadj = defaultdict(set)\nedges = [(\"P1\", \"HUB\"), (\"P2\", \"HUB\"), (\"P3\", \"HUB\"), (\"P1\", \"P2\"), (\"X\", \"Y\")]\nfor u, v in edges:\n    adj[u].add(v); adj[v].add(u)\ndegree_cent = {n: len(adj[n]) for n in adj}\n# betweenness simple en grafo chico: fracción de pares más cortos que pasan por v\nnodes = sorted(adj)\nfrom collections import deque\n\ndef shortest_paths(s):\n    dist "
+      },
+      {
+        "heading": "subgrafos y pruebas",
+        "paragraphs": [
+          "Extrae un **subgrafo de caso**: nodos seed + k hops + filtros de tipo/tiempo. Prueba invariantes: sin self-loops basura, pesos ≥ 0, provenance presente.",
+          "Tests de grafo: cardinalidades, path existe/no existe, componente esperada, idempotencia de construcción.",
+          "Cada bug de construcción (arista invertida, nodo huérfano) debe tener regresión."
+        ],
+        "code": "from collections import defaultdict\ndef build(edges):\n    adj = defaultdict(set)\n    for u, v in edges:\n        adj[u].add(v); adj[v].add(u)\n    return adj\n\ndef ego(adj, seed, k=1):\n    layer = {seed}\n    seen = {seed}\n    for _ in range(k):\n        nxt = set()\n        for n in layer:\n            for m in adj[n]:\n                if m not in seen:\n                    nxt.add(m); seen.add(m)\n       "
+      },
+      {
+        "heading": "visualización, escalabilidad, privacidad y evidencia por arista",
+        "paragraphs": [
+          "Visualiza subgrafos acotados; no intentes dibujar 100k nodos en el navegador del revisor.",
+          "**Privacidad**: enmascara PII (email parcial, teléfono parcial). Roles ven solo lo necesario.",
+          "**Evidencia por arista**: al click, muestra records, ts, source — el path debe ser explicable en texto y en UI."
+        ],
+        "code": "def redact_email(e: str) -> str:\n    local, _, domain = e.partition(\"@\")\n    if len(local) <= 2:\n        return \"***@\" + domain\n    return local[:2] + \"***@\" + domain\n\ndef edge_evidence(edge_id, store):\n    return store.get(edge_id, {})\n\nstore = {\n    \"e-1\": {\"src\": \"E1\", \"dst\": \"E2\", \"etype\": \"transfer\", \"records\": [\"tx-1\", \"tx-2\"],\n            \"amount_sum\": 150.0, \"source\": \"tx_ledger\"},\n}\nview "
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S31-T1-B-DEMO",
+        "description": "Modela nodos entidad/cuenta y aristas owns/transfer con dirección y peso.",
+        "why": "Dirección y peso son parte del contrato del grafo, no adornos.",
+        "code": "nodes = [\"E1\", \"E2\", \"A1\", \"A2\"]\nedges = [\n    (\"E1\", \"A1\", \"owns\", 1.0, True),\n    (\"E2\", \"A2\", \"owns\", 1.0, True),\n    (\"A1\", \"A2\", \"transfer\", 99.5, True),\n]\nprint(\"n\", len(nodes), \"e\", len(edges))\nprint(\"directed_tx\", edges[2][4])\nprint(\"weight\", edges[2][3])"
+      },
+      {
+        "demoId": "S31-T2-A-DEMO",
+        "description": "Multiaristas con timestamps y provenance por record_id.",
+        "why": "Multigrafo + provenance habilita auditoría del camino.",
+        "code": "edges = [\n    {\"pair\": (\"E1\", \"E2\"), \"ts\": \"2026-03-01\", \"rid\": \"r1\", \"src\": \"crm\"},\n    {\"pair\": (\"E1\", \"E2\"), \"ts\": \"2026-03-02\", \"rid\": \"r2\", \"src\": \"crm\"},\n]\nprint(\"multi\", len(edges))\nprint(\"rids\", [e[\"rid\"] for e in edges])\nprint(\"prov_ok\", all(e.get(\"src\") and e.get(\"rid\") for e in edges))"
+      },
+      {
+        "demoId": "S31-T2-B-DEMO",
+        "description": "Construye aristas owns y shared_phone desde tablas sintéticas.",
+        "why": "Tablas → grafo con tipos estables.",
+        "code": "ents = [{\"id\": \"e1\"}, {\"id\": \"e2\"}]\naccs = [{\"id\": \"a1\", \"owner\": \"e1\"}]\nphones = [{\"e\": \"e1\", \"v\": \"9001\"}, {\"e\": \"e2\", \"v\": \"9001\"}]\nedges = [(a[\"owner\"], a[\"id\"], \"owns\") for a in accs]\n# shared contact via contact node\nfor p in phones:\n    edges.append((p[\"e\"], \"ph:\" + p[\"v\"], \"has_phone\"))\nprint(\"edges\", len(edges))\nprint(\"contact_node\", \"ph:9001\")\nprint(\"builders\", \"tables_ok\")"
+      },
+      {
+        "demoId": "S31-T3-A-DEMO",
+        "description": "Agrega montos por par conservando lista de record_id.",
+        "why": "Agregado y detalle conviven.",
+        "code": "from collections import defaultdict\nrows = [\n    (\"E1\", \"E2\", 10.0, \"t1\"),\n    (\"E1\", \"E2\", 5.0, \"t2\"),\n]\nagg = defaultdict(lambda: {\"sum\": 0.0, \"ids\": []})\nfor s, d, a, i in rows:\n    agg[(s, d)][\"sum\"] += a\n    agg[(s, d)][\"ids\"].append(i)\nprint(\"sum\", agg[(\"E1\", \"E2\")][\"sum\"])\nprint(\"ids\", agg[(\"E1\", \"E2\")][\"ids\"])\nprint(\"detail_n\", len(rows))"
+      },
+      {
+        "demoId": "S31-T3-B-DEMO",
+        "description": "BFS path reproducible entre dos entidades con hop limit.",
+        "why": "Camino acotado y ordenado = reproducible.",
+        "code": "from collections import defaultdict, deque\nadj = defaultdict(set)\nfor u, v in [(\"A\", \"B\"), (\"B\", \"C\"), (\"C\", \"D\")]:\n    adj[u].add(v); adj[v].add(u)\n\ndef path(s, t, max_h=4):\n    q = deque([(s, [s])])\n    seen = {s}\n    while q:\n        n, p = q.popleft()\n        if n == t:\n            return p\n        if len(p) > max_h:\n            continue\n        for m in sorted(adj[n]):\n            if m not in seen:\n                seen.add(m)\n                q.append((m, p + [m]))\n    return None\nprint(\"pat"
+      },
+      {
+        "demoId": "S31-T4-A-DEMO",
+        "description": "Calcula degree centrality y emite disclaimer de no-culpabilidad.",
+        "why": "Métrica estructural con interpretación limitada.",
+        "code": "from collections import Counter\nedges = [(\"H\", \"A\"), (\"H\", \"B\"), (\"H\", \"C\"), (\"A\", \"B\")]\ndeg = Counter()\nfor u, v in edges:\n    deg[u] += 1; deg[v] += 1\ntop = deg.most_common(1)[0]\nprint(\"top_node\", top[0], \"degree\", top[1])\nprint(\"interpretation\", \"structure_only\")\nprint(\"guilt_label\", False)"
+      },
+      {
+        "demoId": "S31-T4-B-DEMO",
+        "description": "Extrae ego-subgraph k=1 y valida nodos esperados.",
+        "why": "Subgrafo de caso testeable.",
+        "code": "from collections import defaultdict\nadj = defaultdict(set)\nfor u, v in [(\"S\", \"A\"), (\"S\", \"B\"), (\"A\", \"X\"), (\"Z\", \"Y\")]:\n    adj[u].add(v); adj[v].add(u)\nseed, k = \"S\", 1\nnodes = {seed} | set(adj[seed])\nassert \"A\" in nodes and \"Z\" not in nodes\nprint(\"ego\", sorted(nodes))\nprint(\"k\", k)\nprint(\"test_ok\", True)"
+      },
+      {
+        "demoId": null,
+        "description": "Redacta labels y adjunta evidencia de arista al path view.",
+        "why": "Vista de path con privacidad y evidencia.",
+        "code": "def redact_phone(p):\n    return p[:3] + \"****\" + p[-2:]\npath = [\"E1\", \"ph\", \"E2\"]\nevidence = {\"etype\": \"shared_phone\", \"records\": [\"c-1\", \"c-2\"]}\nprint(\"labels\", [redact_phone(\"+51900000001\"), \"shared\", redact_phone(\"+51900000001\")])\nprint(\"evidence_records\", evidence[\"records\"])\nprint(\"pii_full\", False)"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "En CP-N3-B, un score alto de centralidad significa:",
+        "options": [
+          "Fraude confirmado",
+          "Parentesco automático",
+          "Posición estructural que requiere contexto, no culpa",
+          "Borrar al nodo"
+        ]
+      },
+      {
+        "question": "Provenance en una arista sirve para:",
+        "options": [
+          "Solo color en UI",
+          "Auditar source/record_id del hecho relacional",
+          "Entrenar redes neuronales obligatoriamente",
+          "Ocultar el path"
+        ]
+      },
+      {
+        "question": "Al agregar transferencias entre el mismo par debes:",
+        "options": [
+          "Borrar record_ids",
+          "Conservar detalle o punteros además del agregado",
+          "Etiquetar fraude",
+          "Eliminar el multigrafo"
+        ]
+      },
+      {
+        "question": "Shared phone entre dos entidades implica:",
+        "options": [
+          "Parentesco legal",
+          "Colusión",
+          "Un hecho de contacto compartido a investigar con evidencia, no veredicto",
+          "Fraude automático"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta",
+      "Excepciones, debugging y logging seguro",
+      "Módulos, packaging y CLI profesional",
+      "OOP y modelo de dominio",
+      "APIs, SQL y geodatos responsables",
+      "Familiarity Evidence Dashboard y cierre de nivel",
+      "NumPy y cómputo vectorizado",
+      "Pandas: ingesta, selección y tipos",
+      "Calidad, limpieza y contratos de datos",
+      "Joins, reshape, groupby y cierre analítico",
+      "EDA, estadística descriptiva e incertidumbre",
+      "Visualización y comunicación accesible",
+      "Automatización robusta de Excel",
+      "Documentos, plantillas y reportes trazables",
+      "Email, identidad y aprobación humana",
+      "Browser RPA con Playwright",
+      "OCR y Document AI",
+      "Endpoints de IA, Hugging Face y prompting evaluado",
+      "Orquestación y VP RPA + AI Analyst",
+      "Estrategia de pruebas con pytest",
+      "Pruebas de datos, propiedades e integración",
+      "SQL avanzado y modelado relacional",
+      "Entity resolution probabilístico"
+    ]
+  },
+  {
+    "section_index": 32,
+    "title": "Feature engineering y pipelines sin leakage",
+    "outcomes": [
+      "Diseñar features numéricas/categóricas/texto",
+      "Aplicar missing indicators, scale y encoding",
+      "Crear features relacionales y de grafo",
+      "Calcular ventanas y frecuencias sin leakage",
+      "Componer transformers reutilizables",
+      "Persistir fit y reutilizar en inferencia",
+      "Partir por entidad/grupo/tiempo",
+      "Detectar leakage y versionar features"
+    ],
+    "theory": [
+      {
+        "heading": "De microservicios legado a features sin leakage",
+        "paragraphs": [
+          "En V3, **S32 no es el path principal de Docker/K8s microservicios**. Aquí construyes la **tabla de features versionada** del workbench: idéntica en train e inferencia, sin futuro ni labels de decisión.",
+          "Hilo: filas sintéticas por par entidad/caso (`run_id=cpn3b-feat`). Features describen evidencia, no condenan.",
+          "Orden: **T1 Tipos** → **T2 Relacionales** → **T3 Pipelines** → **T4 Validación**."
+        ],
+        "code": "row = {\n    \"amount_sum_7d\": 150.0,\n    \"channel\": \"app\",\n    \"region\": \"LIM\",\n    \"note_len\": len(\"cliente solicita actualización\"),\n}\ntypes = {\"amount_sum_7d\": \"num\", \"channel\": \"cat\", \"region\": \"cat\", \"note_len\": \"num\"}\nprint(\"n_feats\", len(row))\nprint(\"cats\", [k for k,v in types.items() if v==\"cat\"])\nprint(\"at_decision_time\", True)"
+      },
+      {
+        "heading": "numéricas/categóricas/texto",
+        "paragraphs": [
+          "Numéricas: montos, conteos, edades de cuenta. Categóricas: canal, región. Texto: notas cortas tokenizadas o longitudes.",
+          "Diseña con semántica: ¿disponible en t de decisión? Si no, no es feature de scoring.",
+          "Documenta dtype y missing policy por columna en un feature catalog."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "missing indicators, escalamiento y encoding",
+        "paragraphs": [
+          "Missing puede ser informativo: añade indicador binario y rellena con valor de train (mediana/moda).",
+          "Escalado (standard/minmax) se **fit** solo en train. One-hot/ordinal con categorías de train; unknowns → bucket.",
+          "Nunca uses estadísticas del test set para fit."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "shared contact/address, distance y graph features",
+        "paragraphs": [
+          "Features relacionales: shared_phone_count, shared_address, shortest_path_len, degree en ventana.",
+          "Calcula solo con hechos observados ≤ t; no uses el label de revisión como feature.",
+          "Shared contact es señal de enlace para revisión humana: **no** de parentesco, colusión ni fraude automático."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "ventanas y frecuencia",
+        "paragraphs": [
+          "Ventanas rolling (7d, 30d) y frecuencias se anclan en t de la fila. Eventos con ts > t no entran.",
+          "Usa half-open intervals [t-W, t) para evitar incluir el evento label-bearing si aplica.",
+          "Prueba con un evento 'futuro' sintético que no debe contar."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "ColumnTransformer y custom transformers",
+        "paragraphs": [
+          "Compón: num pipeline (impute+scale), cat (one-hot), custom (graph feats precomputadas).",
+          "Custom transformer: implementa fit/transform con estado aprendido en fit.",
+          "En el curso usamos dict-transformers didácticos equivalentes a sklearn."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "fit/transform y persistencia",
+        "paragraphs": [
+          "fit en train → serializa parámetros (json/joblib) → transform en serve con la misma versión.",
+          "Versiona feature_set_id + code hash + data cutoff.",
+          "Si cambias encoding, sube versión; no silencies skew."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "split por entidad/grupo/tiempo",
+        "paragraphs": [
+          "Split aleatorio por fila filtra entidades cruzadas → leakage. Prefiere split por entity_id o por tiempo.",
+          "Group split: todas las filas de una entidad van a un solo fold.",
+          "Time split: train ts < valid ts."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "leakage, train–serve skew y versionado",
+        "paragraphs": [
+          "Leakage: features que usan y, o datos post-decisión, o agregados globales con test.",
+          "Train–serve skew: distribución o código distinto. Monitorea y versiona.",
+          "Checklist de release de features en el gate del workbench."
+        ],
+        "code": ""
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S32-T1-B-DEMO",
+        "description": "Clasifica columnas num/cat/text de una fila sintética.",
+        "why": "Schema explícito evita tipos implícitos frágiles.",
+        "code": "schema = {\"amt\":\"num\",\"canal\":\"cat\",\"nota\":\"text\"}\nprint(\"num\", [k for k,v in schema.items() if v==\"num\"])\nprint(\"cat\", [k for k,v in schema.items() if v==\"cat\"])\nprint(\"n\", len(schema))"
+      },
+      {
+        "demoId": "S32-T2-A-DEMO",
+        "description": "Imputa mediana de train y escala z-score.",
+        "why": "Fit solo con train.",
+        "code": "train=[2.0,4.0,None]\nvals=[x for x in train if x is not None]\nmed=sorted(vals)[len(vals)//2]\nX=[med if x is None else x for x in train]\nmu=sum(X)/len(X); sd=(sum((x-mu)**2 for x in X)/len(X))**0.5\nprint(\"med\", med)\nprint(\"z0\", round((X[0]-mu)/sd, 3))\nprint(\"miss_ind\", [int(x is None) for x in train])"
+      },
+      {
+        "demoId": "S32-T2-B-DEMO",
+        "description": "Shared phone y path_len como features de par.",
+        "why": "Señal relacional ≠ veredicto.",
+        "code": "a,b={\"ph\":{\"1\",\"2\"}},{\"ph\":{\"2\",\"3\"}}\nprint(\"shared\", len(a[\"ph\"]&b[\"ph\"]))\nprint(\"path_len\", 2)\nprint(\"not_fraud_label\", True)"
+      },
+      {
+        "demoId": "S32-T3-A-DEMO",
+        "description": "Suma en ventana [t-7d,t) excluyendo futuro.",
+        "why": "Contrato de ventana temporal.",
+        "code": "from datetime import datetime, timedelta\nevs=[(datetime(2026,1,1),1),(datetime(2026,1,12),9)]\nt=datetime(2026,1,10); W=timedelta(days=7)\ns=sum(a for d,a in evs if t-W<=d<t)\nprint(\"sum\", s)\nprint(\"future_excluded\", True)\nprint(\"W\", 7)"
+      },
+      {
+        "demoId": "S32-T3-B-DEMO",
+        "description": "Custom transformer con fit/transform de vocab categorico.",
+        "why": "Unknown → -1.",
+        "code": "class Vocab:\n    def fit(self, xs):\n        self.v={x:i for i,x in enumerate(sorted(set(xs)))}; return self\n    def transform(self, xs):\n        return [self.v.get(x, -1) for x in xs]\ntf=Vocab().fit([\"app\",\"web\",\"app\"])\nprint(\"vocab\", tf.v)\nprint(\"out\", tf.transform([\"web\",\"branch\"]))\nprint(\"ok\", True)"
+      },
+      {
+        "demoId": "S32-T4-A-DEMO",
+        "description": "Serializa estado de imputer y reutiliza.",
+        "why": "Persistencia del fit.",
+        "code": "import json\nst={\"med\":10.0,\"fs\":\"v1\"}\ns=json.dumps(st); ld=json.loads(s)\ndef tr(x, med):\n    return med if x is None else x\nprint(\"fs\", ld[\"fs\"])\nprint(\"x\", tr(None, ld[\"med\"]))\nprint(\"persist\", True)"
+      },
+      {
+        "demoId": "S32-T4-B-DEMO",
+        "description": "Split por entidad sin solape.",
+        "why": "Entity holdout.",
+        "code": "rows=[{\"e\":\"A\"},{\"e\":\"A\"},{\"e\":\"B\"}]\ntrain_e,test_e={\"A\"},{\"B\"}\ntr=[r for r in rows if r[\"e\"] in train_e]\nte=[r for r in rows if r[\"e\"] in test_e]\nprint(\"tr\", len(tr), \"te\", len(te))\nprint(\"overlap\", len(train_e & test_e))\nprint(\"ok\", True)"
+      },
+      {
+        "demoId": null,
+        "description": "Detecta features con leakage por nombre/política.",
+        "why": "Checklist de leakage.",
+        "code": "feats=[(\"amt\",False),(\"y_true\",True),(\"reviewer_decision\",True)]\nprint(\"leaks\", [n for n,l in feats if l])\nprint(\"n\", sum(1 for _,l in feats if l))\nprint(\"fs_version\", \"v3\")"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "Fit de scaler debe hacerse en:",
+        "options": [
+          "Test",
+          "Train",
+          "Todo el dataset sin split",
+          "Solo producción"
+        ]
+      },
+      {
+        "question": "Una feature reviewer_decision es:",
+        "options": [
+          "Útil y válida",
+          "Leakage de decisión",
+          "Obligatoria",
+          "Igual que amount"
+        ]
+      },
+      {
+        "question": "Ventana half-open [t-W,t) excluye:",
+        "options": [
+          "Todo el pasado",
+          "Eventos con ts>=t",
+          "Train",
+          "Catálogo"
+        ]
+      },
+      {
+        "question": "Split por entidad busca:",
+        "options": [
+          "Maximizar overlap",
+          "Overlap 0 de entidades",
+          "Solo shuffle de filas",
+          "Ignorar tiempo"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta",
+      "Excepciones, debugging y logging seguro",
+      "Módulos, packaging y CLI profesional",
+      "OOP y modelo de dominio",
+      "APIs, SQL y geodatos responsables",
+      "Familiarity Evidence Dashboard y cierre de nivel",
+      "NumPy y cómputo vectorizado",
+      "Pandas: ingesta, selección y tipos",
+      "Calidad, limpieza y contratos de datos",
+      "Joins, reshape, groupby y cierre analítico",
+      "EDA, estadística descriptiva e incertidumbre",
+      "Visualización y comunicación accesible",
+      "Automatización robusta de Excel",
+      "Documentos, plantillas y reportes trazables",
+      "Email, identidad y aprobación humana",
+      "Browser RPA con Playwright",
+      "OCR y Document AI",
+      "Endpoints de IA, Hugging Face y prompting evaluado",
+      "Orquestación y VP RPA + AI Analyst",
+      "Estrategia de pruebas con pytest",
+      "Pruebas de datos, propiedades e integración",
+      "SQL avanzado y modelado relacional",
+      "Entity resolution probabilístico",
+      "Grafos y evidencia relacional"
+    ]
+  },
+  {
+    "section_index": 33,
+    "title": "ML supervisado y baselines responsables",
+    "outcomes": [
+      "Definir unidad, target y horizonte",
+      "Fijar baseline de regla y dummy",
+      "Entrenar modelos lineales regularizados",
+      "Interpretar coeficientes y supuestos",
+      "Entrenar árboles y ensambles",
+      "Controlar overfit y reproducibilidad",
+      "Registrar experimentos mínimos",
+      "Hacer CV y análisis de errores"
+    ],
+    "theory": [
+      {
+        "heading": "De modelos avanzados legado a baselines responsables",
+        "paragraphs": [
+          "En V3, **S33** no empuja stacking por deporte: define **unidad de scoring**, **target** y **horizonte**, y conserva un **baseline determinista**.",
+          "Target típico del workbench: necesita_revision (0/1) sintético — **no** 'es fraude'.",
+          "Orden: **T1 Framing** → **T2 Lineales** → **T3 Árboles** → **T4 Experimento**."
+        ],
+        "code": "unit = \"entity_pair_at_t0\"\ntarget = \"needs_review_7d\"\nhorizon_days = 7\nrows = [\n    {\"pair\": \"E1-E2\", \"t0\": \"2026-01-01\", \"y\": 1},\n    {\"pair\": \"E3-E4\", \"t0\": \"2026-01-01\", \"y\": 0},\n]\nprev = sum(r[\"y\"] for r in rows) / len(rows)\nprint(\"unit\", unit)\nprint(\"target\", target)\nprint(\"prevalence\", prev)"
+      },
+      {
+        "heading": "unidad, target y horizonte",
+        "paragraphs": [
+          "Unidad: par de entidades, caso, o cuenta en t. Target: etiqueta observable en horizonte h (p.ej. mandado a review en 7d).",
+          "Si el horizonte es confuso, el modelo aprende basura. Documenta t0 y h.",
+          "Sintético: y en {0,1} con prevalencia conocida."
+        ],
+        "code": "unit = \"entity_pair_at_t0\"\ntarget = \"needs_review_7d\"\nhorizon_days = 7\nrows = [\n    {\"pair\": \"E1-E2\", \"t0\": \"2026-01-01\", \"y\": 1},\n    {\"pair\": \"E3-E4\", \"t0\": \"2026-01-01\", \"y\": 0},\n]\nprev = sum(r[\"y\"] for r in rows) / len(rows)\nprint(\"unit\", unit)\nprint(\"target\", target)\nprint(\"prevalence\", prev)"
+      },
+      {
+        "heading": "costos, baseline de regla y dummy estimator",
+        "paragraphs": [
+          "Costos: FN y FP no son simétricos en capacidad de revisión. El baseline de **regla** (if shared_phone then review) debe quedar en el leaderboard.",
+          "Dummy: predice clase mayoritaria o prevalencia. Si el ML no gana al dummy/regla, no despliegues.",
+          "Comparación honesta en la misma métrica y split."
+        ],
+        "code": "y = [0, 0, 0, 1, 0]\n# dummy majority\nmaj = 0 if y.count(0) >= y.count(1) else 1\ndummy_acc = sum(yi == maj for yi in y) / len(y)\n# rule: x>0 → 1\nx = [0, 0, 1, 1, 0]\nrule = [1 if xi > 0 else 0 for xi in x]\nrule_acc = sum(a == b for a, b in zip(rule, y)) / len(y)\nprint(\"dummy_acc\", dummy_acc)\nprint(\"rule_acc\", rule_acc)\nprint(\"keep_baseline\", True)"
+      },
+      {
+        "heading": "regresión/logística y regularización",
+        "paragraphs": [
+          "Logística con L2 reduce coeficientes; útil con features correlacionadas de grafo.",
+          "Implementación didáctica: score lineal + sigmoid + umbral 0.5; pesos con decay conceptual.",
+          "Regularización no es opcional en alta dimensión relativa a n."
+        ],
+        "code": "import math\ndef sigmoid(z):\n    return 1 / (1 + math.exp(-z))\nw, b = 1.2, -0.5\nxs = [0.0, 0.5, 1.0]\nprobs = [sigmoid(w * x + b) for x in xs]\npreds = [1 if p >= 0.5 else 0 for p in probs]\nprint(\"probs\", [round(p, 3) for p in probs])\nprint(\"preds\", preds)\nprint(\"L2_idea\", \"shrink_w\")"
+      },
+      {
+        "heading": "coeficientes, supuestos y scaling",
+        "paragraphs": [
+          "Coeficientes se interpretan ceteris paribus solo con scaling y sin multicolinealidad fuerte.",
+          "Supuestos: linealidad en log-odds, independencia condicional aproximada — en grafo hay dependencia; sé humilde.",
+          "Reporta top coefs con dirección, no como prueba causal."
+        ],
+        "code": "# features scaled ~ N(0,1) sintéticas\ncoefs = {\"shared_phone\": 0.9, \"amount_7d\": 0.3, \"region_LIM\": -0.1}\ntop = sorted(coefs, key=lambda k: abs(coefs[k]), reverse=True)\nprint(\"top\", top[0], coefs[top[0]])\nprint(\"causal\", False)\nprint(\"scaled\", True)"
+      },
+      {
+        "heading": "decisiones y random forest/boosting",
+        "paragraphs": [
+          "Árboles capturan no linealidades; RF reduce varianza; boosting reduce sesgo con cuidado de overfit.",
+          "Didáctica: árbol de un nivel (stump) por feature threshold.",
+          "En workbench, a menudo la regla + logística bastan; boosting es opción, no vanidad."
+        ],
+        "code": "def stump(x, thr=0.5):\n    return 1 if x >= thr else 0\nX = [0.1, 0.6, 0.9]\ny = [0, 1, 1]\npred = [stump(x) for x in X]\nacc = sum(p == t for p, t in zip(pred, y)) / len(y)\nprint(\"acc\", acc)\nprint(\"thr\", 0.5)\nprint(\"model\", \"stump\")"
+      },
+      {
+        "heading": "overfit, profundidad y reproducibilidad",
+        "paragraphs": [
+          "Profundidad alta memoriza. Limita depth/min_samples. Fija random_state.",
+          "Curva train vs valid: si train→1 y valid baja, overfit.",
+          "Reproduce con seed y log de hiperparámetros."
+        ],
+        "code": "import random\nrandom.seed(42)\ntrain_acc = [0.7, 0.85, 0.99]\nvalid_acc = [0.68, 0.72, 0.60]\ndepth = [1, 3, 10]\nbest = max(range(3), key=lambda i: valid_acc[i])\nprint(\"best_depth\", depth[best])\nprint(\"valid\", valid_acc[best])\nprint(\"seed\", 42)"
+      },
+      {
+        "heading": "pipeline y tracking mínimo",
+        "paragraphs": [
+          "Pipeline: preprocess → model. Tracking: run_id, params, metrics, feature_set, data_cutoff.",
+          "Un JSON lines de experimentos supera a 'mejores pesos en mi laptop'.",
+          "Compara siempre vs baseline_rule y dummy en el mismo run."
+        ],
+        "code": "import json\nrun = {\n    \"run_id\": \"exp-001\",\n    \"feature_set\": \"fs-v3\",\n    \"model\": \"logreg_l2\",\n    \"params\": {\"C\": 1.0},\n    \"metrics\": {\"pr_auc\": 0.61, \"baseline_rule_pr_auc\": 0.55, \"dummy_pr_auc\": 0.50},\n}\nprint(json.dumps(run[\"metrics\"], sort_keys=True))\nprint(\"beats_rule\", run[\"metrics\"][\"pr_auc\"] > run[\"metrics\"][\"baseline_rule_pr_auc\"])\nprint(\"run_id\", run[\"run_id\"])"
+      },
+      {
+        "heading": "validación cruzada apropiada y error analysis",
+        "paragraphs": [
+          "CV por grupo/entidad o time-series split — no KFold i.i.d. ingenuo si hay leakage.",
+          "Error analysis: slices por región, tipo de enlace, prevalencia; FP/FN sintéticos revisados.",
+          "Documenta fallas sistemáticas antes de subir complejidad."
+        ],
+        "code": ""
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S33-T1-B-DEMO",
+        "description": "Define unit/target/horizon y prevalencia.",
+        "why": "Framing claro.",
+        "code": "print(\"unit\", \"case_at_t0\")\nprint(\"target\", \"needs_review_7d\")\nprint(\"prevalence\", 0.2)"
+      },
+      {
+        "demoId": "S33-T2-A-DEMO",
+        "description": "Dummy majority vs regla x>0.",
+        "why": "Baseline en leaderboard.",
+        "code": "y=[0,0,1]; x=[0,1,1]\nmaj=0\nprint(\"dummy\", sum(yi==maj for yi in y)/3)\nprint(\"rule\", sum((1 if xi>0 else 0)==yi for xi,yi in zip(x,y))/3)\nprint(\"keep\", True)"
+      },
+      {
+        "demoId": "S33-T2-B-DEMO",
+        "description": "Sigmoid scores para 3 x.",
+        "why": "Logística simple.",
+        "code": "import math\nw,b=2.0,-1.0\nps=[1/(1+math.exp(-(w*x+b))) for x in (0,0.5,1)]\nprint([round(p,3) for p in ps])\nprint(\"thr\", 0.5)\nprint(\"ok\", True)"
+      },
+      {
+        "demoId": "S33-T3-A-DEMO",
+        "description": "Top coeficiente por valor absoluto.",
+        "why": "Interpretación limitada.",
+        "code": "c={\"a\":0.2,\"b\":-0.9,\"c\":0.1}\nt=max(c, key=lambda k: abs(c[k]))\nprint(\"top\", t, c[t])\nprint(\"causal\", False)\nprint(\"n\", len(c))"
+      },
+      {
+        "demoId": "S33-T3-B-DEMO",
+        "description": "Stump threshold accuracy.",
+        "why": "Árbol mínimo.",
+        "code": "X,y=[0.2,0.8],[0,1]\npred=[1 if x>=0.5 else 0 for x in X]\nprint(\"acc\", sum(p==t for p,t in zip(pred,y))/2)\nprint(\"thr\", 0.5)\nprint(\"ok\", True)"
+      },
+      {
+        "demoId": "S33-T4-A-DEMO",
+        "description": "Elige depth por valid no train.",
+        "why": "Anti-overfit.",
+        "code": "tr=[0.9,0.99]; va=[0.7,0.65]; d=[2,8]\ni=max(range(2), key=lambda j: va[j])\nprint(\"depth\", d[i])\nprint(\"valid\", va[i])\nprint(\"seed\", 0)"
+      },
+      {
+        "demoId": "S33-T4-B-DEMO",
+        "description": "Run log beats_rule.",
+        "why": "Tracking mínimo.",
+        "code": "m={\"model\":0.62,\"rule\":0.55,\"dummy\":0.5}\nprint(\"beats_rule\", m[\"model\"]>m[\"rule\"])\nprint(\"beats_dummy\", m[\"model\"]>m[\"dummy\"])\nprint(\"run\", \"exp-1\")"
+      },
+      {
+        "demoId": null,
+        "description": "CV mean y worst slice por fp.",
+        "why": "Error analysis.",
+        "code": "folds=[0.6,0.5,0.7]\nprint(\"mean\", round(sum(folds)/3,3))\nprint(\"worst\", \"slice_B\")\nprint(\"n_folds\", 3)"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "El target del workbench debe ser preferentemente:",
+        "options": [
+          "fraud_auto",
+          "needs_review u objetivo de cola",
+          "parentesco",
+          "culpa"
+        ]
+      },
+      {
+        "question": "Si el modelo no gana a la regla:",
+        "options": [
+          "Despliega igual",
+          "Conserva regla y no vendas humo",
+          "Borra baseline",
+          "Sube depth a 100"
+        ]
+      },
+      {
+        "question": "Coeficientes logísticos prueban:",
+        "options": [
+          "Causalidad de fraude",
+          "Asociación en el modelo, no causa legal",
+          "Parentesco",
+          "Que el grafo miente"
+        ]
+      },
+      {
+        "question": "Elegir hiperparámetros por train_acc alto:",
+        "options": [
+          "Es best practice",
+          "Riesgo de overfit; usa valid",
+          "Ignora seed",
+          "Borra dummy"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta",
+      "Excepciones, debugging y logging seguro",
+      "Módulos, packaging y CLI profesional",
+      "OOP y modelo de dominio",
+      "APIs, SQL y geodatos responsables",
+      "Familiarity Evidence Dashboard y cierre de nivel",
+      "NumPy y cómputo vectorizado",
+      "Pandas: ingesta, selección y tipos",
+      "Calidad, limpieza y contratos de datos",
+      "Joins, reshape, groupby y cierre analítico",
+      "EDA, estadística descriptiva e incertidumbre",
+      "Visualización y comunicación accesible",
+      "Automatización robusta de Excel",
+      "Documentos, plantillas y reportes trazables",
+      "Email, identidad y aprobación humana",
+      "Browser RPA con Playwright",
+      "OCR y Document AI",
+      "Endpoints de IA, Hugging Face y prompting evaluado",
+      "Orquestación y VP RPA + AI Analyst",
+      "Estrategia de pruebas con pytest",
+      "Pruebas de datos, propiedades e integración",
+      "SQL avanzado y modelado relacional",
+      "Entity resolution probabilístico",
+      "Grafos y evidencia relacional",
+      "Feature engineering y pipelines sin leakage"
+    ]
+  },
+  {
+    "section_index": 34,
+    "title": "Métricas, desbalance, calibración y umbrales",
+    "outcomes": [
+      "Elegir métricas para desbalance",
+      "Dimensionar top-k y carga de revisión",
+      "Balancear clases sin leakage en CV",
+      "Evitar métricas engañosas por prevalencia",
+      "Evaluar calibración con Brier/reliability",
+      "Calibrar y evaluar fuera de muestra",
+      "Elegir umbral por costo y capacidad",
+      "Aplicar abstención y sensibilidad por slice"
+    ],
+    "theory": [
+      {
+        "heading": "Cierre CP-N3-B: Relationship Investigation Workbench",
+        "paragraphs": [
+          "En V3, **S34 cierra CP-N3-B**. Integras grafo (S31), features (S32), baseline/ML (S33) con **métricas de ranking**, **calibración** y **umbrales por capacidad**.",
+          "El workbench **prioriza revisión** y **explica**; no imprime fraud=true. Decisiones humanas quedan registradas.",
+          "Orden: **T1 Métricas** → **T2 Desbalance** → **T3 Calibración** → **T4 Decisión**."
+        ],
+        "code": "y = [1, 1, 0, 0, 0, 0, 0, 0, 0, 1]\n# scores rankean positivos primero\nscores = [0.9, 0.8, 0.7, 0.4, 0.3, 0.2, 0.15, 0.1, 0.05, 0.85]\nthr = 0.5\npred = [1 if s >= thr else 0 for s in scores]\ntp = sum(p == 1 and t == 1 for p, t in zip(pred, y))\nfp = sum(p == 1 and t == 0 for p, t in zip(pred, y))\nfn = sum(p == 0 and t == 1 for p, t in zip(pred, y))\nprec = tp / (tp + fp) if tp + fp else 0.0\nrec = tp /"
+      },
+      {
+        "heading": "confusion matrix, precision/recall/F y PR-AUC",
+        "paragraphs": [
+          "Con desbalance, accuracy engaña. Precision/recall y PR-AUC describen mejor la cola positiva (needs_review).",
+          "Confusion matrix: TP/FP/TN/FN sobre umbral. F1 es media armónica; elige beta según costo.",
+          "PR-AUC resume ranking sin fijar umbral único."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "top-k y carga de revisión",
+        "paragraphs": [
+          "La operación tiene capacidad k casos/día. Métrica operativa: precision@k, recall@k, capturas en top-k.",
+          "Carga: si envías más de k, hay cola o abandono. El umbral se acopla a k.",
+          "Simula k fijo y mide cuántos positivos reales entran."
+        ],
+        "code": "import math\npairs = sorted([\n    (\"c1\", 0.95, 1), (\"c2\", 0.9, 0), (\"c3\", 0.85, 1), (\"c4\", 0.2, 1), (\"c5\", 0.1, 0)\n], key=lambda x: -x[1])\nk = 2\ntopk = pairs[:k]\nprec_at_k = sum(y for _, _, y in topk) / k\nprint(\"precision_at_k\", prec_at_k)\nprint(\"positives_in_topk\", sum(y for _, _, y in topk))\nprint(\"capacity_k\", k)"
+      },
+      {
+        "heading": "class weights y resampling dentro de CV",
+        "paragraphs": [
+          "Class weights o undersampling/oversampling **solo dentro** del fold de train. Resamplear antes del split filtra valid.",
+          "Documenta la política. No inventes filas con labels de fraude real.",
+          "Pesos inversos a frecuencia como baseline de desbalance."
+        ],
+        "code": "y_train = [0, 0, 0, 0, 1]\nn0, n1 = y_train.count(0), y_train.count(1)\nw0, w1 = 1 / n0, 1 / n1\n# normaliza\ns = w0 + w1\nw0, w1 = w0 / s * 2, w1 / s * 2\nprint(\"weight_0\", round(w0, 3))\nprint(\"weight_1\", round(w1, 3))\nprint(\"resample_before_split\", False)"
+      },
+      {
+        "heading": "prevalencia y métricas engañosas",
+        "paragraphs": [
+          "Accuracy con 1% positivos y predecir todo 0 da 99%. Reporta prevalencia y matriz.",
+          "Precision depende de prevalencia; al cambiar mix, recalibra expectativas.",
+          "Comunica a negocio en términos de carga y capturas, no solo accuracy."
+        ],
+        "code": "n, pos = 1000, 10\n# predict all negative\nacc = (n - pos) / n\nprint(\"acc_all_neg\", acc)\nprint(\"prevalence\", pos / n)\nprint(\"useful\", False)"
+      },
+      {
+        "heading": "reliability curves y Brier",
+        "paragraphs": [
+          "Calibración: si dices 0.8, ~80% deben ser positivos en ese bin. Reliability curve por bins.",
+          "Brier score: media de (p - y)^2; menor es mejor.",
+          "Ranking bueno ≠ calibración buena; el workbench necesita ambas para umbrales por capacidad."
+        ],
+        "code": "y = [1, 0, 1, 0]\np = [0.9, 0.1, 0.6, 0.4]\nbrier = sum((pi - yi) ** 2 for pi, yi in zip(p, y)) / len(y)\n# bin simple >=0.5\nbin_hi = [(pi, yi) for pi, yi in zip(p, y) if pi >= 0.5]\nfreq = sum(yi for _, yi in bin_hi) / len(bin_hi) if bin_hi else None\nprint(\"brier\", round(brier, 3))\nprint(\"hi_bin_freq\", freq)\nprint(\"hi_bin_mean_p\", round(sum(pi for pi, _ in bin_hi) / len(bin_hi), 3))"
+      },
+      {
+        "heading": "calibradores y evaluación fuera de muestra",
+        "paragraphs": [
+          "Platt/isotonic se fit en holdout de calibración, no en el test final.",
+          "Evalúa Brier/reliability out-of-sample. Recalibra si hay drift de prevalencia.",
+          "Didáctica: rescale afín clipado de scores como calibrador toy."
+        ],
+        "code": "def calibrate_affine(p, a=1.1, b=-0.05):\n    x = a * p + b\n    return max(0.0, min(1.0, x))\nraw = [0.2, 0.5, 0.8]\ncal = [calibrate_affine(p) for p in raw]\nprint(\"cal\", [round(c, 3) for c in cal])\nprint(\"fit_on\", \"calib_holdout\")\nprint(\"not_on_test\", True)"
+      },
+      {
+        "heading": "threshold por costo/capacidad",
+        "paragraphs": [
+          "Elige umbral minimizando costo esperado o fijando |pred=1| ≈ capacidad k.",
+          "Barrido de umbrales con métrica de negocio. Conserva thr en config versionada.",
+          "Decisión automática solo para 'no revisar' de muy baja score si la política lo permite — nunca fraud label."
+        ],
+        "code": "scores_y = [(0.9, 1), (0.8, 0), (0.4, 1), (0.2, 0)]\ncapacity = 1\n# top score as thr policy\nordered = sorted(scores_y, key=lambda z: -z[0])\nchosen = ordered[:capacity]\nprint(\"review_ids_scores\", [s for s, _ in chosen])\nprint(\"precision_cap\", sum(y for _, y in chosen) / capacity)\nprint(\"auto_fraud_label\", False)"
+      },
+      {
+        "heading": "abstención, slices y sensibilidad",
+        "paragraphs": [
+          "Abstención: bandas grises → humano. Slices: métricas por cohorte. Sensibilidad: mueve thr ±ε.",
+          "El workbench registra abstenciones y overrides.",
+          "Cierre CP-N3-B: paquete explicable + ranking calibrado + registro de decisión."
+        ],
+        "code": "def decide(p, t_low=0.3, t_high=0.7):\n    if p >= t_high:\n        return \"auto_queue\"\n    if p <= t_low:\n        return \"skip\"\n    return \"abstain_human\"\nps = [0.1, 0.5, 0.9]\nprint([decide(p) for p in ps])\nprint(\"labels_fraud\", False)\nprint(\"gate\", \"CP-N3-B\")"
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S34-T1-B-DEMO",
+        "description": "Precision/recall a thr=0.5.",
+        "why": "Matriz y PR.",
+        "code": "y,p=[1,0,1],[0.9,0.4,0.6]\npred=[int(s>=0.5) for s in p]\ntp=sum(a==1 and b==1 for a,b in zip(pred,y))\nfp=sum(a==1 and b==0 for a,b in zip(pred,y))\nfn=sum(a==0 and b==1 for a,b in zip(pred,y))\nprint('P', round(tp/(tp+fp),3), 'R', round(tp/(tp+fn),3))\nprint('tp', tp)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S34-T2-A-DEMO",
+        "description": "precision@2 sobre ranking.",
+        "why": "Capacidad k.",
+        "code": "rows=sorted([(0.9,1),(0.8,0),(0.7,1)], reverse=True)\nk=2\nprint('p_at_k', sum(y for _,y in rows[:k])/k)\nprint('k', k)\nprint('load', k)"
+      },
+      {
+        "demoId": "S34-T2-B-DEMO",
+        "description": "Pesos inversos a conteo.",
+        "why": "Weights en train fold.",
+        "code": "y=[0,0,1]; n0,n1=2,1\nprint('w1_over_w0', round((1/n1)/(1/n0),3))\nprint('inside_cv', True)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S34-T3-A-DEMO",
+        "description": "Accuracy all-negative engañosa.",
+        "why": "Reporta prevalencia.",
+        "code": "n,pos=100,5\nprint('acc', (n-pos)/n)\nprint('prevalence', pos/n)\nprint('misleading', True)"
+      },
+      {
+        "demoId": "S34-T3-B-DEMO",
+        "description": "Brier de 2 puntos.",
+        "why": "Brier simple.",
+        "code": "print('brier', round(((0.8-1)**2+(0.2-0)**2)/2, 3))\nprint('n', 2)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S34-T4-A-DEMO",
+        "description": "Calibrador clip affine.",
+        "why": "OOS calib.",
+        "code": "def cal(p): return max(0,min(1,1.2*p-0.1))\nprint([round(cal(p),3) for p in (0,0.5,1)])\nprint('holdout_fit', True)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S34-T4-B-DEMO",
+        "description": "Selecciona top-1 por capacidad.",
+        "why": "Umbral por capacidad.",
+        "code": "s=[(0.4,'a'),(0.9,'b')]\npick=max(s)[1]\nprint('review', pick)\nprint('capacity', 1)\nprint('auto_fraud', False)"
+      },
+      {
+        "demoId": null,
+        "description": "Banda de abstención.",
+        "why": "Abstención humana.",
+        "code": "def d(p):\n    if p>=0.8: return 'queue'\n    if p<=0.2: return 'skip'\n    return 'abstain'\nprint([d(p) for p in (0.1,0.5,0.9)])\nprint('fraud_label', False)\nprint('gate', 'CP-N3-B')"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "El workbench CP-N3-B debe:",
+        "options": [
+          "Auto-etiquetar fraude",
+          "Priorizar revisión con evidencia y ranking",
+          "Inferir parentesco legal",
+          "Borrar baselines"
+        ]
+      },
+      {
+        "question": "precision@k responde a:",
+        "options": [
+          "Solo Brier",
+          "Calidad del ranking bajo capacidad k",
+          "Docker",
+          "Kafka lag"
+        ]
+      },
+      {
+        "question": "Resampling de clases debe:",
+        "options": [
+          "Hacerse antes de todo split",
+          "Solo dentro del train de cada fold",
+          "En el test",
+          "Nunca documentarse"
+        ]
+      },
+      {
+        "question": "Abstención sirve para:",
+        "options": [
+          "Ocultar métricas",
+          "Enviar banda gris a humano",
+          "Forzar fraud=1",
+          "Eliminar el grafo"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta",
+      "Excepciones, debugging y logging seguro",
+      "Módulos, packaging y CLI profesional",
+      "OOP y modelo de dominio",
+      "APIs, SQL y geodatos responsables",
+      "Familiarity Evidence Dashboard y cierre de nivel",
+      "NumPy y cómputo vectorizado",
+      "Pandas: ingesta, selección y tipos",
+      "Calidad, limpieza y contratos de datos",
+      "Joins, reshape, groupby y cierre analítico",
+      "EDA, estadística descriptiva e incertidumbre",
+      "Visualización y comunicación accesible",
+      "Automatización robusta de Excel",
+      "Documentos, plantillas y reportes trazables",
+      "Email, identidad y aprobación humana",
+      "Browser RPA con Playwright",
+      "OCR y Document AI",
+      "Endpoints de IA, Hugging Face y prompting evaluado",
+      "Orquestación y VP RPA + AI Analyst",
+      "Estrategia de pruebas con pytest",
+      "Pruebas de datos, propiedades e integración",
+      "SQL avanzado y modelado relacional",
+      "Entity resolution probabilístico",
+      "Grafos y evidencia relacional",
+      "Feature engineering y pipelines sin leakage",
+      "ML supervisado y baselines responsables"
+    ]
+  },
+  {
+    "section_index": 35,
+    "title": "Explicabilidad, equidad e incertidumbre",
+    "outcomes": [
+      "Explicar con coeficientes e importancia",
+      "Delimitar explicación local y correlación",
+      "Medir equidad por cohorte/slice",
+      "Detectar proxies y daño diferencial",
+      "Comunicar incertidumbre y conformal",
+      "Abstener ante OOD",
+      "Documentar model card y contestabilidad",
+      "Operar aprobación, override y retiro"
+    ],
+    "theory": [
+      {
+        "heading": "Inicio CP-N3-C: ficha de caso responsable",
+        "paragraphs": [
+          "En V3, **S35** abre CP-N3-C. La ficha de caso no es un dump de SHAP: distingue capas.",
+          "Legacy 'system design IA' se retematiza a explicabilidad, equidad e incertidumbre.",
+          "Orden: **T1 Explicación** → **T2 Equidad** → **T3 Incertidumbre** → **T4 Gobernanza**."
+        ],
+        "code": "# permutación conceptual: drop en accuracy\nbase = 0.80\ndrops = {\"shared_phone\": 0.10, \"amount_7d\": 0.03, \"region\": 0.01}\nimp = sorted(drops, key=drops.get, reverse=True)\nprint(\"top_feature\", imp[0])\nprint(\"drop\", drops[imp[0]])\nprint(\"means_fraud\", False)"
+      },
+      {
+        "heading": "coeficientes e importancia por permutación",
+        "paragraphs": [
+          "Coeficientes (lineales) e importance por permutación (caída de métrica al barajar una feature).",
+          "Importancia global no explica un caso; es mapa de sensibilidad del modelo.",
+          "No traduzcas importance a 'prueba de fraude': es sensibilidad del modelo sobre datos sintéticos, **no** veredicto legal ni label automático de fraude/parentesco."
+        ],
+        "code": "# permutación conceptual: drop en accuracy\nbase = 0.80\ndrops = {\"shared_phone\": 0.10, \"amount_7d\": 0.03, \"region\": 0.01}\nimp = sorted(drops, key=drops.get, reverse=True)\nprint(\"top_feature\", imp[0])\nprint(\"drop\", drops[imp[0]])\nprint(\"means_fraud\", False)"
+      },
+      {
+        "heading": "explicación local, correlación y límites",
+        "paragraphs": [
+          "Local: contribución de features al score del caso (pesos × valores).",
+          "Correlación ≠ contribución ≠ causa. Límites: dependencia de grafo, confusores.",
+          "Plantilla: evidencia observada | aporte modelo | incertidumbre | decisión humana."
+        ],
+        "code": "feats = {\"shared_phone\": (1.0, 0.9), \"amount_z\": (0.5, 0.2)}\ncontrib = {k: v * w for k, (v, w) in feats.items()}\nprint(\"contrib\", {k: round(v, 3) for k, v in contrib.items()})\nprint(\"sum\", round(sum(contrib.values()), 3))\nprint(\"causal\", False)"
+      },
+      {
+        "heading": "cohortes y métricas por slice",
+        "paragraphs": [
+          "Corta por región, canal, tipo de enlace. Compara precision/recall/tasa de queue.",
+          "n chico → intervalos anchos; no grites inequidad con n=3.",
+          "Equidad aquí: daño diferencial en revisión, no 'paridad de fraude'."
+        ],
+        "code": "slices = {\n    \"LIM\": {\"n\": 100, \"precision\": 0.6},\n    \"AQP\": {\"n\": 8, \"precision\": 0.9},\n}\nfor s, m in slices.items():\n    flag = \"low_n\" if m[\"n\"] < 30 else \"ok_n\"\n    print(s, m[\"precision\"], flag)\nprint(\"compared\", True)"
+      },
+      {
+        "heading": "proxies, sample size y daño diferencial",
+        "paragraphs": [
+          "Proxies: variables que correlacionan con atributos sensibles. Revisa features de ubicación/canal.",
+          "Daño: más falsos positivos en un grupo → más fricción injustificada.",
+          "Mitiga: quitar proxy, recalibrar por grupo con cuidado, abstener, oversight humano."
+        ],
+        "code": "features = [\"amount_7d\", \"district_code\", \"shared_phone\"]\nproxy_risk = {\"amount_7d\": \"low\", \"district_code\": \"high\", \"shared_phone\": \"medium\"}\nprint(\"high_proxy\", [f for f in features if proxy_risk[f] == \"high\"])\nprint(\"action\", \"review_feature\")\nprint(\"fraud_eq\", False)"
+      },
+      {
+        "heading": "calibración, intervalos/conformal conceptualmente",
+        "paragraphs": [
+          "Además de Brier: intervalos de predicción / conformal dan cobertura garantizada bajo i.i.d. (idealizado).",
+          "Comunica: score 0.7 con banda o set de predicción, no certeza.",
+          "Didáctica: residual quantiles como intervalo toy."
+        ],
+        "code": "resid = [0.1, -0.2, 0.05, 0.15, -0.05]\nq = sorted(abs(r) for r in resid)[int(0.8 * (len(resid) - 1))]\np = 0.7\nprint(\"interval\", round(p - q, 3), round(p + q, 3))\nprint(\"level\", \"approx_80pct\")\nprint(\"guarantee\", \"conceptual\")"
+      },
+      {
+        "heading": "out-of-distribution y abstención",
+        "paragraphs": [
+          "OOD: feature fuera de rango train, grafo inusual, canal nuevo. Abstén y escala a humano.",
+          "Detector simple: max |z-score| > umbral.",
+          "Mejor abstener que inventar certeza."
+        ],
+        "code": "def ood(z, thr=3.0):\n    return max(abs(x) for x in z) > thr\nprint(\"ood\", ood([0.1, 0.2, 4.5]))\nprint(\"action\", \"abstain\")\nprint(\"auto_fraud\", False)"
+      },
+      {
+        "heading": "model card y contestabilidad",
+        "paragraphs": [
+          "Model card: uso previsto, datos, métricas, límites, fairness slices, dueño.",
+          "Contestabilidad: el afectado o revisor puede pedir revisión del score/proceso.",
+          "Sin card, no hay promoción responsable en CP-N3-C."
+        ],
+        "code": "card = {\n    \"name\": \"review_ranker_v1\",\n    \"intended_use\": \"priorizar cola de revisión sintética\",\n    \"out_of_scope\": \"etiqueta de fraude o parentesco\",\n    \"owner\": \"risk-ml-pe\",\n}\nprint(card[\"intended_use\"])\nprint(\"out_of_scope\", card[\"out_of_scope\"])\nprint(\"contestability\", True)"
+      },
+      {
+        "heading": "aprobación, override, apelación y retiro",
+        "paragraphs": [
+          "Estados: proposed → approved → production → retired. Override humano siempre auditado.",
+          "Apelación reabre caso. Retiro si drift o incidente.",
+          "La ficha de caso muestra quién decidió qué."
+        ],
+        "code": "states = [\"proposed\", \"approved\", \"production\", \"retired\"]\nevent = {\"case\": \"c1\", \"model_score\": 0.82, \"human\": \"override_skip\", \"by\": \"analyst_7\"}\nprint(\"lifecycle\", \" > \".join(states))\nprint(\"override\", event[\"human\"])\nprint(\"audit\", True)"
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S35-T1-B-DEMO",
+        "description": "Ranking de importance por drop.",
+        "why": "Importancia global.",
+        "code": "d={\"f1\":0.02,\"f2\":0.1}\nprint(max(d, key=d.get), d[max(d, key=d.get)])\nprint('fraud', False)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S35-T2-A-DEMO",
+        "description": "Contrib local suma.",
+        "why": "Local no causal.",
+        "code": "c={\"a\":0.2,\"b\":-0.1}\nprint(round(sum(c.values()),3))\nprint('causal', False)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S35-T2-B-DEMO",
+        "description": "Slice con low_n.",
+        "why": "n por cohorte.",
+        "code": "n=5; print('flag', 'low_n' if n<30 else 'ok_n')\nprint('n', n)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S35-T3-A-DEMO",
+        "description": "Lista proxies high.",
+        "why": "Proxy risk.",
+        "code": "print(['district_code'])\nprint('action', 'review')\nprint('ok', True)"
+      },
+      {
+        "demoId": "S35-T3-B-DEMO",
+        "description": "Intervalo toy p±q.",
+        "why": "Incertidumbre.",
+        "code": "p,q=0.6,0.1\nprint(round(p-q,2), round(p+q,2))\nprint('level', 'toy')\nprint('ok', True)"
+      },
+      {
+        "demoId": "S35-T4-A-DEMO",
+        "description": "OOD z-score.",
+        "why": "Abstain OOD.",
+        "code": "print(max(abs(x) for x in [1,2,3.5])>3)\nprint('action', 'abstain')\nprint('ok', True)"
+      },
+      {
+        "demoId": "S35-T4-B-DEMO",
+        "description": "Model card out_of_scope.",
+        "why": "Card mínima.",
+        "code": "print('out_of_scope', 'fraud_label')\nprint('use', 'queue_rank')\nprint('card', True)"
+      },
+      {
+        "demoId": null,
+        "description": "Override audit fields.",
+        "why": "Gobernanza.",
+        "code": "print({'case':'c1','human':'override','by':'u1'})\nprint('audit', True)\nprint('ok', True)"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "La ficha de caso debe separar:",
+        "options": [
+          "Solo score",
+          "Evidencia, modelo, incertidumbre y decisión humana",
+          "Solo SHAP global",
+          "Solo UI"
+        ]
+      },
+      {
+        "question": "Perm importance prueba:",
+        "options": [
+          "Fraude",
+          "Sensibilidad del modelo a barajar features",
+          "Parentesco",
+          "Causalidad legal"
+        ]
+      },
+      {
+        "question": "Ante OOD conviene:",
+        "options": [
+          "Forzar pred 1",
+          "Abstener y escalar",
+          "Borrar logs",
+          "Ignorar"
+        ]
+      },
+      {
+        "question": "Model card out_of_scope incluye:",
+        "options": [
+          "Nada",
+          "Usos prohibidos p.ej. etiqueta de fraude",
+          "Solo accuracy",
+          "Solo owner email personal"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta",
+      "Excepciones, debugging y logging seguro",
+      "Módulos, packaging y CLI profesional",
+      "OOP y modelo de dominio",
+      "APIs, SQL y geodatos responsables",
+      "Familiarity Evidence Dashboard y cierre de nivel",
+      "NumPy y cómputo vectorizado",
+      "Pandas: ingesta, selección y tipos",
+      "Calidad, limpieza y contratos de datos",
+      "Joins, reshape, groupby y cierre analítico",
+      "EDA, estadística descriptiva e incertidumbre",
+      "Visualización y comunicación accesible",
+      "Automatización robusta de Excel",
+      "Documentos, plantillas y reportes trazables",
+      "Email, identidad y aprobación humana",
+      "Browser RPA con Playwright",
+      "OCR y Document AI",
+      "Endpoints de IA, Hugging Face y prompting evaluado",
+      "Orquestación y VP RPA + AI Analyst",
+      "Estrategia de pruebas con pytest",
+      "Pruebas de datos, propiedades e integración",
+      "SQL avanzado y modelado relacional",
+      "Entity resolution probabilístico",
+      "Grafos y evidencia relacional",
+      "Feature engineering y pipelines sin leakage",
+      "ML supervisado y baselines responsables",
+      "Métricas, desbalance, calibración y umbrales"
+    ]
+  },
+  {
+    "section_index": 36,
+    "title": "Clustering, anomalías y validación temporal",
+    "outcomes": [
+      "Aplicar clustering con escalamiento",
+      "Elegir k y reportar límites de métricas",
+      "Proyectar con PCA para explorar",
+      "Interpretar proyecciones con prudencia",
+      "Detectar anomalías con IF/LOF/reglas",
+      "Distinguir novelty vs outlier",
+      "Validar con backtests temporales",
+      "Evaluar con labels escasos y review"
+    ],
+    "theory": [
+      {
+        "heading": "Señales no supervisadas para triage (CP-N3-C)",
+        "paragraphs": [
+          "Clustering y anomalías son **señales**, no veredictos. Se evalúan por utilidad de revisión.",
+          "Legacy tool-use APIs se retematiza a este path V3.",
+          "Orden: T1 Clustering → T2 Dimensión → T3 Anomalías → T4 Tiempo."
+        ],
+        "code": "xs = [1.0, 1.2, 5.0, 5.2, 5.1]\n# 2 clusters by mid\nc1 = sum(xs[:2])/2; c2 = sum(xs[2:])/3\nprint(\"c1\", round(c1, 2), \"c2\", round(c2, 2))\nprint(\"scaled\", True)\nprint(\"verdict\", False)"
+      },
+      {
+        "heading": "escalamiento y k-means/density",
+        "paragraphs": [
+          "Escala features antes de k-means. Density (conceptual) busca regiones densas.",
+          "Centroides son resúmenes, no etiquetas morales.",
+          "Didáctica: 1D k-means por umbrales."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "elección, estabilidad y métricas limitadas",
+        "paragraphs": [
+          "Elige k con estabilidad entre seeds y sentido de negocio, no solo silhouette.",
+          "Métricas internas tienen límites con formas raras y desbalance.",
+          "Reporta sensibilidad a seed."
+        ],
+        "code": "scores = {2: 0.4, 3: 0.55, 4: 0.52}\nbest = max(scores, key=scores.get)\nprint(\"k\", best)\nprint(\"score\", scores[best])\nprint(\"stable_check\", \"multi_seed\")"
+      },
+      {
+        "heading": "PCA y visualización",
+        "paragraphs": [
+          "PCA proyecta a 2D para explorar; no es el modelo de decisión final.",
+          "Varianza explicada informa compresión, no causalidad.",
+          "Didáctica: proyección manual por pesos."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "interpretación prudente de proyecciones",
+        "paragraphs": [
+          "Ejes PC no tienen nombre de negocio automático.",
+          "Outliers visuales pueden ser escala o error de datos.",
+          "Documenta: 'exploratorio'."
+        ],
+        "code": "print(\"axis_named_by_business\", False)\nprint(\"use\", \"exploratory\")\nprint(\"auto_label\", False)"
+      },
+      {
+        "heading": "Isolation Forest/LOF y reglas",
+        "paragraphs": [
+          "IF/LOF (conceptual) y reglas (monto>µ+3σ) generan scores de rareza.",
+          "Combina con reglas legibles para el revisor.",
+          "Score alto → candidatos a review, no culpa."
+        ],
+        "code": "import statistics\nxs = [10, 11, 10, 12, 50]\nmu = statistics.mean(xs[:-1]); sd = statistics.pstdev(xs[:-1]) or 1\nrule = [1 if x > mu + 3 * sd else 0 for x in xs]\nprint(\"mu\", mu, \"flags\", rule)\nprint(\"method\", \"rule_sigma\")\nprint(\"misconduct\", False)"
+      },
+      {
+        "heading": "novelty vs outlier y contamination",
+        "paragraphs": [
+          "Outlier: raro en train. Novelty: punto nuevo vs modelo de normalidad.",
+          "contamination es hipótesis de fracción rara; no es prevalencia de fraude.",
+          "Ajusta contamination con capacidad de review."
+        ],
+        "code": "contamination = 0.05\nn = 200\nprint(\"expected_flags\", int(n * contamination))\nprint(\"contamination_is_fraud_rate\", False)\nprint(\"use\", \"capacity_tuning\")"
+      },
+      {
+        "heading": "splits/backtests y ventanas",
+        "paragraphs": [
+          "Valida señales con backtest temporal: fit en pasado, score en futuro.",
+          "Ventanas deslizantes miden estabilidad.",
+          "Sin labels, usa proxy de utilidad (click de review sintético)."
+        ],
+        "code": "windows = [(\"2026-01\", 0.1), (\"2026-02\", 0.12), (\"2026-03\", 0.09)]\nprint(\"mean_flag_rate\", round(sum(r for _, r in windows)/3, 3))\nprint(\"backtest\", True)\nprint(\"leakage\", False)"
+      },
+      {
+        "heading": "labels escasos, precision@k y revisión humana",
+        "paragraphs": [
+          "Con pocas etiquetas, precision@k y acuerdo humano importan más que ROC fantasma.",
+          "El revisor valida si la señal ahorra tiempo.",
+          "Nunca: anomalía → conducta indebida automática."
+        ],
+        "code": "ranked = [1, 0, 1, 0, 0]  # utilidad sintética en top\nk = 3\nprint(\"precision_at_k\", sum(ranked[:k])/k)\nprint(\"human_in_loop\", True)\nprint(\"auto_guilt\", False)"
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S36-T1-B-DEMO",
+        "description": "Centroides 1D dos grupos.",
+        "why": "k-means toy.",
+        "code": "print('c1', 1.0)\nprint('c2', 5.0)\nprint('scaled', True)"
+      },
+      {
+        "demoId": "S36-T2-A-DEMO",
+        "description": "Elige k por score.",
+        "why": "k selection.",
+        "code": "s={2:0.3,3:0.5}; print('k', max(s,key=s.get))\nprint('score', 0.5)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S36-T2-B-DEMO",
+        "description": "PC score 0.8x+0.2y.",
+        "why": "PCA toy.",
+        "code": "print(round(0.8*2+0.2*4,2))\nprint('exploratory', True)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S36-T3-A-DEMO",
+        "description": "Límites de interpretación.",
+        "why": "Prudencia.",
+        "code": "print('business_axis', False)\nprint('use', 'explore')\nprint('ok', True)"
+      },
+      {
+        "demoId": "S36-T3-B-DEMO",
+        "description": "Flag sigma rule.",
+        "why": "Regla rara.",
+        "code": "print('flags', [0,0,1])\nprint('misconduct', False)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S36-T4-A-DEMO",
+        "description": "expected flags.",
+        "why": "Contamination.",
+        "code": "print(int(100*0.05))\nprint('is_fraud_rate', False)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S36-T4-B-DEMO",
+        "description": "Backtest flag rates.",
+        "why": "Temporal.",
+        "code": "print(round((0.1+0.2)/2,2))\nprint('backtest', True)\nprint('ok', True)"
+      },
+      {
+        "demoId": null,
+        "description": "P@2 labels.",
+        "why": "Labels escasos.",
+        "code": "print(0.5)\nprint('human', True)\nprint('auto_guilt', False)"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "Una anomalía en el triage significa:",
+        "options": [
+          "Fraude probado",
+          "Señal de rareza a revisar",
+          "Parentesco",
+          "Despido"
+        ]
+      },
+      {
+        "question": "contamination representa:",
+        "options": [
+          "Tasa de fraude real",
+          "Hipótesis de fracción rara a flaggear",
+          "Accuracy",
+          "Kafka lag"
+        ]
+      },
+      {
+        "question": "PCA en este curso se usa para:",
+        "options": [
+          "Etiquetar culpa",
+          "Exploración/visualización prudente",
+          "Reemplazar el workbench",
+          "Borrar features"
+        ]
+      },
+      {
+        "question": "Con labels escasos prioriza:",
+        "options": [
+          "Solo accuracy global",
+          "precision@k y feedback humano",
+          "Aumentar contamination a 0.9",
+          "Eliminar reglas"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta",
+      "Excepciones, debugging y logging seguro",
+      "Módulos, packaging y CLI profesional",
+      "OOP y modelo de dominio",
+      "APIs, SQL y geodatos responsables",
+      "Familiarity Evidence Dashboard y cierre de nivel",
+      "NumPy y cómputo vectorizado",
+      "Pandas: ingesta, selección y tipos",
+      "Calidad, limpieza y contratos de datos",
+      "Joins, reshape, groupby y cierre analítico",
+      "EDA, estadística descriptiva e incertidumbre",
+      "Visualización y comunicación accesible",
+      "Automatización robusta de Excel",
+      "Documentos, plantillas y reportes trazables",
+      "Email, identidad y aprobación humana",
+      "Browser RPA con Playwright",
+      "OCR y Document AI",
+      "Endpoints de IA, Hugging Face y prompting evaluado",
+      "Orquestación y VP RPA + AI Analyst",
+      "Estrategia de pruebas con pytest",
+      "Pruebas de datos, propiedades e integración",
+      "SQL avanzado y modelado relacional",
+      "Entity resolution probabilístico",
+      "Grafos y evidencia relacional",
+      "Feature engineering y pipelines sin leakage",
+      "ML supervisado y baselines responsables",
+      "Métricas, desbalance, calibración y umbrales",
+      "Explicabilidad, equidad e incertidumbre"
+    ]
+  },
+  {
+    "section_index": 37,
+    "title": "Profiling, algoritmos y rendimiento",
+    "outcomes": [
+      "Profilear wall/CPU y memoria",
+      "Benchmarkear con warmup y variabilidad",
+      "Analizar complejidad y blocking",
+      "Reducir candidatos con estructuras/vectorización",
+      "Optimizar dtypes, chunks y columnar",
+      "Diseñar cache e invalidación OOC",
+      "Fijar budgets y tests de performance",
+      "Priorizar costo total sobre microoptimización"
+    ],
+    "theory": [
+      {
+        "heading": "Rendimiento del triage (CP-N3-C escala)",
+        "paragraphs": [
+          "Mide, no adivines. Mismo resultado funcional + reporte antes/después.",
+          "Legacy dbt/BQ se retematiza a profiling del path N3.",
+          "T1 Medición → T2 Algos → T3 Memoria → T4 Regresión perf."
+        ],
+        "code": "import time\nt0 = time.perf_counter()\ns = sum(range(100000))\nwall = time.perf_counter() - t0\nprint(\"wall_ms\", round(wall * 1000, 3))\nprint(\"result\", s > 0)\nprint(\"n\", 100000)"
+      },
+      {
+        "heading": "wall/CPU y memory profiling",
+        "paragraphs": [
+          "wall time vs CPU time; memoria pico. time.perf_counter para wall.",
+          "Profilea el path caliente del matching/grafo.",
+          "Un número sin contexto de n no sirve."
+        ],
+        "code": "import time\nt0 = time.perf_counter()\ns = sum(range(100000))\nwall = time.perf_counter() - t0\nprint(\"wall_ms\", round(wall * 1000, 3))\nprint(\"result\", s > 0)\nprint(\"n\", 100000)"
+      },
+      {
+        "heading": "benchmark fixture, warmup y variabilidad",
+        "paragraphs": [
+          "Warmup descarta primera corrida. Reporta mediana/p95 de N runs.",
+          "Fixture fija dataset sintético y hardware note.",
+          "Variabilidad alta → sube N o aisla ruido."
+        ],
+        "code": "import time, statistics\ndef work():\n    return sum(i*i for i in range(5000))\nwork()  # warmup\ntimes = []\nfor _ in range(5):\n    t0 = time.perf_counter(); work(); times.append(time.perf_counter()-t0)\nprint(\"median_ms\", round(statistics.median(times)*1000, 3))\nprint(\"n_runs\", 5)\nprint(\"warmup\", True)"
+      },
+      {
+        "heading": "complejidad y blocking",
+        "paragraphs": [
+          "O(n²) pairs matan el ER/grafo. Blocking reduce candidatos.",
+          "Mide candidate pairs antes/después de blocking.",
+          "Complejidad conceptual > micro-truco de 1%."
+        ],
+        "code": "n = 100\npairs_all = n * (n - 1) // 2\nblocks = 10\n# equal blocks\npairs_b = blocks * (n // blocks) * (n // blocks - 1) // 2\nprint(\"all_pairs\", pairs_all)\nprint(\"blocked_pairs\", pairs_b)\nprint(\"reduction\", round(1 - pairs_b / pairs_all, 3))"
+      },
+      {
+        "heading": "estructuras, vectorización y reducción de candidatos",
+        "paragraphs": [
+          "dict/set/inverted index; evita scans repetidos.",
+          "Vectorización (cuando hay arrays) vs loops Python puros.",
+          "Reduce candidatos antes de features caras."
+        ],
+        "code": "from collections import defaultdict\nrows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]\ninv = defaultdict(list)\nfor city, e in rows:\n    inv[city].append(e)\nprint(\"blocks\", {k: len(v) for k, v in inv.items()})\nprint(\"structure\", \"inverted_index\")\nprint(\"ok\", True)"
+      },
+      {
+        "heading": "dtypes, chunking y columnar",
+        "paragraphs": [
+          "int32 vs int64, categorías; chunking para no OOM.",
+          "Columnar: lee solo columnas usadas.",
+          "Didáctica: procesar lista en chunks."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "caching, invalidación y out-of-core",
+        "paragraphs": [
+          "Cache de features/blocking con clave de versión.",
+          "Invalidación por feature_set o data cutoff.",
+          "Out-of-core: no asumas que todo cabe en RAM."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "performance budget y tests",
+        "paragraphs": [
+          "Budget: p95 latency < X, memoria < Y, pairs < Z.",
+          "Test de regresión de performance falla si se rompe budget.",
+          "Mismo dataset de bench en CI light."
+        ],
+        "code": ""
+      },
+      {
+        "heading": "costo total, claridad y no microoptimización",
+        "paragraphs": [
+          "Costo total: eng+compute+riesgo de bugs. Claridad gana a shaving 2%.",
+          "Microoptimización sin medición es teatro.",
+          "Reporte antes/después es el entregable de escala."
+        ],
+        "code": "before = {\"ms\": 100, \"pairs\": 1_000_000}\nafter = {\"ms\": 20, \"pairs\": 50_000}\nprint(\"speedup\", before[\"ms\"] / after[\"ms\"])\nprint(\"pair_reduction\", before[\"pairs\"] // after[\"pairs\"])\nprint(\"micro_only\", False)"
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S37-T1-B-DEMO",
+        "description": "Mide wall de sum.",
+        "why": "Wall ms.",
+        "code": "import time\nt0=time.perf_counter(); sum(range(10000)); print(round((time.perf_counter()-t0)*1000,3))\nprint('n', 10000)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S37-T2-A-DEMO",
+        "description": "Mediana de 3 runs.",
+        "why": "Bench.",
+        "code": "import statistics\nprint(statistics.median([3,1,2]))\nprint('warmup', True)\nprint('n_runs', 3)"
+      },
+      {
+        "demoId": "S37-T2-B-DEMO",
+        "description": "Pairs n=4.",
+        "why": "Complejidad.",
+        "code": "n=4; print(n*(n-1)//2)\nprint('blocked', 2)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S37-T3-A-DEMO",
+        "description": "Inverted index sizes.",
+        "why": "Estructuras.",
+        "code": "print({'Lima':2})\nprint('structure', 'inverted_index')\nprint('ok', True)"
+      },
+      {
+        "demoId": "S37-T3-B-DEMO",
+        "description": "Chunk lens.",
+        "why": "Chunks.",
+        "code": "print([3,3,3,1])\nprint('size', 3)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S37-T4-A-DEMO",
+        "description": "Cache hit.",
+        "why": "Cache.",
+        "code": "print(True)\nprint('key', 'fs-v3')\nprint('ok', True)"
+      },
+      {
+        "demoId": "S37-T4-B-DEMO",
+        "description": "Budget pass.",
+        "why": "Budget test.",
+        "code": "print(True)\nprint('budget', 50)\nprint('measured', 10)"
+      },
+      {
+        "demoId": null,
+        "description": "Speedup 100→25.",
+        "why": "Before/after.",
+        "code": "print(4.0)\nprint('micro_only', False)\nprint('ok', True)"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "Warmup sirve para:",
+        "options": [
+          "Inflar métricas",
+          "Estabilizar benches descartando cold start",
+          "Borrar cache siempre",
+          "Evitar tests"
+        ]
+      },
+      {
+        "question": "Blocking reduce:",
+        "options": [
+          "Solo logs",
+          "Pares candidatos O(n²)",
+          "Privacidad automáticamente",
+          "Seeds"
+        ]
+      },
+      {
+        "question": "Performance budget en CI:",
+        "options": [
+          "Es opcional teatro",
+          "Falla si se rompe el límite acordado",
+          "Solo se mide en prod un año después",
+          "Reemplaza tests funcionales"
+        ]
+      },
+      {
+        "question": "Microoptimizar 2% sin medición:",
+        "options": [
+          "Best practice",
+          "Teatro; prioriza claridad y algos",
+          "Obligatorio",
+          "Invalida blocking"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta",
+      "Excepciones, debugging y logging seguro",
+      "Módulos, packaging y CLI profesional",
+      "OOP y modelo de dominio",
+      "APIs, SQL y geodatos responsables",
+      "Familiarity Evidence Dashboard y cierre de nivel",
+      "NumPy y cómputo vectorizado",
+      "Pandas: ingesta, selección y tipos",
+      "Calidad, limpieza y contratos de datos",
+      "Joins, reshape, groupby y cierre analítico",
+      "EDA, estadística descriptiva e incertidumbre",
+      "Visualización y comunicación accesible",
+      "Automatización robusta de Excel",
+      "Documentos, plantillas y reportes trazables",
+      "Email, identidad y aprobación humana",
+      "Browser RPA con Playwright",
+      "OCR y Document AI",
+      "Endpoints de IA, Hugging Face y prompting evaluado",
+      "Orquestación y VP RPA + AI Analyst",
+      "Estrategia de pruebas con pytest",
+      "Pruebas de datos, propiedades e integración",
+      "SQL avanzado y modelado relacional",
+      "Entity resolution probabilístico",
+      "Grafos y evidencia relacional",
+      "Feature engineering y pipelines sin leakage",
+      "ML supervisado y baselines responsables",
+      "Métricas, desbalance, calibración y umbrales",
+      "Explicabilidad, equidad e incertidumbre",
+      "Clustering, anomalías y validación temporal"
+    ]
+  },
+  {
+    "section_index": 38,
+    "title": "Concurrencia, observabilidad y workflows resilientes",
+    "outcomes": [
+      "Elegir threads/processes/async",
+      "Razonar I/O vs CPU y serialización",
+      "Aplicar pools y backpressure",
+      "Cancelar, timeout y liberar recursos",
+      "Emitir logs/metrics/traces",
+      "Correlacionar, redactar y definir SLI/SLO",
+      "Checkpoint e idempotencia de workflows",
+      "Operar retry/DLQ/replay con runbook"
+    ],
+    "theory": [
+      {
+        "heading": "Operación del triage (CP-N3-C)",
+        "paragraphs": [
+          "El pipeline debe reanudarse, trazar casos y sobrevivir a proveedores lentos.",
+          "Legacy Numba/Cython extreme se retematiza a concurrencia+resiliencia V3.",
+          "T1 Concurrencia → T2 Control → T3 Observabilidad → T4 Resiliencia."
+        ],
+        "code": "def pick(bound):\n    return {\"io\": \"async_or_threads\", \"cpu\": \"processes\", \"mixed\": \"batch_then_io\"}.get(bound, \"measure\")\nprint(pick(\"io\"))\nprint(pick(\"cpu\"))\nprint(\"measure_first\", True)"
+      },
+      {
+        "heading": "threads/processes/async",
+        "paragraphs": [
+          "Threads: I/O concurrente. Processes: CPU paralelo. Async: muchos I/O en un hilo.",
+          "Elige según bottleneck del triage (API, DB, CPU de features).",
+          "Didáctica: modelo de decisión por tipo de carga."
+        ],
+        "code": "def pick(bound):\n    return {\"io\": \"async_or_threads\", \"cpu\": \"processes\", \"mixed\": \"batch_then_io\"}.get(bound, \"measure\")\nprint(pick(\"io\"))\nprint(pick(\"cpu\"))\nprint(\"measure_first\", True)"
+      },
+      {
+        "heading": "I/O vs CPU, GIL y serialización",
+        "paragraphs": [
+          "GIL limita CPU multi-thread en CPython. Processes evitan GIL con costo de IPC.",
+          "Serialización (pickle/json) puede dominar el tiempo.",
+          "Pasa payloads compactos entre procesos."
+        ],
+        "code": "import json\npayload = {\"case_id\": \"c1\", \"score\": 0.2}\nblob = json.dumps(payload)\nprint(\"bytes\", len(blob.encode()))\nprint(\"gil_cpu_threads\", \"limited\")\nprint(\"prefer\", \"compact_payload\")"
+      },
+      {
+        "heading": "pools, backpressure y rate limits",
+        "paragraphs": [
+          "Pool acota concurrencia. Queue maxsize = backpressure. Rate limit protege proveedores.",
+          "Sin backpressure, OOM o ban del API.",
+          "Token bucket didáctico."
+        ],
+        "code": "class TokenBucket:\n    def __init__(self, rate):\n        self.tokens = rate\n        self.rate = rate\n    def allow(self):\n        if self.tokens >= 1:\n            self.tokens -= 1\n            return True\n        return False\nb = TokenBucket(2)\nprint([b.allow() for _ in range(3)])\nprint(\"backpressure\", \"queue_maxsize\")\nprint(\"ok\", True)"
+      },
+      {
+        "heading": "cancelación, timeout y recursos",
+        "paragraphs": [
+          "Timeouts en I/O; cancela tareas colgadas; finally cierra recursos.",
+          "Sin timeout, un proveedor lento tumba el batch.",
+          "Context managers > forget close."
+        ],
+        "code": "def fetch_with_timeout(fn, timeout_s=0.01):\n    # didáctico: no lanza threads; simula política\n    return {\"policy\": \"timeout\", \"seconds\": timeout_s, \"on_fail\": \"retry_or_dlq\"}\nprint(fetch_with_timeout(lambda: None))\nprint(\"close_in_finally\", True)\nprint(\"ok\", True)"
+      },
+      {
+        "heading": "logs, metrics y traces",
+        "paragraphs": [
+          "Logs eventos, metrics agregados, traces spans por caso.",
+          "correlation_id en todo el path intake→score→queue.",
+          "Nivel INFO en prod; DEBUG acotado."
+        ],
+        "code": "event = {\"level\": \"INFO\", \"case_id\": \"c-synth-1\", \"event\": \"scored\", \"score\": 0.4, \"corr\": \"corr-9\"}\nprint(event[\"event\"], event[\"corr\"])\nprint(\"metric\", \"queue_depth\")\nprint(\"pii_raw\", False)"
+      },
+      {
+        "heading": "correlation, redacción y SLI/SLO",
+        "paragraphs": [
+          "Redacta PII en logs. SLI: latencia p95 score, tasa error. SLO: objetivo acordado.",
+          "Error budget consume cuando se viola SLO.",
+          "Correlación permite reconstruir un caso sin PII completa."
+        ],
+        "code": "def redact(s):\n    return s[:2] + \"***\" if len(s) > 2 else \"***\"\nsli = {\"p95_ms\": 120, \"error_rate\": 0.01}\nslo = {\"p95_ms\": 200, \"error_rate\": 0.02}\nprint(\"redacted\", redact(\"ana@example.pe\"))\nprint(\"slo_ok\", sli[\"p95_ms\"] <= slo[\"p95_ms\"] and sli[\"error_rate\"] <= slo[\"error_rate\"])\nprint(\"corr_header\", \"X-Corr-Id\")"
+      },
+      {
+        "heading": "states, checkpoint e idempotencia",
+        "paragraphs": [
+          "Workflow states: pending→running→done/failed. Checkpoint tras pasos caros.",
+          "Idempotencia: reejecutar no duplica side effects (usa keys).",
+          "Reanudación desde último checkpoint bueno."
+        ],
+        "code": "state = {\"case\": \"c1\", \"step\": \"features\", \"status\": \"done\"}\nidem_key = \"c1:features:v3\"\nprint(\"checkpoint\", state)\nprint(\"idem_key\", idem_key)\nprint(\"resume_from\", state[\"step\"])"
+      },
+      {
+        "heading": "retry, dead-letter, replay y runbook",
+        "paragraphs": [
+          "Retry con backoff + jitter; DLQ para veneno; replay controlado.",
+          "Runbook: síntomas → checks → acciones (restart worker, replay batch).",
+          "Prueba el camino de fallo antes de prod."
+        ],
+        "code": "def backoff(attempt, base=0.1):\n    return base * (2 ** attempt)\nprint([round(backoff(i), 3) for i in range(4)])\nprint(\"dlq\", \"poison_messages\")\nprint(\"runbook\", True)"
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S38-T1-B-DEMO",
+        "description": "Pick concurrency for io.",
+        "why": "Elección.",
+        "code": "print('async_or_threads')\nprint('cpu', 'processes')\nprint('ok', True)"
+      },
+      {
+        "demoId": "S38-T2-A-DEMO",
+        "description": "Payload bytes.",
+        "why": "Serialización.",
+        "code": "import json; print(len(json.dumps({'a':1}).encode()))\nprint('gil', 'limited')\nprint('ok', True)"
+      },
+      {
+        "demoId": "S38-T2-B-DEMO",
+        "description": "Token bucket allows.",
+        "why": "Rate limit.",
+        "code": "print([True, True, False])\nprint('maxsize', 100)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S38-T3-A-DEMO",
+        "description": "Timeout policy dict.",
+        "why": "Timeouts.",
+        "code": "print({'seconds': 1, 'on_fail': 'dlq'})\nprint('finally', True)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S38-T3-B-DEMO",
+        "description": "Log event scored.",
+        "why": "O11y.",
+        "code": "print('scored', 'corr-1')\nprint('metric', 'latency_ms')\nprint('pii_raw', False)"
+      },
+      {
+        "demoId": "S38-T4-A-DEMO",
+        "description": "SLO check.",
+        "why": "SLI/SLO.",
+        "code": "print(True)\nprint('redacted', 'an***')\nprint('ok', True)"
+      },
+      {
+        "demoId": "S38-T4-B-DEMO",
+        "description": "Idempotency key.",
+        "why": "Checkpoint.",
+        "code": "print('c1:score:v1')\nprint('status', 'done')\nprint('ok', True)"
+      },
+      {
+        "demoId": null,
+        "description": "Backoff series.",
+        "why": "Retry/DLQ.",
+        "code": "print([0.1, 0.2, 0.4])\nprint('dlq', True)\nprint('runbook', True)"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "Para CPU bound en CPython suele preferirse:",
+        "options": [
+          "Miles de threads CPU",
+          "Procesos",
+          "Quitar timeouts",
+          "Logs con PII"
+        ]
+      },
+      {
+        "question": "Backpressure evita:",
+        "options": [
+          "Solo tests",
+          "Colas infinitas y OOM",
+          "Checkpoints",
+          "SLOs"
+        ]
+      },
+      {
+        "question": "Idempotencia permite:",
+        "options": [
+          "Duplicar cobros",
+          "Reejecutar sin side effects duplicados",
+          "Borrar DLQ siempre",
+          "Ignorar corr ids"
+        ]
+      },
+      {
+        "question": "En logs de prod debes:",
+        "options": [
+          "PII completa",
+          "Redactar PII y correlacionar",
+          "Desactivar métricas",
+          "No usar case_id"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta",
+      "Excepciones, debugging y logging seguro",
+      "Módulos, packaging y CLI profesional",
+      "OOP y modelo de dominio",
+      "APIs, SQL y geodatos responsables",
+      "Familiarity Evidence Dashboard y cierre de nivel",
+      "NumPy y cómputo vectorizado",
+      "Pandas: ingesta, selección y tipos",
+      "Calidad, limpieza y contratos de datos",
+      "Joins, reshape, groupby y cierre analítico",
+      "EDA, estadística descriptiva e incertidumbre",
+      "Visualización y comunicación accesible",
+      "Automatización robusta de Excel",
+      "Documentos, plantillas y reportes trazables",
+      "Email, identidad y aprobación humana",
+      "Browser RPA con Playwright",
+      "OCR y Document AI",
+      "Endpoints de IA, Hugging Face y prompting evaluado",
+      "Orquestación y VP RPA + AI Analyst",
+      "Estrategia de pruebas con pytest",
+      "Pruebas de datos, propiedades e integración",
+      "SQL avanzado y modelado relacional",
+      "Entity resolution probabilístico",
+      "Grafos y evidencia relacional",
+      "Feature engineering y pipelines sin leakage",
+      "ML supervisado y baselines responsables",
+      "Métricas, desbalance, calibración y umbrales",
+      "Explicabilidad, equidad e incertidumbre",
+      "Clustering, anomalías y validación temporal",
+      "Profiling, algoritmos y rendimiento"
+    ]
+  },
+  {
+    "section_index": 39,
+    "title": "Responsible ML Case Triage y cierre de nivel",
+    "outcomes": [
+      "Ensamblar el flujo intake→modelo",
+      "Versionar contratos y ownership",
+      "Armar cola y evidence packet",
+      "Operar decisión, override y apelación",
+      "Mitigar privacidad/fairness/seguridad",
+      "Monitoreo, incidentes y control humano",
+      "Cumplir aceptación y demo",
+      "Publicar cards, valor y postmortem"
+    ],
+    "theory": [
+      {
+        "heading": "Cierre CP-N3-C + regresión N3 + CF-3",
+        "paragraphs": [
+          "En V3, **S39 cierra el nivel 3** con **Responsible ML Case Triage**. Integra S27–S38 en un sistema demoable.",
+          "**Promoción (conceptual):** CP-N3-A, CP-N3-B, CP-N3-C, **regresión S27–S39**, **CF-3**. CF-3 integra contratos ER/grafo/triage y regresión cruzada. **Esta lane de autoría no marca PASS** ni edita ledger/checkpoint/seed.",
+          "Orden: **T1 Arquitectura** → **T2 Revisor** → **T3 Riesgo** → **T4 Producto**."
+        ],
+        "code": "stages = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\npayload = {\"run_id\": \"n3-reg-001\", \"stage\": \"model_score\", \"score\": 0.66, \"label_space\": \"needs_review\"}\nprint(\"pipeline\", \" > \".join(stages))\nprint(\"label_space\", payload[\"label_space\"])\nprint(\"auto_fraud\", False)"
+      },
+      {
+        "heading": "intake → ER → relación → features → modelo",
+        "paragraphs": [
+          "Flujo canónico N3: intake de registros → ER (misma entidad) → grafo relacional → features sin leakage → score de prioridad.",
+          "Cada etapa tiene contrato de I/O y version. Fallas se aíslan.",
+          "ER no infiere relación familiar ni fraude; grafo no culpa; score no es veredicto legal."
+        ],
+        "code": "stages = [\"intake\", \"er\", \"relation_graph\", \"features\", \"model_score\", \"queue\"]\npayload = {\"run_id\": \"n3-reg-001\", \"stage\": \"model_score\", \"score\": 0.66, \"label_space\": \"needs_review\"}\nprint(\"pipeline\", \" > \".join(stages))\nprint(\"label_space\", payload[\"label_space\"])\nprint(\"auto_fraud\", False)"
+      },
+      {
+        "heading": "contratos, versiones y ownership",
+        "paragraphs": [
+          "Cada artefacto: owner, version, compatibility policy. feature_set, model, thr, graph_schema.",
+          "Breaking change → bump major y plan de migración.",
+          "Ownership claro evita 'nadie on-call'."
+        ],
+        "code": "registry = {\n    \"er_engine\": {\"ver\": \"1.2.0\", \"owner\": \"data-quality\"},\n    \"graph_schema\": {\"ver\": \"3.0.0\", \"owner\": \"investigations\"},\n    \"feature_set\": {\"ver\": \"fs-v3\", \"owner\": \"ml-platform\"},\n    \"ranker\": {\"ver\": \"2.1.0\", \"owner\": \"ml-risk\"},\n}\nprint(sorted(registry))\nprint(\"owners\", len({v[\"owner\"] for v in registry.values()}))\nprint(\"compat\", \"semver\")"
+      },
+      {
+        "heading": "queue, evidence packet y explicación",
+        "paragraphs": [
+          "Cola ordenada por score calibrado/capacidad. Evidence packet: hechos, path de grafo, features top, incertidumbre.",
+          "Explicación en 4 capas (S35). UI/CLI didáctica en dicts.",
+          "El revisor ve evidencia, no solo un número."
+        ],
+        "code": "packet = {\n    \"case_id\": \"case-77\",\n    \"score\": 0.81,\n    \"evidence\": [\"shared_phone_synth\", \"tx_path_len_2\"],\n    \"graph_path\": [\"E1\", \"ph:900\", \"E2\"],\n    \"uncertainty\": \"in_distribution\",\n    \"model_contrib\": {\"shared_phone\": 0.4},\n}\nprint(packet[\"case_id\"], packet[\"score\"])\nprint(\"path\", packet[\"graph_path\"])\nprint(\"layers\", 4)"
+      },
+      {
+        "heading": "decisión, override, feedback y apelación",
+        "paragraphs": [
+          "Decisiones: queue_action, skip, escalate. Override humano gana y se loguea.",
+          "Feedback reentrena o corrige reglas con cuidado (sin leakage).",
+          "Apelación reabre con nuevo reviewer o supervisor."
+        ],
+        "code": "log = []\ndef decide(case_id, score, human=None):\n    auto = \"queue\" if score >= 0.7 else \"skip\"\n    final = human or auto\n    log.append({\"case_id\": case_id, \"auto\": auto, \"final\": final, \"override\": human is not None})\n    return final\nprint(decide(\"c1\", 0.9))\nprint(decide(\"c2\", 0.9, human=\"skip\"))\nprint(\"overrides\", sum(1 for e in log if e[\"override\"]))"
+      },
+      {
+        "heading": "privacidad, fairness y seguridad",
+        "paragraphs": [
+          "Minimización PII, RBAC al packet, sin secretos en repo. Fairness: slices de daño de revisión.",
+          "Seguridad: validar inputs, límites de tamaño, no SSRF a URLs de evidence.",
+          "Checklist de release del triage."
+        ],
+        "code": "checklist = {\n    \"pii_minimized\": True,\n    \"rbac\": True,\n    \"secrets_in_repo\": False,\n    \"slice_metrics\": True,\n    \"input_limits\": True,\n}\nprint(\"release_ok\", all([\n    checklist[\"pii_minimized\"], checklist[\"rbac\"], not checklist[\"secrets_in_repo\"],\n    checklist[\"slice_metrics\"], checklist[\"input_limits\"],\n]))\nprint(\"items\", len(checklist))\nprint(\"fraud_auto\", False)"
+      },
+      {
+        "heading": "drift, incidentes, rollback y human control",
+        "paragraphs": [
+          "Monitorea score dist, prevalencia proxy, calibration, latency. Drift → alerta.",
+          "Incidente: severidad, rollback de model/thr, human-only mode.",
+          "Control humano nunca se 'optimiza' fuera del sistema."
+        ],
+        "code": "def mode(drift_high, incident):\n    if incident:\n        return \"human_only\"\n    if drift_high:\n        return \"abstain_more\"\n    return \"normal\"\nprint(mode(False, True))\nprint(mode(True, False))\nprint(\"rollback\", \"model_previous\")"
+      },
+      {
+        "heading": "aceptación y demo",
+        "paragraphs": [
+          "Criterios de aceptación: flujo e2e sintético, baseline visible, abstención, audit log, sin auto-fraude.",
+          "Demo: un caso feliz, un override, un OOD abstain, métricas de cola.",
+          "Regresión N3: smoke de contratos S27–S39 (lista de checks)."
+        ],
+        "code": "acceptance = [\n    \"e2e_synthetic_run\",\n    \"baseline_in_metrics\",\n    \"abstention_path\",\n    \"audit_log\",\n    \"no_auto_fraud_label\",\n    \"regression_smoke_s27_s39\",\n]\nprint(\"n_criteria\", len(acceptance))\nprint(\"demo_paths\", [\"happy\", \"override\", \"ood_abstain\"])\nprint(\"cf3_note\", \"separate_lane_for_pass\")"
+      },
+      {
+        "heading": "model/data/system cards, métricas de valor y postmortem",
+        "paragraphs": [
+          "Cards de modelo, datos y sistema. Métricas de valor: tiempo de review, precisión de cola, % overrides.",
+          "Postmortem blameless tras incidentes: timeline, causas, acciones.",
+          "Cierre de nivel: documentación lista para CF-3 y regresión formal."
+        ],
+        "code": "value = {\"precision_at_k\": 0.55, \"override_rate\": 0.12, \"median_review_s\": 90}\npostmortem = {\"severity\": \"T0-T3\", \"root_cause\": \"calib_drift\", \"actions\": [\"rollback\", \"recalibrate\"]}\nprint(value)\nprint(postmortem[\"root_cause\"])\nprint(\"cards\", [\"model\", \"data\", \"system\"])"
+      }
+    ],
+    "iDo": [
+      {
+        "demoId": "S39-T1-B-DEMO",
+        "description": "Pipeline stages join.",
+        "why": "Flujo N3.",
+        "code": "print(' > '.join(['intake','er','graph','features','model','queue']))\nprint('label_space', 'needs_review')\nprint('auto_fraud', False)"
+      },
+      {
+        "demoId": "S39-T2-A-DEMO",
+        "description": "Registry owners count.",
+        "why": "Ownership.",
+        "code": "print(2)\nprint('semver', True)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S39-T2-B-DEMO",
+        "description": "Evidence packet keys.",
+        "why": "Packet.",
+        "code": "print(sorted(['case_id','score','evidence','graph_path']))\nprint('layers', 4)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S39-T3-A-DEMO",
+        "description": "Override logged.",
+        "why": "Decision log.",
+        "code": "print({'final':'skip','override':True})\nprint('n_overrides', 1)\nprint('ok', True)"
+      },
+      {
+        "demoId": "S39-T3-B-DEMO",
+        "description": "Release checklist ok.",
+        "why": "Riesgo.",
+        "code": "print(True)\nprint('secrets_in_repo', False)\nprint('auto_fraud', False)"
+      },
+      {
+        "demoId": "S39-T4-A-DEMO",
+        "description": "human_only on incident.",
+        "why": "Modos ops.",
+        "code": "print('human_only')\nprint('rollback', 'prev_model')\nprint('ok', True)"
+      },
+      {
+        "demoId": "S39-T4-B-DEMO",
+        "description": "Acceptance count + regression note.",
+        "why": "Aceptación y regresión.",
+        "code": "print(6)\nprint('regression', 'S27-S39')\nprint('cf3_pass_lane', 'separate')"
+      },
+      {
+        "demoId": null,
+        "description": "Value metrics + cards.",
+        "why": "Valor y cards.",
+        "code": "print(['precision_at_k','override_rate','median_review_s'])\nprint(sorted(['model','data','system']))\nprint('postmortem', True)"
+      }
+    ],
+    "selfCheck_stems": [
+      {
+        "question": "El label_space del triage N3 es preferentemente:",
+        "options": [
+          "fraud_certainty",
+          "needs_review / prioridad de cola",
+          "parentesco",
+          "culpable"
+        ]
+      },
+      {
+        "question": "CF-3 y regresión S27–S39 en esta lane de autoría:",
+        "options": [
+          "Marcan PASS solos",
+          "Se documentan; PASS lo califica otra lane",
+          "Se borran",
+          "Solo aplican a S01"
+        ]
+      },
+      {
+        "question": "Evidence packet debe incluir:",
+        "options": [
+          "Solo el score",
+          "Evidencia y path además del score",
+          "Solo el owner del repo",
+          "Claves de API"
+        ]
+      },
+      {
+        "question": "Ante incidente grave el modo seguro es:",
+        "options": [
+          "Ignorar",
+          "human_only / rollback",
+          "Subir contamination",
+          "Etiquetar fraude masivo"
+        ]
+      }
+    ],
+    "prior_titles": [
+      "Setup & Entorno de Desarrollo",
+      "Valores, tipos, operadores e I/O",
+      "Decisiones y reglas de validación",
+      "Iteración y resúmenes transaccionales",
+      "Funciones, contratos y descomposición",
+      "Colecciones y estructuras de datos",
+      "Texto, Unicode y expresiones regulares",
+      "Archivos, CSV, JSON y contratos de ingesta",
+      "Excepciones, debugging y logging seguro",
+      "Módulos, packaging y CLI profesional",
+      "OOP y modelo de dominio",
+      "APIs, SQL y geodatos responsables",
+      "Familiarity Evidence Dashboard y cierre de nivel",
+      "NumPy y cómputo vectorizado",
+      "Pandas: ingesta, selección y tipos",
+      "Calidad, limpieza y contratos de datos",
+      "Joins, reshape, groupby y cierre analítico",
+      "EDA, estadística descriptiva e incertidumbre",
+      "Visualización y comunicación accesible",
+      "Automatización robusta de Excel",
+      "Documentos, plantillas y reportes trazables",
+      "Email, identidad y aprobación humana",
+      "Browser RPA con Playwright",
+      "OCR y Document AI",
+      "Endpoints de IA, Hugging Face y prompting evaluado",
+      "Orquestación y VP RPA + AI Analyst",
+      "Estrategia de pruebas con pytest",
+      "Pruebas de datos, propiedades e integración",
+      "SQL avanzado y modelado relacional",
+      "Entity resolution probabilístico",
+      "Grafos y evidencia relacional",
+      "Feature engineering y pipelines sin leakage",
+      "ML supervisado y baselines responsables",
+      "Métricas, desbalance, calibración y umbrales",
+      "Explicabilidad, equidad e incertidumbre",
+      "Clustering, anomalías y validación temporal",
+      "Profiling, algoritmos y rendimiento",
+      "Concurrencia, observabilidad y workflows resilientes"
+    ]
+  }
+]

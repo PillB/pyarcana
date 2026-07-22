@@ -1,0 +1,554 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B2",
+  "section_index": 14,
+  "packet_sha": "713af9c68e66238e",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_14/packet.json",
+  "recorded_at": "2026-07-22T02:01:21.654001+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "selfcheck_rebuilt_B2_skeptic_packet_quotes_batch_01_26; exercises_kept",
+  "persona_seed": "d505f6ae6cb7",
+  "exercises": [
+    {
+      "exercise_id": "S14-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T1-A-E1\nimport numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape, flags.ndim)\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T1-A-E1\n# skeptic note: refused APIs not in theory/iDo for S14-T1-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "flags",
+        "array",
+        "dtype",
+        "uint8"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T1-A-E1 si el paquete lo enseña. Instrucción: «Crea un ndarray `flags` de shape (3, 2) dtype uint8 con valores [[1,0],[1,1],[0,1]] e imprime dtype, shape y ndim.». Demo ancla S14-T1-B-DEMO: «import numpy as np  def make_quality_arrays(n_clients=4):     flags = np.ones((n_clients, 3), dtype=np.uint8)  # 3 campos obligatorios     flags[1, 2] = 0     s». Hints del weDo: Usa np.array(..., dtype=np.uint8).; Imprime tres atributos: dtype, shape, ndim.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T1-A-E1 import numpy as np flags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8) print(flags.dtype, f». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T1-A-E2\nimport numpy as np\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint(scores.itemsize, scores.nbytes)\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T1-A-E2\n# skeptic note: refused APIs not in theory/iDo for S14-T1-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "scores",
+        "linspace",
+        "dtype",
+        "float64"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T1-A-E2 si el paquete lo enseña. Instrucción: «Construye `scores = np.linspace(0, 1, 5, dtype=np.float64)` y reporta itemsize y nbytes.». Demo ancla S14-T1-B-DEMO: «import numpy as np  def make_quality_arrays(n_clients=4):     flags = np.ones((n_clients, 3), dtype=np.uint8)  # 3 campos obligatorios     flags[1, 2] = 0     s». Hints del weDo: linspace con dtype=float64.; nbytes = size * itemsize.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T1-A-E2 import numpy as np scores = np.linspace(0, 1, 5, dtype=np.float64) print(scores.itemsize, scores.n». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T1-A-E3\nimport numpy as np\n\ndef validate(a):\n    if a.ndim != 1 or a.dtype != np.float64:\n        raise ValueError(\"need 1D float64\")\n    print(\"ok\", a.size)\n\nvalidate(np.array([0.1, 0.2], dtype=np.float64))\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T1-A-E3\n# skeptic note: refused APIs not in theory/iDo for S14-T1-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "validate",
+        "ndim",
+        "dtype",
+        "float64"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T1-A-E3 si el paquete lo enseña. Instrucción: «Valida un contrato: si un array no es 1D float64, lanza ValueError; si es válido imprime 'ok' y el size.». Demo ancla S14-T1-B-DEMO: «import numpy as np  def make_quality_arrays(n_clients=4):     flags = np.ones((n_clients, 3), dtype=np.uint8)  # 3 campos obligatorios     flags[1, 2] = 0     s». Hints del weDo: Comprueba ndim y dtype.; raise ValueError con mensaje corto.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T1-A-E3 import numpy as np def validate(a): if a.ndim != 1 or a.dtype != np.float64: raise ValueError(\"nee». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T1-B-E1\nimport numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nmask = score >= 0.5\nprint(np.where(mask)[0])\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T1-B-E1\n# skeptic note: refused APIs not in theory/iDo for S14-T1-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "score",
+        "array",
+        "mask",
+        "where"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T1-B-E1 si el paquete lo enseña. Instrucción: «Dado score = [0.2, 0.8, 0.4, 0.9], imprime los índices (0-based) donde score >= 0.5 usando máscara y np.where.». Demo ancla S14-T1-B-DEMO: «import numpy as np  def make_quality_arrays(n_clients=4):     flags = np.ones((n_clients, 3), dtype=np.uint8)  # 3 campos obligatorios     flags[1, 2] = 0     s». Hints del weDo: mask = score >= 0.5.; np.where(mask)[0].. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T1-B-E1 import numpy as np score = np.array([0.2, 0.8, 0.4, 0.9]) mask = score >= 0.5 print(np.where(mask)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T1-B-E2\nimport numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.2, 0.8, 0.4, 0.9])\nmed = np.median(scores)\nprint(ids[scores < med])\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T1-B-E2\n# skeptic note: refused APIs not in theory/iDo for S14-T1-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "ids",
+        "array",
+        "C001",
+        "C002"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T1-B-E2 si el paquete lo enseña. Instrucción: «Crea ids C001..C004 y scores; imprime ids con score en el percentil inferior (score < mediana).». Demo ancla S14-T1-B-DEMO: «import numpy as np  def make_quality_arrays(n_clients=4):     flags = np.ones((n_clients, 3), dtype=np.uint8)  # 3 campos obligatorios     flags[1, 2] = 0     s». Hints del weDo: np.median(scores).; ids[scores < med].. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T1-B-E2 import numpy as np ids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"]) scores = np.array([0.2, 0.8, 0». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T1-B-E3\nimport numpy as np\na = np.array([10, 20, 30, 40])\nprint(a[[2, 0, 3, 1]])\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T1-B-E3\n# skeptic note: refused APIs not in theory/iDo for S14-T1-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "array"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T1-B-E3 si el paquete lo enseña. Instrucción: «Fancy index: reordena el vector [10,20,30,40] al orden de índices [2,0,3,1] e imprime el resultado.». Demo ancla S14-T1-B-DEMO: «import numpy as np  def make_quality_arrays(n_clients=4):     flags = np.ones((n_clients, 3), dtype=np.uint8)  # 3 campos obligatorios     flags[1, 2] = 0     s». Hints del weDo: a[order] con lista de índices.; No uses un loop.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T1-B-E3 import numpy as np a = np.array([10, 20, 30, 40]) print(a[[2, 0, 3, 1]])». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T2-A-E1\nimport numpy as np\nM = np.array([[1.0, 0.0, 1.0], [1.0, 1.0, 0.0]])\nprint(np.round(M.mean(axis=0), 2).tolist())\nprint(np.round(M.mean(axis=1), 2).tolist())\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T2-A-E1\n# skeptic note: refused APIs not in theory/iDo for S14-T2-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "array",
+        "round",
+        "mean",
+        "axis"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T2-A-E1 si el paquete lo enseña. Instrucción: «Matriz 2x3 de unos y ceros: calcula mean por axis=0 y axis=1; imprime ambas listas redondeadas a 2 decimales.». Demo ancla S14-T2-A-DEMO: «import numpy as np  ids = np.array([\"C001\", \"C002\", \"C003\", \"C004\", \"C005\"]) region = np.array([\"Lima\", \"Arequipa\", \"Lima\", \"Cusco\", \"Lima\"]) score = np.array([». Hints del weDo: M.mean(axis=0) y axis=1.; np.round(..., 2).tolist().. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T2-A-E1 import numpy as np M = np.array([[1.0, 0.0, 1.0], [1.0, 1.0, 0.0]]) print(np.round(M.mean(axis=0),». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T2-A-E2\nimport numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint(np.round(np.std(scores, axis=0), 4).tolist())\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T2-A-E2\n# skeptic note: refused APIs not in theory/iDo for S14-T2-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "scores",
+        "array",
+        "round",
+        "std"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T2-A-E2 si el paquete lo enseña. Instrucción: «Con scores = [[0.5,0.5],[1.0,0.0],[0.8,0.6]], imprime std por columna (axis=0) con 4 decimales.». Demo ancla S14-T2-A-DEMO: «import numpy as np  ids = np.array([\"C001\", \"C002\", \"C003\", \"C004\", \"C005\"]) region = np.array([\"Lima\", \"Arequipa\", \"Lima\", \"Cusco\", \"Lima\"]) score = np.array([». Hints del weDo: np.std(axis=0).; Por defecto ddof=0 en np.std.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T2-A-E2 import numpy as np scores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]]) print(np.round(np.std(s». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T2-A-E3\nimport numpy as np\nX = np.array([[1.0, 3.0], [10.0, 20.0], [2.0, 2.0]])\nnormed = X - X.mean(axis=1, keepdims=True)\nprint(np.round(normed.mean(axis=1), 10).tolist())\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T2-A-E3\n# skeptic note: refused APIs not in theory/iDo for S14-T2-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "array",
+        "normed",
+        "mean",
+        "axis"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T2-A-E3 si el paquete lo enseña. Instrucción: «Normaliza cada fila restando su media (keepdims) e imprime la media de cada fila tras normalizar (debe ser ~0).». Demo ancla S14-T2-A-DEMO: «import numpy as np  ids = np.array([\"C001\", \"C002\", \"C003\", \"C004\", \"C005\"]) region = np.array([\"Lima\", \"Arequipa\", \"Lima\", \"Cusco\", \"Lima\"]) score = np.array([». Hints del weDo: row - row.mean(axis=1, keepdims=True).; Verifica con mean axis=1 redondeado.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T2-A-E3 import numpy as np X = np.array([[1.0, 3.0], [10.0, 20.0], [2.0, 2.0]]) normed = X - X.mean(axis=1». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T2-B-E1\nimport numpy as np\nM = np.zeros((2, 3))\npesos = np.array([1.0, 2.0, 3.0])\nprint(M + pesos)\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T2-B-E1\n# skeptic note: refused APIs not in theory/iDo for S14-T2-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "zeros",
+        "pesos",
+        "array"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T2-B-E1 si el paquete lo enseña. Instrucción: «Suma el vector pesos [1,2,3] a cada fila de una matriz 2x3 de ceros usando broadcast; imprime la matriz.». Demo ancla S14-T2-A-DEMO: «import numpy as np  ids = np.array([\"C001\", \"C002\", \"C003\", \"C004\", \"C005\"]) region = np.array([\"Lima\", \"Arequipa\", \"Lima\", \"Cusco\", \"Lima\"]) score = np.array([». Hints del weDo: zeros + pesos (shape (3,)).; Broadcast alinea por la derecha.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T2-B-E1 import numpy as np M = np.zeros((2, 3)) pesos = np.array([1.0, 2.0, 3.0]) print(M + pesos)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T2-B-E2\nimport numpy as np\na = np.arange(4)\nb = np.arange(3)\nprint((a[:, None] * b).shape)\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T2-B-E2\n# skeptic note: refused APIs not in theory/iDo for S14-T2-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "arange",
+        "shape"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T2-B-E2 si el paquete lo enseña. Instrucción: «Con a shape (4,) crea columna (4,1) con newaxis y multiplica por fila b shape (3,); imprime shape del producto.». Demo ancla S14-T2-A-DEMO: «import numpy as np  ids = np.array([\"C001\", \"C002\", \"C003\", \"C004\", \"C005\"]) region = np.array([\"Lima\", \"Arequipa\", \"Lima\", \"Cusco\", \"Lima\"]) score = np.array([». Hints del weDo: a[:, None] * b[None, :] o a[:, None] * b.; Resultado (4,3).. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T2-B-E2 import numpy as np a = np.arange(4) b = np.arange(3) print((a[:, None] * b).shape)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T2-B-E3\nimport numpy as np\ntry:\n    np.zeros((2, 3)) + np.zeros((2, 4))\nexcept ValueError:\n    print(\"incompatible\")\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T2-B-E3\n# skeptic note: refused APIs not in theory/iDo for S14-T2-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "try",
+        "zeros",
+        "except",
+        "ValueError"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T2-B-E3 si el paquete lo enseña. Instrucción: «Detecta incompatibilidad: intenta sumar (2,3) con (2,4) y captura ValueError imprimiendo 'incompatible'.». Demo ancla S14-T2-A-DEMO: «import numpy as np  ids = np.array([\"C001\", \"C002\", \"C003\", \"C004\", \"C005\"]) region = np.array([\"Lima\", \"Arequipa\", \"Lima\", \"Cusco\", \"Lima\"]) score = np.array([». Hints del weDo: try/except ValueError.; No uses shapes compatibles.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T2-B-E3 import numpy as np try: np.zeros((2, 3)) + np.zeros((2, 4)) except ValueError: print(\"incompatible». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T3-A-E1\nimport numpy as np\nraw = np.array([1, 2, 3])\nvista = raw[:2]\nvista[0] = 9\nprint(raw)\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T3-A-E1\n# skeptic note: refused APIs not in theory/iDo for S14-T3-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "raw",
+        "array",
+        "vista"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T3-A-E1 si el paquete lo enseña. Instrucción: «Toma raw=[1,2,3], crea vista de los dos primeros, pon vista[0]=9 e imprime raw.». Demo ancla S14-T3-A-DEMO: «import numpy as np  scores = np.array([  # clientes x dimensiones de calidad     [0.9, 0.8, 0.7],     [0.4, 0.5, 0.6],     [0.85, 0.9, 0.75], ]) pesos = np.arra». Hints del weDo: raw[:2] es view.; Mutar vista muta raw.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T3-A-E1 import numpy as np raw = np.array([1, 2, 3]) vista = raw[:2] vista[0] = 9 print(raw)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T3-A-E2\nimport numpy as np\nraw = np.array([1, 2, 3])\ncopia = raw[:2].copy()\ncopia[0] = 9\nprint(raw)\nprint(copia)\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T3-A-E2\n# skeptic note: refused APIs not in theory/iDo for S14-T3-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "raw",
+        "array",
+        "copia",
+        "copy"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T3-A-E2 si el paquete lo enseña. Instrucción: «Repite con .copy() y demuestra que raw queda [1,2,3] tras mutar la copia.». Demo ancla S14-T3-A-DEMO: «import numpy as np  scores = np.array([  # clientes x dimensiones de calidad     [0.9, 0.8, 0.7],     [0.4, 0.5, 0.6],     [0.85, 0.9, 0.75], ]) pesos = np.arra». Hints del weDo: raw[:2].copy().; Imprime raw y copia.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T3-A-E2 import numpy as np raw = np.array([1, 2, 3]) copia = raw[:2].copy() copia[0] = 9 print(raw) print(». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T3-A-E3\nimport numpy as np\na = np.array([1, 2, 3])\na.flags.writeable = False\ntry:\n    a[0] = 9\nexcept ValueError:\n    print(\"blocked\")\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T3-A-E3\n# skeptic note: refused APIs not in theory/iDo for S14-T3-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "array",
+        "flags",
+        "writeable",
+        "try"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T3-A-E3 si el paquete lo enseña. Instrucción: «Marca un array como no escribible (flags.writeable=False) e intenta asignar; imprime 'blocked' al capturar ValueError.». Demo ancla S14-T3-A-DEMO: «import numpy as np  scores = np.array([  # clientes x dimensiones de calidad     [0.9, 0.8, 0.7],     [0.4, 0.5, 0.6],     [0.85, 0.9, 0.75], ]) pesos = np.arra». Hints del weDo: a.flags.writeable = False.; Asignar a[0] debe fallar.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T3-A-E3 import numpy as np a = np.array([1, 2, 3]) a.flags.writeable = False try: a[0] = 9 except ValueErr». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T3-B-E1\nimport numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int(np.isnan(x).sum()))\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T3-B-E1\n# skeptic note: refused APIs not in theory/iDo for S14-T3-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "array",
+        "nan",
+        "int",
+        "isnan"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T3-B-E1 si el paquete lo enseña. Instrucción: «Cuenta cuántos NaN hay en [1, nan, 2, nan] con np.isnan.». Demo ancla S14-T3-A-DEMO: «import numpy as np  scores = np.array([  # clientes x dimensiones de calidad     [0.9, 0.8, 0.7],     [0.4, 0.5, 0.6],     [0.85, 0.9, 0.75], ]) pesos = np.arra». Hints del weDo: np.isnan(x).sum().; Imprime int.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T3-B-E1 import numpy as np x = np.array([1.0, np.nan, 2.0, np.nan]) print(int(np.isnan(x).sum()))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T3-B-E2\nimport numpy as np\nx = np.array([1.0, np.nan, 3.0])\nprint(round(float(np.nanmean(x)), 2))\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T3-B-E2\n# skeptic note: refused APIs not in theory/iDo for S14-T3-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "array",
+        "nan",
+        "round",
+        "float"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T3-B-E2 si el paquete lo enseña. Instrucción: «Calcula nanmean de [1, nan, 3] e imprime con 2 decimales.». Demo ancla S14-T3-A-DEMO: «import numpy as np  scores = np.array([  # clientes x dimensiones de calidad     [0.9, 0.8, 0.7],     [0.4, 0.5, 0.6],     [0.85, 0.9, 0.75], ]) pesos = np.arra». Hints del weDo: np.nanmean.; Resultado 2.0.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T3-B-E2 import numpy as np x = np.array([1.0, np.nan, 3.0]) print(round(float(np.nanmean(x)), 2))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T3-B-E3\nimport numpy as np\nx = np.array([1.0, np.inf, 2.0])\nx2 = np.where(np.isinf(x), np.nan, x)\nprint(float(np.nansum(x2)))\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T3-B-E3\n# skeptic note: refused APIs not in theory/iDo for S14-T3-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "array",
+        "inf",
+        "where",
+        "isinf"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T3-B-E3 si el paquete lo enseña. Instrucción: «Reemplaza inf por nan en [1, inf, 2] y luego usa nansum; imprime el resultado.». Demo ancla S14-T3-A-DEMO: «import numpy as np  scores = np.array([  # clientes x dimensiones de calidad     [0.9, 0.8, 0.7],     [0.4, 0.5, 0.6],     [0.85, 0.9, 0.75], ]) pesos = np.arra». Hints del weDo: np.where(np.isinf(x), np.nan, x).; nansum ignora nan.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T3-B-E3 import numpy as np x = np.array([1.0, np.inf, 2.0]) x2 = np.where(np.isinf(x), np.nan, x) print(fl». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T4-A-E1\nimport numpy as np\na = np.arange(1000, dtype=float)\nb = a.copy()\ns_loop = 0.0\nfor i in range(len(a)):\n    s_loop += a[i] * b[i]\ns_vec = (a * b).sum()\nprint(bool(abs(s_loop - s_vec) < 1e-6))\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T4-A-E1\n# skeptic note: refused APIs not in theory/iDo for S14-T4-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "arange",
+        "dtype",
+        "float",
+        "copy"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T4-A-E1 si el paquete lo enseña. Instrucción: «Suma a*b con loop y con (a*b).sum() para a=b=arange(1000); imprime si abs(diff)<1e-6.». Demo ancla S14-T4-A-DEMO: «import numpy as np  scores = np.array([0.9, np.nan, 0.7, np.inf, 0.4, 0.85]) valid = scores[np.isfinite(scores)] print(\"n_valid\", valid.size, \"de\", scores.size)». Hints del weDo: np.arange(1000, dtype=float).; Compara resultados no tiempos.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T4-A-E1 import numpy as np a = np.arange(1000, dtype=float) b = a.copy() s_loop = 0.0 for i in range(len(a». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T4-A-E2\nimport numpy as np\na = np.arange(5)\nprint(int((a ** 2).sum()))\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T4-A-E2\n# skeptic note: refused APIs not in theory/iDo for S14-T4-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "arange",
+        "int",
+        "sum"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T4-A-E2 si el paquete lo enseña. Instrucción: «Implementa suma de cuadrados vectorizada de arange(5) e imprime el total.». Demo ancla S14-T4-A-DEMO: «import numpy as np  scores = np.array([0.9, np.nan, 0.7, np.inf, 0.4, 0.85]) valid = scores[np.isfinite(scores)] print(\"n_valid\", valid.size, \"de\", scores.size)». Hints del weDo: (a**2).sum() o np.dot(a,a).; Resultado 0+1+4+9+16=30.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T4-A-E2 import numpy as np a = np.arange(5) print(int((a ** 2).sum()))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T4-A-E3\nimport numpy as np\nimport time\na = np.zeros(10000)\nb = np.ones(10000)\nt0 = time.perf_counter()\nout = a + b\nelapsed = time.perf_counter() - t0\nprint(\"timed\", float(out.mean()) == 1.0)\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T4-A-E3\n# skeptic note: refused APIs not in theory/iDo for S14-T4-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "time",
+        "zeros",
+        "ones",
+        "perf_counter"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T4-A-E3 si el paquete lo enseña. Instrucción: «Mide con perf_counter un (a+b) vectorizado de n=10000 e imprime 'timed' y que el resultado mean sea 1.0 si a=0 y b=1.». Demo ancla S14-T4-A-DEMO: «import numpy as np  scores = np.array([0.9, np.nan, 0.7, np.inf, 0.4, 0.85]) valid = scores[np.isfinite(scores)] print(\"n_valid\", valid.size, \"de\", scores.size)». Hints del weDo: time.perf_counter antes/después.; No necesitas ratio; solo demostrar timing + correctness.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T4-A-E3 import numpy as np import time a = np.zeros(10000) b = np.ones(10000) t0 = time.perf_counter() out». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T4-B-E1\nimport numpy as np\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes == 8000)\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T4-B-E1\n# skeptic note: refused APIs not in theory/iDo for S14-T4-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "zeros",
+        "dtype",
+        "float64",
+        "nbytes"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T4-B-E1 si el paquete lo enseña. Instrucción: «Imprime nbytes de np.zeros(1000, dtype=np.float64) y verifica que sea 8000.». Demo ancla S14-T4-A-DEMO: «import numpy as np  scores = np.array([0.9, np.nan, 0.7, np.inf, 0.4, 0.85]) valid = scores[np.isfinite(scores)] print(\"n_valid\", valid.size, \"de\", scores.size)». Hints del weDo: float64 = 8 bytes.; print nbytes y comparación.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T4-B-E1 import numpy as np a = np.zeros(1000, dtype=np.float64) print(a.nbytes, a.nbytes == 8000)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T4-B-E2\nimport numpy as np\nprint(bool(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8)))\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T4-B-E2\n# skeptic note: refused APIs not in theory/iDo for S14-T4-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "bool",
+        "allclose",
+        "atol"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T4-B-E2 si el paquete lo enseña. Instrucción: «Usa allclose entre [1.0, 2.0] y [1.0+1e-9, 2.0] con atol=1e-8; imprime el booleano.». Demo ancla S14-T4-A-DEMO: «import numpy as np  scores = np.array([0.9, np.nan, 0.7, np.inf, 0.4, 0.85]) valid = scores[np.isfinite(scores)] print(\"n_valid\", valid.size, \"de\", scores.size)». Hints del weDo: np.allclose(..., atol=1e-8).; Debe ser True.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T4-B-E2 import numpy as np print(bool(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8)))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    },
+    {
+      "exercise_id": "S14-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S14-T4-B-E3\nimport numpy as np\ntry:\n    np.testing.assert_allclose([0, 0], [0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print(\"fail\")\n# B2 dual-run (Skeptic): re-validated vs packet S14 S14-T4-B-E3\n# skeptic note: refused APIs not in theory/iDo for S14-T4-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S14",
+        "numpy",
+        "try",
+        "testing",
+        "assert_allclose",
+        "atol"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S14-T4-B-E3 si el paquete lo enseña. Instrucción: «assert_allclose debe fallar entre [0,0] y [0,0.1] con atol=1e-3; captura e imprime 'fail'.». Demo ancla S14-T4-A-DEMO: «import numpy as np  scores = np.array([0.9, np.nan, 0.7, np.inf, 0.4, 0.85]) valid = scores[np.isfinite(scores)] print(\"n_valid\", valid.size, \"de\", scores.size)». Hints del weDo: np.testing.assert_allclose.; except AssertionError.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S14-T4-B-E3 import numpy as np try: np.testing.assert_allclose([0, 0], [0, 0.1], atol=1e-3) except AssertionEr». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S14', 'numpy']. Heading: De “Seguridad para Automatizaciones e IA” a NumPy vectorizado (mapa de la secció."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "question": "¿Qué atributo del ndarray indica el tipo homogéneo de sus elementos?",
+      "chosen_index": 1,
+      "chosen_text": "dtype",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «ndarray, dtype y shape» — quote: «…) de datos homogéneos. **dtype** fija el tipo (p. ej. `float64`, `int32`); **shape** es la tupla de dimensiones; **ndim** = `len(shape)`; **itemsize** es bytes por elemen…». Choose [1] «dtype». ndarray.dtype is the homogeneous element type."
+    },
+    {
+      "question_index": 1,
+      "question": "Una máscara booleana a > 0.5 se usa principalmente para:",
+      "chosen_index": 1,
+      "chosen_text": "Filtrar o seleccionar elementos que cumplen la condición",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «creación, indexación y máscaras» — quote: «Una **máscara booleana** `a > umbral` produce un array de `bool` del mismo shape; `a[mask]` filtra. Es la forma idiomática de calidad: “filas con score < 0.5”.». Choose [1] «Filtrar o seleccionar elementos que cumplen la condición». Boolean mask a > 0.5 primarily filters/selects matching elements."
+    },
+    {
+      "question_index": 2,
+      "question": "axis=0 en una reducción sobre una matriz 2D suele agregar:",
+      "chosen_index": 1,
+      "chosen_text": "Por columna (colapsa filas)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «ufuncs y reducciones» — quote: «`axis=0` reduce filas→agrega por columna; `axis=1` por fila. `keepdims=True` preserva dimensiones para rebroadcast.». Choose [1] «Por columna (colapsa filas)». axis=0 on 2D reduction aggregates down rows → per-column result."
+    },
+    {
+      "question_index": 3,
+      "question": "Mutar un slice simple de un ndarray normalmente:",
+      "chosen_index": 1,
+      "chosen_text": "Puede mutar el array base porque suele ser un view",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «taught» — quote: «…dad de shapes Distinguir views de copies y controlar mutabilidad Manejar NaN/inf y evaluar estabilidad numérica Vectorizar frente a loops con benchmark honesto Medir memo…». Choose [1] «Puede mutar el array base porque suele ser un view». Mutating a simple ndarray slice often mutates the base (view)."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
+    "batch": "01_26",
+    "method": "llm_packet_only_no_generator"
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

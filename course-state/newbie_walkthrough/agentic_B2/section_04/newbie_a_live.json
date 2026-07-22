@@ -1,0 +1,549 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B2",
+  "section_index": 4,
+  "packet_sha": "3f760c2b942b7a46",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_04/packet.json",
+  "recorded_at": "2026-07-22T02:00:41.498204+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_agentic_B1; justifications_rebuilt_from_packet; selfcheck_from_agentic_B1; voice=B2; selfcheck_B2_explorer_independent",
+  "persona_seed": "509da13bed0d",
+  "exercises": [
+    {
+      "exercise_id": "S04-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T1-A-E1\nregiones = [\"Lima\", \"Cusco\", \"Piura\"]\nfor r in regiones:\n    print(r)\nprint(list(range(3)))\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T1-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "regiones",
+        "Lima",
+        "Cusco",
+        "Piura"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S04-T1-A-E1 arranco citando el weDo: «E1 (guiado) — Dada `regiones = [\"Lima\", \"Cusco\", \"Piura\"]`, imprime cada región en su propia línea con un `for`. Luego imprime `list(range(3))`.». Demo de referencia `S04-T1-B-DEMO` (Recorrer lote de registros sintéticos con for y range) → «lote = [ {\"id\": \"C001\", \"edad\": 30}, {\"id\": \"C002\", \"edad\": 17},». Hint weDo: «for r in regiones: print(r)». Sello con `regiones` + `print(` en la respuesta. Teoria packet: «for, range y secuencias»."
+    },
+    {
+      "exercise_id": "S04-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T1-A-E2\nedades = [30, 17, 45, 22]\nn = 0\nfor e in edades:\n    if e >= 18:\n        n += 1\nprint(n)\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T1-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "edades"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S04-T1-A-E2 desde la instruction publicada: «E2 (independiente) — `edades = [30, 17, 45, 22]`. Cuenta cuántas son `>= 18` con un for (no uses comprehension todavía). Imprime el contador.». Plantilla iDo `S04-T1-B-DEMO` (Recorrer lote de registros sintéticos con for y range) → «lote = [ {\"id\": \"C001\", \"edad\": 30}, {\"id\": \"C002\", \"edad\": 17},». Hint weDo: «n = 0; for e in edades: if e >= 18: n += 1». En el code dejé `edades` + `print(` para amarrar el mismo gesto. Teoria packet: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T1-A-E3\nlote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0}, {\"id\": \"C3\", \"monto\": -2}, {\"id\": \"C4\", \"monto\": 5}]\nfor reg in lote:\n    if reg[\"monto\"] > 0:\n        print(reg[\"id\"])\nprint(\"len\", len(lote))\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T1-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "lote",
+        "monto",
+        "reg",
+        "len"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S04-T1-A-E3: tomo la consigna weDo: «E3 (transferencia) — Simula un mini-lote: lista de dicts con `id` y `monto`. Imprime solo los `id` cuyo monto sea `> 0` usando for. No mutes la lista original.». Demo de referencia `S04-T1-B-DEMO` (Recorrer lote de registros sintéticos con for y range) → «lote = [ {\"id\": \"C001\", \"edad\": 30}, {\"id\": \"C002\", \"edad\": 17},». Hint weDo: «for reg in lote: if reg['monto'] > 0: print(reg['id'])». Marca en code: `print(` + `monto`. Teoria packet: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T1-B-E1\nids = [\"A\", \"B\", \"C\"]\nfor i, x in enumerate(ids, start=1):\n    print(f\"fila {i}: {x}\")\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T1-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "ids",
+        "enumerate",
+        "start",
+        "fila"
+      ],
+      "justification_from_packet": "[B2-Explorer] S04-T1-B-E1 — experimento con lo que el packet pide: «E1 (guiado) — Con `ids = [\"A\", \"B\", \"C\"]`, usa `enumerate(..., start=1)` e imprime `fila k: id`.». Ancla iDo B2 `S04-T1-B-DEMO` (Recorrer lote de registros sintéticos con for y range) → «lote = [ {\"id\": \"C001\", \"edad\": 30}, {\"id\": \"C002\", \"edad\": 17},». Hint weDo: «for i, x in enumerate(ids, start=1): print(f'fila {i}: {x}')». Sello con `enumerate` + `print(` en la respuesta. Teoria packet: «enumerate y zip sin desalinear»."
+    },
+    {
+      "exercise_id": "S04-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T1-B-E2\nnombres = [\"Ana\", \"Luis\", \"María\"]\nedades = [30, 25, 40]\nfor n, e in zip(nombres, edades):\n    print(f\"{n}={e}\")\nprint(list(zip(nombres, edades[:1])))\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T1-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "nombres",
+        "Ana",
+        "Luis",
+        "edades"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S04-T1-B-E2: tomo la consigna weDo: «E2 (independiente) — `nombres` y `edades` de igual longitud. Emparéjalos con `zip` e imprime `nombre=edad`. Luego muestra qué pasa con zip silencioso si…». Ancla iDo B2 `S04-T1-B-DEMO` (Recorrer lote de registros sintéticos con for y range) → «lote = [ {\"id\": \"C001\", \"edad\": 30}, {\"id\": \"C002\", \"edad\": 17},». Hint weDo: «zip se detiene en la más corta; el resto se pierde.». Traigo al code `nombres` + `edades` copiados del patrón. Teoria packet: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T1-B-E3\ndef zip_strict(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"desalineado\")\n    return list(zip(a, b))\n\ntry:\n    zip_strict([1, 2, 3], [10, 20])\nexcept ValueError:\n    print(\"DESALINEADO\")\ntry:\n    zip_strict([1, 2], [3, 4])\n    print(\"OK\")\nexcept ValueError:\n    print(\"DESALINEADO\")\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T1-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "zip_strict",
+        "len",
+        "raise",
+        "ValueError"
+      ],
+      "justification_from_packet": "[B2-Explorer] S04-T1-B-E3 — experimento con lo que el packet pide: «E3 (transferencia) — Implementa `zip_strict(a,b)` que lance ValueError si `len(a)!=len(b)` (equivalente pedagógico a `zip(..., strict=True)` en Py 3.10+).…». Demo de referencia `S04-T1-B-DEMO` (Recorrer lote de registros sintéticos con for y range) → «lote = [ {\"id\": \"C001\", \"edad\": 30}, {\"id\": \"C002\", \"edad\": 17},». Hint weDo: «if len(a) != len(b): raise ValueError(...); return list(zip(a,b))». Traigo al code `zip_strict` + `def zip_strict` copiados del patrón. Teoria packet: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T2-A-E1\nlines = [\"r1\", \"r2\", \"\", \"r3\"]\ni = 0\nout = []\nwhile i < len(lines):\n    line = lines[i]\n    i += 1\n    if line == \"\":\n        break\n    out.append(line)\nprint(out)\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T2-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "lines",
+        "out",
+        "while",
+        "len"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S04-T2-A-E1 desde la instruction publicada: «E1 (guiado) — Buffer `lines = [\"r1\", \"r2\", \"\", \"r3\"]`. Con while e índice, acumula hasta el string vacío (sin incluirlo). Imprime la lista.». Ancla iDo B2 `S04-T2-A-DEMO` (enumerate para reportar fila y zip strict para columnas) → «ids = [\"C001\", \"C002\", \"C003\"] regiones = [\"Lima\", \"Cusco\", \"Arequipa\"] def zip_strict(a, b):». Hint weDo: «while i < len: leer, i+=1, if line=='': break else append». Traigo al code `print(` + `lines` copiados del patrón. Teoria packet: «while, centinelas y terminación»."
+    },
+    {
+      "exercise_id": "S04-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T2-A-E2\nintentos = 0\nMAX = 3\nwhile intentos < MAX:\n    intentos += 1\n    print(f\"intento {intentos}\")\nprint(\"done\", intentos)\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T2-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "intentos",
+        "MAX",
+        "while",
+        "intento"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S04-T2-A-E2: tomo la consigna weDo: «E2 (independiente) — Simula reintentos: `intentos = 0`, `MAX = 3`, `while intentos < MAX`, incrementa e imprime `intento k`. Al salir imprime `done` y el valor…». Ancla iDo B2 `S04-T2-A-DEMO` (enumerate para reportar fila y zip strict para columnas) → «ids = [\"C001\", \"C002\", \"C003\"] regiones = [\"Lima\", \"Cusco\", \"Arequipa\"] def zip_strict(a, b):». Hint weDo: «intentos += 1 dentro del while es la variable de control.». Traigo al code `intentos` + `intento` copiados del patrón. Teoria packet: «while, centinelas y terminación»."
+    },
+    {
+      "exercise_id": "S04-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T2-A-E3\ncola = [\"job1\", \"job2\", \"job3\"]\nwhile cola:\n    job = cola.pop(0)\n    print(job)\n    if job == \"job2\":\n        print(\"PAUSE\")\n        break\nprint(\"rest\", cola)\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T2-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "cola",
+        "job1",
+        "job2",
+        "job3"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S04-T2-A-E3 arranco citando el weDo: «E3 (transferencia) — Cola simulada: `cola = [\"job1\", \"job2\", \"job3\"]`. Mientras la cola no esté vacía, saca el primero con `pop(0)`, imprímelo, y si el job es…». Plantilla iDo `S04-T2-A-DEMO` (enumerate para reportar fila y zip strict para columnas) → «ids = [\"C001\", \"C002\", \"C003\"] regiones = [\"Lima\", \"Cusco\", \"Arequipa\"] def zip_strict(a, b):». Hint weDo: «while cola: job = cola.pop(0)». Marca en code: `print(` + `PAUSE`. Teoria packet: «break, continue y prevención de loops infinitos»."
+    },
+    {
+      "exercise_id": "S04-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T2-B-E1\nraw = [\"  \", \"Lima\", \"\", \"Cusco\"]\nfor x in raw:\n    if not x.strip():\n        continue\n    print(x)\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T2-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "raw",
+        "Lima",
+        "Cusco",
+        "not"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S04-T2-B-E1 desde la instruction publicada: «E1 (guiado) — `raw = [\" \", \"Lima\", \"\", \"Cusco\"]`. Con for, usa continue si `not x.strip()`; imprime las regiones válidas.». Veo en iDo `S04-T2-B-DEMO` (while con centinela END sobre buffer de líneas) → «buf = [\"Ana|Lima\", \"Luis|Cusco\", \"END\", \"ignorada\"] i = 0 out = []». Hint weDo: «if not x.strip(): continue». Marca en code: `continue` + `print(`. Teoria packet: «break, continue y prevención de loops infinitos»."
+    },
+    {
+      "exercise_id": "S04-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T2-B-E2\ncodes = [200, 200, 500, 200]\nn_ok = 0\nfor code in codes:\n    if code >= 500:\n        print(\"STOP\")\n        break\n    print(\"ok\")\n    n_ok += 1\nprint(\"n_ok\", n_ok)\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T2-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "codes",
+        "n_ok",
+        "code",
+        "STOP"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S04-T2-B-E2 arranco citando el weDo: «E2 (independiente) — `codes = [200, 200, 500, 200]`. Recorre; si code >= 500 imprime `STOP` y break; si no, imprime `ok`. Cuenta cuántos ok imprimiste.». Veo en iDo `S04-T2-B-DEMO` (while con centinela END sobre buffer de líneas) → «buf = [\"Ana|Lima\", \"Luis|Cusco\", \"END\", \"ignorada\"] i = 0 out = []». Hint weDo: «break no procesa el 200 final.». Marca en code: `print(` + `codes`. Teoria packet: «break, continue y prevención de loops infinitos»."
+    },
+    {
+      "exercise_id": "S04-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T2-B-E3\nbuf = [\"a\", \"b\", \"END\"]\ni = 0\nout = []\nwhile True:\n    if i > 10:\n        raise RuntimeError(\"guard\")\n    line = buf[i]\n    i += 1\n    if line == \"END\":\n        break\n    out.append(line)\nprint(out)\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T2-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "buf",
+        "END",
+        "out",
+        "while"
+      ],
+      "justification_from_packet": "[B2-Explorer] S04-T2-B-E3 — experimento con lo que el packet pide: «E3 (transferencia) — Escribe un `while True` que lea de `buf = [\"a\", \"b\", \"END\"]` con índice, break en END, y un guardrail `if i > 10: raise…». Veo en iDo `S04-T2-B-DEMO` (while con centinela END sobre buffer de líneas) → «buf = [\"Ana|Lima\", \"Luis|Cusco\", \"END\", \"ignorada\"] i = 0 out = []». Hint weDo: «while True no es pecado si break y guardrail están claros.». Traigo al code `RuntimeError` + `append` copiados del patrón. Teoria packet: «while, centinelas y terminación»."
+    },
+    {
+      "exercise_id": "S04-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T3-A-E1\nsts = [\"accept\", \"reject\", \"accept\"]\nn_accept = n_reject = n_total = 0\nfor st in sts:\n    n_total += 1\n    if st == \"accept\":\n        n_accept += 1\n    elif st == \"reject\":\n        n_reject += 1\nprint(n_accept, n_reject, n_total)\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T3-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "sts",
+        "accept",
+        "reject",
+        "n_accept"
+      ],
+      "justification_from_packet": "[B2-Explorer] S04-T3-A-E1 — experimento con lo que el packet pide: «E1 (guiado) — `sts = [\"accept\", \"reject\", \"accept\"]`. Inicializa contadores y en un for incrementa. Imprime n_accept, n_reject, n_total.». Demo de referencia `S04-T3-A-DEMO` (continue salta vacíos; break corta en ERROR fatal) → «lines = [\"\", \"ok:1\", \"\", \"ok:2\", \"ERROR\", \"ok:3\"] kept = [] for ln in lines:». Hint weDo: «n_total = len o +=1 por fila». Sello con `n_accept` + `n_reject` en la respuesta. Teoria packet: «Contadores, acumuladores y búsqueda»."
+    },
+    {
+      "exercise_id": "S04-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T3-A-E2\ndef tasa_reject(sts):\n    n_total = len(sts)\n    if not n_total:\n        return None\n    n_reject = sum(1 for s in sts if s == \"reject\")\n    return n_reject / n_total\n\nprint(tasa_reject([\"accept\", \"reject\", \"accept\"]))\nprint(tasa_reject([]))\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T3-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "tasa_reject",
+        "sts",
+        "n_total",
+        "len"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S04-T3-A-E2 desde la instruction publicada: «E2 (independiente) — Calcula `tasa_reject = n_reject / n_total` para sts del E1. Luego calcula tasa para lista vacía sin ZeroDivisionError (imprime None).». Ancla iDo B2 `S04-T3-A-DEMO` (continue salta vacíos; break corta en ERROR fatal) → «lines = [\"\", \"ok:1\", \"\", \"ok:2\", \"ERROR\", \"ok:3\"] kept = [] for ln in lines:». Hint weDo: «if n_total: tasa = n_rej/n_total else None». Traigo al code `tasa_reject` + `n_reject` copiados del patrón. Teoria packet: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T3-A-E3\nrows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"review\"}, {\"id\": \"C3\", \"status\": \"review\"}]\nfirst = -1\nfor i, r in enumerate(rows):\n    if r[\"status\"] == \"review\":\n        first = i\n        print(first, r[\"id\"])\n        break\nif first == -1:\n    print(-1)\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T3-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "rows",
+        "status",
+        "accept",
+        "review"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S04-T3-A-E3 desde la instruction publicada: «E3 (transferencia) — Busca el índice del primer `status==\"review\"` en una lista de dicts. Si no hay, imprime -1. Si hay, imprime el índice y el id.». Plantilla iDo `S04-T3-A-DEMO` (continue salta vacíos; break corta en ERROR fatal) → «lines = [\"\", \"ok:1\", \"\", \"ok:2\", \"ERROR\", \"ok:3\"] kept = [] for ln in lines:». Hint weDo: «first = None; for i,r in enumerate(...): if ...: first=i; break». En el code dejé `status` + `review` para amarrar el mismo gesto. Teoria packet: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T3-B-E1\nnums = [1, 2, 3, 4, 5]\ncuadrados = [x * x for x in nums]\npares = [x for x in nums if x % 2 == 0]\nprint(cuadrados)\nprint(pares)\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T3-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "nums",
+        "cuadrados",
+        "pares"
+      ],
+      "justification_from_packet": "[B2-Explorer] S04-T3-B-E1 — experimento con lo que el packet pide: «E1 (guiado) — `nums = [1,2,3,4,5]`. Crea con comprehension la lista de cuadrados y la de pares. Imprímelas.». Ancla iDo B2 `S04-T3-B-DEMO` (Contadores accept/reject/review y tasa con denominador) → «statuses = [\"accept\", \"reject\", \"review\", \"accept\", \"reject\"] counts = {\"accept\": 0, \"reject\": 0, \"review\":…». Hint weDo: «[x*x for x in nums] y [x for x in nums if x%2==0]». Sello con `cuadrados` + `print(` en la respuesta. Teoria packet: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T3-B-E2\nrows = [{\"status\": \"reject\"}, {\"status\": \"accept\"}, {\"status\": \"reject\"}, {\"status\": \"review\"}]\nprint(sorted({r[\"status\"] for r in rows}))\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T3-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "rows",
+        "status",
+        "reject",
+        "accept"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S04-T3-B-E2: tomo la consigna weDo: «E2 (independiente) — De `rows` con status, obtén set de statuses distintos ordenados alfabéticamente para el reporte.». Ancla iDo B2 `S04-T3-B-DEMO` (Contadores accept/reject/review y tasa con denominador) → «statuses = [\"accept\", \"reject\", \"review\", \"accept\", \"reject\"] counts = {\"accept\": 0, \"reject\": 0, \"review\":…». Hint weDo: «sorted({r['status'] for r in rows})». Marca en code: `status` + `reject`. Teoria packet: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T3-B-E3\nrows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"}, {\"id\": \"C3\", \"status\": \"accept\"}, {\"id\": \"C4\", \"status\": \"reject\"}]\nby_id = {r[\"id\"]: r[\"status\"] for r in rows}\nrejects = [r[\"id\"] for r in rows if r[\"status\"] == \"reject\"]\ntasa = len(rejects) / len(rows)\nprint(by_id)\nprint(\"reject\", rejects, tasa)\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T3-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "rows",
+        "status",
+        "accept",
+        "reject"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S04-T3-B-E3: tomo la consigna weDo: «E3 (transferencia) — Construye dict `id -> status` por comprehension y calcula tasa de reject como len de rejects / len rows usando otra comprehension para…». Plantilla iDo `S04-T3-B-DEMO` (Contadores accept/reject/review y tasa con denominador) → «statuses = [\"accept\", \"reject\", \"review\", \"accept\", \"reject\"] counts = {\"accept\": 0, \"reject\": 0, \"review\":…». Hint weDo: «by = {r['id']: r['status'] for r in rows}». En el code dejé `rejects` + `status` para amarrar el mismo gesto. Teoria packet: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T4-A-E1\nvals = [2, -1, 3]\ns = 0\nfor i, val in enumerate(vals):\n    if val > 0:\n        s += val\n    print(i, val, s)\nprint(\"final\", s)\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T4-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "vals",
+        "val",
+        "enumerate",
+        "final"
+      ],
+      "justification_from_packet": "[B2-Explorer] S04-T4-A-E1 — experimento con lo que el packet pide: «E1 (guiado) — Traza: `vals = [2, -1, 3]`, acumulador `s=0`. En cada paso imprime `i, val, s` después de sumar solo positivos.». Veo en iDo `S04-T4-A-DEMO` (Comprehensions para filtrar rejects del resumen) → «rows = [ {\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"},». Hint weDo: «if val > 0: s += val; luego print». Marca en code: `print(` + `vals`. Teoria packet: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T4-A-E2\nfilas = [\"a\", \"b\", \"c\"]\nn = 0\nfor f in filas:\n    n += 1  # un solo incremento (se quitó el duplicado)\nprint(n)\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T4-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "filas",
+        "solo",
+        "incremento",
+        "duplicado"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S04-T4-A-E2: tomo la consigna weDo: «E2 (independiente) — Hay un bug: el contador `n` se incrementa dos veces por fila. Traza e identifica; imprime n corregido para 3 filas (debe ser 3).». Ancla iDo B2 `S04-T4-A-DEMO` (Comprehensions para filtrar rejects del resumen) → «rows = [ {\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"},». Hint weDo: «Busca n += 1 duplicado». Marca en code: `print(` + `filas`. Teoria packet: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T4-A-E3\nregs = [\"accept\", \"reject\", \"accept\"]\ncounts = {\"accept\": 0, \"reject\": 0}\nfor st in regs:\n    counts[st] = counts.get(st, 0) + 1\n    print(\"TRACE\", dict(counts))\nprint(\"FINAL\", counts)\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T4-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "regs",
+        "accept",
+        "reject",
+        "counts"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S04-T4-A-E3: tomo la consigna weDo: «E3 (transferencia) — Simula tres registros y un dict de contadores. Imprime una línea TRACE por registro con el estado completo del dict (copy o str).». Demo de referencia `S04-T4-A-DEMO` (Comprehensions para filtrar rejects del resumen) → «rows = [ {\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"},». Hint weDo: «counts = dict; al final de cada iter print TRACE». Traigo al code `accept` + `reject` copiados del patrón. Teoria packet: «Contadores, acumuladores y búsqueda»."
+    },
+    {
+      "exercise_id": "S04-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T4-B-E1\nn = 5\nlin = quad = 0\nfor i in range(n):\n    lin += 1\nfor i in range(n):\n    for j in range(n):\n        quad += 1\nprint(lin, quad)\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T4-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "lin",
+        "quad",
+        "range"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S04-T4-B-E1 desde la instruction publicada: «E1 (guiado) — Para n=5, cuenta pasos de un for simple y de un doble for anidado. Imprime ambos números.». Ancla iDo B2 `S04-T4-B-DEMO` (Tabla TRACE de contador durante el lote) → «flags = [True, False, True, True] n_ok = 0 print(\"i flag n_ok\")». Hint weDo: «linear n, quad n*n». En el code dejé `print(` + `range` para amarrar el mismo gesto. Teoria packet: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T4-B-E2\ndata = [\"r0\", \"r1\", \"r2\"]\nfor i in range(len(data)):\n    print(data[i])\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T4-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "data",
+        "range",
+        "len"
+      ],
+      "justification_from_packet": "[B2-Explorer] S04-T4-B-E2 — experimento con lo que el packet pide: «E2 (independiente) — `data = [\"r0\", \"r1\", \"r2\"]`. El código usa `for i in range(1, len(data)+1)` y hace IndexError. Arréglalo para recorrer todos los índices…». Veo en iDo `S04-T4-B-DEMO` (Tabla TRACE de contador durante el lote) → «flags = [True, False, True, True] n_ok = 0 print(\"i flag n_ok\")». Hint weDo: «range(len(data)) → 0..n-1». Marca en code: `print(` + `range`. Teoria packet: «for, range y secuencias»."
+    },
+    {
+      "exercise_id": "S04-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S04-T4-B-E3\nsts = [\"reject\", \"accept\", \"reject\", \"reject\", \"accept\"]\nn_reject = sum(1 for s in sts if s == \"reject\")\nn = len(sts)\nprint(n_reject, n_reject / n)\nprint(\"Nota: O(n) basta para la tasa; no hace falta contar pares O(n²)\")\n# B2 dual-run (Explorer): re-validated vs packet S04 S04-T4-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S04",
+        "sts",
+        "reject",
+        "accept",
+        "n_reject"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S04-T4-B-E3 desde la instruction publicada: «E3 (transferencia) — Reescribe un conteo de pares reject-reject O(n²) ingenuo a un conteo O(n) de rejects (no necesitas pares). Imprime n_reject y comenta en…». Plantilla iDo `S04-T4-B-DEMO` (Tabla TRACE de contador durante el lote) → «flags = [True, False, True, True] n_ok = 0 print(\"i flag n_ok\")». Hint weDo: «No necesitas combinar pares para la tasa de error.». En el code dejé `n_reject` + `reject` para amarrar el mismo gesto. Teoria packet: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "[0,1,2]",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: range(3) produce 0,1,2 (inicio inclusivo, fin exclusivo); list(range(3)) → [0,1,2]."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Empareja solo (1,10) y (2,20); el 3 se pierde en silencio",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: zip sin strict se detiene en la secuencia más corta: empareja (1,10) y (2,20); el 3 se pierde en silencio."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "n_total de registros procesados (intentados)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Métricas del gate: la tasa de reject usa denominador n_total de registros procesados/intentados, no solo accept o review."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Salta al siguiente ciclo del bucle",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: continue salta al siguiente ciclo del bucle (siguiente línea de intake), no termina el programa ni borra la lista."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "O(n²)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Complejidad: un doble for anidado sobre n elementos es aproximadamente O(n²)."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

@@ -1,0 +1,555 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B2",
+  "section_index": 6,
+  "packet_sha": "54854c2439f22319",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_06/packet.json",
+  "recorded_at": "2026-07-22T02:00:41.510180+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_agentic_B1; justifications_rebuilt_from_packet; selfcheck_from_agentic_B1; voice=B2; selfcheck_B2_explorer_independent",
+  "persona_seed": "f4148374b092",
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T1-A-E1\ntxs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nprint(ventana, len(ventana))\nempty = []\nv0 = empty[-2:]\nprint(v0, len(v0))\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T1-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "txs",
+        "ventana",
+        "len",
+        "empty"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S06-T1-A-E1 desde la instruction publicada: «E1 (guiado) — Dada `txs` de 5 montos, imprime los **últimos 2** con slicing y la longitud de la ventana. Caso vacío: si `txs=[]`, imprime `ventana=[]` y…». Veo en iDo `S06-T1-B-DEMO` (Ventana de transacciones con slicing y tupla de keys estables) → «». Hint weDo: «Usa txs[-2:] (funciona también si hay menos de 2).». Traigo al code `ventana` + `txs` copiados del patrón. Teoria packet: «Listas, tuplas y slicing»."
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T1-A-E2\nheaders = ['id', 'monto']\nKEYS = tuple(headers)\nprint('KEYS', KEYS)\nmore = KEYS + ('canal',)\nprint('more', more)\nprint('KEYS sigue', KEYS)\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T1-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "headers",
+        "monto",
+        "KEYS",
+        "tuple"
+      ],
+      "justification_from_packet": "[B2-Explorer] S06-T1-A-E2 — experimento con lo que el packet pide: «E2 (independiente) — Convierte la lista de headers `['id','monto']` a **tuple** `KEYS` (motivo: inmutable). Imprime `KEYS` y demuestra que `KEYS + ('canal',)`…». Veo en iDo `S06-T1-B-DEMO` (Ventana de transacciones con slicing y tupla de keys estables) → «». Hint weDo: «tuple(lista) o keys = ('id','monto')». Marca en code: `headers` + `monto`. Teoria packet: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T1-A-E3\nids = ('C001', 'C002')\ntry:\n    ids.append('C003')\nexcept AttributeError as e:\n    print('AttributeError', type(e).__name__, e)\n    mut = list(ids)\n    mut.append('C003')\n    print(mut)\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T1-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "ids",
+        "C001",
+        "C002",
+        "try"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S06-T1-A-E3 desde la instruction publicada: «E3 (transferencia) — Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captura el AttributeError, convierte a list, append 'C003', e…». Veo en iDo `S06-T1-B-DEMO` (Ventana de transacciones con slicing y tupla de keys estables) → «». Hint weDo: «tuple no tiene append → AttributeError». Marca en code: `AttributeError` + `append`. Teoria packet: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T1-B-E1\nfila = ('C001', 'Lima', 10)\ncid, region, monto = fila\nprint(cid, region, monto)\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T1-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "fila",
+        "C001",
+        "Lima",
+        "cid"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S06-T1-B-E1 arranco citando el weDo: «E1 (guiado) — Unpacking de fila `('C001', 'Lima', 10)` en `cid, region, monto`. Imprime los tres. Si la fila tuviera 2 valores, el unpack fallaría (no lo…». Plantilla iDo `S06-T1-B-DEMO` (Ventana de transacciones con slicing y tupla de keys estables) → «». Hint weDo: «a, b, c = fila». Sello con `region` + `monto` en la respuesta. Teoria packet: «Unpacking, aliasing y copia»."
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T1-B-E2\nxs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\nprint('xs', xs, 'copia', copia)\ncopia.append(4)\nprint('xs', xs, 'copia', copia)\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T1-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "alias",
+        "copia",
+        "copy",
+        "append"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S06-T1-B-E2 arranco citando el weDo: «E2 (independiente) — Demuestra alias vs copy: lista `[1,2]`, `alias = xs`, `copia = xs.copy()`. Mutar alias con append 3; imprimir xs y copia. Luego append 4 a…». Veo en iDo `S06-T1-B-DEMO` (Ventana de transacciones con slicing y tupla de keys estables) → «». Hint weDo: «alias comparte objeto; copy es superficial de la lista de ints.». Sello con `append` + `alias` en la respuesta. Teoria packet: «Unpacking, aliasing y copia»."
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T1-B-E3\nimport copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\ndeep = copy.deepcopy(rows)\nshallow[0]['tags'].append('s')\ndeep[0]['tags'].append('d')\nprint('orig', rows)\nprint('deep', deep)\nprint('shallow shares', shallow[0] is rows[0])\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T1-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "copy",
+        "rows",
+        "tags",
+        "shallow"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S06-T1-B-E3: tomo la consigna weDo: «E3 (transferencia) — Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de la lista **no** aísla `tags`. Usa `copy.deepcopy`, muta tags…». Ancla iDo B2 `S06-T1-B-DEMO` (Ventana de transacciones con slicing y tupla de keys estables) → «». Hint weDo: «import copy; deepcopy». Traigo al code `deepcopy` + `tags` copiados del patrón. Teoria packet: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T2-A-E1\npares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\nprint(d)\nprint(d['C002'])\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T2-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "pares",
+        "C001",
+        "Lima",
+        "C002"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S06-T2-A-E1: tomo la consigna weDo: «E1 (guiado) — Construye un dict desde pares `[('C001','Lima'),('C002','Cusco')]` e imprime el dict y `d['C002']`.». Ancla iDo B2 `S06-T2-A-DEMO` (Bug de alias al 'copiar' lista de dicts de clientes) → «». Hint weDo: «dict(pares) o comprensión». Marca en code: `pares` + `Cusco`. Teoria packet: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T2-A-E2\nidx = {'C001': 'Ana'}\nprint(idx.get('C001'), idx.get('C999', 'N/A'))\ntry:\n    print(idx['C999'])\nexcept KeyError:\n    print('KeyError')\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T2-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "idx",
+        "C001",
+        "Ana",
+        "get"
+      ],
+      "justification_from_packet": "[B2-Explorer] S06-T2-A-E2 — experimento con lo que el packet pide: «E2 (independiente) — Dado `idx` con C001, usa `get` para C001 y C999 (default 'N/A'). Luego muestra un `try/except KeyError` al acceder `idx['C999']` directo.». Veo en iDo `S06-T2-A-DEMO` (Bug de alias al 'copiar' lista de dicts de clientes) → «». Hint weDo: «idx.get('C999','N/A')». En el code dejé `KeyError` + `except` para amarrar el mismo gesto. Teoria packet: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T2-A-E3\ndefaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nmerged = {**defaults, **override}\nprint('merged', merged)\nprint('defaults intacto', defaults)\nsafe = defaults.copy()\nsafe.update(override)\nprint('safe update', safe, 'defaults', defaults)\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T2-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "defaults",
+        "retry",
+        "timeout",
+        "override"
+      ],
+      "justification_from_packet": "[B2-Explorer] S06-T2-A-E3 — experimento con lo que el packet pide: «E3 (transferencia) — Fusiona `defaults={'retry':1,'timeout':30}` con `override={'retry':5}` **sin** perder timeout. Imprime merged. Luego muestra el peligro de…». Demo de referencia `S06-T2-A-DEMO` (Bug de alias al 'copiar' lista de dicts de clientes) → «». Hint weDo: «{**defaults, **override} o defaults | override (3.9+)». En el code dejé `defaults` + `override` para amarrar el mismo gesto. Teoria packet: «Unpacking, aliasing y copia»."
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T2-B-E1\nemails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\nprint(unicos)\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T2-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "emails",
+        "com",
+        "unicos",
+        "sorted"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S06-T2-B-E1 arranco citando el weDo: «E1 (guiado) — Deduplica `['a@ex.com','b@ex.com','a@ex.com']` con set y devuelve lista **ordenada** de únicos.». Plantilla iDo `S06-T2-B-DEMO` (Índice id→cliente y lookup seguro) → «». Hint weDo: «sorted(set(emails))». En el code dejé `com` + `set` para amarrar el mismo gesto. Teoria packet: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T2-B-E2\na = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint(sorted(a & b))\nprint(sorted(a ^ b))\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T2-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "com",
+        "sorted"
+      ],
+      "justification_from_packet": "[B2-Explorer] S06-T2-B-E2 — experimento con lo que el packet pide: «E2 (independiente) — Intersección de contactos `lote_a` y `lote_b` (sets de emails). Imprime sorted de la intersección y de la diferencia simétrica.». Ancla iDo B2 `S06-T2-B-DEMO` (Índice id→cliente y lookup seguro) → «». Hint weDo: «a & b ; a ^ b». Sello con `sorted` + `print(` en la respuesta. Teoria packet: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T2-B-E3\ndef dedup_report(rows, key='id'):\n    seen = {}\n    unique = []\n    conflicts = []\n    for r in rows:\n        rid = r[key]\n        if rid not in seen:\n            seen[rid] = r\n            unique.append(r)\n        elif seen[rid] != r:\n            conflicts.append({'id': rid, 'a': seen[rid], 'b': r})\n    return {'unique': unique, 'conflicts': conflicts}\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T2-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "dedup_report",
+        "rows",
+        "key",
+        "seen"
+      ],
+      "justification_from_packet": "[B2-Explorer] S06-T2-B-E3 — experimento con lo que el packet pide: «E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflicts: [...]}` sin eliminar del reporte los conflictos. Filas…». Ancla iDo B2 `S06-T2-B-DEMO` (Índice id→cliente y lookup seguro) → «». Hint weDo: «seen dict; si key existe y row!=prev → conflict». Marca en code: `dedup_report` + `def dedup_report`. Teoria packet: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T3-A-E1\nclients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n    print(c['id'], '→', len(c['contacts']))\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T3-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "clients",
+        "C001",
+        "contacts",
+        "C002"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S06-T3-A-E1: tomo la consigna weDo: «E1 (guiado) — Cuenta contactos por cliente e imprime `id → n`.». Demo de referencia `S06-T3-A-DEMO` (ids únicos; intersección de lotes; conflictos = mismo id datos distintos) → «rows = [ {\"id\": \"C001\", \"email\": \"a@ex.com\"}, {\"id\": \"C002\", \"email\": \"b@ex.com\"},». Hint weDo: «len(c['contacts'])». Traigo al code `print(` + `C001` copiados del patrón. Teoria packet: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T3-A-E2\nclients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nflat = []\nfor c in clients:\n    for t in c['txs']:\n        flat.append({'client_id': c['id'], 'tx_id': t['id'], 'monto': t['monto']})\nprint(flat)\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T3-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "clients",
+        "C001",
+        "txs",
+        "monto"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S06-T3-A-E2 arranco citando el weDo: «E2 (independiente) — Aplana `txs` anidadas a filas `{client_id, tx_id, monto}` e imprime la lista.». Demo de referencia `S06-T3-A-DEMO` (ids únicos; intersección de lotes; conflictos = mismo id datos distintos) → «rows = [ {\"id\": \"C001\", \"email\": \"a@ex.com\"}, {\"id\": \"C002\", \"email\": \"b@ex.com\"},». Hint weDo: «doble for o comprehension anidada». Traigo al code `client_id` + `tx_id` copiados del patrón. Teoria packet: «Estructuras anidadas y recorridos»."
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T3-A-E3\nclients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    status = 'ok' if isinstance(txs, list) else 'review'\n    print(c['id'], status)\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T3-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "clients",
+        "C001",
+        "txs",
+        "C002"
+      ],
+      "justification_from_packet": "[B2-Explorer] S06-T3-A-E3 — experimento con lo que el packet pide: «E3 (transferencia) — Detecta shape inconsistente: si falta `txs` o no es list, marca `status='review'`. Imprime status por cliente sintético (uno ok, uno malo).». Veo en iDo `S06-T3-A-DEMO` (ids únicos; intersección de lotes; conflictos = mismo id datos distintos) → «rows = [ {\"id\": \"C001\", \"email\": \"a@ex.com\"}, {\"id\": \"C002\", \"email\": \"b@ex.com\"},». Hint weDo: «isinstance(c.get('txs'), list)». En el code dejé `status` + `review` para amarrar el mismo gesto. Teoria packet: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T3-B-E1\ndef get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T3-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "get_nested",
+        "keys",
+        "default",
+        "cur"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S06-T3-B-E1 desde la instruction publicada: «E1 (guiado) — Implementa `get_nested(d, *keys, default=None)` y úsalo para `profile.phone` en un dict sintético.». Veo en iDo `S06-T3-B-DEMO` (Modelo en memoria Client con contacts[] y txs[]) → «». Hint weDo: «Recorre keys; si falta retorna default.». Traigo al code `get_nested` + `def get_nested` copiados del patrón. Teoria packet: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T3-B-E2\nclients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        tag = 'missing'\n    else:\n        tag = 'present'\n    print(f\"{c['id']}: {tag}\")\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T3-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "clients",
+        "C001",
+        "email",
+        "com"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S06-T3-B-E2 arranco citando el weDo: «E2 (independiente) — Para cada cliente, marca en un reporte si `email` es missing (None o ausente) o present. Imprime líneas `id: missing|present`.». Plantilla iDo `S06-T3-B-DEMO` (Modelo en memoria Client con contacts[] y txs[]) → «». Hint weDo: «'email' not in c or c['email'] is None → missing». Marca en code: `missing` + `present`. Teoria packet: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T3-B-E3\nvals = [None, '', 0, []]\nfor v in vals:\n    print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T3-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "vals",
+        "repr",
+        "falsy",
+        "not"
+      ],
+      "justification_from_packet": "[B2-Explorer] S06-T3-B-E3 — experimento con lo que el packet pide: «E3 (transferencia) — Construye tabla mental en prints: para valores `None`, `''`, `0`, `[]` indica si son falsy y si representan missing de negocio (solo None…». Ancla iDo B2 `S06-T3-B-DEMO` (Modelo en memoria Client con contacts[] y txs[]) → «». Hint weDo: «bool(x) vs x is None». Traigo al code `missing` + `falsy` copiados del patrón. Teoria packet: «Acceso seguro y valores faltantes»."
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T4-A-E1\nrows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\nprint([r['id'] for r in ordered])\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T4-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "rows",
+        "monto",
+        "ordered",
+        "sorted"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S06-T4-A-E1: tomo la consigna weDo: «E1 (guiado) — Ordena por monto ascendente con sorted+key e imprime ids en orden.». Demo de referencia `S06-T4-A-DEMO` (Extraer teléfono opcional de contacto anidado) → «». Hint weDo: «key=lambda r: r['monto']». En el code dejé `sorted` + `monto` para amarrar el mismo gesto. Teoria packet: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T4-A-E2\nrows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\nordered = sorted(rows, key=lambda r: (r['region'], r['nombre']))\nfor r in ordered:\n    print(r['region'], r['nombre'])\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T4-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "rows",
+        "nombre",
+        "Zed",
+        "region"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S06-T4-A-E2: tomo la consigna weDo: «E2 (independiente) — key multi-campo: ordena por región y luego nombre. Imprime pares región/nombre.». Demo de referencia `S06-T4-A-DEMO` (Extraer teléfono opcional de contacto anidado) → «». Hint weDo: «key=lambda r: (r['region'], r['nombre'])». En el code dejé `nombre` + `key` para amarrar el mismo gesto. Teoria packet: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T4-A-E3\nrows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\nprint('sort retorna', ret, 'rows', rows)\nordered = sorted(base)\nprint('sorted', ordered, 'base intacta', base)\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T4-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "rows",
+        "base",
+        "ret",
+        "sort"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S06-T4-A-E3 desde la instruction publicada: «E3 (transferencia) — Demuestra que `rows.sort()` retorna None y muta. Imprime tipo del retorno y la lista mutada. Luego usa sorted para obtener copia ordenada…». Plantilla iDo `S06-T4-A-DEMO` (Extraer teléfono opcional de contacto anidado) → «». Hint weDo: «x = lst.sort() → x is None». Sello con `retorna` + `sorted` en la respuesta. Teoria packet: «Unpacking, aliasing y copia»."
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T4-B-E1\nprint('cola de llegada de filas → list')\nprint('lookup frecuente por id → dict')\nprint('emails únicos de un lote → set')\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T4-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "cola",
+        "llegada",
+        "filas",
+        "list"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S06-T4-B-E1 desde la instruction publicada: «E1 (guiado) — Para 3 jobs imprime la estructura elegida: (1) cola de llegada (2) lookup por id (3) cohorte de emails únicos.». Ancla iDo B2 `S06-T4-B-DEMO` (Ordenar clientes por región luego nombre) → «clients = [ {\"id\": \"C003\", \"nombre\": \"Zara\", \"region\": \"Lima\"}, {\"id\": \"C001\", \"nombre\": \"Ana\", \"region\":…». Hint weDo: «list / dict / set». Marca en code: `llegada` + `print(`. Teoria packet: «Estructura adecuada, complejidad y determinismo»."
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T4-B-E2\nimport json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\nprint(s)\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T4-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "json",
+        "payload",
+        "ids",
+        "C002"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S06-T4-B-E2 arranco citando el weDo: «E2 (independiente) — Haz determinista un export: ordena ids y `json.dumps(..., sort_keys=True)`. Imprime el JSON una vez.». Plantilla iDo `S06-T4-B-DEMO` (Ordenar clientes por región luego nombre) → «clients = [ {\"id\": \"C003\", \"nombre\": \"Zara\", \"region\": \"Lima\"}, {\"id\": \"C001\", \"nombre\": \"Ana\", \"region\":…». Hint weDo: «sorted ids; sort_keys=True». Traigo al code `sort_keys` + `sorted` copiados del patrón. Teoria packet: «De “NumPy vectorizado” a colecciones en memoria (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S06-T4-B-E3\nids = ['C001', 'C002', 'C003', 'C004', 'C005']\ns = set(ids)\nprint('list membership ~ O(n); set membership ~ O(1) promedio')\nprint('C003 in set →', 'C003' in s)\n# B2 dual-run (Explorer): re-validated vs packet S06 S06-T4-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S06",
+        "ids",
+        "C001",
+        "C002",
+        "C003"
+      ],
+      "justification_from_packet": "[B2-Explorer] S06-T4-B-E3 — experimento con lo que el packet pide: «E3 (transferencia) — Justifica tradeoff: membership de 1000 ids en list vs set. Simula con prints de complejidad conceptual y un micro-ejemplo n=5 mostrando `x…». Ancla iDo B2 `S06-T4-B-DEMO` (Ordenar clientes por región luego nombre) → «clients = [ {\"id\": \"C003\", \"nombre\": \"Zara\", \"region\": \"Lima\"}, {\"id\": \"C001\", \"nombre\": \"Ana\", \"region\":…». Hint weDo: «list O(n) vs set O(1) promedio». Traigo al code `membership` + `print(` copiados del patrón. Teoria packet: «Estructura adecuada, complejidad y determinismo»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "[3,4]",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Slicing: xs[-2:] toma desde el penúltimo hasta el final → con [1,2,3,4] da [3,4]."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "a también ve el append (alias)",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Misma lección de alias: b = a en listas; mutar con append afecta a a (no hay copia)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Listar conflicto en conflicts sin silenciar",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Conflictos de id con payload distinto: no silenciar; listar en conflicts con traza, no borrar ni quedarse con la última sin registro."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "None (muta in-place)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: list.sort muta in-place y retorna None (a diferencia de sorted que devuelve lista nueva)."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "salidas deterministas/reproducibles",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: json.dumps(..., sort_keys=True) ordena claves para salidas deterministas/reproducibles, no para comprimir ni encriptar."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

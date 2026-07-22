@@ -124,10 +124,80 @@ def normalize_exercises(data: dict) -> list[dict]:
     return out
 
 
+# Incomplete / unsolved exercise fingerprints (not agentic solutions)
+# Keep these tight: legitimate loop variables like print(x) must NOT fail.
+INCOMPLETE_CODE_PATTERNS = [
+    r"\b____\b",
+    r"\bsys\.x\b",
+    r"\bif x == [\"']x[\"']",
+    r"\bsys\.exit\(x\)",
+    r"\bexit\(x\)",
+    r"#\s*TODO\b",
+    r"^\s*TODO\b",
+    r"print\(json\.dumps\([^)\n]*$",  # unclosed print(json.dumps...
+    r"for x, y, _ in tx\s*$",
+    r"elif x\s*$",
+    r"nombre = [\"']x[\"']",  # produce_agent placeholder
+    r"print\(r3\[\"errors\"\]\)\s*\n\s*print\(x,",  # known broken S02 scaffold
+]
+
+
+def code_incomplete(code: str) -> str | None:
+    """Return reason if code looks unsolved / broken; else None."""
+    c = code or ""
+    if not c.strip():
+        return "empty_code"
+    for pat in INCOMPLETE_CODE_PATTERNS:
+        if re.search(pat, c, re.M):
+            return f"pattern:{pat}"
+    code_only = "\n".join(
+        ln for ln in c.splitlines() if not ln.strip().startswith("#")
+    )
+    if code_only.count("(") > code_only.count(")"):
+        return "unclosed_paren"
+    if code_only.count("[") > code_only.count("]"):
+        return "unclosed_bracket"
+    return None
+
+
+def justification_is_template(just: str) -> bool:
+    j = (just or "").strip().lower()
+    if len(j) < 40:
+        return True
+    templates = [
+        "completé startercode con patrones del ido",
+        "explorer: ejercicio",
+        "mapeé starter→demo",
+        "solo usé lo explícito en theory/ido/hints del paquete activo",
+    ]
+    # template if it starts with generic explorer/skeptic exercise line AND lacks exercise-specific detail
+    hits = sum(1 for t in templates if t in j)
+    if hits >= 1 and "instruction del paquete:" in j and j.count("ido") >= 1:
+        # still template-like if no unique code tokens quoted
+        if "print(" not in j and "def " not in j and "import " not in j and "«" not in j and '"' not in j[20:]:
+            return True
+    if j.startswith("explorer: ejercicio") and "completé startercode" in j:
+        return True
+    if j.startswith("skeptic: solo usé") and "completé el ejercicio" in j:
+        return True
+    return False
+
+
 def validate_section(attempt_id: str, section_index: int) -> dict:
     d = attempt_dir(attempt_id) / f"section_{section_index:02d}"
     d.mkdir(parents=True, exist_ok=True)
-    pkt = build_packet(section_index, attempt_id=attempt_id)
+    # Prefer on-disk slim/full packet (fast); rebuild only if missing
+    pkt = None
+    for name in ("packet.json", "slim_packet.json"):
+        p = d / name
+        if p.exists():
+            try:
+                pkt = json.loads(p.read_text(encoding="utf-8"))
+                break
+            except Exception:
+                pkt = None
+    if pkt is None:
+        pkt = build_packet(section_index, attempt_id=attempt_id)
     corpus = packet_corpus(pkt)
     expected_ids = [
         e.get("id")
@@ -223,6 +293,8 @@ def validate_section(attempt_id: str, section_index: int) -> dict:
 
         ex_done = 0
         ex_just_ok = 0
+        incomplete_ex = []
+        template_just = []
         hard_blocks = []
         answered_ids = set()
         for e in ex:
@@ -232,18 +304,31 @@ def validate_section(attempt_id: str, section_index: int) -> dict:
                 if any(t.startswith("UNTAUGHT") or t == "STARTER_BROKEN" for t in tags):
                     hard_blocks.append(e)
                 continue
-            if e.get("code") or e.get("answer"):
-                ex_done += 1
-                if eid:
-                    answered_ids.add(eid)
-                if justification_supported(e.get("justification") or "", corpus, min_hits=1):
-                    ex_just_ok += 1
-                elif e.get("concepts_used") or len((e.get("code") or "")) > 20:
-                    # concepts_used from packet or substantial code counts as agentic attempt
-                    ex_just_ok += 1
+            code = e.get("code") or ""
+            answer = e.get("answer") or ""
+            just = e.get("justification") or ""
+            if not (code or answer):
+                continue
+            # incomplete / placeholder solutions fail the gate
+            reason = code_incomplete(code) if code else None
+            if reason:
+                incomplete_ex.append({"exercise_id": eid, "reason": reason})
+                continue
+            if justification_is_template(just):
+                template_just.append(eid)
+                continue
+            if not justification_supported(just, corpus, min_hits=1):
+                # require real packet-grounded justification — no free pass on concepts_used alone
+                incomplete_ex.append(
+                    {"exercise_id": eid, "reason": "weak_or_unsupported_justification"}
+                )
+                continue
+            ex_done += 1
+            ex_just_ok += 1
+            if eid:
+                answered_ids.add(eid)
 
         missing = [i for i in expected_ids if i not in answered_ids]
-        # agentic pass: selfcheck mostly correct + justified; exercises covered without hard untaught
         n_sc = len(keys) or max(1, len(sc))
         just_ratio = (sc_just_ok / sc_answered) if sc_answered else 0.0
         ex_ratio = (ex_just_ok / max(1, len(expected_ids))) if expected_ids else 1.0
@@ -253,8 +338,10 @@ def validate_section(attempt_id: str, section_index: int) -> dict:
             and sc_grade["score_pct"] >= 70
             and just_ratio >= 0.5
             and len(hard_blocks) == 0
-            and len(missing) <= max(1, int(0.1 * len(expected_ids or [1])))
-            and ex_ratio >= 0.7
+            and len(incomplete_ex) == 0
+            and len(template_just) == 0
+            and len(missing) == 0
+            and ex_ratio >= 0.95
         )
 
         result["agents"][label] = {
@@ -266,6 +353,8 @@ def validate_section(attempt_id: str, section_index: int) -> dict:
             "exercises_just_ok": ex_just_ok,
             "exercises_expected": len(expected_ids),
             "hard_blocks": len(hard_blocks),
+            "incomplete_exercises": incomplete_ex[:20],
+            "template_justifications": template_just[:20],
             "missing_exercises": missing[:15],
             "method": raw.get("method"),
             "attempt_id": raw.get("attempt_id"),
@@ -297,6 +386,34 @@ def validate_section(attempt_id: str, section_index: int) -> dict:
                         "severity": "P1",
                         "exercise_id": hb.get("exercise_id"),
                         "detail": str(hb.get("blocked_on")),
+                    }
+                )
+            for inc in incomplete_ex[:8]:
+                result["blocking_gaps"].append(
+                    {
+                        "agent": label,
+                        "tag": "INCOMPLETE_EXERCISE",
+                        "severity": "P0",
+                        "exercise_id": inc.get("exercise_id"),
+                        "detail": inc.get("reason"),
+                    }
+                )
+            if template_just:
+                result["blocking_gaps"].append(
+                    {
+                        "agent": label,
+                        "tag": "TEMPLATE_JUSTIFICATION",
+                        "severity": "P0",
+                        "detail": f"n={len(template_just)} e.g. {template_just[:5]}",
+                    }
+                )
+            if missing:
+                result["blocking_gaps"].append(
+                    {
+                        "agent": label,
+                        "tag": "MISSING_EXERCISES",
+                        "severity": "P0",
+                        "detail": str(missing[:10]),
                     }
                 )
 

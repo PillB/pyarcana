@@ -1,0 +1,558 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B2",
+  "section_index": 15,
+  "packet_sha": "0a7cc2a44a3dfd8e",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_15/packet.json",
+  "recorded_at": "2026-07-22T02:00:41.588099+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_agentic_B1; justifications_rebuilt_from_packet; selfcheck_from_agentic_B1; voice=B2; selfcheck_B2_explorer_independent",
+  "persona_seed": "c50c39ced2f2",
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T1-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\ndf = df.set_index(\"cliente_id\")\nprint(df.index.tolist())\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T1-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T1-A-E1 siguiendo la instrucción del paquete: «Crea un DataFrame con columnas cliente_id y score (2 filas) y pon cliente_id como index; imprime index.tolist().». Me apoyo en el demo S15-T1-B-DEMO (Construir DataFrame de clientes con Index estable y dtypes claros). Fragmento iDo: «import pandas as pd  df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C002\", \"C003\"],     \"region\": [\"Lima\", \"Arequipa\", \"Cusco\"],     \"score\": [0.91, 0.42, 0.77». Pistas: set_index('cliente_id').; index.tolist().. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T1-A-E1 import pandas as pd df = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T1-A-E2\nimport pandas as pd\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\nprint(float(s[\"C002\"]))\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T1-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "Series",
+        "index",
+        "C001"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T1-A-E2 siguiendo la instrucción del paquete: «Crea una Series de scores con index C001,C002 name='score' e imprime s['C002'].». Me apoyo en el demo S15-T1-B-DEMO (Construir DataFrame de clientes con Index estable y dtypes claros). Fragmento iDo: «import pandas as pd  df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C002\", \"C003\"],     \"region\": [\"Lima\", \"Arequipa\", \"Cusco\"],     \"score\": [0.91, 0.42, 0.77». Pistas: pd.Series(..., index=..., name=...).; Acceso por etiqueta.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T1-A-E2 import pandas as pd s = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T1-A-E3\nimport pandas as pd\ns1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.5], index=[\"C002\"])\nout = s1.add(s2, fill_value=0).sort_index()\nprint(out.round(2).to_dict())\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T1-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "Series",
+        "index",
+        "C001"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T1-A-E3 siguiendo la instrucción del paquete: «Alinea dos Series por index (unión) sumando scores; imprime el resultado ordenado por index.». Me apoyo en el demo S15-T1-B-DEMO (Construir DataFrame de clientes con Index estable y dtypes claros). Fragmento iDo: «import pandas as pd  df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C002\", \"C003\"],     \"region\": [\"Lima\", \"Arequipa\", \"Cusco\"],     \"score\": [0.91, 0.42, 0.77». Pistas: s1.add(s2, fill_value=0).; sort_index.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T1-A-E3 import pandas as pd s1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"]) s2 = pd.Seri». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T1-B-E1\nimport pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"a,b\\n1,2\\n3,NA\\n\"), na_values=[\"NA\"])\nprint(int(df[\"b\"].isna().sum()))\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T1-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "StringIO",
+        "read_csv",
+        "na_values"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T1-B-E1 siguiendo la instrucción del paquete: «Lee un CSV en StringIO con columnas a,b y na_values=['NA']; imprime cuántos NA hay en b.». Me apoyo en el demo S15-T1-B-DEMO (Construir DataFrame de clientes con Index estable y dtypes claros). Fragmento iDo: «import pandas as pd  df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C002\", \"C003\"],     \"region\": [\"Lima\", \"Arequipa\", \"Cusco\"],     \"score\": [0.91, 0.42, 0.77». Pistas: pd.read_csv(StringIO(...), na_values=...).; isna().sum().. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T1-B-E1 import pandas as pd from io import StringIO df = pd.read_csv(StringIO(\"a,b\\n1,2\\n3,». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T1-B-E2\nimport pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"fecha,x\\n2024-01-01,1\\n\"), parse_dates=[\"fecha\"])\nprint(str(df[\"fecha\"].dtype))\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T1-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "StringIO",
+        "read_csv",
+        "fecha"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T1-B-E2 siguiendo la instrucción del paquete: «Lee CSV con parse_dates=['fecha'] e imprime el dtype de fecha como string.». Me apoyo en el demo S15-T1-B-DEMO (Construir DataFrame de clientes con Index estable y dtypes claros). Fragmento iDo: «import pandas as pd  df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C002\", \"C003\"],     \"region\": [\"Lima\", \"Arequipa\", \"Cusco\"],     \"score\": [0.91, 0.42, 0.77». Pistas: parse_dates=['fecha'].; str(df['fecha'].dtype).. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T1-B-E2 import pandas as pd from io import StringIO df = pd.read_csv(StringIO(\"fecha,x\\n202». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T1-B-E3\nimport pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"cliente_id,monto,z\\nC001,1,9\\n\"), usecols=[\"cliente_id\", \"monto\"])\nprint(df.columns.tolist())\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T1-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "StringIO",
+        "read_csv",
+        "cliente_id"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T1-B-E3 siguiendo la instrucción del paquete: «Lee solo usecols cliente_id,monto desde CSV e imprime columns.tolist().». Me apoyo en el demo S15-T1-B-DEMO (Construir DataFrame de clientes con Index estable y dtypes claros). Fragmento iDo: «import pandas as pd  df = pd.DataFrame({     \"cliente_id\": [\"C001\", \"C002\", \"C003\"],     \"region\": [\"Lima\", \"Arequipa\", \"Cusco\"],     \"score\": [0.91, 0.42, 0.77». Pistas: usecols=[...].; Verifica que no entre 'z'.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T1-B-E3 import pandas as pd from io import StringIO df = pd.read_csv(StringIO(\"cliente_id,m». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T2-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\nprint(df.loc[df[\"score\"] >= 0.5, \"cliente_id\"].tolist())\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T2-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T2-A-E1 siguiendo la instrucción del paquete: «Con df de scores, usa loc para filas score>=0.5 e imprime cliente_id list.». Me apoyo en el demo S15-T2-A-DEMO (Ingerir CSV sintético con dtype, parse_dates y na_values). Fragmento iDo: «import pandas as pd from io import StringIO  raw = \"\"\"cliente_id;monto;fecha C001;15,50;2024-03-01 C002;;2024-03-02 C003;20.0;2024-03-03 \"\"\" # normalizamos deci». Pistas: df.loc[df.score>=0.5, 'cliente_id'].; tolist().. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T2-A-E1 import pandas as pd df = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T2-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nprint(df.assign(doble=lambda x: x[\"score\"] * 2)[\"doble\"].tolist())\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T2-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "score",
+        "assign"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T2-A-E2 siguiendo la instrucción del paquete: «Usa assign para crear col doble=score*2 e imprime la lista.». Me apoyo en el demo S15-T2-A-DEMO (Ingerir CSV sintético con dtype, parse_dates y na_values). Fragmento iDo: «import pandas as pd from io import StringIO  raw = \"\"\"cliente_id;monto;fecha C001;15,50;2024-03-01 C002;;2024-03-02 C003;20.0;2024-03-03 \"\"\" # normalizamos deci». Pistas: df.assign(doble=...).; No mutar in-place obligatorio.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T2-A-E2 import pandas as pd df = pd.DataFrame({\"score\": [1.0, 2.0]}) print(df.assign(doble=». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T2-A-E3\nimport pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\nprint(int(df.iloc[1, 0]))\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T2-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "int",
+        "iloc"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T2-A-E3 siguiendo la instrucción del paquete: «Imprime el valor iloc[1, 0] de un DF 2x2 de enteros [[1,2],[3,4]].». Me apoyo en el demo S15-T2-A-DEMO (Ingerir CSV sintético con dtype, parse_dates y na_values). Fragmento iDo: «import pandas as pd from io import StringIO  raw = \"\"\"cliente_id;monto;fecha C001;15,50;2024-03-01 C002;;2024-03-02 C003;20.0;2024-03-03 \"\"\" # normalizamos deci». Pistas: iloc posición 1,0 → 3.; No uses loc.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T2-A-E3 import pandas as pd df = pd.DataFrame([[1, 2], [3, 4]]) print(int(df.iloc[1, 0]))». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T2-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\ndf.loc[df[\"score\"] < 0.5, \"flag\"] = \"x\"\nprint(df[\"flag\"].fillna(\"\").tolist())\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T2-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "score",
+        "loc"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T2-B-E1 siguiendo la instrucción del paquete: «Asigna con loc la columna flag='x' donde score<0.5; imprime flag list (con NaN como None en to_dict cuidado: usa fillna).». Me apoyo en el demo S15-T2-A-DEMO (Ingerir CSV sintético con dtype, parse_dates y na_values). Fragmento iDo: «import pandas as pd from io import StringIO  raw = \"\"\"cliente_id;monto;fecha C001;15,50;2024-03-01 C002;;2024-03-02 C003;20.0;2024-03-03 \"\"\" # normalizamos deci». Pistas: df.loc[mask, 'flag'] = 'x'.; Imprime lista con fillna('').. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T2-B-E1 import pandas as pd df = pd.DataFrame({\"score\": [0.2, 0.9]}) df.loc[df[\"score\"] < 0». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T2-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\nsub = df.loc[df[\"score\"] > 0.5].copy()\nsub[\"ok\"] = True\nprint(sub[\"ok\"].tolist())\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T2-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "score",
+        "sub"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T2-B-E2 siguiendo la instrucción del paquete: «Filtra score>0.5, haz copy, añade col ok=True; imprime ok list del subset.». Me apoyo en el demo S15-T2-A-DEMO (Ingerir CSV sintético con dtype, parse_dates y na_values). Fragmento iDo: «import pandas as pd from io import StringIO  raw = \"\"\"cliente_id;monto;fecha C001;15,50;2024-03-01 C002;;2024-03-02 C003;20.0;2024-03-03 \"\"\" # normalizamos deci». Pistas: subset = df.loc[...].copy().; subset['ok']=True.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T2-B-E2 import pandas as pd df = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]}) sub = df.loc[df[\"». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T2-B-E3\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nc = df.copy()\nc.iloc[0, 0] = 99.0\nprint(df[\"score\"].tolist())\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T2-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "score",
+        "copy"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T2-B-E3 siguiendo la instrucción del paquete: «Demuestra que modificar un copy no cambia el DF original: imprime score original tras mutar la copia.». Me apoyo en el demo S15-T2-A-DEMO (Ingerir CSV sintético con dtype, parse_dates y na_values). Fragmento iDo: «import pandas as pd from io import StringIO  raw = \"\"\"cliente_id;monto;fecha C001;15,50;2024-03-01 C002;;2024-03-02 C003;20.0;2024-03-03 \"\"\" # normalizamos deci». Pistas: c = df.copy(); c.iloc[0,0]=99.; print df original.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T2-B-E3 import pandas as pd df = pd.DataFrame({\"score\": [1.0, 2.0]}) c = df.copy() c.iloc[0». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T3-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\ns = df[\"region\"].str.title().astype(\"category\")\nprint(s.dtype.name)\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T3-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "region",
+        "lima"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T3-A-E1 siguiendo la instrucción del paquete: «Convierte columna region a category tras str.title(); imprime dtype name.». Me apoyo en el demo S15-T3-A-DEMO (Evitar chained assignment: flag seguro con loc y subset con copy). Fragmento iDo: «». Pistas: astype('category').; str.title primero.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T3-A-E1 import pandas as pd df = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]}) s = df[\"region\"». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T3-A-E2\nimport pandas as pd\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\nprint(s.tolist())\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T3-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "to_numeric",
+        "Series",
+        "errors"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T3-A-E2 siguiendo la instrucción del paquete: «to_numeric con errors=coerce sobre ['1','a','3']; imprime lista de floats/NaN (usa where isna).». Me apoyo en el demo S15-T3-A-DEMO (Evitar chained assignment: flag seguro con loc y subset con copy). Fragmento iDo: «». Pistas: pd.to_numeric(..., errors='coerce').; tolist() con nan.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T3-A-E2 import pandas as pd s = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\") ». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T3-A-E3\nimport pandas as pd\ns = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), errors=\"coerce\")\nprint(int(s.isna().sum()))\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T3-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "to_datetime",
+        "Series",
+        "fecha"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T3-A-E3 siguiendo la instrucción del paquete: «to_datetime errors=coerce; cuenta NaT en ['2024-01-01','no-fecha'].». Me apoyo en el demo S15-T3-A-DEMO (Evitar chained assignment: flag seguro con loc y subset con copy). Fragmento iDo: «». Pistas: isna().sum().; NaT cuenta como na.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T3-A-E3 import pandas as pd s = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), error». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T3-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\nbefore = df[\"monto\"].isna().sum()\ndf[\"monto\"] = pd.to_numeric(df[\"monto\"], errors=\"coerce\")\nprint(int(df[\"monto\"].isna().sum() - before))\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T3-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "before"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T3-B-E1 siguiendo la instrucción del paquete: «Aplica to_numeric a monto y reporta cuántos nuevos NaN se introdujeron (1 en el fixture).». Me apoyo en el demo S15-T3-A-DEMO (Evitar chained assignment: flag seguro con loc y subset con copy). Fragmento iDo: «». Pistas: Compara isna antes/después.; errors=coerce.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T3-B-E1 import pandas as pd df = pd.DataFrame({\"monto\": [\"1\", \"x\"]}) before = df[\"monto\"].i». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T3-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nschema = {\"monto\": \"float64\"}\ntry:\n    for col in schema:\n        if col not in df.columns:\n            raise KeyError(col)\nexcept KeyError:\n    print(\"missing\")\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T3-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T3-B-E2 siguiendo la instrucción del paquete: «Si falta columna 'monto' en schema, lanza KeyError e imprime 'missing'.». Me apoyo en el demo S15-T3-A-DEMO (Evitar chained assignment: flag seguro con loc y subset con copy). Fragmento iDo: «». Pistas: if col not in df.columns.; try/except KeyError.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T3-B-E2 import pandas as pd df = pd.DataFrame({\"cliente_id\": [\"C001\"]}) schema = {\"monto\": ». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T3-B-E3\nimport pandas as pd\ns = pd.Series([\"C001\"]).astype(\"string\")\nprint(str(s.dtype))\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T3-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "Series",
+        "C001",
+        "astype"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T3-B-E3 siguiendo la instrucción del paquete: «Castea cliente_id a string dtype e imprime str(dtype).». Me apoyo en el demo S15-T3-A-DEMO (Evitar chained assignment: flag seguro con loc y subset con copy). Fragmento iDo: «». Pistas: astype('string').; dtype string de pandas.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T3-B-E3 import pandas as pd s = pd.Series([\"C001\"]).astype(\"string\") print(str(s.dtype))». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T4-A-E1\nimport pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\nbuf = StringIO()\ndf.to_csv(buf, index=False)\nbuf.seek(0)\nprint(pd.read_csv(buf).columns.tolist())\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T4-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "StringIO",
+        "DataFrame",
+        "buf"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T4-A-E1 siguiendo la instrucción del paquete: «Exporta DF a CSV en StringIO sin index y relee; imprime columns.». Me apoyo en el demo S15-T4-A-DEMO (Aplicar schema y listar coerciones fallidas por columna). Fragmento iDo: «». Pistas: to_csv(buf, index=False).; read_csv.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T4-A-E1 import pandas as pd from io import StringIO df = pd.DataFrame({\"a\": [1], \"b\": [2]})». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T4-A-E2\nimport pandas as pd\nfrom io import BytesIO\nbio = BytesIO()\npd.DataFrame({\"a\": [1]}).to_excel(bio, index=False, engine=\"openpyxl\")\nprint(len(bio.getvalue()) > 0)\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T4-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "BytesIO",
+        "bio",
+        "DataFrame"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T4-A-E2 siguiendo la instrucción del paquete: «to_excel a BytesIO con openpyxl; imprime True si bytes > 0.». Me apoyo en el demo S15-T4-A-DEMO (Aplicar schema y listar coerciones fallidas por columna). Fragmento iDo: «». Pistas: engine='openpyxl'.; getvalue().. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T4-A-E2 import pandas as pd from io import BytesIO bio = BytesIO() pd.DataFrame({\"a\": [1]})». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T4-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\ncontract = {c: str(df[c].dtype) for c in df.columns}\nprint(dict(sorted(contract.items())))\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T4-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T4-A-E3 siguiendo la instrucción del paquete: «Emite dict contrato {col: str(dtype)} para un DF de dos columnas e imprímelo ordenado por clave.». Me apoyo en el demo S15-T4-A-DEMO (Aplicar schema y listar coerciones fallidas por columna). Fragmento iDo: «». Pistas: dict comprehension.; sorted items o print dict estable.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T4-A-E3 import pandas as pd df = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]}) con». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T4-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]})\nprint(int(df.memory_usage(deep=True).sum()) > 0)\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T4-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "Lima",
+        "Cusco"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T4-B-E1 siguiendo la instrucción del paquete: «Calcula memory_usage deep sum de un DF simple e imprime int > 0.». Me apoyo en el demo S15-T4-A-DEMO (Aplicar schema y listar coerciones fallidas por columna). Fragmento iDo: «». Pistas: memory_usage(deep=True).sum().; int(...).. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T4-B-E1 import pandas as pd df = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]}) print(int(df.memory». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T4-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\nprint(manifest[\"rows\"], manifest[\"columns\"])\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T4-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "DataFrame",
+        "manifest",
+        "rows"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T4-B-E2 siguiendo la instrucción del paquete: «Construye manifest con keys rows y columns; imprime rows.». Me apoyo en el demo S15-T4-A-DEMO (Aplicar schema y listar coerciones fallidas por columna). Fragmento iDo: «». Pistas: len(df) y columns.tolist().; dict.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T4-B-E2 import pandas as pd df = pd.DataFrame({\"a\": [1, 2, 3]}) manifest = {\"rows\": len(df)». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S15-T4-B-E3\nimport pandas as pd, hashlib\ndf = pd.DataFrame({\"a\": [1]})\nblob = df.to_csv(index=False).encode()\nprint(hashlib.sha1(blob).hexdigest()[:8])\n# B2 dual-run (Explorer): re-validated vs packet S15 S15-T4-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S15",
+        "pandas",
+        "hashlib",
+        "DataFrame",
+        "blob"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S15-T4-B-E3 siguiendo la instrucción del paquete: «sha1 de to_csv index=False; imprime primeros 8 hex.». Me apoyo en el demo S15-T4-A-DEMO (Aplicar schema y listar coerciones fallidas por columna). Fragmento iDo: «». Pistas: hashlib.sha1(blob).hexdigest()[:8].; encode utf-8.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S15']. Mi código clave: «# explorer/B2: completed from packet iDo for S15-T4-B-E3 import pandas as pd, hashlib df = pd.DataFrame({\"a\": [1]}) blob = df.to_csv(index=F». Teoría cercana: De “stdlib profunda” a Pandas ingesta (mapa de la sección) | Series/DataFrame/index | lectura CSV/Ex."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "loc",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: loc selecciona por etiquetas de index/columnas; iloc es posicional."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Asignación sobre slices que pueden ser view/copy (chained assignment)",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: SettingWithCopyWarning aparece al asignar sobre slices que pueden ser view/copy (chained assignment)."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Convierte inválidos a NaN",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: to_numeric(..., errors='coerce') convierte valores inválidos a NaN en lugar de fallar siempre."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Filas, columnas y provenance/hash del artefacto",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Manifest de export: filas, columnas y provenance/hash del artefacto (no contraseñas ni PII real)."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

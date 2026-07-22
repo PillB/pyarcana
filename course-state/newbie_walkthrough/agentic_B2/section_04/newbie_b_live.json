@@ -1,0 +1,549 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B2",
+  "section_index": 4,
+  "packet_sha": "3f760c2b942b7a46",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_04/packet.json",
+  "recorded_at": "2026-07-22T02:01:21.544681+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "selfcheck_rebuilt_B2_skeptic_packet_quotes_batch_01_26; exercises_kept",
+  "persona_seed": "077aa4011ae9",
+  "exercises": [
+    {
+      "exercise_id": "S04-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T1-A-E1\nregiones = [\"Lima\", \"Cusco\", \"Piura\"]\nfor r in regiones:\n    print(r)\nprint(list(range(3)))\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T1-A-E1\n# skeptic note: refused APIs not in theory/iDo for S04-T1-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "regiones",
+        "Lima",
+        "Cusco",
+        "Piura",
+        "list"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S04-T1-A-E1. Instruction: «E1 (guiado) — Dada `regiones = [\"Lima\", \"Cusco\", \"Piura\"]`, imprime cada región en su propia línea con un `for`. Luego imprime `list(range(3))`.». Prueba iDo `S04-T1-B-DEMO` (Recorrer lote de registros sintéticos con for y range) → «lote = [ {\"id\": \"C001\", \"edad\": 30}, {\"id\": \"C002\", \"edad\": 17},». Hint: «for r in regiones: print(r)». Huellas en code: `regiones` + `print(`. Teory heading: «for, range y secuencias»."
+    },
+    {
+      "exercise_id": "S04-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T1-A-E2\nedades = [30, 17, 45, 22]\nn = 0\nfor e in edades:\n    if e >= 18:\n        n += 1\nprint(n)\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T1-A-E2\n# skeptic note: refused APIs not in theory/iDo for S04-T1-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "edades"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S04-T1-A-E2. Instruction: «E2 (independiente) — `edades = [30, 17, 45, 22]`. Cuenta cuántas son `>= 18` con un for (no uses comprehension todavía). Imprime el contador.». Prueba iDo `S04-T1-B-DEMO` (Recorrer lote de registros sintéticos con for y range) → «lote = [ {\"id\": \"C001\", \"edad\": 30}, {\"id\": \"C002\", \"edad\": 17},». Hint: «n = 0; for e in edades: if e >= 18: n += 1». Huellas en code: `edades` + `print(`. Teory heading: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T1-A-E3\nlote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0}, {\"id\": \"C3\", \"monto\": -2}, {\"id\": \"C4\", \"monto\": 5}]\nfor reg in lote:\n    if reg[\"monto\"] > 0:\n        print(reg[\"id\"])\nprint(\"len\", len(lote))\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T1-A-E3\n# skeptic note: refused APIs not in theory/iDo for S04-T1-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "lote",
+        "monto",
+        "reg",
+        "len"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S04-T1-A-E3 solo si hay rastro en slim_packet. Instruction: «E3 (transferencia) — Simula un mini-lote: lista de dicts con `id` y `monto`. Imprime solo los `id` cuyo monto sea `> 0` usando for. No mutes la lista original.». iDo obligatorio `S04-T1-B-DEMO` (Recorrer lote de registros sintéticos con for y range) → «lote = [ {\"id\": \"C001\", \"edad\": 30}, {\"id\": \"C002\", \"edad\": 17},». Hint: «for reg in lote: if reg['monto'] > 0: print(reg['id'])». Huellas en code: `print(` + `monto`. Teory heading: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T1-B-E1\nids = [\"A\", \"B\", \"C\"]\nfor i, x in enumerate(ids, start=1):\n    print(f\"fila {i}: {x}\")\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T1-B-E1\n# skeptic note: refused APIs not in theory/iDo for S04-T1-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "ids",
+        "enumerate",
+        "start",
+        "fila"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S04-T1-B-E1 contra instruction/iDo. Instruction: «E1 (guiado) — Con `ids = [\"A\", \"B\", \"C\"]`, usa `enumerate(..., start=1)` e imprime `fila k: id`.». Cita demo `S04-T1-B-DEMO` (Recorrer lote de registros sintéticos con for y range) → «lote = [ {\"id\": \"C001\", \"edad\": 30}, {\"id\": \"C002\", \"edad\": 17},». Hint: «for i, x in enumerate(ids, start=1): print(f'fila {i}: {x}')». Check: `enumerate` + `print(` están en instruction/iDo/code. Teory heading: «enumerate y zip sin desalinear»."
+    },
+    {
+      "exercise_id": "S04-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T1-B-E2\nnombres = [\"Ana\", \"Luis\", \"María\"]\nedades = [30, 25, 40]\nfor nom, edad in zip(nombres, edades):\n    print(f\"{nom}={edad}\")\nprint(list(zip(nombres, edades[:1])))\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T1-B-E2\n# skeptic note: refused APIs not in theory/iDo for S04-T1-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "nombres",
+        "Ana",
+        "Luis",
+        "edades",
+        "nom"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S04-T1-B-E2 solo si hay rastro en slim_packet. Instruction: «E2 (independiente) — `nombres` y `edades` de igual longitud. Emparéjalos con `zip` e imprime `nombre=edad`. Luego muestra qué pasa con zip silencioso si…». iDo obligatorio `S04-T1-B-DEMO` (Recorrer lote de registros sintéticos con for y range) → «lote = [ {\"id\": \"C001\", \"edad\": 30}, {\"id\": \"C002\", \"edad\": 17},». Hint: «zip se detiene en la más corta; el resto se pierde.». Check: `nombres` + `edades` están en instruction/iDo/code. Teory heading: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T1-B-E3\ndef zip_strict(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"desalineado\")\n    return list(zip(a, b))\n\ntry:\n    zip_strict([1, 2, 3], [10, 20])\nexcept ValueError:\n    print(\"DESALINEADO\")\ntry:\n    zip_strict([1, 2], [3, 4])\n    print(\"OK\")\nexcept ValueError:\n    print(\"DESALINEADO\")\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T1-B-E3\n# skeptic note: refused APIs not in theory/iDo for S04-T1-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "zip_strict",
+        "len",
+        "raise",
+        "ValueError",
+        "desalineado"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S04-T1-B-E3 contra instruction/iDo. Instruction: «E3 (transferencia) — Implementa `zip_strict(a,b)` que lance ValueError si `len(a)!=len(b)` (equivalente pedagógico a `zip(..., strict=True)` en Py 3.10+).…». Cita demo `S04-T1-B-DEMO` (Recorrer lote de registros sintéticos con for y range) → «lote = [ {\"id\": \"C001\", \"edad\": 30}, {\"id\": \"C002\", \"edad\": 17},». Hint: «if len(a) != len(b): raise ValueError(...); return list(zip(a,b))». Check: `zip_strict` + `def zip_strict` están en instruction/iDo/code. Teory heading: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T2-A-E1\nlines = [\"r1\", \"r2\", \"\", \"r3\"]\ni = 0\nout = []\nwhile i < len(lines):\n    line = lines[i]\n    i += 1\n    if line == \"\":\n        break\n    out.append(line)\nprint(out)\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T2-A-E1\n# skeptic note: refused APIs not in theory/iDo for S04-T2-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "lines",
+        "out",
+        "while",
+        "len",
+        "line"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S04-T2-A-E1. Instruction: «E1 (guiado) — Buffer `lines = [\"r1\", \"r2\", \"\", \"r3\"]`. Con while e índice, acumula hasta el string vacío (sin incluirlo). Imprime la lista.». Soporte `S04-T2-A-DEMO` (enumerate para reportar fila y zip strict para columnas) → «ids = [\"C001\", \"C002\", \"C003\"] regiones = [\"Lima\", \"Cusco\", \"Arequipa\"] def zip_strict(a, b):». Hint: «while i < len: leer, i+=1, if line=='': break else append». Check: `print(` + `lines` están en instruction/iDo/code. Teory heading: «while, centinelas y terminación»."
+    },
+    {
+      "exercise_id": "S04-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T2-A-E2\nintentos = 0\nMAX = 3\nwhile intentos < MAX:\n    intentos += 1\n    print(f\"intento {intentos}\")\nprint(\"done\", intentos)\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T2-A-E2\n# skeptic note: refused APIs not in theory/iDo for S04-T2-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "intentos",
+        "MAX",
+        "while",
+        "intento",
+        "done"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S04-T2-A-E2 solo si hay rastro en slim_packet. Instruction: «E2 (independiente) — Simula reintentos: `intentos = 0`, `MAX = 3`, `while intentos < MAX`, incrementa e imprime `intento k`. Al salir imprime `done` y el valor…». Prueba iDo `S04-T2-A-DEMO` (enumerate para reportar fila y zip strict para columnas) → «ids = [\"C001\", \"C002\", \"C003\"] regiones = [\"Lima\", \"Cusco\", \"Arequipa\"] def zip_strict(a, b):». Hint: «intentos += 1 dentro del while es la variable de control.». Check: `intentos` + `intento` están en instruction/iDo/code. Teory heading: «while, centinelas y terminación»."
+    },
+    {
+      "exercise_id": "S04-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T2-A-E3\ncola = [\"job1\", \"job2\", \"job3\"]\nwhile cola:\n    job = cola.pop(0)\n    print(job)\n    if job == \"job2\":\n        print(\"PAUSE\")\n        break\nprint(\"rest\", cola)\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T2-A-E3\n# skeptic note: refused APIs not in theory/iDo for S04-T2-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "cola",
+        "job1",
+        "job2",
+        "job3",
+        "while"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S04-T2-A-E3. Instruction: «E3 (transferencia) — Cola simulada: `cola = [\"job1\", \"job2\", \"job3\"]`. Mientras la cola no esté vacía, saca el primero con `pop(0)`, imprímelo, y si el job es…». Soporte `S04-T2-A-DEMO` (enumerate para reportar fila y zip strict para columnas) → «ids = [\"C001\", \"C002\", \"C003\"] regiones = [\"Lima\", \"Cusco\", \"Arequipa\"] def zip_strict(a, b):». Hint: «while cola: job = cola.pop(0)». Huellas en code: `print(` + `PAUSE`. Teory heading: «break, continue y prevención de loops infinitos»."
+    },
+    {
+      "exercise_id": "S04-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T2-B-E1\nraw = [\"  \", \"Lima\", \"\", \"Cusco\"]\nfor x in raw:\n    if not x.strip():\n        continue\n    print(x)\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T2-B-E1\n# skeptic note: refused APIs not in theory/iDo for S04-T2-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "raw",
+        "Lima",
+        "Cusco",
+        "not",
+        "strip"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S04-T2-B-E1. Instruction: «E1 (guiado) — `raw = [\" \", \"Lima\", \"\", \"Cusco\"]`. Con for, usa continue si `not x.strip()`; imprime las regiones válidas.». Cita demo `S04-T2-B-DEMO` (while con centinela END sobre buffer de líneas) → «buf = [\"Ana|Lima\", \"Luis|Cusco\", \"END\", \"ignorada\"] i = 0 out = []». Hint: «if not x.strip(): continue». Huellas en code: `continue` + `print(`. Teory heading: «break, continue y prevención de loops infinitos»."
+    },
+    {
+      "exercise_id": "S04-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T2-B-E2\ncodes = [200, 200, 500, 200]\nn_ok = 0\nfor code in codes:\n    if code >= 500:\n        print(\"STOP\")\n        break\n    print(\"ok\")\n    n_ok += 1\nprint(\"n_ok\", n_ok)\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T2-B-E2\n# skeptic note: refused APIs not in theory/iDo for S04-T2-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "codes",
+        "n_ok",
+        "code",
+        "STOP",
+        "break"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Gate packet-only para S04-T2-B-E2. Instruction: «E2 (independiente) — `codes = [200, 200, 500, 200]`. Recorre; si code >= 500 imprime `STOP` y break; si no, imprime `ok`. Cuenta cuántos ok imprimiste.». iDo obligatorio `S04-T2-B-DEMO` (while con centinela END sobre buffer de líneas) → «buf = [\"Ana|Lima\", \"Luis|Cusco\", \"END\", \"ignorada\"] i = 0 out = []». Hint: «break no procesa el 200 final.». Solo admito `print(` + `codes` porque salen del packet. Teory heading: «break, continue y prevención de loops infinitos»."
+    },
+    {
+      "exercise_id": "S04-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T2-B-E3\nbuf = [\"a\", \"b\", \"END\"]\ni = 0\nout = []\nwhile True:\n    if i > 10:\n        raise RuntimeError(\"guard\")\n    line = buf[i]\n    i += 1\n    if line == \"END\":\n        break\n    out.append(line)\nprint(out)\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T2-B-E3\n# skeptic note: refused APIs not in theory/iDo for S04-T2-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "buf",
+        "END",
+        "out",
+        "while",
+        "raise"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S04-T2-B-E3 contra instruction/iDo. Instruction: «E3 (transferencia) — Escribe un `while True` que lea de `buf = [\"a\", \"b\", \"END\"]` con índice, break en END, y un guardrail `if i > 10: raise…». iDo obligatorio `S04-T2-B-DEMO` (while con centinela END sobre buffer de líneas) → «buf = [\"Ana|Lima\", \"Luis|Cusco\", \"END\", \"ignorada\"] i = 0 out = []». Hint: «while True no es pecado si break y guardrail están claros.». Huellas en code: `RuntimeError` + `append`. Teory heading: «while, centinelas y terminación»."
+    },
+    {
+      "exercise_id": "S04-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T3-A-E1\nsts = [\"accept\", \"reject\", \"accept\"]\nn_accept = n_reject = n_total = 0\nfor st in sts:\n    n_total += 1\n    if st == \"accept\":\n        n_accept += 1\n    elif st == \"reject\":\n        n_reject += 1\nprint(n_accept, n_reject, n_total)\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T3-A-E1\n# skeptic note: refused APIs not in theory/iDo for S04-T3-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "sts",
+        "accept",
+        "reject",
+        "n_accept",
+        "n_reject"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S04-T3-A-E1 contra instruction/iDo. Instruction: «E1 (guiado) — `sts = [\"accept\", \"reject\", \"accept\"]`. Inicializa contadores y en un for incrementa. Imprime n_accept, n_reject, n_total.». Soporte `S04-T3-A-DEMO` (continue salta vacíos; break corta en ERROR fatal) → «lines = [\"\", \"ok:1\", \"\", \"ok:2\", \"ERROR\", \"ok:3\"] kept = [] for ln in lines:». Hint: «n_total = len o +=1 por fila». Huellas en code: `n_accept` + `n_reject`. Teory heading: «Contadores, acumuladores y búsqueda»."
+    },
+    {
+      "exercise_id": "S04-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T3-A-E2\ndef tasa_reject(sts):\n    n_total = len(sts)\n    if not n_total:\n        return None\n    n_reject = sum(1 for s in sts if s == \"reject\")\n    return n_reject / n_total\n\nprint(tasa_reject([\"accept\", \"reject\", \"accept\"]))\nprint(tasa_reject([]))\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T3-A-E2\n# skeptic note: refused APIs not in theory/iDo for S04-T3-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "tasa_reject",
+        "sts",
+        "n_total",
+        "len",
+        "not"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S04-T3-A-E2. Instruction: «E2 (independiente) — Calcula `tasa_reject = n_reject / n_total` para sts del E1. Luego calcula tasa para lista vacía sin ZeroDivisionError (imprime None).». Prueba iDo `S04-T3-A-DEMO` (continue salta vacíos; break corta en ERROR fatal) → «lines = [\"\", \"ok:1\", \"\", \"ok:2\", \"ERROR\", \"ok:3\"] kept = [] for ln in lines:». Hint: «if n_total: tasa = n_rej/n_total else None». Check: `tasa_reject` + `n_reject` están en instruction/iDo/code. Teory heading: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T3-A-E3\nrows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"review\"}, {\"id\": \"C3\", \"status\": \"review\"}]\nfirst = -1\nfor i, r in enumerate(rows):\n    if r[\"status\"] == \"review\":\n        first = i\n        print(i, r[\"id\"])\n        break\nif first == -1:\n    print(-1)\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T3-A-E3\n# skeptic note: refused APIs not in theory/iDo for S04-T3-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "rows",
+        "status",
+        "accept",
+        "review",
+        "first"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S04-T3-A-E3. Instruction: «E3 (transferencia) — Busca el índice del primer `status==\"review\"` en una lista de dicts. Si no hay, imprime -1. Si hay, imprime el índice y el id.». Prueba iDo `S04-T3-A-DEMO` (continue salta vacíos; break corta en ERROR fatal) → «lines = [\"\", \"ok:1\", \"\", \"ok:2\", \"ERROR\", \"ok:3\"] kept = [] for ln in lines:». Hint: «first = None; for i,r in enumerate(...): if ...: first=i; break». Code auditado con `status` + `review`; sin APIs fantasma. Teory heading: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T3-B-E1\nnums = [1, 2, 3, 4, 5]\ncuadrados = [x * x for x in nums]\npares = [x for x in nums if x % 2 == 0]\nprint(cuadrados)\nprint(pares)\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T3-B-E1\n# skeptic note: refused APIs not in theory/iDo for S04-T3-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "nums",
+        "cuadrados",
+        "pares"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S04-T3-B-E1 contra instruction/iDo. Instruction: «E1 (guiado) — `nums = [1,2,3,4,5]`. Crea con comprehension la lista de cuadrados y la de pares. Imprímelas.». Cita demo `S04-T3-B-DEMO` (Contadores accept/reject/review y tasa con denominador) → «statuses = [\"accept\", \"reject\", \"review\", \"accept\", \"reject\"] counts = {\"accept\": 0, \"reject\": 0, \"review\":…». Hint: «[x*x for x in nums] y [x for x in nums if x%2==0]». Check: `cuadrados` + `print(` están en instruction/iDo/code. Teory heading: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T3-B-E2\nrows = [{\"status\": \"reject\"}, {\"status\": \"accept\"}, {\"status\": \"reject\"}, {\"status\": \"review\"}]\nprint(sorted({r[\"status\"] for r in rows}))\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T3-B-E2\n# skeptic note: refused APIs not in theory/iDo for S04-T3-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "rows",
+        "status",
+        "reject",
+        "accept",
+        "review"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S04-T3-B-E2 solo si hay rastro en slim_packet. Instruction: «E2 (independiente) — De `rows` con status, obtén set de statuses distintos ordenados alfabéticamente para el reporte.». Soporte `S04-T3-B-DEMO` (Contadores accept/reject/review y tasa con denominador) → «statuses = [\"accept\", \"reject\", \"review\", \"accept\", \"reject\"] counts = {\"accept\": 0, \"reject\": 0, \"review\":…». Hint: «sorted({r['status'] for r in rows})». Code auditado con `status` + `reject`; sin APIs fantasma. Teory heading: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T3-B-E3\nrows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"}, {\"id\": \"C3\", \"status\": \"accept\"}, {\"id\": \"C4\", \"status\": \"reject\"}]\nby = {r[\"id\"]: r[\"status\"] for r in rows}\nrejects = [r[\"id\"] for r in rows if r[\"status\"] == \"reject\"]\ntasa = len(rejects) / len(rows)\nprint(by)\nprint(rejects, tasa)\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T3-B-E3\n# skeptic note: refused APIs not in theory/iDo for S04-T3-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "rows",
+        "status",
+        "accept",
+        "reject",
+        "rejects"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S04-T3-B-E3 solo si hay rastro en slim_packet. Instruction: «E3 (transferencia) — Construye dict `id -> status` por comprehension y calcula tasa de reject como len de rejects / len rows usando otra comprehension para…». Prueba iDo `S04-T3-B-DEMO` (Contadores accept/reject/review y tasa con denominador) → «statuses = [\"accept\", \"reject\", \"review\", \"accept\", \"reject\"] counts = {\"accept\": 0, \"reject\": 0, \"review\":…». Hint: «by = {r['id']: r['status'] for r in rows}». Solo admito `rejects` + `status` porque salen del packet. Teory heading: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T4-A-E1\nvals = [2, -1, 3]\ns = 0\nfor i, val in enumerate(vals):\n    if val > 0:\n        s += val\n    print(i, val, s)\nprint(\"final\", s)\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T4-A-E1\n# skeptic note: refused APIs not in theory/iDo for S04-T4-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "vals",
+        "val",
+        "enumerate",
+        "final"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S04-T4-A-E1 contra instruction/iDo. Instruction: «E1 (guiado) — Traza: `vals = [2, -1, 3]`, acumulador `s=0`. En cada paso imprime `i, val, s` después de sumar solo positivos.». Soporte `S04-T4-A-DEMO` (Comprehensions para filtrar rejects del resumen) → «rows = [ {\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"},». Hint: «if val > 0: s += val; luego print». Check: `print(` + `vals` están en instruction/iDo/code. Teory heading: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T4-A-E2\nfilas = [\"a\", \"b\", \"c\"]\nn = 0\nfor f in filas:\n    n += 1  # single increment (removed duplicate n += 1)\nprint(n)\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T4-A-E2\n# skeptic note: refused APIs not in theory/iDo for S04-T4-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "filas",
+        "single",
+        "increment",
+        "removed",
+        "duplicate"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S04-T4-A-E2 solo si hay rastro en slim_packet. Instruction: «E2 (independiente) — Hay un bug: el contador `n` se incrementa dos veces por fila. Traza e identifica; imprime n corregido para 3 filas (debe ser 3).». Soporte `S04-T4-A-DEMO` (Comprehensions para filtrar rejects del resumen) → «rows = [ {\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"},». Hint: «Busca n += 1 duplicado». Solo admito `increment` + `print(` porque salen del packet. Teory heading: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T4-A-E3\nregs = [\"accept\", \"reject\", \"accept\"]\ncounts = {\"accept\": 0, \"reject\": 0}\nfor st in regs:\n    counts[st] = counts.get(st, 0) + 1\n    print(\"TRACE\", dict(counts))\nprint(\"FINAL\", counts)\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T4-A-E3\n# skeptic note: refused APIs not in theory/iDo for S04-T4-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "regs",
+        "accept",
+        "reject",
+        "counts",
+        "get"
+      ],
+      "justification_from_packet": "[B2-Skeptic] S04-T4-A-E3 solo si hay rastro en slim_packet. Instruction: «E3 (transferencia) — Simula tres registros y un dict de contadores. Imprime una línea TRACE por registro con el estado completo del dict (copy o str).». Cita demo `S04-T4-A-DEMO` (Comprehensions para filtrar rejects del resumen) → «rows = [ {\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"},». Hint: «counts = dict; al final de cada iter print TRACE». Code auditado con `accept` + `reject`; sin APIs fantasma. Teory heading: «Contadores, acumuladores y búsqueda»."
+    },
+    {
+      "exercise_id": "S04-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T4-B-E1\nn = 5\nlin = quad = 0\nfor i in range(n):\n    lin += 1\nfor i in range(n):\n    for j in range(n):\n        quad += 1\nprint(lin, quad)\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T4-B-E1\n# skeptic note: refused APIs not in theory/iDo for S04-T4-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "lin",
+        "quad",
+        "range"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S04-T4-B-E1. Instruction: «E1 (guiado) — Para n=5, cuenta pasos de un for simple y de un doble for anidado. Imprime ambos números.». Cita demo `S04-T4-B-DEMO` (Tabla TRACE de contador durante el lote) → «flags = [True, False, True, True] n_ok = 0 print(\"i flag n_ok\")». Hint: «linear n, quad n*n». Huellas en code: `print(` + `range`. Teory heading: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    },
+    {
+      "exercise_id": "S04-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T4-B-E2\ndata = [\"r0\", \"r1\", \"r2\"]\nfor i in range(len(data)):\n    print(data[i])\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T4-B-E2\n# skeptic note: refused APIs not in theory/iDo for S04-T4-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "data",
+        "range",
+        "len"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Auditoría de S04-T4-B-E2 contra instruction/iDo. Instruction: «E2 (independiente) — `data = [\"r0\", \"r1\", \"r2\"]`. El código usa `for i in range(1, len(data)+1)` y hace IndexError. Arréglalo para recorrer todos los índices…». Cita demo `S04-T4-B-DEMO` (Tabla TRACE de contador durante el lote) → «flags = [True, False, True, True] n_ok = 0 print(\"i flag n_ok\")». Hint: «range(len(data)) → 0..n-1». Check: `print(` + `range` están en instruction/iDo/code. Teory heading: «for, range y secuencias»."
+    },
+    {
+      "exercise_id": "S04-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S04-T4-B-E3\nsts = [\"reject\", \"accept\", \"reject\", \"reject\", \"accept\"]\nn_reject = 0\nfor s in sts:\n    if s == \"reject\":\n        n_reject += 1\nn = len(sts)\nprint(n_reject, n_reject / n)\nprint(\"Nota: O(n) basta para la tasa; no hace falta contar pares O(n²)\")\n# B2 dual-run (Skeptic): re-validated vs packet S04 S04-T4-B-E3\n# skeptic note: refused APIs not in theory/iDo for S04-T4-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S04",
+        "sts",
+        "reject",
+        "accept",
+        "n_reject",
+        "len"
+      ],
+      "justification_from_packet": "[B2-Skeptic] Niego knowledge externa en S04-T4-B-E3. Instruction: «E3 (transferencia) — Reescribe un conteo de pares reject-reject O(n²) ingenuo a un conteo O(n) de rejects (no necesitas pares). Imprime n_reject y comenta en…». Soporte `S04-T4-B-DEMO` (Tabla TRACE de contador durante el lote) → «flags = [True, False, True, True] n_ok = 0 print(\"i flag n_ok\")». Hint: «No necesitas combinar pares para la tasa de error.». Huellas en code: `n_reject` + `reject`. Teory heading: «De “Funciones & Módulos” a iteración y resúmenes (mapa de la sección)»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "question": "¿Qué produce list(range(3))?",
+      "chosen_index": 1,
+      "chosen_text": "[0,1,2]",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «for, range y secuencias» — quote: «**`range(stop)`**, **`range(start, stop)`**, **`range(start, stop, step)`** producen enteros sin materializar una lista gigante. El **stop es exclusivo**: `range(3)` → 0,…». Choose [1] «[0,1,2]». stop exclusive: range(3) → 0,1,2 → [0,1,2]."
+    },
+    {
+      "question_index": 1,
+      "question": "zip([1,2,3],[10,20]) sin strict…",
+      "chosen_index": 1,
+      "chosen_text": "Empareja solo (1,10) y (2,20); el 3 se pierde en silencio",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «enumerate y zip sin desalinear» — quote: «**`zip(a, b)`** empareja elementos en paralelo. Se detiene en la **secuencia más corta**. Si `nombres` tiene 3 y `edades` tiene 2, el tercer nombre **desaparece en silenc…». Choose [1] «Empareja solo (1,10) y (2,20); el 3 se pierde en silencio». zip without strict stops at shorter; unpaired 3 dropped silently."
+    },
+    {
+      "question_index": 2,
+      "question": "Para la tasa de reject del gate, el denominador debe ser…",
+      "chosen_index": 1,
+      "chosen_text": "n_total de registros procesados (intentados)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «Contadores, acumuladores y búsqueda» — quote: «…`tasa_error = n_error / n_total` solo si **`n_total > 0`**. El denominador es el número de registros **intentados**, no solo los aceptados. Si no hay filas, reporta `Non…». Choose [1] «n_total de registros procesados (intentados)». Reject rate denominator is n_total attempted, not only accept/review."
+    },
+    {
+      "question_index": 3,
+      "question": "¿Qué hace continue en un for de líneas de intake?",
+      "chosen_index": 1,
+      "chosen_text": "Salta al siguiente ciclo del bucle",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «break, continue y prevención de loops infinitos» — quote: «…actual de inmediato. **`continue`** salta al **siguiente** ciclo sin ejecutar el resto del cuerpo. En intake: `continue` para saltar filas vacías; `break` al encontrar u…». Choose [1] «Salta al siguiente ciclo del bucle». continue → next loop iteration; does not exit program or delete list."
+    },
+    {
+      "question_index": 4,
+      "question": "Un doble for anidado sobre n elementos es aproximadamente…",
+      "chosen_index": 2,
+      "chosen_text": "O(n²)",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «Costo lineal/cuadrático y off-by-one» — quote: «…s: for b in xs:`) es **O(n²)** (cuadrático). Con 10 filas no se nota; con 100_000, el script “se cuelga”.». Choose [2] «O(n²)». Nested double for over n elements ≈ O(n²)."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "batch": "01_26",
+    "method": "llm_packet_only_no_generator"
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

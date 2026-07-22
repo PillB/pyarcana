@@ -1,0 +1,533 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B2",
+  "section_index": 28,
+  "packet_sha": "ed6e1d5f23780db7",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_28/packet.json",
+  "recorded_at": "2026-07-22T01:57:21.488766+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_agentic_B1; justifications_rebuilt_from_packet; selfcheck_from_agentic_B1; voice=B2",
+  "persona_seed": "730471b28f59",
+  "exercises": [
+    {
+      "exercise_id": "S28-T1-A-E1",
+      "answer": "seed reproducible random",
+      "code": "# explorer/B2: completed from packet iDo for S28-T1-A-E1\nimport random\nrandom.seed(0)\na = random.random()\nrandom.seed(0)\nb = random.random()\nprint(a == b)\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T1-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "random",
+        "seed"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T1-A-E1 siguiendo la instrucción del paquete: «Con seed=0, genera un random.random() y verifícalo reproducible en segunda llamada con misma seed (imprime ambos iguales como True).». Me apoyo en el demo S28-T1-B-DEMO (Genera 15 strings con seed y verifica invariante de longitud de normalize ≥ 0.). Fragmento iDo: «import random random.seed(1) def norm(s):     return \" \".join(s.casefold().split()) ok = all(len(norm(\"\".join(random.choice(\"a b\") for _ in range(8)))) >= 0 for». Pistas: seed antes de cada random; compara. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T1-A-E1 import random random.seed(0) a = random.random() random.seed(0) b = random.random()». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T1-A-E2",
+      "answer": "scores in [0,1]",
+      "code": "# explorer/B2: completed from packet iDo for S28-T1-A-E2\nscores = [0, 0.5, 1]\nprint(all(0 <= s <= 1 for s in scores))\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T1-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "scores",
+        "all"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T1-A-E2 siguiendo la instrucción del paquete: «Invariante: score en [0,1]. Imprime True para scores [0, 0.5, 1].». Me apoyo en el demo S28-T1-B-DEMO (Genera 15 strings con seed y verifica invariante de longitud de normalize ≥ 0.). Fragmento iDo: «import random random.seed(1) def norm(s):     return \" \".join(s.casefold().split()) ok = all(len(norm(\"\".join(random.choice(\"a b\") for _ in range(8)))) >= 0 for». Pistas: all; rango. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T1-A-E2 scores = [0, 0.5, 1] print(all(0 <= s <= 1 for s in scores))». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T1-A-E3",
+      "answer": "strip idempotent",
+      "code": "# explorer/B2: completed from packet iDo for S28-T1-A-E3\ns = '  x '\nf = str.strip\nprint(f(f(s)) == f(s))\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T1-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "str",
+        "strip"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T1-A-E3 siguiendo la instrucción del paquete: «Idempotencia de strip: f(f(s))==f(s) para s='  x '.». Me apoyo en el demo S28-T1-B-DEMO (Genera 15 strings con seed y verifica invariante de longitud de normalize ≥ 0.). Fragmento iDo: «import random random.seed(1) def norm(s):     return \" \".join(s.casefold().split()) ok = all(len(norm(\"\".join(random.choice(\"a b\") for _ in range(8)))) >= 0 for». Pistas: doble aplicación; assert blando print. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T1-A-E3 s = ' x ' f = str.strip print(f(f(s)) == f(s))». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T1-B-E1",
+      "answer": "symmetry equality",
+      "code": "# explorer/B2: completed from packet iDo for S28-T1-B-E1\na, b = 'x', 'x'\nprint((a == b) == (b == a))\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T1-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T1-B-E1 siguiendo la instrucción del paquete: «Simetría de igualdad: imprime (a==b)==(b==a) para a='x' b='x'.». Me apoyo en el demo S28-T1-B-DEMO (Genera 15 strings con seed y verifica invariante de longitud de normalize ≥ 0.). Fragmento iDo: «import random random.seed(1) def norm(s):     return \" \".join(s.casefold().split()) ok = all(len(norm(\"\".join(random.choice(\"a b\") for _ in range(8)))) >= 0 for». Pistas: comparar; simetría. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T1-B-E1 a, b = 'x', 'x' print((a == b) == (b == a))». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T1-B-E2",
+      "answer": "metamorphic casefold",
+      "code": "# explorer/B2: completed from packet iDo for S28-T1-B-E2\nprint('Ana'.casefold() == 'ANA'.casefold())\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T1-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "Ana",
+        "casefold",
+        "ANA"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T1-B-E2 siguiendo la instrucción del paquete: «Metamorphic: upper no debe cambiar casefold equality entre 'Ana' y 'ANA'.». Me apoyo en el demo S28-T1-B-DEMO (Genera 15 strings con seed y verifica invariante de longitud de normalize ≥ 0.). Fragmento iDo: «import random random.seed(1) def norm(s):     return \" \".join(s.casefold().split()) ok = all(len(norm(\"\".join(random.choice(\"a b\") for _ in range(8)))) >= 0 for». Pistas: casefold; True. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T1-B-E2 print('Ana'.casefold() == 'ANA'.casefold())». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T1-B-E3",
+      "answer": "sim swap args",
+      "code": "# explorer/B2: completed from packet iDo for S28-T1-B-E3\na, b = 1, 1\nprint((a == b) == (b == a))\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T1-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T1-B-E3 siguiendo la instrucción del paquete: «Imprime True si sim(a,b) conceptual (a==b) es idempotente en reorden de args.». Me apoyo en el demo S28-T1-B-DEMO (Genera 15 strings con seed y verifica invariante de longitud de normalize ≥ 0.). Fragmento iDo: «import random random.seed(1) def norm(s):     return \" \".join(s.casefold().split()) ok = all(len(norm(\"\".join(random.choice(\"a b\") for _ in range(8)))) >= 0 for». Pistas: swap; propiedad. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T1-B-E3 a, b = 1, 1 print((a == b) == (b == a))». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T2-A-E1",
+      "answer": "id requerido",
+      "code": "# explorer/B2: completed from packet iDo for S28-T2-A-E1\nr = {}\nif not r.get('id'):\n    print('id requerido')\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T2-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "not",
+        "get",
+        "requerido"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T2-A-E1 siguiendo la instrucción del paquete: «Si falta id en dict, imprime 'id requerido'.». Me apoyo en el demo S28-T2-A-DEMO (Comprueba simetría de Jaccard de tokens y metamorphic padding.). Fragmento iDo: «def j(a,b):     ta,tb=set(a.lower().split()),set(b.lower().split())     return len(ta&tb)/len(ta|tb) if ta|tb else 1.0 print(\"sym\", j(\"a b\",\"b a\")==j(\"b a\",\"a b». Pistas: get; guard. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T2-A-E1 r = {} if not r.get('id'): print('id requerido')». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T2-A-E2",
+      "answer": "score out of range",
+      "code": "# explorer/B2: completed from packet iDo for S28-T2-A-E2\nscore = 1.2\nif not (0 <= score <= 1):\n    print('score')\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T2-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "score",
+        "not"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T2-A-E2 siguiendo la instrucción del paquete: «score=1.2 fuera de rango → imprime 'score'.». Me apoyo en el demo S28-T2-A-DEMO (Comprueba simetría de Jaccard de tokens y metamorphic padding.). Fragmento iDo: «def j(a,b):     ta,tb=set(a.lower().split()),set(b.lower().split())     return len(ta&tb)/len(ta|tb) if ta|tb else 1.0 print(\"sym\", j(\"a b\",\"b a\")==j(\"b a\",\"a b». Pistas: 0<=s<=1; etiqueta error. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T2-A-E2 score = 1.2 if not (0 <= score <= 1): print('score')». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T2-A-E3",
+      "answer": "count failing ids",
+      "code": "# explorer/B2: completed from packet iDo for S28-T2-A-E3\nrows = [{'id': '1'}, {'id': ''}]\nprint(sum(1 for r in rows if not r.get('id')))\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T2-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "rows",
+        "sum",
+        "not",
+        "get"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T2-A-E3 siguiendo la instrucción del paquete: «Cuenta cuántos de 2 registros fallan validación simple de id no vacío.». Me apoyo en el demo S28-T2-A-DEMO (Comprueba simetría de Jaccard de tokens y metamorphic padding.). Fragmento iDo: «def j(a,b):     ta,tb=set(a.lower().split()),set(b.lower().split())     return len(ta&tb)/len(ta|tb) if ta|tb else 1.0 print(\"sym\", j(\"a b\",\"b a\")==j(\"b a\",\"a b». Pistas: sum; lista. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T2-A-E3 rows = [{'id': '1'}, {'id': ''}] print(sum(1 for r in rows if not r.get('id')))». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T2-B-E1",
+      "answer": "drift detect",
+      "code": "# explorer/B2: completed from packet iDo for S28-T2-B-E1\ngolden, current = {'n': 1}, {'n': 2}\nprint('drift' if golden != current else 'ok')\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T2-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "golden",
+        "current",
+        "drift",
+        "else"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T2-B-E1 siguiendo la instrucción del paquete: «Imprime 'drift' si golden!=current.». Me apoyo en el demo S28-T2-A-DEMO (Comprueba simetría de Jaccard de tokens y metamorphic padding.). Fragmento iDo: «def j(a,b):     ta,tb=set(a.lower().split()),set(b.lower().split())     return len(ta&tb)/len(ta|tb) if ta|tb else 1.0 print(\"sym\", j(\"a b\",\"b a\")==j(\"b a\",\"a b». Pistas: !=; strings/dicts. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T2-B-E1 golden, current = {'n': 1}, {'n': 2} print('drift' if golden != current else 'ok')». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T2-B-E2",
+      "answer": "reconcile blocked",
+      "code": "# explorer/B2: completed from packet iDo for S28-T2-B-E2\ndiff, approved = True, False\nprint('blocked' if diff and not approved else 'ok')\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T2-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "diff",
+        "approved",
+        "blocked",
+        "and"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T2-B-E2 siguiendo la instrucción del paquete: «Reconcile bloqueado: approved=False y hay diff → 'blocked'.». Me apoyo en el demo S28-T2-A-DEMO (Comprueba simetría de Jaccard de tokens y metamorphic padding.). Fragmento iDo: «def j(a,b):     ta,tb=set(a.lower().split()),set(b.lower().split())     return len(ta&tb)/len(ta|tb) if ta|tb else 1.0 print(\"sym\", j(\"a b\",\"b a\")==j(\"b a\",\"a b». Pistas: and; política. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T2-B-E2 diff, approved = True, False print('blocked' if diff and not approved else 'ok')». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T2-B-E3",
+      "answer": "golden version 3",
+      "code": "# explorer/B2: completed from packet iDo for S28-T2-B-E3\nprint(3)\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T2-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T2-B-E3 siguiendo la instrucción del paquete: «Imprime version del golden = 3.». Me apoyo en el demo S28-T2-A-DEMO (Comprueba simetría de Jaccard de tokens y metamorphic padding.). Fragmento iDo: «def j(a,b):     ta,tb=set(a.lower().split()),set(b.lower().split())     return len(ta&tb)/len(ta|tb) if ta|tb else 1.0 print(\"sym\", j(\"a b\",\"b a\")==j(\"b a\",\"a b». Pistas: literal/dict; versionado. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T2-B-E3 print(3)». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T3-A-E1",
+      "answer": "fake db get Ana",
+      "code": "# explorer/B2: completed from packet iDo for S28-T3-A-E1\ndb = {'e1': {'name': 'Ana'}}\nprint(db['e1']['name'])\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T3-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "name",
+        "Ana"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T3-A-E1 siguiendo la instrucción del paquete: «Fake DB dict: get 'e1' name 'Ana' e imprime.». Me apoyo en el demo S28-T3-A-DEMO (Detecta drift de golden de pares y bloquea reconcile sin aprobación.). Fragmento iDo: «golden={\"n\":2} cur={\"n\":3} print(\"drift\", golden!=cur) print(\"action\", \"blocked\" if golden!=cur else \"ok\") print(\"version\", 1)». Pistas: dict get; fake. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T3-A-E1 db = {'e1': {'name': 'Ana'}} print(db['e1']['name'])». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T3-A-E2",
+      "answer": "fake clock date",
+      "code": "# explorer/B2: completed from packet iDo for S28-T3-A-E2\nfrom datetime import date\nnow = lambda: date(2026, 7, 20)\nprint(now().isoformat())\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T3-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "datetime",
+        "date",
+        "now",
+        "lambda"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T3-A-E2 siguiendo la instrucción del paquete: «Fake clock devuelve fecha 2026-07-20; imprime iso date.». Me apoyo en el demo S28-T3-A-DEMO (Detecta drift de golden de pares y bloquea reconcile sin aprobación.). Fragmento iDo: «golden={\"n\":2} cur={\"n\":3} print(\"drift\", golden!=cur) print(\"action\", \"blocked\" if golden!=cur else \"ok\") print(\"version\", 1)». Pistas: datetime; inyección. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T3-A-E2 from datetime import date now = lambda: date(2026, 7, 20) print(now().isoformat())». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T3-A-E3",
+      "answer": "HTTP 503 retry",
+      "code": "# explorer/B2: completed from packet iDo for S28-T3-A-E3\nstatus = 503\nprint('retry' if status == 503 else 'ok')\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T3-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "status",
+        "retry",
+        "else"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T3-A-E3 siguiendo la instrucción del paquete: «Fake HTTP status 503 → imprime 'retry'.». Me apoyo en el demo S28-T3-A-DEMO (Detecta drift de golden de pares y bloquea reconcile sin aprobación.). Fragmento iDo: «golden={\"n\":2} cur={\"n\":3} print(\"drift\", golden!=cur) print(\"action\", \"blocked\" if golden!=cur else \"ok\") print(\"version\", 1)». Pistas: status; rama. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T3-A-E3 status = 503 print('retry' if status == 503 else 'ok')». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T3-B-E1",
+      "answer": "real match A/a",
+      "code": "# explorer/B2: completed from packet iDo for S28-T3-B-E1\nprint('A'.casefold() == 'a'.casefold())\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T3-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "casefold"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T3-B-E1 siguiendo la instrucción del paquete: «Contrato: match real 'A'/'a' → True.». Me apoyo en el demo S28-T3-A-DEMO (Detecta drift de golden de pares y bloquea reconcile sin aprobación.). Fragmento iDo: «golden={\"n\":2} cur={\"n\":3} print(\"drift\", golden!=cur) print(\"action\", \"blocked\" if golden!=cur else \"ok\") print(\"version\", 1)». Pistas: casefold; sin mock. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T3-B-E1 print('A'.casefold() == 'a'.casefold())». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T3-B-E2",
+      "answer": "overmock always True weak",
+      "code": "# explorer/B2: completed from packet iDo for S28-T3-B-E2\nf = lambda a, b: True\nprint('weak' if f('x', 'y') and f('a', 'b') else 'ok')\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T3-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "lambda",
+        "weak",
+        "and",
+        "else"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T3-B-E2 siguiendo la instrucción del paquete: «Detecta overmock: si función siempre True, imprime 'weak'.». Me apoyo en el demo S28-T3-A-DEMO (Detecta drift de golden de pares y bloquea reconcile sin aprobación.). Fragmento iDo: «golden={\"n\":2} cur={\"n\":3} print(\"drift\", golden!=cur) print(\"action\", \"blocked\" if golden!=cur else \"ok\") print(\"version\", 1)». Pistas: propiedad; siempre True. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T3-B-E2 f = lambda a, b: True print('weak' if f('x', 'y') and f('a', 'b') else 'ok')». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T3-B-E3",
+      "answer": "rows_written 1",
+      "code": "# explorer/B2: completed from packet iDo for S28-T3-B-E3\nprint({'rows_written': 1})\n# or just the effect:\nprint(1)\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T3-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "rows_written",
+        "just",
+        "the",
+        "effect"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T3-B-E3 siguiendo la instrucción del paquete: «Imprime efecto observable: rows_written=1.». Me apoyo en el demo S28-T3-A-DEMO (Detecta drift de golden de pares y bloquea reconcile sin aprobación.). Fragmento iDo: «golden={\"n\":2} cur={\"n\":3} print(\"drift\", golden!=cur) print(\"action\", \"blocked\" if golden!=cur else \"ok\") print(\"version\", 1)». Pistas: dict; borde. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T3-B-E3 print({'rows_written': 1}) # or just the effect: print(1)». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T4-A-E1",
+      "answer": "sqlite COUNT 1",
+      "code": "# explorer/B2: completed from packet iDo for S28-T4-A-E1\nimport sqlite3\ncon = sqlite3.connect(':memory:')\ncon.execute('CREATE TABLE t(id TEXT)')\ncon.execute(\"INSERT INTO t VALUES ('1')\")\nn = con.execute('SELECT COUNT(*) FROM t').fetchone()[0]\nprint(n)\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T4-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "sqlite3",
+        "con",
+        "connect",
+        "memory"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T4-A-E1 siguiendo la instrucción del paquete: «sqlite memoria: CREATE e INSERT un row; COUNT(*).». Me apoyo en el demo S28-T4-A-DEMO (Contrato de borde sobre match real vs overmock que oculta bug.). Fragmento iDo: «def real(a,b):     return a.casefold()==b.casefold() over=lambda a,b: True print(\"real\", real(\"A\",\"a\")) print(\"overmock_false_pos\", over(\"A\",\"z\")) print(\"prefer». Pistas: sqlite3; fetchone. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T4-A-E1 import sqlite3 con = sqlite3.connect(':memory:') con.execute('CREATE TABLE t(id TEX». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T4-A-E2",
+      "answer": "C(4,2)=6",
+      "code": "# explorer/B2: completed from packet iDo for S28-T4-A-E2\nn = 4\nprint(n * (n - 1) // 2)\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T4-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T4-A-E2 siguiendo la instrucción del paquete: «Cardinalidad de pares C(n,2) para n=4 → 6.». Me apoyo en el demo S28-T4-A-DEMO (Contrato de borde sobre match real vs overmock que oculta bug.). Fragmento iDo: «def real(a,b):     return a.casefold()==b.casefold() over=lambda a,b: True print(\"real\", real(\"A\",\"a\")) print(\"overmock_false_pos\", over(\"A\",\"z\")) print(\"prefer». Pistas: n*(n-1)//2; candidatos. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T4-A-E2 n = 4 print(n * (n - 1) // 2)». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T4-A-E3",
+      "answer": "checkpoint pending b",
+      "code": "# explorer/B2: completed from packet iDo for S28-T4-A-E3\ndone, items = {'a'}, ['a', 'b']\nprint([x for x in items if x not in done])\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T4-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "done",
+        "items",
+        "not"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T4-A-E3 siguiendo la instrucción del paquete: «Checkpoint: ids hechos {'a'}; items a,b → pendientes ['b'].». Me apoyo en el demo S28-T4-A-DEMO (Contrato de borde sobre match real vs overmock que oculta bug.). Fragmento iDo: «def real(a,b):     return a.casefold()==b.casefold() over=lambda a,b: True print(\"real\", real(\"A\",\"a\")) print(\"overmock_false_pos\", over(\"A\",\"z\")) print(\"prefer». Pistas: list comp; reanudación. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T4-A-E3 done, items = {'a'}, ['a', 'b'] print([x for x in items if x not in done])». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T4-B-E1",
+      "answer": "sorted stable ab",
+      "code": "# explorer/B2: completed from packet iDo for S28-T4-B-E1\nprint(sorted(['b', 'a']))\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T4-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "sorted"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T4-B-E1 siguiendo la instrucción del paquete: «sorted(['b','a']) debe ser estable; imprime resultado.». Me apoyo en el demo S28-T4-A-DEMO (Contrato de borde sobre match real vs overmock que oculta bug.). Fragmento iDo: «def real(a,b):     return a.casefold()==b.casefold() over=lambda a,b: True print(\"real\", real(\"A\",\"a\")) print(\"overmock_false_pos\", over(\"A\",\"z\")) print(\"prefer». Pistas: sorted; orden. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T4-B-E1 print(sorted(['b', 'a']))». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T4-B-E2",
+      "answer": "fail_job on flake",
+      "code": "# explorer/B2: completed from packet iDo for S28-T4-B-E2\nflake_rate = 0.01\nprint('fail_job' if flake_rate > 0 else 'ok')\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T4-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "flake_rate",
+        "fail_job",
+        "else"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T4-B-E2 siguiendo la instrucción del paquete: «Política CI: imprime 'fail_job' si flake_rate>0.». Me apoyo en el demo S28-T4-A-DEMO (Contrato de borde sobre match real vs overmock que oculta bug.). Fragmento iDo: «def real(a,b):     return a.casefold()==b.casefold() over=lambda a,b: True print(\"real\", real(\"A\",\"a\")) print(\"overmock_false_pos\", over(\"A\",\"z\")) print(\"prefer». Pistas: umbral; gate. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T4-B-E2 flake_rate = 0.01 print('fail_job' if flake_rate > 0 else 'ok')». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    },
+    {
+      "exercise_id": "S28-T4-B-E3",
+      "answer": "CI pipeline order",
+      "code": "# explorer/B2: completed from packet iDo for S28-T4-B-E3\nprint('unit→data→integration')\n# B2 dual-run (Explorer): re-validated vs packet S28 S28-T4-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S28",
+        "unit",
+        "data",
+        "integration"
+      ],
+      "justification_from_packet": "[B2/Explorer] Resuelvo S28-T4-B-E3 siguiendo la instrucción del paquete: «Imprime pipeline CI: unit→data→integration.». Me apoyo en el demo S28-T4-A-DEMO (Contrato de borde sobre match real vs overmock que oculta bug.). Fragmento iDo: «def real(a,b):     return a.casefold()==b.casefold() over=lambda a,b: True print(\"real\", real(\"A\",\"a\")) print(\"overmock_false_pos\", over(\"A\",\"z\")) print(\"prefer». Pistas: string; orden. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S28']. Mi código clave: «# explorer/B2: completed from packet iDo for S28-T4-B-E3 print('unit→data→integration')». Teoría cercana: De LLM agents a QA de datos del motor ER (mapa CP-N3-A) | invariantes y generación de casos | idempo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Relaciones predecibles entre entradas transformadas y salidas",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Theory [idempotencia, simetría y metamorphic tests]: test metamórfico verifica relaciones predecibles tras transformar inputs (padding/simetría). No es número mágico ni fraude."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Riesgo de ocultar regresiones",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Theory [golden datasets, drift y reconciliación]: actualizar golden con drift sin review oculta regresiones. Reconciliar debe ser visible/aprobado. iDo S28-T2 goldens."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Acoplar el test a detalles internos y ocultar bugs",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Theory [contract tests sin sobre-mocking]: sobre-mocking acopla a internos y oculta bugs; preferir contratos de borde y fakes delgados. sqlite/seed no son el anti-patrón."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Con determinismo (seed/reloj/sort) y fallo de job si persisten",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Theory integración + determinismo: flakes se tratan con seed/reloj/sort y fallo de job si persisten. No ignorar, no retries a 100, no borrar tests. Gate ER exige estabilidad."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

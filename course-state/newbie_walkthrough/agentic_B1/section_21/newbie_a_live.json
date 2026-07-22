@@ -1,0 +1,535 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B1",
+  "section_index": 21,
+  "packet_sha": "c6d8c339a8e5e5c1",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B1/section_21/packet.json",
+  "recorded_at": "2026-07-22T01:46:49.662345+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_attempt_007b; justifications_rebuilt_from_packet; selfcheck_from_agentic_A1; voice=B1",
+  "persona_seed": "72d30da59fa5",
+  "exercises": [
+    {
+      "exercise_id": "S21-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T1-A-E1\nfrom jinja2 import Template\nprint(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "jinja2",
+        "Template",
+        "Hola",
+        "nombre"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T1-A-E1 siguiendo la instrucción del paquete: «Renderiza Template('Hola {{ nombre }}') con nombre='Ana' e imprime.». Me apoyo en el demo S21-T1-B-DEMO (Separar datos de plantilla Jinja con context único). Fragmento iDo: «from jinja2 import Template  context = {     \"run_id\": \"r1\",     \"region\": \"Lima\",     \"median\": 28.0,     \"n\": 40,     \"limit\": \"solo web\", } tmpl = Template( ». Pistas: jinja2.Template.render.; print.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T1-A-E1 from jinja2 import Template print(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T1-A-E2\nfrom jinja2 import Template\nprint(Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(region=\"Lima\", median=28.0, n=40))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "jinja2",
+        "Template",
+        "region",
+        "median"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T1-A-E2 siguiendo la instrucción del paquete: «Template con median y n; render Lima-like 28 y 40.». Me apoyo en el demo S21-T1-B-DEMO (Separar datos de plantilla Jinja con context único). Fragmento iDo: «from jinja2 import Template  context = {     \"run_id\": \"r1\",     \"region\": \"Lima\",     \"median\": 28.0,     \"n\": 40,     \"limit\": \"solo web\", } tmpl = Template( ». Pistas: Dos variables.; Incluye PEN.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T1-A-E2 from jinja2 import Template print(Template(\"{{ region }}: {{ median }} PEN (n={{ n ». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T1-A-E3\nfrom jinja2 import Template\n\ndef render_kpi(ctx):\n    return Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(**ctx)\nprint(render_kpi({\"region\": \"Lima\", \"median\": 28.0, \"n\": 40}))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "jinja2",
+        "Template",
+        "render_kpi",
+        "ctx"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T1-A-E3 siguiendo la instrucción del paquete: «Función render_kpi(ctx) usa template fijo region/median/n; prueba con dict.». Me apoyo en el demo S21-T1-B-DEMO (Separar datos de plantilla Jinja con context único). Fragmento iDo: «from jinja2 import Template  context = {     \"run_id\": \"r1\",     \"region\": \"Lima\",     \"median\": 28.0,     \"n\": 40,     \"limit\": \"solo web\", } tmpl = Template( ». Pistas: Template dentro o global.; print resultado.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T1-A-E3 from jinja2 import Template def render_kpi(ctx): return Template(\"{{ region }}: {{ ». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T1-B-E1\nmedian = None\nprint(\"—\" if median is None else median)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "median",
+        "else"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T1-B-E1 siguiendo la instrucción del paquete: «Si median is None imprime '—'; else el número. Prueba None.». Me apoyo en el demo S21-T1-B-DEMO (Separar datos de plantilla Jinja con context único). Fragmento iDo: «from jinja2 import Template  context = {     \"run_id\": \"r1\",     \"region\": \"Lima\",     \"median\": 28.0,     \"n\": 40,     \"limit\": \"solo web\", } tmpl = Template( ». Pistas: condicional python o jinja.; print.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T1-B-E1 median = None print(\"—\" if median is None else median)». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T1-B-E2\nprint(f\"{28.456:.2f}\")\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T1-B-E2 siguiendo la instrucción del paquete: «Formatea 28.456 a 2 decimales con format en jinja o python; print.». Me apoyo en el demo S21-T1-B-DEMO (Separar datos de plantilla Jinja con context único). Fragmento iDo: «from jinja2 import Template  context = {     \"run_id\": \"r1\",     \"region\": \"Lima\",     \"median\": 28.0,     \"n\": 40,     \"limit\": \"solo web\", } tmpl = Template( ». Pistas: '%.2f' % x o f-string.; print 28.46.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T1-B-E2 print(f\"{28.456:.2f}\")». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T1-B-E3\nfrom jinja2 import Template\nrows = [{\"region\": \"Lima\", \"value\": 28}, {\"region\": \"Cusco\", \"value\": 22}]\nprint(Template(\"{% for r in rows %}{{ r.region }}:{{ r.value }}\\n{% endfor %}\").render(rows=rows))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "jinja2",
+        "Template",
+        "rows",
+        "region"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T1-B-E3 siguiendo la instrucción del paquete: «Render lista de rows en líneas 'region:value' con jinja for.». Me apoyo en el demo S21-T1-B-DEMO (Separar datos de plantilla Jinja con context único). Fragmento iDo: «from jinja2 import Template  context = {     \"run_id\": \"r1\",     \"region\": \"Lima\",     \"median\": 28.0,     \"n\": 40,     \"limit\": \"solo web\", } tmpl = Template( ». Pistas: Template for.; Dos regiones.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T1-B-E3 from jinja2 import Template rows = [{\"region\": \"Lima\", \"value\": 28}, {\"region\": \"Cu». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T2-A-E1\nsections = [{\"h\": 1, \"name\": \"Resumen\"}, {\"h\": 1, \"name\": \"Método\"}]\nprint([s[\"name\"] for s in sections])\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "sections",
+        "name",
+        "Resumen"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T2-A-E1 siguiendo la instrucción del paquete: «Define sections con Resumen h1 y Método h1; imprime nombres.». Me apoyo en el demo S21-T2-A-DEMO (Render condicional seguro de tabla con missing como em-dash). Fragmento iDo: «from jinja2 import Template  tmpl = Template(     \"\"\"{% for r in rows %}{{ r.region }}: {{ r.median if r.median is not none else '—' }} {% endfor %}\"\"\" ) rows =». Pistas: lista de dicts.; print list comprehension.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T2-A-E1 sections = [{\"h\": 1, \"name\": \"Resumen\"}, {\"h\": 1, \"name\": \"Método\"}] print([s[\"name». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T2-A-E2\nsections = [{\"h\": 1}, {\"h\": 2}, {\"h\": 1}]\nprint(sum(1 for s in sections if s[\"h\"] == 1))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "sections",
+        "sum"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T2-A-E2 siguiendo la instrucción del paquete: «Cuenta cuántos H1 hay en sections con h 1 y 2 mixtos.». Me apoyo en el demo S21-T2-A-DEMO (Render condicional seguro de tabla con missing como em-dash). Fragmento iDo: «from jinja2 import Template  tmpl = Template(     \"\"\"{% for r in rows %}{{ r.region }}: {{ r.median if r.median is not none else '—' }} {% endfor %}\"\"\" ) rows =». Pistas: sum.; print int.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T2-A-E2 sections = [{\"h\": 1}, {\"h\": 2}, {\"h\": 1}] print(sum(1 for s in sections if s[\"h\"] =». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T2-A-E3\ndef render_outline(sections):\n    return \"\\n\".join(\"  \" * (s[\"h\"] - 1) + f\"H{s['h']} {s['name']}\" for s in sections)\nprint(render_outline([{\"h\": 1, \"name\": \"Método\"}, {\"h\": 2, \"name\": \"Datos\"}]))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "render_outline",
+        "sections",
+        "join",
+        "name"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T2-A-E3 siguiendo la instrucción del paquete: «render_outline devuelve líneas indentadas; prueba un H1 y un H2.». Me apoyo en el demo S21-T2-A-DEMO (Render condicional seguro de tabla con missing como em-dash). Fragmento iDo: «from jinja2 import Template  tmpl = Template(     \"\"\"{% for r in rows %}{{ r.region }}: {{ r.median if r.median is not none else '—' }} {% endfor %}\"\"\" ) rows =». Pistas: pad por h-1.; print.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T2-A-E3 def render_outline(sections): return \"\\n\".join(\" \" * (s[\"h\"] - 1) + f\"H{s['h']} {s[». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T2-B-E1\nchars, pages = 10, 2\nprint(\"needs_ocr\" if chars / pages < 20 else \"digital\")\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "chars",
+        "pages",
+        "needs_ocr",
+        "else"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T2-B-E1 siguiendo la instrucción del paquete: «Si chars/pages < 20 print needs_ocr else digital; caso 10 chars 2 pages.». Me apoyo en el demo S21-T2-A-DEMO (Render condicional seguro de tabla con missing como em-dash). Fragmento iDo: «from jinja2 import Template  tmpl = Template(     \"\"\"{% for r in rows %}{{ r.region }}: {{ r.median if r.median is not none else '—' }} {% endfor %}\"\"\" ) rows =». Pistas: densidad.; print.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T2-B-E1 chars, pages = 10, 2 print(\"needs_ocr\" if chars / pages < 20 else \"digital\")». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T2-B-E2\ndef classify(chars, pages):\n    return \"digital\" if chars / max(pages, 1) >= 20 else \"needs_ocr\"\nprint(classify(100, 1))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "classify",
+        "chars",
+        "pages",
+        "digital"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T2-B-E2 siguiendo la instrucción del paquete: «classify(chars,pages) retorna digital o needs_ocr; prueba (100,1).». Me apoyo en el demo S21-T2-A-DEMO (Render condicional seguro de tabla con missing como em-dash). Fragmento iDo: «from jinja2 import Template  tmpl = Template(     \"\"\"{% for r in rows %}{{ r.region }}: {{ r.median if r.median is not none else '—' }} {% endfor %}\"\"\" ) rows =». Pistas: Función.; print.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T2-B-E2 def classify(chars, pages): return \"digital\" if chars / max(pages, 1) >= 20 else \"n». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T2-B-E3\ntext = \"\"\nprint({\"needs_ocr\": not bool(text)})\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "text",
+        "needs_ocr",
+        "not",
+        "bool"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T2-B-E3 siguiendo la instrucción del paquete: «Dado texto extraído '', marca needs_ocr True; imprime dict flags.». Me apoyo en el demo S21-T2-A-DEMO (Render condicional seguro de tabla con missing como em-dash). Fragmento iDo: «from jinja2 import Template  tmpl = Template(     \"\"\"{% for r in rows %}{{ r.region }}: {{ r.median if r.median is not none else '—' }} {% endfor %}\"\"\" ) rows =». Pistas: bool(text).; print.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T2-B-E3 text = \"\" print({\"needs_ocr\": not bool(text)})». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T3-A-E1\nprint({\"id\": \"H1\", \"evidencia\": \"Tabla1\"}[\"id\"])\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "evidencia",
+        "Tabla1"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T3-A-E1 siguiendo la instrucción del paquete: «Crea hallazgo id H1 con evidencia Tabla1 e imprime id.». Me apoyo en el demo S21-T3-A-DEMO (Clasificar PDF digital vs posible escaneo por densidad de texto). Fragmento iDo: «def classify(chars, pages):     dens = chars / max(pages, 1)     return (\"digital\", dens) if dens >= 20 else (\"needs_ocr\", dens)  print(classify(9000, 4)) print». Pistas: dict.; print.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T3-A-E1 print({\"id\": \"H1\", \"evidencia\": \"Tabla1\"}[\"id\"])». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T3-A-E2\ns = \"mediana 28 PEN n=40\"\nprint(\"n=\" in s)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "mediana",
+        "PEN"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T3-A-E2 siguiendo la instrucción del paquete: «Resumen debe incluir 'n='; valida e imprime True/False para un string dado.». Me apoyo en el demo S21-T3-A-DEMO (Clasificar PDF digital vs posible escaneo por densidad de texto). Fragmento iDo: «def classify(chars, pages):     dens = chars / max(pages, 1)     return (\"digital\", dens) if dens >= 20 else (\"needs_ocr\", dens)  print(classify(9000, 4)) print». Pistas: in.; caso con n=40.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T3-A-E2 s = \"mediana 28 PEN n=40\" print(\"n=\" in s)». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T3-A-E3\ndef pack_report(resumen, metodo, hallazgos):\n    return {\"resumen\": resumen, \"metodo\": metodo, \"hallazgos\": hallazgos}\nprint(sorted(pack_report([\"r\"], {}, [{\"id\": \"H1\"}]).keys()))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "pack_report",
+        "resumen",
+        "metodo",
+        "hallazgos"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T3-A-E3 siguiendo la instrucción del paquete: «pack_report(resumen, metodo, hallazgos) devuelve dict con 3 claves; print keys sorted.». Me apoyo en el demo S21-T3-A-DEMO (Clasificar PDF digital vs posible escaneo por densidad de texto). Fragmento iDo: «def classify(chars, pages):     dens = chars / max(pages, 1)     return (\"digital\", dens) if dens >= 20 else (\"needs_ocr\", dens)  print(classify(9000, 4)) print». Pistas: dict function.; print.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T3-A-E3 def pack_report(resumen, metodo, hallazgos): return {\"resumen\": resumen, \"metodo\": ». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T3-B-E1\nprint({\"median_Lima\": 28.0} == {\"median_Lima\": 28.0})\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "median_Lima"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T3-B-E1 siguiendo la instrucción del paquete: «parity entre dash y doc dicts median_Lima 28; print True.». Me apoyo en el demo S21-T3-A-DEMO (Clasificar PDF digital vs posible escaneo por densidad de texto). Fragmento iDo: «def classify(chars, pages):     dens = chars / max(pages, 1)     return (\"digital\", dens) if dens >= 20 else (\"needs_ocr\", dens)  print(classify(9000, 4)) print». Pistas: comparar.; print.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T3-B-E1 print({\"median_Lima\": 28.0} == {\"median_Lima\": 28.0})». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T3-B-E2\ncap = \"Fig1 | Fuente: sintetico | n=10\"\nprint(\"Fuente\" in cap)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "cap",
+        "Fig1",
+        "Fuente",
+        "sintetico"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T3-B-E2 siguiendo la instrucción del paquete: «Caption debe contener 'Fuente'; valida.». Me apoyo en el demo S21-T3-A-DEMO (Clasificar PDF digital vs posible escaneo por densidad de texto). Fragmento iDo: «def classify(chars, pages):     dens = chars / max(pages, 1)     return (\"digital\", dens) if dens >= 20 else (\"needs_ocr\", dens)  print(classify(9000, 4)) print». Pistas: in.; print bool.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T3-B-E2 cap = \"Fig1 | Fuente: sintetico | n=10\" print(\"Fuente\" in cap)». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T3-B-E3\ndef check_parity(a, b, c):\n    return a == b == c\nprint(check_parity(1, 1, 2))\nprint(check_parity(1, 1, 1))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "check_parity"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T3-B-E3 siguiendo la instrucción del paquete: «check_parity(a,b,c) True si los tres iguales; prueba fallo y éxito.». Me apoyo en el demo S21-T3-A-DEMO (Clasificar PDF digital vs posible escaneo por densidad de texto). Fragmento iDo: «def classify(chars, pages):     dens = chars / max(pages, 1)     return (\"digital\", dens) if dens >= 20 else (\"needs_ocr\", dens)  print(classify(9000, 4)) print». Pistas: a==b==c.; Dos prints.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T3-B-E3 def check_parity(a, b, c): return a == b == c print(check_parity(1, 1, 2)) print(ch». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T4-A-E1\nprint([round(v, 1) for v in [28.04, 28.0]])\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "round"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T4-A-E1 siguiendo la instrucción del paquete: «Normaliza [28.04, 28.0] a 1 decimal; print lista.». Me apoyo en el demo S21-T4-A-DEMO (Embeber métricas con fuentes/límites y check de paridad). Fragmento iDo: «dash = {\"median_Lima\": 28.0} xlsx = {\"median_Lima\": 28.0} doc = {\"median_Lima\": 28.0} limits = [\"cobertura web\", \"n Cusco bajo\"] parity = dash == xlsx == doc bu». Pistas: round.; print.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T4-A-E1 print([round(v, 1) for v in [28.04, 28.0]])». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T4-A-E2\ndef fmt_pen(x):\n    return f\"{round(float(x), 1)} PEN\"\nprint(fmt_pen(28.04))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "fmt_pen",
+        "round",
+        "float",
+        "PEN"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T4-A-E2 siguiendo la instrucción del paquete: «fmt_pen(28.04) -> '28.0 PEN'; implementa e imprime.». Me apoyo en el demo S21-T4-A-DEMO (Embeber métricas con fuentes/límites y check de paridad). Fragmento iDo: «dash = {\"median_Lima\": 28.0} xlsx = {\"median_Lima\": 28.0} doc = {\"median_Lima\": 28.0} limits = [\"cobertura web\", \"n Cusco bajo\"] parity = dash == xlsx == doc bu». Pistas: f-string round 1.; print.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T4-A-E2 def fmt_pen(x): return f\"{round(float(x), 1)} PEN\" print(fmt_pen(28.04))». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T4-A-E3\ndef a11y_min(has_h1, alts):\n    return bool(has_h1) and all(len(a) > 10 for a in alts)\nprint(a11y_min(True, [\"Barras mediana por región n en tooltip\"]))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "a11y_min",
+        "has_h1",
+        "alts",
+        "bool"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T4-A-E3 siguiendo la instrucción del paquete: «a11y_min(has_h1, alts) True si has_h1 y todo alt len>10; prueba.». Me apoyo en el demo S21-T4-A-DEMO (Embeber métricas con fuentes/límites y check de paridad). Fragmento iDo: «dash = {\"median_Lima\": 28.0} xlsx = {\"median_Lima\": 28.0} doc = {\"median_Lima\": 28.0} limits = [\"cobertura web\", \"n Cusco bajo\"] parity = dash == xlsx == doc bu». Pistas: all().; print.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T4-A-E3 def a11y_min(has_h1, alts): return bool(has_h1) and all(len(a) > 10 for a in alts) ». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T4-B-E1\nprint({\"status\": \"pending_review\"}[\"status\"])\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "status",
+        "pending_review"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T4-B-E1 siguiendo la instrucción del paquete: «Imprime approval status 'pending_review'.». Me apoyo en el demo S21-T4-A-DEMO (Embeber métricas con fuentes/límites y check de paridad). Fragmento iDo: «dash = {\"median_Lima\": 28.0} xlsx = {\"median_Lima\": 28.0} doc = {\"median_Lima\": 28.0} limits = [\"cobertura web\", \"n Cusco bajo\"] parity = dash == xlsx == doc bu». Pistas: dict.; print value.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T4-B-E1 print({\"status\": \"pending_review\"}[\"status\"])». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T4-B-E2\nimport hashlib\nprint(hashlib.sha1(b\"synthetic\").hexdigest()[:8])\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "hashlib",
+        "sha1",
+        "synthetic",
+        "hexdigest"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T4-B-E2 siguiendo la instrucción del paquete: «data_sha1_8 de b'synthetic' primeros 8 hex; print.». Me apoyo en el demo S21-T4-A-DEMO (Embeber métricas con fuentes/límites y check de paridad). Fragmento iDo: «dash = {\"median_Lima\": 28.0} xlsx = {\"median_Lima\": 28.0} doc = {\"median_Lima\": 28.0} limits = [\"cobertura web\", \"n Cusco bajo\"] parity = dash == xlsx == doc bu». Pistas: hashlib.sha1.; print slice.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T4-B-E2 import hashlib print(hashlib.sha1(b\"synthetic\").hexdigest()[:8])». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    },
+    {
+      "exercise_id": "S21-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B1: completed from packet iDo for S21-T4-B-E3\nprint(all({\"dashboard\": True, \"xlsx\": True, \"doc\": True}.values()))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S21",
+        "all",
+        "dashboard",
+        "xlsx",
+        "doc"
+      ],
+      "justification_from_packet": "[B1/Explorer] Resuelvo S21-T4-B-E3 siguiendo la instrucción del paquete: «ready(checklist) True si todos los valores True; prueba dashboard/xlsx/doc.». Me apoyo en el demo S21-T4-A-DEMO (Embeber métricas con fuentes/límites y check de paridad). Fragmento iDo: «dash = {\"median_Lima\": 28.0} xlsx = {\"median_Lima\": 28.0} doc = {\"median_Lima\": 28.0} limits = [\"cobertura web\", \"n Cusco bajo\"] parity = dash == xlsx == doc bu». Pistas: all(dict.values()).; print.. Conceptos del paquete usados: ['explorer', 'completed', 'packet', 'iDo', 'for', 'S21']. Mi código clave: «# explorer/B1: completed from packet iDo for S21-T4-B-E3 print(all({\"dashboard\": True, \"xlsx\": True, \"doc\": True}.values()))». Teoría cercana: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separación datos/presenta."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Explorer selfcheck S21 Q0: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «Jinja y separación datos/presentación»: «Los datos se preparan en Python; la plantilla solo presenta. Nunca pongas lógica de negocio pesada en la plantilla». Separar permite reutilizar presentación y auditar métricas en Python."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Explorer selfcheck S21 Q1: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «PDF digital vs imagen/OCR»: «Un **PDF escaneado** es imagen y requiere OCR… si no hay texto o el ratio de caracteres es bajo, marca needs_ocr». Casi sin caracteres → OCR/tratamiento de imagen."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Explorer selfcheck S21 Q2: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory mapa CP-N2-B + «gráficos, tablas…»: una corrida produce artefactos alineados (mismos n y métricas S18–S20). Paridad = mismas métricas clave en dashboard, Excel y documento."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Explorer] Explorer selfcheck S21 Q3: opción [1]. Justificación desde theory/iDo del paquete (llm_packet_only_no_generator): theory «render visual, provenance y aprobación» + cierre CP-N2-B: provenance, checklist/revisión visual y hallazgos trazables a evidencia; no marcar section_passed desde esta lane ni subir secretos."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B1",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  }
+}

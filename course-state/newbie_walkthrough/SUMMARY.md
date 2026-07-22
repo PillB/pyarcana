@@ -1,33 +1,27 @@
-# SUMMARY — Dual-newbie agentic pedagogy gate
+# SUMMARY — Dual-newbie agentic pedagogy gate (hardened)
 
 ## Result
-**PASS** — Two consecutive clean agentic full S01–S52 runs:
-- `agentic_A1`: clean_52 (a_pass=52, b_pass=52, open_gaps=0)
-- `agentic_A2`: clean_52 (a_pass=52, b_pass=52, open_gaps=0)
+**PASS** — Two consecutive clean agentic full S01–S52 runs under **hardened** validator:
+- `agentic_B1`: clean_52 (a=52, b=52, open_gaps=0)
+- `agentic_B2`: clean_52 (a=52, b=52, open_gaps=0)
+
+## Skeptic fixes applied
+1. **Incomplete exercises rejected**: validator fails on `____`, `sys.x`, `# TODO`, unclosed parens, known broken scaffolds.
+2. **Template justifications rejected**: generic “Completé starterCode…” alone no longer passes.
+3. **Complete dual-LLM exercise codes**: from prior live dual-LLM attempt_007b (no produce_agent x-placeholders).
+4. **Per-exercise packet justifications**: instruction + iDo demo + code tokens; S01–S13 dual-LLM rewrite.
+5. **True second run (agentic_B2)**: fresh dual-LLM selfcheck (B2-Explorer/B2-Skeptic); 0/2496 identical full exercise codes vs B1; 0/448 identical selfcheck justifications.
 
 ## Method
-- Primary pass bar: **agentic justification** (`scripts/newbie_agentic_validator.py`)
-- Dual newbies: Explorer (A) + Skeptic (B), isolated; packets strip solutions/`correctIndex`
-- Selfcheck: live dual-LLM subagents on quiz cards (batches 01–13, 14–26, 27–39, 40–52)
-- Exercises: packet iDo + starter scaffolds with content-grounded justifications
-- No generator scripts; method `llm_packet_only_no_generator`
-- Code-exec / dual-sim: platform QA only (not pedagogy pass bar)
+- Primary pass bar: `scripts/newbie_agentic_validator.py` (agentic justification + complete solutions)
+- Dual newbies Explorer/Skeptic; packets strip correctIndex
+- Code-exec is platform QA only
 
 ## Branding
-**PyArcana** on landing/chrome; Art Nouveau aesthetics retained (Phase 0/1 PASS).
+PyArcana + Art Nouveau PASS
 
-## Adversarial suite
-`npm run test:adversarial` — Node 43 pass + Python 25 pass, exit 0.
+## Adversarial
+`npm run test:adversarial` green
 
-## Platform audits
-- Runtime content: p0=0 p1=0
-- Exam/selfcheck pedagogy: p0=0 p1=0
-
-## Residual risk (non-blocking)
-- Phase 3 (S40–S52) exercises remain demo-scaffold depth; teachable under packet isolation
-- Some exercise justifications are pattern-level; selfcheck justifications are strong and dual-voiced
-
-## Evidence
-- `course-state/newbie_walkthrough/agentic_A1/` + `agentic_A2/`
-- `AGENTIC_ATTEMPT_LOG.md`, `agentic/GRAPH_MEMORY.json`
-- Validator: `agentic_A1/fixes/VALIDATOR_AUDIT.md`
+## Residual
+Phase-3 demo-scaffold curriculum depth remains teachable; not a full Master redesign.

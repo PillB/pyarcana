@@ -1,0 +1,556 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_B2",
+  "section_index": 8,
+  "packet_sha": "fe2162fb46a292f0",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_08/packet.json",
+  "recorded_at": "2026-07-22T02:00:41.524834+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_agentic_B1; justifications_rebuilt_from_packet; selfcheck_from_agentic_B1; voice=B2; selfcheck_B2_explorer_independent",
+  "persona_seed": "0be1847224c6",
+  "exercises": [
+    {
+      "exercise_id": "S08-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T1-A-E1\nfrom pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'demo.txt'\np.write_text('hola', encoding='utf-8')\nprint(p.exists())\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T1-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "tempfile",
+        "mkdtemp"
+      ],
+      "justification_from_packet": "[B2-Explorer] S08-T1-A-E1 — experimento con lo que el packet pide: «E1 (guiado) — En un temp dir, crea `Path` a `demo.txt`, escribe 'hola', comprueba `exists` e imprime True/False.». Ancla iDo B2 `S08-T1-B-DEMO` (Leer y escribir intake UTF-8 con Path) → «from pathlib import Path import tempfile td = Path(tempfile.mkdtemp())». Hint weDo: «write_text + exists». En el code dejé `import tempfile` + `import Path` para amarrar el mismo gesto. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T1-A-E2\nfrom pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'lines.txt'\nwith p.open('w', encoding='utf-8') as f:\n    f.write('a\\nb\\nc\\n')\nprint([ln.strip() for ln in p.read_text(encoding='utf-8').splitlines()])\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T1-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "tempfile",
+        "mkdtemp"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S08-T1-A-E2 arranco citando el weDo: «E2 (independiente) — Escribe 3 líneas con with open, luego lee con readlines strip e imprime la lista.». Plantilla iDo `S08-T1-B-DEMO` (Leer y escribir intake UTF-8 con Path) → «from pathlib import Path import tempfile td = Path(tempfile.mkdtemp())». Hint weDo: «with path.open('w', encoding='utf-8')». Marca en code: `import tempfile` + `import Path`. Teoria packet: «pathlib, with, modos y encodings»."
+    },
+    {
+      "exercise_id": "S08-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T1-A-E3\nfrom pathlib import Path\nimport tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'bad.txt'\np.write_bytes(b'\\xff\\xfe')\ntry:\n    p.read_text(encoding='utf-8')\nexcept UnicodeDecodeError as e:\n    print(type(e).__name__, '→ cuarentena o reintentar encoding documentado')\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T1-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "tempfile",
+        "mkdtemp"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S08-T1-A-E3: tomo la consigna weDo: «E3 (transferencia) — Simula UnicodeDecodeError leyendo bytes latinos como utf-8 strict si es latin-1 content… Mejor: escribe bytes no-UTF8 y captura…». Plantilla iDo `S08-T1-B-DEMO` (Leer y escribir intake UTF-8 con Path) → «from pathlib import Path import tempfile td = Path(tempfile.mkdtemp())». Hint weDo: «path.write_bytes(b'\\xff\\xfe') o latin1 bytes inválidos en utf-8». En el code dejé `import tempfile` + `import Path` para amarrar el mismo gesto. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T1-B-E1\nwin = b'a\\r\\nb\\r\\n'\nunix = b'a\\nb\\n'\nprint(b'\\r\\n' in win)\nprint(b'\\r\\n' in unix)\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T1-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "win",
+        "unix"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S08-T1-B-E1: tomo la consigna weDo: «E1 (guiado) — Detecta si un `bytes` sample contiene CRLF `\\r\\n`. Imprime True para sample Windows y False para solo `\\n`.». Plantilla iDo `S08-T1-B-DEMO` (Leer y escribir intake UTF-8 con Path) → «from pathlib import Path import tempfile td = Path(tempfile.mkdtemp())». Hint weDo: «b'\\r\\n' in data». Traigo al code `print(` + `win` copiados del patrón. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T1-B-E2\nfrom pathlib import Path\nimport os, tempfile\n\ndef write_atomic(path, text):\n    path = Path(path)\n    tmp = path.with_name(path.name + '.tmp')\n    tmp.write_text(text, encoding='utf-8')\n    os.replace(tmp, path)\n\ntd = Path(tempfile.mkdtemp())\np = td / 'out.txt'\nwrite_atomic(p, 'ok\\n')\nprint(p.read_text(encoding='utf-8'))\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T1-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "tempfile",
+        "write_atomic"
+      ],
+      "justification_from_packet": "[B2-Explorer] S08-T1-B-E2 — experimento con lo que el packet pide: «E2 (independiente) — Implementa `write_atomic` y verifica contenido final.». Ancla iDo B2 `S08-T1-B-DEMO` (Leer y escribir intake UTF-8 con Path) → «from pathlib import Path import tempfile td = Path(tempfile.mkdtemp())». Hint weDo: «tmp + os.replace». En el code dejé `import Path` + `write_atomic` para amarrar el mismo gesto. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T1-B-E3\nfrom pathlib import Path\nimport os, tempfile\n\ndef write_atomic(path, text):\n    path = Path(path)\n    tmp = path.with_name(path.name + '.tmp')\n    tmp.write_text(text, encoding='utf-8')\n    os.replace(tmp, path)\n\ntd = Path(tempfile.mkdtemp())\ndest = td / 'f.txt'\ndest.write_text('PARCIAL', encoding='utf-8')\nprint(dest.read_text(encoding='utf-8'))\nwrite_atomic(dest, 'COMPLETO')\nprint(dest.read_text(encoding='utf-8'))\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T1-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "tempfile",
+        "write_atomic"
+      ],
+      "justification_from_packet": "[B2-Explorer] S08-T1-B-E3 — experimento con lo que el packet pide: «E3 (transferencia) — Simula fallo mid-write: escribe dest parcial 'PARCIAL' y muestra que un atomic replace posterior deja 'COMPLETO'. Imprime ambos estados.». Ancla iDo B2 `S08-T1-B-DEMO` (Leer y escribir intake UTF-8 con Path) → «from pathlib import Path import tempfile td = Path(tempfile.mkdtemp())». Hint weDo: «Primero write no atómico parcial; luego write_atomic». En el code dejé `import Path` + `write_text` para amarrar el mismo gesto. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T2-A-E1\nimport csv, io\nraw = 'id,nombre\\nC001,Ana\\n'\nfor row in csv.DictReader(io.StringIO(raw)):\n    print(row['id'], row['nombre'])\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T2-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "csv",
+        "raw",
+        "nombre",
+        "nC001"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S08-T2-A-E1 arranco citando el weDo: «E1 (guiado) — DictReader sobre StringIO con header id,nombre; imprime filas dict.». Plantilla iDo `S08-T2-A-DEMO` (write_atomic(path, text)) → «from pathlib import Path import os, tempfile def write_atomic(path: Path, text: str) -> None:». Hint weDo: «csv.DictReader». Marca en code: `DictReader` + `StringIO`. Teoria packet: «Filas irregulares y cuarentena»."
+    },
+    {
+      "exercise_id": "S08-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T2-A-E2\nimport csv, io\nbuf = io.StringIO()\nw = csv.DictWriter(buf, fieldnames=['id', 'nombre'])\nw.writeheader()\nw.writerow({'id': 'C001', 'nombre': 'Ana'})\nbuf.seek(0)\nrows = list(csv.DictReader(buf))\nn = len(rows)\nprint(n)\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T2-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "csv",
+        "buf",
+        "StringIO",
+        "DictWriter"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S08-T2-A-E2: tomo la consigna weDo: «E2 (independiente) — Escribe CSV con DictWriter (header id,nombre) a StringIO o temp y relee contando filas de datos = 1.». Demo de referencia `S08-T2-A-DEMO` (write_atomic(path, text)) → «from pathlib import Path import os, tempfile def write_atomic(path: Path, text: str) -> None:». Hint weDo: «writeheader + writerow». Traigo al code `DictWriter` + `StringIO` copiados del patrón. Teoria packet: «Filas irregulares y cuarentena»."
+    },
+    {
+      "exercise_id": "S08-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T2-A-E3\nvals = ['10', 'x', '3.5']\nfor v in vals:\n    try:\n        m = float(v)\n        print(v, 'ok', m)\n    except ValueError:\n        print(v, 'reject', 'cast_monto')\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T2-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "vals",
+        "try",
+        "float",
+        "except"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S08-T2-A-E3: tomo la consigna weDo: «E3 (transferencia) — Cast de monto: si float() falla → reject con motivo. Procesa `['10', 'x', '3.5']` e imprime ok/reject.». Ancla iDo B2 `S08-T2-A-DEMO` (write_atomic(path, text)) → «from pathlib import Path import os, tempfile def write_atomic(path: Path, text: str) -> None:». Hint weDo: «try float except ValueError». Marca en code: `print(` + `reject`. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T2-B-E1\nheader = ['id', 'nombre']\nrow = ['C1', 'Ana', 'x']\nirregular = len(row) != len(header)\nprint(irregular)\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T2-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "header",
+        "nombre",
+        "row",
+        "Ana"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S08-T2-B-E1 arranco citando el weDo: «E1 (guiado) — Detecta fila irregular: header len 2, row `['C1','Ana','x']` → irregular True.». Demo de referencia `S08-T2-B-DEMO` (Ingesta CSV de clientes con tipos monto/fecha string) → «import csv, io raw = \"id,nombre,monto,fecha\\nC001,Ana,10.5,2026-01-10\\nC002,Luis,20,2026-01-11\\n\" rows = []». Hint weDo: «len(row) != len(header)». Traigo al code `irregular` + `header` copiados del patrón. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T2-B-E2\nfrom pathlib import Path\nimport csv, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'quarantine.csv'\nwith p.open('w', newline='', encoding='utf-8') as f:\n    w = csv.DictWriter(f, fieldnames=['raw', 'reason'])\n    w.writeheader()\n    w.writerow({'raw': 'C002,Luis,EXTRA', 'reason': 'col_count'})\nwith p.open(newline='', encoding='utf-8') as f:\n    for row in csv.DictReader(f):\n        print(row['reason'])\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T2-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "csv",
+        "tempfile"
+      ],
+      "justification_from_packet": "[B2-Explorer] S08-T2-B-E2 — experimento con lo que el packet pide: «E2 (independiente) — Escribe una fila de cuarentena `{raw, reason}` a CSV en temp y relee imprimiendo reason.». Ancla iDo B2 `S08-T2-B-DEMO` (Ingesta CSV de clientes con tipos monto/fecha string) → «import csv, io raw = \"id,nombre,monto,fecha\\nC001,Ana,10.5,2026-01-10\\nC002,Luis,20,2026-01-11\\n\" rows = []». Hint weDo: «DictWriter fieldnames raw,reason». Marca en code: `import csv` + `DictReader`. Teoria packet: «Filas irregulares y cuarentena»."
+    },
+    {
+      "exercise_id": "S08-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T2-B-E3\nfrom collections import Counter\nreasons = ['col_count', 'cast_monto', 'col_count', 'schema']\nfor reason, n in sorted(Counter(reasons).items()):\n    print(reason, n)\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T2-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "collections",
+        "Counter",
+        "reasons",
+        "col_count"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S08-T2-B-E3 arranco citando el weDo: «E3 (transferencia) — Dada lista de reasons, imprime resumen contador sorted por reason.». Veo en iDo `S08-T2-B-DEMO` (Ingesta CSV de clientes con tipos monto/fecha string) → «import csv, io raw = \"id,nombre,monto,fecha\\nC001,Ana,10.5,2026-01-10\\nC002,Luis,20,2026-01-11\\n\" rows = []». Hint weDo: «collections.Counter o dict». Sello con `reasons` + `reason` en la respuesta. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T3-A-E1\nimport json\nobj = json.loads('{\"id\":\"C001\"}')\nprint(obj['id'])\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T3-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "json",
+        "obj",
+        "loads",
+        "C001"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S08-T3-A-E1: tomo la consigna weDo: «E1 (guiado) — `json.loads` de fixture `'{\"id\":\"C001\"}'` e imprime id.». Demo de referencia `S08-T3-A-DEMO` (Separar good.csv vs quarantine.csv) → «import csv, io from pathlib import Path import tempfile». Hint weDo: «json.loads». Traigo al code `print(` + `loads` copiados del patrón. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T3-A-E2\nimport json\ns = json.dumps({'nombre': 'José'}, ensure_ascii=False)\nprint(s)\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T3-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "json",
+        "dumps",
+        "nombre",
+        "ensure_ascii"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S08-T3-A-E2 arranco citando el weDo: «E2 (independiente) — `dumps` de `{'nombre':'José'}` con ensure_ascii=False e imprime (debe verse José, no \\u).». Veo en iDo `S08-T3-A-DEMO` (Separar good.csv vs quarantine.csv) → «import csv, io from pathlib import Path import tempfile». Hint weDo: «ensure_ascii=False». Sello con `ensure_ascii` + `nombre` en la respuesta. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T3-A-E3\nimport json\nfrom datetime import datetime\nobj = {'ts': datetime(2026, 1, 15, 10, 0, 0)}\ntry:\n    json.dumps(obj)\nexcept TypeError as e:\n    print('TypeError', e)\nobj2 = {'ts': obj['ts'].isoformat()}\nprint(json.dumps(obj2))\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T3-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "json",
+        "datetime",
+        "obj",
+        "try"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S08-T3-A-E3: tomo la consigna weDo: «E3 (transferencia) — Intenta dumps de dict con datetime y captura TypeError; reintenta con isoformat str.». Demo de referencia `S08-T3-A-DEMO` (Separar good.csv vs quarantine.csv) → «import csv, io from pathlib import Path import tempfile». Hint weDo: «datetime no serializable». Marca en code: `TypeError` + `isoformat`. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T3-B-E1\ndef validate_schema(obj, required):\n    missing = [k for k in required if k not in obj]\n    return len(missing) == 0, missing\nprint(validate_schema({'id': 'C1'}, ['id', 'email']))\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T3-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "validate_schema",
+        "obj",
+        "required",
+        "missing"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S08-T3-B-E1 arranco citando el weDo: «E1 (guiado) — Rechaza missing required: obj sin email con required [id,email] → ok False.». Demo de referencia `S08-T3-B-DEMO` (Exportar results a JSON array + JSONL) → «import json from pathlib import Path import tempfile». Hint weDo: «list comprehension missing». Traigo al code `def validate_schema` + `required` copiados del patrón. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T3-B-E2\nobj = {'id': 'C1', 'email': None}\nprint('in', 'email' in obj)\nprint('valor', obj['email'])\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T3-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "obj",
+        "email",
+        "valor"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S08-T3-B-E2 desde la instruction publicada: «E2 (independiente) — null explícito: `{'id':'C1','email': None}` tiene clave email (presente) con valor None. Imprime 'in' y valor.». Ancla iDo B2 `S08-T3-B-DEMO` (Exportar results a JSON array + JSONL) → «import json from pathlib import Path import tempfile». Hint weDo: «'email' in obj». Traigo al code `print(` + `email` copiados del patrón. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T3-B-E3\na = {'id': 'C1'}\nb = {'id': 'C2', 'segment': 'vip'}\na.setdefault('segment', 'standard')\nb.setdefault('segment', 'standard')\nprint(a)\nprint(b)\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T3-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "segment",
+        "vip",
+        "setdefault",
+        "standard"
+      ],
+      "justification_from_packet": "[B2-Explorer] Rehago S08-T3-B-E3 desde la instruction publicada: «E3 (transferencia) — Añade campo opcional `segment` con default `'standard'` vía setdefault sin pisar si ya existe. Dos objs.». Plantilla iDo `S08-T3-B-DEMO` (Exportar results a JSON array + JSONL) → «import json from pathlib import Path import tempfile». Hint weDo: «setdefault». Sello con `setdefault` + `standard` en la respuesta. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T4-A-E1\nfrom pathlib import Path\nimport hashlib, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'f.bin'\np.write_bytes(b'abc')\ndigest = hashlib.sha256(p.read_bytes()).hexdigest()\nprint(digest[:8], len(digest))\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T4-A-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "hashlib",
+        "tempfile"
+      ],
+      "justification_from_packet": "[B2-Explorer] Para S08-T4-A-E1 arranco citando el weDo: «E1 (guiado) — Calcula sha256 hex de un archivo temp con contenido conocido e imprime los primeros 8 chars + len digest 64.». Plantilla iDo `S08-T4-A-DEMO` (validate_schema(obj, required) + campo opcional nuevo) → «». Hint weDo: «hashlib.sha256(path.read_bytes()).hexdigest()». En el code dejé `digest` + `sha256` para amarrar el mismo gesto. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T4-A-E2\nfrom pathlib import Path\nimport shutil, tempfile\ntd = Path(tempfile.mkdtemp())\nsrc = td / 'in.csv'\nsrc.write_text('a\\n', encoding='utf-8')\nbak = Path(str(src) + '.bak')\nshutil.copy2(src, bak)\nprint(bak.read_bytes() == src.read_bytes())\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T4-A-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "shutil",
+        "tempfile"
+      ],
+      "justification_from_packet": "[B2-Explorer] S08-T4-A-E2 — experimento con lo que el packet pide: «E2 (independiente) — Copia backup con shutil.copy2 y verifica igualdad de bytes.». Ancla iDo B2 `S08-T4-A-DEMO` (validate_schema(obj, required) + campo opcional nuevo) → «». Hint weDo: «shutil.copy2». En el code dejé `shutil` + `copy2` para amarrar el mismo gesto. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T4-A-E3\nfrom pathlib import Path\nimport hashlib, tempfile\ntd = Path(tempfile.mkdtemp())\np = td / 'clients.csv'\np.write_text('id\\nC1\\n', encoding='utf-8')\nprov = {\n    'path': p.name,\n    'sha256': hashlib.sha256(p.read_bytes()).hexdigest(),\n    'bytes': p.stat().st_size,\n}\nprint(prov)\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T4-A-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "pathlib",
+        "Path",
+        "hashlib",
+        "tempfile"
+      ],
+      "justification_from_packet": "[B2-Explorer] S08-T4-A-E3 — experimento con lo que el packet pide: «E3 (transferencia) — Arma dict de provenance `{path, sha256, bytes}` para un temp file e imprímelo (path solo name).». Veo en iDo `S08-T4-A-DEMO` (validate_schema(obj, required) + campo opcional nuevo) → «». Hint weDo: «stat().st_size». Sello con `sha256` + `bytes` en la respuesta. Teoria packet: «Backups, hashes y provenance»."
+    },
+    {
+      "exercise_id": "S08-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T4-B-E1\nmanifest = {\n    'run_id': 'demo-001',\n    'n_in': 5,\n    'n_clean': 4,\n    'n_quarantine': 1,\n    'inputs': [{'name': 'clients.csv'}],\n}\nprint(sorted(manifest))\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T4-B-E1\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "manifest",
+        "run_id",
+        "demo",
+        "n_in"
+      ],
+      "justification_from_packet": "[B2-Explorer] S08-T4-B-E1 — experimento con lo que el packet pide: «E1 (guiado) — Campos mínimos del manifest: imprime un dict con run_id, n_in, n_clean, n_quarantine, inputs.». Ancla iDo B2 `S08-T4-B-DEMO` (sha256 de input CSV + backup .bak) → «from pathlib import Path import hashlib, shutil, tempfile td = Path(tempfile.mkdtemp())». Hint weDo: «5 claves mínimas». En el code dejé `n_quarantine` + `n_clean` para amarrar el mismo gesto. Teoria packet: «Reconciliación y manifest de corrida»."
+    },
+    {
+      "exercise_id": "S08-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T4-B-E2\ndef reconcile(n_in, n_clean, n_quar):\n    return n_in == n_clean + n_quar\nprint(reconcile(5, 3, 2))\nprint(reconcile(5, 3, 1))\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T4-B-E2\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "reconcile",
+        "n_in",
+        "n_clean",
+        "n_quar"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S08-T4-B-E2: tomo la consigna weDo: «E2 (independiente) — Reconcilia conteos: función `reconcile(n_in, n_clean, n_quar) -> bool`.». Demo de referencia `S08-T4-B-DEMO` (sha256 de input CSV + backup .bak) → «from pathlib import Path import hashlib, shutil, tempfile td = Path(tempfile.mkdtemp())». Hint weDo: «n_in == n_clean + n_quar». Marca en code: `n_clean` + `n_quar`. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    },
+    {
+      "exercise_id": "S08-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# explorer/B2: completed from packet iDo for S08-T4-B-E3\ndef run(n_in, n_clean, n_quar):\n    if n_in != n_clean + n_quar:\n        print('ERROR reconcile fail exit=1')\n        return 1\n    print('OK')\n    return 0\nrun(4, 2, 2)\nrun(4, 2, 1)\n# B2 dual-run (Explorer): re-validated vs packet S08 S08-T4-B-E3\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "explorer",
+        "completed",
+        "packet",
+        "iDo",
+        "for",
+        "S08",
+        "run",
+        "n_in",
+        "n_clean",
+        "n_quar"
+      ],
+      "justification_from_packet": "[B2-Explorer] Walkthrough de S08-T4-B-E3: tomo la consigna weDo: «E3 (transferencia) — Si reconcile falla, imprime error y usa `raise SystemExit(1)` o simula con print de exit code 1. Si ok, print OK.». Plantilla iDo `S08-T4-B-DEMO` (sha256 de input CSV + backup .bak) → «from pathlib import Path import hashlib, shutil, tempfile td = Path(tempfile.mkdtemp())». Hint weDo: «No publiques clean si no cuadra». Traigo al code `reconcile` + `print(` copiados del patrón. Teoria packet: «De “Pandas EDA” a archivos, CSV/JSON y gate CP-N1-B (mapa)»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Evita depender del locale del SO (p. ej. Windows)",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Declarar encoding='utf-8' al abrir texto evita depender del locale del SO (p. ej. Windows) y protege tildes/ñ en CSV/JSON."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "escribir temp y os.replace al destino",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Escritura atómica: escribir a archivo temporal y luego os.replace al destino; no escribir directo al path final como única estrategia."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Ir a cuarentena con motivo",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Fila CSV con columnas de más: cuarentena con motivo, no ignorar en silencio ni rellenar sin traza."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "n_in == n_clean + n_quarantine",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Manifest/reconciliación: n_in == n_clean + n_quarantine (conservación de conteos)."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "Fallar (exit non-zero) / fail closed",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Explorer: Si reconcile falla: fail closed — no publicar clean; exit non-zero / abortar el pipeline."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "explorer",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 5,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

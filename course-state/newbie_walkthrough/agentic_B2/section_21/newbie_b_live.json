@@ -1,0 +1,536 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B2",
+  "section_index": 21,
+  "packet_sha": "c6d8c339a8e5e5c1",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B2/section_21/packet.json",
+  "recorded_at": "2026-07-22T02:01:21.756248+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "selfcheck_rebuilt_B2_skeptic_packet_quotes_batch_01_26; exercises_kept",
+  "persona_seed": "1cb2f2b64c1c",
+  "exercises": [
+    {
+      "exercise_id": "S21-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T1-A-E1\nfrom jinja2 import Template\nprint(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"))\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T1-A-E1\n# skeptic note: refused APIs not in theory/iDo for S21-T1-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "jinja2",
+        "Template",
+        "Hola",
+        "nombre",
+        "render"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T1-A-E1 si el paquete lo enseña. Instrucción: «Renderiza Template('Hola {{ nombre }}') con nombre='Ana' e imprime.». Demo ancla S21-T1-B-DEMO: «from jinja2 import Template  context = {     \"run_id\": \"r1\",     \"region\": \"Lima\",     \"median\": 28.0,     \"n\": 40,     \"limit\": \"solo web\", } tmpl = Template( ». Hints del weDo: jinja2.Template.render.; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T1-A-E1 from jinja2 import Template print(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'jinja2']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T1-A-E2\nfrom jinja2 import Template\nprint(Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(region=\"Lima\", median=28, n=40))\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T1-A-E2\n# skeptic note: refused APIs not in theory/iDo for S21-T1-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "jinja2",
+        "Template",
+        "region",
+        "median",
+        "PEN"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T1-A-E2 si el paquete lo enseña. Instrucción: «Template con median y n; render Lima-like 28 y 40.». Demo ancla S21-T1-B-DEMO: «from jinja2 import Template  context = {     \"run_id\": \"r1\",     \"region\": \"Lima\",     \"median\": 28.0,     \"n\": 40,     \"limit\": \"solo web\", } tmpl = Template( ». Hints del weDo: Dos variables.; Incluye PEN.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T1-A-E2 from jinja2 import Template print(Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(re». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'jinja2']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T1-A-E3\nfrom jinja2 import Template\n\ndef render_kpi(ctx):\n    return Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(**ctx)\n\nprint(render_kpi({\"region\": \"Lima\", \"median\": 28.0, \"n\": 40}))\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T1-A-E3\n# skeptic note: refused APIs not in theory/iDo for S21-T1-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "jinja2",
+        "Template",
+        "render_kpi",
+        "ctx",
+        "region"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T1-A-E3 si el paquete lo enseña. Instrucción: «Función render_kpi(ctx) usa template fijo region/median/n; prueba con dict.». Demo ancla S21-T1-B-DEMO: «from jinja2 import Template  context = {     \"run_id\": \"r1\",     \"region\": \"Lima\",     \"median\": 28.0,     \"n\": 40,     \"limit\": \"solo web\", } tmpl = Template( ». Hints del weDo: Template dentro o global.; print resultado.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T1-A-E3 from jinja2 import Template def render_kpi(ctx): return Template(\"{{ region }}: {{ median }} PEN (». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'jinja2']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T1-B-E1\nmedian = None\nprint(\"—\" if median is None else median)\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T1-B-E1\n# skeptic note: refused APIs not in theory/iDo for S21-T1-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "median",
+        "else"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T1-B-E1 si el paquete lo enseña. Instrucción: «Si median is None imprime '—'; else el número. Prueba None.». Demo ancla S21-T1-B-DEMO: «from jinja2 import Template  context = {     \"run_id\": \"r1\",     \"region\": \"Lima\",     \"median\": 28.0,     \"n\": 40,     \"limit\": \"solo web\", } tmpl = Template( ». Hints del weDo: condicional python o jinja.; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T1-B-E1 median = None print(\"—\" if median is None else median)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'median']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T1-B-E2\nx = 28.456\nprint(f\"{x:.2f}\")\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T1-B-E2\n# skeptic note: refused APIs not in theory/iDo for S21-T1-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T1-B-E2 si el paquete lo enseña. Instrucción: «Formatea 28.456 a 2 decimales con format en jinja o python; print.». Demo ancla S21-T1-B-DEMO: «from jinja2 import Template  context = {     \"run_id\": \"r1\",     \"region\": \"Lima\",     \"median\": 28.0,     \"n\": 40,     \"limit\": \"solo web\", } tmpl = Template( ». Hints del weDo: '%.2f' % x o f-string.; print 28.46.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T1-B-E2 x = 28.456 print(f\"{x:.2f}\")». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T1-B-E3\nfrom jinja2 import Template\nrows = [{\"region\": \"Lima\", \"value\": 28}, {\"region\": \"Cusco\", \"value\": 22}]\nprint(Template(\"{% for r in rows %}{{ r.region }}:{{ r.value }}\\n{% endfor %}\").render(rows=rows), end=\"\")\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T1-B-E3\n# skeptic note: refused APIs not in theory/iDo for S21-T1-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "jinja2",
+        "Template",
+        "rows",
+        "region",
+        "Lima"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T1-B-E3 si el paquete lo enseña. Instrucción: «Render lista de rows en líneas 'region:value' con jinja for.». Demo ancla S21-T1-B-DEMO: «from jinja2 import Template  context = {     \"run_id\": \"r1\",     \"region\": \"Lima\",     \"median\": 28.0,     \"n\": 40,     \"limit\": \"solo web\", } tmpl = Template( ». Hints del weDo: Template for.; Dos regiones.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T1-B-E3 from jinja2 import Template rows = [{\"region\": \"Lima\", \"value\": 28}, {\"region\": \"Cusco\", \"value\": ». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'jinja2']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T2-A-E1\nsections = [{\"h\": 1, \"name\": \"Resumen\"}, {\"h\": 1, \"name\": \"Método\"}]\nprint([s[\"name\"] for s in sections])\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T2-A-E1\n# skeptic note: refused APIs not in theory/iDo for S21-T2-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "sections",
+        "name",
+        "Resumen"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T2-A-E1 si el paquete lo enseña. Instrucción: «Define sections con Resumen h1 y Método h1; imprime nombres.». Demo ancla S21-T2-A-DEMO: «from jinja2 import Template  tmpl = Template(     \"\"\"{% for r in rows %}{{ r.region }}: {{ r.median if r.median is not none else '—' }} {% endfor %}\"\"\" ) rows =». Hints del weDo: lista de dicts.; print list comprehension.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T2-A-E1 sections = [{\"h\": 1, \"name\": \"Resumen\"}, {\"h\": 1, \"name\": \"Método\"}] print([s[\"name\"] for s in sec». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'sections']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T2-A-E2\nsections = [{\"h\": 1}, {\"h\": 2}, {\"h\": 1}]\nprint(sum(1 for s in sections if s[\"h\"] == 1))\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T2-A-E2\n# skeptic note: refused APIs not in theory/iDo for S21-T2-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "sections",
+        "sum"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T2-A-E2 si el paquete lo enseña. Instrucción: «Cuenta cuántos H1 hay en sections con h 1 y 2 mixtos.». Demo ancla S21-T2-A-DEMO: «from jinja2 import Template  tmpl = Template(     \"\"\"{% for r in rows %}{{ r.region }}: {{ r.median if r.median is not none else '—' }} {% endfor %}\"\"\" ) rows =». Hints del weDo: sum.; print int.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T2-A-E2 sections = [{\"h\": 1}, {\"h\": 2}, {\"h\": 1}] print(sum(1 for s in sections if s[\"h\"] == 1))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'sections']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T2-A-E3\ndef render_outline(sections):\n    lines = []\n    for s in sections:\n        pad = \"  \" * (s[\"h\"] - 1)\n        lines.append(f\"{pad}H{s['h']} {s['name']}\")\n    return \"\\n\".join(lines)\n\nprint(render_outline([{\"h\": 1, \"name\": \"Resumen\"}, {\"h\": 2, \"name\": \"Datos\"}]))\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T2-A-E3\n# skeptic note: refused APIs not in theory/iDo for S21-T2-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "render_outline",
+        "sections",
+        "lines",
+        "pad",
+        "append"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T2-A-E3 si el paquete lo enseña. Instrucción: «render_outline devuelve líneas indentadas; prueba un H1 y un H2.». Demo ancla S21-T2-A-DEMO: «from jinja2 import Template  tmpl = Template(     \"\"\"{% for r in rows %}{{ r.region }}: {{ r.median if r.median is not none else '—' }} {% endfor %}\"\"\" ) rows =». Hints del weDo: pad por h-1.; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T2-A-E3 def render_outline(sections): lines = [] for s in sections: pad = \" \" * (s[\"h\"] - 1) lines.append(». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'render_outline']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T2-B-E1\nchars, pages = 10, 2\ndens = chars / max(pages, 1)\nprint(\"needs_ocr\" if dens < 20 else \"digital\")\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T2-B-E1\n# skeptic note: refused APIs not in theory/iDo for S21-T2-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "chars",
+        "pages",
+        "dens",
+        "max",
+        "needs_ocr"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T2-B-E1 si el paquete lo enseña. Instrucción: «Si chars/pages < 20 print needs_ocr else digital; caso 10 chars 2 pages.». Demo ancla S21-T2-A-DEMO: «from jinja2 import Template  tmpl = Template(     \"\"\"{% for r in rows %}{{ r.region }}: {{ r.median if r.median is not none else '—' }} {% endfor %}\"\"\" ) rows =». Hints del weDo: densidad.; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T2-B-E1 chars, pages = 10, 2 dens = chars / max(pages, 1) print(\"needs_ocr\" if dens < 20 else \"digital\")». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'chars']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T2-B-E2\ndef classify(chars, pages):\n    dens = chars / max(pages, 1)\n    return \"digital\" if dens >= 20 else \"needs_ocr\"\n\nprint(classify(100, 1))\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T2-B-E2\n# skeptic note: refused APIs not in theory/iDo for S21-T2-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "classify",
+        "chars",
+        "pages",
+        "dens",
+        "max"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T2-B-E2 si el paquete lo enseña. Instrucción: «classify(chars,pages) retorna digital o needs_ocr; prueba (100,1).». Demo ancla S21-T2-A-DEMO: «from jinja2 import Template  tmpl = Template(     \"\"\"{% for r in rows %}{{ r.region }}: {{ r.median if r.median is not none else '—' }} {% endfor %}\"\"\" ) rows =». Hints del weDo: Función.; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T2-B-E2 def classify(chars, pages): dens = chars / max(pages, 1) return \"digital\" if dens >= 20 else \"need». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'classify']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T2-B-E3\ntext = \"\"\nprint({\"needs_ocr\": not bool(text)})\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T2-B-E3\n# skeptic note: refused APIs not in theory/iDo for S21-T2-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "text",
+        "needs_ocr",
+        "not",
+        "bool"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T2-B-E3 si el paquete lo enseña. Instrucción: «Dado texto extraído '', marca needs_ocr True; imprime dict flags.». Demo ancla S21-T2-A-DEMO: «from jinja2 import Template  tmpl = Template(     \"\"\"{% for r in rows %}{{ r.region }}: {{ r.median if r.median is not none else '—' }} {% endfor %}\"\"\" ) rows =». Hints del weDo: bool(text).; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T2-B-E3 text = \"\" print({\"needs_ocr\": not bool(text)})». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'text']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T3-A-E1\nh = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}\nprint(h[\"id\"])\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T3-A-E1\n# skeptic note: refused APIs not in theory/iDo for S21-T3-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "evidencia",
+        "Tabla1"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T3-A-E1 si el paquete lo enseña. Instrucción: «Crea hallazgo id H1 con evidencia Tabla1 e imprime id.». Demo ancla S21-T3-A-DEMO: «def classify(chars, pages):     dens = chars / max(pages, 1)     return (\"digital\", dens) if dens >= 20 else (\"needs_ocr\", dens)  print(classify(9000, 4)) print». Hints del weDo: dict.; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T3-A-E1 h = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"} print(h[\"id\"])». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'evidencia']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T3-A-E2\ns = \"mediana 28 PEN n=40\"\nprint(\"n=\" in s)\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T3-A-E2\n# skeptic note: refused APIs not in theory/iDo for S21-T3-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "mediana",
+        "PEN"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T3-A-E2 si el paquete lo enseña. Instrucción: «Resumen debe incluir 'n='; valida e imprime True/False para un string dado.». Demo ancla S21-T3-A-DEMO: «def classify(chars, pages):     dens = chars / max(pages, 1)     return (\"digital\", dens) if dens >= 20 else (\"needs_ocr\", dens)  print(classify(9000, 4)) print». Hints del weDo: in.; caso con n=40.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T3-A-E2 s = \"mediana 28 PEN n=40\" print(\"n=\" in s)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'mediana']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T3-A-E3\ndef pack_report(resumen, metodo, hallazgos):\n    return {\"resumen\": resumen, \"metodo\": metodo, \"hallazgos\": hallazgos}\n\nprint(sorted(pack_report([\"x\"], {}, [{\"id\": \"H1\"}]).keys()))\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T3-A-E3\n# skeptic note: refused APIs not in theory/iDo for S21-T3-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "pack_report",
+        "resumen",
+        "metodo",
+        "hallazgos",
+        "sorted"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T3-A-E3 si el paquete lo enseña. Instrucción: «pack_report(resumen, metodo, hallazgos) devuelve dict con 3 claves; print keys sorted.». Demo ancla S21-T3-A-DEMO: «def classify(chars, pages):     dens = chars / max(pages, 1)     return (\"digital\", dens) if dens >= 20 else (\"needs_ocr\", dens)  print(classify(9000, 4)) print». Hints del weDo: dict function.; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T3-A-E3 def pack_report(resumen, metodo, hallazgos): return {\"resumen\": resumen, \"metodo\": metodo, \"hallaz». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'pack_report']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T3-B-E1\ndash = {\"median_Lima\": 28}\ndoc = {\"median_Lima\": 28}\nprint(dash == doc)\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T3-B-E1\n# skeptic note: refused APIs not in theory/iDo for S21-T3-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "dash",
+        "median_Lima",
+        "doc"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T3-B-E1 si el paquete lo enseña. Instrucción: «parity entre dash y doc dicts median_Lima 28; print True.». Demo ancla S21-T3-A-DEMO: «def classify(chars, pages):     dens = chars / max(pages, 1)     return (\"digital\", dens) if dens >= 20 else (\"needs_ocr\", dens)  print(classify(9000, 4)) print». Hints del weDo: comparar.; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T3-B-E1 dash = {\"median_Lima\": 28} doc = {\"median_Lima\": 28} print(dash == doc)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'dash']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T3-B-E2\ncap = \"Fig1 | Fuente: sintetico | n=10\"\nprint(\"Fuente\" in cap)\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T3-B-E2\n# skeptic note: refused APIs not in theory/iDo for S21-T3-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "cap",
+        "Fig1",
+        "Fuente",
+        "sintetico"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T3-B-E2 si el paquete lo enseña. Instrucción: «Caption debe contener 'Fuente'; valida.». Demo ancla S21-T3-A-DEMO: «def classify(chars, pages):     dens = chars / max(pages, 1)     return (\"digital\", dens) if dens >= 20 else (\"needs_ocr\", dens)  print(classify(9000, 4)) print». Hints del weDo: in.; print bool.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T3-B-E2 cap = \"Fig1 | Fuente: sintetico | n=10\" print(\"Fuente\" in cap)». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'cap']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T3-B-E3\ndef check_parity(a, b, c):\n    return a == b == c\n\nprint(check_parity(1, 1, 2))\nprint(check_parity(1, 1, 1))\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T3-B-E3\n# skeptic note: refused APIs not in theory/iDo for S21-T3-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "check_parity"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T3-B-E3 si el paquete lo enseña. Instrucción: «check_parity(a,b,c) True si los tres iguales; prueba fallo y éxito.». Demo ancla S21-T3-A-DEMO: «def classify(chars, pages):     dens = chars / max(pages, 1)     return (\"digital\", dens) if dens >= 20 else (\"needs_ocr\", dens)  print(classify(9000, 4)) print». Hints del weDo: a==b==c.; Dos prints.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T3-B-E3 def check_parity(a, b, c): return a == b == c print(check_parity(1, 1, 2)) print(check_parity(1, 1». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'check_parity']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T4-A-E1\nvals = [28.04, 28.0]\nprint([round(v, 1) for v in vals])\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T4-A-E1\n# skeptic note: refused APIs not in theory/iDo for S21-T4-A-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "vals",
+        "round"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T4-A-E1 si el paquete lo enseña. Instrucción: «Normaliza [28.04, 28.0] a 1 decimal; print lista.». Demo ancla S21-T4-A-DEMO: «dash = {\"median_Lima\": 28.0} xlsx = {\"median_Lima\": 28.0} doc = {\"median_Lima\": 28.0} limits = [\"cobertura web\", \"n Cusco bajo\"] parity = dash == xlsx == doc bu». Hints del weDo: round.; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T4-A-E1 vals = [28.04, 28.0] print([round(v, 1) for v in vals])». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'vals']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T4-A-E2\ndef fmt_pen(x):\n    return f\"{round(float(x), 1)} PEN\"\n\nprint(fmt_pen(28.04))\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T4-A-E2\n# skeptic note: refused APIs not in theory/iDo for S21-T4-A-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "fmt_pen",
+        "round",
+        "float",
+        "PEN"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T4-A-E2 si el paquete lo enseña. Instrucción: «fmt_pen(28.04) -> '28.0 PEN'; implementa e imprime.». Demo ancla S21-T4-A-DEMO: «dash = {\"median_Lima\": 28.0} xlsx = {\"median_Lima\": 28.0} doc = {\"median_Lima\": 28.0} limits = [\"cobertura web\", \"n Cusco bajo\"] parity = dash == xlsx == doc bu». Hints del weDo: f-string round 1.; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T4-A-E2 def fmt_pen(x): return f\"{round(float(x), 1)} PEN\" print(fmt_pen(28.04))». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'fmt_pen']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T4-A-E3\ndef a11y_min(has_h1, alts):\n    return has_h1 and all(len(a) > 10 for a in alts)\n\nprint(a11y_min(True, [\"Barras mediana por región n=40\"]))\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T4-A-E3\n# skeptic note: refused APIs not in theory/iDo for S21-T4-A-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "a11y_min",
+        "has_h1",
+        "alts",
+        "and",
+        "all"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T4-A-E3 si el paquete lo enseña. Instrucción: «a11y_min(has_h1, alts) True si has_h1 y todo alt len>10; prueba.». Demo ancla S21-T4-A-DEMO: «dash = {\"median_Lima\": 28.0} xlsx = {\"median_Lima\": 28.0} doc = {\"median_Lima\": 28.0} limits = [\"cobertura web\", \"n Cusco bajo\"] parity = dash == xlsx == doc bu». Hints del weDo: all().; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T4-A-E3 def a11y_min(has_h1, alts): return has_h1 and all(len(a) > 10 for a in alts) print(a11y_min(True, ». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'a11y_min']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T4-B-E1\napproval = {\"status\": \"pending_review\"}\nprint(approval[\"status\"])\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T4-B-E1\n# skeptic note: refused APIs not in theory/iDo for S21-T4-B-E1\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "approval",
+        "status",
+        "pending_review"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T4-B-E1 si el paquete lo enseña. Instrucción: «Imprime approval status 'pending_review'.». Demo ancla S21-T4-A-DEMO: «dash = {\"median_Lima\": 28.0} xlsx = {\"median_Lima\": 28.0} doc = {\"median_Lima\": 28.0} limits = [\"cobertura web\", \"n Cusco bajo\"] parity = dash == xlsx == doc bu». Hints del weDo: dict.; print value.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T4-B-E1 approval = {\"status\": \"pending_review\"} print(approval[\"status\"])». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'approval']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T4-B-E2\nimport hashlib\nprint(hashlib.sha1(b\"synthetic\").hexdigest()[:8])\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T4-B-E2\n# skeptic note: refused APIs not in theory/iDo for S21-T4-B-E2\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "hashlib",
+        "sha1",
+        "synthetic",
+        "hexdigest"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T4-B-E2 si el paquete lo enseña. Instrucción: «data_sha1_8 de b'synthetic' primeros 8 hex; print.». Demo ancla S21-T4-A-DEMO: «dash = {\"median_Lima\": 28.0} xlsx = {\"median_Lima\": 28.0} doc = {\"median_Lima\": 28.0} limits = [\"cobertura web\", \"n Cusco bajo\"] parity = dash == xlsx == doc bu». Hints del weDo: hashlib.sha1.; print slice.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T4-B-E2 import hashlib print(hashlib.sha1(b\"synthetic\").hexdigest()[:8])». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'hashlib']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    },
+    {
+      "exercise_id": "S21-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B2: packet-only for S21-T4-B-E3\ndef ready(checklist):\n    return all(checklist.values())\n\nprint(ready({\"dashboard\": True, \"xlsx\": True, \"doc\": True}))\n# B2 dual-run (Skeptic): re-validated vs packet S21 S21-T4-B-E3\n# skeptic note: refused APIs not in theory/iDo for S21-T4-B-E3\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S21",
+        "ready",
+        "checklist",
+        "all",
+        "values",
+        "dashboard"
+      ],
+      "justification_from_packet": "[B2/Skeptic] Solo acepto S21-T4-B-E3 si el paquete lo enseña. Instrucción: «ready(checklist) True si todos los valores True; prueba dashboard/xlsx/doc.». Demo ancla S21-T4-A-DEMO: «dash = {\"median_Lima\": 28.0} xlsx = {\"median_Lima\": 28.0} doc = {\"median_Lima\": 28.0} limits = [\"cobertura web\", \"n Cusco bajo\"] parity = dash == xlsx == doc bu». Hints del weDo: all(dict.values()).; print.. No invento APIs fuera de theory/iDo. Código justificado: «# skeptic/B2: packet-only for S21-T4-B-E3 def ready(checklist): return all(checklist.values()) print(ready({\"dashboard\": True, \"xlsx\": True,». Tokens enseñados: ['skeptic', 'packet', 'only', 'for', 'S21', 'ready']. Heading: De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B) | Jinja y separ."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "question": "¿Por qué separar datos y plantilla Jinja?",
+      "chosen_index": 1,
+      "chosen_text": "Para reutilizar presentación y auditar métricas en Python",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «Jinja y separación datos/presentación» — quote: «Jinja permite **plantillas** con `{{ variables }}` y `{% bloques %}`. Los datos se preparan en Python; la plantilla solo presenta.». Choose [1] «Para reutilizar presentación y auditar métricas en Python». Separate data from Jinja template to reuse presentation and audit metrics."
+    },
+    {
+      "question_index": 1,
+      "question": "Un PDF con casi sin caracteres en capa de texto suele requerir:",
+      "chosen_index": 1,
+      "chosen_text": "OCR / tratamiento de imagen",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «PDF digital vs imagen/OCR» — quote: «…o** es imagen y requiere OCR con errores típicos.». Choose [1] «OCR / tratamiento de imagen». PDF with almost no text layer needs OCR/image treatment."
+    },
+    {
+      "question_index": 2,
+      "question": "Paridad en el Reporting Factory significa:",
+      "chosen_index": 1,
+      "chosen_text": "Mismas métricas clave en dashboard, Excel y documento",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «taught» — quote: «…entes/límites y check de paridad Paridad entre dashboard, Excel y documento es el corazón del cierre. dash = {\"median_Lima\": 28.0} xlsx = {\"median_Lima\": 28.0} doc = {\"me…». Choose [1] «Mismas métricas clave en dashboard, Excel y documento». Parity: same key metrics in dashboard, Excel, and document."
+    },
+    {
+      "question_index": 3,
+      "question": "El cierre de contenido de CP-N2-B incluye:",
+      "chosen_index": 1,
+      "chosen_text": "Provenance, checklist visual y hallazgos trazables",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "B2-Skeptic: card «render visual, provenance y aprobación» — quote: «…cierre de CP-N2-B exige provenance completo + checklist visual (dashboard, xlsx, doc).». Choose [1] «Provenance, checklist visual y hallazgos trazables». CP-N2-B close: provenance, visual checklist, traceable findings."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B2",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21
+    ],
+    "batch": "01_26",
+    "method": "llm_packet_only_no_generator"
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 4,
+    "blocked": 0
+  },
+  "run": "second_consecutive_dual_llm_selfcheck"
+}

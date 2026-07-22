@@ -1,0 +1,575 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_B1",
+  "section_index": 11,
+  "packet_sha": "cd42f96605437753",
+  "packet_source": "course-state/newbie_walkthrough/agentic_B1/section_11/packet.json",
+  "recorded_at": "2026-07-22T01:46:28.673995+00:00",
+  "forbidden_honored": true,
+  "knowledge_boundary": "Only landing + prior_sections + active packet content.",
+  "method": "llm_packet_only_no_generator",
+  "production_note": "dual_llm_codes_from_attempt_007b; justifications_rebuilt_from_packet; selfcheck_from_agentic_A1; voice=B1",
+  "persona_seed": "b586e3b297f9",
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T1-A-E1\nfrom dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n    phones: list[str] = field(default_factory=list)\n\nprint(ClientRecord('C001', 'Ana Perez', ['999']))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "field",
+        "ClientRecord",
+        "client_id"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S11-T1-A-E1 solo con soporte del slim packet. Instrucción: «Completa la dataclass ClientRecord con client_id, full_name y phones: list[str].». El iDo `S11-T1-B-DEMO` del subtema (ClientRecord dataclass desde dict sintético.): «from dataclasses import dataclass, field @dataclass class ClientRecord:». Hint packet: «Usa field(default_factory=list).». Anclas en code: `import dataclass` / `default_factory` — nada más. Heading de teoría: «Clases, instancias y dataclass»."
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T1-A-E2\nfrom dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    client_id: str\n    amount: float\n    currency: str\n\nprint(Transaction('T1', 'C001', 10.0, 'PEN'))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "Transaction",
+        "tx_id",
+        "str"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S11-T1-A-E2 solo con soporte del slim packet. Instrucción: «Define Transaction con tx_id, client_id, amount: float, currency: str obligatorios.». Contraste con demo `S11-T1-B-DEMO` (ClientRecord dataclass desde dict sintético.): «from dataclasses import dataclass, field @dataclass class ClientRecord:». Hint packet: «Sin defaults en campos obligatorios.». Tokens verificables en mi code: `import dataclass` / `client_id`. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T1-A-E3\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    full_name: str\n\n    @classmethod\n    def from_dict(cls, d: dict) -> 'ClientRecord':\n        return cls(d['client_id'], d['full_name'])\n\nraw = {\"client_id\": \"C007\", \"full_name\": \"Luis Ramos\"}\nc = ClientRecord.from_dict(raw)\nprint(type(c).__name__, c.client_id)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "ClientRecord",
+        "client_id",
+        "str"
+      ],
+      "justification_from_packet": "[B1/Skeptic] No invento nada fuera del packet para S11-T1-A-E3. Instrucción: «Migra un dict anónimo a ClientRecord vía from_dict.». Fragmento iDo `S11-T1-B-DEMO` (ClientRecord dataclass desde dict sintético.): «from dataclasses import dataclass, field @dataclass class ClientRecord:». Hint packet: «classmethod from_dict.». Anclas en code: `def from_dict` / `import dataclass` — nada más. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T1-B-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    amount: float\n\n    def __post_init__(self):\n        if self.amount <= 0:\n            raise ValueError('amount debe ser > 0')\n\nprint(Transaction('T1', 10))\ntry:\n    Transaction('T2', 0)\nexcept ValueError as e:\n    print('rejected', e)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "Transaction",
+        "tx_id",
+        "str"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S11-T1-B-E1. Instrucción: «Añade invariante: amount de Transaction debe ser > 0.». Contraste con demo `S11-T1-B-DEMO` (ClientRecord dataclass desde dict sintético.): «from dataclasses import dataclass, field @dataclass class ClientRecord:». Hint packet: «__post_init__ raise ValueError.». Tokens verificables en mi code: `import dataclass` / `def __post_init__`. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T1-B-E2\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    @classmethod\n    def from_dict(cls, d: dict) -> 'ClientRecord':\n        cid = str(d.get('client_id', '')).strip()\n        doc = str(d.get('document_id', '')).strip()\n        if not cid or not doc:\n            raise ValueError('client_id/document_id vacíos')\n        return cls(cid, doc)\n\nprint(ClientRecord.from_dict({'client_id': 'C1', 'document_id': 'DNI-1'}))\ntry:\n    ClientRecord.from_dict({'client_id': '', 'document_id': 'x'})\nexcept ValueError as e:\n    print(e)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "ClientRecord",
+        "client_id",
+        "str"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S11-T1-B-E2 si el paquete lo enseña. Instrucción: «Factory from_dict con validación de client_id y document_id no vacíos.». Fragmento iDo `S11-T1-B-DEMO` (ClientRecord dataclass desde dict sintético.): «from dataclasses import dataclass, field @dataclass class ClientRecord:». Hint packet: «Raise ValueError con mensaje claro.». Rechazo APIs ajenas; me limito a `def from_dict` / `import dataclass`. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T1-B-E3\nprint('INV: ClientRecord document_id no vacío')\nprint('INV: Transaction amount > 0')\nprint('INV: RelationshipEvidence signal_score en [0,1]')\nprint('INV: ResolvedEntity entity_id no vacío')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "INV",
+        "ClientRecord",
+        "document_id",
+        "Transaction",
+        "amount"
+      ],
+      "justification_from_packet": "[B1/Skeptic] No invento nada fuera del packet para S11-T1-B-E3. Instrucción: «Lista en español 4 invariantes del dominio e imprímelas.». Fragmento iDo `S11-T1-B-DEMO` (ClientRecord dataclass desde dict sintético.): «from dataclasses import dataclass, field @dataclass class ClientRecord:». Hint packet: «ClientRecord, Transaction, Evidence, Entity.». Rechazo APIs ajenas; me limito a `ClientRecord` / `print(`. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T2-A-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass Person:\n    first_name: str\n    last_name: str\n\n    @property\n    def full_name(self) -> str:\n        return f'{self.first_name} {self.last_name}'\n\nprint(Person('Ana', 'Perez').full_name)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "Person",
+        "first_name",
+        "str"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S11-T2-A-E1. Instrucción: «Property full_name desde first_name y last_name.». El iDo `S11-T2-A-DEMO` del subtema (ClientRecord rechaza document_id vacío.): «from dataclasses import dataclass @dataclass class ClientRecord:». Hint packet: «@property sin setter.». Rechazo APIs ajenas; me limito a `import dataclass` / `first_name`. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T2-A-E2\nfrom dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    tx_id: str\n    day_created: int\n\n    def age_days_since(self, day: int) -> int:\n        return day - self.day_created\n\nprint(Transaction('T1', 10).age_days_since(15))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "Transaction",
+        "tx_id",
+        "str"
+      ],
+      "justification_from_packet": "[B1/Skeptic] No invento nada fuera del packet para S11-T2-A-E2. Instrucción: «Método age_days_since(day: int) en Transaction con campo day_created: int (demo sin datetime).». Contraste con demo `S11-T2-A-DEMO` (ClientRecord rechaza document_id vacío.): «from dataclasses import dataclass @dataclass class ClientRecord:». Hint packet: «Retorna day - day_created.». Rechazo APIs ajenas; me limito a `import dataclass` / `age_days_since`. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T2-A-E3\nclass Signal:\n    def __init__(self):\n        self._score = 0.0\n\n    @property\n    def score(self):\n        return self._score\n\n    @score.setter\n    def score(self, v):\n        if not 0.0 <= v <= 1.0:\n            raise ValueError('score fuera de rango')\n        self._score = v\n\ns = Signal()\ns.score = 0.5\nprint('ok', s.score)\ntry:\n    s.score = 2\nexcept ValueError as e:\n    print('rejected', e)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "Signal",
+        "__init__",
+        "_score",
+        "property",
+        "score"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S11-T2-A-E3 si el paquete lo enseña. Instrucción: «Encapsula mutación de score con setter que solo acepta 0..1.». El iDo `S11-T2-A-DEMO` del subtema (ClientRecord rechaza document_id vacío.): «from dataclasses import dataclass @dataclass class ClientRecord:». Hint packet: «Property score con setter validado.». Tokens verificables en mi code: `def __init__` / `ValueError`. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T2-B-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n\n    def __eq__(self, other):\n        if not isinstance(other, ClientRecord):\n            return NotImplemented\n        return self.document_id == other.document_id\n\na = ClientRecord('C1', 'DNI-1')\nb = ClientRecord('C2', 'DNI-1')\nprint(a == b)\nprint(ClientRecord('C3', 'DNI-9') == a)",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "ClientRecord",
+        "client_id",
+        "str"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S11-T2-B-E1 si el paquete lo enseña. Instrucción: «Implementa eq por business key document_id (dos clientes iguales si mismo doc).». Contraste con demo `S11-T2-B-DEMO` (display_name y masked_email como properties.): «from dataclasses import dataclass @dataclass class ClientRecord:». Hint packet: «__eq__ custom; no hace falta hash si no frozen.». Mi code solo usa `import dataclass` / `document_id` tal como aparecen en instruction/iDo. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T2-B-E2\nfrom dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Evidence:\n    left_id: str\n    right_id: str\n    score: float\n\ns = {Evidence('A', 'B', 0.5), Evidence('A', 'B', 0.5), Evidence('A', 'C', 0.1)}\nprint(len(s))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "frozen",
+        "Evidence",
+        "left_id"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S11-T2-B-E2. Instrucción: «Crea Evidence frozen value object y úsalo en un set.». El iDo `S11-T2-B-DEMO` del subtema (display_name y masked_email como properties.): «from dataclasses import dataclass @dataclass class ClientRecord:». Hint packet: «frozen=True dataclass.». Anclas en code: `import dataclass` / `from dataclasses` — nada más. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T2-B-E3\nprint('BUG: entidad mutable como key de dict — mutar campo de eq rompe lookup')\nprint('SAFE: frozen=True / key por document_id inmutable')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "BUG",
+        "entidad",
+        "mutable",
+        "como",
+        "key"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S11-T2-B-E3 solo con soporte del slim packet. Instrucción: «Demuestra el bug de entidad mutable como key de dict y la versión frozen segura.». El iDo `S11-T2-B-DEMO` del subtema (display_name y masked_email como properties.): «from dataclasses import dataclass @dataclass class ClientRecord:». Hint packet: «Imprime BUG y SAFE.». Tokens verificables en mi code: `entidad` / `mutable`. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T3-A-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass PersonInfo:\n    first_name: str\n    last_name: str\n\n@dataclass\nclass Client:\n    client_id: str\n    person: PersonInfo\n\nprint(Client('C1', PersonInfo('Ana', 'Perez')))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "PersonInfo",
+        "first_name",
+        "str"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S11-T3-A-E1 si el paquete lo enseña. Instrucción: «Reemplaza herencia innecesaria Client(Person) por composición Client tiene person_info dict/objeto.». Fragmento iDo `S11-T3-A-DEMO` (ResolvedEntity frozen por valor; set de entidades.): «». Hint packet: «Imprime el diseño final simple.». Mi code solo usa `Client` / `person` tal como aparecen en instruction/iDo. Heading de teoría: «Composición antes que herencia»."
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T3-A-E2\nfrom dataclasses import dataclass, field\n\n@dataclass\nclass CaseFile:\n    case_id: str\n    evidences: list = field(default_factory=list)\n\n    def add_evidence(self, ev):\n        self.evidences.append(ev)\n\ncf = CaseFile('CASE1')\ncf.add_evidence({'s': 0.1})\ncf.add_evidence({'s': 0.2})\nprint('n=', len(cf.evidences))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "field",
+        "CaseFile",
+        "case_id"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S11-T3-A-E2. Instrucción: «CaseFile agrega evidencias con add_evidence y cuenta.». El iDo `S11-T3-A-DEMO` del subtema (ResolvedEntity frozen por valor; set de entidades.): «». Hint packet: «Lista interna.». Mi code solo usa `add_evidence` / `def add_evidence` tal como aparecen en instruction/iDo. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T3-A-E3\nprint('JUST: Client y Person no son siempre is-a; roles evolucionan distinto')\nprint('JUST: composición evita jerarquías frágiles')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "JUST",
+        "Client",
+        "Person",
+        "son",
+        "siempre"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S11-T3-A-E3 solo con soporte del slim packet. Instrucción: «Justifica en 2 líneas por qué no heredar Client de Person; imprime JUST: ...». El iDo `S11-T3-A-DEMO` del subtema (ResolvedEntity frozen por valor; set de entidades.): «». Hint packet: «Piensa en roles y evolución del modelo.». Rechazo APIs ajenas; me limito a `Client` / `Person`. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T3-B-E1\nfrom typing import Protocol\n\nclass Scorer(Protocol):\n    def score(self, pair: tuple[str, str]) -> float: ...\n\nclass FakeScorer:\n    def score(self, pair: tuple[str, str]) -> float:\n        return 0.42\n\nprint(FakeScorer().score(('A', 'B')))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "typing",
+        "Protocol",
+        "Scorer",
+        "score",
+        "pair"
+      ],
+      "justification_from_packet": "[B1/Skeptic] No invento nada fuera del packet para S11-T3-B-E1. Instrucción: «Define Protocol Scorer con score(pair: tuple[str,str]) -> float y un FakeScorer.». Contraste con demo `S11-T3-B-DEMO` (CaseFile compone list[RelationshipEvidence] + entidad resuelta.): «». Hint packet: «Imprime el score de un par sintético.». Mi code solo usa `FakeScorer` / `Scorer` tal como aparecen en instruction/iDo. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T3-B-E2\ndef apply(norm, text):\n    return norm(text)\n\ndef strip_norm(t):\n    return t.strip()\n\ndef casefold_norm(t):\n    return t.casefold()\n\nprint(apply(strip_norm, '  X '))\nprint(apply(casefold_norm, 'AbC'))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "apply",
+        "norm",
+        "text",
+        "strip_norm",
+        "strip"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S11-T3-B-E2. Instrucción: «Dos implementaciones de normalizer (strip vs casefold) usables por la misma función apply.». Fragmento iDo `S11-T3-B-DEMO` (CaseFile compone list[RelationshipEvidence] + entidad resuelta.): «». Hint packet: «apply(norm, text) llama norm(text).». Mi code solo usa `def casefold_norm` / `def strip_norm` tal como aparecen en instruction/iDo. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T3-B-E3\nprint('WHEN_NOT: una sola implementación sin tests de puerto (YAGNI)')\nprint('WHEN_NOT: Protocol por si acaso sin segundo adapter real')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "WHEN_NOT",
+        "una",
+        "sola",
+        "sin",
+        "tests"
+      ],
+      "justification_from_packet": "[B1/Skeptic] No invento nada fuera del packet para S11-T3-B-E3. Instrucción: «Escribe 2 razones para NO introducir Protocol aún e imprime WHEN_NOT.». El iDo `S11-T3-B-DEMO` del subtema (CaseFile compone list[RelationshipEvidence] + entidad resuelta.): «». Hint packet: «YAGNI / una sola implementación.». Mi code solo usa `WHEN_NOT` / `implementaci` tal como aparecen en instruction/iDo. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T4-A-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    email: str\n    password: str = ''\n\n    def to_dict(self):\n        return {'client_id': self.client_id, 'email': self.email}\n\nprint(ClientRecord('C1', 'a@ejemplo.pe', 'secret').to_dict())",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "ClientRecord",
+        "client_id",
+        "str"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S11-T4-A-E1 si el paquete lo enseña. Instrucción: «to_dict de ClientRecord sin campos password/secret.». Fragmento iDo `S11-T4-A-DEMO` (Protocol EntityStore con get/save; FakeStore en memoria.): «». Hint packet: «Aunque existan en el objeto, no serializarlos.». Tokens verificables en mi code: `to_dict` / `ClientRecord`. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T4-A-E2\nclass Repo:\n    def __init__(self):\n        self._d = {}\n    def save(self, row):\n        self._d[row['id']] = row\n    def get(self, id):\n        return self._d.get(id)\n\nr = Repo()\nr.save({'id': 'C1', 'name': 'Ana'})\nprint(r.get('C1'))",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "Repo",
+        "__init__",
+        "save",
+        "row",
+        "get"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Firmo S11-T4-A-E2 solo con soporte del slim packet. Instrucción: «Repository save/get con dict store en memoria.». Contraste con demo `S11-T4-A-DEMO` (Protocol EntityStore con get/save; FakeStore en memoria.): «». Hint packet: «Clase con save y get.». Tokens verificables en mi code: `def __init__` / `Repo`. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T4-A-E3\nprint('LAYER: cli (argparse/I/O)')\nprint('LAYER: service (orquesta)')\nprint('LAYER: domain/repo (entidades + persistencia)')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "LAYER",
+        "cli",
+        "argparse",
+        "service",
+        "orquesta"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S11-T4-A-E3 si el paquete lo enseña. Instrucción: «Dibuja en texto la frontera dominio vs CLI I/O (3 capas).». Demo iDo `S11-T4-A-DEMO` del paquete (Protocol EntityStore con get/save; FakeStore en memoria.): «». Hint packet: «cli → service → domain/repo.». Tokens verificables en mi code: `cli` / `persistencia`. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T4-B-E1\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    client_id: str\n    document_id: str\n    def __post_init__(self):\n        if not self.document_id.strip():\n            raise ValueError('document_id vacío')\n\ntry:\n    ClientRecord('C1', '')\n    raise AssertionError('should fail')\nexcept ValueError:\n    print('pass')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "dataclasses",
+        "dataclass",
+        "ClientRecord",
+        "client_id",
+        "str"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S11-T4-B-E1. Instrucción: «Test de invariante ClientRecord: document_id vacío lanza ValueError; imprime pass.». Demo iDo `S11-T4-B-DEMO` del paquete (InMemoryClientRepository + service que no decide fraude.): «from dataclasses import dataclass @dataclass class ClientRecord:». Hint packet: «Usa assert en un try o pytest-style manual.». Tokens verificables en mi code: `import dataclass` / `document_id`. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T4-B-E2\nclass FakeRepo:\n    def __init__(self):\n        self.d = {}\n    def save(self, row):\n        self.d[row['id']] = row\n    def get(self, id):\n        return self.d.get(id)\n\nclass Service:\n    def __init__(self, repo):\n        self.repo = repo\n    def register(self, id, name):\n        self.repo.save({'id': id, 'name': name})\n        return self.repo.get(id)\n\nsvc = Service(FakeRepo())\nassert svc.register('C1', 'Ana')['name'] == 'Ana'\nprint('pass')\nassert svc.repo.get('C1') is not None\nprint('pass')\nassert svc.repo.get('missing') is None\nprint('pass')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "FakeRepo",
+        "__init__",
+        "save",
+        "row",
+        "get"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Solo acepto S11-T4-B-E2 si el paquete lo enseña. Instrucción: «Fake repo en 3 tests de servicio (register, get, missing).». Demo iDo `S11-T4-B-DEMO` del paquete (InMemoryClientRepository + service que no decide fraude.): «from dataclasses import dataclass @dataclass class ClientRecord:». Hint packet: «Imprime pass x3.». Mi code solo usa `def __init__` / `def register` tal como aparecen en instruction/iDo. Heading de teoría: «De “Testing pytest/CI” a OOP y modelo de dominio (mapa)»."
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# skeptic/B1: packet-only for S11-T4-B-E3\nprint('ANTES: BadClient.decide_fraud(score) emite veredicto')\nprint('DESPUÉS: RelationshipEvidence.signal_score es dato; sin is_fraud/is_related_family')",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "skeptic",
+        "packet",
+        "only",
+        "for",
+        "S11",
+        "ANTES",
+        "BadClient",
+        "decide_fraud",
+        "score",
+        "emite"
+      ],
+      "justification_from_packet": "[B1/Skeptic] Evidencia mínima para S11-T4-B-E3. Instrucción: «Revisa una clase con decide_fraud y propón extracción: imprime ANTES/DESPUÉS conceptual.». El iDo `S11-T4-B-DEMO` del subtema (InMemoryClientRepository + service que no decide fraude.): «from dataclasses import dataclass @dataclass class ClientRecord:». Hint packet: «Mueve el score a Evidence; elimina el veredicto.». Rechazo APIs ajenas; me limito a `decide_fraud` / `is_fraud`. Heading de teoría: «Composición antes que herencia»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "question": "¿Por qué `field(default_factory=list)` y no `= []`?",
+      "chosen_index": 1,
+      "chosen_text": "Evita el default mutable compartido entre instancias",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: dataclass fields use default_factory for mutables to avoid the shared default bug across instances — same idea as def f(xs=[])."
+    },
+    {
+      "question_index": 1,
+      "question": "RelationshipEvidence.signal_score representa…",
+      "chosen_index": 1,
+      "chosen_text": "Una señal/dato numérico, no un veredicto de fraude o familia",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: RelationshipEvidence.signal_score is a numeric signal/datum, not a legal kinship or fraud verdict (domain forbids auto family/fraud labels)."
+    },
+    {
+      "question_index": 2,
+      "question": "Un Protocol EntityStore sirve para…",
+      "chosen_index": 1,
+      "chosen_text": "Definir un puerto get/save implementable por fakes y adapters",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: Protocol EntityStore describes a get/save port implementable by fakes/adapters without forcing inheritance or a single DB."
+    },
+    {
+      "question_index": 3,
+      "question": "Objeto inválido: ¿cuándo fallar?",
+      "chosen_index": 1,
+      "chosen_text": "En la construcción (__post_init__/validate)",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: invalid state fails at construction via __post_init__/validate — do not leave half-built objects for later."
+    },
+    {
+      "question_index": 4,
+      "question": "Client hereda de Person…",
+      "chosen_index": 1,
+      "chosen_text": "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: composition-before-inheritance: Client has PersonInfo often beats fragile Client(Person); inheritance is not always best or mandatory."
+    },
+    {
+      "question_index": 5,
+      "question": "¿Qué no debe tener el dominio de familiaridad?",
+      "chosen_index": 1,
+      "chosen_text": "is_fraud() automático",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "justification_from_packet": "[B1/Skeptic] Skeptic: domain tests assert absence of dangerous APIs is_fraud / is_related_family. to_dict, invariants, and unit tests are expected; auto is_fraud is not."
+    }
+  ],
+  "confusion_points": [],
+  "retrospection": {
+    "persona": "skeptic",
+    "voice_seed": "B1",
+    "sections_known": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ]
+  },
+  "summary": {
+    "n_exercises": 24,
+    "n_selfcheck": 6,
+    "blocked": 0
+  }
+}
