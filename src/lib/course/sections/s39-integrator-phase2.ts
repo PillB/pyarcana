@@ -6,7 +6,7 @@ export const section39: CourseSection = {
   title: "Responsible ML Case Triage y cierre de nivel",
   shortTitle: "Case Triage N3",
   tagline: "Responsible ML Case Triage con baseline, calibración, abstención, monitoreo y revisión; promoción N3 con regresión S27–S39 y CF-3",
-  estimatedHours: 16,
+  estimatedHours: 19,
   level: "Competente a experto",
   phase: 2,
   icon: "Award",
@@ -434,7 +434,7 @@ postmortem True`,
       {
         id: "S39-T1-A-E1",
         subtopicId: "S39-T1-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Lista stages en orden.",
         hint: "Revisa la demo.",
@@ -465,7 +465,7 @@ auto_fraud False`,
       {
         id: "S39-T1-A-E2",
         subtopicId: "S39-T1-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "label_space needs_review.",
         hint: "Revisa la demo.",
@@ -496,7 +496,7 @@ ok True`,
       {
         id: "S39-T1-A-E3",
         subtopicId: "S39-T1-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "ER no parentesco.",
         hint: "Revisa la demo.",
@@ -527,7 +527,7 @@ er_is_same_entity True`,
       {
         id: "S39-T1-B-E1",
         subtopicId: "S39-T1-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "semver major bump on break.",
         hint: "Revisa la demo.",
@@ -558,7 +558,7 @@ policy compat`,
       {
         id: "S39-T1-B-E2",
         subtopicId: "S39-T1-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "owner required.",
         hint: "Revisa la demo.",
@@ -589,7 +589,7 @@ ok True`,
       {
         id: "S39-T1-B-E3",
         subtopicId: "S39-T1-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "registry size.",
         hint: "Revisa la demo.",
@@ -620,7 +620,7 @@ n_art 4`,
       {
         id: "S39-T2-A-E1",
         subtopicId: "S39-T2-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "packet must include graph_path.",
         hint: "Revisa la demo.",
@@ -651,7 +651,7 @@ ok True`,
       {
         id: "S39-T2-A-E2",
         subtopicId: "S39-T2-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "score alone insufficient.",
         hint: "Revisa la demo.",
@@ -682,7 +682,7 @@ ok True`,
       {
         id: "S39-T2-A-E3",
         subtopicId: "S39-T2-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "4 capas explicación.",
         hint: "Revisa la demo.",
@@ -713,7 +713,7 @@ s35 True`,
       {
         id: "S39-T2-B-E1",
         subtopicId: "S39-T2-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "override final skip.",
         hint: "Revisa la demo.",
@@ -744,7 +744,7 @@ ok True`,
       {
         id: "S39-T2-B-E2",
         subtopicId: "S39-T2-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "appeal reopens.",
         hint: "Revisa la demo.",
@@ -775,7 +775,7 @@ audit True`,
       {
         id: "S39-T2-B-E3",
         subtopicId: "S39-T2-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "feedback logged.",
         hint: "Revisa la demo.",
@@ -806,7 +806,7 @@ ok True`,
       {
         id: "S39-T3-A-E1",
         subtopicId: "S39-T3-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "secrets_in_repo false required.",
         hint: "Revisa la demo.",
@@ -837,7 +837,7 @@ ok True`,
       {
         id: "S39-T3-A-E2",
         subtopicId: "S39-T3-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "rbac on packet.",
         hint: "Revisa la demo.",
@@ -868,7 +868,7 @@ min_role reviewer`,
       {
         id: "S39-T3-A-E3",
         subtopicId: "S39-T3-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "fairness slices present.",
         hint: "Revisa la demo.",
@@ -899,7 +899,7 @@ metric fp_rate`,
       {
         id: "S39-T3-B-E1",
         subtopicId: "S39-T3-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "incident → human_only.",
         hint: "Revisa la demo.",
@@ -930,7 +930,7 @@ n 1`,
       {
         id: "S39-T3-B-E2",
         subtopicId: "S39-T3-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "drift → abstain_more.",
         hint: "Revisa la demo.",
@@ -961,7 +961,7 @@ monitor True`,
       {
         id: "S39-T3-B-E3",
         subtopicId: "S39-T3-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "rollback target.",
         hint: "Revisa la demo.",
@@ -992,7 +992,7 @@ thr previous`,
       {
         id: "S39-T4-A-E1",
         subtopicId: "S39-T4-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "acceptance includes no_auto_fraud.",
         hint: "Revisa la demo.",
@@ -1023,7 +1023,7 @@ ok True`,
       {
         id: "S39-T4-A-E2",
         subtopicId: "S39-T4-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "regression scope S27-S39.",
         hint: "Revisa la demo.",
@@ -1054,7 +1054,7 @@ section_passed False`,
       {
         id: "S39-T4-A-E3",
         subtopicId: "S39-T4-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "demo paths 3.",
         hint: "Revisa la demo.",
@@ -1085,7 +1085,7 @@ ok True`,
       {
         id: "S39-T4-B-E1",
         subtopicId: "S39-T4-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "three cards.",
         hint: "Revisa la demo.",
@@ -1116,7 +1116,7 @@ n 3`,
       {
         id: "S39-T4-B-E2",
         subtopicId: "S39-T4-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "value metric override_rate.",
         hint: "Revisa la demo.",
@@ -1147,7 +1147,7 @@ business True`,
       {
         id: "S39-T4-B-E3",
         subtopicId: "S39-T4-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "postmortem blameless flag.",
         hint: "Revisa la demo.",
@@ -1198,32 +1198,70 @@ ok True`,
       "es-PE; sin secretos/PII real",
       "section_passed permanece false en esta lane",
     ],
-    starterCode: `# CP-N3-C CLOSE — Responsible ML Case Triage
-STAGES = ["intake", "er", "relation_graph", "features", "model_score", "queue"]
+    starterCode: `# CP-N3-C — bundle local de Responsible ML Case Triage
+from dataclasses import asdict, dataclass
+from hashlib import sha256
+from pathlib import Path
+import json
 
-def evidence_packet(case_id, score, path, evidence):
-    return {
-        "case_id": case_id,
-        "score": score,
-        "graph_path": path,
-        "evidence": evidence,
-        "label_space": "needs_review",
-        "auto_fraud": False,
-    }
+STAGES = ("intake", "er", "relation_graph", "features", "model_score", "queue")
 
-def regression_smoke():
-    # placeholders — formal PASS is a separate qualification lane
-    return {
-        "CP-N3-A": "PLANNED_NOT_PASSED",
-        "CP-N3-B": "PLANNED_NOT_PASSED",
-        "CP-N3-C": "PLANNED_NOT_PASSED",
-        "regression_S27_S39": "PLANNED_NOT_PASSED",
-        "CF-3": "PLANNED_NOT_PASSED",
-    }
+@dataclass(frozen=True)
+class EvidencePacket:
+    case_id: str
+    score: float
+    graph_path: list[str]
+    evidence: list[str]
+    label_space: str = "needs_review"
+    auto_fraud: bool = False
 
-if __name__ == "__main__":
-    print(STAGES[0], evidence_packet("c1", 0.8, ["E1", "E2"], ["shared_phone"])["auto_fraud"])
-    print(regression_smoke()["CF-3"])
+def triage(case: dict, *, threshold: float, human_only: bool) -> EvidencePacket:
+    required = {"case_id", "shared_signal", "graph_path"}
+    missing = required - case.keys()
+    if missing:
+        raise ValueError(f"missing fields: {sorted(missing)}")
+    score = 0.0 if human_only else min(1.0, 0.35 + 0.45 * bool(case["shared_signal"]))
+    return EvidencePacket(
+        case_id=case["case_id"],
+        score=score,
+        graph_path=list(case["graph_path"]),
+        evidence=["shared_signal"] if case["shared_signal"] else [],
+    )
+
+def append_audit(path: Path, event: dict) -> None:
+    with path.open("a", encoding="utf-8") as stream:
+        stream.write(json.dumps(event, sort_keys=True) + "\\n")
+
+def build_bundle(out: Path, *, force_failure: bool = False) -> dict:
+    out.mkdir(parents=True, exist_ok=True)
+    audit = out / "audit.jsonl"
+    cases = [
+        {"case_id": "c-001", "shared_signal": True, "graph_path": ["entity:a", "phone:x", "entity:b"]},
+        {"case_id": "c-002", "shared_signal": False, "graph_path": ["entity:c"]},
+    ]
+    packets = []
+    try:
+        for case in cases:
+            packet = triage(case, threshold=0.70, human_only=False)
+            packets.append(asdict(packet))
+            append_audit(audit, {"case_id": packet.case_id, "action": "queued_for_review"})
+        if force_failure:
+            raise RuntimeError("forced regression failure")
+        (out / "packets.json").write_text(json.dumps(packets, indent=2), encoding="utf-8")
+        (out / "model-card.md").write_text("# Model card\\nLabel: needs_review; no auto-fraud.\\n", encoding="utf-8")
+        (out / "data-card.md").write_text("# Data card\\nOnly synthetic fixtures.\\n", encoding="utf-8")
+        status = "ready_for_human_acceptance"
+    except Exception as exc:
+        append_audit(audit, {"action": "rollback", "reason": type(exc).__name__})
+        status = "human_only"
+    files = sorted(p.name for p in out.iterdir())
+    manifest = {"status": status, "files": files, "stages": list(STAGES)}
+    manifest["sha256"] = sha256(json.dumps(manifest, sort_keys=True).encode()).hexdigest()
+    (out / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    return manifest
+
+# Acceptance: run normal and forced-failure paths; inspect manifest, packets,
+# audit, model card and data card. A human validator records promotion results.
 `,
     portfolioNote:
       "Cierre CP-N3-C + artefactos para regresión N3/CF-3. No escribe PASS en ledger/checkpoint; calificación es lane separada.",
@@ -1243,49 +1281,29 @@ if __name__ == "__main__":
     questions: [
       {
         question: "El label_space del triage N3 es preferentemente:",
-        options: [
-          "fraud_certainty",
-          "needs_review / prioridad de cola",
-          "parentesco",
-          "culpable",
-        ],
-        correctIndex: 1,
+        options: ["fraud_certainty", "parentesco", "needs_review / prioridad de cola", "culpable"],
+        correctIndex: 2,
         explanation:
           "Cola de revisión.",
       },
       {
         question: "CF-3 y regresión S27–S39 en esta lane de autoría:",
-        options: [
-          "Marcan PASS solos",
-          "Se documentan; PASS lo califica otra lane",
-          "Se borran",
-          "Solo aplican a S01",
-        ],
-        correctIndex: 1,
+        options: ["Se documentan; PASS lo califica otra lane", "Marcan PASS solos", "Se borran", "Solo aplican a S01"],
+        correctIndex: 0,
         explanation:
           "Sin auto-PASS.",
       },
       {
         question: "Evidence packet debe incluir:",
-        options: [
-          "Solo el score",
-          "Evidencia y path además del score",
-          "Solo el owner del repo",
-          "Claves de API",
-        ],
+        options: ["Solo el score", "Evidencia y path además del score", "Solo el owner del repo", "Claves de API"],
         correctIndex: 1,
         explanation:
           "Explicabilidad.",
       },
       {
         question: "Ante incidente grave el modo seguro es:",
-        options: [
-          "Ignorar",
-          "human_only / rollback",
-          "Subir contamination",
-          "Etiquetar fraude masivo",
-        ],
-        correctIndex: 1,
+        options: ["Ignorar", "Subir contamination", "Etiquetar fraude masivo", "human_only / rollback"],
+        correctIndex: 3,
         explanation:
           "Control humano.",
       },

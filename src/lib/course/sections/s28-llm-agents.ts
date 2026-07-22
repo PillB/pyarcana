@@ -6,13 +6,13 @@ export const section28: CourseSection = {
   title: "Pruebas de datos, propiedades e integración",
   shortTitle: "Props e integración",
   tagline: "suite que encuentra errores de encoding, cardinalidad, orden, timeout y reanudación, con fixtures sintéticas mínimas",
-  estimatedHours: 12,
+  estimatedHours: 18,
   level: "Competente",
   phase: 2,
   icon: "ShieldCheck",
   accentColor: "bg-gradient-to-br from-emerald-500 to-teal-700",
   jobRelevance:
-    "El **QA del motor ER** (CP-N3-A) exige propiedades, contratos de schema y pruebas de integración sin flakes. Esta sección (id `llm-agents` conservado) retematiza a V3 **Pruebas de datos, propiedades e integración**: invariantes, goldens, dobles controlados y CI determinista. Datos sintéticos; matching ≠ fraude.",
+    "El **QA del motor ER** exige propiedades, contratos de schema y pruebas de integración sin flakes: invariantes, goldens, dobles controlados y CI determinista. Los datos son sintéticos; matching no equivale a fraude.",
   learningOutcomes: [
     { text: "Generar casos desde invariantes" },
     { text: "Aplicar tests metamórficos y de simetría" },
@@ -25,17 +25,17 @@ export const section28: CourseSection = {
   ],
   theory: [
     {
-      heading: "De LLM agents a QA de datos del motor ER (mapa CP-N3-A)",
+      heading: "QA de datos del motor ER",
       paragraphs: [
-        "En V3, **S28 no es LangGraph en producción**. Aquí construyes la **suite de QA** del ER: propiedades, schema, goldens, dobles e integración determinista.",
+        "Aquí construyes la **suite de QA** del ER: propiedades, schema, goldens, dobles e integración determinista.",
         "Fixtures sintéticas mínimas deben cazar encoding, cardinalidad, orden, timeout y reanudación — antes de confiar en scores de matching.",
         "Orden: **T1 Propiedades** → **T2 Datos** → **T3 Dobles** → **T4 Sistema/CI**. ER solo decide misma entidad.",
       ],
       callout: {
         type: "info",
-        title: "Contenido reubicado conceptualmente",
+        title: "Límite del resultado",
         content:
-          "Legado de LLM agents **no es el path V3 en S28**. Target: property/data/integration tests para QA ER.",
+          "Las pruebas verifican identidad de registros y calidad técnica; no autorizan inferencias de relación o riesgo.",
       },
     },
     {
@@ -1261,49 +1261,29 @@ if __name__ == "__main__":
     questions: [
       {
         question: "Un test metamórfico verifica:",
-        options: [
-          "Solo un número mágico",
-          "Relaciones predecibles entre entradas transformadas y salidas",
-          "Que la red esté caída",
-          "Fraude",
-        ],
-        correctIndex: 1,
+        options: ["Solo un número mágico", "Que la red esté caída", "Fraude", "Relaciones predecibles entre entradas transformadas y salidas"],
+        correctIndex: 3,
         explanation:
           "Relaciona salidas bajo transformaciones conocidas.",
       },
       {
         question: "Actualizar un golden con drift sin review es:",
-        options: [
-          "Buena práctica",
-          "Riesgo de ocultar regresiones",
-          "Obligatorio en CI",
-          "Irrelevante",
-        ],
+        options: ["Buena práctica", "Riesgo de ocultar regresiones", "Obligatorio en CI", "Irrelevante"],
         correctIndex: 1,
         explanation:
           "Reconcile debe ser aprobado.",
       },
       {
         question: "Sobre-mocking típico:",
-        options: [
-          "Probar lógica pura real",
-          "Acoplar el test a detalles internos y ocultar bugs",
-          "Usar sqlite memoria",
-          "Fijar seed",
-        ],
-        correctIndex: 1,
+        options: ["Probar lógica pura real", "Usar sqlite memoria", "Acoplar el test a detalles internos y ocultar bugs", "Fijar seed"],
+        correctIndex: 2,
         explanation:
           "Mockea I/O, no el corazón del matching.",
       },
       {
         question: "Flakes en la suite gate de ER se manejan:",
-        options: [
-          "Ignorándolos",
-          "Con determinismo (seed/reloj/sort) y fallo de job si persisten",
-          "Subiendo retries a 100",
-          "Borrando tests",
-        ],
-        correctIndex: 1,
+        options: ["Con determinismo (seed/reloj/sort) y fallo de job si persisten", "Ignorándolos", "Subiendo retries a 100", "Borrando tests"],
+        correctIndex: 0,
         explanation:
           "CI determinista es parte del outcome de S28.",
       },

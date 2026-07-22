@@ -3,6 +3,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { useSession } from 'next-auth/react'
+import { IS_STATIC_SITE } from '@/lib/runtime-mode'
 
 interface ProgressState {
   completedSections: string[]
@@ -108,6 +109,7 @@ export const useProgressStore = create<ProgressState>()(
 
 // Fire-and-forget sync to server
 async function syncToServer(sectionId: string, subStep: string, completed: boolean) {
+  if (IS_STATIC_SITE) return
   try {
     const res = await fetch('/api/progress', {
       method: 'POST',
@@ -124,6 +126,7 @@ async function syncToServer(sectionId: string, subStep: string, completed: boole
 }
 
 async function syncBookmark(sectionId: string, bookmarked: boolean) {
+  if (IS_STATIC_SITE) return
   try {
     await fetch('/api/progress', {
       method: 'PATCH',
@@ -151,7 +154,7 @@ export function useServerProgressSync() {
   const { data: session, status } = useSession()
   const { hydrateFromServer, isHydratedFromServer } = useProgressStore()
 
-  if (status === 'authenticated' && session?.user && !isHydratedFromServer) {
+  if (!IS_STATIC_SITE && status === 'authenticated' && session?.user && !isHydratedFromServer) {
     // Fetch progress from server
     fetch('/api/progress')
       .then((r) => r.json())

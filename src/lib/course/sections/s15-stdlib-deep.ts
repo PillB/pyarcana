@@ -6,7 +6,7 @@ export const section15: CourseSection = {
   title: "Pandas: ingesta, selección y tipos",
   shortTitle: "Pandas ingesta",
   tagline: "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
-  estimatedHours: 12,
+  estimatedHours: 18,
   level: "Competente",
   phase: 1,
   icon: "Settings",
@@ -1345,49 +1345,29 @@ if __name__ == "__main__":
     questions: [
       {
         question: "¿Qué método de selección usa etiquetas de index/columnas?",
-        options: [
-          "iloc",
-          "loc",
-          "iat solo posicional forzado",
-          "values",
-        ],
-        correctIndex: 1,
+        options: ["iloc", "iat solo posicional forzado", "loc", "values"],
+        correctIndex: 2,
         explanation:
           "loc selecciona por etiqueta; iloc por posición.",
       },
       {
         question: "SettingWithCopyWarning se relaciona con:",
-        options: [
-          "Parquet vs CSV",
-          "Asignación sobre slices que pueden ser view/copy (chained assignment)",
-          "Falta de openpyxl",
-          "MultiIndex obligatorio",
-        ],
-        correctIndex: 1,
+        options: ["Asignación sobre slices que pueden ser view/copy (chained assignment)", "Parquet vs CSV", "Falta de openpyxl", "MultiIndex obligatorio"],
+        correctIndex: 0,
         explanation:
           "El chained assignment puede no escribir donde crees.",
       },
       {
         question: "errors='coerce' en to_numeric:",
-        options: [
-          "Borra la columna",
-          "Convierte inválidos a NaN",
-          "Eleva siempre excepción",
-          "Cambia a string",
-        ],
+        options: ["Borra la columna", "Convierte inválidos a NaN", "Eleva siempre excepción", "Cambia a string"],
         correctIndex: 1,
         explanation:
           "coerce produce NaN en valores no parseables.",
       },
       {
         question: "Un manifest de export debería incluir al menos:",
-        options: [
-          "Solo el nombre del analista",
-          "Filas, columnas y provenance/hash del artefacto",
-          "Contraseñas de BD",
-          "PII real de clientes",
-        ],
-        correctIndex: 1,
+        options: ["Solo el nombre del analista", "Contraseñas de BD", "PII real de clientes", "Filas, columnas y provenance/hash del artefacto"],
+        correctIndex: 3,
         explanation:
           "Reconciliación requiere filas/columnas y trazabilidad del archivo.",
       },

@@ -17,6 +17,7 @@ import hashlib
 import json
 import re
 import sys
+from functools import lru_cache
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -208,6 +209,67 @@ def find_object_after(text: str, key: str) -> list[str]:
     return objs
 
 
+def _balanced_brace_pairs(text: str) -> tuple[dict[int, int], dict[int, tuple[int, ...]]]:
+    """Return object brace pairs and the open-object stack at each position.
+
+    This is a deliberately small TypeScript lexer.  It ignores braces inside
+    strings, template literals and comments, which is enough for the section
+    data files without evaluating learner content or importing TypeScript.
+    """
+    pairs: dict[int, int] = {}
+    containers: dict[int, tuple[int, ...]] = {}
+    stack: list[int] = []
+    i = 0
+    while i < len(text):
+        containers[i] = tuple(stack)
+        ch = text[i]
+        if ch in ("'", '"', "`"):
+            quote = ch
+            i += 1
+            while i < len(text):
+                if text[i] == "\\":
+                    i += 2
+                    continue
+                if text[i] == quote:
+                    i += 1
+                    break
+                i += 1
+            continue
+        if text.startswith("//", i):
+            end = text.find("\n", i + 2)
+            i = len(text) if end < 0 else end + 1
+            continue
+        if text.startswith("/*", i):
+            end = text.find("*/", i + 2)
+            i = len(text) if end < 0 else end + 2
+            continue
+        if ch == "{":
+            stack.append(i)
+        elif ch == "}" and stack:
+            start = stack.pop()
+            pairs[start] = i
+        i += 1
+    return pairs, containers
+
+
+def tagged_objects(text: str, field: str) -> list[str]:
+    """Extract the nearest object containing each explicit ``field`` tag."""
+    pairs, containers = _balanced_brace_pairs(text)
+    out: list[str] = []
+    seen: set[int] = set()
+    for match in re.finditer(rf"\b{re.escape(field)}\s*:\s*", text):
+        starts = containers.get(match.start(), ())
+        if not starts:
+            continue
+        start = starts[-1]
+        end = pairs.get(start)
+        if end is None or start in seen:
+            continue
+        seen.add(start)
+        out.append(text[start : end + 1])
+    return out
+
+
 def extract_code_from_obj(obj: str) -> tuple[str | None, str | None, str | None]:
     code = extract_string_field(obj, "code")
     lang = extract_string_field(obj, "language")
@@ -226,8 +288,17 @@ def active_section_files() -> list[Path]:
     return files
 
 
+@lru_cache(maxsize=1)
+def parsed_active_sections() -> tuple[dict, ...]:
+    sections = [parse_section_learner(path) for path in active_section_files()]
+    sections.sort(key=lambda section: section.get("index") or 0)
+    return tuple(sections)
+
+
 def parse_landing() -> dict:
     idx = INDEX_TS.read_text(encoding="utf-8", errors="replace")
+    dashboard = DASHBOARD_TSX.read_text(encoding="utf-8", errors="replace")
+    page = PAGE_TSX.read_text(encoding="utf-8", errors="replace")
     meta_m = re.search(
         r"export const COURSE_META[^=]*=\s*\{(.*?)\n\}",
         idx,
@@ -238,26 +309,71 @@ def parse_landing() -> dict:
     subtitle = extract_string_field("{" + meta_body + "}", "subtitle") or ""
     description = extract_string_field("{" + meta_body + "}", "description") or ""
 
-    # Static method / why cards from Dashboard (learner-visible copy)
+    # Parse the literal copy rendered by Dashboard/Page.  This prevents packet
+    # evidence from drifting to a stale hand-written landing summary.
     method_cards = [
-        {"title": "Yo hago — Demostración", "desc": "El instructor modela el proceso completo"},
-        {"title": "Hacemos juntos — Práctica guiada", "desc": "Resuelves con pistas progresivas"},
-        {"title": "Tú haces — Proyecto de portafolio", "desc": "Proyecto autónomo con rúbrica"},
-        {"title": "Quiz con feedback inmediato", "desc": "Autoevaluación y examen por sección"},
+        {"title": card_title, "desc": desc}
+        for card_title, desc in re.findall(
+            r"<MethodStep\b.*?title=\"([^\"]+)\".*?desc=\"([^\"]+)\"",
+            dashboard,
+            re.S,
+        )
     ]
     why_cards = [
-        {"title": "Alineado al mercado peruano 2025-2026"},
-        {"title": "Proyectos que pesan en entrevistas"},
-        {"title": "Basado en 4 libros + investigación"},
-        {"title": "100% autónomo"},
+        {"title": card_title, "desc": desc}
+        for card_title, desc in re.findall(
+            r"<Feature\b.*?title=\"([^\"]+)\".*?desc=\"([^\"]+)\"",
+            dashboard,
+            re.S,
+        )
     ]
+
+    def literal(pattern: str, source: str) -> str:
+        match = re.search(pattern, source, re.S)
+        return strip_htmlish(match.group(1)) if match else ""
+
+    public_match = re.search(
+        r"<strong>(Edición pública / Public edition:)</strong>(.*?)</div>",
+        dashboard,
+        re.S,
+    )
+    public_notice = ""
+    if public_match:
+        public_notice = strip_htmlish(
+            public_match.group(1) + re.sub(r"<[^>]+>", "", public_match.group(2))
+        )
+    footer_lines = [
+        strip_htmlish(value)
+        for value in re.findall(r"<p(?:\s+className=\"mt-1\")?>(.*?)</p>", page, re.S)
+        if "PyArcana" in value or "interfaz es-PE" in value
+    ]
+    hero_badge = literal(r"(PyArcana · 52 secciones · Español peruano)", dashboard)
+    brand_tagline = literal(r"(El arte de aprender Python)", dashboard)
+    curriculum_summary = literal(
+        r"(52 secciones · método I Do / We Do / You Do · proyectos de portafolio)",
+        dashboard,
+    )
     return {
         "title": title,
         "subtitle": subtitle,
         "description": description,
+        "hero_badge": hero_badge,
+        "brand_tagline": brand_tagline,
+        "curriculum_summary": curriculum_summary,
+        "public_edition_notice": public_notice,
+        "footer_copy": footer_lines,
         "method_cards": method_cards,
         "why_cards": why_cards,
         "brand": "PyArcana",
+        "language_truth": {
+            "interface_and_lessons_claim": next(
+                (line for line in footer_lines if "interfaz es-PE" in line), ""
+            ),
+            "public_edition_claim": public_notice,
+        },
+        "source_sha": hashlib.sha256(
+            (idx + "\n" + dashboard + "\n" + page).encode()
+        ).hexdigest()[:16],
     }
 
 
@@ -275,21 +391,46 @@ def parse_section_learner(path: Path) -> dict:
     idx_m = re.search(r"\bindex:\s*(\d+)", text)
     index = int(idx_m.group(1)) if idx_m else 0
 
-    # theory blocks: heading + paragraphs (learner text)
+    # Exactly the eight explicitly-tagged theory blocks.  The untagged roadmap
+    # overview is metadata, not one of the eight taught subtopics.
     theory_blocks = []
-    for m in re.finditer(r"heading:\s*", text):
-        # extract nearby object slice ~4k
-        chunk = text[m.start() : m.start() + 8000]
-        heading = extract_string_field(chunk, "heading")
+    m_theory = re.search(r"\btheory\s*:\s*\[", text)
+    m_ido = re.search(r"\biDo\s*:\s*\{", text)
+    theory_region = text[m_theory.start() : m_ido.start()] if m_theory and m_ido else text
+    for obj in tagged_objects(theory_region, "subtopicId"):
+        subtopic_id = extract_string_field(obj, "subtopicId")
+        heading = extract_string_field(obj, "heading")
         if not heading:
             continue
-        paragraphs = extract_string_array(chunk, "paragraphs")
-        code_objs = find_object_after(chunk[:2000], "code")
+        paragraphs = extract_string_array(obj, "paragraphs")
+        code_objs = find_object_after(obj, "code")
         demo_code = None
+        out = None
         if code_objs:
             demo_code, _, out = extract_code_from_obj(code_objs[0])
+        prior_block = next(
+            (b for b in theory_blocks if b.get("subtopicId") == subtopic_id), None
+        )
+        if prior_block is not None:
+            # S01 intentionally has separate Python and shell cards for T1-A/B.
+            # A learner packet exposes one tagged subtopic contract, while
+            # retaining the text/code from both cards in their source order.
+            prior_block["heading"] += f" · {heading}"
+            prior_block["paragraphs"].extend(paragraphs)
+            if demo_code:
+                prior_block["code"] = (
+                    (prior_block.get("code") or "")
+                    + "\n\n# --- tarjeta complementaria del mismo subtema ---\n"
+                    + demo_code
+                ).strip()
+            if out:
+                prior_block["code_output"] = (
+                    (prior_block.get("code_output") or "") + "\n" + out
+                ).strip()
+            continue
         theory_blocks.append(
             {
+                "subtopicId": subtopic_id,
                 "heading": heading,
                 "paragraphs": paragraphs,
                 "code": demo_code,
@@ -301,22 +442,16 @@ def parse_section_learner(path: Path) -> dict:
     ido_steps = []
     # split iDo region roughly
     ido_region = text
-    m_ido = re.search(r"\biDo\s*:\s*\{", text)
     m_wedo = re.search(r"\bweDo\s*:\s*\{", text)
     if m_ido and m_wedo:
         ido_region = text[m_ido.start() : m_wedo.start()]
-    for obj in find_object_after(ido_region, "code"):
-        code, lang, output = extract_code_from_obj(obj)
-        # description/why often siblings — search parent window
-        # approximate: look back 1500 chars for description
-        pass
-    # better: find steps array items with description + code
-    for m in re.finditer(r"description:\s*", ido_region):
-        chunk = ido_region[m.start() : m.start() + 6000]
-        desc = extract_string_field(chunk, "description")
-        why = extract_string_field(chunk, "why")
-        demo_id = extract_string_field(chunk, "demoId")
-        code_objs = find_object_after(chunk[:2500], "code")
+    for obj in tagged_objects(ido_region, "demoId"):
+        desc = extract_string_field(obj, "description")
+        why = extract_string_field(obj, "why")
+        demo_id = extract_string_field(obj, "demoId")
+        subtopic_id = extract_string_field(obj, "subtopicId")
+        environment = extract_string_field(obj, "environment")
+        code_objs = find_object_after(obj, "code")
         code = lang = output = None
         if code_objs:
             code, lang, output = extract_code_from_obj(code_objs[0])
@@ -324,6 +459,8 @@ def parse_section_learner(path: Path) -> dict:
             ido_steps.append(
                 {
                     "demoId": demo_id,
+                    "subtopicId": subtopic_id,
+                    "environment": environment,
                     "description": desc,
                     "why": why,
                     "code": code,
@@ -470,6 +607,25 @@ def parse_section_learner(path: Path) -> dict:
         "taught_text_sha": hashlib.sha256(taught_text.encode()).hexdigest()[:16],
         "taught_text_len": len(taught_text),
         "_taught_text": taught_text,  # internal for gap scan; may be large
+    }
+
+
+def active_manifest(section: dict, packet_sha: str | None = None) -> dict:
+    """Small, active-section-only contract for packet hand-off/audit."""
+    theory_tags = [t.get("subtopicId") for t in section.get("theory") or []]
+    demos = (section.get("iDo") or {}).get("steps") or []
+    exercises = (section.get("weDo") or {}).get("exercises") or []
+    return {
+        "index": section.get("index"),
+        "id": section.get("id"),
+        "source_file": section.get("file"),
+        "packet_sha": packet_sha,
+        "theory_tags": theory_tags,
+        "demo_tags": [d.get("demoId") for d in demos],
+        "demo_subtopic_tags": [d.get("subtopicId") for d in demos],
+        "exercise_ids": [e.get("id") for e in exercises],
+        "selfcheck_count": len(section.get("selfCheck_stems") or []),
+        "contract": {"theory": 8, "demos": 8, "exercises": 24},
     }
 
 
@@ -633,10 +789,7 @@ def gap_scan(packet: dict) -> list[dict]:
 
 
 def build_packet(section_index: int, attempt_id: str = "attempt_000") -> dict:
-    files = active_section_files()
-    # sort by section index field
-    parsed = [parse_section_learner(p) for p in files]
-    parsed.sort(key=lambda s: s.get("index") or 0)
+    parsed = list(parsed_active_sections())
     if section_index < 1 or section_index > len(parsed):
         raise ValueError(f"section_index {section_index} out of range 1..{len(parsed)}")
 
@@ -644,23 +797,16 @@ def build_packet(section_index: int, attempt_id: str = "attempt_000") -> dict:
     prior = parsed[: section_index - 1]
     active = parsed[section_index - 1]
 
-    # cumulative taught text from prior only (for gap scan of prereqs)
-    cum = "\n".join(s.get("_taught_text") or "" for s in prior)
-
     # strip internal fields for export
-    def public_section(s: dict, include_taught: bool = False) -> dict:
-        out = {k: v for k, v in s.items() if not k.startswith("_")}
-        if include_taught:
-            out["_taught_text"] = s.get("_taught_text", "")
-        return out
+    def public_section(s: dict) -> dict:
+        return {k: v for k, v in s.items() if not k.startswith("_")}
 
     packet = {
         "attempt_id": attempt_id,
         "section_index": section_index,
         "landing": landing,
         "prior_sections": [public_section(s) for s in prior],
-        "active": public_section(active, include_taught=True),
-        "cumulative_taught_text": cum,
+        "active": public_section(active),
         "forbidden": (
             "Do not use knowledge outside this packet. "
             "You have only basic tech literacy and zero Python except what appears "
@@ -669,9 +815,8 @@ def build_packet(section_index: int, attempt_id: str = "attempt_000") -> dict:
         ),
         "packet_sha": None,
     }
-    gaps = gap_scan(packet)
-    packet["heuristic_gaps"] = gaps
-    # hash without huge cumulative text for stability
+    # Hash only learner-visible content identities; validator diagnostics are
+    # deliberately excluded from this object and from its serialized form.
     hashable = {
         "section_index": section_index,
         "landing": landing,
@@ -687,11 +832,38 @@ def build_packet(section_index: int, attempt_id: str = "attempt_000") -> dict:
     return packet
 
 
+def build_validator_audit(section_index: int, attempt_id: str = "attempt_000") -> dict:
+    """Build validator-only manifest and heuristic scan, never learner input."""
+    packet = build_packet(section_index, attempt_id=attempt_id)
+    parsed = list(parsed_active_sections())
+    active = parsed[section_index - 1]
+    prior = parsed[: section_index - 1]
+    scan_input = {
+        "cumulative_taught_text": "\n".join(
+            section.get("_taught_text") or "" for section in prior
+        ),
+        "active": active,
+    }
+    return {
+        "attempt_id": attempt_id,
+        "section_index": section_index,
+        "packet_sha": packet["packet_sha"],
+        "active_manifest": active_manifest(active, packet["packet_sha"]),
+        "heuristic_gaps": gap_scan(scan_input),
+    }
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--section", type=int, default=None, help="1-based section index")
     ap.add_argument("--all", action="store_true")
     ap.add_argument("--out-dir", type=Path, default=None)
+    ap.add_argument(
+        "--audit-dir",
+        type=Path,
+        default=None,
+        help="validator-only output; defaults beside --out-dir, never inside packets",
+    )
     ap.add_argument("--attempt", default="attempt_000")
     ap.add_argument("--json", action="store_true")
     ap.add_argument("--strip-taught-export", action="store_true", help="omit large _taught_text in JSON")
@@ -704,10 +876,18 @@ def main() -> int:
     out_dir = args.out_dir
     if out_dir:
         out_dir.mkdir(parents=True, exist_ok=True)
+    audit_dir = args.audit_dir
+    if out_dir and audit_dir is None:
+        audit_dir = out_dir.parent / "validator_artifacts"
+    if audit_dir:
+        audit_dir.mkdir(parents=True, exist_ok=True)
 
     summaries = []
+    audits = []
     for idx in indices:
         pkt = build_packet(idx, attempt_id=args.attempt)
+        audit = build_validator_audit(idx, attempt_id=args.attempt)
+        audits.append(audit)
         if args.strip_taught_export:
             pkt["active"].pop("_taught_text", None)
             pkt.pop("cumulative_taught_text", None)
@@ -720,34 +900,44 @@ def main() -> int:
                 "n_selfcheck": len(pkt["active"].get("selfCheck_stems") or []),
                 "n_theory": len(pkt["active"].get("theory") or []),
                 "n_ido": len((pkt["active"].get("iDo") or {}).get("steps") or []),
-                "heuristic_gaps": len(pkt.get("heuristic_gaps") or []),
                 "packet_sha": pkt["packet_sha"],
             }
         )
         if out_dir:
             path = out_dir / f"section_{idx:02d}_{pkt['active']['id']}.json"
-            # write lean packet for agents (no cumulative blob by default)
-            lean = dict(pkt)
-            lean.pop("cumulative_taught_text", None)
-            if lean.get("active"):
-                lean["active"] = {
-                    k: v for k, v in lean["active"].items() if k != "_taught_text"
-                }
-            path.write_text(json.dumps(lean, ensure_ascii=False, indent=2), encoding="utf-8")
+            path.write_text(json.dumps(pkt, ensure_ascii=False, indent=2), encoding="utf-8")
         elif args.json and not args.all:
-            lean = dict(pkt)
-            lean.pop("cumulative_taught_text", None)
-            if lean.get("active"):
-                lean["active"] = {
-                    k: v for k, v in lean["active"].items() if k != "_taught_text"
-                }
-            print(json.dumps(lean, ensure_ascii=False, indent=2))
+            print(json.dumps(pkt, ensure_ascii=False, indent=2))
             return 0
 
-    print(json.dumps({"sections": len(summaries), "summaries": summaries}, indent=2, ensure_ascii=False))
+    print(
+        json.dumps(
+            {
+                "sections": len(summaries),
+                "summaries": summaries,
+                "validator_gap_count": sum(
+                    len(audit["heuristic_gaps"]) for audit in audits
+                ),
+            },
+            indent=2,
+            ensure_ascii=False,
+        )
+    )
     if out_dir:
         (out_dir / "INDEX.json").write_text(
             json.dumps(summaries, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
+    if audit_dir:
+        (audit_dir / "VALIDATOR_AUDIT.json").write_text(
+            json.dumps(audits, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
+        (audit_dir / "ACTIVE_MANIFEST.json").write_text(
+            json.dumps(
+                [audit["active_manifest"] for audit in audits],
+                indent=2,
+                ensure_ascii=False,
+            ),
+            encoding="utf-8",
         )
     return 0
 

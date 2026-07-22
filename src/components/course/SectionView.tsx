@@ -54,6 +54,7 @@ import { RichText } from './RichText'
 import { ProgressRing } from './ProgressRing'
 import { ExamView } from './ExamView'
 import { CodePlayground } from './CodePlayground'
+import { t, useI18n } from '@/lib/i18n'
 
 interface SectionViewProps {
   section: CourseSection
@@ -64,16 +65,18 @@ interface SectionViewProps {
   onOpenAuth: () => void
 }
 
-const TAB_META: Record<SubStep, { icon: React.ElementType; label: string; color: string }> = {
-  theory: { icon: BookOpen, label: 'Teoría', color: 'text-sky-600' },
-  ido: { icon: PlayCircle, label: 'Yo hago', color: 'text-violet-600' },
-  wedo: { icon: Users, label: 'Hacemos juntos', color: 'text-amber-600' },
-  youdo: { icon: Rocket, label: 'Tú haces', color: 'text-emerald-600' },
-  quiz: { icon: HelpCircle, label: 'Autocheck', color: 'text-rose-600' },
+const TAB_META: Record<SubStep, { icon: React.ElementType; labelKey: string; color: string }> = {
+  theory: { icon: BookOpen, labelKey: 'section.theory', color: 'text-sky-600' },
+  ido: { icon: PlayCircle, labelKey: 'section.ido', color: 'text-violet-600' },
+  wedo: { icon: Users, labelKey: 'section.wedo', color: 'text-amber-600' },
+  youdo: { icon: Rocket, labelKey: 'section.youdo', color: 'text-emerald-600' },
+  quiz: { icon: HelpCircle, labelKey: 'section.quiz', color: 'text-rose-600' },
 }
 
 export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenAuth }: SectionViewProps) {
   const [activeTab, setActiveTab] = useState<SubStep>('theory')
+  const lang = useI18n((state) => state.lang)
+  const tr = (key: string) => t(key, lang)
   const { data: session } = useSession()
   const {
     completedSubSteps,
@@ -129,7 +132,7 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
           {/* Job relevance — popover (was 100px card) */}
           <Popover>
             <PopoverTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title="¿Para qué te sirve?">
+              <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" title={tr('section.jobRelevance')}>
                 <Briefcase className="h-4 w-4 text-primary" />
               </Button>
             </PopoverTrigger>
@@ -137,7 +140,7 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-sm font-semibold">
                   <Briefcase className="h-4 w-4 text-primary" />
-                  ¿Para qué te sirve esto en el trabajo?
+                  {tr('section.jobRelevance')}
                 </div>
                 <p className="text-sm text-foreground/80">{section.jobRelevance}</p>
               </div>
@@ -210,7 +213,7 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
                 className="flex flex-row items-center justify-center gap-1.5 py-2 data-[state=active]:bg-background data-[state=active]:shadow-sm"
               >
                 <Icon className={cn('h-3.5 w-3.5', meta.color, done && 'opacity-100')} />
-                <span className="text-[10px] sm:text-xs hidden sm:inline">{meta.label}</span>
+                <span className="text-[10px] sm:text-xs hidden sm:inline">{tr(meta.labelKey)}</span>
                 {done && <CheckCircle2 className="h-3 w-3 text-green-600 sm:hidden" />}
               </TabsTrigger>
             )
@@ -275,7 +278,7 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
         whileTap={{ scale: 0.94 }}
         onClick={onPrev}
         disabled={!hasPrev}
-        aria-label="Sección anterior"
+        aria-label={tr('course.previousSection')}
         className={cn(
           'fixed left-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded-full shadow-lg backdrop-blur-md',
           'bg-card/90 border border-border flex items-center justify-center',
@@ -294,7 +297,7 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
         whileTap={{ scale: 0.94 }}
         onClick={onNext}
         disabled={!hasNext}
-        aria-label="Sección siguiente"
+        aria-label={tr('course.nextSection')}
         className={cn(
           'fixed right-3 bottom-4 z-40 h-11 w-11 lg:h-12 lg:w-12 rounded-full shadow-lg backdrop-blur-md',
           'bg-primary text-primary-foreground border border-primary/50 flex items-center justify-center',
@@ -316,8 +319,8 @@ export function SectionView({ section, onPrev, onNext, hasNext, hasPrev, onOpenA
               subStepsDone.includes(s) ? 'bg-primary' : 'bg-muted',
               activeTab === s && 'ring-2 ring-primary/40 ring-offset-1 ring-offset-card'
             )}
-            title={TAB_META[s].label}
-            aria-label={`Ir a ${TAB_META[s].label}`}
+            title={tr(TAB_META[s].labelKey)}
+            aria-label={`${lang === 'en' ? 'Go to' : 'Ir a'} ${tr(TAB_META[s].labelKey)}`}
           />
         ))}
       </div>

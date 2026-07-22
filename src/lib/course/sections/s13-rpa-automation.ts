@@ -6,7 +6,7 @@ export const section13: CourseSection = {
   title: "Familiarity Evidence Dashboard y cierre de nivel",
   shortTitle: "Evidence Dashboard",
   tagline: "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
-  estimatedHours: 14,
+  estimatedHours: 19,
   level: "Intermedio",
   phase: 0,
   icon: "Bot",
@@ -247,32 +247,43 @@ print(explain(0.9, 0.4, ["phone"]))`,
       heading: "Umbral de revisión, abstención y no inferencia automática",
       subtopicId: "S13-T3-B",
       paragraphs: [
-        "Umbrales: accept_pair / needs_review / abstain según score e incertidumbre. **Nunca** `auto_fraud=true` ni `is_family=true`.",
+        "Matriz total y sin huecos: score inválido/no finito o uncertainty desconocida → `invalid_input`; uncertainty high → `needs_review`; score < 0.40 → `abstain`; 0.40 ≤ score < 0.80 → `needs_review`; score ≥ 0.80 → `accept_pair`. **Nunca** `auto_fraud=true` ni `is_family=true`.",
         "Human-in-the-loop: la acción operativa es de **datos** (revisar/aceptar/rechazar par), no veredicto legal.",
         "Auditoría: elimina cualquier path que setee parentesco/fraude automático.",
       ],
       code: {
         language: 'python',
         title: "thresholds.py",
-        code: `def decide_ops_status(score, uncertainty):
-    if uncertainty == "high" or 0.4 <= score <= 0.7:
+        code: `from math import isfinite
+
+def decide_ops_status(score, uncertainty):
+    if isinstance(score, bool) or not isinstance(score, (int, float)):
+        return "invalid_input"
+    if not isfinite(score) or not 0.0 <= score <= 1.0:
+        return "invalid_input"
+    if uncertainty not in {"low", "med", "high"}:
+        return "invalid_input"
+    if uncertainty == "high":
         return "needs_review"
     if score < 0.4:
         return "abstain"
+    if score < 0.8:
+        return "needs_review"
     return "accept_pair"
 
-for s, u in [(0.9, "low"), (0.55, "med"), (0.2, "low"), (0.85, "high")]:
+for s, u in [(0.9, "low"), (0.55, "med"), (0.2, "low"), (0.85, "high"), (float("nan"), "low")]:
     print(s, u, decide_ops_status(s, u), "auto_fraud", False)`,
         output: `0.9 low accept_pair auto_fraud False
 0.55 med needs_review auto_fraud False
 0.2 low abstain auto_fraud False
-0.85 high needs_review auto_fraud False`,
+0.85 high needs_review auto_fraud False
+nan low invalid_input auto_fraud False`,
       },
       callout: {
         type: "danger",
         title: "Política N1",
         content:
-          "Prohibido inferir parentesco o fraude en automático. Solo estados operativos de par.",
+          "Prohibido inferir parentesco o fraude. Los límites 0.40 y 0.80 son exactos: 0.40 entra a revisión y 0.80 puede aceptarse si uncertainty no es high.",
       },
     },
     {
@@ -520,19 +531,28 @@ print(card)`,
         code: {
           language: 'python',
           title: "review_threshold_demo.py",
-          code: `def decide(score, unc):
-    if unc == "high" or 0.4 <= score <= 0.7:
+          code: `from math import isfinite
+
+def decide(score, unc):
+    if isinstance(score, bool) or not isinstance(score, (int, float)):
+        return "invalid_input"
+    if not isfinite(score) or not 0.0 <= score <= 1.0 or unc not in {"low", "med", "high"}:
+        return "invalid_input"
+    if unc == "high":
         return "needs_review"
     if score < 0.4:
         return "abstain"
+    if score < 0.8:
+        return "needs_review"
     return "accept_pair"
 
-samples = [(0.55, "med"), (0.9, "low"), (0.15, "low")]
+samples = [(0.55, "med"), (0.9, "low"), (0.15, "low"), (float("nan"), "low")]
 for sc, u in samples:
     print({"score": sc, "uncertainty": u, "status": decide(sc, u), "auto_fraud": False, "is_family": False})`,
           output: `{'score': 0.55, 'uncertainty': 'med', 'status': 'needs_review', 'auto_fraud': False, 'is_family': False}
 {'score': 0.9, 'uncertainty': 'low', 'status': 'accept_pair', 'auto_fraud': False, 'is_family': False}
-{'score': 0.15, 'uncertainty': 'low', 'status': 'abstain', 'auto_fraud': False, 'is_family': False}`,
+{'score': 0.15, 'uncertainty': 'low', 'status': 'abstain', 'auto_fraud': False, 'is_family': False}
+{'score': nan, 'uncertainty': 'low', 'status': 'invalid_input', 'auto_fraud': False, 'is_family': False}`,
         },
         why: "Política de abstención y revisión protege al estudiante y al usuario final.",
       },
@@ -1172,14 +1192,14 @@ note señales conflictivas`,
         subtopicId: "S13-T3-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Config dict thresholds: accept_min=0.8, review_low=0.4, review_high=0.7. Imprime sorted items.",
-        hint: "Tres claves numéricas",
+          "E1 (guiado) — Config dict thresholds: review_low=0.4 y accept_min=0.8. Imprime sorted items; no dejes un hueco review_high→accept_min.",
+        hint: "Dos límites forman tres intervalos contiguos",
         hints: [
-          "Tres claves numéricas",
+          "Dos límites forman tres intervalos contiguos",
           "Usarás el dict en E2",
         ],
-        edgeCases: ["config externalizable"],
-        tests: "tres umbrales",
+        edgeCases: ["review_low < accept_min", "config externalizable"],
+        tests: "Contrato exacto: sorted items es [('accept_min', 0.8), ('review_low', 0.4)]; assert 0 <= review_low < accept_min <= 1.",
         feedback: "Umbrales fuera de código mágico facilitan auditoría.",
         starterCode: {
           language: 'python',
@@ -1187,8 +1207,8 @@ note señales conflictivas`,
           code: `thresholds = {
     "accept_min": 0.8,
     "review_low": 0.4,
-    "review_high": 0.7,
 }
+assert 0 <= thresholds["review_low"] < thresholds["accept_min"] <= 1
 print(sorted(thresholds.items()))`,
         },
         solutionCode: {
@@ -1197,10 +1217,10 @@ print(sorted(thresholds.items()))`,
           code: `thresholds = {
     "accept_min": 0.8,
     "review_low": 0.4,
-    "review_high": 0.7,
 }
+assert 0 <= thresholds["review_low"] < thresholds["accept_min"] <= 1
 print(sorted(thresholds.items()))`,
-          output: `[('accept_min', 0.8), ('review_high', 0.7), ('review_low', 0.4)]`,
+          output: `[('accept_min', 0.8), ('review_low', 0.4)]`,
         },
       },
       {
@@ -1208,43 +1228,54 @@ print(sorted(thresholds.items()))`,
         subtopicId: "S13-T3-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — `decide_ops_status(score, unc, th)`: needs_review si unc==high o score en [review_low, review_high]; abstain si score < review_low; accept_pair si score >= accept_min; else needs_review. Sin fraud labels.",
+          "E2 (independiente) — Implementa la matriz total: input inválido→invalid_input; high→needs_review; score<review_low→abstain; score<accept_min→needs_review; resto→accept_pair. Sin fraud/family labels.",
         hint: "Implementa la matriz de decisión",
         hints: [
           "Implementa la matriz de decisión",
-          "Nunca devuelvas fraud/family",
+          "Valida tipo, bool, isfinite, rango 0..1 y unc low|med|high antes de comparar",
         ],
-        edgeCases: ["high unc → review"],
-        tests: "accept/review/abstain/review",
+        edgeCases: ["0.4", "0.8", "NaN", "bool", "unc desconocida", "high unc → review"],
+        tests: "Matriz exacta: -0.1 invalid_input; 0.399 abstain; 0.4 y 0.799 needs_review; 0.8 y 1.0 accept_pair (low); 0.9/high needs_review; NaN y unc='?' invalid_input.",
         feedback: "Estados operativos de par, no veredictos legales.",
         starterCode: {
           language: 'python',
           title: "decide_ops.py",
-          code: `th = {"accept_min": 0.8, "review_low": 0.4, "review_high": 0.7}
+          code: `from math import isfinite
+
+th = {"accept_min": 0.8, "review_low": 0.4}
 def decide_ops_status(score, unc, th):
     # TODO
     ...
-for s, u in [(0.9, "low"), (0.55, "med"), (0.2, "low"), (0.85, "high")]:
+for s, u in [(-0.1, "low"), (0.399, "low"), (0.4, "low"), (0.799, "med"), (0.8, "low"), (0.9, "high"), (float("nan"), "low")]:
     print(s, u, decide_ops_status(s, u, th))`,
         },
         solutionCode: {
           language: 'python',
           title: "decide_ops.py",
-          code: `th = {"accept_min": 0.8, "review_low": 0.4, "review_high": 0.7}
+          code: `from math import isfinite
+
+th = {"accept_min": 0.8, "review_low": 0.4}
 def decide_ops_status(score, unc, th):
-    if unc == "high" or th["review_low"] <= score <= th["review_high"]:
+    if isinstance(score, bool) or not isinstance(score, (int, float)):
+        return "invalid_input"
+    if not isfinite(score) or not 0.0 <= score <= 1.0 or unc not in {"low", "med", "high"}:
+        return "invalid_input"
+    if unc == "high":
         return "needs_review"
     if score < th["review_low"]:
         return "abstain"
-    if score >= th["accept_min"]:
-        return "accept_pair"
-    return "needs_review"
-for s, u in [(0.9, "low"), (0.55, "med"), (0.2, "low"), (0.85, "high")]:
+    if score < th["accept_min"]:
+        return "needs_review"
+    return "accept_pair"
+for s, u in [(-0.1, "low"), (0.399, "low"), (0.4, "low"), (0.799, "med"), (0.8, "low"), (0.9, "high"), (float("nan"), "low")]:
     print(s, u, decide_ops_status(s, u, th))`,
-          output: `0.9 low accept_pair
-0.55 med needs_review
-0.2 low abstain
-0.85 high needs_review`,
+          output: `-0.1 low invalid_input
+0.399 low abstain
+0.4 low needs_review
+0.799 med needs_review
+0.8 low accept_pair
+0.9 high needs_review
+nan low invalid_input`,
         },
       },
       {
@@ -1488,6 +1519,7 @@ level1_regression: re-check S01-S13 critical paths after incident`,
       "Precision/recall + cola clerical sobre pares sintéticos",
       "relationship_signal_score (shared contact, geo, apellidos, txs) separado del ER",
       "Ficha con uncertainty + explicación; decide_ops_status sin auto_fraud/is_family",
+      "Matriz de estados exhaustiva con límites 0.40/0.80 e invalid_input",
       "Dashboard scaffold 3 casos + mapa/tooltips",
       "Privacy sheet + demo cmd + runbook de incidente",
       "Level-1 regression notes: checklist S01–S13 en runbook de entrega",
@@ -1497,6 +1529,7 @@ level1_regression: re-check S01-S13 critical paths after incident`,
       "ER score y relationship score nunca colapsados en un solo campo sin etiquetar",
       "Prohibido is_family / auto_fraud en salidas",
       "Tests de reglas ER, señales y umbrales en verde",
+      "Decision matrix exacta: invalid_input, abstain, needs_review y accept_pair sin intervalos vacíos",
       "Demo: python -m demo_n1_dashboard --synthetic",
       "Runbook con regresión level-1 (S01–S13) y respuesta a PII en log",
       "CF-1: privacy sheet + roles viewer/reviewer + notes de acceso",
@@ -1509,6 +1542,35 @@ from __future__ import annotations
 
 import re
 from typing import Any
+
+
+DECISION_MATRIX = [
+    {"score": -0.1, "uncertainty": "low", "expected": "invalid_input"},
+    {"score": 0.399, "uncertainty": "low", "expected": "abstain"},
+    {"score": 0.4, "uncertainty": "low", "expected": "needs_review"},
+    {"score": 0.799, "uncertainty": "med", "expected": "needs_review"},
+    {"score": 0.8, "uncertainty": "low", "expected": "accept_pair"},
+    {"score": 1.0, "uncertainty": "low", "expected": "accept_pair"},
+    {"score": 0.9, "uncertainty": "high", "expected": "needs_review"},
+    {"score": float("nan"), "uncertainty": "low", "expected": "invalid_input"},
+    {"score": 0.8, "uncertainty": "?", "expected": "invalid_input"},
+]
+
+LEVEL1_REGRESSION_MATRIX = [
+    {"section": "S01", "check": "python version + venv + exit code reproducible"},
+    {"section": "S02", "check": "Decimal desde texto y raw/clean/errors"},
+    {"section": "S03", "check": "reglas de validación cubren normal/borde/error"},
+    {"section": "S04", "check": "iteración conserva conteos y acumuladores"},
+    {"section": "S05", "check": "funciones respetan firma, retorno y errores"},
+    {"section": "S06", "check": "colecciones no comparten estado mutable"},
+    {"section": "S07", "check": "Unicode/email/teléfono cumplen contrato exacto"},
+    {"section": "S08", "check": "CSV+JSON reconcilian por fuente y Decimal"},
+    {"section": "S09", "check": "excepciones encadenan causa y logs no filtran PII"},
+    {"section": "S10", "check": "paquete instala; CLI 0/1/2; config precedence"},
+    {"section": "S11", "check": "entity_id estable; Decimal/currency/evidence invariants"},
+    {"section": "S12", "check": "timeout/retry, SQL params y egress policy"},
+    {"section": "S13", "check": "ER != relationship; decision matrix; no auto verdicts"},
+]
 
 
 def norm_doc(d: str) -> str:
@@ -1532,7 +1594,7 @@ def relationship_signal_score(a: dict, b: dict) -> float:
 
 
 def decide_ops_status(score: float, uncertainty: str) -> str:
-    # TODO accept_pair | needs_review | abstain — never fraud/family
+    # TODO invalid_input | abstain | needs_review | accept_pair — never fraud/family
     raise NotImplementedError
 
 
@@ -1550,14 +1612,8 @@ def privacy_sheet() -> dict:
 
 
 def level1_regression_notes() -> list[str]:
-    """Notas de regresión de nivel 1 (S01–S13). No marca passed."""
-    return [
-        "S06-S08: modelo en memoria + normalize + CSV/JSON quarantine",
-        "S09-S11: calidad/validación según roadmap V3 del tramo",
-        "S12: HTTP timeout/retry + SQL params + MockGeocoder egress policy",
-        "S13: ER != relationship scores; review thresholds; no auto_fraud",
-        "Registrar pass/fail de smoke checks en runbook; no editar checkpoint/ledger aquí",
-    ]
+    """Una fila verificable por sección. No marca passed ni edita ledgers."""
+    return ["%s: %s" % (row["section"], row["check"]) for row in LEVEL1_REGRESSION_MATRIX]
 
 
 def main() -> None:
@@ -1565,6 +1621,7 @@ def main() -> None:
     b = {"name": "ANA QUISPE", "document_id": "d1", "region": "Lima", "phone": "900", "km": 1.0}
     print("pseudo", pseudonymize(a["name"]))
     print("privacy", privacy_sheet())
+    print("decision_cases", len(DECISION_MATRIX))
     print("regression_notes", level1_regression_notes())
 
 
@@ -1574,72 +1631,47 @@ if __name__ == "__main__":
     portfolioNote:
       "Portfolio N1: captura del dashboard con 3 casos, ficha con ER≠REL, privacy sheet, salida del demo command y sección **Level-1 regression** del runbook (S01–S13). No afirmes section_passed hasta el proceso de gate del curso.",
     rubric: [
-      { criterion: "ER determinista + métricas + cola clerical", weight: "20%" },
-      { criterion: "Señales de relación separadas + disclaimers", weight: "20%" },
-      { criterion: "Evidence score, uncertainty, umbrales sin auto inferencia", weight: "20%" },
-      { criterion: "Dashboard pseudonimizado (ficha + mapa)", weight: "15%" },
-      { criterion: "CF-1 privacy/demo/runbook + level-1 regression notes", weight: "25%" },
+      { criterion: "ER determinista: fixtures publicados producen métricas y cola clerical reproducibles", weight: "20%" },
+      { criterion: "ER y relationship_signal_score quedan separados, explicados y sin claims legales", weight: "20%" },
+      { criterion: "Las 9 filas de DECISION_MATRIX pasan exactamente; no existen auto_fraud/is_family", weight: "20%" },
+      { criterion: "Los 3 casos del dashboard están pseudonimizados; ficha y mapa no exponen PII raw", weight: "15%" },
+      { criterion: "CF-1 incluye privacy/access/tests/demo/runbook y 13 filas S01–S13 con pass/fail+evidencia", weight: "25%" },
     ],
   },
   selfCheck: {
     questions: [
       {
         question: "entity_resolution_score y relationship_signal_score deben…",
-        options: [
-          "Fusionarse siempre en un solo número sin etiqueta",
-          "Mantenerse separados en la ficha de caso",
-          "Reemplazarse por is_family",
-          "Ocultarse al revisor",
-        ],
-        correctIndex: 1,
+        options: ["Mantenerse separados en la ficha de caso", "Fusionarse siempre en un solo número sin etiqueta", "Reemplazarse por is_family", "Ocultarse al revisor"],
+        correctIndex: 0,
         explanation:
           "Son constructos distintos; la UI y el modelo los muestran aparte.",
       },
       {
         question: "Un false positive de ER implica…",
-        options: [
-          "Fraude confirmado",
-          "Parentesco automático",
-          "Error de matching; no es veredicto legal de fraude",
-          "Borrar la cola clerical",
-        ],
+        options: ["Fraude confirmado", "Parentesco automático", "Error de matching; no es veredicto legal de fraude", "Borrar la cola clerical"],
         correctIndex: 2,
         explanation:
           "FP es error de identidad estimada, no delito.",
       },
       {
         question: "En zona gris de score el sistema debe…",
-        options: [
-          "Marcar auto_fraud=true",
-          "Encolar needs_review / abstenerse según política",
-          "Setear is_family",
-          "Publicar PII real en el mapa",
-        ],
-        correctIndex: 1,
+        options: ["Marcar auto_fraud=true", "Setear is_family", "Publicar PII real en el mapa", "Encolar needs_review / abstenerse según política"],
+        correctIndex: 3,
         explanation:
           "Human-in-the-loop: revisión o abstención, nunca fraude auto.",
       },
       {
         question: "CF-1 en S13 incluye…",
-        options: [
-          "Solo un modelo de deep learning",
-          "Privacy sheet, acceso, tests, demo y runbook",
-          "Hardcodear tokens en el repo",
-          "Marcar section_passed desde el author lane",
-        ],
+        options: ["Solo un modelo de deep learning", "Privacy sheet, acceso, tests, demo y runbook", "Hardcodear tokens en el repo", "Marcar section_passed desde el author lane"],
         correctIndex: 1,
         explanation:
           "Artefactos de operación y privacidad del cierre N1.",
       },
       {
         question: "Level-1 regression notes en el You Do exigen…",
-        options: [
-          "Ignorar S01–S12",
-          "Re-chequear paths críticos S01–S13 en runbook (sin editar ledger aquí)",
-          "Borrar el dashboard",
-          "Enviar PII a geocoder público",
-        ],
-        correctIndex: 1,
+        options: ["Re-chequear paths críticos S01–S13 en runbook (sin editar ledger aquí)", "Ignorar S01–S12", "Borrar el dashboard", "Enviar PII a geocoder público"],
+        correctIndex: 0,
         explanation:
           "La regresión de nivel se documenta en el runbook de entrega N1.",
       },
@@ -1676,8 +1708,8 @@ if __name__ == "__main__":
     courses: [
       {
         label: "Familiarity Evidence Dashboard — entrega del curso",
-        url: "https://example.com/course/cp-n1-c",
-        note: "Placeholder de portfolio; usar demo local sintético.",
+        url: "https://github.com/PillB/pyarcana",
+        note: "Repositorio del curso; documenta la entrega CP-N1-C con demo local sintético.",
       },
     ],
   },

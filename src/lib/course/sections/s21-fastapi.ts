@@ -6,17 +6,17 @@ export const section21: CourseSection = {
   title: "Documentos, plantillas y reportes trazables",
   shortTitle: "Reportes trazables",
   tagline: "Accessible Insights Dashboard & Reporting Factory genera dashboard, DOCX/PDF y workbook desde una corrida, con números reconciliados y revisión visual",
-  estimatedHours: 14,
+  estimatedHours: 19,
   level: "Competente",
   phase: 1,
   icon: "Server",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "Cerrar **CP-N2-B** exige un **Reporting Factory** que una dashboard, Excel y documentos con números reconciliados y provenance. Esta sección (id `fastapi` conservado) retematiza a V3 **Documentos, plantillas y reportes trazables** con Jinja, estructura ejecutiva y cola de aprobación.",
+    "Cerrar **CP-N2-B** exige un **Reporting Factory** que una dashboard, Excel y documentos reales con números reconciliados, provenance y aprobación.",
   learningOutcomes: [
     { text: "Separar datos y presentación con Jinja" },
     { text: "Renderizar condiciones/tablas con formato seguro" },
-    { text: "Generar estructuras tipo DOCX/PDF con secciones" },
+    { text: "Generar, abrir, extraer y renderizar DOCX/PDF locales" },
     { text: "Distinguir PDF digital de imagen/OCR" },
     { text: "Estructurar informe ejecutivo con método y hallazgos" },
     { text: "Embeber gráficos/tablas con fuentes y limitaciones" },
@@ -25,17 +25,17 @@ export const section21: CourseSection = {
   ],
   theory: [
     {
-      heading: "De “FastAPI backend” a Reporting Factory (mapa y cierre CP-N2-B)",
+      heading: "Reporting Factory y cierre CP-N2-B",
       paragraphs: [
-        "En V3, **S21 no es el path principal de FastAPI/OpenAPI**. Aquí **cierras CP-N2-B**: plantillas Jinja, reportes con secciones, consistencia numérica con dashboard/Excel y **provenance + aprobación**.",
+        "Aquí cierras CP-N2-B: plantillas Jinja, documentos DOCX/PDF locales, consistencia numérica con dashboard/Excel y **provenance + aprobación**.",
         "Una sola corrida produce artefactos alineados (mismos n y métricas que S18–S20).",
         "Orden: **T1 Plantillas** → **T2 Documentos** → **T3 Narrativa** → **T4 Calidad y gobernanza**.",
       ],
       callout: {
         type: "info",
-        title: "Contenido reubicado conceptualmente",
+        title: "Evidencia operativa",
         content:
-          "Material legado de FastAPI de este archivo **no es el camino V3 en S21**. Target: reportes trazables y cierre CP-N2-B.",
+          "El gate conserva los archivos DOCX/PDF, el texto extraído, una vista renderizada y sus hashes; un dict no sustituye esos artefactos.",
       },
     },
     {
@@ -93,29 +93,32 @@ print(tmpl.render(rows=rows))`,
       },
     },
     {
-      heading: "estilos y secciones (DOCX/PDF conceptual)",
+      heading: "DOCX real: estilos, guardado y extracción",
       subtopicId: "S21-T2-A",
       paragraphs: [
         "Un informe trazable tiene secciones fijas: portada, resumen, método, hallazgos, anexos. Los estilos (Heading 1/2) habilitan TOC y a11y.",
-        "En este curso modelamos el documento como estructura de bloques renderizada a texto/Markdown/HTML; la migración a python-docx es directa.",
-        "Misma jerarquía en PDF digital facilita extracción posterior.",
+        "Con `python-docx`, `Document()` crea el paquete OOXML, `add_heading` aplica estilos y `save` escribe un `.docx` real. Reabrir el archivo y extraer sus párrafos prueba que el artefacto no es solo una estructura en memoria.",
+        "El `.docx` es un ZIP de XML y recursos. El gate verifica firma ZIP, headings, texto extraído y tamaño antes de aprobarlo.",
       ],
       code: {
         language: 'python',
-        title: "sections.py",
-        code: `doc = {
-    "title": "Informe de insights sintético",
-    "sections": [
-        {"h": 1, "name": "Resumen ejecutivo"},
-        {"h": 2, "name": "Método"},
-        {"h": 2, "name": "Hallazgos"},
-        {"h": 1, "name": "Anexos"},
-    ],
-}
-print([ (s["h"], s["name"]) for s in doc["sections"] ])
-print("h1_count", sum(1 for s in doc["sections"] if s["h"] == 1))`,
-        output: `[(1, 'Resumen ejecutivo'), (2, 'Método'), (2, 'Hallazgos'), (1, 'Anexos')]
-h1_count 2`,
+        title: "docx_real.py",
+        code: `from pathlib import Path
+from docx import Document
+
+path = Path("informe.docx")
+doc = Document()
+doc.add_heading("Informe sintético", level=0)
+doc.add_heading("Resumen ejecutivo", level=1)
+doc.add_paragraph("Ticket mediano: 28.0 PEN (n=40).")
+doc.save(path)
+
+opened = Document(path)
+text = "\n".join(p.text for p in opened.paragraphs if p.text)
+print(path.exists(), path.read_bytes()[:2] == b"PK")
+print("Resumen ejecutivo" in text, "n=40" in text)`,
+        output: `True True
+True True`,
       },
       callout: {
         type: "tip",
@@ -125,31 +128,39 @@ h1_count 2`,
       },
     },
     {
-      heading: "PDF digital vs imagen/OCR",
+      heading: "PDF digital real: generación, extracción y render",
       subtopicId: "S21-T2-B",
       paragraphs: [
         "Un **PDF digital** contiene texto seleccionable; un **PDF escaneado** es imagen y requiere OCR con errores típicos.",
-        "Clasifica antes de extraer: si no hay texto o el ratio de caracteres es bajo, marca `needs_ocr`.",
-        "En el factory, prefiere generar PDF digital desde HTML/LaTeX/reportlab en lugar de escanear.",
+        "`reportlab` genera un PDF digital, `pypdf` extrae su capa de texto y PyMuPDF (`fitz`) renderiza una página a PNG para la revisión visual. Los tres pasos operan sobre archivos locales reales.",
+        "Si la extracción queda vacía, el contrato devuelve `needs_ocr`; no inventa texto. El hash, el PNG y la reconciliación numérica quedan en el manifest.",
       ],
       code: {
         language: 'python',
-        title: "pdf_class.py",
-        code: `def classify_pdf(text_layer_chars: int, pages: int) -> str:
-    density = text_layer_chars / max(pages, 1)
-    if density < 20:
-        return "image_or_scan_needs_ocr"
-    return "digital_text"
-print(classify_pdf(5000, 3))
-print(classify_pdf(10, 3))`,
-        output: `digital_text
-image_or_scan_needs_ocr`,
+        title: "pdf_real.py",
+        code: `from pathlib import Path
+import fitz
+from pypdf import PdfReader
+from reportlab.pdfgen import canvas
+
+pdf = Path("informe.pdf")
+c = canvas.Canvas(str(pdf))
+c.drawString(72, 760, "Resumen sintetico: n=40")
+c.save()
+text = "".join(page.extract_text() or "" for page in PdfReader(pdf).pages)
+page = fitz.open(pdf)[0]
+png = Path("informe-p1.png")
+page.get_pixmap(matrix=fitz.Matrix(1, 1)).save(png)
+print(pdf.read_bytes()[:4] == b"%PDF", "n=40" in text)
+print(png.exists(), png.stat().st_size > 0)`,
+        output: `True True
+True True`,
       },
       callout: {
         type: "info",
         title: "OCR no es verdad absoluta",
         content:
-          "Todo número OCR-eado debe reconciliarse con la fuente tabular cuando exista.",
+          "El render confirma legibilidad; la extracción confirma la capa digital. Ninguna sustituye la reconciliación con la fuente tabular.",
       },
     },
     {
@@ -323,51 +334,53 @@ Cusco: —
         demoId: "S21-T2-A-DEMO",
         subtopicId: "S21-T2-A",
         environment: "local-python",
-        description: "Generar outline de secciones estilo DOCX/PDF",
+        description: "Crear, guardar y reabrir un DOCX con estilos reales",
         code: {
           language: 'python',
-          title: "demo_sections.py",
-          code: `def render_outline(sections):
-    lines = []
-    for s in sections:
-        pad = "  " * (s["h"] - 1)
-        lines.append(f"{pad}H{s['h']} {s['name']}")
-    return "\\n".join(lines)
+          title: "demo_docx_artifact.py",
+          code: `from pathlib import Path
+from docx import Document
 
-sections = [
-    {"h": 1, "name": "Resumen ejecutivo"},
-    {"h": 1, "name": "Método"},
-    {"h": 2, "name": "Datos y filtros"},
-    {"h": 1, "name": "Hallazgos"},
-]
-print(render_outline(sections))
-print("sections", len(sections))`,
-          output: `H1 Resumen ejecutivo
-H1 Método
-  H2 Datos y filtros
-H1 Hallazgos
-sections 4`,
+path = Path("reporte.docx")
+doc = Document()
+doc.add_heading("Resumen ejecutivo", 1)
+doc.add_paragraph("Fuente: sintética; n=40")
+doc.save(path)
+reopened = Document(path)
+headings = [p.text for p in reopened.paragraphs if p.style.name.startswith("Heading")]
+print(path.suffix, path.read_bytes()[:2] == b"PK")
+print(headings)`,
+          output: `.docx True
+['Resumen ejecutivo']`,
         },
-        why: "El outline fija la estructura del paquete documental.",
+        why: "Guardar y reabrir verifica el paquete OOXML y sus estilos, no una simulación.",
       },
       {
         demoId: "S21-T2-B-DEMO",
         subtopicId: "S21-T2-B",
         environment: "local-python",
-        description: "Clasificar PDF digital vs posible escaneo por densidad de texto",
+        description: "Generar PDF, extraer texto y renderizar una página PNG",
         code: {
           language: 'python',
-          title: "demo_pdf_class.py",
-          code: `def classify(chars, pages):
-    dens = chars / max(pages, 1)
-    return ("digital", dens) if dens >= 20 else ("needs_ocr", dens)
+          title: "demo_pdf_artifact.py",
+          code: `from pathlib import Path
+import fitz
+from pypdf import PdfReader
+from reportlab.pdfgen import canvas
 
-print(classify(9000, 4))
-print(classify(15, 4))`,
-          output: `('digital', 2250.0)
-('needs_ocr', 3.75)`,
+pdf = Path("reporte.pdf")
+c = canvas.Canvas(str(pdf))
+c.drawString(72, 760, "Hallazgo H1; n=32")
+c.save()
+text = PdfReader(pdf).pages[0].extract_text() or ""
+png = Path("reporte-p1.png")
+fitz.open(pdf)[0].get_pixmap().save(png)
+print("H1" in text, pdf.read_bytes()[:4] == b"%PDF")
+print(png.stat().st_size > 0)`,
+          output: `True True
+True`,
         },
-        why: "Clasificar antes de extraer evita basar KPIs en OCR ruidoso.",
+        why: "El contrato conserva PDF, texto extraído y render visual como evidencia separada.",
       },
       {
         demoId: "S21-T3-A-DEMO",
@@ -655,27 +668,43 @@ Cusco:2`,
         subtopicId: "S21-T2-A",
         kind: "guided",
         instruction:
-          "Define sections con Resumen h1 y Método h1; imprime nombres.",
-        hint: "lista de dicts.",
+          "Crea `informe.docx` con título, heading Resumen y un párrafo `n=40`; guárdalo, reábrelo y demuestra que es OOXML y conserva ambos textos.",
+        hint: "Usa Document(), add_heading(), add_paragraph(), save() y vuelve a abrir la ruta.",
         hints: [
-          "lista de dicts.",
-          "print list comprehension.",
+          "La firma de un DOCX comienza con bytes PK porque es un paquete ZIP.",
+          "Extrae `p.text` de los párrafos no vacíos del documento reabierto.",
         ],
-        edgeCases: ["h inválido"],
-        tests: "salida coincide con solution output",
+        edgeCases: ["ruta no escribible", "documento sin párrafos"],
+        tests: "el archivo existe, firma PK y texto reabierto contiene Resumen y n=40",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `from pathlib import Path
+from docx import Document
+
+path = Path("informe.docx")
+# Completa la creación, guardado y reapertura del documento.
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `sections = [{"h": 1, "name": "Resumen"}, {"h": 1, "name": "Método"}]
-print([s["name"] for s in sections])`,
-          output: `['Resumen', 'Método']`,
+          code: `from pathlib import Path
+from docx import Document
+
+path = Path("informe.docx")
+doc = Document()
+doc.add_heading("Informe sintético", 0)
+doc.add_heading("Resumen", 1)
+doc.add_paragraph("Muestra reconciliada: n=40")
+doc.save(path)
+opened = Document(path)
+text = " | ".join(p.text for p in opened.paragraphs if p.text)
+print(path.exists(), path.read_bytes()[:2] == b"PK")
+print("Resumen" in text, "n=40" in text)`,
+          output: `True True
+True True`,
         },
       },
       {
@@ -683,28 +712,40 @@ print([s["name"] for s in sections])`,
         subtopicId: "S21-T2-A",
         kind: "independent",
         instruction:
-          "Cuenta cuántos H1 hay en sections con h 1 y 2 mixtos.",
-        hint: "sum.",
+          "Genera un DOCX con dos Heading 1 y un Heading 2; reábrelo y cuenta los estilos reales sin confiar en una lista auxiliar.",
+        hint: "Cada párrafo reabierto expone `style.name`.",
         hints: [
-          "sum.",
-          "print int.",
+          "Filtra exactamente `Heading 1` y conserva también la jerarquía completa.",
+          "La evidencia debe provenir del archivo guardado, no del input original.",
         ],
-        edgeCases: ["h string"],
-        tests: "salida coincide con solution output",
+        edgeCases: ["heading sin texto", "estilo Normal"],
+        tests: "el documento reabierto contiene dos Heading 1 y la secuencia 1,2,1",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `sections=[{'h':1},{'h':2},{'h':1}]
-# TODO
+          code: `from docx import Document
+
+levels = [("Resumen", 1), ("Método", 2), ("Anexos", 1)]
+# Completa: guarda estructura.docx, reabre y calcula los estilos.
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `sections = [{"h": 1}, {"h": 2}, {"h": 1}]
-print(sum(1 for s in sections if s["h"] == 1))`,
-          output: `2`,
+          code: `from docx import Document
+
+levels = [("Resumen", 1), ("Método", 2), ("Anexos", 1)]
+doc = Document()
+for text, level in levels:
+    doc.add_heading(text, level)
+doc.save("estructura.docx")
+opened = Document("estructura.docx")
+styles = [p.style.name for p in opened.paragraphs if p.text]
+print(styles.count("Heading 1"))
+print(styles)`,
+          output: `2
+['Heading 1', 'Heading 2', 'Heading 1']`,
         },
       },
       {
@@ -712,29 +753,45 @@ print(sum(1 for s in sections if s["h"] == 1))`,
         subtopicId: "S21-T2-A",
         kind: "transfer",
         instruction:
-          "render_outline devuelve líneas indentadas; prueba un H1 y un H2.",
-        hint: "pad por h-1.",
+          "Transfiere el patrón: crea `auditoria.docx` con una tabla de dos métricas, reábrela y verifica encabezados, valor `28.0` y que no se convirtió missing en cero.",
+        hint: "Usa add_table(rows=1, cols=2), agrega filas y lee `cell.text` del documento reabierto.",
         hints: [
-          "pad por h-1.",
-          "print.",
+          "La tabla debe contener columnas métrica y valor.",
+          "Representa el dato faltante como em dash, no como 0.",
         ],
-        edgeCases: ["h=0"],
-        tests: "salida coincide con solution output",
+        edgeCases: ["missing", "tabla vacía"],
+        tests: "tabla reabierta preserva Ticket mediano=28.0 y Reclamos=—",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `from docx import Document
+
+metrics = [("Ticket mediano", "28.0"), ("Reclamos", "—")]
+# Completa el artefacto y valida sus celdas después de reabrirlo.
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `def render_outline(sections):
-    return "\\n".join("  " * (s["h"] - 1) + s["name"] for s in sections)
-print(render_outline([{"h": 1, "name": "A"}, {"h": 2, "name": "B"}]))`,
-          output: `A
-  B`,
+          code: `from docx import Document
+
+metrics = [("Ticket mediano", "28.0"), ("Reclamos", "—")]
+doc = Document()
+doc.add_heading("Auditoría", 1)
+table = doc.add_table(rows=1, cols=2)
+table.rows[0].cells[0].text = "Métrica"
+table.rows[0].cells[1].text = "Valor"
+for name, value in metrics:
+    cells = table.add_row().cells
+    cells[0].text, cells[1].text = name, value
+doc.save("auditoria.docx")
+opened = Document("auditoria.docx")
+rows = [[c.text for c in row.cells] for row in opened.tables[0].rows]
+print(rows[1])
+print(rows[2], rows[2][1] != "0")`,
+          output: `['Ticket mediano', '28.0']
+['Reclamos', '—'] True`,
         },
       },
       {
@@ -742,29 +799,42 @@ print(render_outline([{"h": 1, "name": "A"}, {"h": 2, "name": "B"}]))`,
         subtopicId: "S21-T2-B",
         kind: "guided",
         instruction:
-          "Si chars/pages < 20 print needs_ocr else digital; caso 10 chars 2 pages.",
-        hint: "densidad.",
+          "Genera un PDF digital local con `n=40`, extráelo con pypdf y demuestra firma PDF y capa de texto.",
+        hint: "Canvas.drawString()+save(); luego PdfReader(path).pages[0].extract_text().",
         hints: [
-          "densidad.",
-          "print.",
+          "Comprueba primero los bytes `%PDF`.",
+          "No declares digital sin extraer texto del archivo.",
         ],
-        edgeCases: ["pages 0"],
-        tests: "salida coincide con solution output",
+        edgeCases: ["PDF corrupto", "capa de texto vacía"],
+        tests: "firma válida y extracción contiene n=40",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `chars, pages = 10, 2
-# TODO
+          code: `from pathlib import Path
+from pypdf import PdfReader
+from reportlab.pdfgen import canvas
+
+path = Path("digital.pdf")
+# Completa generación y extracción.
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `chars, pages = 10, 2
-dens = chars / pages
-print("needs_ocr" if dens < 20 else "digital")`,
-          output: `needs_ocr`,
+          code: `from pathlib import Path
+from pypdf import PdfReader
+from reportlab.pdfgen import canvas
+
+path = Path("digital.pdf")
+c = canvas.Canvas(str(path))
+c.drawString(72, 760, "Resumen sintetico n=40")
+c.save()
+text = PdfReader(path).pages[0].extract_text() or ""
+print(path.read_bytes()[:4] == b"%PDF")
+print("n=40" in text)`,
+          output: `True
+True`,
         },
       },
       {
@@ -772,28 +842,41 @@ print("needs_ocr" if dens < 20 else "digital")`,
         subtopicId: "S21-T2-B",
         kind: "independent",
         instruction:
-          "classify(chars,pages) retorna digital o needs_ocr; prueba (100,1).",
-        hint: "Función.",
+          "Renderiza la primera página del PDF digital a PNG con PyMuPDF y verifica que ambos artefactos existen y tienen contenido.",
+        hint: "Abre con fitz.open(path), usa get_pixmap() y save().",
         hints: [
-          "Función.",
-          "print.",
+          "Cierra o conserva el documento mientras accedes a la página.",
+          "Verifica tamaño positivo, no solo el nombre del archivo.",
         ],
-        edgeCases: ["umbral distinto"],
-        tests: "salida coincide con solution output",
+        edgeCases: ["PDF sin páginas", "ruta PNG no escribible"],
+        tests: "PDF y PNG tienen tamaño positivo",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `# TODO
+          code: `from pathlib import Path
+import fitz
+from reportlab.pdfgen import canvas
+
+pdf, png = Path("render.pdf"), Path("render-p1.png")
+# Completa generación y render.
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `def classify(chars, pages):
-    return "digital" if chars / max(pages, 1) >= 20 else "needs_ocr"
-print(classify(100, 1))`,
-          output: `digital`,
+          code: `from pathlib import Path
+import fitz
+from reportlab.pdfgen import canvas
+
+pdf, png = Path("render.pdf"), Path("render-p1.png")
+c = canvas.Canvas(str(pdf))
+c.drawString(72, 760, "Hallazgo H1")
+c.save()
+document = fitz.open(pdf)
+document[0].get_pixmap().save(png)
+print(pdf.stat().st_size > 0, png.stat().st_size > 0)`,
+          output: `True True`,
         },
       },
       {
@@ -801,28 +884,46 @@ print(classify(100, 1))`,
         subtopicId: "S21-T2-B",
         kind: "transfer",
         instruction:
-          "Dado texto extraído '', marca needs_ocr True; imprime dict flags.",
-        hint: "bool(text).",
+          "Crea un PDF imagen-only con texto dibujado dentro de un PNG sintético; prueba que pypdf no recupera `n=17` y clasifícalo como `needs_ocr`.",
+        hint: "Pillow dibuja el PNG; reportlab.drawImage lo inserta como imagen; la extracción vacía activa abstención.",
         hints: [
-          "bool(text).",
-          "print.",
+          "No agregues texto con drawString al PDF: eso crearía capa digital.",
+          "Normaliza `extract_text() or ''` antes de strip().",
         ],
-        edgeCases: ["solo espacios"],
-        tests: "salida coincide con solution output",
+        edgeCases: ["OCR no instalado", "extracción devuelve None"],
+        tests: "PDF válido, extracción no contiene n=17 y needs_ocr=True",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "exercise.py",
-          code: `text = ''
-# TODO
+          code: `from pathlib import Path
+from PIL import Image, ImageDraw
+from pypdf import PdfReader
+from reportlab.pdfgen import canvas
+
+# Completa la creación del PNG y del PDF imagen-only.
 `,
         },
         solutionCode: {
           language: 'python',
           title: "exercise.py",
-          code: `text = ""
+          code: `from pathlib import Path
+from PIL import Image, ImageDraw
+from pypdf import PdfReader
+from reportlab.pdfgen import canvas
+
+png, pdf = Path("scan.png"), Path("scan.pdf")
+image = Image.new("RGB", (500, 120), "white")
+ImageDraw.Draw(image).text((20, 40), "Documento sintetico n=17", fill="black")
+image.save(png)
+c = canvas.Canvas(str(pdf), pagesize=(500, 120))
+c.drawImage(str(png), 0, 0, width=500, height=120)
+c.save()
+text = PdfReader(pdf).pages[0].extract_text() or ""
+print(pdf.read_bytes()[:4] == b"%PDF", "n=17" not in text)
 print({"needs_ocr": not bool(text.strip()), "n_chars": len(text)})`,
-          output: `{'needs_ocr': True, 'n_chars': 0}`,
+          output: `True True
+{'needs_ocr': True, 'n_chars': 0}`,
         },
       },
       {
@@ -1185,7 +1286,7 @@ False`,
       "Integra EDA (S18), dashboard (S19) y Excel (S20) en un **Accessible Insights Dashboard & Reporting Factory**: una corrida genera documentos/plantillas con números reconciliados, alt text, provenance y cola de aprobación. Cierre de **CP-N2-B**.",
     objectives: [
       "Plantillas Jinja con context único",
-      "Outline de informe ejecutivo",
+      "DOCX y PDF reales, reabiertos y renderizados",
       "Paridad de métricas entre artefactos",
       "A11y y formato consistente",
       "Provenance + pending_review",
@@ -1194,11 +1295,15 @@ False`,
       "Sin PII real ni secretos",
       "Hallazgos con id y evidencia",
       "Missing ≠ 0",
-      "Checksum/paridad documentada",
+      "Checksum/paridad documentada para DOCX, PDF, PNG y texto extraído",
       "es-PE en narrativa",
     ],
-    starterCode: `from jinja2 import Template
-import json, hashlib
+    starterCode: `from pathlib import Path
+from jinja2 import Template
+from docx import Document
+from pypdf import PdfReader
+from reportlab.pdfgen import canvas
+import fitz, hashlib, json
 
 context = {
     "run_id": "cpn2b-01",
@@ -1206,8 +1311,8 @@ context = {
     "n_Lima": 40,
     "limits": ["solo web"],
 }
-# TODO: render informe + provenance
-print(Template("Run {{ run_id }} Lima={{ median_Lima }}").render(**context))
+# Implementa build_docx(), build_pdf(), extract_and_render() y manifest().
+# El gate reabre ambos documentos y compara n_Lima/median_Lima con context.
 `,
     portfolioNote:
       "Paquete final CP-N2-B: dashboard + xlsx + informe con provenance; listo para revisión de gate (otra lane marca passed).",
@@ -1224,48 +1329,28 @@ print(Template("Run {{ run_id }} Lima={{ median_Lima }}").render(**context))
     questions: [
       {
         question: "¿Por qué separar datos y plantilla Jinja?",
-        options: [
-          "Para mezclar SQL en el HTML",
-          "Para reutilizar presentación y auditar métricas en Python",
-          "Para evitar control de versiones",
-          "Para ocultar n",
-        ],
-        correctIndex: 1,
+        options: ["Para reutilizar presentación y auditar métricas en Python", "Para mezclar SQL en el HTML", "Para evitar control de versiones", "Para ocultar n"],
+        correctIndex: 0,
         explanation:
           "La lógica y métricas viven en Python; la plantilla presenta.",
       },
       {
         question: "Un PDF con casi sin caracteres en capa de texto suele requerir:",
-        options: [
-          "Ignorar el archivo",
-          "OCR / tratamiento de imagen",
-          "Solo openpyxl",
-          "Borrar limitaciones",
-        ],
-        correctIndex: 1,
+        options: ["Ignorar el archivo", "Solo openpyxl", "OCR / tratamiento de imagen", "Borrar limitaciones"],
+        correctIndex: 2,
         explanation:
           "Baja densidad de texto sugiere escaneo/imagen.",
       },
       {
         question: "Paridad en el Reporting Factory significa:",
-        options: [
-          "Mismos colores",
-          "Mismas métricas clave en dashboard, Excel y documento",
-          "Mismo número de páginas",
-          "Mismo reviewer",
-        ],
-        correctIndex: 1,
+        options: ["Mismos colores", "Mismo número de páginas", "Mismo reviewer", "Mismas métricas clave en dashboard, Excel y documento"],
+        correctIndex: 3,
         explanation:
           "Números reconciliados entre artefactos.",
       },
       {
         question: "El cierre de contenido de CP-N2-B incluye:",
-        options: [
-          "Solo un print",
-          "Provenance, checklist visual y hallazgos trazables",
-          "Subir secretos al repo",
-          "Marcar section_passed desde esta lane",
-        ],
+        options: ["Solo un print", "Provenance, checklist visual y hallazgos trazables", "Subir secretos al repo", "Marcar section_passed desde esta lane"],
         correctIndex: 1,
         explanation:
           "Esta lane no marca passed en ledger; sí entrega artefactos con provenance.",

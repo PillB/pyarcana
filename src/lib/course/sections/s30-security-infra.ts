@@ -6,13 +6,13 @@ export const section30: CourseSection = {
   title: "Entity resolution probabilístico",
   shortTitle: "ER probabilístico",
   tagline: "Testable Entity Resolution Engine con benchmark etiquetado, blocking medido, comparadores explicables y cola de revisión",
-  estimatedHours: 16,
+  estimatedHours: 18,
   level: "Competente",
   phase: 2,
   icon: "GitMerge",
   accentColor: "bg-gradient-to-br from-fuchsia-500 to-purple-900",
   jobRelevance:
-    "Cierras **CP-N3-A** con un **Testable Entity Resolution Engine**: comparadores, blocking con recall medido, pesos/umbrales, clerical review y métricas pairwise/cluster sobre datos sintéticos etiquetados. Id de plataforma `security-infra` conservado; retemática V3 **Entity resolution probabilístico**. ER solo decide **misma entidad** — no relación ni riesgo/fraude.",
+    "Cierras **CP-N3-A** con un **Testable Entity Resolution Engine**: comparadores, blocking con recall medido, pesos/umbrales, clerical review y métricas pairwise/cluster sobre datos sintéticos etiquetados. ER solo decide **misma entidad**, no relación ni riesgo/fraude.",
   learningOutcomes: [
     { text: "Comparar exact/edit/token/fecha" },
     { text: "Tratar missingness y frecuencia" },
@@ -35,7 +35,7 @@ export const section30: CourseSection = {
         type: "info",
         title: "Gate CP-N3-A",
         content:
-          "Promoción conceptual del incremento: motor ER testeable. Esta lane de autoría **no** marca section_passed ni escribe ledger/checkpoint.",
+          "La promoción exige un motor ER testeable y evidencia de sus métricas, errores y casos enviados a revisión.",
       },
     },
     {
@@ -1306,49 +1306,29 @@ if __name__ == "__main__":
     questions: [
       {
         question: "El motor ER de CP-N3-A debe decidir:",
-        options: [
-          "Fraude automático",
-          "Parentescos",
-          "Si dos registros son la misma entidad",
-          "Riesgo crediticio",
-        ],
-        correctIndex: 2,
+        options: ["Fraude automático", "Si dos registros son la misma entidad", "Parentescos", "Riesgo crediticio"],
+        correctIndex: 1,
         explanation:
           "ER ≠ relación ≠ riesgo.",
       },
       {
         question: "Candidate recall de blocking mide:",
-        options: [
-          "Solo CPU",
-          "Fracción de verdaderos matches que sobreviven al blocking",
-          "Precisión del scorer final únicamente",
-          "Tamaño del disco",
-        ],
-        correctIndex: 1,
+        options: ["Solo CPU", "Precisión del scorer final únicamente", "Tamaño del disco", "Fracción de verdaderos matches que sobreviven al blocking"],
+        correctIndex: 3,
         explanation:
           "Recall sobre gold de candidatos.",
       },
       {
         question: "Scores entre t_low y t_high van a:",
-        options: [
-          "auto_match",
-          "non_match",
-          "clerical review",
-          "borrado",
-        ],
-        correctIndex: 2,
+        options: ["clerical review", "auto_match", "non_match", "borrado"],
+        correctIndex: 0,
         explanation:
           "Banda gris = humanos.",
       },
       {
         question: "Split por entidad evita:",
-        options: [
-          "Usar sqlite",
-          "Leakage de identidad entre train y test",
-          "Blocking",
-          "Review",
-        ],
-        correctIndex: 1,
+        options: ["Usar sqlite", "Blocking", "Leakage de identidad entre train y test", "Review"],
+        correctIndex: 2,
         explanation:
           "Entidades no deben contaminar evaluación.",
       },

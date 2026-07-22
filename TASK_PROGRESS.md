@@ -1,4 +1,18 @@
-# TASK_PROGRESS.md — Elite Content Creation Tracker
+# TASK_PROGRESS.md — PyArcana verification tracker
+
+## Active verification checkpoint (2026-07-22)
+
+- [x] Restore S01–S13 active-section contracts and remove five inactive legacy section files.
+- [x] Enforce exactly 8 unique tagged theory blocks, 8 demos and 24 exercises per active section in validator-only manifests.
+- [x] Separate learner packets from heuristic gaps, manifests and cumulative/internal analysis.
+- [x] Harden direct-live provenance checks; classify rebuilt/copied B1/B2 artifacts as tainted.
+- [x] Reset authoritative clean-run count to zero.
+- [ ] Run two fresh independent dual-newbie S01–S52 transcripts after the final content freeze.
+- [ ] Complete root-owned all-section adversarial/platform validation and deployment.
+
+All “COMPLETED” entries below are historical build work. They do not satisfy the current pedagogy/provenance gate.
+
+# Historical tracker
 
 ## Task 1 — COMPLETED ✅
 All 35 sections (S18-S52) fixed with real quiz content. 175 manually-authored questions.

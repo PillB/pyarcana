@@ -3,11 +3,11 @@ import type { CourseSection } from '../../types'
 export const section01: CourseSection = {
   id: 'setup',
   index: 1,
-  title: 'Setup & Entorno de Desarrollo',
-  shortTitle: 'Setup & Entorno',
+  title: 'Entorno reproducible y trabajo seguro',
+  shortTitle: 'Entorno reproducible',
   tagline:
     'Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1',
-  estimatedHours: 4,
+  estimatedHours: 18,
   level: 'Principiante',
   phase: 0,
   icon: 'Wrench',
@@ -2070,61 +2070,36 @@ if __name__ == "__main__":
     questions: [
       {
         question: '¿Para qué sirve un entorno virtual (venv) en Python?',
-        options: [
-          'Para acelerar la ejecución del código Python',
-          'Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones',
-          'Para conectarse a internet más rápido al instalar paquetes',
-          'Para compilar Python a código de máquina más eficiente',
-        ],
-        correctIndex: 1,
+        options: ['Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones', 'Para acelerar la ejecución del código Python', 'Para conectarse a internet más rápido al instalar paquetes', 'Para compilar Python a código de máquina más eficiente'],
+        correctIndex: 0,
         explanation:
           'venv crea una carpeta con su propia instalación de Python y paquetes. Esto evita que actualizar pandas en un proyecto rompa otro proyecto que depende de una versión anterior.',
       },
       {
         question: '¿Cuál de los siguientes archivos SÍ debería estar en tu .gitignore?',
-        options: [
-          'requirements.txt',
-          'README.md',
-          '.venv/ (o venv/)',
-          'hello.py',
-        ],
+        options: ['requirements.txt', 'README.md', '.venv/ (o venv/)', 'hello.py'],
         correctIndex: 2,
         explanation:
           '`.venv/` y `venv/` pesan 100MB+ y se regeneran con `python -m pip install -r requirements.txt`. No subas el entorno: ensucia el repo y no aporta. requirements.txt y README.md sí van al remoto. hello.py es tu código fuente.',
       },
       {
         question: '¿Cuál es un buen mensaje de commit siguiendo Conventional Commits?',
-        options: [
-          '"cambios"',
-          '"wip"',
-          '"feat: agregar cálculo de churn por segmento"',
-          '"arreglé el bug de ayer"',
-        ],
-        correctIndex: 2,
+        options: ['"cambios"', '"wip"', '"arreglé el bug de ayer"', '"feat: agregar cálculo de churn por segmento"'],
+        correctIndex: 3,
         explanation:
           'Conventional Commits usa prefijos como feat:, fix:, docs:, refactor: seguidos de una descripción corta e imperativa. Esto permite generar changelogs automáticamente y hace el historial legible.',
       },
       {
         question: '¿Qué comando te permite replicar el entorno de otro desarrollador?',
-        options: [
-          'pip install pandas numpy',
-          'python -m venv venv',
-          'pip install -r requirements.txt',
-          'git clone https://github.com/usuario/repo.git',
-        ],
-        correctIndex: 2,
+        options: ['pip install pandas numpy', 'pip install -r requirements.txt', 'python -m venv venv', 'git clone https://github.com/usuario/repo.git'],
+        correctIndex: 1,
         explanation:
           'Preferible `python -m pip install -r requirements.txt` (atado al mismo intérprete). Lee versiones pinneadas e instala el snapshot. `git clone` solo trae código; `python -m venv` crea el entorno vacío sin paquetes de terceros.',
       },
       {
         question: '¿Por qué NO debes subir el archivo .env a GitHub?',
-        options: [
-          'Porque pesa demasiado y ralentiza el git push',
-          'Porque suele contener credenciales (API keys, passwords, tokens) que son secretos',
-          'Porque GitHub no soporta archivos sin extensión',
-          'Porque entra en conflicto con requirements.txt',
-        ],
-        correctIndex: 1,
+        options: ['Porque suele contener credenciales (API keys, passwords, tokens) que son secretos', 'Porque pesa demasiado y ralentiza el git push', 'Porque GitHub no soporta archivos sin extensión', 'Porque entra en conflicto con requirements.txt'],
+        correctIndex: 0,
         explanation:
           'Los archivos .env guardan variables de entorno con secretos. Si los subes a un repo público, cualquiera puede usar tus credenciales. Es uno de los errores de seguridad más comunes y costosos en desarrollo. Usa `.env.example` sin secretos y deja `.env` en `.gitignore`.',
       },

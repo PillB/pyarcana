@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Globe, Check, ChevronDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useI18n, LANGUAGES } from '@/lib/i18n'
+import { useI18n, LANGUAGES, t } from '@/lib/i18n'
 import { cn } from '@/lib/utils'
 
 export function LanguageToggle() {
@@ -30,7 +30,8 @@ export function LanguageToggle() {
         size="sm"
         onClick={() => setOpen(!open)}
         className="gap-1.5"
-        title="Cambiar idioma"
+        title={t('nav.language', lang)}
+        aria-label={t('nav.language', lang)}
       >
         <Globe className="h-3.5 w-3.5" />
         <span className="text-base leading-none">{current.flag}</span>

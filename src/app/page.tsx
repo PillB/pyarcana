@@ -20,6 +20,8 @@ import { PricingPage } from '@/components/course/PricingPage'
 import { FamiliarityDashboard } from '@/components/course/FamiliarityDashboard'
 import { useServerProgressSync } from '@/lib/progress-store'
 import { COURSE_META, COURSE_SECTIONS } from '@/lib/course'
+import { IS_STATIC_SITE } from '@/lib/runtime-mode'
+import { t, useI18n } from '@/lib/i18n'
 
 type View = 'home' | 'section' | 'resources' | 'admin' | 'familiarity' | 'pricing'
 
@@ -34,6 +36,8 @@ export default function Home() {
   const { theme, setTheme } = useTheme()
   const { data: session } = useSession()
   const [mounted, setMounted] = useState(false)
+  const lang = useI18n((state) => state.lang)
+  const tr = (key: string) => t(key, lang)
 
   // Sync progress from server when user is logged in
   useServerProgressSync()
@@ -48,13 +52,13 @@ export default function Home() {
       if (hash === 'resources') {
         setView('resources')
         setActiveSectionId(null)
-      } else if (hash === 'admin') {
+      } else if (hash === 'admin' && !IS_STATIC_SITE) {
         setView('admin')
         setActiveSectionId(null)
       } else if (hash === 'familiarity') {
         setView('familiarity')
         setActiveSectionId(null)
-      } else if (hash === 'pricing') {
+      } else if (hash === 'pricing' && !IS_STATIC_SITE) {
         setView('pricing')
         setActiveSectionId(null)
       } else if (hash === 'home' || hash === '') {
@@ -122,10 +126,12 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} defaultTab={authTab} />
+      {!IS_STATIC_SITE && (
+        <AuthModal open={authOpen} onClose={() => setAuthOpen(false)} defaultTab={authTab} />
+      )}
       <Glossary open={glossaryOpen} onClose={() => setGlossaryOpen(false)} />
-      <FeedbackFab sectionId={activeSectionId} />
-      <PdfReport open={pdfReportOpen} onClose={() => setPdfReportOpen(false)} />
+      {!IS_STATIC_SITE && <FeedbackFab sectionId={activeSectionId} />}
+      {!IS_STATIC_SITE && <PdfReport open={pdfReportOpen} onClose={() => setPdfReportOpen(false)} />}
 
       {/* Sidebar — desktop */}
       <aside className="sticky top-0 hidden h-screen w-72 shrink-0 border-r border-sidebar-border lg:block">
@@ -177,7 +183,7 @@ export default function Home() {
             size="icon"
             onClick={() => setSidebarOpen(true)}
             className="lg:hidden"
-            aria-label="Abrir menú"
+            aria-label={tr('nav.menu')}
           >
             <Menu className="h-5 w-5" />
           </Button>
@@ -193,25 +199,25 @@ export default function Home() {
               size="icon"
               onClick={() => setGlossaryOpen(true)}
               className="h-9 w-9"
-              aria-label="Glosario"
+              aria-label={tr('nav.glossary')}
               data-testid="nav-glossary"
             >
               <BookOpen className="h-4 w-4" />
             </Button>
-            {session?.user && (
+            {!IS_STATIC_SITE && session?.user && (
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setPdfReportOpen(true)}
                 className="h-9 w-9"
-                aria-label="Reportes"
+                aria-label={tr('nav.reports')}
               >
                 <FileText className="h-4 w-4" />
               </Button>
             )}
             <ThemeToggle mounted={mounted} theme={theme} setTheme={setTheme} />
             <LanguageToggle />
-            <UserMenu onOpenAuth={() => handleOpenAuth('login')} />
+            {!IS_STATIC_SITE && <UserMenu onOpenAuth={() => handleOpenAuth('login')} />}
           </div>
         </header>
 
@@ -221,21 +227,21 @@ export default function Home() {
             {view !== 'home' && (
               <Button variant="ghost" size="sm" onClick={handleHome} className="gap-1.5">
                 <ArrowLeft className="h-4 w-4" />
-                Inicio
+                {tr('nav.back')}
               </Button>
             )}
             <div className="text-sm text-muted-foreground">
-              {view === 'home' && 'Dashboard'}
-              {view === 'resources' && 'Recursos'}
+              {view === 'home' && tr('nav.home')}
+              {view === 'resources' && tr('nav.resources')}
               {view === 'admin' && (
                 <span className="flex items-center gap-1">
                   <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-                  <span className="text-primary font-medium">Panel de Administración</span>
+                  <span className="text-primary font-medium">{tr('admin.title')}</span>
                 </span>
               )}
               {view === 'section' && activeSection && (
                 <span>
-                  Sección {activeSection.index} · <span className="text-foreground">{activeSection.shortTitle}</span>
+                  {lang === 'en' ? 'Section' : 'Sección'} {activeSection.index} · <span className="text-foreground">{activeSection.shortTitle}</span>
                 </span>
               )}
             </div>
@@ -253,7 +259,7 @@ export default function Home() {
               <span className="hidden sm:inline">Familiarity</span>
             </Button>
             {/* Admin link — only for admins */}
-            {session?.user?.role === 'ADMIN' && view !== 'admin' && (
+            {!IS_STATIC_SITE && session?.user?.role === 'ADMIN' && view !== 'admin' && (
               <Button
                 variant="outline"
                 size="sm"
@@ -261,20 +267,22 @@ export default function Home() {
                 className="gap-1.5"
               >
                 <ShieldCheck className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Admin</span>
+                <span className="hidden sm:inline">{tr('nav.admin')}</span>
               </Button>
             )}
             {/* Pricing — always visible */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => { setView('pricing'); updateUrl(null, 'pricing') }}
-              className="gap-1.5"
-              title="Planes y precios"
-            >
-              <CreditCard className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">Planes</span>
-            </Button>
+            {!IS_STATIC_SITE && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => { setView('pricing'); updateUrl(null, 'pricing') }}
+                className="gap-1.5"
+                title="Planes y precios"
+              >
+                <CreditCard className="h-3.5 w-3.5" />
+                <span className="hidden sm:inline">Planes</span>
+              </Button>
+            )}
             {/* Glossary — available to everyone */}
             <Button
               variant="ghost"
@@ -284,10 +292,10 @@ export default function Home() {
               title="Glosario (Cmd+K)"
             >
               <BookOpen className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">Glosario</span>
+              <span className="hidden sm:inline">{tr('nav.glossary')}</span>
             </Button>
             {/* PDF report — only for logged-in users */}
-            {session?.user && (
+            {!IS_STATIC_SITE && session?.user && (
               <Button
                 variant="ghost"
                 size="sm"
@@ -296,21 +304,21 @@ export default function Home() {
                 title="Reportes y certificados"
               >
                 <FileText className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Reportes</span>
+                <span className="hidden sm:inline">{tr('nav.reports')}</span>
               </Button>
             )}
             <a
-              href="https://github.com"
+              href="https://github.com/PillB/pyarcana"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs text-muted-foreground hover:bg-accent hover:text-foreground"
             >
               <Github className="h-4 w-4" />
-              <span className="hidden sm:inline">Repositorio</span>
+              <span className="hidden sm:inline">{tr('nav.repository')}</span>
             </a>
             <ThemeToggle mounted={mounted} theme={theme} setTheme={setTheme} />
             <LanguageToggle />
-            <UserMenu onOpenAuth={() => handleOpenAuth('login')} />
+            {!IS_STATIC_SITE && <UserMenu onOpenAuth={() => handleOpenAuth('login')} />}
           </div>
         </header>
 
@@ -342,9 +350,9 @@ export default function Home() {
                   }))}
                 />
               )}
-              {view === 'admin' && <AdminDashboard />}
+              {!IS_STATIC_SITE && view === 'admin' && <AdminDashboard />}
               {view === 'familiarity' && <FamiliarityDashboard />}
-              {view === 'pricing' && (
+              {!IS_STATIC_SITE && view === 'pricing' && (
                 <PricingPage
                   isAuthenticated={!!session?.user}
                   onOpenAuth={() => handleOpenAuth('login')}
@@ -387,10 +395,10 @@ export default function Home() {
         <footer className="mt-auto border-t border-border bg-muted/30 py-6">
           <div className="mx-auto max-w-6xl px-4 text-center text-xs text-muted-foreground sm:px-6 lg:px-8">
             <p>
-              PyArcana · Curso online autónomo de Python para Data Analyst / Data Scientist
+              {tr('footer.tagline')}
             </p>
             <p className="mt-1">
-              Método I Do / We Do / You Do · 52 secciones · Exámenes con anti-plagio · Español peruano
+              {tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish
             </p>
           </div>
         </footer>

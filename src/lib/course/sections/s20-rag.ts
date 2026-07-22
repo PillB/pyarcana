@@ -6,7 +6,7 @@ export const section20: CourseSection = {
   title: "Automatización robusta de Excel",
   shortTitle: "Excel factory",
   tagline: "adaptador que lee los formatos sintéticos del VP, produce un workbook de resultados sin dañar la plantilla y deja manifest de cambios",
-  estimatedHours: 12,
+  estimatedHours: 18,
   level: "Competente",
   phase: 1,
   icon: "MessageSquare",
@@ -1306,49 +1306,29 @@ print(wb.sheetnames)
     questions: [
       {
         question: "openpyxl sin Excel instalado evalúa fórmulas automáticamente:",
-        options: [
-          "Siempre sí",
-          "No; suele devolver la fórmula o cache si existe",
-          "Solo en Linux",
-          "Solo named ranges",
-        ],
-        correctIndex: 1,
+        options: ["Siempre sí", "Solo en Linux", "Solo named ranges", "No; suele devolver la fórmula o cache si existe"],
+        correctIndex: 3,
         explanation:
           "No hay motor Excel en openpyxl por defecto; calcula en Python o usa data_only con cache previo.",
       },
       {
         question: "Al escribir en celdas combinadas debes:",
-        options: [
-          "Escribir en cualquier celda del merge",
-          "Escribir en la celda ancla (top-left)",
-          "Desmerge siempre",
-          "Usar solo CSV",
-        ],
+        options: ["Escribir en cualquier celda del merge", "Escribir en la celda ancla (top-left)", "Desmerge siempre", "Usar solo CSV"],
         correctIndex: 1,
         explanation:
           "El valor vive en la celda ancla del rango combinado.",
       },
       {
         question: "Un manifest del excel factory debe permitir auditar:",
-        options: [
-          "Solo el color de fuente",
-          "Estados de batch, conciliación y backups",
-          "La contraseña del VP",
-          "Embeddings",
-        ],
-        correctIndex: 1,
+        options: ["Solo el color de fuente", "La contraseña del VP", "Estados de batch, conciliación y backups", "Embeddings"],
+        correctIndex: 2,
         explanation:
           "Auditoría operativa del lote y de la conciliación.",
       },
       {
         question: "Idempotencia significa:",
-        options: [
-          "Correr dos veces cambia totales al azar",
-          "Misma entrada → mismo resultado lógico",
-          "Borrar la plantilla",
-          "Ignorar headers",
-        ],
-        correctIndex: 1,
+        options: ["Misma entrada → mismo resultado lógico", "Correr dos veces cambia totales al azar", "Borrar la plantilla", "Ignorar headers"],
+        correctIndex: 0,
         explanation:
           "Re-ejecutar no debe corromper ni duplicar efectos no controlados.",
       },

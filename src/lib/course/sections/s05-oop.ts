@@ -6,7 +6,7 @@ export const section05: CourseSection = {
   title: "Funciones, contratos y descomposición",
   shortTitle: "Funciones & Contratos",
   tagline: "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
-  estimatedHours: 8,
+  estimatedHours: 18,
   level: "Principiante",
   phase: 0,
   icon: "FunctionSquare",
@@ -1543,61 +1543,36 @@ if __name__ == "__main__":
     questions: [
       {
         question: "Si una función no tiene return, ¿qué devuelve la llamada?",
-        options: [
-          "0",
-          "False",
-          "None",
-          "Error siempre",
-        ],
-        correctIndex: 2,
+        options: ["None", "0", "False", "Error siempre"],
+        correctIndex: 0,
         explanation:
           "Python inserta return None implícito.",
       },
       {
         question: "¿Por qué `def f(xs=[])` es peligroso?",
-        options: [
-          "Python no permite defaults",
-          "El default mutable se comparte entre llamadas",
-          "Solo falla con type hints",
-          "Convierte xs en tupla",
-        ],
-        correctIndex: 1,
+        options: ["Python no permite defaults", "Solo falla con type hints", "El default mutable se comparte entre llamadas", "Convierte xs en tupla"],
+        correctIndex: 2,
         explanation:
           "El objeto default se crea una vez; appends se acumulan entre llamadas.",
       },
       {
         question: "Una función pura…",
-        options: [
-          "Siempre imprime el resultado",
-          "Lee un archivo de config global",
-          "Mismo input → mismo output, sin efectos colaterales",
-          "Solo puede usarse en clases",
-        ],
-        correctIndex: 2,
+        options: ["Siempre imprime el resultado", "Lee un archivo de config global", "Solo puede usarse en clases", "Mismo input → mismo output, sin efectos colaterales"],
+        correctIndex: 3,
         explanation:
           "Pureza = determinismo + sin side effects; ideal para normalizadores.",
       },
       {
         question: "LEGB significa…",
-        options: [
-          "Local, Enclosing, Global, Builtin",
-          "List, Else, Generator, Break",
-          "Loop, Eval, Global, Binary",
-          "Lambda, Except, Goto, Block",
-        ],
-        correctIndex: 0,
+        options: ["List, Else, Generator, Break", "Local, Enclosing, Global, Builtin", "Loop, Eval, Global, Binary", "Lambda, Except, Goto, Block"],
+        correctIndex: 1,
         explanation:
           "Orden de resolución de nombres en Python.",
       },
       {
         question: "Idempotencia de un normalizador f significa…",
-        options: [
-          "f se ejecuta solo una vez en la vida del proceso",
-          "f(f(x)) == f(x) para entradas del dominio",
-          "f no puede tener defaults",
-          "f siempre lanza ValueError",
-        ],
-        correctIndex: 1,
+        options: ["f(f(x)) == f(x) para entradas del dominio", "f se ejecuta solo una vez en la vida del proceso", "f no puede tener defaults", "f siempre lanza ValueError"],
+        correctIndex: 0,
         explanation:
           "Reaplicar la normalización no cambia el valor ya canónico.",
       },

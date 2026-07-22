@@ -1,11 +1,12 @@
 {
-  "name": "nextjs_tailwind_shadcn_ts",
+  "name": "pyarcana",
   "version": "0.2.0",
   "private": true,
+  "packageManager": "bun@1.3.4",
   "scripts": {
     "dev": "next dev -p 3000 2>&1 | tee dev.log",
     "build": "next build && cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/",
-    "build:static": "NEXT_OUTPUT=export next build",
+    "build:static": "node scripts/build_static_export.mjs",
     "start": "NODE_ENV=production bun .next/standalone/server.js 2>&1 | tee server.log",
     "lint": "eslint .",
     "db:push": "prisma db push",
@@ -40,7 +41,7 @@
     "test:s01-pedagogy": "npm run test:s01-first-use && npm run test:s01-glossary-coverage",
     "test:ux-campaign:static": "npm run test:ux-gates && npm run test:s01-pedagogy && npm run test:e2e-max:catalog",
     "test:ux-campaign:smoke": "npm run test:ux-campaign:static && BASE_URL=http://localhost:3000 npx playwright test -c scripts/e2e_max/playwright.max.config.ts scripts/e2e_max/01_chrome_pages.spec.ts scripts/e2e_max/06_student_admin_flows.spec.ts scripts/e2e_max/07_glossary_i18n_a11y.spec.ts scripts/e2e_max/10_feedback.spec.ts",
-    "test:adversarial:node": "npx tsx --test tests/adversarial/*.test.ts tests/adversarial/*.test.mjs",
+    "test:adversarial:node": "node --import tsx --test tests/adversarial/*.test.ts tests/adversarial/*.test.mjs",
     "test:adversarial:py": "python3 -m unittest discover -s tests/adversarial -p 'test_*.py' -v",
     "test:adversarial": "npm run test:adversarial:node && npm run test:adversarial:py",
     "test:unit": "npm run test:adversarial && npm run test:v3-counts && npm run test:exam-pedagogy"

@@ -13,6 +13,8 @@ Purpose: deliberately stress **edge cases, malformed inputs, boundaries, rate li
 | `runtime_audit_classify` | incomplete starters, soft output match, active-52 filter | Full 2k+ runtime (CI python-content) |
 | `newbie_packet` | no solution leak, bounds, option-array nested quotes | Live LLM newbies |
 | `geometry_overlap` | nested false positives, sticky chrome, area noise | Full page geometry (Playwright) |
+| `auth-hardening` | bounded body/rate state, spoofed keys, public role escalation, fallback secrets | Distributed gateway limits (deployment) |
+| `static_export_guard` | source mutation, base path, third-party logo, dead server controls | Full visual regression (Playwright) |
 
 ## Commands
 

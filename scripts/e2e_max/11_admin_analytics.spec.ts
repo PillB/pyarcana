@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { loginAdmin, loginStudent, DEMO_STUDENT } from './helpers/auth'
+import { loginAdmin, loginStudent, E2E_STUDENT } from './helpers/auth'
 import { gotoHash } from './helpers/nav'
 
 const BASE = process.env.BASE_URL || 'http://localhost:3000'
@@ -72,8 +72,8 @@ test.describe('E2E max — admin analytics dashboard', () => {
     await studentPage.request.post(`${BASE}/api/auth/callback/credentials`, {
       form: {
         csrfToken,
-        email: DEMO_STUDENT.email,
-        password: process.env.E2E_DEMO_PASSWORD || 'demo1234',
+        email: E2E_STUDENT.email,
+        password: E2E_STUDENT.password,
         json: 'true',
         redirect: 'false',
         callbackUrl: BASE,

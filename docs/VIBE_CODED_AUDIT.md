@@ -33,7 +33,7 @@ Each issue was checked using the detection methods from the vibe-coding audit ch
 #### S1: Hardcoded secrets in client code — ✅ CLEAN
 - **Detection**: `rg -iU "(api[_-]?key|secret|password|token)\s*[=:]\s*['\"][^'\"$]" src/`
 - **Result**: No hardcoded secrets found in client code. All API keys are server-side via env vars.
-- **Note**: The test account passwords in `prisma/seed.ts` are committed but are test-only credentials for internal testing. Production passwords are in `docs/TEST_ACCOUNTS.md` (gitignored).
+- **Result**: No account password is committed in the seed or client. Authenticated E2E credentials must be supplied through environment variables.
 
 #### S2: SQL injection via raw queries — ✅ CLEAN
 - **Detection**: `rg "\$queryRawUnsafe|\$executeRawUnsafe"`
@@ -48,11 +48,11 @@ Each issue was checked using the detection methods from the vibe-coding audit ch
 - **Detection**: `rg -i "cors|access-control-allow-origin"`
 - **Result**: Next.js API routes use default CORS (same-origin). No explicit `Access-Control-Allow-Origin: *` found.
 
-#### S5: Missing rate limiting — ⚠️ FOUND (acceptable for now)
+#### S5: Missing rate limiting — ⚠️ PARTIALLY MITIGATED
 - **Detection**: `rg -i "rate.?limit|throttle"`
-- **Finding**: No rate limiting on auth or API endpoints.
-- **Risk**: Brute-force login attempts are possible. The exam API has a 3-attempt limit per section, but no IP-based rate limiting.
-- **Recommendation**: Add `upstash/ratelimit` before production launch. For internal testing (current phase), acceptable.
+- **Finding**: Registration has bounded per-process rate state, but a multi-instance deployment still needs shared ingress rate limiting.
+- **Risk**: A local limiter cannot coordinate across replicas and does not replace login throttling at the gateway.
+- **Recommendation**: Configure a shared rate limiter before a scaled production launch.
 
 ---
 

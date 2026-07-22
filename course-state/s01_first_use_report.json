@@ -36,6 +36,11 @@
       "snippet": "El intérprete Python y el REPL",
       "defined_at_first_use": true
     },
+    "path": {
+      "location": "theory.heading",
+      "snippet": "cwd, PATH y códigos de salida en la shell",
+      "defined_at_first_use": true
+    },
     "pip": {
       "location": "theory.heading",
       "snippet": "pip, freeze y requirements.txt",
@@ -54,11 +59,6 @@
     "pr": {
       "location": "theory.heading",
       "snippet": "Ramas, Pull Requests y recuperación segura",
-      "defined_at_first_use": true
-    },
-    "path": {
-      "location": "theory.paragraph",
-      "snippet": "veces el comando `python` no está en el PATH (la lista de carpetas donde el sistema busca programas). En",
       "defined_at_first_use": true
     }
   },

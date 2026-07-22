@@ -147,11 +147,9 @@ LEMON_SQUEEZY_API_KEY=...
 LEMON_SQUEEZY_WEBHOOK_SECRET=...
 ```
 
-## Test Accounts
+## Test accounts
 
-See `docs/TEST_ACCOUNTS.md` (gitignored) for 2 admin + 10 test student accounts with strong passwords.
-
-All test accounts are assigned the **Pro** plan for free (amount=0, provider=MANUAL) so testers have full access.
+The repository does not seed shared accounts or passwords. Integration-test users must be provisioned in an isolated test database and their credentials injected through the E2E environment variables documented by the test runner.
 
 ## Yape/Plin Limitation
 

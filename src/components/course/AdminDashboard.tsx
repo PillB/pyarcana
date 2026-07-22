@@ -142,7 +142,9 @@ export function AdminDashboard() {
   }, [toast])
 
   useEffect(() => {
-    load()
+    // The effect synchronizes this view with the remote admin data source.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    void load()
   }, [load])
 
   const loadStudentDetail = async (id: string) => {

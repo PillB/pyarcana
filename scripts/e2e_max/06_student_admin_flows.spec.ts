@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { loginAdmin, loginStudent, DEMO_STUDENT } from './helpers/auth'
+import { loginAdmin, loginStudent, E2E_STUDENT } from './helpers/auth'
 import { gotoHash, gotoSection, openTab } from './helpers/nav'
 
 const BASE = process.env.BASE_URL || 'http://localhost:3000'
@@ -11,7 +11,7 @@ test.describe('E2E max — student + admin flows', () => {
 
     const sess = await page.request.get(`${BASE}/api/auth/session`)
     const session = await sess.json()
-    expect(session?.user?.email).toBe(DEMO_STUDENT.email)
+    expect(session?.user?.email).toBe(E2E_STUDENT.email)
 
     const prog = await page.request.get(`${BASE}/api/progress`)
     expect(prog.ok()).toBeTruthy()
@@ -91,8 +91,8 @@ test.describe('E2E max — student + admin flows', () => {
     await studentPage.request.post(`${BASE}/api/auth/callback/credentials`, {
       form: {
         csrfToken,
-        email: DEMO_STUDENT.email,
-        password: process.env.E2E_DEMO_PASSWORD || 'demo1234',
+        email: E2E_STUDENT.email,
+        password: E2E_STUDENT.password,
         json: 'true',
         redirect: 'false',
         callbackUrl: BASE,

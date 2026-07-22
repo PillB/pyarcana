@@ -6,7 +6,7 @@ export const section08: CourseSection = {
   title: "Archivos, CSV, JSON y contratos de ingesta",
   shortTitle: "Archivos & ETL",
   tagline: "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
-  estimatedHours: 12,
+  estimatedHours: 19,
   level: "Intermedio",
   phase: 0,
   icon: "FileStack",
@@ -112,7 +112,7 @@ tiene CRLF True`,
       heading: "Dialectos, headers y tipos",
       subtopicId: "S08-T2-A",
       paragraphs: [
-        "`csv.DictReader` / `DictWriter` trabajan con headers. Declara `fieldnames`. Cast de tipos (`int`, `float`) es **explícito** y fallos van a reject/cuarentena — no silencies con 0 mágico sin traza.",
+        "`csv.DictReader` / `DictWriter` trabajan con headers. Declara `fieldnames`. Cast de tipos (`int`, `Decimal`) es **explícito** y fallos van a reject/cuarentena — no silencies con 0 mágico sin traza. El contrato monetario iniciado en S02 continúa: `Decimal` desde texto y cuantizado a `0.01`, nunca `float`.",
         "Fechas pueden quedarse como string ISO en N1-B si no hay parser de calendario aún; lo importante es el **contrato de columnas** documentado.",
         "Dialectos (delimitador `;` vs `,`) se configuran; no asumas Excel latam sin mirar el archivo.",
       ],
@@ -120,19 +120,20 @@ tiene CRLF True`,
         language: 'python',
         title: "csv_dict.py",
         code: `import csv, io
+from decimal import Decimal, InvalidOperation
 raw = "id,nombre,monto\\nC001,Ana,10.5\\nC002,Luis,20\\n"
 reader = csv.DictReader(io.StringIO(raw))
 for row in reader:
-    row["monto"] = float(row["monto"])
+    row["monto"] = Decimal(row["monto"]).quantize(Decimal("0.01"))
     print(row)`,
-        output: `{'id': 'C001', 'nombre': 'Ana', 'monto': 10.5}
-{'id': 'C002', 'nombre': 'Luis', 'monto': 20.0}`,
+        output: `{'id': 'C001', 'nombre': 'Ana', 'monto': Decimal('10.50')}
+{'id': 'C002', 'nombre': 'Luis', 'monto': Decimal('20.00')}`,
       },
       callout: {
         type: "tip",
         title: "Cast controlado",
         content:
-          "try/except ValueError por celda → fila a cuarentena con motivo.",
+          "try/except InvalidOperation por monto → fila a cuarentena con motivo; conserva raw.",
       },
     },
     {
@@ -172,7 +173,7 @@ bad [{'raw': ['C002', 'Luis', 'EXTRA'], 'reason': 'cols 3!=2'}, {'raw': ['C003']
       heading: "Objetos/arrays y serialización JSON",
       subtopicId: "S08-T3-A",
       paragraphs: [
-        "`json.loads` / `dumps` y `load` / `dump` sobre archivos. JSON objects → dict; arrays → list. **JSONL** (un objeto por línea) es útil para streams de txs.",
+        "`json.loads` / `dumps` y `load` / `dump` sobre archivos. JSON objects → dict; arrays → list. **JSONL** (un objeto por línea) es útil para streams de txs. JSON no tiene tipo Decimal: en este curso serializamos montos exactos como strings (`\"10.00\"`) y al leerlos reconstruimos `Decimal`; nunca los degradamos a float.",
         "`ensure_ascii=False` preserva tildes legibles. `sort_keys=True` ayuda a determinismo en manifests.",
         "`datetime` no es serializable por defecto: convierte a `isoformat()` o str para evitar TypeError.",
       ],
@@ -263,25 +264,31 @@ provenance {'path': 'clients.csv', 'sha256': '206bcfbde4f213a5b89c4d88b9a63d7b9c
       heading: "Reconciliación y manifest de corrida",
       subtopicId: "S08-T4-B",
       paragraphs: [
-        "Manifest JSON de la corrida: timestamps, hashes de inputs, conteos `n_in`, `n_clean`, `n_quarantine`, razones, versión de script.",
-        "**Reconciliación**: `n_in == n_clean + n_quarantine` (para un stream). Si no cuadra, **falla la corrida** — no publiques clean a medias.",
+        "Manifest JSON de la corrida: timestamps, versión y una entrada por fuente con `name`, hash y conteos `n_in`, `n_clean`, `n_quarantine`. Los totales de corrida se calculan sumando fuentes; no se escriben a mano.",
+        "**Reconciliación en dos niveles**: cada fuente cumple `n_in == n_clean + n_quarantine` y los totales son la suma exacta de las fuentes. Validar solo el agregado puede ocultar un sobrante en CSV compensado por un faltante en JSON. Si cualquier fuente no cuadra, **falla la corrida** — no publiques clean a medias.",
         "Evidencia del gate CP-N1-B: scripts + fixtures + manifest de demo + tests + README.",
       ],
       code: {
         language: 'python',
         title: "manifest.py",
         code: `import json
+sources = [
+    {"name": "clients.csv", "sha256": "abc", "n_in": 6, "n_clean": 5, "n_quarantine": 1},
+    {"name": "transactions.json", "sha256": "def", "n_in": 4, "n_clean": 3, "n_quarantine": 1},
+]
+for source in sources:
+    source["reconcile_ok"] = source["n_in"] == source["n_clean"] + source["n_quarantine"]
 manifest = {
-    "n_in": 10,
-    "n_clean": 8,
-    "n_quarantine": 2,
-    "inputs": [{"name": "clients.csv", "sha256": "abc"}],
+    "sources": sources,
+    "n_in": sum(s["n_in"] for s in sources),
+    "n_clean": sum(s["n_clean"] for s in sources),
+    "n_quarantine": sum(s["n_quarantine"] for s in sources),
 }
-ok = manifest["n_in"] == manifest["n_clean"] + manifest["n_quarantine"]
-print("reconcile_ok", ok)
-print(json.dumps(manifest, sort_keys=True))`,
+manifest["reconcile_ok"] = all(s["reconcile_ok"] for s in sources)
+print("reconcile_ok", manifest["reconcile_ok"])
+print([(s["name"], s["reconcile_ok"]) for s in sources])`,
         output: `reconcile_ok True
-{"inputs": [{"name": "clients.csv", "sha256": "abc"}], "n_clean": 8, "n_in": 10, "n_quarantine": 2}`,
+[('clients.csv', True), ('transactions.json', True)]`,
       },
       callout: {
         type: "success",
@@ -348,23 +355,24 @@ tmp gone True`,
         demoId: "S08-T2-A-DEMO",
         subtopicId: "S08-T2-A",
         environment: "local-python",
-        description: "Ingesta CSV de clientes con tipos monto/fecha string",
+        description: "Ingesta CSV con monto Decimal y fecha ISO string",
         code: {
           language: 'python',
           title: "S08-T2-A-DEMO — csv",
           code: `import csv, io
+from decimal import Decimal
 raw = "id,nombre,monto,fecha\\nC001,Ana,10.5,2026-01-10\\nC002,Luis,20,2026-01-11\\n"
 rows = []
 for row in csv.DictReader(io.StringIO(raw)):
-    row["monto"] = float(row["monto"])
+    row["monto"] = Decimal(row["monto"]).quantize(Decimal("0.01"))
     # fecha queda ISO string (contrato N1-B)
     rows.append(row)
 for r in rows:
     print(r["id"], r["monto"], type(r["monto"]).__name__, r["fecha"])`,
-          output: `C001 10.5 float 2026-01-10
-C002 20.0 float 2026-01-11`,
+          output: `C001 10.50 Decimal 2026-01-10
+C002 20.00 Decimal 2026-01-11`,
         },
-        why: "DictReader + cast explícito de monto; fecha como string ISO documentado.",
+        why: "DictReader + Decimal desde texto; fecha como string ISO documentado.",
       },
       {
         demoId: "S08-T2-B-DEMO",
@@ -418,7 +426,7 @@ C001,Ana
           code: `import json
 from pathlib import Path
 import tempfile
-rows = [{"id": "T1", "monto": 10}, {"id": "T2", "monto": 5}]
+rows = [{"id": "T1", "monto": "10.00"}, {"id": "T2", "monto": "5.00"}]
 td = Path(tempfile.mkdtemp())
 (td / "txs.json").write_text(
     json.dumps(rows, ensure_ascii=False, indent=2), encoding="utf-8"
@@ -431,14 +439,14 @@ print("jsonl lines", (td / "txs.jsonl").read_text(encoding="utf-8").splitlines()
           output: `[
   {
     "id": "T1",
-    "monto": 10
+    "monto": "10.00"
   },
   {
     "id": "T2",
-    "monto": 5
+    "monto": "5.00"
   }
 ]
-jsonl lines ['{"id": "T1", "monto": 10}', '{"id": "T2", "monto": 5}']`,
+jsonl lines ['{"id": "T1", "monto": "10.00"}', '{"id": "T2", "monto": "5.00"}']`,
         },
         why: "Array JSON para batch pequeño; JSONL para append y streaming de txs.",
       },
@@ -501,36 +509,51 @@ backup_ok True`,
           code: `import json
 from pathlib import Path
 import tempfile
+sources = [
+    {"name": "clients.csv", "sha256": "deadbeef", "n_in": 3, "n_clean": 2, "n_quarantine": 1},
+    {"name": "transactions.json", "sha256": "cafebabe", "n_in": 2, "n_clean": 2, "n_quarantine": 0},
+]
+for source in sources:
+    source["reconcile_ok"] = source["n_in"] == source["n_clean"] + source["n_quarantine"]
 manifest = {
     "run_id": "demo-001",
-    "n_in": 5,
-    "n_clean": 4,
-    "n_quarantine": 1,
-    "inputs": [{"name": "clients.csv", "sha256": "deadbeef"}],
-    "reconcile_ok": True,
+    "sources": sources,
+    "n_in": sum(s["n_in"] for s in sources),
+    "n_clean": sum(s["n_clean"] for s in sources),
+    "n_quarantine": sum(s["n_quarantine"] for s in sources),
+    "reconcile_ok": all(s["reconcile_ok"] for s in sources),
 }
-manifest["reconcile_ok"] = (
-    manifest["n_in"] == manifest["n_clean"] + manifest["n_quarantine"]
-)
 td = Path(tempfile.mkdtemp())
 path = td / "manifest.json"
 path.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
 print(path.read_text(encoding="utf-8"))`,
           output: `{
-  "inputs": [
-    {
-      "name": "clients.csv",
-      "sha256": "deadbeef"
-    }
-  ],
   "n_clean": 4,
   "n_in": 5,
   "n_quarantine": 1,
   "reconcile_ok": true,
-  "run_id": "demo-001"
+  "run_id": "demo-001",
+  "sources": [
+    {
+      "n_clean": 2,
+      "n_in": 3,
+      "n_quarantine": 1,
+      "name": "clients.csv",
+      "reconcile_ok": true,
+      "sha256": "deadbeef"
+    },
+    {
+      "n_clean": 2,
+      "n_in": 2,
+      "n_quarantine": 0,
+      "name": "transactions.json",
+      "reconcile_ok": true,
+      "sha256": "cafebabe"
+    }
+  ]
 }`,
         },
-        why: "El manifest es la evidencia publicable de la corrida CP-N1-B.",
+        why: "El manifest prueba reconciliación por fuente y agregada; ninguna fuente puede esconder pérdidas detrás de otra.",
       },
     ],
   },
@@ -843,34 +866,38 @@ print(rows[0])`,
         subtopicId: "S08-T2-A",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Cast de monto: si float() falla → reject con motivo. Procesa `['10', 'x', '3.5']` e imprime ok/reject.",
-        hint: "try float except ValueError",
+          "E3 (transferencia) — Cast de monto: `Decimal` desde texto + quantize a céntimos; si lanza `InvalidOperation` → reject con motivo. Procesa `['10', 'x', '3.5']` e imprime ok/reject.",
+        hint: "Decimal(v).quantize(Decimal('0.01')); except InvalidOperation",
         hints: [
-          "try float except ValueError",
-          "No uses 0 silencioso.",
+          "Decimal(v).quantize(Decimal('0.01')); except InvalidOperation",
+          "No uses float ni 0 silencioso.",
         ],
         edgeCases: ["cast fallido"],
-        tests: "ok/reject/ok",
+        tests: "Contrato exacto: ok 10.00; reject x motivo=cast_monto; ok 3.50; sin float().",
         feedback: "Cast fallido alimenta cuarentena con motivo.",
         starterCode: {
           language: 'python',
           title: "cast_reject.py",
-          code: `vals = ['10', 'x', '3.5']
+          code: `from decimal import Decimal, InvalidOperation
+
+vals = ['10', 'x', '3.5']
 # TODO`,
         },
         solutionCode: {
           language: 'python',
           title: "cast_reject.py",
-          code: `vals = ['10', 'x', '3.5']
+          code: `from decimal import Decimal, InvalidOperation
+
+vals = ['10', 'x', '3.5']
 for v in vals:
     try:
-        m = float(v)
+        m = Decimal(v).quantize(Decimal('0.01'))
         print('ok', m)
-    except ValueError:
+    except InvalidOperation:
         print('reject', v, 'motivo=cast_monto')`,
-          output: `ok 10.0
+          output: `ok 10.00
 reject x motivo=cast_monto
-ok 3.5`,
+ok 3.50`,
         },
       },
       {
@@ -1293,35 +1320,48 @@ print(prov)`,
         subtopicId: "S08-T4-B",
         kind: "guided",
         instruction:
-          "E1 (guiado) — Campos mínimos del manifest: imprime un dict con run_id, n_in, n_clean, n_quarantine, inputs.",
-        hint: "5 claves mínimas",
+          "E1 (guiado) — Construye un manifest con `run_id` y `sources`: cada fuente incluye name, sha256, n_in, n_clean, n_quarantine y reconcile_ok. Deriva los tres totales con sum; no los hardcodees.",
+        hint: "Calcula reconcile_ok por fuente antes de sumar",
         hints: [
-          "5 claves mínimas",
-          "inputs es lista",
+          "Calcula reconcile_ok por fuente antes de sumar",
+          "sources contiene clients.csv y transactions.json.",
         ],
-        edgeCases: ["campos mínimos"],
-        tests: "5 keys sorted",
-        feedback: "Contrato del artefacto de evidencia.",
+        edgeCases: ["dos fuentes", "totales derivados"],
+        tests: "Contrato exacto: totales 5/4/1; ambas fuentes reconcile_ok=True; manifest reconcile_ok=True.",
+        feedback: "El contrato conserva provenance y conteos por fuente.",
         starterCode: {
           language: 'python',
           title: "manifest_min.py",
-          code: `manifest = {
-    # TODO
-}
-print(sorted(manifest))`,
+          code: `sources = [
+    {'name': 'clients.csv', 'sha256': 'abc', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 1},
+    {'name': 'transactions.json', 'sha256': 'def', 'n_in': 2, 'n_clean': 2, 'n_quarantine': 0},
+]
+# TODO reconcile por fuente + totales derivados
+print(manifest)`,
         },
         solutionCode: {
           language: 'python',
           title: "manifest_min.py",
-          code: `manifest = {
+          code: `sources = [
+    {'name': 'clients.csv', 'sha256': 'abc', 'n_in': 3, 'n_clean': 2, 'n_quarantine': 1},
+    {'name': 'transactions.json', 'sha256': 'def', 'n_in': 2, 'n_clean': 2, 'n_quarantine': 0},
+]
+for source in sources:
+    source['reconcile_ok'] = source['n_in'] == source['n_clean'] + source['n_quarantine']
+manifest = {
     'run_id': 'r1',
-    'n_in': 3,
-    'n_clean': 2,
-    'n_quarantine': 1,
-    'inputs': [{'name': 'clients.csv'}],
+    'sources': sources,
+    'n_in': sum(s['n_in'] for s in sources),
+    'n_clean': sum(s['n_clean'] for s in sources),
+    'n_quarantine': sum(s['n_quarantine'] for s in sources),
+    'reconcile_ok': all(s['reconcile_ok'] for s in sources),
 }
-print(sorted(manifest))`,
-          output: `['inputs', 'n_clean', 'n_in', 'n_quarantine', 'run_id']`,
+print(manifest['n_in'], manifest['n_clean'], manifest['n_quarantine'])
+print([(s['name'], s['reconcile_ok']) for s in sources])
+print(manifest['reconcile_ok'])`,
+          output: `5 4 1
+[('clients.csv', True), ('transactions.json', True)]
+True`,
         },
       },
       {
@@ -1329,31 +1369,50 @@ print(sorted(manifest))`,
         subtopicId: "S08-T4-B",
         kind: "independent",
         instruction:
-          "E2 (independiente) — Reconcilia conteos: función `reconcile(n_in, n_clean, n_quar) -> bool`.",
-        hint: "n_in == n_clean + n_quar",
+          "E2 (independiente) — Implementa `reconcile_sources(sources)`: exige igualdad por cada fuente y también verifica que los totales derivados cuadren.",
+        hint: "all(s['n_in'] == s['n_clean'] + s['n_quarantine'] for s in sources)",
         hints: [
-          "n_in == n_clean + n_quar",
-          "Prueba 5=3+2 y 5=3+1",
+          "all(s['n_in'] == s['n_clean'] + s['n_quarantine'] for s in sources)",
+          "Prueba un caso donde el agregado cuadra pero cada fuente no.",
         ],
-        edgeCases: ["reconciliación"],
-        tests: "True False",
-        feedback: "Igualdad contable es el corazón del gate.",
+        edgeCases: ["errores compensados entre fuentes"],
+        tests: "Contrato exacto: good=True; compensated_bad=False aunque 10 == 9 + 1.",
+        feedback: "La igualdad agregada sola es insuficiente.",
         starterCode: {
           language: 'python',
           title: "reconcile.py",
-          code: `def reconcile(n_in, n_clean, n_quar):
+          code: `def reconcile_sources(sources):
     # TODO
     ...
-print(reconcile(5, 3, 2))
-print(reconcile(5, 3, 1))`,
+
+good = [{'n_in': 5, 'n_clean': 3, 'n_quarantine': 2}]
+compensated_bad = [
+    {'n_in': 5, 'n_clean': 5, 'n_quarantine': 1},
+    {'n_in': 5, 'n_clean': 4, 'n_quarantine': 0},
+]
+print(reconcile_sources(good))
+print(reconcile_sources(compensated_bad))`,
         },
         solutionCode: {
           language: 'python',
           title: "reconcile.py",
-          code: `def reconcile(n_in, n_clean, n_quar):
-    return n_in == n_clean + n_quar
-print(reconcile(5, 3, 2))
-print(reconcile(5, 3, 1))`,
+          code: `def reconcile_sources(sources):
+    per_source = all(
+        s['n_in'] == s['n_clean'] + s['n_quarantine']
+        for s in sources
+    )
+    n_in = sum(s['n_in'] for s in sources)
+    n_clean = sum(s['n_clean'] for s in sources)
+    n_quarantine = sum(s['n_quarantine'] for s in sources)
+    return per_source and n_in == n_clean + n_quarantine
+
+good = [{'n_in': 5, 'n_clean': 3, 'n_quarantine': 2}]
+compensated_bad = [
+    {'n_in': 5, 'n_clean': 5, 'n_quarantine': 1},
+    {'n_in': 5, 'n_clean': 4, 'n_quarantine': 0},
+]
+print(reconcile_sources(good))
+print(reconcile_sources(compensated_bad))`,
           output: `True
 False`,
         },
@@ -1363,40 +1422,55 @@ False`,
         subtopicId: "S08-T4-B",
         kind: "transfer",
         instruction:
-          "E3 (transferencia) — Si reconcile falla, imprime error y usa `raise SystemExit(1)` o simula con print de exit code 1. Si ok, print OK.",
+          "E3 (transferencia) — `run(sources)` publica solo si todas las fuentes reconcilian; el caso compensated_bad debe imprimir la fuente rota y exit_code 1.",
         hint: "No publiques clean si no cuadra",
         hints: [
           "No publiques clean si no cuadra",
-          "Dos escenarios.",
+          "Reporta los nombres de todas las fuentes rotas.",
         ],
         edgeCases: ["fail closed"],
-        tests: "OK luego ERROR",
+        tests: "Contrato exacto: good → OK/0; compensated_bad → ERROR sources=clients.csv,transactions.json/1.",
         feedback: "Fail closed protege consumidores del clean.",
         starterCode: {
           language: 'python',
           title: "fail_reconcile.py",
-          code: `def run(n_in, n_clean, n_quar):
+          code: `def run(sources):
     # TODO
     ...
-run(4, 2, 2)
-run(4, 2, 1)`,
+
+good = [{'name': 'clients.csv', 'n_in': 4, 'n_clean': 2, 'n_quarantine': 2}]
+bad = [
+    {'name': 'clients.csv', 'n_in': 5, 'n_clean': 5, 'n_quarantine': 1},
+    {'name': 'transactions.json', 'n_in': 5, 'n_clean': 4, 'n_quarantine': 0},
+]
+run(good)
+run(bad)`,
         },
         solutionCode: {
           language: 'python',
           title: "fail_reconcile.py",
-          code: `def run(n_in, n_clean, n_quar):
-    if n_in != n_clean + n_quar:
-        print('ERROR reconcile', n_in, n_clean, n_quar)
+          code: `def run(sources):
+    broken = [
+        s['name'] for s in sources
+        if s['n_in'] != s['n_clean'] + s['n_quarantine']
+    ]
+    if broken:
+        print('ERROR sources=' + ','.join(broken))
         print('exit_code', 1)
         return 1
     print('OK')
     print('exit_code', 0)
     return 0
-run(4, 2, 2)
-run(4, 2, 1)`,
+good = [{'name': 'clients.csv', 'n_in': 4, 'n_clean': 2, 'n_quarantine': 2}]
+bad = [
+    {'name': 'clients.csv', 'n_in': 5, 'n_clean': 5, 'n_quarantine': 1},
+    {'name': 'transactions.json', 'n_in': 5, 'n_clean': 4, 'n_quarantine': 0},
+]
+run(good)
+run(bad)`,
           output: `OK
 exit_code 0
-ERROR reconcile 4 2 1
+ERROR sources=clients.csv,transactions.json
 exit_code 1`,
         },
       },
@@ -1409,7 +1483,7 @@ exit_code 1`,
     objectives: [
       "Ingesta CSV y JSON con contratos documentados",
       "Validar/normalizar y cuarentenar rejects con motivo",
-      "Manifest con hashes, conteos y provenance",
+      "Manifest por fuente con hash, conteos, reconciliación y totales derivados",
       "Pruebas normal / borde / error",
       "Fail closed si reconcile no cuadra",
     ],
@@ -1418,7 +1492,9 @@ exit_code 1`,
       "Salidas out/clean/, out/quarantine/, out/manifest.json",
       "Integrar normalizadores y modelo en memoria",
       "README + demo local-python reproducible",
-      "n_in == n_clean + n_quarantine o exit != 0",
+      "Cada fuente cumple n_in == n_clean + n_quarantine o el proceso termina con exit != 0",
+      "Los totales del manifest se derivan de sources; una compensación entre fuentes nunca oculta un error",
+      "Montos entran como texto, se convierten con Decimal y se serializan como texto decimal",
       "Empaquetado CLI diferido a S10",
     ],
     starterCode: `"""etl_cp_n1_b.py — Client/Transaction ETL Pipeline (cierre CP-N1-B / S08)
@@ -1433,6 +1509,7 @@ import hashlib
 import json
 import os
 import shutil
+from decimal import Decimal, InvalidOperation
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -1462,18 +1539,16 @@ def load_clients_csv(path: Path) -> tuple[list[dict], list[dict]]:
 
 
 def load_transactions_json(path: Path) -> tuple[list[dict], list[dict]]:
-    # TODO schema mínimo id, client_id, monto
+    # TODO schema mínimo id, client_id, monto; Decimal desde texto + quantize("0.01")
     raise NotImplementedError
 
 
 def build_manifest(
     *,
-    n_in: int,
-    n_clean: int,
-    n_quarantine: int,
-    inputs: list[dict],
+    sources: list[dict[str, Any]],
 ) -> dict[str, Any]:
-    # TODO reconcile_ok
+    """Deriva totales y reconcile_ok desde cada fuente; no acepta totales agregados."""
+    # TODO validar name/sha256/conteos; reconcile por fuente; sumar totales
     raise NotImplementedError
 
 
@@ -1507,61 +1582,36 @@ if __name__ == "__main__":
     questions: [
       {
         question: "¿Por qué declarar encoding='utf-8' al abrir texto?",
-        options: [
-          "Es más rápido",
-          "Evita depender del locale del SO (p. ej. Windows)",
-          "Comprime el archivo",
-          "Activa pathlib",
-        ],
-        correctIndex: 1,
+        options: ["Es más rápido", "Comprime el archivo", "Activa pathlib", "Evita depender del locale del SO (p. ej. Windows)"],
+        correctIndex: 3,
         explanation:
           "El default de texto no es portátil; UTF-8 explícito evita mojibake y DecodeError sorpresa.",
       },
       {
         question: "Escritura atómica típica es…",
-        options: [
-          "open(dest,'w') y escribir directo siempre",
-          "escribir temp y os.replace al destino",
-          "solo print al stdout",
-          "append eterno al mismo file",
-        ],
+        options: ["open(dest,'w') y escribir directo siempre", "escribir temp y os.replace al destino", "solo print al stdout", "append eterno al mismo file"],
         correctIndex: 1,
         explanation:
           "temp + replace evita dejar dest truncado si hay crash mid-write.",
       },
       {
         question: "Una fila CSV con columnas de más debe…",
-        options: [
-          "Ignorarse en silencio",
-          "Rellenarse con None sin traza",
-          "Ir a cuarentena con motivo",
-          "Pisar el header",
-        ],
+        options: ["Ignorarse en silencio", "Rellenarse con None sin traza", "Ir a cuarentena con motivo", "Pisar el header"],
         correctIndex: 2,
         explanation:
           "Irregular → quarantine + reason; no desalinear en silencio.",
       },
       {
         question: "Reconciliación del manifest exige…",
-        options: [
-          "n_clean > n_in",
-          "n_in == n_clean + n_quarantine",
-          "solo n_quarantine == 0",
-          "hash del clean == hash del input",
-        ],
-        correctIndex: 1,
+        options: ["n_in == n_clean + n_quarantine", "n_clean > n_in", "solo n_quarantine == 0", "hash del clean == hash del input"],
+        correctIndex: 0,
         explanation:
           "Toda fila de entrada termina en clean o quarantine (para ese stream).",
       },
       {
         question: "Si reconcile falla, el pipeline debe…",
-        options: [
-          "Publicar clean igual",
-          "Fallar (exit non-zero) / fail closed",
-          "Borrar el manifest",
-          "Convertir a pandas automáticamente",
-        ],
-        correctIndex: 1,
+        options: ["Publicar clean igual", "Borrar el manifest", "Convertir a pandas automáticamente", "Fallar (exit non-zero) / fail closed"],
+        correctIndex: 3,
         explanation:
           "Fail closed protege a consumidores; el gate exige conteos cuadrados.",
       },

@@ -6,7 +6,7 @@ export const section11: CourseSection = {
   title: "OOP y modelo de dominio",
   shortTitle: "OOP dominio",
   tagline: "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
-  estimatedHours: 10,
+  estimatedHours: 19,
   level: "Intermedio",
   phase: 0,
   icon: "Boxes",
@@ -76,7 +76,7 @@ ClientRecord C001`,
       paragraphs: [
         "`__post_init__` en dataclasses valida justo después de construir. Si el estado es inválido, **falla al crear** — no dejes objetos a medias.",
         "Método `validate()` reutilizable ayuda en factories `from_dict`. Sin side-effects de negocio externos (no llama APIs al validar).",
-        "Ejemplo: `document_id` no vacío; fechas de transacción coherentes.",
+        "Ejemplo: `document_id` no vacío; en `Transaction`, `amount` es `Decimal` positivo y `currency` pertenece al allowlist explícito `{'PEN', 'USD'}`. Nunca conviertas moneda en silencio.",
       ],
       code: {
         language: 'python',
@@ -152,28 +152,31 @@ print(c.display_name, c.masked_email)`,
       heading: "Igualdad, hash y mutabilidad consciente",
       subtopicId: "S11-T2-B",
       paragraphs: [
-        "`__eq__` por **business key** (document_id / entity_id) evita comparar basura de campos opcionales. **`frozen=True`** habilita hash seguro para sets/dicts.",
+        "La identidad de `ResolvedEntity` usa su **`entity_id` estable**, no `document_id`: un documento es PII, puede corregirse/reemitirse y no debe fusionar entidades por accidente. **`frozen=True`** habilita hash seguro para sets/dicts.",
         "Entidades mutables como keys de dict son una fuente clásica de bugs: el hash cambia si mutas campos del eq.",
         "Value objects (Evidence) suelen ser frozen; agregados con listas pueden ser mutables con cuidado.",
       ],
       code: {
         language: 'python',
         title: "frozen_entity.py",
-        code: `from dataclasses import dataclass
+        code: `from dataclasses import dataclass, field
 
 @dataclass(frozen=True)
 class ResolvedEntity:
     entity_id: str
-    display_name: str
+    display_name: str = field(compare=False)
+
+    def __post_init__(self) -> None:
+        if not self.entity_id.strip():
+            raise ValueError("entity_id vacío")
 
 a = ResolvedEntity("E1", "Ana")
 b = ResolvedEntity("E1", "Ana Perez")
 s = {a, ResolvedEntity("E2", "Luis")}
 print("same id eq?", a == ResolvedEntity("E1", "otra"))
-# eq por defecto usa todos los campos; demo de set por identidad de valor completo
 print("set size", len(s))
 print("E1 in set", a in s)`,
-        output: `same id eq? False
+        output: `same id eq? True
 set size 2
 E1 in set True`,
       },
@@ -181,7 +184,7 @@ E1 in set True`,
         type: "info",
         title: "eq custom",
         content:
-          "Si eq es solo por entity_id, implementa __eq__/__hash__ a mano o usa field compare.",
+          "`field(compare=False)` excluye display_name de eq/hash. No uses document_id como identidad de ResolvedEntity.",
       },
     },
     {
@@ -189,6 +192,7 @@ E1 in set True`,
       subtopicId: "S11-T3-A",
       paragraphs: [
         "**has-a** (composición) suele modelar mejor casos: `CaseFile` tiene lista de `RelationshipEvidence` y una `ResolvedEntity`.",
+        "Una evidencia usa un par canónico (`left_id < right_id`), ids distintos y score finito en [0, 1]. Así (E1,E2) y (E2,E1) no duplican la misma relación.",
         "Herencia solo si hay **subtipo real** (is-a). Evita jerarquías frágiles `Client(Person(BaseEntity...))` solo para reutilizar un campo.",
         "Mixins con cautela: complejidad invisible. Prefiere funciones o colaboración entre objetos.",
       ],
@@ -196,12 +200,19 @@ E1 in set True`,
         language: 'python',
         title: "composition.py",
         code: `from dataclasses import dataclass, field
+from math import isfinite
 
 @dataclass(frozen=True)
 class RelationshipEvidence:
     left_id: str
     right_id: str
     signal_score: float  # dato, no veredicto
+
+    def __post_init__(self) -> None:
+        if not self.left_id < self.right_id:
+            raise ValueError("par no canónico")
+        if not isfinite(self.signal_score) or not 0.0 <= self.signal_score <= 1.0:
+            raise ValueError("signal_score fuera de rango")
 
 @dataclass
 class CaseFile:
@@ -324,7 +335,7 @@ print(svc.register("C001", "a@ejemplo.pe"))`,
       paragraphs: [
         "Tests del dominio son **puros**: sin red, sin DB real. Fakes del Protocol bastan.",
         "Assert de invariantes y de **ausencia** de APIs peligrosas (`is_fraud`, `is_related_family`).",
-        "Scores de resolución/relación son campos; un test puede verificar que existen como float y que no hay método de veredicto.",
+        "Scores de resolución/relación son campos; un test verifica finitud/rango, par canónico y ausencia de métodos de veredicto.",
       ],
       code: {
         language: 'python',
@@ -455,15 +466,15 @@ l***@ejemplo.pe`,
         code: {
           language: 'python',
           title: "frozen_set.py",
-          code: `from dataclasses import dataclass
+          code: `from dataclasses import dataclass, field
 
 @dataclass(frozen=True)
 class ResolvedEntity:
     entity_id: str
-    display_name: str
+    display_name: str = field(compare=False)
 
 e1 = ResolvedEntity("E1", "Ana")
-e1b = ResolvedEntity("E1", "Ana")
+e1b = ResolvedEntity("E1", "Ana actualizada")
 e2 = ResolvedEntity("E2", "Luis")
 s = {e1, e1b, e2}
 print("size", len(s))
@@ -471,7 +482,7 @@ print("e1==e1b", e1 == e1b)`,
           output: `size 2
 e1==e1b True`,
         },
-        why: "frozen permite usar entidades en sets sin sorpresas de mutación.",
+        why: "frozen + display_name compare=False mantiene identidad/hash por entity_id aunque cambie la etiqueta visible.",
       },
       {
         demoId: "S11-T3-A-DEMO",
@@ -630,7 +641,7 @@ pass`,
           "Instancia y print.",
         ],
         edgeCases: ["default=[] sería mutable compartido"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -658,35 +669,37 @@ print(ClientRecord("C001", "Ana Perez", ["999111222"]))`,
         subtopicId: "S11-T1-A",
         kind: "independent",
         instruction:
-          "Define Transaction con tx_id, client_id, amount: float, currency: str obligatorios.",
-        hint: "Sin defaults en campos obligatorios.",
+          "Define Transaction con tx_id, client_id, amount: Decimal y currency: str obligatorios; usa Decimal desde texto y PEN en el caso visible.",
+        hint: "Importa Decimal; sin defaults en campos obligatorios.",
         hints: [
-          "Sin defaults en campos obligatorios.",
-          "Crea una instancia sintética.",
+          "Importa Decimal; sin defaults en campos obligatorios.",
+          "Crea Decimal('150.50'); nunca lo construyas desde float.",
         ],
-        edgeCases: ["currency ISO como str en N1"],
-        tests: "salida coincide con solution output",
+        edgeCases: ["currency PEN", "dos decimales", "sin float"],
+        tests: "Contrato exacto: repr muestra amount=Decimal('150.50') y currency='PEN'; el código no llama float().",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "transaction.py",
           code: `from dataclasses import dataclass
+from decimal import Decimal
 # TODO`,
         },
         solutionCode: {
           language: 'python',
           title: "transaction.py",
           code: `from dataclasses import dataclass
+from decimal import Decimal
 
 @dataclass
 class Transaction:
     tx_id: str
     client_id: str
-    amount: float
+    amount: Decimal
     currency: str
 
-print(Transaction("T1", "C001", 150.5, "PEN"))`,
-          output: `Transaction(tx_id='T1', client_id='C001', amount=150.5, currency='PEN')`,
+print(Transaction("T1", "C001", Decimal("150.50"), "PEN"))`,
+          output: `Transaction(tx_id='T1', client_id='C001', amount=Decimal('150.50'), currency='PEN')`,
         },
       },
       {
@@ -701,7 +714,7 @@ print(Transaction("T1", "C001", 150.5, "PEN"))`,
           "Imprime el tipo y el id.",
         ],
         edgeCases: ["KeyError si falta campo — aceptable o validar en T1-B"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -736,47 +749,62 @@ print(type(c).__name__, c.client_id)`,
         subtopicId: "S11-T1-B",
         kind: "guided",
         instruction:
-          "Añade invariante: amount de Transaction debe ser > 0.",
-        hint: "__post_init__ raise ValueError.",
+          "Añade invariantes: amount Decimal > 0, cuantizado a 0.01, y currency en {'PEN', 'USD'} sin conversión silenciosa.",
+        hint: "__post_init__: isinstance Decimal, quantize(0.01), allowlist de currency.",
         hints: [
-          "__post_init__ raise ValueError.",
-          "Muestra ok y reject.",
+          "__post_init__: isinstance Decimal, quantize(0.01), allowlist de currency.",
+          "Muestra ok PEN y rechazos por cero y EUR.",
         ],
-        edgeCases: ["amount negativo también inválido"],
-        tests: "salida coincide con solution output",
+        edgeCases: ["amount negativo", "float prohibido", "currency minúscula", "EUR fuera del allowlist"],
+        tests: "Contrato exacto: Decimal('10.00')/PEN válido; cero y EUR lanzan ValueError; float 10.0 se rechaza; no se convierte currency automáticamente.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "tx_invariant.py",
           code: `from dataclasses import dataclass
+from decimal import Decimal
 
 @dataclass
 class Transaction:
     tx_id: str
-    amount: float
+    amount: Decimal
+    currency: str
     # TODO post_init`,
         },
         solutionCode: {
           language: 'python',
           title: "tx_invariant.py",
           code: `from dataclasses import dataclass
+from decimal import Decimal
 
 @dataclass
 class Transaction:
     tx_id: str
-    amount: float
+    amount: Decimal
+    currency: str
 
     def __post_init__(self):
-        if self.amount <= 0:
+        if not isinstance(self.amount, Decimal):
+            raise TypeError("amount debe ser Decimal")
+        if self.amount <= Decimal("0"):
             raise ValueError("amount debe ser > 0")
+        if self.amount != self.amount.quantize(Decimal("0.01")):
+            raise ValueError("amount debe tener máximo 2 decimales")
+        if self.currency not in {"PEN", "USD"}:
+            raise ValueError("currency no soportada")
 
-print(Transaction("T1", 10))
+print(Transaction("T1", Decimal("10.00"), "PEN"))
 try:
-    Transaction("T2", 0)
+    Transaction("T2", Decimal("0.00"), "PEN")
+except ValueError as e:
+    print("reject", e)
+try:
+    Transaction("T3", Decimal("1.00"), "EUR")
 except ValueError as e:
     print("reject", e)`,
-          output: `Transaction(tx_id='T1', amount=10)
-reject amount debe ser > 0`,
+          output: `Transaction(tx_id='T1', amount=Decimal('10.00'), currency='PEN')
+reject amount debe ser > 0
+reject currency no soportada`,
         },
       },
       {
@@ -791,7 +819,7 @@ reject amount debe ser > 0`,
           "Prueba ok y fail.",
         ],
         edgeCases: ["strip evita espacios como id válido"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -849,7 +877,7 @@ document_id vacío`,
           "Formato INV: ...",
         ],
         edgeCases: ["Invariantes de negocio ≠ veredictos de fraude"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -861,13 +889,13 @@ document_id vacío`,
           title: "invariants_list.py",
           code: `for inv in [
     "INV: ClientRecord.document_id no vacío",
-    "INV: Transaction.amount > 0 y currency no vacía",
+    "INV: Transaction.amount es Decimal > 0 (0.01) y currency es PEN o USD",
     "INV: RelationshipEvidence.signal_score entre 0 y 1",
     "INV: ResolvedEntity.entity_id único y no vacío",
 ]:
     print(inv)`,
           output: `INV: ClientRecord.document_id no vacío
-INV: Transaction.amount > 0 y currency no vacía
+INV: Transaction.amount es Decimal > 0 (0.01) y currency es PEN o USD
 INV: RelationshipEvidence.signal_score entre 0 y 1
 INV: ResolvedEntity.entity_id único y no vacío`,
         },
@@ -884,7 +912,7 @@ INV: ResolvedEntity.entity_id único y no vacío`,
           "Print full_name.",
         ],
         edgeCases: ["No guardar full_name duplicado si se puede calcular"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -927,7 +955,7 @@ print(Person("Ana", "Perez").full_name)`,
           "Prueba con números sintéticos.",
         ],
         edgeCases: ["En prod usa date/datetime; aquí simplificamos"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -962,19 +990,21 @@ print(Transaction("T1", 10).age_days_since(25))`,
         subtopicId: "S11-T2-A",
         kind: "transfer",
         instruction:
-          "Encapsula mutación de score con setter que solo acepta 0..1.",
-        hint: "Property score con setter validado.",
+          "Encapsula mutación de score con setter que solo acepta valores numéricos finitos entre 0 y 1.",
+        hint: "Property score + math.isfinite antes del rango.",
         hints: [
-          "Property score con setter validado.",
-          "Muestra ok y reject.",
+          "Property score + math.isfinite antes del rango.",
+          "Muestra ok y rechaza 1.5 y NaN.",
         ],
-        edgeCases: ["score es señal, no veredicto"],
-        tests: "salida coincide con solution output",
+        edgeCases: ["NaN", "Infinity", "score es señal, no veredicto"],
+        tests: "Contrato exacto: 0.4 válido; 1.5 y float('nan') lanzan ValueError('score fuera de rango').",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
           title: "score_setter.py",
-          code: `class Signal:
+          code: `from math import isfinite
+
+class Signal:
     def __init__(self):
         self._score = 0.0
     # TODO property score`,
@@ -982,7 +1012,9 @@ print(Transaction("T1", 10).age_days_since(25))`,
         solutionCode: {
           language: 'python',
           title: "score_setter.py",
-          code: `class Signal:
+          code: `from math import isfinite
+
+class Signal:
     def __init__(self):
         self._score = 0.0
 
@@ -993,7 +1025,7 @@ print(Transaction("T1", 10).age_days_since(25))`,
     @score.setter
     def score(self, value: float) -> None:
         v = float(value)
-        if not 0.0 <= v <= 1.0:
+        if not isfinite(v) or not 0.0 <= v <= 1.0:
             raise ValueError("score fuera de rango")
         self._score = v
 
@@ -1003,9 +1035,14 @@ print("ok", s.score)
 try:
     s.score = 1.5
 except ValueError as e:
-    print("reject", e)`,
+    print("reject", e)
+try:
+    s.score = float("nan")
+except ValueError as e:
+    print("reject_nan", e)`,
           output: `ok 0.4
-reject score fuera de rango`,
+reject score fuera de rango
+reject_nan score fuera de rango`,
         },
       },
       {
@@ -1013,46 +1050,47 @@ reject score fuera de rango`,
         subtopicId: "S11-T2-B",
         kind: "guided",
         instruction:
-          "Implementa eq por business key document_id (dos clientes iguales si mismo doc).",
-        hint: "__eq__ custom; no hace falta hash si no frozen.",
+          "Implementa ResolvedEntity frozen con igualdad/hash solo por entity_id; display_name puede cambiar sin cambiar identidad.",
+        hint: "dataclass(frozen=True) + field(compare=False) en display_name.",
         hints: [
-          "__eq__ custom; no hace falta hash si no frozen.",
-          "Print comparaciones.",
+          "dataclass(frozen=True) + field(compare=False) en display_name.",
+          "Dos E1 con nombres distintos son iguales; E2 no lo es.",
         ],
-        edgeCases: ["Si defines eq sin hash, la clase no es hasheable (OK)"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["entity_id vacío se rechaza", "document_id nunca participa en identidad"],
+        tests: "Contrato exacto: E1/Ana == E1/Ana actualizada; E1 != E2; set tiene 2 elementos; entity_id vacío lanza ValueError.",
+        feedback: "La identidad estable es entity_id; etiquetas y documentos pueden corregirse.",
         starterCode: {
           language: 'python',
-          title: "eq_document.py",
-          code: `from dataclasses import dataclass
+          title: "entity_identity.py",
+          code: `from dataclasses import dataclass, field
 
-@dataclass
-class ClientRecord:
-    client_id: str
-    document_id: str
-    # TODO eq`,
+@dataclass(frozen=True)
+class ResolvedEntity:
+    entity_id: str
+    display_name: str = field(compare=False)
+    # TODO post_init`,
         },
         solutionCode: {
           language: 'python',
-          title: "eq_document.py",
-          code: `from dataclasses import dataclass
+          title: "entity_identity.py",
+          code: `from dataclasses import dataclass, field
 
-@dataclass
-class ClientRecord:
-    client_id: str
-    document_id: str
+@dataclass(frozen=True)
+class ResolvedEntity:
+    entity_id: str
+    display_name: str = field(compare=False)
 
-    def __eq__(self, other):
-        if not isinstance(other, ClientRecord):
-            return NotImplemented
-        return self.document_id == other.document_id
+    def __post_init__(self):
+        if not self.entity_id.strip():
+            raise ValueError("entity_id vacío")
 
-a = ClientRecord("C1", "DNI-9")
-b = ClientRecord("C2", "DNI-9")
-c = ClientRecord("C3", "DNI-1")
-print(a == b, a == c)`,
-          output: `True False`,
+a = ResolvedEntity("E1", "Ana")
+b = ResolvedEntity("E1", "Ana actualizada")
+c = ResolvedEntity("E2", "Ana")
+print(a == b, a == c)
+print(len({a, b, c}))`,
+          output: `True False
+2`,
         },
       },
       {
@@ -1067,7 +1105,7 @@ print(a == b, a == c)`,
           "Imprime len del set con duplicado.",
         ],
         edgeCases: ["Duplicado exacto colapsa en set"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1107,7 +1145,7 @@ print(len(s))`,
           "Con mutable: cambiar campo rompe lookup.",
         ],
         edgeCases: ["No implementes __hash__ en mutables"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1157,7 +1195,7 @@ SAFE row`,
           "Sin class Person base.",
         ],
         edgeCases: ["Composición permite cambiar PersonInfo sin romper Client"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1199,7 +1237,7 @@ design=composition`,
           "Print n=2.",
         ],
         edgeCases: ["Validar score en el value object, no solo en CaseFile"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1244,7 +1282,7 @@ print("n=", len(cf.evidences))`,
           "Español profesional.",
         ],
         edgeCases: ["is-a real: SavingsAccount is-a Account tal vez; Client is-a Person rara vez aporta"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1272,7 +1310,7 @@ JUST: la composición evita jerarquías frágiles cuando Person cambia sin ser C
           "typing.Protocol.",
         ],
         edgeCases: ["El Protocol no se instancia"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1309,7 +1347,7 @@ print(s.score(("E1", "E2")))`,
           "Imprime ambos resultados.",
         ],
         edgeCases: ["Duck typing: cualquier callable sirve"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1349,7 +1387,7 @@ ana`,
           "Español claro.",
         ],
         edgeCases: ["Cuando aparece el segundo adapter, el Protocol suele justificar"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1377,7 +1415,7 @@ WHEN_NOT: el puerto aún no es estable y crear Protocol congela una API prematur
           "Print dict.",
         ],
         edgeCases: ["password no debería vivir en el dominio de familiaridad idealmente"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1421,7 +1459,7 @@ print(ClientRecord("C1", "a@ejemplo.pe", "secret").to_dict())`,
           "Roundtrip de un client dict.",
         ],
         edgeCases: ["get retorna None si no existe"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1459,7 +1497,7 @@ print(r.get("C001"))`,
           "Imprime LAYER líneas.",
         ],
         edgeCases: ["Logging puede colgarse del service con correlation_id"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1492,7 +1530,7 @@ LAYER: domain/repo — entidades, invariantes, persistencia abstracta`,
           "print('pass') al final.",
         ],
         edgeCases: ["Tests puros: sin I/O"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1545,7 +1583,7 @@ print(test_empty_document_rejected())`,
           "Service simple con repo inyectado.",
         ],
         edgeCases: ["Fake no es mock mágico: es implementación en memoria"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1618,7 +1656,7 @@ pass`,
           "Dos líneas.",
         ],
         edgeCases: ["Umbrales de producto no son invariantes de entidad"],
-        tests: "salida coincide con solution output",
+        tests: "Contrato ejecutable: corre exactamente los casos visibles del starter; exit 0 y sin traceback; stdout conserva el orden, etiquetas y valores exigidos por la instrucción, sin líneas extra.",
         feedback: "Compara tu salida con la solución.",
         starterCode: {
           language: 'python',
@@ -1653,6 +1691,9 @@ DESPUES: RelationshipEvidence.signal_score: float + revisión humana fuera del m
     requirements: [
       "Cuatro tipos explícitos con type hints",
       "Scores solo como campos de datos si existen — no veredictos",
+      "ResolvedEntity usa entity_id estable para eq/hash; display_name y document_id no definen identidad",
+      "Transaction.amount es Decimal positivo con 2 decimales y currency está en {'PEN', 'USD'}",
+      "RelationshipEvidence usa ids distintos en orden canónico y score finito en [0, 1]",
       "README de límites del modelo",
       "Tests del dominio puros (sin red/DB)",
       "Datos sintéticos ejemplo.pe / C00x",
@@ -1663,6 +1704,8 @@ Ningún método decide fraude ni parentesco. Datos sintéticos.
 """
 from __future__ import annotations
 from dataclasses import dataclass, field
+from decimal import Decimal
+from math import isfinite
 from typing import Protocol
 
 @dataclass
@@ -1687,18 +1730,28 @@ class ClientRecord:
 @dataclass(frozen=True)
 class ResolvedEntity:
     entity_id: str
-    display_name: str
+    display_name: str = field(compare=False)
+
+    def __post_init__(self) -> None:
+        if not self.entity_id.strip():
+            raise ValueError("entity_id vacío")
 
 @dataclass
 class Transaction:
     tx_id: str
     client_id: str
-    amount: float
+    amount: Decimal
     currency: str
 
     def __post_init__(self) -> None:
-        if self.amount <= 0:
+        if not isinstance(self.amount, Decimal):
+            raise TypeError("amount debe ser Decimal")
+        if self.amount <= Decimal("0"):
             raise ValueError("amount debe ser > 0")
+        if self.amount != self.amount.quantize(Decimal("0.01")):
+            raise ValueError("amount debe tener máximo 2 decimales")
+        if self.currency not in {"PEN", "USD"}:
+            raise ValueError("currency no soportada")
 
 @dataclass(frozen=True)
 class RelationshipEvidence:
@@ -1707,7 +1760,9 @@ class RelationshipEvidence:
     signal_score: float  # dato, no veredicto
 
     def __post_init__(self) -> None:
-        if not 0.0 <= self.signal_score <= 1.0:
+        if not self.left_id < self.right_id:
+            raise ValueError("par no canónico")
+        if not isfinite(self.signal_score) or not 0.0 <= self.signal_score <= 1.0:
             raise ValueError("signal_score fuera de rango")
 
 class ClientRepository(Protocol):
@@ -1732,6 +1787,9 @@ def test_domain() -> None:
     assert not hasattr(RelationshipEvidence, "is_fraud")
     ev = RelationshipEvidence("E1", "E2", 0.4)
     assert ev.signal_score == 0.4
+    assert ResolvedEntity("E1", "Ana") == ResolvedEntity("E1", "Ana actualizada")
+    tx = Transaction("T1", "C001", Decimal("150.50"), "PEN")
+    assert tx.amount == Decimal("150.50")
     print("tests_pass")
 
 if __name__ == "__main__":
@@ -1752,73 +1810,43 @@ if __name__ == "__main__":
     questions: [
       {
         question: "¿Por qué `field(default_factory=list)` y no `= []`?",
-        options: [
-          "Es más corto",
-          "Evita el default mutable compartido entre instancias",
-          "Obliga a usar Protocol",
-          "Activa el garbage collector",
-        ],
-        correctIndex: 1,
+        options: ["Es más corto", "Obliga a usar Protocol", "Evita el default mutable compartido entre instancias", "Activa el garbage collector"],
+        correctIndex: 2,
         explanation:
           "Un [] compartido muta todas las instancias.",
       },
       {
         question: "RelationshipEvidence.signal_score representa…",
-        options: [
-          "Veredicto legal de parentesco",
-          "Una señal/dato numérico, no un veredicto de fraude o familia",
-          "Password hasheado",
-          "Exit code del CLI",
-        ],
-        correctIndex: 1,
+        options: ["Una señal/dato numérico, no un veredicto de fraude o familia", "Veredicto legal de parentesco", "Password hasheado", "Exit code del CLI"],
+        correctIndex: 0,
         explanation:
           "El dominio almacena evidencia; no decide fraude/parentesco.",
       },
       {
         question: "Un Protocol EntityStore sirve para…",
-        options: [
-          "Conectarse solo a Postgres",
-          "Definir un puerto get/save implementable por fakes y adapters",
-          "Reemplazar dataclass",
-          "Serializar a PDF",
-        ],
+        options: ["Conectarse solo a Postgres", "Definir un puerto get/save implementable por fakes y adapters", "Reemplazar dataclass", "Serializar a PDF"],
         correctIndex: 1,
         explanation:
           "Puertos estructurales sin herencia forzada.",
       },
       {
         question: "Objeto inválido: ¿cuándo fallar?",
-        options: [
-          "Al final del mes",
-          "En la construcción (__post_init__/validate)",
-          "Nunca",
-          "Solo en producción",
-        ],
-        correctIndex: 1,
+        options: ["Al final del mes", "Nunca", "Solo en producción", "En la construcción (__post_init__/validate)"],
+        correctIndex: 3,
         explanation:
           "Fail on invalid construct evita estados corruptos.",
       },
       {
         question: "Client hereda de Person…",
-        options: [
-          "Siempre es la mejor opción",
-          "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar",
-          "Es obligatoria en Python",
-          "Impide tests",
-        ],
-        correctIndex: 1,
+        options: ["Siempre es la mejor opción", "Es obligatoria en Python", "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar", "Impide tests"],
+        correctIndex: 2,
         explanation:
           "has-a > is-a forzado sin subtipo real.",
       },
       {
         question: "¿Qué no debe tener el dominio de familiaridad?",
-        options: [
-          "to_dict",
-          "is_fraud() automático",
-          "Invariantes",
-          "Tests unitarios",
-        ],
-        correctIndex: 1,
+        options: ["is_fraud() automático", "to_dict", "Invariantes", "Tests unitarios"],
+        correctIndex: 0,
         explanation:
           "Sin veredictos de fraude en el modelo del curso.",
       },

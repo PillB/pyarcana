@@ -43,6 +43,7 @@ const translations: Record<Language, Dict> = {
     'nav.reports': 'Reportes',
     'nav.repository': 'Repositorio',
     'nav.theme': 'Cambiar tema',
+    'nav.language': 'Cambiar idioma de la interfaz',
     'nav.menu': 'Abrir menú',
     'nav.back': 'Inicio',
 
@@ -243,6 +244,7 @@ const translations: Record<Language, Dict> = {
     'nav.reports': 'Informes',
     'nav.repository': 'Repositorio',
     'nav.theme': 'Cambiar tema',
+    'nav.language': 'Cambiar idioma de la interfaz',
     'nav.menu': 'Abrir menú',
     'nav.back': 'Inicio',
 
@@ -443,6 +445,7 @@ const translations: Record<Language, Dict> = {
     'nav.reports': 'Reports',
     'nav.repository': 'Repository',
     'nav.theme': 'Toggle theme',
+    'nav.language': 'Change interface language',
     'nav.menu': 'Open menu',
     'nav.back': 'Home',
 

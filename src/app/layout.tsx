@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono, Cormorant_Garamond, Marcellus } from "next/font/
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { Providers } from "@/components/Providers";
+import { SITE_BASE_PATH } from "@/lib/runtime-mode";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -36,7 +37,9 @@ export const metadata: Metadata = {
   keywords: ["PyArcana", "Python", "Data Science", "Data Analyst", "Pandas", "NumPy", "scikit-learn", "curso online", "Perú", "Art Nouveau"],
   authors: [{ name: "PyArcana" }],
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: `${SITE_BASE_PATH}/logo.svg`,
+    shortcut: `${SITE_BASE_PATH}/logo.svg`,
+    apple: `${SITE_BASE_PATH}/logo.svg`,
   },
   openGraph: {
     title: "PyArcana · De cero a Data Analyst/Scientist",

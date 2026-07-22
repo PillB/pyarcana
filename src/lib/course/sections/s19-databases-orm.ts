@@ -6,7 +6,7 @@ export const section19: CourseSection = {
   title: "Visualización y comunicación accesible",
   shortTitle: "Viz accesible",
   tagline: "cuatro gráficos estáticos y una vista interactiva, todos con conclusión limitada a evidencia y versión no visual equivalente",
-  estimatedHours: 12,
+  estimatedHours: 18,
   level: "Competente",
   phase: 1,
   icon: "Database",
@@ -1255,49 +1255,29 @@ print(df)
     questions: [
       {
         question: "Para comparar magnitudes entre categorías, ¿qué chart es usualmente preferible?",
-        options: [
-          "Pie 3D",
-          "Barras con baseline 0",
-          "Dual axis sin escala",
-          "Word cloud",
-        ],
-        correctIndex: 1,
+        options: ["Pie 3D", "Dual axis sin escala", "Barras con baseline 0", "Word cloud"],
+        correctIndex: 2,
         explanation:
           "Las barras con baseline 0 comunican magnitudes de forma honesta.",
       },
       {
         question: "Una alternativa accesible debe:",
-        options: [
-          "Ser opcional siempre",
-          "Repetir los mismos números clave del chart",
-          "Solo ser una imagen más grande",
-          "Eliminar las unidades",
-        ],
-        correctIndex: 1,
+        options: ["Repetir los mismos números clave del chart", "Ser opcional siempre", "Solo ser una imagen más grande", "Eliminar las unidades"],
+        correctIndex: 0,
         explanation:
           "Paridad numérica entre chart y tabla/texto.",
       },
       {
         question: "“Lima es la mejor región del Perú” a partir de una muestra web es:",
-        options: [
-          "Un claim permitido",
-          "Sobreclaim / generalización indebida",
-          "Un alt text correcto",
-          "Una unidad",
-        ],
+        options: ["Un claim permitido", "Sobreclaim / generalización indebida", "Un alt text correcto", "Una unidad"],
         correctIndex: 1,
         explanation:
           "El lenguaje no debe exceder la cobertura de la muestra.",
       },
       {
         question: "El caption de un gráfico de portfolio debe incluir:",
-        options: [
-          "Solo el color favorito",
-          "Unidad, fuente y limitaciones",
-          "La contraseña del BI",
-          "Nada",
-        ],
-        correctIndex: 1,
+        options: ["Solo el color favorito", "La contraseña del BI", "Nada", "Unidad, fuente y limitaciones"],
+        correctIndex: 3,
         explanation:
           "Trazabilidad y honestidad metodológica.",
       },

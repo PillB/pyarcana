@@ -6,7 +6,7 @@ export const section31: CourseSection = {
   title: "Grafos y evidencia relacional",
   shortTitle: "Grafos y evidencia",
   tagline: "grafo temporal que responde cómo están conectados con camino reproducible y no convierte centralidad en culpabilidad",
-  estimatedHours: 14,
+  estimatedHours: 18,
   level: "Competente a experto",
   phase: 2,
   icon: "Network",
@@ -612,7 +612,7 @@ pii_full False`,
       {
         id: "S31-T1-A-E1",
         subtopicId: "S31-T1-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Crea un dict `nodes` con 3 ids y una lista `edges` con campos src,dst,etype,weight,directed. Imprime n_nodes, n_edges y cuántas aristas son directed=True.",
         hint: "Usa literales de dict/list.",
@@ -650,7 +650,7 @@ n_directed 1`,
       {
         id: "S31-T1-A-E2",
         subtopicId: "S31-T1-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Dada lista de aristas (src,dst,weight), calcula el peso total saliente por nodo (out-strength) e imprime el nodo con mayor out-strength y su valor.",
         hint: "Acumula en un dict.",
@@ -687,7 +687,7 @@ n 2`,
       {
         id: "S31-T1-A-E3",
         subtopicId: "S31-T1-A",
-        kind: "analyze",
+        kind: "transfer",
         instruction:
           "Clasifica aristas en directed vs undirected y devuelve dos conteos; imprime también los etypes únicos ordenados.",
         hint: "sets para etypes.",
@@ -720,7 +720,7 @@ etypes ['share', 'tx']`,
       {
         id: "S31-T1-B-E1",
         subtopicId: "S31-T1-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Cuenta cuántas multi-aristas hay por par (src,dst) e imprime el par con más eventos y su conteo.",
         hint: "tuple (src,dst) como clave.",
@@ -756,7 +756,7 @@ pairs 2`,
       {
         id: "S31-T1-B-E2",
         subtopicId: "S31-T1-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Filtra aristas con ts >= '2026-02-01' e imprime cuántas quedan y si todas tienen record_id.",
         hint: "Compara strings ISO fecha ordenables.",
@@ -790,7 +790,7 @@ first b`,
       {
         id: "S31-T1-B-E3",
         subtopicId: "S31-T1-B",
-        kind: "analyze",
+        kind: "transfer",
         instruction:
           "Valida provenance: imprime True solo si cada arista tiene source y record_id no vacíos; imprime n_bad.",
         hint: "strip de strings.",
@@ -826,7 +826,7 @@ n 3`,
       {
         id: "S31-T2-A-E1",
         subtopicId: "S31-T2-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Desde accounts[{id,owner}] genera aristas owns e imprime lista de (owner,id) ordenada.",
         hint: "list comprehension.",
@@ -860,7 +860,7 @@ etype owns`,
       {
         id: "S31-T2-A-E2",
         subtopicId: "S31-T2-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Detecta valores de contacto compartidos por ≥2 entidades; imprime sorted lista de valores shared.",
         hint: "groupby por value.",
@@ -898,7 +898,7 @@ note not_parentesco`,
       {
         id: "S31-T2-A-E3",
         subtopicId: "S31-T2-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "Construye nodos = entities ∪ accounts ∪ contact_values e imprime |nodes|.",
         hint: "sets.",
@@ -932,7 +932,7 @@ has_ent True`,
       {
         id: "S31-T2-B-E1",
         subtopicId: "S31-T2-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Colapsa raw_ids a canonical con mapa y reescribe aristas; imprime aristas canónicas únicas sorted.",
         hint: "map.get(x,x).",
@@ -968,7 +968,7 @@ collapsed True`,
       {
         id: "S31-T2-B-E2",
         subtopicId: "S31-T2-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Agrega amount por (src,dst) y conserva records; imprime sum y records para ('A','B').",
         hint: "defaultdict.",
@@ -1007,7 +1007,7 @@ detail_kept True`,
       {
         id: "S31-T2-B-E3",
         subtopicId: "S31-T2-B",
-        kind: "analyze",
+        kind: "transfer",
         instruction:
           "Verifica invariante: sum de n en agregados == len(detail). Imprime ok y totals.",
         hint: "sum v['n'].",
@@ -1043,7 +1043,7 @@ detail_n 5`,
       {
         id: "S31-T3-A-E1",
         subtopicId: "S31-T3-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Calcula grado de cada nodo en grafo no dirigido; imprime grados dict sorted keys.",
         hint: "undirected: cuenta ambos extremos.",
@@ -1080,7 +1080,7 @@ n 3`,
       {
         id: "S31-T3-A-E2",
         subtopicId: "S31-T3-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Encuentra componentes conexas y imprime lista de componentes (cada una sorted) ordenada por primer nodo.",
         hint: "DFS o BFS.",
@@ -1131,7 +1131,7 @@ ok True`,
       {
         id: "S31-T3-A-E3",
         subtopicId: "S31-T3-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "BFS path de 'A' a 'D' en cadena A-B-C-D; imprime path y hops.",
         hint: "deque BFS.",
@@ -1175,7 +1175,7 @@ found True`,
       {
         id: "S31-T3-B-E1",
         subtopicId: "S31-T3-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Normaliza degree centrality a [0,1] por max degree; imprime top node y score redondeado a 2 decimales.",
         hint: "score = deg/max_deg.",
@@ -1211,7 +1211,7 @@ guilt False`,
       {
         id: "S31-T3-B-E2",
         subtopicId: "S31-T3-B",
-        kind: "analyze",
+        kind: "independent",
         instruction:
           "Dado top hub, clasifica si es 'infra' o 'person' por prefijo de id (INF- vs PER-); imprime clase y disclaimer.",
         hint: "startswith.",
@@ -1245,7 +1245,7 @@ hub INF-PAY`,
       {
         id: "S31-T3-B-E3",
         subtopicId: "S31-T3-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "Filtra nodos con degree >= 3 y etype_mix que incluya solo 'transfer' vs mixto; imprime high_degree list sorted y flag only_transfer False si hay otros tipos en el grafo del hub.",
         hint: "revisa edge types incidentes.",
@@ -1280,7 +1280,7 @@ interpret_with_types True`,
       {
         id: "S31-T4-A-E1",
         subtopicId: "S31-T4-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Implementa ego(seed,k=2) y verifica que 'D' no entra desde 'A' en path A-B-C (k=1 sí B). Imprime ego k=1 y k=2.",
         hint: "expansión por capas.",
@@ -1328,7 +1328,7 @@ has_D_k2 False`,
       {
         id: "S31-T4-A-E2",
         subtopicId: "S31-T4-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Prueba invariantes: no self-loops, weights>=0, provenance presente. Imprime flags.",
         hint: "any self loop.",
@@ -1364,7 +1364,7 @@ prov True`,
       {
         id: "S31-T4-A-E3",
         subtopicId: "S31-T4-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "Idempotencia: construir grafo dos veces desde mismas edges produce mismo sorted edge list. Imprime equal True.",
         hint: "función build → frozenset.",
@@ -1400,7 +1400,7 @@ idempotent True`,
       {
         id: "S31-T4-B-E1",
         subtopicId: "S31-T4-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Redacta emails: muestra 2 primeras letras del local + ***@domain. Imprime para ana@example.pe.",
         hint: "partition @.",
@@ -1435,7 +1435,7 @@ full_pii False`,
       {
         id: "S31-T4-B-E2",
         subtopicId: "S31-T4-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Dado un path de nodos y un dict edge_evidence por par consecutivo, imprime lista de record lists en orden del path.",
         hint: "zip path path[1:].",
@@ -1471,7 +1471,7 @@ explainable True`,
       {
         id: "S31-T4-B-E3",
         subtopicId: "S31-T4-B",
-        kind: "analyze",
+        kind: "transfer",
         instruction:
           "Política de escala: si n_nodes > max_n, devuelve 'summarize' else 'render'. Imprime decisión para 5000 y 50 con max_n=500.",
         hint: "comparar.",
@@ -1568,49 +1568,29 @@ if __name__ == "__main__":
     questions: [
       {
         question: "En CP-N3-B, un score alto de centralidad significa:",
-        options: [
-          "Fraude confirmado",
-          "Parentesco automático",
-          "Posición estructural que requiere contexto, no culpa",
-          "Borrar al nodo",
-        ],
+        options: ["Fraude confirmado", "Parentesco automático", "Posición estructural que requiere contexto, no culpa", "Borrar al nodo"],
         correctIndex: 2,
         explanation:
           "Centralidad ≠ culpabilidad.",
       },
       {
         question: "Provenance en una arista sirve para:",
-        options: [
-          "Solo color en UI",
-          "Auditar source/record_id del hecho relacional",
-          "Entrenar redes neuronales obligatoriamente",
-          "Ocultar el path",
-        ],
-        correctIndex: 1,
+        options: ["Auditar source/record_id del hecho relacional", "Solo color en UI", "Entrenar redes neuronales obligatoriamente", "Ocultar el path"],
+        correctIndex: 0,
         explanation:
           "Auditoría del workbench.",
       },
       {
         question: "Al agregar transferencias entre el mismo par debes:",
-        options: [
-          "Borrar record_ids",
-          "Conservar detalle o punteros además del agregado",
-          "Etiquetar fraude",
-          "Eliminar el multigrafo",
-        ],
+        options: ["Borrar record_ids", "Conservar detalle o punteros además del agregado", "Etiquetar fraude", "Eliminar el multigrafo"],
         correctIndex: 1,
         explanation:
           "Agregado sin borrar detalle.",
       },
       {
         question: "Shared phone entre dos entidades implica:",
-        options: [
-          "Parentesco legal",
-          "Colusión",
-          "Un hecho de contacto compartido a investigar con evidencia, no veredicto",
-          "Fraude automático",
-        ],
-        correctIndex: 2,
+        options: ["Parentesco legal", "Colusión", "Fraude automático", "Un hecho de contacto compartido a investigar con evidencia, no veredicto"],
+        correctIndex: 3,
         explanation:
           "Hecho ≠ veredicto; no parentesco automático.",
       },

@@ -51,10 +51,16 @@ export function FeedbackModal({ open, onClose, sectionId }: FeedbackModalProps) 
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (open) {
+    if (!open) return
+    let active = true
+    queueMicrotask(() => {
+      if (!active) return
       setSection(sectionId || 'general')
       setEmail(session?.user?.email || '')
       setError(null)
+    })
+    return () => {
+      active = false
     }
   }, [open, sectionId, session?.user?.email])
 

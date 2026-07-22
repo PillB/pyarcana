@@ -6,7 +6,7 @@ export const section34: CourseSection = {
   title: "Métricas, desbalance, calibración y umbrales",
   shortTitle: "Métricas y umbrales",
   tagline: "Relationship Investigation Workbench: grafo + evidencia con ranking calibrado para revisión; no etiqueta fraude automáticamente",
-  estimatedHours: 14,
+  estimatedHours: 19,
   level: "Competente a experto",
   phase: 2,
   icon: "Gauge",
@@ -452,7 +452,7 @@ gate CP-N3-B`,
       {
         id: "S34-T1-A-E1",
         subtopicId: "S34-T1-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "TP/FP/FN con y=[1,0], pred=[1,1].",
         hint: "Usa las demos de métricas.",
@@ -483,7 +483,7 @@ fn 0`,
       {
         id: "S34-T1-A-E2",
         subtopicId: "S34-T1-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "F1 con P=0.5 R=0.5.",
         hint: "Usa las demos de métricas.",
@@ -515,7 +515,7 @@ R 0.5`,
       {
         id: "S34-T1-A-E3",
         subtopicId: "S34-T1-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "Accuracy engañosa n=10 pos=1 pred all0.",
         hint: "Usa las demos de métricas.",
@@ -546,7 +546,7 @@ ok True`,
       {
         id: "S34-T1-B-E1",
         subtopicId: "S34-T1-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "precision@3 con labels top [1,0,1].",
         hint: "Usa las demos de métricas.",
@@ -577,7 +577,7 @@ pos 2`,
       {
         id: "S34-T1-B-E2",
         subtopicId: "S34-T1-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Carga si alertas=50 capacidad=10.",
         hint: "Usa las demos de métricas.",
@@ -608,7 +608,7 @@ alerts 50`,
       {
         id: "S34-T1-B-E3",
         subtopicId: "S34-T1-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "recall@k: 2 pos en topk de 4 pos totales.",
         hint: "Usa las demos de métricas.",
@@ -639,7 +639,7 @@ pos_all 4`,
       {
         id: "S34-T2-A-E1",
         subtopicId: "S34-T2-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "n0=9 n1=1 weight ratio w1/w0.",
         hint: "Usa las demos de métricas.",
@@ -670,7 +670,7 @@ inside_cv True`,
       {
         id: "S34-T2-A-E2",
         subtopicId: "S34-T2-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Prohibido resample flag.",
         hint: "Usa las demos de métricas.",
@@ -701,7 +701,7 @@ ok True`,
       {
         id: "S34-T2-A-E3",
         subtopicId: "S34-T2-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "Cuenta minority en y.",
         hint: "Usa las demos de métricas.",
@@ -733,7 +733,7 @@ ok True`,
       {
         id: "S34-T2-B-E1",
         subtopicId: "S34-T2-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Prevalencia 25/1000.",
         hint: "Usa las demos de métricas.",
@@ -764,7 +764,7 @@ n 1000`,
       {
         id: "S34-T2-B-E2",
         subtopicId: "S34-T2-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Precision cambia si prevalencia cae (mensaje).",
         hint: "Usa las demos de métricas.",
@@ -795,7 +795,7 @@ ok True`,
       {
         id: "S34-T2-B-E3",
         subtopicId: "S34-T2-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "All-neg acc for prev=0.02.",
         hint: "Usa las demos de métricas.",
@@ -826,7 +826,7 @@ ok True`,
       {
         id: "S34-T3-A-E1",
         subtopicId: "S34-T3-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Brier (1-1)^2=0 single.",
         hint: "Usa las demos de métricas.",
@@ -857,7 +857,7 @@ ok True`,
       {
         id: "S34-T3-A-E2",
         subtopicId: "S34-T3-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Reliability: mean p vs freq en bin.",
         hint: "Usa las demos de métricas.",
@@ -889,7 +889,7 @@ n 2`,
       {
         id: "S34-T3-A-E3",
         subtopicId: "S34-T3-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "Menor Brier es mejor: 0.1 vs 0.3.",
         hint: "Usa las demos de métricas.",
@@ -920,7 +920,7 @@ ok True`,
       {
         id: "S34-T3-B-E1",
         subtopicId: "S34-T3-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "Clip 1.5→1.0, -0.2→0.0.",
         hint: "Usa las demos de métricas.",
@@ -952,7 +952,7 @@ holdout True`,
       {
         id: "S34-T3-B-E2",
         subtopicId: "S34-T3-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Fit calibrator set name.",
         hint: "Usa las demos de métricas.",
@@ -983,7 +983,7 @@ ok True`,
       {
         id: "S34-T3-B-E3",
         subtopicId: "S34-T3-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "Lista raw vs cal same length.",
         hint: "Usa las demos de métricas.",
@@ -1015,7 +1015,7 @@ ok True`,
       {
         id: "S34-T4-A-E1",
         subtopicId: "S34-T4-A",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "thr que deja 2 de scores [0.1,0.4,0.6,0.9] en review (>=thr).",
         hint: "Usa las demos de métricas.",
@@ -1047,7 +1047,7 @@ auto_fraud False`,
       {
         id: "S34-T4-A-E2",
         subtopicId: "S34-T4-A",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Costo fp*2+fn*10 con fp=3 fn=1.",
         hint: "Usa las demos de métricas.",
@@ -1078,7 +1078,7 @@ fn 1`,
       {
         id: "S34-T4-A-E3",
         subtopicId: "S34-T4-A",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "Config thr versionada thr-v1=0.7.",
         hint: "Usa las demos de métricas.",
@@ -1109,7 +1109,7 @@ ok True`,
       {
         id: "S34-T4-B-E1",
         subtopicId: "S34-T4-B",
-        kind: "apply",
+        kind: "guided",
         instruction:
           "decide(0.5) con low=0.3 high=0.7 → abstain.",
         hint: "Usa las demos de métricas.",
@@ -1140,7 +1140,7 @@ fraud_label False`,
       {
         id: "S34-T4-B-E2",
         subtopicId: "S34-T4-B",
-        kind: "apply",
+        kind: "independent",
         instruction:
           "Sensibilidad: thr 0.5 vs 0.6 n_pos_pred scores.",
         hint: "Usa las demos de métricas.",
@@ -1172,7 +1172,7 @@ ok True`,
       {
         id: "S34-T4-B-E3",
         subtopicId: "S34-T4-B",
-        kind: "apply",
+        kind: "transfer",
         instruction:
           "Slice metric dict output.",
         hint: "Usa las demos de métricas.",
@@ -1253,49 +1253,29 @@ if __name__ == "__main__":
     questions: [
       {
         question: "El workbench CP-N3-B debe:",
-        options: [
-          "Auto-etiquetar fraude",
-          "Priorizar revisión con evidencia y ranking",
-          "Inferir parentesco legal",
-          "Borrar baselines",
-        ],
+        options: ["Auto-etiquetar fraude", "Priorizar revisión con evidencia y ranking", "Inferir parentesco legal", "Borrar baselines"],
         correctIndex: 1,
         explanation:
           "Revisión explicable, no fraude auto.",
       },
       {
         question: "precision@k responde a:",
-        options: [
-          "Solo Brier",
-          "Calidad del ranking bajo capacidad k",
-          "Docker",
-          "Kafka lag",
-        ],
-        correctIndex: 1,
+        options: ["Solo Brier", "Docker", "Kafka lag", "Calidad del ranking bajo capacidad k"],
+        correctIndex: 3,
         explanation:
           "Métrica operativa de cola.",
       },
       {
         question: "Resampling de clases debe:",
-        options: [
-          "Hacerse antes de todo split",
-          "Solo dentro del train de cada fold",
-          "En el test",
-          "Nunca documentarse",
-        ],
-        correctIndex: 1,
+        options: ["Solo dentro del train de cada fold", "Hacerse antes de todo split", "En el test", "Nunca documentarse"],
+        correctIndex: 0,
         explanation:
           "Evita leakage.",
       },
       {
         question: "Abstención sirve para:",
-        options: [
-          "Ocultar métricas",
-          "Enviar banda gris a humano",
-          "Forzar fraud=1",
-          "Eliminar el grafo",
-        ],
-        correctIndex: 1,
+        options: ["Ocultar métricas", "Forzar fraud=1", "Enviar banda gris a humano", "Eliminar el grafo"],
+        correctIndex: 2,
         explanation:
           "Control humano.",
       },

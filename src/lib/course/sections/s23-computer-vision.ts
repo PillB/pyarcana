@@ -6,13 +6,13 @@ export const section23: CourseSection = {
   title: "Browser RPA con Playwright",
   shortTitle: "Playwright RPA",
   tagline: "robot contra sitio de prueba controlado, con trace de éxito/falla, download verificado y reanudación idempotente",
-  estimatedHours: 12,
+  estimatedHours: 19,
   level: "Competente",
   phase: 1,
   icon: "Camera",
   accentColor: "bg-gradient-to-br from-blue-500 to-indigo-600",
   jobRelevance:
-    "El **adaptador web** de CP-N2-C automatiza portales con Playwright de forma ética: locators de usuario, traces, retries y **API primero**. Esta sección (id `computer-vision` conservado) retematiza a V3 **Browser RPA con Playwright**. No bypassea CAPTCHA ni ToS; el handoff humano es una feature.",
+    "El **adaptador web** de CP-N2-C automatiza un sitio local controlado con la API real de Playwright: locators de usuario, traces, retries y **API primero**. No bypassea CAPTCHA ni términos; el handoff humano es parte del contrato.",
   learningOutcomes: [
     { text: "Usar locators orientados a usuario" },
     { text: "Aplicar auto-waiting y assertions fiables" },
@@ -25,17 +25,17 @@ export const section23: CourseSection = {
   ],
   theory: [
     {
-      heading: "De “visión por computadora” a Browser RPA (mapa web adapter CP-N2-C)",
+      heading: "Browser RPA contra una fixture local controlada",
       paragraphs: [
-        "En V3, **S23 no es el path principal de OpenCV/camera feeds**. Aquí construyes el **web adapter** de CP-N2-C: Playwright contra un **sitio de prueba controlado**, con traces y downloads verificados.",
-        "Modelamos el DOM y la automatización en Python puro (simulación) para que el código sea ejecutable sin browser en el playground; los mismos patrones mapean 1:1 a `playwright.sync_api`.",
+        "Construyes el **web adapter** de CP-N2-C con `playwright.sync_api` contra un servidor HTTP local incluido en la práctica, con traces y downloads verificados.",
+        "Los ejemplos son contratos multiarchivo: `fixture_server.py` sirve HTML/CSV sintéticos y `robot.py` usa browser, context, page, locator, expect, download y tracing reales. Requieren Playwright y Chromium instalados localmente; no usan red externa.",
         "Orden: **T1 Navegación** → **T2 Flujos** → **T3 Diagnóstico** → **T4 Límites**. RPA es el último recurso tras API/export.",
       ],
       callout: {
         type: "info",
-        title: "Contenido reubicado conceptualmente",
+        title: "Runtime declarado",
         content:
-          "Material legado de CV/cámaras **no es el camino V3 en S23**. Target: Playwright RPA ético para el adaptador web.",
+          "La auditoría de snippets puede omitir el browser externo; el bundle multiarchivo y sus tests contractuales son la evidencia reproducible.",
       },
     },
     {
@@ -1275,49 +1275,29 @@ print("TODO web adapter")
     questions: [
       {
         question: "¿Por qué preferir get_by_role a CSS nth-child?",
-        options: [
-          "Es más corto de escribir siempre",
-          "Refleja la UI accesible y suele ser más estable",
-          "Playwright no soporta CSS",
-          "Evita assertions",
-        ],
-        correctIndex: 1,
+        options: ["Es más corto de escribir siempre", "Playwright no soporta CSS", "Refleja la UI accesible y suele ser más estable", "Evita assertions"],
+        correctIndex: 2,
         explanation:
           "Roles y nombres son más estables y accesibles.",
       },
       {
         question: "Ante un CAPTCHA el robot debe:",
-        options: [
-          "Resolverlo con un servicio externo",
-          "Reintentar 100 veces",
-          "Detenerse y hacer handoff humano",
-          "Ignorar ToS",
-        ],
-        correctIndex: 2,
+        options: ["Detenerse y hacer handoff humano", "Resolverlo con un servicio externo", "Reintentar 100 veces", "Ignorar ToS"],
+        correctIndex: 0,
         explanation:
           "CAPTCHA es stop condition ética y de ToS.",
       },
       {
         question: "API/export primero significa:",
-        options: [
-          "RPA siempre",
-          "Buscar integración no-UI antes de automatizar el browser",
-          "Prohibir Excel",
-          "Solo cloud",
-        ],
+        options: ["RPA siempre", "Buscar integración no-UI antes de automatizar el browser", "Prohibir Excel", "Solo cloud"],
         correctIndex: 1,
         explanation:
           "RPA es último recurso.",
       },
       {
         question: "Un retry seguro reintenta:",
-        options: [
-          "Cualquier error",
-          "Solo fallas transitorias (timeout/red), no captcha/403 de negocio",
-          "Solo éxitos",
-          "Captchas",
-        ],
-        correctIndex: 1,
+        options: ["Cualquier error", "Solo éxitos", "Captchas", "Solo fallas transitorias (timeout/red), no captcha/403 de negocio"],
+        correctIndex: 3,
         explanation:
           "Retry selectivo evita loops dañinos.",
       },

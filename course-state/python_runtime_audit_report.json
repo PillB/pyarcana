@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-21T22:19:53.092049+00:00",
+  "generated_at": "2026-07-22T17:34:11.274614+00:00",
   "sections": 52,
   "totals": {
-    "pass": 2335,
+    "pass": 2943,
     "fail": 0,
-    "skip": 284,
-    "artifacts": 2619
+    "skip": 72,
+    "artifacts": 3015
   },
   "fail_count": 0,
   "p0_count": 0,
@@ -36,9 +36,9 @@
       "file": "src/lib/course/sections/s03-data-structures.ts",
       "section_id": "data-structures",
       "counts": {
-        "pass": 59,
+        "pass": 63,
         "fail": 0,
-        "skip": 4
+        "skip": 0
       },
       "artifact_count": 63
     },
@@ -116,11 +116,11 @@
       "file": "src/lib/course/sections/s11-testing.ts",
       "section_id": "testing",
       "counts": {
-        "pass": 59,
+        "pass": 60,
         "fail": 0,
         "skip": 1
       },
-      "artifact_count": 60
+      "artifact_count": 61
     },
     {
       "file": "src/lib/course/sections/s12-performance.ts",
@@ -146,9 +146,9 @@
       "file": "src/lib/course/sections/s14-security.ts",
       "section_id": "security",
       "counts": {
-        "pass": 11,
+        "pass": 50,
         "fail": 0,
-        "skip": 39
+        "skip": 0
       },
       "artifact_count": 50
     },
@@ -156,9 +156,9 @@
       "file": "src/lib/course/sections/s15-stdlib-deep.ts",
       "section_id": "stdlib-deep",
       "counts": {
-        "pass": 10,
+        "pass": 50,
         "fail": 0,
-        "skip": 40
+        "skip": 0
       },
       "artifact_count": 50
     },
@@ -166,9 +166,9 @@
       "file": "src/lib/course/sections/s16-wxpython-gui.ts",
       "section_id": "wxpython-gui",
       "counts": {
-        "pass": 12,
+        "pass": 48,
         "fail": 0,
-        "skip": 36
+        "skip": 0
       },
       "artifact_count": 48
     },
@@ -176,9 +176,9 @@
       "file": "src/lib/course/sections/s17-packaging.ts",
       "section_id": "packaging",
       "counts": {
-        "pass": 8,
+        "pass": 45,
         "fail": 0,
-        "skip": 37
+        "skip": 0
       },
       "artifact_count": 45
     },
@@ -186,9 +186,9 @@
       "file": "src/lib/course/sections/s18-data-engineering.ts",
       "section_id": "data-engineering",
       "counts": {
-        "pass": 23,
+        "pass": 49,
         "fail": 0,
-        "skip": 26
+        "skip": 0
       },
       "artifact_count": 49
     },
@@ -196,9 +196,9 @@
       "file": "src/lib/course/sections/s19-databases-orm.ts",
       "section_id": "databases-orm",
       "counts": {
-        "pass": 44,
+        "pass": 52,
         "fail": 0,
-        "skip": 8
+        "skip": 0
       },
       "artifact_count": 52
     },
@@ -206,9 +206,9 @@
       "file": "src/lib/course/sections/s20-rag.ts",
       "section_id": "rag",
       "counts": {
-        "pass": 30,
+        "pass": 52,
         "fail": 0,
-        "skip": 22
+        "skip": 0
       },
       "artifact_count": 52
     },
@@ -216,11 +216,11 @@
       "file": "src/lib/course/sections/s21-fastapi.ts",
       "section_id": "fastapi",
       "counts": {
-        "pass": 43,
+        "pass": 46,
         "fail": 0,
         "skip": 8
       },
-      "artifact_count": 51
+      "artifact_count": 54
     },
     {
       "file": "src/lib/course/sections/s22-rapidfuzz-entity.ts",
@@ -406,131 +406,131 @@
       "file": "src/lib/course/sections/s40-agentic-architecture.ts",
       "section_id": "agentic-architecture",
       "counts": {
-        "pass": 44,
+        "pass": 64,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 44
+      "artifact_count": 64
     },
     {
       "file": "src/lib/course/sections/s41-llm-finetuning.ts",
       "section_id": "llm-finetuning",
       "counts": {
-        "pass": 33,
+        "pass": 64,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 33
+      "artifact_count": 64
     },
     {
       "file": "src/lib/course/sections/s42-graph-rag.ts",
       "section_id": "graph-rag",
       "counts": {
-        "pass": 33,
+        "pass": 64,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 33
+      "artifact_count": 64
     },
     {
       "file": "src/lib/course/sections/s43-llmops.ts",
       "section_id": "llmops",
       "counts": {
-        "pass": 33,
+        "pass": 64,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 33
+      "artifact_count": 64
     },
     {
       "file": "src/lib/course/sections/s44-multimodal.ts",
       "section_id": "multimodal",
       "counts": {
-        "pass": 33,
+        "pass": 64,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 33
+      "artifact_count": 64
     },
     {
       "file": "src/lib/course/sections/s45-iac.ts",
       "section_id": "iac",
       "counts": {
-        "pass": 33,
+        "pass": 64,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 33
+      "artifact_count": 64
     },
     {
       "file": "src/lib/course/sections/s46-gpu-computing.ts",
       "section_id": "gpu-computing",
       "counts": {
-        "pass": 33,
+        "pass": 64,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 33
+      "artifact_count": 64
     },
     {
       "file": "src/lib/course/sections/s47-opensource.ts",
       "section_id": "opensource",
       "counts": {
-        "pass": 33,
+        "pass": 64,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 33
+      "artifact_count": 64
     },
     {
       "file": "src/lib/course/sections/s48-ai-governance.ts",
       "section_id": "ai-governance",
       "counts": {
-        "pass": 33,
+        "pass": 64,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 33
+      "artifact_count": 64
     },
     {
       "file": "src/lib/course/sections/s49-data-contracts.ts",
       "section_id": "data-contracts",
       "counts": {
-        "pass": 33,
+        "pass": 64,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 33
+      "artifact_count": 64
     },
     {
       "file": "src/lib/course/sections/s50-tech-leadership.ts",
       "section_id": "tech-leadership",
       "counts": {
-        "pass": 33,
+        "pass": 64,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 33
+      "artifact_count": 64
     },
     {
       "file": "src/lib/course/sections/s51-integrator-final.ts",
       "section_id": "integrator-final",
       "counts": {
-        "pass": 33,
+        "pass": 64,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 33
+      "artifact_count": 64
     },
     {
       "file": "src/lib/course/sections/s52-career-strategy.ts",
       "section_id": "career-strategy",
       "counts": {
-        "pass": 33,
+        "pass": 64,
         "fail": 0,
         "skip": 0
       },
-      "artifact_count": 33
+      "artifact_count": 64
     }
   ],
   "failures": []

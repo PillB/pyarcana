@@ -6,13 +6,13 @@ export const section42: CourseSection = {
   title: "Schemas, seguridad y privacidad de servicios",
   shortTitle: "Schemas y seguridad",
   tagline: "threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted",
-  estimatedHours: 14,
+  estimatedHours: 18,
   level: "Master",
   phase: 3,
   icon: "Share2",
   accentColor: "bg-gradient-to-br from-amber-500 to-red-600",
   jobRelevance:
-    "Retemática V3 **Schemas, seguridad y privacidad de servicios** (id de plataforma `graph-rag` conservado; legado «Graph RAG y Knowledge Graphs»). Contribuye a **CP-N4-A (control plane)**: threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted. Datos sintéticos; sin PII real. ER/matching no implica fraude ni parentesco.",
+    "En equipos de plataforma y producto, schemas, seguridad y privacidad de servicios conecta decisiones técnicas con evidencia operativa. La práctica entrega decisión allow/deny auditable y vista pseudonimizada mínima y se promueve solo cuando un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
   learningOutcomes: [
     { text: "Define schemas Pydantic/JSON Schema" },
     { text: "Evoluciona schemas con validación de negocio" },
@@ -25,26 +25,25 @@ export const section42: CourseSection = {
   ],
   theory: [
     {
-      heading: "Mapa V3 S42: Schemas, seguridad y privacidad de servicios",
+      heading: "Ruta de S42: Schemas, seguridad y privacidad de servicios",
       paragraphs: [
-        "En V3, **S42** retematiza el archivo de plataforma `graph-rag` hacia **Schemas, seguridad y privacidad de servicios**.",
-        "Incremento: threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted.",
-        "Orden T1→T4 según blueprint phase3. Español peruano; fixtures sintéticas; esta lane no marca section_passed ni edita seed/checkpoint/ledger.",
+        "Esta sección parte de S41 y usa únicamente contratos, pruebas y controles ya presentados. El caso `CASO-CUS-042` es sintético y puede ejecutarse sin credenciales ni servicios externos.",
+        "Producto incremental: Threat model y matriz de permisos del control plane. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida: decisión allow/deny auditable y vista pseudonimizada mínima.",
+        "La secuencia mantiene liberación gradual: teoría con criterio medible, demo local, ejercicio guiado, validación independiente y transferencia con breach/uncertainty.",
       ],
       callout: {
         type: "info",
-        title: "Platform id preservado",
-        content:
-          "KEEP_PLATFORM_ID_RETHEME_CONTENT: `graph-rag`. Capstone: CP-N4-A (control plane).",
+        title: "Gate de promoción",
+        content: "CP-N4-A · control plane seguro y privado: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos. Si falta evidencia, no se promociona.",
       },
     },
     {
       heading: "Pydantic y JSON Schema",
       subtopicId: "S42-T1-A",
       paragraphs: [
-        "**Pydantic y JSON Schema** — outcome del blueprint phase3 para `pydantic-jsonschema`.",
-        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
-        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real.",
+        "Pydantic y JSON Schema describen forma, tipos y restricciones; el schema de borde es estricto y no sustituye invariantes del negocio.",
+        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: schema exportado y fixtures válidos/inválidos. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        "Aplicación de `Pydantic y JSON Schema` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es schema exportado y fixtures válidos/inválidos. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
@@ -58,16 +57,16 @@ jsonschema True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+          "Evidencia mínima de S42-T1-A: schema exportado y fixtures válidos/inválidos. Si falta, responde `REJECT_SCHEMA`; si no alcanza para decidir, `REVIEW_BUSINESS_INVARIANT`.",
       },
     },
     {
       heading: "evolución, discriminated unions y validación de negocio",
       subtopicId: "S42-T1-B",
       paragraphs: [
-        "**evolución, discriminated unions y validación de negocio** — outcome del blueprint phase3 para `evolution-unions-business-val`.",
-        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
-        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real.",
+        "La evolución segura prefiere campos opcionales aditivos y discriminated unions exhaustivas; renombrar o reinterpretar un campo exige versión/migración.",
+        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: lector anterior conserva contrato. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        "Aplicación de `evolución, discriminated unions y validación de negocio` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es lector anterior conserva contrato. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
@@ -81,16 +80,16 @@ union discriminated`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+          "Antes de promover S42-T1-B, audita lector anterior conserva contrato. Un breach activa `VERSION_SCHEMA` y una ausencia activa `MIGRATE_CONSUMERS`.",
       },
     },
     {
       heading: "authn/authz y RBAC",
       subtopicId: "S42-T2-A",
       paragraphs: [
-        "**authn/authz y RBAC** — outcome del blueprint phase3 para `authn-authz-rbac`.",
-        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
-        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real.",
+        "Authentication identifica; authorization decide una acción sobre un recurso. RBAC parte de roles mínimos y verifica pertenencia del recurso.",
+        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: prueba actor A no lee caso B. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        "Aplicación de `authn/authz y RBAC` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es prueba actor A no lee caso B. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
@@ -104,16 +103,16 @@ authn_vs_authz identity!=permission`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+          "La revisión de S42-T2-A conserva prueba actor A no lee caso B; no conviertas `DENY_CROSS_TENANT` ni `VERIFY_RESOURCE_OWNER` en éxito silencioso.",
       },
     },
     {
       heading: "scopes, service identities y deny-by-default",
       subtopicId: "S42-T2-B",
       paragraphs: [
-        "**scopes, service identities y deny-by-default** — outcome del blueprint phase3 para `scopes-service-ids-deny`.",
-        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
-        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real.",
+        "Scopes expresan capacidades estrechas, cada servicio tiene identidad propia y deny-by-default cubre rutas o acciones no declaradas.",
+        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: matriz de scopes con denegaciones explícitas. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        "Aplicación de `scopes, service identities y deny-by-default` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es matriz de scopes con denegaciones explícitas. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
@@ -127,16 +126,16 @@ deny_by_default True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+          "Contrato S42-T2-B: demuestra matriz de scopes con denegaciones explícitas. Falla cerrada con `DENY_SCOPE` y deriva incertidumbre mediante `REQUEST_NARROW_GRANT`.",
       },
     },
     {
       heading: "input limits, injection y SSRF/path traversal",
       subtopicId: "S42-T3-A",
       paragraphs: [
-        "**input limits, injection y SSRF/path traversal** — outcome del blueprint phase3 para `limits-injection-ssrf-path`.",
-        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
-        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real.",
+        "Límites de tamaño y allowlists se aplican antes de procesar; URLs, nombres de archivo y expresiones nunca se convierten directamente en red, ruta o consulta.",
+        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: payload/URL/ruta adversarial rechazada. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        "Aplicación de `input limits, injection y SSRF/path traversal` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es payload/URL/ruta adversarial rechazada. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
@@ -150,16 +149,16 @@ ssrf_guard allowlist`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+          "Para S42-T3-A, el artefacto comprobable es payload/URL/ruta adversarial rechazada. Sin él corresponde `REJECT_UNTRUSTED_INPUT` o, si faltan datos, `SECURITY_REVIEW`.",
       },
     },
     {
       heading: "secretos, cifrado y dependency risk",
       subtopicId: "S42-T3-B",
       paragraphs: [
-        "**secretos, cifrado y dependency risk** — outcome del blueprint phase3 para `secrets-crypto-deps`.",
-        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
-        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real.",
+        "Secretos llegan por runtime, nunca por código/log; cifrado requiere gestión de claves y dependencias fijadas se revisan por riesgo y provenance.",
+        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: scan sin secreto y rotación ensayada. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        "Aplicación de `secretos, cifrado y dependency risk` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es scan sin secreto y rotación ensayada. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
@@ -176,16 +175,16 @@ never_log_raw True`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+          "Promoción de S42-T3-B: prueba scan sin secreto y rotación ensayada y registra por separado `ROTATE_AND_BLOCK` (breach) y `ASSESS_DEPENDENCY_RISK` (missing).",
       },
     },
     {
       heading: "minimización, purpose y retención",
       subtopicId: "S42-T4-A",
       paragraphs: [
-        "**minimización, purpose y retención** — outcome del blueprint phase3 para `minimize-purpose-retention`.",
-        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
-        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real.",
+        "Privacidad exige dato mínimo para propósito declarado y retención finita; «podría servir» no es una finalidad válida.",
+        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: inventario propósito-campo-retención aprobado. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        "Aplicación de `minimización, purpose y retención` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es inventario propósito-campo-retención aprobado. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
@@ -199,16 +198,16 @@ retention 90`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+          "El dueño de S42-T4-A acepta solo inventario propósito-campo-retención aprobado; una violación produce `MINIMIZE_AND_EXPIRE` y un registro incompleto produce `PRIVACY_OWNER_REVIEW`.",
       },
     },
     {
       heading: "audit, deletion, pseudonymization y acceso",
       subtopicId: "S42-T4-B",
       paragraphs: [
-        "**audit, deletion, pseudonymization y acceso** — outcome del blueprint phase3 para `audit-delete-pseudo-access`.",
-        "Practica con código ejecutable y datos sintéticos; documenta bordes y criterios medibles.",
-        "Integra el incremento **CP-N4-A (control plane)** sin exponer secretos ni PII real.",
+        "Audit registra quién/qué/cuándo sin copiar PII; borrado cubre derivados, pseudonimización separa la llave y acceso queda revisable.",
+        "Contrato operativo. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida de este subtema: borrado y no-reaparición verificados. Error: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto. Criterio de éxito: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+        "Aplicación de `audit, deletion, pseudonymization y acceso` al caso peruano sintético `CASO-CUS-042`: casos sintéticos de soporte para una organización ficticia en Cusco. La evidencia esperada es borrado y no-reaparición verificados. No contiene PII ni secretos; una señal incierta se deriva y nunca prueba fraude, parentesco o intención.",
       ],
       code: {
         language: 'python',
@@ -225,7 +224,7 @@ delete soft+hard_policy`,
         type: "tip",
         title: "Contrato local",
         content:
-          "Si el assert/print no refleja el outcome, el paquete está incompleto.",
+          "Cierre de S42-T4-B: conserva borrado y no-reaparición verificados, la evidencia de `PURGE_DERIVATIVES` y la ruta humana `VERIFY_DELETION_SCOPE`.",
       },
     },
   ],
@@ -245,7 +244,7 @@ delete soft+hard_policy`,
 pydantic_like True
 strict True`,
         },
-        why: "Demuestra el outcome de S42-T1-A con Python verificable.",
+        why: "Hace observable `Pydantic y JSON Schema` con un caso local pequeño y deja como evidencia schema exportado y fixtures válidos/inválidos; el demo modela el contrato, no un servicio externo.",
       },
       {
         demoId: "S42-T1-B-DEMO",
@@ -260,7 +259,7 @@ strict True`,
 err amount
 evol add_optional`,
         },
-        why: "Demuestra el outcome de S42-T1-B con Python verificable.",
+        why: "Hace observable `evolución, discriminated unions y validación de negocio` con un caso local pequeño y deja como evidencia lector anterior conserva contrato; el demo modela el contrato, no un servicio externo.",
       },
       {
         demoId: "S42-T2-A-DEMO",
@@ -275,7 +274,7 @@ evol add_optional`,
 roles ['analyst']
 authz_needed True`,
         },
-        why: "Demuestra el outcome de S42-T2-A con Python verificable.",
+        why: "Hace observable `authn/authz y RBAC` con un caso local pequeño y deja como evidencia prueba actor A no lee caso B; el demo modela el contrato, no un servicio externo.",
       },
       {
         demoId: "S42-T2-B-DEMO",
@@ -290,7 +289,7 @@ authz_needed True`,
 ['jobs:run']
 service_identity True`,
         },
-        why: "Demuestra el outcome de S42-T2-B con Python verificable.",
+        why: "Hace observable `scopes, service identities y deny-by-default` con un caso local pequeño y deja como evidencia matriz de scopes con denegaciones explícitas; el demo modela el contrato, no un servicio externo.",
       },
       {
         demoId: "S42-T3-A-DEMO",
@@ -305,7 +304,7 @@ service_identity True`,
 False
 injection parameterized`,
         },
-        why: "Demuestra el outcome de S42-T3-A con Python verificable.",
+        why: "Hace observable `input limits, injection y SSRF/path traversal` con un caso local pequeño y deja como evidencia payload/URL/ruta adversarial rechazada; el demo modela el contrato, no un servicio externo.",
       },
       {
         demoId: "S42-T3-B-DEMO",
@@ -320,7 +319,7 @@ injection parameterized`,
 crypto AES-GCM-at-rest
 rotate True`,
         },
-        why: "Demuestra el outcome de S42-T3-B con Python verificable.",
+        why: "Hace observable `secretos, cifrado y dependency risk` con un caso local pequeño y deja como evidencia scan sin secreto y rotación ensayada; el demo modela el contrato, no un servicio externo.",
       },
       {
         demoId: "S42-T4-A-DEMO",
@@ -335,7 +334,7 @@ rotate True`,
 drop_email_for_log True
 purpose_bound True`,
         },
-        why: "Demuestra el outcome de S42-T4-A con Python verificable.",
+        why: "Hace observable `minimización, purpose y retención` con un caso local pequeño y deja como evidencia inventario propósito-campo-retención aprobado; el demo modela el contrato, no un servicio externo.",
       },
       {
         demoId: "S42-T4-B-DEMO",
@@ -350,833 +349,1195 @@ purpose_bound True`,
 False
 no_cross_tenant True`,
         },
-        why: "Demuestra el outcome de S42-T4-B con Python verificable.",
+        why: "Hace observable `audit, deletion, pseudonymization y acceso` con un caso local pequeño y deja como evidencia borrado y no-reaparición verificados; el demo modela el contrato, no un servicio externo.",
       },
     ],
   },
   weDo: {
-    intro: "24 ejercicios (8×E1 guided / E2 independent / E3 transfer) en es-PE con soluciones verificadas.",
+    intro: "S42 · Laboratorio Threat model y matriz de permisos del control plane: 24 retos locales. E1 repara una operación de dominio, E2 separa valid/invalid/missing y E3 demuestra recuperación fail-closed con ocho fixtures peruanos sintéticos distintos.",
     steps: [
       {
         id: "S42-T1-A-E1",
         subtopicId: "S42-T1-A",
         kind: "guided",
-        instruction:
-          "Ejercicio S42-T1-A-E1: usa el patrón del demo iDo del subtema S42-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T1-A; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T1-A-E1 · Calcula el contrato de `Pydantic y JSON Schema` sobre `CASO-CUS-042-1A`. La entrada es el dict completo del starter; la operación debe demostrar schema estricto más regla de negocio. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_SCHEMA` en E2.",
+        hint: "Relaciona los campos `extra_policy`, `json_schema`, `valid_fixture`, `business_rule` con la regla explicada en S42-T1-A.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T1-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Relaciona los campos `extra_policy`, `json_schema`, `valid_fixture`, `business_rule` con la regla explicada en S42-T1-A.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva schema exportado y fixtures válidos/inválidos; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta business_rule", "fixture adverso: schema estricto más regla de negocio", "CASO-CUS-042-1A es sintético"],
+        tests: "El fixture `CASO-CUS-042-1A` satisface un predicado de dominio real; imprime `S42-T1-A PASS` y el assert booleano pasa.",
+        feedback: "S42-T1-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_SCHEMA y por qué faltar business_rule exige REVIEW_BUSINESS_INVARIANT.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T1-A)
-`,
+          title: "s42-t1-a-e1.py",
+          code: `record = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"forbid","json_schema":True,"valid_fixture":True,"business_rule":True}}
+meets_contract = record["extra_policy"] == "allow" and not record["business_rule"]
+status = "PASS" if meets_contract else "REJECT_SCHEMA"
+print("S42-T1-A", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print({"age":3}); print("pydantic_like", True); print("strict", True)`,
-          output: `{'age': 3}
-pydantic_like True
-strict True`,
+          title: "s42-t1-a-e1.py",
+          code: `record = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"forbid","json_schema":True,"valid_fixture":True,"business_rule":True}}
+meets_contract = record["extra_policy"] == "forbid" and all(record[k] for k in ("json_schema","valid_fixture","business_rule"))
+status = "PASS" if meets_contract else "REJECT_SCHEMA"
+print("S42-T1-A", status)
+assert meets_contract is True` ,
+          output: `S42-T1-A PASS` ,
         },
       },
       {
         id: "S42-T1-A-E2",
         subtopicId: "S42-T1-A",
         kind: "independent",
-        instruction:
-          "Ejercicio S42-T1-A-E2: usa el patrón del demo iDo del subtema S42-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T1-A; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T1-A-E2 · Modela tres rutas de `Pydantic y JSON Schema`: fixture válido, fixture adverso y registro sin `business_rule`. Entrada: dict con case_id, extra_policy, json_schema, valid_fixture, business_rule. Salidas exactas: `PASS`, `REJECT_SCHEMA`, `MISSING:business_rule`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a business_rule debe ocurrir antes de esa rama.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T1-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Primero se calcula `missing`; ningún acceso a business_rule debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S42-T1-A: schema estricto más regla de negocio. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta business_rule", "fixture adverso: schema estricto más regla de negocio", "CASO-CUS-042-1A es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `business_rule` ausente y produce exactamente `PASS REJECT_SCHEMA MISSING:business_rule`.",
+        feedback: "S42-T1-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_SCHEMA y por qué faltar business_rule exige REVIEW_BUSINESS_INVARIANT.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T1-A)
-`,
+          title: "s42-t1-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "extra_policy", "json_schema", "valid_fixture", "business_rule"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["extra_policy"] == "allow" and not record["business_rule"] else "REJECT_SCHEMA"
+
+valid = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"forbid","json_schema":True,"valid_fixture":True,"business_rule":True}}
+invalid = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"allow","json_schema":False,"valid_fixture":True,"business_rule":False}}
+incomplete = {**valid}
+incomplete.pop("business_rule")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print({"age":3}); print("pydantic_like", True); print("strict", True)`,
-          output: `{'age': 3}
-pydantic_like True
-strict True`,
+          title: "s42-t1-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "extra_policy", "json_schema", "valid_fixture", "business_rule"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["extra_policy"] == "forbid" and all(record[k] for k in ("json_schema","valid_fixture","business_rule")) else "REJECT_SCHEMA"
+
+valid = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"forbid","json_schema":True,"valid_fixture":True,"business_rule":True}}
+invalid = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"allow","json_schema":False,"valid_fixture":True,"business_rule":False}}
+incomplete = {**valid}
+incomplete.pop("business_rule")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS REJECT_SCHEMA MISSING:business_rule` ,
         },
       },
       {
         id: "S42-T1-A-E3",
         subtopicId: "S42-T1-A",
         kind: "transfer",
-        instruction:
-          "Ejercicio S42-T1-A-E3: usa el patrón del demo iDo del subtema S42-T1-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T1-A; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T1-A-E3 · Simula fallo cerrado para `Pydantic y JSON Schema` con tres fixtures distintos. `CASO-CUS-042-1A` debe continuar, el adverso debe devolver `REJECT_SCHEMA` y la ausencia de `business_rule` debe devolver `REVIEW_BUSINESS_INVARIANT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar el contenido.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T1-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Una ausencia no equivale a breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró schema estricto más regla de negocio; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta business_rule", "fixture adverso: schema estricto más regla de negocio", "CASO-CUS-042-1A es sintético"],
+        tests: "Fixtures `CASO-CUS-042-1A`, adverso y sin `business_rule` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S42-T1-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_SCHEMA y por qué faltar business_rule exige REVIEW_BUSINESS_INVARIANT.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T1-A)
-`,
+          title: "s42-t1-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "extra_policy", "json_schema", "valid_fixture", "business_rule"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if record["extra_policy"] == "allow" and not record["business_rule"] else "REJECT_SCHEMA"
+
+valid = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"forbid","json_schema":True,"valid_fixture":True,"business_rule":True}}
+invalid = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"allow","json_schema":False,"valid_fixture":True,"business_rule":False}}
+uncertain = {**valid}
+uncertain.pop("business_rule")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print({"age":3}); print("pydantic_like", True); print("strict", True)`,
-          output: `{'age': 3}
-pydantic_like True
-strict True`,
+          title: "s42-t1-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "extra_policy", "json_schema", "valid_fixture", "business_rule"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "REVIEW_BUSINESS_INVARIANT"
+    return "CONTINUE" if record["extra_policy"] == "forbid" and all(record[k] for k in ("json_schema","valid_fixture","business_rule")) else "REJECT_SCHEMA"
+
+valid = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"forbid","json_schema":True,"valid_fixture":True,"business_rule":True}}
+invalid = {"case_id": "CASO-CUS-042-1A", **{"extra_policy":"allow","json_schema":False,"valid_fixture":True,"business_rule":False}}
+uncertain = {**valid}
+uncertain.pop("business_rule")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "REJECT_SCHEMA", "REVIEW_BUSINESS_INVARIANT"]` ,
+          output: `CONTINUE REJECT_SCHEMA REVIEW_BUSINESS_INVARIANT` ,
         },
       },
       {
         id: "S42-T1-B-E1",
         subtopicId: "S42-T1-B",
         kind: "guided",
-        instruction:
-          "Ejercicio S42-T1-B-E1: usa el patrón del demo iDo del subtema S42-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T1-B; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T1-B-E1 · Compara el contrato de `evolución, discriminated unions y validación de negocio` sobre `CASO-CUS-042-1B`. La entrada es el dict completo del starter; la operación debe demostrar cambio aditivo y union exhaustiva. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `VERSION_SCHEMA` en E2.",
+        hint: "Relaciona los campos `change`, `old_reader_passes`, `union_tags`, `handled_tags` con la regla explicada en S42-T1-B.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T1-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Relaciona los campos `change`, `old_reader_passes`, `union_tags`, `handled_tags` con la regla explicada en S42-T1-B.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva lector anterior conserva contrato; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta handled_tags", "fixture adverso: cambio aditivo y union exhaustiva", "CASO-CUS-042-1B es sintético"],
+        tests: "El fixture `CASO-CUS-042-1B` satisface un predicado de dominio real; imprime `S42-T1-B PASS` y el assert booleano pasa.",
+        feedback: "S42-T1-B-E1: explica qué campo cambió la decisión, por qué el adverso activa VERSION_SCHEMA y por qué faltar handled_tags exige MIGRATE_CONSUMERS.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T1-B)
-`,
+          title: "s42-t1-b-e1.py",
+          code: `record = {"case_id": "CASO-CUS-042-1B", **{"change":"add_optional","old_reader_passes":True,"union_tags":{"email","phone"},"handled_tags":{"email","phone"}}}
+meets_contract = record["change"] == "rename_required" or record["union_tags"] != record["handled_tags"]
+status = "PASS" if meets_contract else "VERSION_SCHEMA"
+print("S42-T1-B", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print(10); print("err", "amount"); print("evol", "add_optional")`,
-          output: `10
-err amount
-evol add_optional`,
+          title: "s42-t1-b-e1.py",
+          code: `record = {"case_id": "CASO-CUS-042-1B", **{"change":"add_optional","old_reader_passes":True,"union_tags":{"email","phone"},"handled_tags":{"email","phone"}}}
+meets_contract = record["change"] == "add_optional" and record["old_reader_passes"] and record["union_tags"] == record["handled_tags"]
+status = "PASS" if meets_contract else "VERSION_SCHEMA"
+print("S42-T1-B", status)
+assert meets_contract is True` ,
+          output: `S42-T1-B PASS` ,
         },
       },
       {
         id: "S42-T1-B-E2",
         subtopicId: "S42-T1-B",
         kind: "independent",
-        instruction:
-          "Ejercicio S42-T1-B-E2: usa el patrón del demo iDo del subtema S42-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T1-B; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T1-B-E2 · Verifica tres rutas de `evolución, discriminated unions y validación de negocio`: fixture válido, fixture adverso y registro sin `handled_tags`. Entrada: dict con case_id, change, old_reader_passes, union_tags, handled_tags. Salidas exactas: `PASS`, `VERSION_SCHEMA`, `MISSING:handled_tags`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a handled_tags debe ocurrir antes de esa rama.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T1-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Primero se calcula `missing`; ningún acceso a handled_tags debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S42-T1-B: cambio aditivo y union exhaustiva. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta handled_tags", "fixture adverso: cambio aditivo y union exhaustiva", "CASO-CUS-042-1B es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `handled_tags` ausente y produce exactamente `PASS VERSION_SCHEMA MISSING:handled_tags`.",
+        feedback: "S42-T1-B-E2: explica qué campo cambió la decisión, por qué el adverso activa VERSION_SCHEMA y por qué faltar handled_tags exige MIGRATE_CONSUMERS.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T1-B)
-`,
+          title: "s42-t1-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "change", "old_reader_passes", "union_tags", "handled_tags"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["change"] == "rename_required" or record["union_tags"] != record["handled_tags"] else "VERSION_SCHEMA"
+
+valid = {"case_id": "CASO-CUS-042-1B", **{"change":"add_optional","old_reader_passes":True,"union_tags":{"email","phone"},"handled_tags":{"email","phone"}}}
+invalid = {"case_id": "CASO-CUS-042-1B", **{"change":"rename_required","old_reader_passes":False,"union_tags":{"email","phone","push"},"handled_tags":{"email","phone"}}}
+incomplete = {**valid}
+incomplete.pop("handled_tags")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print(10); print("err", "amount"); print("evol", "add_optional")`,
-          output: `10
-err amount
-evol add_optional`,
+          title: "s42-t1-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "change", "old_reader_passes", "union_tags", "handled_tags"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["change"] == "add_optional" and record["old_reader_passes"] and record["union_tags"] == record["handled_tags"] else "VERSION_SCHEMA"
+
+valid = {"case_id": "CASO-CUS-042-1B", **{"change":"add_optional","old_reader_passes":True,"union_tags":{"email","phone"},"handled_tags":{"email","phone"}}}
+invalid = {"case_id": "CASO-CUS-042-1B", **{"change":"rename_required","old_reader_passes":False,"union_tags":{"email","phone","push"},"handled_tags":{"email","phone"}}}
+incomplete = {**valid}
+incomplete.pop("handled_tags")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS VERSION_SCHEMA MISSING:handled_tags` ,
         },
       },
       {
         id: "S42-T1-B-E3",
         subtopicId: "S42-T1-B",
         kind: "transfer",
-        instruction:
-          "Ejercicio S42-T1-B-E3: usa el patrón del demo iDo del subtema S42-T1-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T1-B; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T1-B-E3 · Extiende fallo cerrado para `evolución, discriminated unions y validación de negocio` con tres fixtures distintos. `CASO-CUS-042-1B` debe continuar, el adverso debe devolver `VERSION_SCHEMA` y la ausencia de `handled_tags` debe devolver `MIGRATE_CONSUMERS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `MIGRATE_CONSUMERS` antes de evaluar el contenido.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T1-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Una ausencia no equivale a breach: enrútala a `MIGRATE_CONSUMERS` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró cambio aditivo y union exhaustiva; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta handled_tags", "fixture adverso: cambio aditivo y union exhaustiva", "CASO-CUS-042-1B es sintético"],
+        tests: "Fixtures `CASO-CUS-042-1B`, adverso y sin `handled_tags` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S42-T1-B-E3: explica qué campo cambió la decisión, por qué el adverso activa VERSION_SCHEMA y por qué faltar handled_tags exige MIGRATE_CONSUMERS.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T2-A)
-`,
+          title: "s42-t1-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "change", "old_reader_passes", "union_tags", "handled_tags"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if record["change"] == "rename_required" or record["union_tags"] != record["handled_tags"] else "VERSION_SCHEMA"
+
+valid = {"case_id": "CASO-CUS-042-1B", **{"change":"add_optional","old_reader_passes":True,"union_tags":{"email","phone"},"handled_tags":{"email","phone"}}}
+invalid = {"case_id": "CASO-CUS-042-1B", **{"change":"rename_required","old_reader_passes":False,"union_tags":{"email","phone","push"},"handled_tags":{"email","phone"}}}
+uncertain = {**valid}
+uncertain.pop("handled_tags")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print(10); print("err", "amount"); print("evol", "add_optional")`,
-          output: `10
-err amount
-evol add_optional`,
+          title: "s42-t1-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "change", "old_reader_passes", "union_tags", "handled_tags"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MIGRATE_CONSUMERS"
+    return "CONTINUE" if record["change"] == "add_optional" and record["old_reader_passes"] and record["union_tags"] == record["handled_tags"] else "VERSION_SCHEMA"
+
+valid = {"case_id": "CASO-CUS-042-1B", **{"change":"add_optional","old_reader_passes":True,"union_tags":{"email","phone"},"handled_tags":{"email","phone"}}}
+invalid = {"case_id": "CASO-CUS-042-1B", **{"change":"rename_required","old_reader_passes":False,"union_tags":{"email","phone","push"},"handled_tags":{"email","phone"}}}
+uncertain = {**valid}
+uncertain.pop("handled_tags")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "VERSION_SCHEMA", "MIGRATE_CONSUMERS"]` ,
+          output: `CONTINUE VERSION_SCHEMA MIGRATE_CONSUMERS` ,
         },
       },
       {
         id: "S42-T2-A-E1",
         subtopicId: "S42-T2-A",
         kind: "guided",
-        instruction:
-          "Ejercicio S42-T2-A-E1: usa el patrón del demo iDo del subtema S42-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T2-A; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T2-A-E1 · Filtra el contrato de `authn/authz y RBAC` sobre `CASO-CUS-042-2A`. La entrada es el dict completo del starter; la operación debe demostrar identidad, permiso y pertenencia del recurso. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `DENY_CROSS_TENANT` en E2.",
+        hint: "Relaciona los campos `authenticated`, `actor`, `resource_owner`, `roles` con la regla explicada en S42-T2-A.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T2-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Relaciona los campos `authenticated`, `actor`, `resource_owner`, `roles` con la regla explicada en S42-T2-A.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva prueba actor A no lee caso B; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta roles", "fixture adverso: identidad, permiso y pertenencia del recurso", "CASO-CUS-042-2A es sintético"],
+        tests: "El fixture `CASO-CUS-042-2A` satisface un predicado de dominio real; imprime `S42-T2-A PASS` y el assert booleano pasa.",
+        feedback: "S42-T2-A-E1: explica qué campo cambió la decisión, por qué el adverso activa DENY_CROSS_TENANT y por qué faltar roles exige VERIFY_RESOURCE_OWNER.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T2-A)
-`,
+          title: "s42-t2-a-e1.py",
+          code: `record = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-a","roles":{"case:read"}}}
+meets_contract = record["authenticated"] and record["actor"] != record["resource_owner"]
+status = "PASS" if meets_contract else "DENY_CROSS_TENANT"
+print("S42-T2-A", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("authn", "u1"); print("roles", ["analyst"]); print("authz_needed", True)`,
-          output: `authn u1
-roles ['analyst']
-authz_needed True`,
+          title: "s42-t2-a-e1.py",
+          code: `record = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-a","roles":{"case:read"}}}
+meets_contract = record["authenticated"] and record["actor"] == record["resource_owner"] and "case:read" in record["roles"]
+status = "PASS" if meets_contract else "DENY_CROSS_TENANT"
+print("S42-T2-A", status)
+assert meets_contract is True` ,
+          output: `S42-T2-A PASS` ,
         },
       },
       {
         id: "S42-T2-A-E2",
         subtopicId: "S42-T2-A",
         kind: "independent",
-        instruction:
-          "Ejercicio S42-T2-A-E2: usa el patrón del demo iDo del subtema S42-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T2-A; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T2-A-E2 · Clasifica tres rutas de `authn/authz y RBAC`: fixture válido, fixture adverso y registro sin `roles`. Entrada: dict con case_id, authenticated, actor, resource_owner, roles. Salidas exactas: `PASS`, `DENY_CROSS_TENANT`, `MISSING:roles`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a roles debe ocurrir antes de esa rama.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T2-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Primero se calcula `missing`; ningún acceso a roles debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S42-T2-A: identidad, permiso y pertenencia del recurso. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta roles", "fixture adverso: identidad, permiso y pertenencia del recurso", "CASO-CUS-042-2A es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `roles` ausente y produce exactamente `PASS DENY_CROSS_TENANT MISSING:roles`.",
+        feedback: "S42-T2-A-E2: explica qué campo cambió la decisión, por qué el adverso activa DENY_CROSS_TENANT y por qué faltar roles exige VERIFY_RESOURCE_OWNER.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T2-A)
-`,
+          title: "s42-t2-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "authenticated", "actor", "resource_owner", "roles"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["authenticated"] and record["actor"] != record["resource_owner"] else "DENY_CROSS_TENANT"
+
+valid = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-a","roles":{"case:read"}}}
+invalid = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-b","roles":{"case:read"}}}
+incomplete = {**valid}
+incomplete.pop("roles")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("authn", "u1"); print("roles", ["analyst"]); print("authz_needed", True)`,
-          output: `authn u1
-roles ['analyst']
-authz_needed True`,
+          title: "s42-t2-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "authenticated", "actor", "resource_owner", "roles"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["authenticated"] and record["actor"] == record["resource_owner"] and "case:read" in record["roles"] else "DENY_CROSS_TENANT"
+
+valid = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-a","roles":{"case:read"}}}
+invalid = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-b","roles":{"case:read"}}}
+incomplete = {**valid}
+incomplete.pop("roles")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS DENY_CROSS_TENANT MISSING:roles` ,
         },
       },
       {
         id: "S42-T2-A-E3",
         subtopicId: "S42-T2-A",
         kind: "transfer",
-        instruction:
-          "Ejercicio S42-T2-A-E3: usa el patrón del demo iDo del subtema S42-T2-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T2-A; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T2-A-E3 · Defiende fallo cerrado para `authn/authz y RBAC` con tres fixtures distintos. `CASO-CUS-042-2A` debe continuar, el adverso debe devolver `DENY_CROSS_TENANT` y la ausencia de `roles` debe devolver `VERIFY_RESOURCE_OWNER`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `VERIFY_RESOURCE_OWNER` antes de evaluar el contenido.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T2-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Una ausencia no equivale a breach: enrútala a `VERIFY_RESOURCE_OWNER` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró identidad, permiso y pertenencia del recurso; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta roles", "fixture adverso: identidad, permiso y pertenencia del recurso", "CASO-CUS-042-2A es sintético"],
+        tests: "Fixtures `CASO-CUS-042-2A`, adverso y sin `roles` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S42-T2-A-E3: explica qué campo cambió la decisión, por qué el adverso activa DENY_CROSS_TENANT y por qué faltar roles exige VERIFY_RESOURCE_OWNER.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T2-B)
-`,
+          title: "s42-t2-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "authenticated", "actor", "resource_owner", "roles"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if record["authenticated"] and record["actor"] != record["resource_owner"] else "DENY_CROSS_TENANT"
+
+valid = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-a","roles":{"case:read"}}}
+invalid = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-b","roles":{"case:read"}}}
+uncertain = {**valid}
+uncertain.pop("roles")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("authn", "u1"); print("roles", ["analyst"]); print("authz_needed", True)`,
-          output: `authn u1
-roles ['analyst']
-authz_needed True`,
+          title: "s42-t2-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "authenticated", "actor", "resource_owner", "roles"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "VERIFY_RESOURCE_OWNER"
+    return "CONTINUE" if record["authenticated"] and record["actor"] == record["resource_owner"] and "case:read" in record["roles"] else "DENY_CROSS_TENANT"
+
+valid = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-a","roles":{"case:read"}}}
+invalid = {"case_id": "CASO-CUS-042-2A", **{"authenticated":True,"actor":"user-a","resource_owner":"user-b","roles":{"case:read"}}}
+uncertain = {**valid}
+uncertain.pop("roles")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "DENY_CROSS_TENANT", "VERIFY_RESOURCE_OWNER"]` ,
+          output: `CONTINUE DENY_CROSS_TENANT VERIFY_RESOURCE_OWNER` ,
         },
       },
       {
         id: "S42-T2-B-E1",
         subtopicId: "S42-T2-B",
         kind: "guided",
-        instruction:
-          "Ejercicio S42-T2-B-E1: usa el patrón del demo iDo del subtema S42-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T2-B; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T2-B-E1 · Modela el contrato de `scopes, service identities y deny-by-default` sobre `CASO-CUS-042-2B`. La entrada es el dict completo del starter; la operación debe demostrar scope estrecho, identidad propia y ruta declarada. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `DENY_SCOPE` en E2.",
+        hint: "Relaciona los campos `requested_scope`, `granted_scopes`, `service_id`, `route_declared` con la regla explicada en S42-T2-B.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T2-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Relaciona los campos `requested_scope`, `granted_scopes`, `service_id`, `route_declared` con la regla explicada en S42-T2-B.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva matriz de scopes con denegaciones explícitas; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta route_declared", "fixture adverso: scope estrecho, identidad propia y ruta declarada", "CASO-CUS-042-2B es sintético"],
+        tests: "El fixture `CASO-CUS-042-2B` satisface un predicado de dominio real; imprime `S42-T2-B PASS` y el assert booleano pasa.",
+        feedback: "S42-T2-B-E1: explica qué campo cambió la decisión, por qué el adverso activa DENY_SCOPE y por qué faltar route_declared exige REQUEST_NARROW_GRANT.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T2-B)
-`,
+          title: "s42-t2-b-e1.py",
+          code: `record = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"report:prepare","granted_scopes":{"report:prepare"},"service_id":"svc-reporter","route_declared":True}}
+meets_contract = record["requested_scope"] not in record["granted_scopes"] or not record["route_declared"]
+status = "PASS" if meets_contract else "DENY_SCOPE"
+print("S42-T2-B", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("er-worker"); print(["jobs:run"]); print("service_identity", True)`,
-          output: `er-worker
-['jobs:run']
-service_identity True`,
+          title: "s42-t2-b-e1.py",
+          code: `record = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"report:prepare","granted_scopes":{"report:prepare"},"service_id":"svc-reporter","route_declared":True}}
+meets_contract = record["requested_scope"] in record["granted_scopes"] and record["service_id"].startswith("svc-") and record["route_declared"]
+status = "PASS" if meets_contract else "DENY_SCOPE"
+print("S42-T2-B", status)
+assert meets_contract is True` ,
+          output: `S42-T2-B PASS` ,
         },
       },
       {
         id: "S42-T2-B-E2",
         subtopicId: "S42-T2-B",
         kind: "independent",
-        instruction:
-          "Ejercicio S42-T2-B-E2: usa el patrón del demo iDo del subtema S42-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T2-B; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T2-B-E2 · Audita tres rutas de `scopes, service identities y deny-by-default`: fixture válido, fixture adverso y registro sin `route_declared`. Entrada: dict con case_id, requested_scope, granted_scopes, service_id, route_declared. Salidas exactas: `PASS`, `DENY_SCOPE`, `MISSING:route_declared`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a route_declared debe ocurrir antes de esa rama.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T2-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Primero se calcula `missing`; ningún acceso a route_declared debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S42-T2-B: scope estrecho, identidad propia y ruta declarada. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta route_declared", "fixture adverso: scope estrecho, identidad propia y ruta declarada", "CASO-CUS-042-2B es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `route_declared` ausente y produce exactamente `PASS DENY_SCOPE MISSING:route_declared`.",
+        feedback: "S42-T2-B-E2: explica qué campo cambió la decisión, por qué el adverso activa DENY_SCOPE y por qué faltar route_declared exige REQUEST_NARROW_GRANT.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T2-B)
-`,
+          title: "s42-t2-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "requested_scope", "granted_scopes", "service_id", "route_declared"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["requested_scope"] not in record["granted_scopes"] or not record["route_declared"] else "DENY_SCOPE"
+
+valid = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"report:prepare","granted_scopes":{"report:prepare"},"service_id":"svc-reporter","route_declared":True}}
+invalid = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"prod:write","granted_scopes":{"report:prepare"},"service_id":"shared-admin","route_declared":False}}
+incomplete = {**valid}
+incomplete.pop("route_declared")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("er-worker"); print(["jobs:run"]); print("service_identity", True)`,
-          output: `er-worker
-['jobs:run']
-service_identity True`,
+          title: "s42-t2-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "requested_scope", "granted_scopes", "service_id", "route_declared"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["requested_scope"] in record["granted_scopes"] and record["service_id"].startswith("svc-") and record["route_declared"] else "DENY_SCOPE"
+
+valid = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"report:prepare","granted_scopes":{"report:prepare"},"service_id":"svc-reporter","route_declared":True}}
+invalid = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"prod:write","granted_scopes":{"report:prepare"},"service_id":"shared-admin","route_declared":False}}
+incomplete = {**valid}
+incomplete.pop("route_declared")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS DENY_SCOPE MISSING:route_declared` ,
         },
       },
       {
         id: "S42-T2-B-E3",
         subtopicId: "S42-T2-B",
         kind: "transfer",
-        instruction:
-          "Ejercicio S42-T2-B-E3: usa el patrón del demo iDo del subtema S42-T2-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T2-B; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T2-B-E3 · Recupera fallo cerrado para `scopes, service identities y deny-by-default` con tres fixtures distintos. `CASO-CUS-042-2B` debe continuar, el adverso debe devolver `DENY_SCOPE` y la ausencia de `route_declared` debe devolver `REQUEST_NARROW_GRANT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `REQUEST_NARROW_GRANT` antes de evaluar el contenido.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T2-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Una ausencia no equivale a breach: enrútala a `REQUEST_NARROW_GRANT` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró scope estrecho, identidad propia y ruta declarada; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta route_declared", "fixture adverso: scope estrecho, identidad propia y ruta declarada", "CASO-CUS-042-2B es sintético"],
+        tests: "Fixtures `CASO-CUS-042-2B`, adverso y sin `route_declared` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S42-T2-B-E3: explica qué campo cambió la decisión, por qué el adverso activa DENY_SCOPE y por qué faltar route_declared exige REQUEST_NARROW_GRANT.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T3-A)
-`,
+          title: "s42-t2-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "requested_scope", "granted_scopes", "service_id", "route_declared"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if record["requested_scope"] not in record["granted_scopes"] or not record["route_declared"] else "DENY_SCOPE"
+
+valid = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"report:prepare","granted_scopes":{"report:prepare"},"service_id":"svc-reporter","route_declared":True}}
+invalid = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"prod:write","granted_scopes":{"report:prepare"},"service_id":"shared-admin","route_declared":False}}
+uncertain = {**valid}
+uncertain.pop("route_declared")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("er-worker"); print(["jobs:run"]); print("service_identity", True)`,
-          output: `er-worker
-['jobs:run']
-service_identity True`,
+          title: "s42-t2-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "requested_scope", "granted_scopes", "service_id", "route_declared"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "REQUEST_NARROW_GRANT"
+    return "CONTINUE" if record["requested_scope"] in record["granted_scopes"] and record["service_id"].startswith("svc-") and record["route_declared"] else "DENY_SCOPE"
+
+valid = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"report:prepare","granted_scopes":{"report:prepare"},"service_id":"svc-reporter","route_declared":True}}
+invalid = {"case_id": "CASO-CUS-042-2B", **{"requested_scope":"prod:write","granted_scopes":{"report:prepare"},"service_id":"shared-admin","route_declared":False}}
+uncertain = {**valid}
+uncertain.pop("route_declared")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "DENY_SCOPE", "REQUEST_NARROW_GRANT"]` ,
+          output: `CONTINUE DENY_SCOPE REQUEST_NARROW_GRANT` ,
         },
       },
       {
         id: "S42-T3-A-E1",
         subtopicId: "S42-T3-A",
         kind: "guided",
-        instruction:
-          "Ejercicio S42-T3-A-E1: usa el patrón del demo iDo del subtema S42-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T3-A; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T3-A-E1 · Verifica el contrato de `input limits, injection y SSRF/path traversal` sobre `CASO-CUS-042-3A`. La entrada es el dict completo del starter; la operación debe demostrar límite, host allowlisted y ruta confinada. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNTRUSTED_INPUT` en E2.",
+        hint: "Relaciona los campos `bytes`, `max_bytes`, `host`, `allowed_hosts`, `resolved_path`, `root` con la regla explicada en S42-T3-A.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T3-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Relaciona los campos `bytes`, `max_bytes`, `host`, `allowed_hosts`, `resolved_path`, `root` con la regla explicada en S42-T3-A.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva payload/URL/ruta adversarial rechazada; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta root", "fixture adverso: límite, host allowlisted y ruta confinada", "CASO-CUS-042-3A es sintético"],
+        tests: "El fixture `CASO-CUS-042-3A` satisface un predicado de dominio real; imprime `S42-T3-A PASS` y el assert booleano pasa.",
+        feedback: "S42-T3-A-E1: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNTRUSTED_INPUT y por qué faltar root exige SECURITY_REVIEW.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T3-A)
-`,
+          title: "s42-t3-a-e1.py",
+          code: `record = {"case_id": "CASO-CUS-042-3A", **{"bytes":2048,"max_bytes":4096,"host":"docs.local","allowed_hosts":{"docs.local"},"resolved_path":"/safe/reports/a.txt","root":"/safe/reports"}}
+meets_contract = record["bytes"] > record["max_bytes"] or record["resolved_path"].startswith("/etc")
+status = "PASS" if meets_contract else "REJECT_UNTRUSTED_INPUT"
+print("S42-T3-A", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print(True); print(False); print("injection", "parameterized")`,
-          output: `True
-False
-injection parameterized`,
+          title: "s42-t3-a-e1.py",
+          code: `record = {"case_id": "CASO-CUS-042-3A", **{"bytes":2048,"max_bytes":4096,"host":"docs.local","allowed_hosts":{"docs.local"},"resolved_path":"/safe/reports/a.txt","root":"/safe/reports"}}
+meets_contract = record["bytes"] <= record["max_bytes"] and record["host"] in record["allowed_hosts"] and record["resolved_path"].startswith(record["root"] + "/")
+status = "PASS" if meets_contract else "REJECT_UNTRUSTED_INPUT"
+print("S42-T3-A", status)
+assert meets_contract is True` ,
+          output: `S42-T3-A PASS` ,
         },
       },
       {
         id: "S42-T3-A-E2",
         subtopicId: "S42-T3-A",
         kind: "independent",
-        instruction:
-          "Ejercicio S42-T3-A-E2: usa el patrón del demo iDo del subtema S42-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T3-A; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T3-A-E2 · Decide tres rutas de `input limits, injection y SSRF/path traversal`: fixture válido, fixture adverso y registro sin `root`. Entrada: dict con case_id, bytes, max_bytes, host, allowed_hosts, resolved_path, root. Salidas exactas: `PASS`, `REJECT_UNTRUSTED_INPUT`, `MISSING:root`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a root debe ocurrir antes de esa rama.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T3-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Primero se calcula `missing`; ningún acceso a root debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S42-T3-A: límite, host allowlisted y ruta confinada. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta root", "fixture adverso: límite, host allowlisted y ruta confinada", "CASO-CUS-042-3A es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `root` ausente y produce exactamente `PASS REJECT_UNTRUSTED_INPUT MISSING:root`.",
+        feedback: "S42-T3-A-E2: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNTRUSTED_INPUT y por qué faltar root exige SECURITY_REVIEW.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T3-A)
-`,
+          title: "s42-t3-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "bytes", "max_bytes", "host", "allowed_hosts", "resolved_path", "root"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["bytes"] > record["max_bytes"] or record["resolved_path"].startswith("/etc") else "REJECT_UNTRUSTED_INPUT"
+
+valid = {"case_id": "CASO-CUS-042-3A", **{"bytes":2048,"max_bytes":4096,"host":"docs.local","allowed_hosts":{"docs.local"},"resolved_path":"/safe/reports/a.txt","root":"/safe/reports"}}
+invalid = {"case_id": "CASO-CUS-042-3A", **{"bytes":9999,"max_bytes":4096,"host":"169.254.169.254","allowed_hosts":{"docs.local"},"resolved_path":"/etc/passwd","root":"/safe/reports"}}
+incomplete = {**valid}
+incomplete.pop("root")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print(True); print(False); print("injection", "parameterized")`,
-          output: `True
-False
-injection parameterized`,
+          title: "s42-t3-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "bytes", "max_bytes", "host", "allowed_hosts", "resolved_path", "root"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["bytes"] <= record["max_bytes"] and record["host"] in record["allowed_hosts"] and record["resolved_path"].startswith(record["root"] + "/") else "REJECT_UNTRUSTED_INPUT"
+
+valid = {"case_id": "CASO-CUS-042-3A", **{"bytes":2048,"max_bytes":4096,"host":"docs.local","allowed_hosts":{"docs.local"},"resolved_path":"/safe/reports/a.txt","root":"/safe/reports"}}
+invalid = {"case_id": "CASO-CUS-042-3A", **{"bytes":9999,"max_bytes":4096,"host":"169.254.169.254","allowed_hosts":{"docs.local"},"resolved_path":"/etc/passwd","root":"/safe/reports"}}
+incomplete = {**valid}
+incomplete.pop("root")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS REJECT_UNTRUSTED_INPUT MISSING:root` ,
         },
       },
       {
         id: "S42-T3-A-E3",
         subtopicId: "S42-T3-A",
         kind: "transfer",
-        instruction:
-          "Ejercicio S42-T3-A-E3: usa el patrón del demo iDo del subtema S42-T3-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T3-A; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T3-A-E3 · Contrasta fallo cerrado para `input limits, injection y SSRF/path traversal` con tres fixtures distintos. `CASO-CUS-042-3A` debe continuar, el adverso debe devolver `REJECT_UNTRUSTED_INPUT` y la ausencia de `root` debe devolver `SECURITY_REVIEW`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `SECURITY_REVIEW` antes de evaluar el contenido.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T3-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Una ausencia no equivale a breach: enrútala a `SECURITY_REVIEW` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró límite, host allowlisted y ruta confinada; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta root", "fixture adverso: límite, host allowlisted y ruta confinada", "CASO-CUS-042-3A es sintético"],
+        tests: "Fixtures `CASO-CUS-042-3A`, adverso y sin `root` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S42-T3-A-E3: explica qué campo cambió la decisión, por qué el adverso activa REJECT_UNTRUSTED_INPUT y por qué faltar root exige SECURITY_REVIEW.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T3-B)
-`,
+          title: "s42-t3-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "bytes", "max_bytes", "host", "allowed_hosts", "resolved_path", "root"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if record["bytes"] > record["max_bytes"] or record["resolved_path"].startswith("/etc") else "REJECT_UNTRUSTED_INPUT"
+
+valid = {"case_id": "CASO-CUS-042-3A", **{"bytes":2048,"max_bytes":4096,"host":"docs.local","allowed_hosts":{"docs.local"},"resolved_path":"/safe/reports/a.txt","root":"/safe/reports"}}
+invalid = {"case_id": "CASO-CUS-042-3A", **{"bytes":9999,"max_bytes":4096,"host":"169.254.169.254","allowed_hosts":{"docs.local"},"resolved_path":"/etc/passwd","root":"/safe/reports"}}
+uncertain = {**valid}
+uncertain.pop("root")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print(True); print(False); print("injection", "parameterized")`,
-          output: `True
-False
-injection parameterized`,
+          title: "s42-t3-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "bytes", "max_bytes", "host", "allowed_hosts", "resolved_path", "root"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "SECURITY_REVIEW"
+    return "CONTINUE" if record["bytes"] <= record["max_bytes"] and record["host"] in record["allowed_hosts"] and record["resolved_path"].startswith(record["root"] + "/") else "REJECT_UNTRUSTED_INPUT"
+
+valid = {"case_id": "CASO-CUS-042-3A", **{"bytes":2048,"max_bytes":4096,"host":"docs.local","allowed_hosts":{"docs.local"},"resolved_path":"/safe/reports/a.txt","root":"/safe/reports"}}
+invalid = {"case_id": "CASO-CUS-042-3A", **{"bytes":9999,"max_bytes":4096,"host":"169.254.169.254","allowed_hosts":{"docs.local"},"resolved_path":"/etc/passwd","root":"/safe/reports"}}
+uncertain = {**valid}
+uncertain.pop("root")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "REJECT_UNTRUSTED_INPUT", "SECURITY_REVIEW"]` ,
+          output: `CONTINUE REJECT_UNTRUSTED_INPUT SECURITY_REVIEW` ,
         },
       },
       {
         id: "S42-T3-B-E1",
         subtopicId: "S42-T3-B",
         kind: "guided",
-        instruction:
-          "Ejercicio S42-T3-B-E1: usa el patrón del demo iDo del subtema S42-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T3-B; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T3-B-E1 · Clasifica el contrato de `secretos, cifrado y dependency risk` sobre `CASO-CUS-042-3B`. La entrada es el dict completo del starter; la operación debe demostrar secretos fuera del artefacto y dependencias revisadas. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `ROTATE_AND_BLOCK` en E2.",
+        hint: "Relaciona los campos `secret_in_repo`, `secret_in_log`, `rotation_tested`, `dependency_pinned`, `critical_cves` con la regla explicada en S42-T3-B.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T3-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Relaciona los campos `secret_in_repo`, `secret_in_log`, `rotation_tested`, `dependency_pinned`, `critical_cves` con la regla explicada en S42-T3-B.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva scan sin secreto y rotación ensayada; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta critical_cves", "fixture adverso: secretos fuera del artefacto y dependencias revisadas", "CASO-CUS-042-3B es sintético"],
+        tests: "El fixture `CASO-CUS-042-3B` satisface un predicado de dominio real; imprime `S42-T3-B PASS` y el assert booleano pasa.",
+        feedback: "S42-T3-B-E1: explica qué campo cambió la decisión, por qué el adverso activa ROTATE_AND_BLOCK y por qué faltar critical_cves exige ASSESS_DEPENDENCY_RISK.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T3-B)
-`,
+          title: "s42-t3-b-e1.py",
+          code: `record = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":False,"secret_in_log":False,"rotation_tested":True,"dependency_pinned":True,"critical_cves":0}}
+meets_contract = record["secret_in_repo"] or not record["dependency_pinned"]
+status = "PASS" if meets_contract else "ROTATE_AND_BLOCK"
+print("S42-T3-B", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("high", ["old"]); print("crypto", "AES-GCM-at-rest"); print("rotate", True)`,
-          output: `high ['old']
-crypto AES-GCM-at-rest
-rotate True`,
+          title: "s42-t3-b-e1.py",
+          code: `record = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":False,"secret_in_log":False,"rotation_tested":True,"dependency_pinned":True,"critical_cves":0}}
+meets_contract = not record["secret_in_repo"] and not record["secret_in_log"] and record["rotation_tested"] and record["dependency_pinned"] and record["critical_cves"] == 0
+status = "PASS" if meets_contract else "ROTATE_AND_BLOCK"
+print("S42-T3-B", status)
+assert meets_contract is True` ,
+          output: `S42-T3-B PASS` ,
         },
       },
       {
         id: "S42-T3-B-E2",
         subtopicId: "S42-T3-B",
         kind: "independent",
-        instruction:
-          "Ejercicio S42-T3-B-E2: usa el patrón del demo iDo del subtema S42-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T3-B; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T3-B-E2 · Calcula tres rutas de `secretos, cifrado y dependency risk`: fixture válido, fixture adverso y registro sin `critical_cves`. Entrada: dict con case_id, secret_in_repo, secret_in_log, rotation_tested, dependency_pinned, critical_cves. Salidas exactas: `PASS`, `ROTATE_AND_BLOCK`, `MISSING:critical_cves`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a critical_cves debe ocurrir antes de esa rama.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T3-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Primero se calcula `missing`; ningún acceso a critical_cves debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S42-T3-B: secretos fuera del artefacto y dependencias revisadas. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta critical_cves", "fixture adverso: secretos fuera del artefacto y dependencias revisadas", "CASO-CUS-042-3B es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `critical_cves` ausente y produce exactamente `PASS ROTATE_AND_BLOCK MISSING:critical_cves`.",
+        feedback: "S42-T3-B-E2: explica qué campo cambió la decisión, por qué el adverso activa ROTATE_AND_BLOCK y por qué faltar critical_cves exige ASSESS_DEPENDENCY_RISK.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T3-B)
-`,
+          title: "s42-t3-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "secret_in_repo", "secret_in_log", "rotation_tested", "dependency_pinned", "critical_cves"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["secret_in_repo"] or not record["dependency_pinned"] else "ROTATE_AND_BLOCK"
+
+valid = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":False,"secret_in_log":False,"rotation_tested":True,"dependency_pinned":True,"critical_cves":0}}
+invalid = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":True,"secret_in_log":True,"rotation_tested":False,"dependency_pinned":False,"critical_cves":2}}
+incomplete = {**valid}
+incomplete.pop("critical_cves")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("high", ["old"]); print("crypto", "AES-GCM-at-rest"); print("rotate", True)`,
-          output: `high ['old']
-crypto AES-GCM-at-rest
-rotate True`,
+          title: "s42-t3-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "secret_in_repo", "secret_in_log", "rotation_tested", "dependency_pinned", "critical_cves"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if not record["secret_in_repo"] and not record["secret_in_log"] and record["rotation_tested"] and record["dependency_pinned"] and record["critical_cves"] == 0 else "ROTATE_AND_BLOCK"
+
+valid = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":False,"secret_in_log":False,"rotation_tested":True,"dependency_pinned":True,"critical_cves":0}}
+invalid = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":True,"secret_in_log":True,"rotation_tested":False,"dependency_pinned":False,"critical_cves":2}}
+incomplete = {**valid}
+incomplete.pop("critical_cves")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS ROTATE_AND_BLOCK MISSING:critical_cves` ,
         },
       },
       {
         id: "S42-T3-B-E3",
         subtopicId: "S42-T3-B",
         kind: "transfer",
-        instruction:
-          "Ejercicio S42-T3-B-E3: usa el patrón del demo iDo del subtema S42-T3-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T3-B; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T3-B-E3 · Instrumenta fallo cerrado para `secretos, cifrado y dependency risk` con tres fixtures distintos. `CASO-CUS-042-3B` debe continuar, el adverso debe devolver `ROTATE_AND_BLOCK` y la ausencia de `critical_cves` debe devolver `ASSESS_DEPENDENCY_RISK`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `ASSESS_DEPENDENCY_RISK` antes de evaluar el contenido.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T3-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Una ausencia no equivale a breach: enrútala a `ASSESS_DEPENDENCY_RISK` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró secretos fuera del artefacto y dependencias revisadas; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta critical_cves", "fixture adverso: secretos fuera del artefacto y dependencias revisadas", "CASO-CUS-042-3B es sintético"],
+        tests: "Fixtures `CASO-CUS-042-3B`, adverso y sin `critical_cves` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S42-T3-B-E3: explica qué campo cambió la decisión, por qué el adverso activa ROTATE_AND_BLOCK y por qué faltar critical_cves exige ASSESS_DEPENDENCY_RISK.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T4-A)
-`,
+          title: "s42-t3-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "secret_in_repo", "secret_in_log", "rotation_tested", "dependency_pinned", "critical_cves"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if record["secret_in_repo"] or not record["dependency_pinned"] else "ROTATE_AND_BLOCK"
+
+valid = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":False,"secret_in_log":False,"rotation_tested":True,"dependency_pinned":True,"critical_cves":0}}
+invalid = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":True,"secret_in_log":True,"rotation_tested":False,"dependency_pinned":False,"critical_cves":2}}
+uncertain = {**valid}
+uncertain.pop("critical_cves")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print("high", ["old"]); print("crypto", "AES-GCM-at-rest"); print("rotate", True)`,
-          output: `high ['old']
-crypto AES-GCM-at-rest
-rotate True`,
+          title: "s42-t3-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "secret_in_repo", "secret_in_log", "rotation_tested", "dependency_pinned", "critical_cves"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "ASSESS_DEPENDENCY_RISK"
+    return "CONTINUE" if not record["secret_in_repo"] and not record["secret_in_log"] and record["rotation_tested"] and record["dependency_pinned"] and record["critical_cves"] == 0 else "ROTATE_AND_BLOCK"
+
+valid = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":False,"secret_in_log":False,"rotation_tested":True,"dependency_pinned":True,"critical_cves":0}}
+invalid = {"case_id": "CASO-CUS-042-3B", **{"secret_in_repo":True,"secret_in_log":True,"rotation_tested":False,"dependency_pinned":False,"critical_cves":2}}
+uncertain = {**valid}
+uncertain.pop("critical_cves")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "ROTATE_AND_BLOCK", "ASSESS_DEPENDENCY_RISK"]` ,
+          output: `CONTINUE ROTATE_AND_BLOCK ASSESS_DEPENDENCY_RISK` ,
         },
       },
       {
         id: "S42-T4-A-E1",
         subtopicId: "S42-T4-A",
         kind: "guided",
-        instruction:
-          "Ejercicio S42-T4-A-E1: usa el patrón del demo iDo del subtema S42-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T4-A; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T4-A-E1 · Audita el contrato de `minimización, purpose y retención` sobre `CASO-CUS-042-4A`. La entrada es el dict completo del starter; la operación debe demostrar campos mínimos, propósito y retención finita. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `MINIMIZE_AND_EXPIRE` en E2.",
+        hint: "Relaciona los campos `collected`, `needed`, `purpose`, `retention_days`, `max_retention_days` con la regla explicada en S42-T4-A.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T4-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Relaciona los campos `collected`, `needed`, `purpose`, `retention_days`, `max_retention_days` con la regla explicada en S42-T4-A.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva inventario propósito-campo-retención aprobado; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta max_retention_days", "fixture adverso: campos mínimos, propósito y retención finita", "CASO-CUS-042-4A es sintético"],
+        tests: "El fixture `CASO-CUS-042-4A` satisface un predicado de dominio real; imprime `S42-T4-A PASS` y el assert booleano pasa.",
+        feedback: "S42-T4-A-E1: explica qué campo cambió la decisión, por qué el adverso activa MINIMIZE_AND_EXPIRE y por qué faltar max_retention_days exige PRIVACY_OWNER_REVIEW.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T4-A)
-`,
+          title: "s42-t4-a-e1.py",
+          code: `record = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region"},"needed":{"case_id","region"},"purpose":"status-report","retention_days":30,"max_retention_days":30}}
+meets_contract = record["collected"] > record["needed"] or record["retention_days"] > record["max_retention_days"]
+status = "PASS" if meets_contract else "MINIMIZE_AND_EXPIRE"
+print("S42-T4-A", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print({"case_id":"C1"}); print("drop_email_for_log", True); print("purpose_bound", True)`,
-          output: `{'case_id': 'C1'}
-drop_email_for_log True
-purpose_bound True`,
+          title: "s42-t4-a-e1.py",
+          code: `record = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region"},"needed":{"case_id","region"},"purpose":"status-report","retention_days":30,"max_retention_days":30}}
+meets_contract = record["collected"] <= record["needed"] and record["purpose"] == "status-report" and record["retention_days"] <= record["max_retention_days"]
+status = "PASS" if meets_contract else "MINIMIZE_AND_EXPIRE"
+print("S42-T4-A", status)
+assert meets_contract is True` ,
+          output: `S42-T4-A PASS` ,
         },
       },
       {
         id: "S42-T4-A-E2",
         subtopicId: "S42-T4-A",
         kind: "independent",
-        instruction:
-          "Ejercicio S42-T4-A-E2: usa el patrón del demo iDo del subtema S42-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T4-A; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T4-A-E2 · Compara tres rutas de `minimización, purpose y retención`: fixture válido, fixture adverso y registro sin `max_retention_days`. Entrada: dict con case_id, collected, needed, purpose, retention_days, max_retention_days. Salidas exactas: `PASS`, `MINIMIZE_AND_EXPIRE`, `MISSING:max_retention_days`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a max_retention_days debe ocurrir antes de esa rama.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T4-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Primero se calcula `missing`; ningún acceso a max_retention_days debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S42-T4-A: campos mínimos, propósito y retención finita. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta max_retention_days", "fixture adverso: campos mínimos, propósito y retención finita", "CASO-CUS-042-4A es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `max_retention_days` ausente y produce exactamente `PASS MINIMIZE_AND_EXPIRE MISSING:max_retention_days`.",
+        feedback: "S42-T4-A-E2: explica qué campo cambió la decisión, por qué el adverso activa MINIMIZE_AND_EXPIRE y por qué faltar max_retention_days exige PRIVACY_OWNER_REVIEW.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T4-A)
-`,
+          title: "s42-t4-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "collected", "needed", "purpose", "retention_days", "max_retention_days"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["collected"] > record["needed"] or record["retention_days"] > record["max_retention_days"] else "MINIMIZE_AND_EXPIRE"
+
+valid = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region"},"needed":{"case_id","region"},"purpose":"status-report","retention_days":30,"max_retention_days":30}}
+invalid = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region","full_name"},"needed":{"case_id","region"},"purpose":"maybe-useful","retention_days":3650,"max_retention_days":30}}
+incomplete = {**valid}
+incomplete.pop("max_retention_days")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print({"case_id":"C1"}); print("drop_email_for_log", True); print("purpose_bound", True)`,
-          output: `{'case_id': 'C1'}
-drop_email_for_log True
-purpose_bound True`,
+          title: "s42-t4-a-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "collected", "needed", "purpose", "retention_days", "max_retention_days"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["collected"] <= record["needed"] and record["purpose"] == "status-report" and record["retention_days"] <= record["max_retention_days"] else "MINIMIZE_AND_EXPIRE"
+
+valid = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region"},"needed":{"case_id","region"},"purpose":"status-report","retention_days":30,"max_retention_days":30}}
+invalid = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region","full_name"},"needed":{"case_id","region"},"purpose":"maybe-useful","retention_days":3650,"max_retention_days":30}}
+incomplete = {**valid}
+incomplete.pop("max_retention_days")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS MINIMIZE_AND_EXPIRE MISSING:max_retention_days` ,
         },
       },
       {
         id: "S42-T4-A-E3",
         subtopicId: "S42-T4-A",
         kind: "transfer",
-        instruction:
-          "Ejercicio S42-T4-A-E3: usa el patrón del demo iDo del subtema S42-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T4-A; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T4-A-E3 · Aísla fallo cerrado para `minimización, purpose y retención` con tres fixtures distintos. `CASO-CUS-042-4A` debe continuar, el adverso debe devolver `MINIMIZE_AND_EXPIRE` y la ausencia de `max_retention_days` debe devolver `PRIVACY_OWNER_REVIEW`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `PRIVACY_OWNER_REVIEW` antes de evaluar el contenido.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T4-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Una ausencia no equivale a breach: enrútala a `PRIVACY_OWNER_REVIEW` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró campos mínimos, propósito y retención finita; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta max_retention_days", "fixture adverso: campos mínimos, propósito y retención finita", "CASO-CUS-042-4A es sintético"],
+        tests: "Fixtures `CASO-CUS-042-4A`, adverso y sin `max_retention_days` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S42-T4-A-E3: explica qué campo cambió la decisión, por qué el adverso activa MINIMIZE_AND_EXPIRE y por qué faltar max_retention_days exige PRIVACY_OWNER_REVIEW.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T4-A)
-`,
+          title: "s42-t4-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "collected", "needed", "purpose", "retention_days", "max_retention_days"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if record["collected"] > record["needed"] or record["retention_days"] > record["max_retention_days"] else "MINIMIZE_AND_EXPIRE"
+
+valid = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region"},"needed":{"case_id","region"},"purpose":"status-report","retention_days":30,"max_retention_days":30}}
+invalid = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region","full_name"},"needed":{"case_id","region"},"purpose":"maybe-useful","retention_days":3650,"max_retention_days":30}}
+uncertain = {**valid}
+uncertain.pop("max_retention_days")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print({"case_id":"C1"}); print("drop_email_for_log", True); print("purpose_bound", True)`,
-          output: `{'case_id': 'C1'}
-drop_email_for_log True
-purpose_bound True`,
+          title: "s42-t4-a-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "collected", "needed", "purpose", "retention_days", "max_retention_days"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "PRIVACY_OWNER_REVIEW"
+    return "CONTINUE" if record["collected"] <= record["needed"] and record["purpose"] == "status-report" and record["retention_days"] <= record["max_retention_days"] else "MINIMIZE_AND_EXPIRE"
+
+valid = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region"},"needed":{"case_id","region"},"purpose":"status-report","retention_days":30,"max_retention_days":30}}
+invalid = {"case_id": "CASO-CUS-042-4A", **{"collected":{"case_id","region","full_name"},"needed":{"case_id","region"},"purpose":"maybe-useful","retention_days":3650,"max_retention_days":30}}
+uncertain = {**valid}
+uncertain.pop("max_retention_days")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "MINIMIZE_AND_EXPIRE", "PRIVACY_OWNER_REVIEW"]` ,
+          output: `CONTINUE MINIMIZE_AND_EXPIRE PRIVACY_OWNER_REVIEW` ,
         },
       },
       {
         id: "S42-T4-B-E1",
         subtopicId: "S42-T4-B",
         kind: "guided",
-        instruction:
-          "Ejercicio S42-T4-B-E1: usa el patrón del demo iDo del subtema S42-T4-A. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T4-A; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T4-B-E1 · Decide el contrato de `audit, deletion, pseudonymization y acceso` sobre `CASO-CUS-042-4B`. La entrada es el dict completo del starter; la operación debe demostrar audit sin PII, borrado derivado y llave separada. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S42-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `PURGE_DERIVATIVES` en E2.",
+        hint: "Relaciona los campos `audit_fields`, `pii_fields`, `deleted`, `derived_deleted`, `key_separate` con la regla explicada en S42-T4-B.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T4-A; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Relaciona los campos `audit_fields`, `pii_fields`, `deleted`, `derived_deleted`, `key_separate` con la regla explicada en S42-T4-B.",
+          "El predicado correcto debe ser verdadero porque el fixture conserva borrado y no-reaparición verificados; revisa dirección de comparación, conjuntos y negaciones.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta key_separate", "fixture adverso: audit sin PII, borrado derivado y llave separada", "CASO-CUS-042-4B es sintético"],
+        tests: "El fixture `CASO-CUS-042-4B` satisface un predicado de dominio real; imprime `S42-T4-B PASS` y el assert booleano pasa.",
+        feedback: "S42-T4-B-E1: explica qué campo cambió la decisión, por qué el adverso activa PURGE_DERIVATIVES y por qué faltar key_separate exige VERIFY_DELETION_SCOPE.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T4-B)
-`,
+          title: "s42-t4-b-e1.py",
+          code: `record = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","action","at","case_token"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":True,"key_separate":True}}
+meets_contract = bool(record["audit_fields"] & record["pii_fields"]) or not record["derived_deleted"]
+status = "PASS" if meets_contract else "PURGE_DERIVATIVES"
+print("S42-T4-B", status)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print(True); print(False); print("no_cross_tenant", True)`,
-          output: `True
-False
-no_cross_tenant True`,
+          title: "s42-t4-b-e1.py",
+          code: `record = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","action","at","case_token"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":True,"key_separate":True}}
+meets_contract = record["audit_fields"].isdisjoint(record["pii_fields"]) and record["deleted"] and record["derived_deleted"] and record["key_separate"]
+status = "PASS" if meets_contract else "PURGE_DERIVATIVES"
+print("S42-T4-B", status)
+assert meets_contract is True` ,
+          output: `S42-T4-B PASS` ,
         },
       },
       {
         id: "S42-T4-B-E2",
         subtopicId: "S42-T4-B",
         kind: "independent",
-        instruction:
-          "Ejercicio S42-T4-B-E2: usa el patrón del demo iDo del subtema S42-T4-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T4-B; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T4-B-E2 · Filtra tres rutas de `audit, deletion, pseudonymization y acceso`: fixture válido, fixture adverso y registro sin `key_separate`. Entrada: dict con case_id, audit_fields, pii_fields, deleted, derived_deleted, key_separate. Salidas exactas: `PASS`, `PURGE_DERIVATIVES`, `MISSING:key_separate`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+        hint: "Primero se calcula `missing`; ningún acceso a key_separate debe ocurrir antes de esa rama.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T4-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Primero se calcula `missing`; ningún acceso a key_separate debe ocurrir antes de esa rama.",
+          "Después aplica la regla de S42-T4-B: audit sin PII, borrado derivado y llave separada. El fixture adverso debe fallar por contenido, no por schema.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta key_separate", "fixture adverso: audit sin PII, borrado derivado y llave separada", "CASO-CUS-042-4B es sintético"],
+        tests: "La tabla cubre válido/adverso/campo `key_separate` ausente y produce exactamente `PASS PURGE_DERIVATIVES MISSING:key_separate`.",
+        feedback: "S42-T4-B-E2: explica qué campo cambió la decisión, por qué el adverso activa PURGE_DERIVATIVES y por qué faltar key_separate exige VERIFY_DELETION_SCOPE.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: completa este print (patrón del demo iDo S42-T4-B)
-`,
+          title: "s42-t4-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "audit_fields", "pii_fields", "deleted", "derived_deleted", "key_separate"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if bool(record["audit_fields"] & record["pii_fields"]) or not record["derived_deleted"] else "PURGE_DERIVATIVES"
+
+valid = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","action","at","case_token"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":True,"key_separate":True}}
+invalid = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","email","action"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":False,"key_separate":False}}
+incomplete = {**valid}
+incomplete.pop("key_separate")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print(True); print(False); print("no_cross_tenant", True)`,
-          output: `True
-False
-no_cross_tenant True`,
+          title: "s42-t4-b-e2.py",
+          code: `def assess(record: dict) -> str:
+    required = {"case_id", "audit_fields", "pii_fields", "deleted", "derived_deleted", "key_separate"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "MISSING:" + ",".join(missing)
+    return "PASS" if record["audit_fields"].isdisjoint(record["pii_fields"]) and record["deleted"] and record["derived_deleted"] and record["key_separate"] else "PURGE_DERIVATIVES"
+
+valid = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","action","at","case_token"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":True,"key_separate":True}}
+invalid = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","email","action"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":False,"key_separate":False}}
+incomplete = {**valid}
+incomplete.pop("key_separate")
+results = (assess(valid), assess(invalid), assess(incomplete))
+print(*results)
+` ,
+          output: `PASS PURGE_DERIVATIVES MISSING:key_separate` ,
         },
       },
       {
         id: "S42-T4-B-E3",
         subtopicId: "S42-T4-B",
         kind: "transfer",
-        instruction:
-          "Ejercicio S42-T4-B-E3: usa el patrón del demo iDo del subtema S42-T4-B. El starter reproduce el demo con un print pendiente (# TODO). Completa solo esa línea para que el programa corra y produzca la salida del demo. No uses librerías fuera de las que el demo importa.",
-        hint: "Busca en iDo el demo con subtopicId S42-T4-B; el print pendiente debe copiar esa forma.",
+        instruction: "S42-T4-B-E3 · Demuestra fallo cerrado para `audit, deletion, pseudonymization y acceso` con tres fixtures distintos. `CASO-CUS-042-4B` debe continuar, el adverso debe devolver `PURGE_DERIVATIVES` y la ausencia de `key_separate` debe devolver `VERIFY_DELETION_SCOPE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+        hint: "Una ausencia no equivale a breach: enrútala a `VERIFY_DELETION_SCOPE` antes de evaluar el contenido.",
         hints: [
-          "Busca en iDo el demo con subtopicId S42-T4-B; el print pendiente debe copiar esa forma.",
-          "Si el demo usa dict/list/print, reutiliza esas mismas estructuras; no inventes módulos nuevos.",
+          "Una ausencia no equivale a breach: enrútala a `VERIFY_DELETION_SCOPE` antes de evaluar el contenido.",
+          "Para datos completos reutiliza la regla que demostró audit sin PII, borrado derivado y llave separada; solo ese caso devuelve `CONTINUE`.",
         ],
-        edgeCases: ["caso sintético", "sin PII real"],
-        tests: "salida coincide con solution output",
-        feedback: "Compara tu salida con la solución.",
+        edgeCases: ["falta key_separate", "fixture adverso: audit sin PII, borrado derivado y llave separada", "CASO-CUS-042-4B es sintético"],
+        tests: "Fixtures `CASO-CUS-042-4B`, adverso y sin `key_separate` prueban continue/breach/uncertainty en ese orden.",
+        feedback: "S42-T4-B-E3: explica qué campo cambió la decisión, por qué el adverso activa PURGE_DERIVATIVES y por qué faltar key_separate exige VERIFY_DELETION_SCOPE.",
         starterCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `# TODO: escribe el print final como en el demo iDo del mismo subtopicId
-`,
+          title: "s42-t4-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "audit_fields", "pii_fields", "deleted", "derived_deleted", "key_separate"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "CONTINUE"
+    return "CONTINUE" if bool(record["audit_fields"] & record["pii_fields"]) or not record["derived_deleted"] else "PURGE_DERIVATIVES"
+
+valid = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","action","at","case_token"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":True,"key_separate":True}}
+invalid = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","email","action"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":False,"key_separate":False}}
+uncertain = {**valid}
+uncertain.pop("key_separate")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+` ,
         },
         solutionCode: {
           language: 'python',
-          title: "exercise.py",
-          code: `print(True); print(False); print("no_cross_tenant", True)`,
-          output: `True
-False
-no_cross_tenant True`,
+          title: "s42-t4-b-e3.py",
+          code: `def decide(record: dict) -> str:
+    required = {"case_id", "audit_fields", "pii_fields", "deleted", "derived_deleted", "key_separate"}
+    missing = sorted(required - record.keys())
+    if missing:
+        return "VERIFY_DELETION_SCOPE"
+    return "CONTINUE" if record["audit_fields"].isdisjoint(record["pii_fields"]) and record["deleted"] and record["derived_deleted"] and record["key_separate"] else "PURGE_DERIVATIVES"
+
+valid = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","action","at","case_token"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":True,"key_separate":True}}
+invalid = {"case_id": "CASO-CUS-042-4B", **{"audit_fields":{"actor_id","email","action"},"pii_fields":{"full_name","email"},"deleted":True,"derived_deleted":False,"key_separate":False}}
+uncertain = {**valid}
+uncertain.pop("key_separate")
+results = [decide(item) for item in (valid, invalid, uncertain)]
+print(*results)
+assert results == ["CONTINUE", "PURGE_DERIVATIVES", "VERIFY_DELETION_SCOPE"]` ,
+          output: `CONTINUE PURGE_DERIVATIVES VERIFY_DELETION_SCOPE` ,
         },
       },
     ],
   },
   youDo: {
     title: "Schemas, seguridad y privacidad de servicios",
-    context:
-      "Proyecto de sección **S42** (Schemas, seguridad y privacidad de servicios). Gate: **CP-N4-A (control plane)**. threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted. Usa solo datos sintéticos; no marques section_passed desde esta entrega de autoría.",
+    context: "Threat model y matriz de permisos del control plane. Trabaja sobre casos sintéticos de soporte para una organización ficticia en Cusco. Entrada: schemas estrictos, identidad de servicio, scope, propósito y plazo de retención. Salida: decisión allow/deny auditable y vista pseudonimizada mínima. El gate se bloquea ante: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto.",
     objectives: [
-      "threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted.",
-      "Datos sintéticos; sin PII real ni secretos",
-      "Demo reproducible (if __name__ == '__main__' o notebook run-all)",
-      "Documentación en español profesional",
-      "Alineación al incremento/gate V3: CP-N4-A (control plane)",
+      "Convertir schemas estrictos, identidad de servicio, scope, propósito y plazo de retención en decisión allow/deny auditable y vista pseudonimizada mínima.",
+      "Demostrar el gate: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+      "Probar el fallo: campo extra, scope insuficiente, ruta/URL no permitida o retención vencida se rechaza por defecto.",
+      "Entregar evidencia reproducible, redactada, sin PII real, secretos ni servicios externos obligatorios.",
     ],
     requirements: [
-      "Dataset o fixtures sintéticos",
-      "Demo reproducible",
-      "Documentación en español profesional",
-      "Alineación al incremento/gate V3 de la sección",
+      "Usa exclusivamente fixtures sintéticos identificados por `CASO-CUS-042`.",
+      "Incluye JSON Schemas compatibles y casos inválidos.",
+      "Incluye matriz RBAC/scopes deny-by-default.",
+      "Incluye controles contra injection/SSRF/path traversal.",
+      "Incluye flujo de acceso, redacción, borrado y auditoría.",
+      "Automatiza un caso normal, uno de breach (`DENY`) y uno incierto (`HUMAN_PRIVACY_REVIEW`).",
+      "Incluye comandos locales reproducibles, dependencias fijadas y salida esperada.",
+      "Registra riesgo residual, responsable, criterio de rollback y limitaciones conocidas.",
     ],
-    starterCode: `# S42 You Do — Schemas, seguridad y privacidad de servicios
-# Gate: CP-N4-A (control plane)
-# threat model y pruebas de permisos; un usuario no puede acceder a otro caso ni recuperar datos redacted.
+    starterCode: `CASE_ID = "CASO-CUS-042"
+REQUIRED = ['json_schemas_compatibles_y_casos_invalidos', 'matriz_rbac_scopes_deny_by_default', 'controles_contra_injection_ssrf_path_traversal', 'flujo_de_acceso_redaccion_borrado_y_auditoria']
+evidence = {
+    "json_schemas_compatibles_y_casos_invalidos": False,
+    "matriz_rbac_scopes_deny_by_default": False,
+    "controles_contra_injection_ssrf_path_traversal": False,
+    "flujo_de_acceso_redaccion_borrado_y_auditoria": False
+}
 
-def main():
-    print("section", "S42")
-    print("gate", 'CP-N4-A (control plane)')
-    print("synthetic", True)
-    # TODO: implementar incremento del blueprint
+def readiness(bundle: dict[str, bool]) -> tuple[str, list[str]]:
+    missing = [name for name in REQUIRED if bundle.get(name) is not True]
+    return ("READY", []) if not missing else ("BLOCKED", missing)
 
-if __name__ == "__main__":
-    main()
+status, missing = readiness(evidence)
+print(CASE_ID, status)
+print("missing", ",".join(missing))
+assert status in {"READY", "BLOCKED"}
 `,
-    portfolioNote:
-      "Entrega alineada a CP-N4-A (control plane). Portfolio en español profesional; evidencia ejecutable; privacidad. Otra lane califica PASS; no editar checkpoint/ledger/seed.",
+    portfolioNote: "Evidencia de CP-N4-A · control plane seguro y privado: muestra baseline, decisión, pruebas, resultado medido, rollback y riesgo residual. El checklist inicia en BLOCKED por diseño; conviértelo en READY enlazando artefactos reales del proyecto, no cambiando asserts.",
     rubric: [
-      { criterion: "Alineación al gate V3 de la sección", weight: "25%" },
-      { criterion: "Correctitud técnica en entorno declarado", weight: "20%" },
-      { criterion: "Privacidad / sin PII real / sin secretos", weight: "20%" },
-      { criterion: "Pruebas o casos de borde documentados", weight: "15%" },
-      { criterion: "Código legible y límites claros", weight: "10%" },
-      { criterion: "Documentación en español profesional", weight: "10%" },
+      { criterion: "Correctitud del contrato y gate", weight: "25%" },
+      { criterion: "Pruebas normal/breach/uncertain y recuperación", weight: "20%" },
+      { criterion: "Seguridad, privacidad y least privilege", weight: "15%" },
+      { criterion: "Reproducibilidad, lineage y evidencia", weight: "15%" },
+      { criterion: "Operación: SLO, observabilidad y rollback", weight: "15%" },
+      { criterion: "Comunicación de trade-offs y límites", weight: "10%" },
     ],
   },
   selfCheck: {
     questions: [
       {
-        question: "El id de plataforma de S42 que se preserva es:",
-        options: [
-          "graph-rag",
-          "renamed-v3",
-          "legacy-drop",
-          "random",
-        ],
-        correctIndex: 0,
-        explanation:
-          "KEEP_PLATFORM_ID_RETHEME_CONTENT.",
-      },
-      {
-        question: "El incremento/gate V3 de S42 pertenece a:",
-        options: [
-          "CP-N4-A (control plane)",
-          "CP-N1-A",
-          "solo marketing",
-          "sin capstone",
-        ],
-        correctIndex: 0,
-        explanation:
-          "Blueprint phase3 capstone_notes.",
-      },
-      {
-        question: "Los ejemplos del curso deben usar:",
-        options: [
-          "PII real de clientes",
-          "Datos sintéticos",
-          "Secretos de prod",
-          "Claves API reales",
-        ],
+        question: "¿Qué evidencia permite aprobar `Pydantic y JSON Schema` en CASO-CUS-042?",
+        options: ["un print sin assert ni versión", "schema exportado y fixtures válidos/inválidos", "una captura de pantalla sin fuente", "datos personales reales para que parezca auténtico"],
         correctIndex: 1,
-        explanation:
-          "Synthetic data only.",
+        explanation: "La teoría exige schema exportado y fixtures válidos/inválidos; evidencia decorativa o PII no satisface el contrato.",
       },
       {
-        question: "Entity resolution (si aparece) decide:",
-        options: [
-          "Fraude",
-          "Parentesco",
-          "Misma entidad cuando aplique",
-          "Sentimiento",
-        ],
+        question: "Si ocurre la condición de error de S42, ¿qué respuesta preserva seguridad y auditabilidad?",
+        options: ["continuar y ocultar el warning", "inventar evidencia faltante", "borrar el trace para reducir ruido", "emitir DENY y conservar evidencia"],
+        correctIndex: 3,
+        explanation: "El contrato falla cerrado con DENY; no convierte incertidumbre o breach en éxito.",
+      },
+      {
+        question: "¿Cuál resultado demuestra el gate `CP-N4-A · control plane seguro y privado`?",
+        options: ["un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos", "el archivo S42 existe, aunque no pruebe el gate", "el README afirma que funciona", "se usó la herramienta más nueva"],
+        correctIndex: 0,
+        explanation: "El gate es conductual y medible: un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos.",
+      },
+      {
+        question: "¿Qué tratamiento de `CASO-CUS-042` respeta el alcance del curso?",
+        options: ["reemplazarlo por datos reales sin consentimiento", "subir secretos para facilitar la demo", "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana", "inferir fraude o parentesco desde ER"],
         correctIndex: 2,
-        explanation:
-          "ER ≠ relación ≠ fraude.",
+        explanation: "Los casos son sintéticos; ER solo propone correspondencia de entidad y no prueba fraude, parentesco ni riesgo.",
       },
     ],
   },
   resources: {
     docs: [
       {
-        label: "Python docs",
-        url: "https://docs.python.org/3/",
-        note: "Referencia stdlib",
+        label: "Pydantic",
+        url: "https://docs.pydantic.dev/latest/",
+        note: "Validación y JSON Schema",
       },
       {
-        label: "V3 section support",
-        url: "https://docs.python.org/3/library/",
-        note: "Apoyo S42 Schemas, seguridad y privacidad de servicios",
+        label: "OWASP API Security Top 10",
+        url: "https://owasp.org/API-Security/",
+        note: "Riesgos y controles de APIs",
+      },
+      {
+        label: "NIST Privacy Framework",
+        url: "https://www.nist.gov/privacy-framework",
+        note: "Gestión de riesgo de privacidad",
       },
     ],
     books: [
-      {
-        label: "Architecture / platform engineering refs",
-        note: "Alinear a Schemas, seguridad y privacidad de servicios",
-      },
-      {
-        label: "Site Reliability / Security basics",
-        note: "Operación y privacidad",
-      },
+      { label: "Designing Data-Intensive Applications", note: "Consulta selectiva: contratos, consistencia, operación y trade-offs; no reemplaza las instrucciones de la sección." },
+      { label: "Site Reliability Engineering", note: "Consulta selectiva: SLO, incidentes, capacidad y cambio seguro." },
     ],
     courses: [
-      {
-        label: "MDN / cloud / MLOps primers",
-        url: "https://developer.mozilla.org/",
-        note: "Complemento conceptual",
-      },
+      { label: "MIT OpenCourseWare — 6.100L", url: "https://ocw.mit.edu/courses/6-100l-introduction-to-cs-and-programming-using-python-fall-2022/", note: "Referencia de práctica incremental y contratos verificables." },
+      { label: "Harvard CS50P", url: "https://cs50.harvard.edu/python/", note: "Referencia de problem sets, tests y proyecto final reproducible." },
     ],
   },
 }

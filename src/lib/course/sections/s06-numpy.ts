@@ -6,7 +6,7 @@ export const section06: CourseSection = {
   title: "Colecciones y estructuras de datos",
   shortTitle: "Colecciones",
   tagline: "listas, dicts, sets y estructuras anidadas para modelo en memoria",
-  estimatedHours: 6,
+  estimatedHours: 18,
   level: "Intermedio",
   phase: 0,
   icon: "Layers",
@@ -1538,60 +1538,35 @@ if __name__ == "__main__":
     questions: [
       {
         question: "¿Qué produce xs[-2:] si xs = [1,2,3,4]?",
-        options: [
-          "[1,2]",
-          "[3,4]",
-          "[4]",
-          "Error",
-        ],
+        options: ["[1,2]", "[3,4]", "[4]", "Error"],
         correctIndex: 1,
         explanation:
           "Slicing negativo toma desde el final: últimos 2 elementos [3,4].",
       },
       {
         question: "b = a (listas) y mutas b.append(1). ¿Qué pasa con a?",
-        options: [
-          "a no cambia",
-          "a también ve el append (alias)",
-          "se lanza error",
-          "a se convierte en tuple",
-        ],
-        correctIndex: 1,
+        options: ["a no cambia", "se lanza error", "a se convierte en tuple", "a también ve el append (alias)"],
+        correctIndex: 3,
         explanation:
           "Asignación alias: ambas variables apuntan al mismo objeto lista.",
       },
       {
         question: "Para reportar dos filas con mismo id y payload distinto debes…",
-        options: [
-          "Borrar ambas",
-          "Quedarte con la última sin traza",
-          "Listar conflicto en conflicts sin silenciar",
-          "Convertir a set de dicts",
-        ],
-        correctIndex: 2,
+        options: ["Listar conflicto en conflicts sin silenciar", "Borrar ambas", "Quedarte con la última sin traza", "Convertir a set de dicts"],
+        correctIndex: 0,
         explanation:
           "CP-N1-B: unique + conflicts; no borrar la evidencia del choque.",
       },
       {
         question: "rows.sort(key=...) retorna…",
-        options: [
-          "la lista ordenada",
-          "None (muta in-place)",
-          "una tuple",
-          "un set",
-        ],
-        correctIndex: 1,
+        options: ["la lista ordenada", "una tuple", "None (muta in-place)", "un set"],
+        correctIndex: 2,
         explanation:
           "list.sort muta y retorna None; usa sorted(...) para copia.",
       },
       {
         question: "json.dumps(..., sort_keys=True) ayuda a…",
-        options: [
-          "comprimir el archivo",
-          "salidas deterministas/reproducibles",
-          "validar schema JSON Schema",
-          "encriptar PII",
-        ],
+        options: ["comprimir el archivo", "salidas deterministas/reproducibles", "validar schema JSON Schema", "encriptar PII"],
         correctIndex: 1,
         explanation:
           "Orden estable de claves + sort de filas = demos reproducibles.",

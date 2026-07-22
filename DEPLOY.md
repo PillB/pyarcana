@@ -1,225 +1,115 @@
-# Guía de Deploy — Python DS Perú
+# PyArcana deployment guide
 
-Esta guía cubre cómo deployar la plataforma completa (curso + LMS con backend) a diferentes proveedores cloud.
+PyArcana has two explicit products: a content-only GitHub Pages edition and a dynamic Node.js LMS. Choose the mode before configuring infrastructure; the public static site must not be presented as if accounts or server persistence exist.
 
-## 🎯 Opciones de deploy
+## GitHub Pages (public content edition)
 
-| Proveedor | Tipo | Gratuito | LMS funciona | Dificultad |
-|-----------|------|----------|--------------|------------|
-| **Vercel** | Serverless (Next.js nativo) | Sí (hobby) | ✅ Completo | ⭐ Fácil |
-| **Netlify** | Static + Functions | Sí | ⚠️ Parcial | ⭐⭐ Media |
-| **Railway** | Container (full backend) | Trial $5 | ✅ Completo | ⭐⭐ Media |
-| **GitHub Pages** | Static only | Sí | ❌ Solo contenido | ⭐ Fácil |
+The repository workflow `.github/workflows/deploy.yml` builds and deploys `out/` on every push to `main`.
 
-**Recomendación**: Vercel para la mayoría de casos. Es el nativo de Next.js, deploy en 2 clicks, SSL gratis, edge functions.
+1. In GitHub, open **Settings → Pages**.
+2. Select **GitHub Actions** as the source.
+3. Run the **Deploy to GitHub Pages** workflow or push a validated commit to `main`.
+4. Verify <https://pillb.github.io/pyarcana/>.
 
----
-
-## 🚀 Opción 1: Vercel (recomendado)
-
-### Paso a paso
-
-1. **Fork el repo** a tu cuenta de GitHub
-
-2. **Ve a [vercel.com](https://vercel.com)** y sign in con GitHub
-
-3. **New Project → Import** tu repo fork
-
-4. **Configurar environment variables** (en Vercel dashboard → Settings → Environment Variables):
-   ```
-   DATABASE_URL=file:./db/custom.db     # SQLite para dev (ver nota abajo)
-   NEXTAUTH_SECRET=<genera-con-openssl-rand-base64-32>
-   NEXTAUTH_URL=https://tu-app.vercel.app
-   ```
-   
-   Para producción real, usa PostgreSQL (ver sección "Migrar a PostgreSQL" abajo).
-
-5. **Deploy** — Vercel detecta Next.js automáticamente. Build command: `bun run build` (o `npm run build`).
-
-6. **Inicializar base de datos** después del primer deploy:
-   ```bash
-   # Instalar Vercel CLI
-   npm i -g vercel
-   
-   # Login y link
-   vercel login
-   vercel link
-   
-   # Ejecutar seed (crea cuentas demo + 132 preguntas)
-   vercel env pull .env
-   bun run db:push
-   bun run db:seed
-   ```
-
-### Migrar a PostgreSQL (recomendado para producción)
-
-SQLite no persiste en serverless. Para producción, usa PostgreSQL:
-
-1. **Crear DB en Vercel Postgres** (gratis en hobby plan):
-   - Vercel dashboard → Storage → Create → Postgres
-   - Copia la `DATABASE_URL`
-
-2. **Actualizar `prisma/schema.prisma`**:
-   ```prisma
-   datasource db {
-     provider = "postgresql"  // cambiar de "sqlite"
-     url      = env("DATABASE_URL")
-   }
-   ```
-
-3. **Migrar Json fields**: SQLite guarda Json como TEXT. PostgreSQL tiene tipo nativo. Prisma maneja la diferencia automáticamente, pero debes recreate la DB:
-   ```bash
-   bun run db:push --force-reset
-   bun run db:seed
-   ```
-
-4. **Setear `DATABASE_URL`** en Vercel con la URL de Postgres.
-
-### Configurar OAuth (opcional)
-
-1. **Google OAuth**:
-   - [Google Cloud Console](https://console.cloud.google.com/) → New Project
-   - APIs & Services → Credentials → Create Credentials → OAuth client ID
-   - Application type: Web application
-   - Authorized redirect URIs: `https://tu-app.vercel.app/api/auth/callback/google`
-   - Copia Client ID y Client Secret a Vercel env vars
-
-2. **Microsoft (Azure AD)**:
-   - [Azure Portal](https://portal.azure.com/) → Azure Active Directory → App registrations
-   - New registration → Redirect URI: `https://tu-app.vercel.app/api/auth/callback/azure-ad`
-   - Certificates & secrets → New client secret
-   - Copia Client ID, Client Secret, Tenant ID a Vercel env vars
-
-3. **Descomentar providers** en `src/lib/auth.ts`:
-   ```typescript
-   import GoogleProvider from 'next-auth/providers/google'
-   import AzureADProvider from 'next-auth/providers/azure-ad'
-   // ... y descomenta los bloques if (...) en buildProviders()
-   ```
-
-4. **Redeploy** — los botones OAuth ahora funcionarán realmente.
-
----
-
-## 🚂 Opción 2: Railway
-
-Railway es mejor si necesitas un backend persistente (no serverless).
-
-1. **Fork el repo** en GitHub
-
-2. **[railway.app](https://railway.app)** → New Project → Deploy from GitHub repo
-
-3. **Add PostgreSQL database**: Railway dashboard → New → Database → PostgreSQL
-   - Railway te da la `DATABASE_URL` automáticamente
-
-4. **Setear variables** en Railway:
-   ```
-   DATABASE_URL=<railway-te-la-da>
-   NEXTAUTH_SECRET=<openssl-rand-base64-32>
-   NEXTAUTH_URL=<tu-dominio-de-railway>
-   ```
-
-5. **Update `prisma/schema.prisma`** a `provider = "postgresql"`
-
-6. **Deploy** — Railway detecta Next.js. Build: `bun run build`
-
-7. **Seed**: Railway dashboard → your service → Shell → `bun run db:push && bun run db:seed`
-
----
-
-## 📄 Opción 3: GitHub Pages (solo contenido estático)
-
-**Importante**: GitHub Pages NO soporta el LMS (auth, exámenes, admin dashboard) porque requiere backend. Solo sirve el contenido del curso.
-
-1. **Fork el repo**
-
-2. **Settings → Pages → Source → GitHub Actions**
-
-3. **El workflow `.github/workflows/deploy.yml`** se ejecuta en cada push a `main`
-
-4. **Tu sitio estará en**: `https://TU_USUARIO.github.io/python-ds-peru/`
-
-### Limitaciones de GitHub Pages
-- ❌ No auth (login/registro no funciona)
-- ❌ No exámenes con tracking (solo quiz simple sin guardar)
-- ❌ No admin dashboard
-- ✅ Sí: todo el contenido del curso, teoría, I Do/We Do/You Do, recursos
-- ✅ Sí: progreso en localStorage (se pierde si limpias browser)
-- ✅ Sí: editor interactivo con Pyodide (corre en browser)
-
----
-
-## 🔧 Comandos útiles
+The workflow runs:
 
 ```bash
-# Desarrollo local
-bun install
-bun run db:push      # crea/atualiza tablas
-bun run db:seed      # carga 132 preguntas + 2 cuentas demo
-bun run dev          # servidor de desarrollo en :3000
-bun run lint         # verificar código
-
-# Producción (build local)
-bun run build        # build de producción
-bun run start        # servir build de producción
-
-# DB
-bun run db:generate  # regenerar Prisma client después de cambios en schema
-bun run db:migrate   # crear migración (PostgreSQL)
-bun run db:reset     # reset completo (¡borra todo!)
-
-# Seed (crear cuentas demo)
-bun run db:seed
-# Crea: admin@python-ds.pe / admin123
-# Crea: demo@python-ds.pe / demo1234
+bun install --frozen-lockfile
+NEXT_PUBLIC_BASE_PATH=/pyarcana bun run build:static
 ```
 
----
+The export is built in a disposable temporary copy. The tracked API directory and `next.config.ts` are not moved or rewritten. In this mode:
 
-## 🔒 Seguridad en producción
+- lesson content, local autochecks, bookmarks, and browser-local progress work;
+- login, registration, payments, private feedback, server exams, and admin controls are not rendered;
+- the local `/pyarcana/logo.svg` is used for branding and favicon assets;
+- generated assets use the `/pyarcana` base path.
 
-### Checklist antes de deploy
+## Dynamic LMS (Node host)
 
-- [ ] `NEXTAUTH_SECRET` generado con `openssl rand -base64 32` (NO el default del código)
-- [ ] `NEXTAUTH_URL` apunta al dominio correcto (con HTTPS)
-- [ ] `DATABASE_URL` apunta a PostgreSQL (no SQLite en serverless)
-- [ ] `.env` está en `.gitignore` (verificado)
-- [ ] OAuth secrets (si usas OAuth) en env vars del proveedor, no en código
-- [ ] Rate limiting activo (ya incluido en `/api/auth/register`)
-- [ ] HTTPS forzado (Vercel/Railway lo hacen automáticamente)
+The dynamic build requires a host that can run the Next.js standalone server and reach a persistent database. The repository currently uses Prisma with SQLite for local and single-node development. Before a horizontally scaled or serverless production deployment, add and test a proper migration to a managed database; changing the Prisma provider without a reviewed migration is not a deploy step.
 
-### After deploy
+### Required environment
 
-1. **Crea tu cuenta admin**: registra el primer usuario → automáticamente rol ADMIN
-2. **Verifica el seed**: login con admin@python-ds.pe → admin dashboard → deberías ver usuarios
-3. **Test OAuth** (si configuraste): botón Google/Microsoft debe redirigir correctamente
-4. **Test exámenes**: rinde un examen, verifica que se guarda el intento
+Copy `.env.example` locally and set real values through the deployment provider's secret manager:
 
----
+```dotenv
+DATABASE_URL="file:./db/custom.db"
+NEXTAUTH_URL="https://your-reviewed-domain.example"
+NEXTAUTH_SECRET="a-unique-high-entropy-value"
+```
 
-## 🆘 Troubleshooting
+Generate the auth secret outside the repository:
 
-### "Prisma Client no generado"
+```bash
+openssl rand -base64 32
+```
+
+Optional Firebase profile mirroring variables are documented in `.env.example`. Leave the complete set unset when mirroring is not used.
+
+### Build and start
+
+```bash
+bun install --frozen-lockfile
+bun run db:generate
+bun run db:push
+bun run build
+bun run start
+```
+
+Run migrations or `db:push` as a controlled release operation for the selected database. Do not reset a production database.
+
+### Administrator provisioning
+
+Public registration always creates a `STUDENT`; the first registrant is not trusted as an administrator. After verifying the operator's identity, grant the role through controlled database administration (for example, Prisma Studio on a protected maintenance connection), record the change, and revoke maintenance access.
+
+The seed contains course question data only. It must not create shared demo users, default administrators, or hard-coded passwords.
+
+## Release gates
+
+Before either deployment:
+
+```bash
+bun run lint
+npx tsc --noEmit
+bun run test:unit
+bun run test:v3
+bun run test:course-complete
+bun run test:ux-gates
+```
+
+Before a static release, also run:
+
+```bash
+NEXT_PUBLIC_BASE_PATH=/pyarcana bun run build:static
+python3 tests/adversarial/test_static_export_guard.py
+```
+
+Before a dynamic release, use non-production test resources and run:
+
 ```bash
 bun run db:generate
+bun run build
 ```
 
-### "Database connection error" en Vercel serverless
-- SQLite no funciona en serverless. Migrar a PostgreSQL.
-- Ver `Migrar a PostgreSQL` arriba.
+## Post-deploy verification
 
-### "NEXTAUTH_SECRET inválido"
-- Debe ser mínimo 32 caracteres
-- Generar con: `openssl rand -base64 32`
+### Public edition
 
-### "OAuth callback mismatch"
-- Verifica que `NEXTAUTH_URL` en env vars coincida exactamente con el dominio
-- Verifica redirect URIs configuradas en Google/Azure console
+- `/pyarcana/` and a section hash such as `/pyarcana/#s01` load directly.
+- CSS, JavaScript, fonts, logo, and workbook assets use `/pyarcana/` paths.
+- The landing page identifies the public/local-progress limitation.
+- There are no login, registration, pricing, private-feedback, or admin controls.
+- Progress survives reload in the same browser and is not described as cloud-synced.
 
-### "403 en /api/admin/*"
-- Necesitas rol ADMIN. El primer usuario registrado lo obtiene automáticamente.
-- O: `bun run db:seed` crea `admin@python-ds.pe` con rol ADMIN.
+### Dynamic LMS
 
-### Pyodide no carga en producción
-- Verifica que CSP permite `cdn.jsdelivr.net`
-- El editor interactivo es opcional — el resto del curso funciona sin él
+- Missing or invalid auth secrets fail closed; no default secret is accepted.
+- Registration rejects oversized or malformed bodies and always returns `STUDENT`.
+- Login, server progress, exams, and operator-approved admin access work over HTTPS.
+- Logs and error responses contain no passwords, hashes, tokens, or private profile fields.
+- Rate limiting is enforced at the shared ingress when more than one app instance exists.
+
+## Rollback
+
+GitHub Pages deployments can be rolled back by redeploying the last validated commit. For the dynamic LMS, keep application rollback separate from database migration rollback; document a reversible migration before changing production data. Never use a destructive database reset as a rollback procedure.
