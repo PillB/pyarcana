@@ -38,6 +38,7 @@ class CiDependencyInstallContractTests(unittest.TestCase):
         self.assertIn("async function selectSection", suite)
         self.assertIn("test.step(`section", suite)
         self.assertIn("all 52 sections load and show tabs", suite)
+        self.assertIn("test.setTimeout(180_000)", suite)
         self.assertIn("data-section-id", suite)
         self.assertNotIn("waitForLoadState('networkidle')", suite)
         self.assertIn("timeout-minutes: 30", workflow)

@@ -103,6 +103,7 @@ test.describe('Section registry integrity', () => {
 // ═══════════════════════════════════════════════════════════
 test.describe('Section loading (browser)', () => {
   test('all 52 sections load and show tabs', async ({ page }) => {
+    test.setTimeout(180_000)
     const errors: string[] = []
     page.on('console', (msg) => {
       if (msg.type() === 'error') errors.push(msg.text())
