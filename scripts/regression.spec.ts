@@ -50,6 +50,17 @@ async function openSection(page: Page, sectionId: string) {
   )
 }
 
+async function selectSection(page: Page, sectionId: string) {
+  await page.evaluate((nextSectionId) => {
+    window.location.hash = nextSectionId
+  }, sectionId)
+  await expect(page.getByTestId('section-root')).toHaveAttribute(
+    'data-section-id',
+    sectionId,
+    { timeout: 15_000 }
+  )
+}
+
 // ═══════════════════════════════════════════════════════════
 // TEST 1: All 52 sections are registered in the course index
 // ═══════════════════════════════════════════════════════════
@@ -91,36 +102,37 @@ test.describe('Section registry integrity', () => {
 // TEST 2: All 52 sections load in the browser without errors
 // ═══════════════════════════════════════════════════════════
 test.describe('Section loading (browser)', () => {
-  for (const sectionId of ALL_SECTION_IDS) {
-    test(`section "${sectionId}" loads and shows tabs`, async ({ page }) => {
-      const errors: string[] = []
-      page.on('console', (msg) => {
-        if (msg.type() === 'error') errors.push(msg.text())
-      })
-
-      await openSection(page, sectionId)
-
-      // Section content container exists
-      const sectionContent = page.locator('#section-content')
-      await expect(sectionContent).toBeVisible()
-
-      // 5 tabs exist
-      const tabs = page.locator('[role="tab"]')
-      await expect(tabs).toHaveCount(5)
-
-      // HUD FABs exist (prev/next)
-      const prevFab = page.locator('button[aria-label="Sección anterior"]')
-      const nextFab = page.locator('button[aria-label="Sección siguiente"]')
-      await expect(prevFab).toBeVisible()
-      await expect(nextFab).toBeVisible()
-
-      // No console errors (allow Pyodide CDN warnings)
-      const criticalErrors = errors.filter(
-        (e) => !e.includes('pyodide') && !e.includes('cdn') && !e.includes('favicon')
-      )
-      expect(criticalErrors, `Console errors for ${sectionId}: ${criticalErrors.join('; ')}`).toHaveLength(0)
+  test('all 52 sections load and show tabs', async ({ page }) => {
+    const errors: string[] = []
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') errors.push(msg.text())
     })
-  }
+
+    await openSection(page, ALL_SECTION_IDS[0])
+
+    for (const [index, sectionId] of ALL_SECTION_IDS.entries()) {
+      await test.step(`section "${sectionId}" loads and shows tabs`, async () => {
+        const errorOffset = errors.length
+        if (index > 0) await selectSection(page, sectionId)
+
+        await expect(page.locator('#section-content')).toBeVisible()
+        await expect(page.locator('[role="tab"]')).toHaveCount(5)
+        await expect(page.locator('button[aria-label="Sección anterior"]')).toBeVisible()
+        await expect(page.locator('button[aria-label="Sección siguiente"]')).toBeVisible()
+
+        const criticalErrors = errors.slice(errorOffset).filter(
+          (error) =>
+            !error.includes('pyodide') &&
+            !error.includes('cdn') &&
+            !error.includes('favicon')
+        )
+        expect(
+          criticalErrors,
+          `Console errors for ${sectionId}: ${criticalErrors.join('; ')}`
+        ).toHaveLength(0)
+      })
+    }
+  })
 })
 
 // ═══════════════════════════════════════════════════════════

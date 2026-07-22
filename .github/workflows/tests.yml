@@ -198,7 +198,7 @@ jobs:
           curl -sI http://localhost:3000 | head -1
 
       - name: Run browser regression tests
-        run: npx playwright test scripts/regression.spec.ts --grep "HUD overlay|Sub-step tabs|Capstone|Geometric|section.*loads" --reporter=list
+        run: npx playwright test scripts/regression.spec.ts --grep "HUD overlay|Sub-step tabs|Capstone|Geometric|all 52 sections" --reporter=list
         env:
           BASE_URL: http://localhost:3000
 
