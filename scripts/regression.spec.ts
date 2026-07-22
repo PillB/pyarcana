@@ -117,8 +117,8 @@ test.describe('Section loading (browser)', () => {
 
         await expect(page.locator('#section-content')).toBeVisible()
         await expect(page.locator('[role="tab"]')).toHaveCount(5)
-        await expect(page.locator('button[aria-label="Sección anterior"]')).toBeVisible()
-        await expect(page.locator('button[aria-label="Sección siguiente"]')).toBeVisible()
+        await expect(page.getByRole('button', { name: 'Anterior' })).toBeVisible()
+        await expect(page.getByRole('button', { name: 'Siguiente' })).toBeVisible()
 
         const criticalErrors = errors.slice(errorOffset).filter(
           (error) =>
@@ -264,10 +264,10 @@ test.describe('HUD overlay integrity', () => {
     await openSection(page, 'setup')
 
     // Prev FAB
-    await expect(page.locator('button[aria-label="Sección anterior"]')).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Anterior' })).toBeVisible()
 
     // Next FAB
-    await expect(page.locator('button[aria-label="Sección siguiente"]')).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Siguiente' })).toBeVisible()
 
     // Progress dots (5 dots, clickable)
     const dots = page.locator('button[aria-label^="Ir a "]')
@@ -291,7 +291,9 @@ test.describe('HUD overlay integrity', () => {
     await openSection(page, 'sklearn')
 
     // Briefcase icon (job relevance trigger)
-    await expect(page.locator('button[title="¿Para qué te sirve?"]').first()).toBeVisible()
+    await expect(
+      page.getByRole('button', { name: '¿Para qué te sirve esto en la pega?' })
+    ).toBeVisible()
 
     // ListChecks icon (outcomes sheet trigger)
     await expect(page.locator('button[title="Objetivos de aprendizaje"]').first()).toBeVisible()
