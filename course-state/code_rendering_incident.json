@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "incident_id": "PYARCANA-RENDER-2026-07-22",
+  "reported_surface": "S01 check_arg.py — argv, len y exit codes",
+  "status": "fixed_locally_pending_ci_deploy",
+  "root_cause": {
+    "component": "src/components/course/CodeBlock.tsx",
+    "mechanism": "Decimal token placeholders were consumed by the later Python number regex, so restoration displayed token indexes instead of source tokens.",
+    "content_corruption": false,
+    "blast_radius": "All Python CodeBlock surfaces containing strings, comments, decorators, keywords, builtins, or numbers; Bash used the same fragile placeholder design but lacked the destructive number pass."
+  },
+  "fix": {
+    "implementation": "src/lib/code-highlighting.ts",
+    "strategy": "Single-pass tokenization and one-time HTML escaping without placeholders or repeated mutation.",
+    "favicon": "public/favicon.svg"
+  },
+  "verification": {
+    "local": {
+      "lint": "pass",
+      "typescript": "pass",
+      "node_adversarial": { "tests": 50, "status": "pass" },
+      "python_adversarial": { "tests": 64, "status": "pass" },
+      "static_export": "pass",
+      "static_export_contract": "pass"
+    },
+    "curriculum_source_fidelity": {
+      "sections": 52,
+      "status": "pass",
+      "test": "tests/adversarial/code-highlighting.test.ts"
+    },
+    "browser_fidelity": {
+      "status": "pending_ci",
+      "test": "scripts/code_rendering.spec.ts",
+      "screenshots": "targeted S01 check_arg.py, S01 terminal, and S52 code visual anchors; every surface is still compared and listed",
+      "manifest": "test-results/**/code-fidelity/manifest.json"
+    }
+  },
+  "deployment": {
+    "pull_request": null,
+    "merge_commit": null,
+    "pages_run": null,
+    "live_verified": false
+  },
+  "next_gate": "Complete CI screenshot audit, merge, deploy, verify live S01 regression and favicon, then begin the 72 classified runtime skips."
+}
