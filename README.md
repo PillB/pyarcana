@@ -77,11 +77,11 @@ The adversarial suite checks every code object loaded from S01–S52, including
 the `check_arg.py` regression case. Playwright then visits all five tabs in all
 52 sections, reveals guided solutions, compares rendered code, terminal output,
 and playground source with the canonical text. It records every surface in a
-manifest and captures at most one representative Python/code window and one
-shell/terminal window per section, with SHA-256 hashes in the
-`playwright-results` CI artifact. This preserves exhaustive text fidelity and
-both visual surface types while avoiding redundant PNG writes; the browser job
-is bounded to 15 minutes.
+manifest and captures targeted visual anchors for the reported S01 `check_arg.py`
+block, an S01 shell terminal, and an S52 code window, with SHA-256 hashes in the
+`playwright-results` CI artifact. This preserves exhaustive browser fidelity
+while keeping slow PNG generation diagnostic; the browser job is bounded to
+15 minutes.
 
 The browser favicon is the compact PyArcana “P” botanical monogram in emerald,
 cream, and gold. It is separate from the larger logo so its Art Nouveau details

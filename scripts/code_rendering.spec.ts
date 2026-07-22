@@ -143,10 +143,15 @@ test.describe('Code rendering fidelity', () => {
             title,
             sourceLength: expected?.length ?? 0,
           }
-          // DOM/source comparison above is exhaustive. Capture at most one code
-          // window and one terminal window per section; repeated per-tab images
-          // add no fidelity signal and make hosted CI spend ~20 minutes on PNG I/O.
-          if (CAPTURE_SCREENSHOTS && !capturedVisualKinds.has(visualKind)) {
+          // DOM/source comparison above is exhaustive. Hosted element screenshots
+          // take ~10 seconds each, so retain only diagnostic visual anchors: the
+          // reported S01 block, an S01 terminal, and a final-section code window.
+          const isReportedBlock = section === 'setup' && title.toLowerCase().includes('check_arg.py')
+          const isSetupTerminal =
+            section === 'setup' && visualKind === 'terminal' && !capturedVisualKinds.has('terminal')
+          const isFinalCode =
+            section === 'career-strategy' && visualKind === 'code' && !capturedVisualKinds.has('code')
+          if (CAPTURE_SCREENSHOTS && (isReportedBlock || isSetupTerminal || isFinalCode)) {
             Object.assign(
               entry,
               await captureSurface(

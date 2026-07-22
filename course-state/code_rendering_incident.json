@@ -31,7 +31,7 @@
     "browser_fidelity": {
       "status": "pending_ci",
       "test": "scripts/code_rendering.spec.ts",
-      "screenshots": "up to one Python/code window and one shell/terminal window per section; every surface is still compared and listed",
+      "screenshots": "targeted S01 check_arg.py, S01 terminal, and S52 code visual anchors; every surface is still compared and listed",
       "manifest": "test-results/**/code-fidelity/manifest.json"
     }
   },

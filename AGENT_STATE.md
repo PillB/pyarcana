@@ -18,8 +18,8 @@
   the reported snippet and every code object loaded from S01–S52. Playwright
   traverses every section/tab, reveals solutions, validates code/output/editor
   text against its canonical source, checks monospace rendering, and emits
-  a complete surface manifest plus up to one code-window and one terminal-window
-  screenshot per section when `CODE_FIDELITY_SCREENSHOTS=1`.
+  a complete surface manifest plus targeted S01 reported-code, S01 terminal,
+  and S52 code screenshots when `CODE_FIDELITY_SCREENSHOTS=1`.
 - Branding: `public/favicon.svg` is a bespoke small-format PyArcana botanical
   monogram and is wired through base-path-aware Next.js metadata.
 - Local evidence: lint, TypeScript, 50 Node adversarial tests, 64 Python
