@@ -37,8 +37,8 @@ export const metadata: Metadata = {
   keywords: ["PyArcana", "Python", "Data Science", "Data Analyst", "Pandas", "NumPy", "scikit-learn", "curso online", "Perú", "Art Nouveau"],
   authors: [{ name: "PyArcana" }],
   icons: {
-    icon: `${SITE_BASE_PATH}/logo.svg`,
-    shortcut: `${SITE_BASE_PATH}/logo.svg`,
+    icon: [{ url: `${SITE_BASE_PATH}/favicon.svg`, type: "image/svg+xml" }],
+    shortcut: `${SITE_BASE_PATH}/favicon.svg`,
     apple: `${SITE_BASE_PATH}/logo.svg`,
   },
   openGraph: {

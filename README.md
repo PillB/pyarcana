@@ -67,8 +67,22 @@ hiding deterministic lockfile failures.
 The exhaustive browser workflow uses the rendered section ID as its readiness
 contract instead of waiting for network idleness from the Next.js development
 server. It still visits all 52 sections, but avoids HMR traffic turning every
-case into a timeout; the job is bounded to 30 minutes and superseded runs are
+case into a timeout; the job is bounded to 45 minutes and superseded runs are
 cancelled.
+
+Code examples have an additional fidelity contract. The syntax highlighter is
+a single-pass tokenizer: it escapes unmatched text and matched tokens exactly
+once, so highlighting cannot replace source text with internal token indexes.
+The adversarial suite checks every code object loaded from S01–S52, including
+the `check_arg.py` regression case. Playwright then visits all five tabs in all
+52 sections, reveals guided solutions, compares rendered code, terminal output,
+and playground source with the canonical text, and records per-surface PNGs plus
+SHA-256 hashes in the `playwright-results` CI artifact. This screenshot-backed
+pass raises the browser job's explicit bound to 45 minutes.
+
+The browser favicon is the compact PyArcana “P” botanical monogram in emerald,
+cream, and gold. It is separate from the larger logo so its Art Nouveau details
+remain legible at 16–32 px.
 
 ```bash
 bun run lint
@@ -79,6 +93,8 @@ bun run test:course-complete
 bun run test:ux-gates
 bun run test:python-content
 BASE_URL=http://127.0.0.1:3000 bunx playwright test scripts/v3_regression.spec.ts scripts/static_public.spec.ts
+# Exhaustive code/terminal screenshots (large artifact):
+CODE_FIDELITY_SCREENSHOTS=1 BASE_URL=http://127.0.0.1:3000 bunx playwright test scripts/code_rendering.spec.ts
 ```
 
 The July 2026 hardening pass validates 52 active sections, 416 tagged subtopics/demos, 1,248 exercises, 1,248 exam variants, section-varying answer positions, direct-live newbie evidence provenance, and 3,015 executable/explicitly classified curriculum artifacts. Platform-specific adversarial tests cover bounded registration payloads and rate state, malformed JSON, spoofed high-cardinality client keys, public role escalation, fallback secrets, non-mutating static export, base-path assets, and exclusion of unavailable server controls.

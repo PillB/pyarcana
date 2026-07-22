@@ -169,9 +169,9 @@ jobs:
         run: npx playwright test scripts/regression.spec.ts --grep "Section registry|CodePlayground|Roadmap" --reporter=list
 
   regression-browser:
-    name: Browser Regression (UI + HUD + geometry)
+    name: Browser Regression (UI + HUD + code fidelity)
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
 
@@ -198,9 +198,10 @@ jobs:
           curl -sI http://localhost:3000 | head -1
 
       - name: Run browser regression tests
-        run: npx playwright test scripts/regression.spec.ts --grep "HUD overlay|Sub-step tabs|Capstone|Geometric|all 52 sections" --reporter=list
+        run: npx playwright test scripts/regression.spec.ts scripts/code_rendering.spec.ts --grep "HUD overlay|Sub-step tabs|Capstone|Geometric|all 52 sections|Code rendering fidelity" --reporter=list
         env:
           BASE_URL: http://localhost:3000
+          CODE_FIDELITY_SCREENSHOTS: '1'
 
       - name: Upload test results
         if: always()

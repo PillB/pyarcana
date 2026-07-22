@@ -42,10 +42,27 @@ test.describe('PyArcana public GitHub Pages edition', () => {
   })
 
   test('serves base-path assets without 404s', async ({ request }) => {
-    for (const path of ['/pyarcana/logo.svg', '/pyarcana/demo_clientes.xlsx']) {
+    for (const path of ['/pyarcana/logo.svg', '/pyarcana/favicon.svg', '/pyarcana/demo_clientes.xlsx']) {
       const response = await request.get(path)
       expect(response.status(), path).toBe(200)
       expect((await response.body()).byteLength, path).toBeGreaterThan(10)
     }
+  })
+
+  test('renders check_arg.py without syntax-token index corruption', async ({ page }) => {
+    await page.getByText('Entorno reproducible', { exact: true }).first().click()
+    await expect(page.getByTestId('section-root')).toHaveAttribute('data-section-id', 'setup')
+
+    const block = page
+      .getByTestId('code-block')
+      .filter({ hasText: 'check_arg.py — argv, len y exit codes' })
+      .first()
+    const code = block.locator('code[data-code-source]').first()
+    await expect(code).toContainText('import sys')
+    await expect(code).toContainText('def main() -> None:')
+    await expect(code).toContainText('print("executable:", sys.executable)')
+    await expect(code).toContainText('if __name__ == "__main__":')
+    await expect(code).not.toContainText('4 sys')
+    expect(await code.textContent()).toBe(await code.getAttribute('data-code-source'))
   })
 })

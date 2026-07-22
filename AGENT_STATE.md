@@ -1,5 +1,32 @@
 # AGENT_STATE.md — PyArcana verification state
 
+## Code rendering incident (2026-07-22)
+
+- Reported symptom: `check_arg.py` displayed token indexes (`4 sys`,
+  `main() -> 6`, `8(2)`, and similar) instead of Python keywords, strings,
+  comments, builtins, and numeric literals.
+- Root cause: `CodeBlock` replaced early syntax matches with placeholders shaped
+  like `NUL + decimal index + NUL`; its later number regex highlighted the
+  decimal index inside each placeholder. Restoration therefore emitted the
+  index rather than the original token. This was a renderer-wide Python issue,
+  not corrupted lesson content.
+- Fix: highlighting is now a single-pass tokenizer over raw source. It escapes
+  each unmatched range and each token once, and never runs regexes over markup
+  or placeholders. Strings are recognized before comments, which also fixes
+  `#` and digits inside string literals.
+- Permanent gates: Node adversarial tests preserve the exact visible source for
+  the reported snippet and every code object loaded from S01–S52. Playwright
+  traverses every section/tab, reveals solutions, validates code/output/editor
+  text against its canonical source, checks monospace rendering, and emits
+  hash-manifested screenshots when `CODE_FIDELITY_SCREENSHOTS=1`.
+- Branding: `public/favicon.svg` is a bespoke small-format PyArcana botanical
+  monogram and is wired through base-path-aware Next.js metadata.
+- Local evidence: lint, TypeScript, 50 Node adversarial tests, 64 Python
+  adversarial tests, V3 counts, exam pedagogy, and the `/pyarcana` static export
+  are green. Browser screenshot evidence is intentionally produced in CI because
+  the local Playwright Chromium CDN download stalled in this workspace.
+- Deployment state: pending PR CI, merge, Pages deployment, and live-site check.
+
 ## CI/CD dependency reliability (2026-07-22)
 
 - Bun is pinned to `1.3.4` in `package.json`, tests, and Pages deployment.
@@ -8,7 +35,7 @@
 - `tests/adversarial/test_ci_dependency_install.py` prevents unpinned Bun or a
   direct, non-retrying workflow install from returning.
 - The 52-section browser sweep waits on `section-root[data-section-id]`, not
-  Next.js/HMR network idleness; the job is bounded to 30 minutes and superseded
+  Next.js/HMR network idleness; the screenshot-backed job is bounded to 45 minutes and superseded
   runs are cancelled.
 
 ## Current checkpoint (2026-07-22): NOT COMPLETE / CLEAN RUN COUNT = 0

@@ -333,6 +333,7 @@ export function CodePlayground({
         </div>
         {/* Code textarea */}
         <textarea
+          data-initial-code={initialCode}
           ref={textareaRef}
           value={code}
           onChange={(e) => setCode(e.target.value)}
