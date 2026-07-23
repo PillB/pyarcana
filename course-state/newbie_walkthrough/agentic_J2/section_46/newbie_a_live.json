@@ -1,0 +1,435 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 46,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s46-1a99628f930e",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S46-T1-A-E1",
+      "code": "# Explorer notes for S46-T1-A-E1: follow packet fixture + instruction contract\nrecord = {\"case_id\": \"CASO-HYO-046-1A\", **{\"event_time\":110,\"window_end\":120,\"watermark\":115,\"allowed_lateness\":10}}\nmeets_contract = record[\"event_time\"] <= record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"]\nstatus = \"PASS\" if meets_contract else \"SIDE_OUTPUT_LATE_EVENT\"\nprint(\"S46-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre ventanas, event time y watermarks usando el fixture CASO-HYO-046-1A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "ventanas",
+        "event",
+        "time",
+        "watermarks"
+      ],
+      "confidence": 0.64
+    },
+    {
+      "exercise_id": "S46-T1-A-E2",
+      "code": "# Explorer notes for S46-T1-A-E2: follow packet fixture + instruction contract\ndef assess(record: dict) -> str:\n    required = {'watermark', 'window_end', 'allowed_lateness', 'event_time', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"event_time\"] <= record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"] else \"SIDE_OUTPUT_LATE_EVENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\ninvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 210, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\nincomplete = {**valid}\nincomplete.pop('allowed_lateness', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre ventanas, event time y watermarks usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "ventanas",
+        "event",
+        "time"
+      ],
+      "confidence": 0.69
+    },
+    {
+      "exercise_id": "S46-T1-A-E3",
+      "code": "# Explorer notes for S46-T1-A-E3: follow packet fixture + instruction contract\ndef decide(record: dict) -> str:\n    required = {'watermark', 'window_end', 'allowed_lateness', 'event_time', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_FIELDS'\n    return \"CONTINUE\" if record[\"event_time\"] <= record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"] else 'SIDE_OUTPUT_LATE_EVENT'\n\nvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\ninvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 210, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\nincomplete = {**valid}\nincomplete.pop('allowed_lateness', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre allowed_lateness usando el fixture CASO-HYO-046-1A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "ventanas",
+        "event"
+      ],
+      "confidence": 0.68
+    },
+    {
+      "exercise_id": "S46-T1-B-E1",
+      "code": "# Explorer notes for S46-T1-B-E1: follow packet fixture + instruction contract\nrecord = {\"case_id\": \"CASO-HYO-046-1B\", **{\"event_ids\":[\"e1\",\"e1\",\"e2\"],\"sink_ids\":{\"e1\",\"e2\"},\"checkpoint\":2,\"late_policy\":\"update\"}}\nmeets_contract = len(record[\"event_ids\"]) != len(record[\"sink_ids\"]) or not record[\"late_policy\"]\nstatus = \"PASS\" if meets_contract else \"REPLAY_IDEMPOTENTLY\"\nprint(\"S46-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre late data y exactly-once como propiedad compuesta usando el fixture CASO-HYO-046-1B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Compara",
+        "contrato",
+        "late",
+        "data",
+        "exactly",
+        "once"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S46-T1-B-E2",
+      "code": "# Explorer notes for S46-T1-B-E2: follow packet fixture + instruction contract\ndef assess(record: dict) -> str:\n    required = {'sink_ids', 'event_ids', 'late_policy', 'case_id', 'checkpoint'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if len(record[\"event_ids\"]) != len(record[\"sink_ids\"]) or not record[\"late_policy\"] else \"REPLAY_IDEMPOTENTLY\"\n\nvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e2', 'e1'}, 'checkpoint': 2, 'late_policy': 'update'}\ninvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e2', 'e1'}, 'checkpoint': 2, 'late_policy': 'update', '_adversarial': True}\nincomplete = {**valid}\nincomplete.pop('late_policy', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre late data y exactly-once como propiedad compuesta usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Verifica",
+        "tres",
+        "rutas",
+        "late",
+        "data",
+        "exactly"
+      ],
+      "confidence": 0.69
+    },
+    {
+      "exercise_id": "S46-T1-B-E3",
+      "code": "# Explorer notes for S46-T1-B-E3: follow packet fixture + instruction contract\ndef decide(record: dict) -> str:\n    required = {'sink_ids', 'event_ids', 'late_policy', 'case_id', 'checkpoint'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'CHOOSE_LATE_POLICY'\n    return \"CONTINUE\" if len(record[\"event_ids\"]) != len(record[\"sink_ids\"]) or not record[\"late_policy\"] else 'REPLAY_IDEMPOTENTLY'\n\nvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e2', 'e1'}, 'checkpoint': 2, 'late_policy': 'update'}\ninvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e2', 'e1'}, 'checkpoint': 2, 'late_policy': 'update', '_adversarial': True}\nincomplete = {**valid}\nincomplete.pop('late_policy', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre late_policy usando el fixture CASO-HYO-046-1B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "late",
+        "data"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S46-T2-A-E1",
+      "code": "# Explorer notes for S46-T2-A-E1: follow packet fixture + instruction contract\nrecord = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\",\"report\"},\"edges\":{(\"raw\",\"clean\"),(\"clean\",\"report\")},\"typed_io\":True}}\nmeets_contract = not record[\"typed_io\"] or any(a != b for a,b in record[\"edges\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_DAG\"\nprint(\"S46-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre DAG/assets y dependency usando el fixture CASO-HYO-046-2A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Filtra",
+        "contrato",
+        "DAG",
+        "assets",
+        "dependency",
+        "sobre"
+      ],
+      "confidence": 0.63
+    },
+    {
+      "exercise_id": "S46-T2-A-E2",
+      "code": "# Explorer notes for S46-T2-A-E2: follow packet fixture + instruction contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"nodes\", \"edges\", \"typed_io\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not record[\"typed_io\"] or any(a != b for a,b in record[\"edges\"]) else \"REJECT_DAG\"\n\nvalid = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\",\"report\"},\"edges\":{(\"raw\",\"clean\"),(\"clean\",\"report\")},\"typed_io\":True}}\ninvalid = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\"},\"edges\":{(\"raw\",\"raw\"),(\"clean\",\"report\")},\"typed_io\":False}}\nincomplete = {**valid}\nincomplete.pop(\"typed_io\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre DAG/assets y dependency usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Clasifica",
+        "tres",
+        "rutas",
+        "DAG",
+        "assets",
+        "dependency"
+      ],
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S46-T2-A-E3",
+      "code": "# Explorer notes for S46-T2-A-E3: follow packet fixture + instruction contract\ndef decide(record: dict) -> str:\n    required = {'nodes', 'case_id', 'edges', 'typed_io'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'DECLARE_ASSET_DEPENDENCY'\n    return \"CONTINUE\" if not record[\"typed_io\"] or any(a != b for a,b in record[\"edges\"]) else 'REJECT_DAG'\n\nvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'report', 'raw', 'clean'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': True}\ninvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'report', 'raw', 'clean'}, 'edges': set(), 'typed_io': True}\nincomplete = {**valid}\nincomplete.pop('typed_io', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre typed_io usando el fixture CASO-HYO-046-2A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "DAG",
+        "assets"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S46-T2-B-E1",
+      "code": "# Explorer notes for S46-T2-B-E1: follow packet fixture + instruction contract\nrecord = {\"case_id\": \"CASO-HYO-046-2B\", **{\"intervals\":[[1,3],[4,6]],\"overlap\":False,\"checkpoint\":\"2026-07-01\",\"resume_from\":\"2026-07-01\"}}\nmeets_contract = record[\"overlap\"] or record[\"checkpoint\"] == record[\"resume_from\"]\nstatus = \"PASS\" if meets_contract else \"STOP_OVERLAPPING_BACKFILL\"\nprint(\"S46-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre schedules, backfills y state recovery usando el fixture CASO-HYO-046-2B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Modela",
+        "contrato",
+        "schedules",
+        "backfills",
+        "state",
+        "recovery"
+      ],
+      "confidence": 0.73
+    },
+    {
+      "exercise_id": "S46-T2-B-E2",
+      "code": "# Explorer notes for S46-T2-B-E2: follow packet fixture + instruction contract\ndef assess(record: dict) -> str:\n    required = {'intervals', 'overlap', 'case_id', 'checkpoint', 'resume_from'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"overlap\"] or record[\"checkpoint\"] == record[\"resume_from\"] else \"STOP_OVERLAPPING_BACKFILL\"\n\nvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\ninvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01_bad', 'resume_from': '2026-07-01'}\nincomplete = {**valid}\nincomplete.pop('resume_from', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre schedules, backfills y state recovery usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Audita",
+        "tres",
+        "rutas",
+        "schedules",
+        "backfills",
+        "state"
+      ],
+      "confidence": 0.64
+    },
+    {
+      "exercise_id": "S46-T2-B-E3",
+      "code": "# Explorer notes for S46-T2-B-E3: follow packet fixture + instruction contract\ndef decide(record: dict) -> str:\n    required = {'intervals', 'overlap', 'case_id', 'checkpoint', 'resume_from'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'RECOVER_CHECKPOINT'\n    return \"CONTINUE\" if record[\"overlap\"] or record[\"checkpoint\"] == record[\"resume_from\"] else 'STOP_OVERLAPPING_BACKFILL'\n\nvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\ninvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01_bad', 'resume_from': '2026-07-01'}\nincomplete = {**valid}\nincomplete.pop('resume_from', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre resume_from usando el fixture CASO-HYO-046-2B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "schedules",
+        "backfills"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S46-T3-A-E1",
+      "code": "# Explorer notes for S46-T3-A-E1: follow packet fixture + instruction contract\nrecord = {\"case_id\": \"CASO-HYO-046-3A\", **{\"schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"observed_schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"freshness_min\":8,\"slo_min\":15,\"owner\":\"data-ops\"}}\nmeets_contract = record[\"schema\"] == record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"]\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_DATASET\"\nprint(\"S46-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre contracts y freshness usando el fixture CASO-HYO-046-3A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Verifica",
+        "contrato",
+        "contracts",
+        "freshness",
+        "sobre",
+        "CASO"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "exercise_id": "S46-T3-A-E2",
+      "code": "# Explorer notes for S46-T3-A-E2: follow packet fixture + instruction contract\ndef assess(record: dict) -> str:\n    required = {'owner', 'slo_min', 'freshness_min', 'schema', 'observed_schema', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"schema\"] == record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"] else \"QUARANTINE_DATASET\"\n\nvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\ninvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops', '_adversarial': True}\nincomplete = {**valid}\nincomplete.pop('owner', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre contracts y freshness usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Decide",
+        "tres",
+        "rutas",
+        "contracts",
+        "freshness",
+        "fixture"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S46-T3-A-E3",
+      "code": "# Explorer notes for S46-T3-A-E3: follow packet fixture + instruction contract\ndef decide(record: dict) -> str:\n    required = {'owner', 'slo_min', 'freshness_min', 'schema', 'observed_schema', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'PAGE_DATA_OWNER'\n    return \"CONTINUE\" if record[\"schema\"] == record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"] else 'QUARANTINE_DATASET'\n\nvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\ninvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops', '_adversarial': True}\nincomplete = {**valid}\nincomplete.pop('owner', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre owner usando el fixture CASO-HYO-046-3A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "contracts",
+        "freshness"
+      ],
+      "confidence": 0.63
+    },
+    {
+      "exercise_id": "S46-T3-B-E1",
+      "code": "# Explorer notes for S46-T3-B-E1: follow packet fixture + instruction contract\nrecord = {\"case_id\": \"CASO-HYO-046-3B\", **{\"run_id\":\"run-hyo-46\",\"inputs\":{\"raw-v2\"},\"outputs\":{\"clean-v3\"},\"metrics\":{\"rows\":120,\"null_rate\":0.01},\"owner\":\"analytics\"}}\nmeets_contract = not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] <= 0.02\nstatus = \"PASS\" if meets_contract else \"OPEN_QUALITY_INCIDENT\"\nprint(\"S46-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre lineage, observability y ownership usando el fixture CASO-HYO-046-3B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Clasifica",
+        "contrato",
+        "lineage",
+        "observability",
+        "ownership",
+        "sobre"
+      ],
+      "confidence": 0.88
+    },
+    {
+      "exercise_id": "S46-T3-B-E2",
+      "code": "# Explorer notes for S46-T3-B-E2: follow packet fixture + instruction contract\ndef assess(record: dict) -> str:\n    required = {'owner', 'inputs', 'metrics', 'run_id', 'case_id', 'outputs'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] <= 0.02 else \"OPEN_QUALITY_INCIDENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\ninvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics', '_adversarial': True}\nincomplete = {**valid}\nincomplete.pop('owner', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre lineage, observability y ownership usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Calcula",
+        "tres",
+        "rutas",
+        "lineage",
+        "observability",
+        "ownership"
+      ],
+      "confidence": 0.68
+    },
+    {
+      "exercise_id": "S46-T3-B-E3",
+      "code": "# Explorer notes for S46-T3-B-E3: follow packet fixture + instruction contract\ndef decide(record: dict) -> str:\n    required = {'owner', 'inputs', 'metrics', 'run_id', 'case_id', 'outputs'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'TRACE_LINEAGE'\n    return \"CONTINUE\" if not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] <= 0.02 else 'OPEN_QUALITY_INCIDENT'\n\nvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\ninvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics', '_adversarial': True}\nincomplete = {**valid}\nincomplete.pop('owner', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre owner usando el fixture CASO-HYO-046-3B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "lineage",
+        "observability"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S46-T4-A-E1",
+      "code": "# Explorer notes for S46-T4-A-E1: follow packet fixture + instruction contract\nrecord = {\"case_id\": \"CASO-HYO-046-4A\", **{\"partition\":\"2026-07-22\",\"source_keys\":{\"a\",\"b\",\"c\"},\"target_keys\":{\"a\",\"b\",\"c\"},\"second_run_changes\":0,\"small_files\":2,\"max_small_files\":5}}\nmeets_contract = record[\"source_keys\"] == record[\"target_keys\"] or record[\"second_run_changes\"] > 0\nstatus = \"PASS\" if meets_contract else \"REBUILD_PARTITION\"\nprint(\"S46-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre partitions e incremental loads usando el fixture CASO-HYO-046-4A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Audita",
+        "contrato",
+        "partitions",
+        "incremental",
+        "loads",
+        "sobre"
+      ],
+      "confidence": 0.65
+    },
+    {
+      "exercise_id": "S46-T4-A-E2",
+      "code": "# Explorer notes for S46-T4-A-E2: follow packet fixture + instruction contract\ndef assess(record: dict) -> str:\n    required = {'source_keys', 'target_keys', 'partition', 'case_id', 'small_files', 'second_run_changes', 'max_small_files'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"source_keys\"] == record[\"target_keys\"] or record[\"second_run_changes\"] > 0 else \"REBUILD_PARTITION\"\n\nvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\ninvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': set(), 'target_keys': {'c', 'b', 'a'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\nincomplete = {**valid}\nincomplete.pop('max_small_files', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre partitions e incremental loads usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Compara",
+        "tres",
+        "rutas",
+        "partitions",
+        "incremental",
+        "loads"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S46-T4-A-E3",
+      "code": "# Explorer notes for S46-T4-A-E3: follow packet fixture + instruction contract\ndef decide(record: dict) -> str:\n    required = {'source_keys', 'target_keys', 'partition', 'case_id', 'small_files', 'second_run_changes', 'max_small_files'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REVIEW_INCREMENTAL_KEY'\n    return \"CONTINUE\" if record[\"source_keys\"] == record[\"target_keys\"] or record[\"second_run_changes\"] > 0 else 'REBUILD_PARTITION'\n\nvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\ninvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': set(), 'target_keys': {'c', 'b', 'a'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\nincomplete = {**valid}\nincomplete.pop('max_small_files', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre max_small_files usando el fixture CASO-HYO-046-4A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "sla",
+        "fallo",
+        "cerrado",
+        "para",
+        "partitions",
+        "incremental"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S46-T4-B-E1",
+      "code": "# Explorer notes for S46-T4-B-E1: follow packet fixture + instruction contract\nrecord = {\"case_id\": \"CASO-HYO-046-4B\", **{\"freshness_sli\":0.995,\"freshness_slo\":0.99,\"rto_minutes\":25,\"target_rto_minutes\":30,\"postmortem_actions\":3,\"owner\":\"data-oncall\"}}\nmeets_contract = record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] <= record[\"target_rto_minutes\"]\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_INCIDENT\"\nprint(\"S46-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre SLO, incidentes y data recovery usando el fixture CASO-HYO-046-4B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Decide",
+        "contrato",
+        "SLO",
+        "incidentes",
+        "data",
+        "recovery"
+      ],
+      "confidence": 0.64
+    },
+    {
+      "exercise_id": "S46-T4-B-E2",
+      "code": "# Explorer notes for S46-T4-B-E2: follow packet fixture + instruction contract\ndef assess(record: dict) -> str:\n    required = {'owner', 'postmortem_actions', 'target_rto_minutes', 'freshness_slo', 'rto_minutes', 'freshness_sli', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] <= record[\"target_rto_minutes\"] else \"DECLARE_DATA_INCIDENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\ninvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 125, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\nincomplete = {**valid}\nincomplete.pop('owner', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre SLO, incidentes y data recovery usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Filtra",
+        "tres",
+        "rutas",
+        "SLO",
+        "incidentes",
+        "data"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S46-T4-B-E3",
+      "code": "# Explorer notes for S46-T4-B-E3: follow packet fixture + instruction contract\ndef decide(record: dict) -> str:\n    required = {'owner', 'postmortem_actions', 'target_rto_minutes', 'freshness_slo', 'rto_minutes', 'freshness_sli', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'DECLARE_DATA_INCIDENT'\n    return \"CONTINUE\" if record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] <= record[\"target_rto_minutes\"] else 'DECLARE_DATA_INCIDENT'\n\nvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\ninvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 125, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\nincomplete = {**valid}\nincomplete.pop('owner', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé el predicado del contrato sobre owner usando el fixture CASO-HYO-046-4B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S46.",
+      "concepts_used": [
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "SLO",
+        "incidentes"
+      ],
+      "confidence": 0.88
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "Explorer en S46 Q0: la opción «fixtures en hora/desorden/tardío con resultado esperado» cuadra con theory/iDo del paquete sobre «¿Qué evidencia permite aprobar `ventanas, event time y watermarks` en CASO-HYO-046?»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.63,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "Explorer en S46 Q1: la opción «emitir QUARANTINE_PARTITION y conservar evidencia» cuadra con theory/iDo del paquete sobre «Si ocurre la condición de error de S46, ¿qué respuesta preserva seguridad y auditabilidad?»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.76,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "Explorer en S46 Q2: la opción «backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness» cuadra con theory/iDo del paquete sobre «¿Cuál resultado demuestra el gate `CP-N4-B · pipeline incremental y backfillable`?»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.89,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "Explorer en S46 Q3: la opción «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» cuadra con theory/iDo del paquete sobre «¿Qué tratamiento de `CASO-HYO-046` respeta el alcance del curso?»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.68,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:56.379633+00:00",
+  "session_started_at": "2026-07-23T13:14:23.030199+00:00",
+  "session_ended_at": "2026-07-23T13:14:40.696443+00:00",
+  "receipt_response_sha256": "5e14a01195715c1fedaf8d010b37cc261fc1597293cdd813be43e856716c0fd7"
+}

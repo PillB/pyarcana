@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 6,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s06-3eeefce5c1bd",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S06-T1-A-E1",
+      "id": "S06-T1-A-E1",
+      "code": "# revisión escéptica s06/S06-T1-A-E1\ntxs = [10, 20, 30, 40, 50]\nventana = txs[-2:]\nprint(ventana)\nprint(len(ventana))\nempty = []\nv0 = empty[-2:]\nprint(v0)\nprint(len(v0))\n_j2_chk = 'S06-T1-A-E1'\n",
+      "justification_from_packet": "En «Colecciones y estructuras de datos», S06-T1-A-E1 queda justificado por «E1 (guiado) — Dada `txs` de 5 montos, imprime los **últimos 2** con slicing y la longitud de la ventana. Caso» y por «print la lista y luego len(ventana).» del paquete; confié en hints antes que en inventos. [0b822a] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-A-E2",
+      "id": "S06-T1-A-E2",
+      "code": "# revisión escéptica s06/S06-T1-A-E2\nheaders = ['id', 'monto']\nKEYS = tuple(headers)\nprint('KEYS', KEYS)\nmore = KEYS + ('canal',)\nprint('more', more)\nprint('KEYS sigue', KEYS)\n_j2_chk = 'S06-T1-A-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S06-T1-A-E2: E2 (independiente) — Convierte la lista de headers `['id','monto']` a **tuple** `KEYS` (motivo: inmutable). Im. El material activo menciona «tuple(lista) o keys = ('id','monto')»; el código refleja ese contrato sin TODO. [554dc2] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-A-E3",
+      "id": "S06-T1-A-E3",
+      "code": "# revisión escéptica s06/S06-T1-A-E3\nids = ('C001', 'C002')\ntry:\n    ids.append('C003')\nexcept AttributeError as e:\n    print('diagnóstico:', type(e).__name__, '-', e)\n    mut = list(ids)\n    mut.append('C003')\n    print(mut)\n_j2_chk = 'S06-T1-A-E3'\n",
+      "justification_from_packet": "Revisión de S06-T1-A-E3 en «Colecciones y estructuras de datos»: la instruction («E3 (transferencia) — Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captura el Attri») y la hint («tuple no tiene append → AttributeError») bastan para una forma completa. [19d2c7] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-B-E1",
+      "id": "S06-T1-B-E1",
+      "code": "# revisión escéptica s06/S06-T1-B-E1\nfila = ('C001', 'Lima', 10)\ncid, region, monto = fila\nprint(cid, region, monto)\n_j2_chk = 'S06-T1-B-E1'\n",
+      "justification_from_packet": "Escéptico en S06-T1-B-E1 («Colecciones y estructuras de datos»): contrasté la instruction «E1 (guiado) — Unpacking de fila `('C001', 'Lima', 10)` en `cid, region, monto`. Imprime los tres. Si la fila t» con la hint «a, b, c = fila» y rechacé huecos del starter. [5b9281] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-B-E2",
+      "id": "S06-T1-B-E2",
+      "code": "# revisión escéptica s06/S06-T1-B-E2\nxs = [1, 2]\nalias = xs\ncopia = xs.copy()\nalias.append(3)\nprint('tras alias', xs, copia)\ncopia.append(4)\nprint('tras copia', xs, copia)\n_j2_chk = 'S06-T1-B-E2'\n",
+      "justification_from_packet": "Escéptico en S06-T1-B-E2 («Colecciones y estructuras de datos»): contrasté la instruction «E2 (independiente) — Demuestra alias vs copy: lista `[1,2]`, `alias = xs`, `copia = xs.copy()`. Mutar alias co» con la hint «alias comparte objeto; copy es superficial de la lista de ints.» y rechacé huecos del starter. [48c453] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T1-B-E3",
+      "id": "S06-T1-B-E3",
+      "code": "# revisión escéptica s06/S06-T1-B-E3\nimport copy\nrows = [{'id': 'C1', 'tags': ['a']}]\nshallow = rows.copy()\nshallow[0]['tags'].append('s')\nprint('orig tras shallow tags', rows)\ndeep = copy.deepcopy(rows)\ndeep[0]['tags'].append('d')\nprint('orig', rows)\nprint('deep', deep)\n_j2_chk = 'S06-T1-B-E3'\n",
+      "justification_from_packet": "Para S06-T1-B-E3 no acepté un esqueleto a medias. Pedido del paquete: E3 (transferencia) — Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de la lista **. Criterio: «import copy; deepcopy». Segunda ancla: «shallow[0] is original[0] → True». [0af1d2] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-A-E1",
+      "id": "S06-T2-A-E1",
+      "code": "# revisión escéptica s06/S06-T2-A-E1\npares = [('C001', 'Lima'), ('C002', 'Cusco')]\nd = dict(pares)\nprint(d)\nprint(d['C002'])\n_j2_chk = 'S06-T2-A-E1'\n",
+      "justification_from_packet": "En «Colecciones y estructuras de datos», S06-T2-A-E1 queda justificado por «E1 (guiado) — Construye un dict desde pares `[('C001','Lima'),('C002','Cusco')]` e imprime el dict y `d['C002'» y por «Claves deben ser hashables (str ok).» del paquete; confié en hints antes que en inventos. [04492f] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-A-E2",
+      "id": "S06-T2-A-E2",
+      "code": "# revisión escéptica s06/S06-T2-A-E2\nidx = {'C001': 'Ana'}\nprint(idx.get('C001', 'N/A'))\nprint(idx.get('C999', 'N/A'))\ntry:\n    print(idx['C999'])\nexcept KeyError as e:\n    print('KeyError', e)\n_j2_chk = 'S06-T2-A-E2'\n",
+      "justification_from_packet": "Para S06-T2-A-E2 no acepté un esqueleto a medias. Pedido del paquete: E2 (independiente) — Dado `idx` con C001, usa `get` para C001 y C999 (default 'N/A'). Luego muestra un `try/ex. Criterio: «idx.get('C999','N/A')». Segunda ancla: «KeyError solo en acceso duro.». [8bd5f5] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-A-E3",
+      "id": "S06-T2-A-E3",
+      "code": "# revisión escéptica s06/S06-T2-A-E3\ndefaults = {'retry': 1, 'timeout': 30}\noverride = {'retry': 5}\nmerged = {**defaults, **override}\nprint('merged', merged)\nprint('defaults intacto', defaults)\nbase = dict(defaults)\nbase.update(override)\nprint('via copy+update', base)\n_j2_chk = 'S06-T2-A-E3'\n",
+      "justification_from_packet": "En «Colecciones y estructuras de datos», S06-T2-A-E3 queda justificado por «E3 (transferencia) — Fusiona `defaults={'retry':1,'timeout':30}` con `override={'retry':5}` **sin** perder tim» y por «Copia antes de update in-place.» del paquete; confié en hints antes que en inventos. [4e1984] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-B-E1",
+      "id": "S06-T2-B-E1",
+      "code": "# revisión escéptica s06/S06-T2-B-E1\nemails = ['a@ex.com', 'b@ex.com', 'a@ex.com']\nunicos = sorted(set(emails))\nprint(unicos)\n_j2_chk = 'S06-T2-B-E1'\n",
+      "justification_from_packet": "Para S06-T2-B-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Deduplica `['a@ex.com','b@ex.com','a@ex.com']` con set y devuelve lista **ordenada** de únicos.. Criterio: «sorted(set(emails))». Segunda ancla: «set no garantiza orden de impresión sin sorted.». [5c24a5] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-B-E2",
+      "id": "S06-T2-B-E2",
+      "code": "# revisión escéptica s06/S06-T2-B-E2\na = {'a@ex.com', 'b@ex.com', 'c@ex.com'}\nb = {'b@ex.com', 'c@ex.com', 'd@ex.com'}\nprint('inter', sorted(a & b))\nprint('symdiff', sorted(a ^ b))\n_j2_chk = 'S06-T2-B-E2'\n",
+      "justification_from_packet": "Escéptico en S06-T2-B-E2 («Colecciones y estructuras de datos»): contrasté la instruction «E2 (independiente) — Intersección de contactos `lote_a` y `lote_b` (sets de emails). Imprime sorted de la inte» con la hint «a & b ; a ^ b» y rechacé huecos del starter. [4f3c39] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T2-B-E3",
+      "id": "S06-T2-B-E3",
+      "code": "# revisión escéptica s06/S06-T2-B-E3\ndef dedup_report(rows, key='id'):\n    seen = {}\n    unique = []\n    conflicts = []\n    for r in rows:\n        k = r[key]\n        if k not in seen:\n            seen[k] = r\n            unique.append(r)\n        elif seen[k] != r:\n            conflicts.append({'key': k, 'kept': seen[k], 'other': r})\n    return {'unique': unique, 'conflicts': conflicts}\nrows = [\n    {'id': 'C001', 'v': 1},\n    {'id': 'C002', 'v': 2},\n    {'id': 'C001', 'v': 9},\n]\nprint(dedup_report(rows))\n_j2_chk = 'S06-T2-B-E3'\n",
+      "justification_from_packet": "Revisión de S06-T2-B-E3 en «Colecciones y estructuras de datos»: la instruction («E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflicts: [...]}») y la hint («seen dict; si key existe y row!=prev → conflict») bastan para una forma completa. [a2b2d8] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-A-E1",
+      "id": "S06-T3-A-E1",
+      "code": "# revisión escéptica s06/S06-T3-A-E1\nclients = [\n    {'id': 'C001', 'contacts': [1, 2]},\n    {'id': 'C002', 'contacts': []},\n]\nfor c in clients:\n    print(c['id'], '→', len(c['contacts']))\n_j2_chk = 'S06-T3-A-E1'\n",
+      "justification_from_packet": "Para S06-T3-A-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Cuenta contactos por cliente e imprime `id → n`.. Criterio: «len(c['contacts'])». Segunda ancla: «for c in clients». [5a3e29] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-A-E2",
+      "id": "S06-T3-A-E2",
+      "code": "# revisión escéptica s06/S06-T3-A-E2\nclients = [\n    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},\n    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},\n]\nflat = [\n    {'client_id': c['id'], 'tx_id': t['id'], 'monto': t['monto']}\n    for c in clients for t in c['txs']\n]\nprint(flat)\n_j2_chk = 'S06-T3-A-E2'\n",
+      "justification_from_packet": "En «Colecciones y estructuras de datos», S06-T3-A-E2 queda justificado por «E2 (independiente) — Aplana `txs` anidadas a filas `{client_id, tx_id, monto}` e imprime la lista.» y por «conserva client_id en cada fila» del paquete; confié en hints antes que en inventos. [6d8e72] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-A-E3",
+      "id": "S06-T3-A-E3",
+      "code": "# revisión escéptica s06/S06-T3-A-E3\nclients = [\n    {'id': 'C001', 'txs': []},\n    {'id': 'C002'},\n    {'id': 'C003', 'txs': 'oops'},\n]\nfor c in clients:\n    txs = c.get('txs')\n    ok = isinstance(txs, list)\n    print(c['id'], 'ok' if ok else 'review')\n_j2_chk = 'S06-T3-A-E3'\n",
+      "justification_from_packet": "Escéptico en S06-T3-A-E3 («Colecciones y estructuras de datos»): contrasté la instruction «E3 (transferencia) — Detecta shape inconsistente: si falta `txs` o no es list, marca `status='review'`. Imprim» con la hint «isinstance(c.get('txs'), list)» y rechacé huecos del starter. [800c94] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-B-E1",
+      "id": "S06-T3-B-E1",
+      "code": "# revisión escéptica s06/S06-T3-B-E1\ndef get_nested(d, *keys, default=None):\n    cur = d\n    for k in keys:\n        if not isinstance(cur, dict) or k not in cur:\n            return default\n        cur = cur[k]\n    return cur\nc = {'profile': {'phone': '999'}}\nprint(get_nested(c, 'profile', 'phone'))\nprint(get_nested(c, 'profile', 'email', default='N/A'))\n_j2_chk = 'S06-T3-B-E1'\n",
+      "justification_from_packet": "Revisión de S06-T3-B-E1 en «Colecciones y estructuras de datos»: la instruction («E1 (guiado) — Implementa `get_nested(d, *keys, default=None)` y úsalo para `profile.phone` en un dict sintétic») y la hint («Recorre keys; si falta retorna default.») bastan para una forma completa. [df8501] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-B-E2",
+      "id": "S06-T3-B-E2",
+      "code": "# revisión escéptica s06/S06-T3-B-E2\nclients = [\n    {'id': 'C001', 'email': 'a@ex.com'},\n    {'id': 'C002', 'email': None},\n    {'id': 'C003'},\n]\nfor c in clients:\n    if 'email' not in c or c['email'] is None:\n        flag = 'missing'\n    else:\n        flag = 'present'\n    print(f\"{c['id']}: {flag}\")\n_j2_chk = 'S06-T3-B-E2'\n",
+      "justification_from_packet": "Escéptico en S06-T3-B-E2 («Colecciones y estructuras de datos»): contrasté la instruction «E2 (independiente) — Para cada cliente, marca en un reporte si `email` es missing (None o ausente) o present.» con la hint «'email' not in c or c['email'] is None → missing» y rechacé huecos del starter. [e9a3ca] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T3-B-E3",
+      "id": "S06-T3-B-E3",
+      "code": "# revisión escéptica s06/S06-T3-B-E3\nvals = [None, '', 0, []]\nfor v in vals:\n    print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)\n_j2_chk = 'S06-T3-B-E3'\n",
+      "justification_from_packet": "Para S06-T3-B-E3 no acepté un esqueleto a medias. Pedido del paquete: E3 (transferencia) — Construye tabla mental en prints: para valores `None`, `''`, `0`, `[]` indica si son fals. Criterio: «bool(x) vs x is None». Segunda ancla: «0 y '' son falsy pero pueden ser datos válidos.». [c5aae6] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-A-E1",
+      "id": "S06-T4-A-E1",
+      "code": "# revisión escéptica s06/S06-T4-A-E1\nrows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]\nordered = sorted(rows, key=lambda r: r['monto'])\nprint([r['id'] for r in ordered])\n_j2_chk = 'S06-T4-A-E1'\n",
+      "justification_from_packet": "Para S06-T4-A-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Ordena por monto ascendente con sorted+key e imprime ids en orden.. Criterio: «key=lambda r: r['monto']». Segunda ancla: «sorted no muta la lista original.». [ab889c] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-A-E2",
+      "id": "S06-T4-A-E2",
+      "code": "# revisión escéptica s06/S06-T4-A-E2\nrows = [\n    {'nombre': 'Zed', 'region': 'Lima'},\n    {'nombre': 'Ana', 'region': 'Lima'},\n    {'nombre': 'Bob', 'region': 'Cusco'},\n]\nfor r in sorted(rows, key=lambda r: (r['region'], r['nombre'])):\n    print(r['region'], r['nombre'])\n_j2_chk = 'S06-T4-A-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S06-T4-A-E2: E2 (independiente) — key multi-campo: ordena por región y luego nombre. Imprime pares región/nombre.. El material activo menciona «key=lambda r: (r['region'], r['nombre'])»; el código refleja ese contrato sin TODO. [772c67] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-A-E3",
+      "id": "S06-T4-A-E3",
+      "code": "# revisión escéptica s06/S06-T4-A-E3\nrows = [3, 1, 2]\nbase = [3, 1, 2]\nret = rows.sort()\nprint('ret', ret)\nprint('rows', rows)\ncopy_sorted = sorted(base)\nprint('base', base, 'copy', copy_sorted)\n_j2_chk = 'S06-T4-A-E3'\n",
+      "justification_from_packet": "Escéptico en S06-T4-A-E3 («Colecciones y estructuras de datos»): contrasté la instruction «E3 (transferencia) — Demuestra que `rows.sort()` retorna None y muta. Imprime tipo del retorno y la lista muta» con la hint «x = lst.sort() → x is None» y rechacé huecos del starter. [928ddb] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-B-E1",
+      "id": "S06-T4-B-E1",
+      "code": "# revisión escéptica s06/S06-T4-B-E1\nchoices = {\n    'cola de llegada de filas': 'list',\n    'lookup frecuente por id': 'dict',\n    'emails únicos de un lote': 'set',\n}\nfor job, st in choices.items():\n    print(job, '→', st)\n_j2_chk = 'S06-T4-B-E1'\n",
+      "justification_from_packet": "Para S06-T4-B-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Para 3 jobs imprime la estructura elegida: (1) cola de llegada (2) lookup por id (3) cohorte de. Criterio: «list / dict / set». Segunda ancla: «Una línea por job con la elección.». [6ec91f] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-B-E2",
+      "id": "S06-T4-B-E2",
+      "code": "# revisión escéptica s06/S06-T4-B-E2\nimport json\npayload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}\npayload['ids'] = sorted(payload['ids'])\ns = json.dumps(payload, sort_keys=True, ensure_ascii=False)\nprint(s)\n_j2_chk = 'S06-T4-B-E2'\n",
+      "justification_from_packet": "En «Colecciones y estructuras de datos», S06-T4-B-E2 queda justificado por «E2 (independiente) — Haz determinista un export: ordena ids y `json.dumps(..., sort_keys=True)`. Imprime el JS» y por «ensure_ascii=False para tildes si hubiera.» del paquete; confié en hints antes que en inventos. [da59b1] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    },
+    {
+      "exercise_id": "S06-T4-B-E3",
+      "id": "S06-T4-B-E3",
+      "code": "# revisión escéptica s06/S06-T4-B-E3\nids = ['C001', 'C002', 'C003', 'C004', 'C005']\nprint('list membership: O(n) por chequeo')\nprint('set membership: O(1) promedio')\ns = set(ids)\nprint('C003 in set', 'C003' in s)\nprint('preindexar set/dict evita O(n²) en loops anidados')\n_j2_chk = 'S06-T4-B-E3'\n",
+      "justification_from_packet": "Para S06-T4-B-E3 no acepté un esqueleto a medias. Pedido del paquete: E3 (transferencia) — Justifica tradeoff: membership de 1000 ids en list vs set. Simula con prints de complejid. Criterio: «list O(n) vs set O(1) promedio». Segunda ancla: «No necesitas timeit; razona y demo pequeña.». [137ad6] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Colecciones y estructuras de datos"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #0 en «Colecciones y estructuras de datos»: «¿Qué produce xs[-2:] si xs = [1,2,3,4]?». Las otras opciones no cuadran con iDo/theory; me quedo con «[3,4]». [7ba0ef] conf~0.85.",
+      "confidence": 0.85
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #1 en «Colecciones y estructuras de datos»: «b = a (listas) y mutas b.append(1). ¿Qué pasa con a?». Las otras opciones no cuadran con iDo/theory; me quedo con «a también ve el append (alias)». [16c40d] conf~0.92.",
+      "confidence": 0.92
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #2 en «Colecciones y estructuras de datos»: «Para reportar dos filas con mismo id y payload distinto debes…». Las otras opciones no cuadran con iDo/theory; me quedo con «Listar conflicto en conflicts sin silenciar». [4c781d] conf~0.76.",
+      "confidence": 0.76
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #3 en «Colecciones y estructuras de datos»: «rows.sort(key=...) retorna…». Las otras opciones no cuadran con iDo/theory; me quedo con «None (muta in-place)». [8bf516] conf~0.89.",
+      "confidence": 0.89
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #4 en «Colecciones y estructuras de datos»: «json.dumps(..., sort_keys=True) ayuda a…». Las otras opciones no cuadran con iDo/theory; me quedo con «salidas deterministas/reproducibles». [9b6342] conf~0.74.",
+      "confidence": 0.74
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:13.822812+00:00",
+  "session_started_at": "2026-07-23T12:48:03.030199+00:00",
+  "session_ended_at": "2026-07-23T12:48:32.749199+00:00",
+  "receipt_response_sha256": "bac08f9f1ad317f230bb9d53fe0f82b2d8d247b6ded0a6b4b8f3d1893ee50d80"
+}

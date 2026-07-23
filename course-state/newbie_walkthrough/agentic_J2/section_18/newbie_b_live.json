@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 18,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s18-d24347d8eae6",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S18-T1-A-E1",
+      "id": "S18-T1-A-E1",
+      "code": "# revisión escéptica s18/S18-T1-A-E1\nimport numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\nprint(\"n\", montos.size)\nprint(\"mean\", round(float(montos.mean()), 2))\nprint(\"median\", float(np.median(montos)))\n_j2_chk = 'S18-T1-A-E1'\n",
+      "justification_from_packet": "En «EDA, estadística descriptiva e incertidumbre», S18-T1-A-E1 queda justificado por «E1 (guiado) — Concepto: centro (mean/median) y n de montos. Fixture `S18-T1-A-E1` / datos sintéticos: montos =» y por «round(float(...), 2) para la media.» del paquete; confié en hints antes que en inventos. [4adaae] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-A-E2",
+      "id": "S18-T1-A-E2",
+      "code": "# revisión escéptica s18/S18-T1-A-E2\nimport numpy as np\nmontos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\nprint(\"Q1\", round(float(q1), 2))\nprint(\"Q3\", round(float(q3), 2))\nprint(\"IQR\", round(float(q3 - q1), 2))\n_j2_chk = 'S18-T1-A-E2'\n",
+      "justification_from_packet": "En «EDA, estadística descriptiva e incertidumbre», S18-T1-A-E2 queda justificado por «E2 (independiente) — Concepto: cuartiles e IQR. Fixture `S18-T1-A-E2` / datos sintéticos: montos = np.array([5» y por «IQR = Q3 - Q1.» del paquete; confié en hints antes que en inventos. [ce4659] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-A-E3",
+      "id": "S18-T1-A-E3",
+      "code": "# revisión escéptica s18/S18-T1-A-E3\nimport numpy as np\n\ndef resumen(x):\n    x = np.asarray(x, dtype=float)\n    return {\n        \"n\": int(x.size),\n        \"mean\": round(float(x.mean()), 4),\n        \"median\": round(float(np.median(x)), 4),\n        \"std\": round(float(x.std(ddof=1)), 4),\n    }\nprint(resumen([1, 2, 3, 4, 5]))\n_j2_chk = 'S18-T1-A-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S18-T1-A-E3: E3 (transferencia) — Concepto: función resumen n/mean/median/std. Fixture `S18-T1-A-E3` / datos sintéticos: de. El material activo menciona «std con ddof=1.»; el código refleja ese contrato sin TODO. [baaf4b] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-B-E1",
+      "id": "S18-T1-B-E1",
+      "code": "# revisión escéptica s18/S18-T1-B-E1\nimport numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nm = float(x.mean())\nmed = float(np.median(x))\nprint(\"mean\", round(m, 2))\nprint(\"median\", med)\nprint(\"ratio\", round(m / med, 2))\n_j2_chk = 'S18-T1-B-E1'\n",
+      "justification_from_packet": "Escéptico en S18-T1-B-E1 («EDA, estadística descriptiva e incertidumbre»): contrasté la instruction «E1 (guiado) — Concepto: mean vs median y razón. Fixture `S18-T1-B-E1` / datos sintéticos: x = np.array([10, 11» con la hint «np.mean y np.median.» y rechacé huecos del starter. [49b568] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-B-E2",
+      "id": "S18-T1-B-E2",
+      "code": "# revisión escéptica s18/S18-T1-B-E2\nimport numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nmed = float(np.median(x))\nmad = float(np.median(np.abs(x - med)))\nprint(\"MAD\", mad)\n_j2_chk = 'S18-T1-B-E2'\n",
+      "justification_from_packet": "En «EDA, estadística descriptiva e incertidumbre», S18-T1-B-E2 queda justificado por «E2 (independiente) — Concepto: MAD respecto a la mediana. Fixture `S18-T1-B-E2` / datos sintéticos: x = np.arr» y por «Usa np.median y np.abs.» del paquete; confié en hints antes que en inventos. [4fd399] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T1-B-E3",
+      "id": "S18-T1-B-E3",
+      "code": "# revisión escéptica s18/S18-T1-B-E3\nimport numpy as np\nx = np.array([0, 1, 9, 99], dtype=float)\nprint([round(float(v), 3) for v in np.log1p(x)])\n_j2_chk = 'S18-T1-B-E3'\n",
+      "justification_from_packet": "Escéptico en S18-T1-B-E3 («EDA, estadística descriptiva e incertidumbre»): contrasté la instruction «E3 (transferencia) — Concepto: transformación log1p de montos. Fixture `S18-T1-B-E3` / datos sintéticos: x = n» con la hint «np.log1p.» y rechacé huecos del starter. [ce14e8] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-A-E1",
+      "id": "S18-T2-A-E1",
+      "code": "# revisión escéptica s18/S18-T2-A-E1\nmuestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nshare_lima = muestra.count(\"Lima\") / len(muestra)\nprint(\"share_Lima\", round(share_lima, 2))\n_j2_chk = 'S18-T2-A-E1'\n",
+      "justification_from_packet": "Para S18-T2-A-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Concepto: share muestral vs población. Fixture `S18-T2-A-E1` / datos sintéticos: muestra = [\"Lim. Criterio: «Cuenta ocurrencias / n.». Segunda ancla: «round a 2 decimales.». [af944c] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-A-E2",
+      "id": "S18-T2-A-E2",
+      "code": "# revisión escéptica s18/S18-T2-A-E2\nshare = 8 / 10\npob = 0.5\nprint(\"bias_Lima_pp\", round(share - pob, 2))\n_j2_chk = 'S18-T2-A-E2'\n",
+      "justification_from_packet": "Revisión de S18-T2-A-E2 en «EDA, estadística descriptiva e incertidumbre»: la instruction («E2 (independiente) — Concepto: bias en puntos porcentuales. Fixture `S18-T2-A-E2` / datos sintéticos: share =») y la hint («share = 8/10.») bastan para una forma completa. [c8a545] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-A-E3",
+      "id": "S18-T2-A-E3",
+      "code": "# revisión escéptica s18/S18-T2-A-E3\ndef max_bias(pob, counts):\n    n = sum(counts.values())\n    return max(abs(counts[k] / n - pob[k]) for k in pob)\n\nprint(round(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 9, \"Cusco\": 1}), 2))\n_j2_chk = 'S18-T2-A-E3'\n",
+      "justification_from_packet": "En «EDA, estadística descriptiva e incertidumbre», S18-T2-A-E3 queda justificado por «E3 (transferencia) — Concepto: máximo |bias| entre segmentos. Fixture `S18-T2-A-E3` / datos sintéticos: def ma» y por «max de valores absolutos.» del paquete; confié en hints antes que en inventos. [8aa08a] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-B-E1",
+      "id": "S18-T2-B-E1",
+      "code": "# revisión escéptica s18/S18-T2-B-E1\nimport math\nmedia, s, n = 10, 2, 16\nmargen = 1.96 * s / math.sqrt(n)\nprint(\"margen\", round(margen, 3))\n_j2_chk = 'S18-T2-B-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S18-T2-B-E1: E1 (guiado) — Concepto: margen de IC 95% (1.96·s/√n). Fixture `S18-T2-B-E1` / datos sintéticos: media, s, n =. El material activo menciona «import math o numpy sqrt.»; el código refleja ese contrato sin TODO. [ae161d] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-B-E2",
+      "id": "S18-T2-B-E2",
+      "code": "# revisión escéptica s18/S18-T2-B-E2\nd = (13 - 10) / 2\nprint(\"d\", round(d, 2))\n_j2_chk = 'S18-T2-B-E2'\n",
+      "justification_from_packet": "Revisión de S18-T2-B-E2 en «EDA, estadística descriptiva e incertidumbre»: la instruction («E2 (independiente) — Concepto: tamaño de efecto Cohen's d. Fixture `S18-T2-B-E2` / datos sintéticos: d = (13 -») y la hint («d = (mb-ma)/sp.») bastan para una forma completa. [aab38a] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T2-B-E3",
+      "id": "S18-T2-B-E3",
+      "code": "# revisión escéptica s18/S18-T2-B-E3\ndiff, se = 4, 1.5\nic = (round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2))\nprint(\"ic95\", ic)\n_j2_chk = 'S18-T2-B-E3'\n",
+      "justification_from_packet": "Para S18-T2-B-E3 no acepté un esqueleto a medias. Pedido del paquete: E3 (transferencia) — Concepto: IC95 como tupla (low, high). Fixture `S18-T2-B-E3` / datos sintéticos: diff, se. Criterio: «low = diff - 1.96*se.». Segunda ancla: «high = diff + 1.96*se.». [84a2f9] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-A-E1",
+      "id": "S18-T3-A-E1",
+      "code": "# revisión escéptica s18/S18-T3-A-E1\nimport numpy as np\nx = np.array([1, 2, 3, 4], dtype=float)\ny = np.array([2, 4, 6, 8], dtype=float)\nprint(\"r\", round(float(np.corrcoef(x, y)[0, 1]), 3))\n_j2_chk = 'S18-T3-A-E1'\n",
+      "justification_from_packet": "Para S18-T3-A-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Concepto: correlación de Pearson. Fixture `S18-T3-A-E1` / datos sintéticos: x = np.array([1, 2,. Criterio: «corrcoef[0,1].». Segunda ancla: «Debe ser ~1.». [e08c33] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-A-E2",
+      "id": "S18-T3-A-E2",
+      "code": "# revisión escéptica s18/S18-T3-A-E2\nr = 0.82\nprint(\"asociacion_observada\" if abs(r) > 0.5 else \"asociacion_debil\")\n_j2_chk = 'S18-T3-A-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S18-T3-A-E2: E2 (independiente) — Concepto: etiqueta asociación_observada (no causa). Fixture `S18-T3-A-E2` / datos sintéti. El material activo menciona «if abs(r)>0.5.»; el código refleja ese contrato sin TODO. [a6f547] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-A-E3",
+      "id": "S18-T3-A-E3",
+      "code": "# revisión escéptica s18/S18-T3-A-E3\nimport numpy as np\nz = np.arange(5, dtype=float)\nx = z.copy()\ny = z.copy()\nr_raw = float(np.corrcoef(x, y)[0, 1])\nbx = np.polyfit(z, x, 1)\nby = np.polyfit(z, y, 1)\nrx = x - (bx[0] * z + bx[1])\nry = y - (by[0] * z + by[1])\n# residuales ~0 → corr inestable; reporta max abs residual\nprint(\"r_raw\", round(r_raw, 3))\nprint(\"max_abs_resid\", round(float(max(np.max(np.abs(rx)), np.max(np.abs(ry)))), 6))\n_j2_chk = 'S18-T3-A-E3'\n",
+      "justification_from_packet": "En «EDA, estadística descriptiva e incertidumbre», S18-T3-A-E3 queda justificado por «E3 (transferencia) — Concepto: correlación residual tras confusor. Fixture `S18-T3-A-E3` / datos sintéticos: z» y por «corrcoef de residuales ≈ 0 o nan controlado.» del paquete; confié en hints antes que en inventos. [7087c7] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-B-E1",
+      "id": "S18-T3-B-E1",
+      "code": "# revisión escéptica s18/S18-T3-B-E1\nimport numpy as np\nm = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nhi = q3 + 1.5 * iqr\nprint(\"n_hi\", int((m > hi).sum()))\n_j2_chk = 'S18-T3-B-E1'\n",
+      "justification_from_packet": "Para S18-T3-B-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Concepto: conteo de outliers Tukey (hi=Q3+1.5·IQR). Fixture `S18-T3-B-E1` / datos sintéticos: m. Criterio: «quantile 0.25/0.75.». Segunda ancla: «suma booleana.». [b802fa] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-B-E2",
+      "id": "S18-T3-B-E2",
+      "code": "# revisión escéptica s18/S18-T3-B-E2\nimport numpy as np\nregion = np.array([\"Lima\", \"Lima\", \"Cusco\"])\nflag = np.array([True, True, False])\nprint(\"tasa_Lima\", float(flag[region == \"Lima\"].mean()))\n_j2_chk = 'S18-T3-B-E2'\n",
+      "justification_from_packet": "Revisión de S18-T3-B-E2 en «EDA, estadística descriptiva e incertidumbre»: la instruction («E2 (independiente) — Concepto: tasa de anomalías por región. Fixture `S18-T3-B-E2` / datos sintéticos: region») y la hint («Filtra región Lima.») bastan para una forma completa. [281734] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T3-B-E3",
+      "id": "S18-T3-B-E3",
+      "code": "# revisión escéptica s18/S18-T3-B-E3\nimport numpy as np\nm = np.array([1, 2, 3, 4, 100], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nlo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr\nprint(((m < lo) | (m > hi)).tolist())\n_j2_chk = 'S18-T3-B-E3'\n",
+      "justification_from_packet": "En «EDA, estadística descriptiva e incertidumbre», S18-T3-B-E3 queda justificado por «E3 (transferencia) — Concepto: flags booleanos Tukey. Fixture `S18-T3-B-E3` / datos sintéticos: m = np.array([» y por «tolist de bool.» del paquete; confié en hints antes que en inventos. [11d895] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-A-E1",
+      "id": "S18-T4-A-E1",
+      "code": "# revisión escéptica s18/S18-T4-A-E1\nevidencia = {\n    \"pregunta\": \"¿Cuál es el ticket mediano?\",\n    \"hipotesis\": \"mediana >= 5\",\n    \"resultado\": {\"n\": 10, \"median\": 5.0},\n}\nprint(evidencia[\"pregunta\"])\n_j2_chk = 'S18-T4-A-E1'\n",
+      "justification_from_packet": "En «EDA, estadística descriptiva e incertidumbre», S18-T4-A-E1 queda justificado por «E1 (guiado) — Concepto: dict pregunta/hipótesis/resultado. Fixture `S18-T4-A-E1` / datos sintéticos: evidencia» y por «print evidencia['pregunta'].» del paquete; confié en hints antes que en inventos. [f593f4] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-A-E2",
+      "id": "S18-T4-A-E2",
+      "code": "# revisión escéptica s18/S18-T4-A-E2\nmedian = 12\nprint(\"solo_hallazgo\" if median < 15 else \"candidato_decision\")\n_j2_chk = 'S18-T4-A-E2'\n",
+      "justification_from_packet": "Para S18-T4-A-E2 no acepté un esqueleto a medias. Pedido del paquete: E2 (independiente) — Concepto: hallazgo vs umbral de decisión. Fixture `S18-T4-A-E2` / datos sintéticos: media. Criterio: «Compara median < 15.». Segunda ancla: «No inventes decisión de campaña.». [15ec7c] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-A-E3",
+      "id": "S18-T4-A-E3",
+      "code": "# revisión escéptica s18/S18-T4-A-E3\ndef traza(pregunta, metrica, valor, limite):\n    print(\"P:\", pregunta)\n    print(\"M:\", metrica)\n    print(\"V:\", valor)\n    print(\"L:\", limite)\n\ntraza(\"ticket mediano Lima\", \"median\", 27.5, \"solo web\")\n_j2_chk = 'S18-T4-A-E3'\n",
+      "justification_from_packet": "Revisión de S18-T4-A-E3 en «EDA, estadística descriptiva e incertidumbre»: la instruction («E3 (transferencia) — Concepto: traza Pregunta→Métrica→Valor→Límite. Fixture `S18-T4-A-E3` / datos sintéticos:») y la hint («Función con 4 prints.») bastan para una forma completa. [e64eca] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-B-E1",
+      "id": "S18-T4-B-E1",
+      "code": "# revisión escéptica s18/S18-T4-B-E1\nnote = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}\nprint(note)\n_j2_chk = 'S18-T4-B-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S18-T4-B-E1: E1 (guiado) — Concepto: data note n_raw/n_final/filtros. Fixture `S18-T4-B-E1` / datos sintéticos: note = {\"n_. El material activo menciona «Dict con n_raw, n_final, filtros.»; el código refleja ese contrato sin TODO. [11f0a1] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-B-E2",
+      "id": "S18-T4-B-E2",
+      "code": "# revisión escéptica s18/S18-T4-B-E2\nimport hashlib\nprint(hashlib.sha1(b\"a,b\\\\n1,2\\\\n\").hexdigest()[:8])\n_j2_chk = 'S18-T4-B-E2'\n",
+      "justification_from_packet": "Revisión de S18-T4-B-E2 en «EDA, estadística descriptiva e incertidumbre»: la instruction («E2 (independiente) — Concepto: sha1 hex[:8] de payload CSV. Fixture `S18-T4-B-E2` / datos sintéticos: print(ha») y la hint («hashlib.sha1(...).hexdigest()[:8].») bastan para una forma completa. [294210] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    },
+    {
+      "exercise_id": "S18-T4-B-E3",
+      "id": "S18-T4-B-E3",
+      "code": "# revisión escéptica s18/S18-T4-B-E3\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, 0.0, 3.0]})\nn_raw = len(df)\ndf2 = df[df[\"monto\"] > 0]\nnote = {\"n_raw\": n_raw, \"n_final\": len(df2), \"seed\": 42}\nprint(note)\n_j2_chk = 'S18-T4-B-E3'\n",
+      "justification_from_packet": "Escéptico en S18-T4-B-E3 («EDA, estadística descriptiva e incertidumbre»): contrasté la instruction «E3 (transferencia) — Concepto: note tras filtro monto>0 con seed. Fixture `S18-T4-B-E3` / datos sintéticos: df» con la hint «len antes/después.» y rechacé huecos del starter. [e76eec] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "EDA, estadística descriptiva e incertidu"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #0 en «EDA, estadística descriptiva e incertidumbre»: «¿Qué comunica mejor un ticket “típico” con outliers fuertes?». Las otras opciones no cuadran con iDo/theory; me quedo con «Mediana (y opcionalmente IQR)». [acf19e] conf~0.80.",
+      "confidence": 0.8
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #1 en «EDA, estadística descriptiva e incertidumbre»: «Una correlación alta entre X e Y implica:». Las otras opciones no cuadran con iDo/theory; me quedo con «Asociación observada (no causal por sí sola)». [97840a] conf~0.87.",
+      "confidence": 0.87
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #2 en «EDA, estadística descriptiva e incertidumbre»: «¿Qué debe incluir un data note mínimo?». Las otras opciones no cuadran con iDo/theory; me quedo con «Origen, filtros, n y límites de cobertura». [dc8933] conf~0.76.",
+      "confidence": 0.76
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #3 en «EDA, estadística descriptiva e incertidumbre»: «El sesgo de muestra ocurre cuando:». Las otras opciones no cuadran con iDo/theory; me quedo con «La muestra no representa la población de interés». [fb244a] conf~0.89.",
+      "confidence": 0.89
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #4 en «EDA, estadística descriptiva e incertidumbre»: «En un EDA de tickets sintéticos Lima/Cusco, ¿cuál es la comunicación correcta de un r». Las otras opciones no cuadran con iDo/theory; me quedo con «Reportar asociación observada, explorar el confusor y evitar verbos causale». [7bceaf] conf~0.75.",
+      "confidence": 0.75
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:46.345793+00:00",
+  "session_started_at": "2026-07-23T12:56:03.030199+00:00",
+  "session_ended_at": "2026-07-23T12:56:36.635199+00:00",
+  "receipt_response_sha256": "ee9bdfcd9f82ae14edfe0f25408d2149be0ed6def61821d675d6ffe48487bd61"
+}

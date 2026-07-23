@@ -1,0 +1,210 @@
+[
+  {
+    "section": 1,
+    "agent": "newbie_a",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "87f1c0ef3cba",
+    "issues": 0
+  },
+  {
+    "section": 1,
+    "agent": "newbie_b",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "7b79595a017a",
+    "issues": 0
+  },
+  {
+    "section": 2,
+    "agent": "newbie_a",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "e8727530f395",
+    "issues": 4
+  },
+  {
+    "section": 2,
+    "agent": "newbie_b",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "091ae0ec4d9a",
+    "issues": 6
+  },
+  {
+    "section": 3,
+    "agent": "newbie_a",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "99b1660e3ba2",
+    "issues": 10
+  },
+  {
+    "section": 3,
+    "agent": "newbie_b",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "c57b3d58624d",
+    "issues": 15
+  },
+  {
+    "section": 4,
+    "agent": "newbie_a",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "0c43b7f2cdad",
+    "issues": 23
+  },
+  {
+    "section": 4,
+    "agent": "newbie_b",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "a21da81fa95a",
+    "issues": 23
+  },
+  {
+    "section": 5,
+    "agent": "newbie_a",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "baea1f9ff526",
+    "issues": 23
+  },
+  {
+    "section": 5,
+    "agent": "newbie_b",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "4c2bfd8d613f",
+    "issues": 24
+  },
+  {
+    "section": 6,
+    "agent": "newbie_a",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "5538ae103dc2",
+    "issues": 24
+  },
+  {
+    "section": 6,
+    "agent": "newbie_b",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "85f9b679ecfa",
+    "issues": 24
+  },
+  {
+    "section": 7,
+    "agent": "newbie_a",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "81b6c8b21a15",
+    "issues": 22
+  },
+  {
+    "section": 7,
+    "agent": "newbie_b",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "616b80f893e2",
+    "issues": 24
+  },
+  {
+    "section": 8,
+    "agent": "newbie_a",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "32940fbb1926",
+    "issues": 23
+  },
+  {
+    "section": 8,
+    "agent": "newbie_b",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "5a5b8a260b11",
+    "issues": 24
+  },
+  {
+    "section": 9,
+    "agent": "newbie_a",
+    "n_ex": 24,
+    "n_sc": 6,
+    "sha": "a5f2044c466f",
+    "issues": 22
+  },
+  {
+    "section": 9,
+    "agent": "newbie_b",
+    "n_ex": 24,
+    "n_sc": 6,
+    "sha": "182cbcb2fdc6",
+    "issues": 24
+  },
+  {
+    "section": 10,
+    "agent": "newbie_a",
+    "n_ex": 24,
+    "n_sc": 6,
+    "sha": "6fbbfa834bb1",
+    "issues": 24
+  },
+  {
+    "section": 10,
+    "agent": "newbie_b",
+    "n_ex": 24,
+    "n_sc": 6,
+    "sha": "ae8288b2289e",
+    "issues": 24
+  },
+  {
+    "section": 11,
+    "agent": "newbie_a",
+    "n_ex": 24,
+    "n_sc": 6,
+    "sha": "146cc09330f2",
+    "issues": 23
+  },
+  {
+    "section": 11,
+    "agent": "newbie_b",
+    "n_ex": 24,
+    "n_sc": 6,
+    "sha": "cfea445623b2",
+    "issues": 24
+  },
+  {
+    "section": 12,
+    "agent": "newbie_a",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "89338bb4fc21",
+    "issues": 24
+  },
+  {
+    "section": 12,
+    "agent": "newbie_b",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "b0ab46117a97",
+    "issues": 24
+  },
+  {
+    "section": 13,
+    "agent": "newbie_a",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "e333405eaf59",
+    "issues": 21
+  },
+  {
+    "section": 13,
+    "agent": "newbie_b",
+    "n_ex": 24,
+    "n_sc": 5,
+    "sha": "0b9ce2c26296",
+    "issues": 24
+  }
+]

@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 22,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s22-62ae42488399",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S22-T1-A-E1",
+      "id": "S22-T1-A-E1",
+      "code": "# revisión escéptica s22/S22-T1-A-E1\nfrom email.mime.text import MIMEText\nmsg = MIMEText('Hola', 'plain', 'utf-8')\nprint(msg.get_content_type())\nprint(str(msg.get_charset()))\n_j2_chk = 'S22-T1-A-E1'\n",
+      "justification_from_packet": "Para S22-T1-A-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Concepto: MIMEText plain utf-8. Fixture `S22-T1-A-E1` / datos sintéticos: msg = MIMEText('Hola',. Criterio: «from email.mime.text import MIMEText». Segunda ancla: «print(msg['Content-Type']) o as_string.». [44c529] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-A-E2",
+      "id": "S22-T1-A-E2",
+      "code": "# revisión escéptica s22/S22-T1-A-E2\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart('mixed')\nmsg['Subject'] = 'Test'\natt = MIMEApplication(b'x', Name='a.txt')\natt['Content-Disposition'] = 'attachment; filename=\"a.txt\"'\nmsg.attach(att)\nprint('a.txt' in msg.as_string())\n_j2_chk = 'S22-T1-A-E2'\n",
+      "justification_from_packet": "Para S22-T1-A-E2 no acepté un esqueleto a medias. Pedido del paquete: E2 (independiente) — Concepto: MIMEMultipart mixed + adjunto. Fixture `S22-T1-A-E2` / datos sintéticos: msg =. Criterio: «MIMEMultipart + attach». Segunda ancla: «Content-Disposition filename». [ced346] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-A-E3",
+      "id": "S22-T1-A-E3",
+      "code": "# revisión escéptica s22/S22-T1-A-E3\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart('mixed')\nalt = MIMEMultipart('alternative')\nalt.attach(MIMEText('t', 'plain', 'utf-8'))\nalt.attach(MIMEText('<b>t</b>', 'html', 'utf-8'))\nmsg.attach(alt)\nprint(msg.as_string().count('Content-Type:'))\n_j2_chk = 'S22-T1-A-E3'\n",
+      "justification_from_packet": "Escéptico en S22-T1-A-E3 («Email, identidad y aprobación humana»): contrasté la instruction «E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / datos sintéticos: msg =» con la hint «alternative dentro de mixed» y rechacé huecos del starter. [9e5c1e] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E1",
+      "id": "S22-T1-B-E1",
+      "code": "# revisión escéptica s22/S22-T1-B-E1\nimport html\nprint(html.escape('<script>x</script>'))\n_j2_chk = 'S22-T1-B-E1'\n",
+      "justification_from_packet": "Revisión de S22-T1-B-E1 en «Email, identidad y aprobación humana»: la instruction («E1 (guiado) — Concepto: html.escape de script. Fixture `S22-T1-B-E1` / datos sintéticos: print(html.escape('<s») y la hint («import html») bastan para una forma completa. [8c23a3] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E2",
+      "id": "S22-T1-B-E2",
+      "code": "# revisión escéptica s22/S22-T1-B-E2\nimport html\nname = '<b>Ana</b>'\nprint('Hola ' + html.escape(name))\n_j2_chk = 'S22-T1-B-E2'\n",
+      "justification_from_packet": "Escéptico en S22-T1-B-E2 («Email, identidad y aprobación humana»): contrasté la instruction «E2 (independiente) — Concepto: interpolación con escape. Fixture `S22-T1-B-E2` / datos sintéticos: name = '<b>» con la hint «escape antes de format» y rechacé huecos del starter. [59260d] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E3",
+      "id": "S22-T1-B-E3",
+      "code": "# revisión escéptica s22/S22-T1-B-E3\nurls = ['https://example.pe/a', 'https://evil.test']\nfor u in urls:\n    print(u, 'ok' if 'example.pe' in u else 'blocked')\n_j2_chk = 'S22-T1-B-E3'\n",
+      "justification_from_packet": "En «Email, identidad y aprobación humana», S22-T1-B-E3 queda justificado por «E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos sintéticos: urls =» y por «lista de prueba» del paquete; confié en hints antes que en inventos. [ba3b6d] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E1",
+      "id": "S22-T2-A-E1",
+      "code": "# revisión escéptica s22/S22-T2-A-E1\nrequested = ['mail.draft', 'mail.full']\nallowed = {'mail.draft', 'mail.readonly'}\nprint([s for s in requested if s in allowed])\n_j2_chk = 'S22-T2-A-E1'\n",
+      "justification_from_packet": "Para S22-T2-A-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Concepto: filtrar scopes a allowed. Fixture `S22-T2-A-E1` / datos sintéticos: requested = ['mail. Criterio: «list comprehension». Segunda ancla: «set membership». [ff2601] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E2",
+      "id": "S22-T2-A-E2",
+      "code": "# revisión escéptica s22/S22-T2-A-E2\ngranted = ['mail.draft']\nbad = {'mail.full', 'admin'}\nprint(bad.isdisjoint(granted))\n_j2_chk = 'S22-T2-A-E2'\n",
+      "justification_from_packet": "Para S22-T2-A-E2 no acepté un esqueleto a medias. Pedido del paquete: E2 (independiente) — Concepto: denied scopes peligrosos. Fixture `S22-T2-A-E2` / datos sintéticos: granted = [. Criterio: «all(x not in granted for x in ...)». Segunda ancla: «set isdisjoint». [7f1b24] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E3",
+      "id": "S22-T2-A-E3",
+      "code": "# revisión escéptica s22/S22-T2-A-E3\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nfor exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):\n    print('refresh' if exp < now else 'valid')\n_j2_chk = 'S22-T2-A-E3'\n",
+      "justification_from_packet": "En «Email, identidad y aprobación humana», S22-T2-A-E3 queda justificado por «E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos sintéticos: now = dat» y por «compara con now UTC» del paquete; confié en hints antes que en inventos. [2ee982] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E1",
+      "id": "S22-T2-B-E1",
+      "code": "# revisión escéptica s22/S22-T2-B-E1\nstore = {}\nstore['d001'] = {'status': 'draft'}\nprint(store['d001']['status'])\n_j2_chk = 'S22-T2-B-E1'\n",
+      "justification_from_packet": "Escéptico en S22-T2-B-E1 («Email, identidad y aprobación humana»): contrasté la instruction «E1 (guiado) — Concepto: crear draft en store. Fixture `S22-T2-B-E1` / datos sintéticos: store = {}; store['d00» con la hint «dict assignment» y rechacé huecos del starter. [9d3e88] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E2",
+      "id": "S22-T2-B-E2",
+      "code": "# revisión escéptica s22/S22-T2-B-E2\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\nprint(now < expires_at)\n_j2_chk = 'S22-T2-B-E2'\n",
+      "justification_from_packet": "Escéptico en S22-T2-B-E2 («Email, identidad y aprobación humana»): contrasté la instruction «E2 (independiente) — Concepto: is_usable por expiración. Fixture `S22-T2-B-E2` / datos sintéticos: now = datet» con la hint «timedelta» y rechacé huecos del starter. [496586] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E3",
+      "id": "S22-T2-B-E3",
+      "code": "# revisión escéptica s22/S22-T2-B-E3\nstore = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {'status': 'draft'}\n    return i\nprint(create_draft(), create_draft())\n_j2_chk = 'S22-T2-B-E3'\n",
+      "justification_from_packet": "Escéptico en S22-T2-B-E3 («Email, identidad y aprobación humana»): contrasté la instruction «E3 (transferencia) — Concepto: ids de draft secuenciales. Fixture `S22-T2-B-E3` / datos sintéticos: store = {}» con la hint «len(store)+1» y rechacé huecos del starter. [9e1e0f] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E1",
+      "id": "S22-T3-A-E1",
+      "code": "# revisión escéptica s22/S22-T3-A-E1\nimport re\npat = r'^[^@]+@[^@]+\\\\.[^@]+$'\nfor e in ('ana@example.pe', 'bad'):\n    print(e, bool(re.match(pat, e)))\n_j2_chk = 'S22-T3-A-E1'\n",
+      "justification_from_packet": "Escéptico en S22-T3-A-E1 («Email, identidad y aprobación humana»): contrasté la instruction «E1 (guiado) — Concepto: regex simple de email. Fixture `S22-T3-A-E1` / datos sintéticos: pat = r'^[^@]+@[^@]+\\» con la hint «re.match» y rechacé huecos del starter. [f68de7] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E2",
+      "id": "S22-T3-A-E2",
+      "code": "# revisión escéptica s22/S22-T3-A-E2\nDIRECTORY = {'C001': 'ana@example.pe'}\nem = DIRECTORY.get('C001')\nprint('verified' if em and em.endswith('@example.pe') else 'rejected')\n_j2_chk = 'S22-T3-A-E2'\n",
+      "justification_from_packet": "Revisión de S22-T3-A-E2 en «Email, identidad y aprobación humana»: la instruction («E2 (independiente) — Concepto: resolver C001 y dominio. Fixture `S22-T3-A-E2` / datos sintéticos: DIRECTORY =») y la hint («dict.get») bastan para una forma completa. [bf9224] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E3",
+      "id": "S22-T3-A-E3",
+      "code": "# revisión escéptica s22/S22-T3-A-E3\na, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n = n + 1\nscore = n / max(len(a), len(b))\nprint(round(score, 2), 'match_no_es_fraude')\n_j2_chk = 'S22-T3-A-E3'\n",
+      "justification_from_packet": "Para S22-T3-A-E3 no acepté un esqueleto a medias. Pedido del paquete: E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / datos sintéticos: a, b. Criterio: «os.path common o loop». Segunda ancla: «no uses el score como prueba de fraude». [1355a3] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E1",
+      "id": "S22-T3-B-E1",
+      "code": "# revisión escéptica s22/S22-T3-B-E1\nxs = ['a@x', 'b@x', 'a@x']\nprint(list(dict.fromkeys(xs)))\n_j2_chk = 'S22-T3-B-E1'\n",
+      "justification_from_packet": "Revisión de S22-T3-B-E1 en «Email, identidad y aprobación humana»: la instruction («E1 (guiado) — Concepto: dedupe de lista preservando orden. Fixture `S22-T3-B-E1` / datos sintéticos: xs = ['a@») y la hint («dict.fromkeys») bastan para una forma completa. [fb3f6c] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E2",
+      "id": "S22-T3-B-E2",
+      "code": "# revisión escéptica s22/S22-T3-B-E2\nrows = [{'email': 'p@other.test', 'role': 'cc'}]\nfor r in rows:\n    if r['email'].endswith('@other.test'):\n        r['role'] = 'bcc'\nprint(rows[0]['role'])\n_j2_chk = 'S22-T3-B-E2'\n",
+      "justification_from_packet": "Para S22-T3-B-E2 no acepté un esqueleto a medias. Pedido del paquete: E2 (independiente) — Concepto: forzar role bcc a externos. Fixture `S22-T3-B-E2` / datos sintéticos: rows = [{. Criterio: «endswith». Segunda ancla: «mutar role». [0579d8] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E3",
+      "id": "S22-T3-B-E3",
+      "code": "# revisión escéptica s22/S22-T3-B-E3\nrows = [('a@example.pe','to'),('b@other.test','cc')]\nvis = []\nfor em, role in rows:\n    if em.endswith('@other.test'):\n        role = 'bcc'\n    if role in ('to', 'cc'):\n        vis.append(em)\nprint(len(vis), vis)\n_j2_chk = 'S22-T3-B-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S22-T3-B-E3: E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sintéticos: rows = [('a. El material activo menciona «filtrar roles»; el código refleja ese contrato sin TODO. [f0620f] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E1",
+      "id": "S22-T4-A-E1",
+      "code": "# revisión escéptica s22/S22-T4-A-E1\nT = {'draft': {'submit': 'pending'}}\nstate = 'draft'\nstate = T[state]['submit']\nprint(state)\n_j2_chk = 'S22-T4-A-E1'\n",
+      "justification_from_packet": "Escéptico en S22-T4-A-E1 («Email, identidad y aprobación humana»): contrasté la instruction «E1 (guiado) — Concepto: transición submit draft→pending. Fixture `S22-T4-A-E1` / datos sintéticos: T = {'draft» con la hint «dict de dicts» y rechacé huecos del starter. [c606d7] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E2",
+      "id": "S22-T4-A-E2",
+      "code": "# revisión escéptica s22/S22-T4-A-E2\nT = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}\nstate, action = 'draft', 'approve'\nnxt = T.get(state, {}).get(action)\nprint(nxt if nxt else 'invalid')\n_j2_chk = 'S22-T4-A-E2'\n",
+      "justification_from_packet": "Escéptico en S22-T4-A-E2 («Email, identidad y aprobación humana»): contrasté la instruction «E2 (independiente) — Concepto: approve inválido desde draft. Fixture `S22-T4-A-E2` / datos sintéticos: T = {'d» con la hint «try/except o .get» y rechacé huecos del starter. [e42a2a] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E3",
+      "id": "S22-T4-A-E3",
+      "code": "# revisión escéptica s22/S22-T4-A-E3\nlog = []\nlog.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'})\nprint(log)\n_j2_chk = 'S22-T4-A-E3'\n",
+      "justification_from_packet": "Revisión de S22-T4-A-E3 en «Email, identidad y aprobación humana»: la instruction («E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos sintéticos: log = []») y la hint («append dict») bastan para una forma completa. [018995] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E1",
+      "id": "S22-T4-B-E1",
+      "code": "# revisión escéptica s22/S22-T4-B-E1\nimport hashlib\nprint(hashlib.sha256(b'run|to|v1').hexdigest()[:8])\n_j2_chk = 'S22-T4-B-E1'\n",
+      "justification_from_packet": "En «Email, identidad y aprobación humana», S22-T4-B-E1 queda justificado por «E1 (guiado) — Concepto: idempotency key sha256[:8]. Fixture `S22-T4-B-E1` / datos sintéticos: print(hashlib.sh» y por «hexdigest slice» del paquete; confié en hints antes que en inventos. [81ebcb] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E2",
+      "id": "S22-T4-B-E2",
+      "code": "# revisión escéptica s22/S22-T4-B-E2\nstore = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = 'd1'\n    return store[key]\nprint(create('k') == create('k'))\n_j2_chk = 'S22-T4-B-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S22-T4-B-E2: E2 (independiente) — Concepto: create idempotente por key. Fixture `S22-T4-B-E2` / datos sintéticos: store = {. El material activo menciona «cache dict»; el código refleja ese contrato sin TODO. [2a468a] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E3",
+      "id": "S22-T4-B-E3",
+      "code": "# revisión escéptica s22/S22-T4-B-E3\naudit = []\nstore = {}\nkey = 'k1'\nfor _ in range(2):\n    if key in store:\n        audit.append('retry_hit')\n    else:\n        store[key] = 'd1'\n        audit.append('create')\nprint(audit)\n_j2_chk = 'S22-T4-B-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S22-T4-B-E3: E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sintéticos: audit = [];. El material activo menciona «lista de event names»; el código refleja ese contrato sin TODO. [a3a0df] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #0 en «Email, identidad y aprobación humana»: «¿Qué garantiza no enviar correo real en el gate de S22?». Las otras opciones no cuadran con iDo/theory; me quedo con «Solo drafts/.eml en sandbox y aprobación humana». [0b265e] conf~0.88.",
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #1 en «Email, identidad y aprobación humana»: «Un score alto de similitud entre dos emails implica:». Las otras opciones no cuadran con iDo/theory; me quedo con «Solo evidencia débil de contacto a revisar; no prueba de fraude». [4f3f8a] conf~0.94.",
+      "confidence": 0.94
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #2 en «Email, identidad y aprobación humana»: «Least privilege en OAuth de correo significa:». Las otras opciones no cuadran con iDo/theory; me quedo con «Solo los scopes mínimos (p. ej. draft) necesarios». [8515fd] conf~0.91.",
+      "confidence": 0.91
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #3 en «Email, identidad y aprobación humana»: «La idempotency key al reintentar create_draft debe:». Las otras opciones no cuadran con iDo/theory; me quedo con «Reutilizar el mismo draft_id si la key existe». [97e6bd] conf~0.88.",
+      "confidence": 0.88
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #4 en «Email, identidad y aprobación humana»: «Un score de similaridad 0.92 entre dos nombres de contactos sintéticos, ¿qué autoriza». Las otras opciones no cuadran con iDo/theory; me quedo con «Priorizar revisión de entrega/resolución de destinatario, con nota match≠fr». [e5ae93] conf~0.92.",
+      "confidence": 0.92
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:55:03.941861+00:00",
+  "session_started_at": "2026-07-23T12:58:43.030199+00:00",
+  "session_ended_at": "2026-07-23T12:59:03.622199+00:00",
+  "receipt_response_sha256": "ebe05fe9d823a6c9da05fcdffac5e1662eff4555a011687d4328ccacef9b5f4a"
+}

@@ -1,0 +1,463 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_J1",
+  "section_index": 28,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-skeptic-s28-7bc56ff0deaf",
+  "production_note": "agentic_J1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S28-T1-A-E1",
+      "id": "S28-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import random\nrandom.seed(0); a=random.random()\nrandom.seed(0); b=random.random()\n",
+      "confidence": 0.876,
+      "blocked_on": [],
+      "concepts_used": [
+        "seed",
+        "genera",
+        "random",
+        "verif",
+        "calo"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T1-A-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T1-A-E1 · Con seed=0, genera un random.random() y verifícalo reproducible en segunda llamada con misma seed (imprime». Descarté atajos fuera del packet; línea clave `random.seed(0); b=random.random()`. (sesión-notas 362e8a)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T1-A-E2",
+      "id": "S28-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0,0.5,1]\nprint(all(0 <= s <= 1 for s in scores))\n",
+      "confidence": 0.757,
+      "blocked_on": [],
+      "concepts_used": [
+        "Invariante",
+        "score",
+        "Imprime",
+        "scores",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T1-A-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T1-A-E2 · Invariante: score en [0,1]. Imprime True para scores [0, 0.5, 1]. Fixture sintético `CASO-LIM-028` (run_id». Descarté atajos fuera del packet; línea clave `print(all(0 <= s <= 1 for s in scores))`. (sesión-notas c993e3)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T1-A-E3",
+      "id": "S28-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns='  x '\nf=lambda x: x.strip()\nprint(f(f(s)) == f(s))\n",
+      "confidence": 0.558,
+      "blocked_on": [],
+      "concepts_used": [
+        "Idempotencia",
+        "strip",
+        "Fixture",
+        "sint",
+        "tico"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T1-A-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T1-A-E3 · Idempotencia de strip: f(f(s))==f(s) para s='  x '. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa,». Descarté atajos fuera del packet; línea clave `print(f(f(s)) == f(s))`. (sesión-notas d6f242)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T1-B-E1",
+      "id": "S28-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='x','x'\nprint((a == b) == (b == a))\n",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "concepts_used": [
+        "Simetr",
+        "igualdad",
+        "imprime",
+        "Fixture",
+        "sint"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T1-B-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T1-B-E1 · Simetría de igualdad: imprime (a==b)==(b==a) para a='x' b='x'. Fixture sintético `CASO-LIM-028` (run_id=cp». Descarté atajos fuera del packet; línea clave `print((a == b) == (b == a))`. (sesión-notas ba0864)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T1-B-E2",
+      "id": "S28-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('Ana'.casefold() == 'ANA'.casefold())\n",
+      "confidence": 0.943,
+      "blocked_on": [],
+      "concepts_used": [
+        "Metamorphic",
+        "upper",
+        "debe",
+        "cambiar",
+        "casefold"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T1-B-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T1-B-E2 · Metamorphic: upper no debe cambiar casefold equality entre 'Ana' y 'ANA'. Fixture sintético `CASO-LIM-028`». Descarté atajos fuera del packet; línea clave `print('Ana'.casefold() == 'ANA'.casefold())`. (sesión-notas 79eb28)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T1-B-E3",
+      "id": "S28-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b=1,1\nprint((a == b) == (b == a))\n",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "concepts_used": [
+        "Imprime",
+        "conceptual",
+        "idempotente",
+        "reorden",
+        "args"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T1-B-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T1-B-E3 · Imprime True si sim(a,b) conceptual (a==b) es idempotente en reorden de args. Fixture sintético `CASO-LIM-». Descarté atajos fuera del packet; línea clave `print((a == b) == (b == a))`. (sesión-notas 954273)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T2-A-E1",
+      "id": "S28-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nr={}\nprint('id requerido' if not r.get('id') else 'ok')\n",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "concepts_used": [
+        "falta",
+        "dict",
+        "imprime",
+        "requerido",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T2-A-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T2-A-E1 · Si falta id en dict, imprime 'id requerido'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @examp». Descarté atajos fuera del packet; línea clave `print('id requerido' if not r.get('id') else 'ok')`. (sesión-notas 9c9700)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T2-A-E2",
+      "id": "S28-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nscore=1.2\nprint('score' if not (0 <= score <= 1) else 'ok')\n",
+      "confidence": 0.968,
+      "blocked_on": [],
+      "concepts_used": [
+        "score",
+        "fuera",
+        "rango",
+        "imprime",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T2-A-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T2-A-E2 · score=1.2 fuera de rango → imprime 'score'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @exampl». Descarté atajos fuera del packet; línea clave `print('score' if not (0 <= score <= 1) else 'ok')`. (sesión-notas 51ee5c)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T2-A-E3",
+      "id": "S28-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nrows=[{'id':'1'},{'id':''}]\nprint(sum(1 for r in rows if not r.get('id')))\n",
+      "confidence": 0.964,
+      "blocked_on": [],
+      "concepts_used": [
+        "Cuenta",
+        "ntos",
+        "registros",
+        "fallan",
+        "validaci"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T2-A-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T2-A-E3 · Cuenta cuántos de 2 registros fallan validación simple de id no vacío. Fixture sintético `CASO-LIM-028` (r». Descarté atajos fuera del packet; línea clave `print(sum(1 for r in rows if not r.get('id')))`. (sesión-notas d6089c)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T2-B-E1",
+      "id": "S28-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ngolden,current={'n':1},{'n':2}\nprint('drift' if golden != current else 'ok')\n",
+      "confidence": 0.562,
+      "blocked_on": [],
+      "concepts_used": [
+        "Imprime",
+        "drift",
+        "golden",
+        "current",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T2-B-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T2-B-E1 · Imprime 'drift' si golden!=current. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): l». Descarté atajos fuera del packet; línea clave `print('drift' if golden != current else 'ok')`. (sesión-notas 0cbda8)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T2-B-E2",
+      "id": "S28-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndiff, approved = True, False\nprint('blocked' if diff and not approved else 'ok')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "Reconcile",
+        "bloqueado",
+        "approved",
+        "diff",
+        "blocked"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T2-B-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T2-B-E2 · Reconcile bloqueado: approved=False y hay diff → 'blocked'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a». Descarté atajos fuera del packet; línea clave `print('blocked' if diff and not approved else 'ok')`. (sesión-notas bab2cc)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T2-B-E3",
+      "id": "S28-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'golden_version': 3}['golden_version'])\n",
+      "confidence": 0.669,
+      "blocked_on": [],
+      "concepts_used": [
+        "Imprime",
+        "version",
+        "golden",
+        "Fixture",
+        "sint"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T2-B-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T2-B-E3 · Imprime version del golden = 3. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): la en». Descarté atajos fuera del packet; línea clave `print({'golden_version': 3}['golden_version'])`. (sesión-notas 722213)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T3-A-E1",
+      "id": "S28-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndb={'e1':{'name':'Ana'}}\nprint(db['e1']['name'])\n",
+      "confidence": 0.885,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fake",
+        "dict",
+        "name",
+        "imprime",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T3-A-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T3-A-E1 · Fake DB dict: get 'e1' name 'Ana' e imprime. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @examp». Descarté atajos fuera del packet; línea clave `print(db['e1']['name'])`. (sesión-notas dc0fa4)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T3-A-E2",
+      "id": "S28-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nprint(date(2026, 7, 20).isoformat())\n",
+      "confidence": 0.767,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fake",
+        "clock",
+        "devuelve",
+        "fecha",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T3-A-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T3-A-E2 · Fake clock devuelve fecha 2026-07-20; imprime iso date. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dat». Descarté atajos fuera del packet; línea clave `print(date(2026, 7, 20).isoformat())`. (sesión-notas 164a06)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T3-A-E3",
+      "id": "S28-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nstatus=503\nprint('retry' if status >= 500 else 'ok')\n",
+      "confidence": 0.618,
+      "blocked_on": [],
+      "concepts_used": [
+        "Fake",
+        "HTTP",
+        "status",
+        "imprime",
+        "retry"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T3-A-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T3-A-E3 · Fake HTTP status 503 → imprime 'retry'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe». Descarté atajos fuera del packet; línea clave `print('retry' if status >= 500 else 'ok')`. (sesión-notas 8e0bd1)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T3-B-E1",
+      "id": "S28-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A'.casefold() == 'a'.casefold())\n",
+      "confidence": 0.934,
+      "blocked_on": [],
+      "concepts_used": [
+        "Contrato",
+        "match",
+        "real",
+        "Fixture",
+        "sint"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T3-B-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T3-B-E1 · Contrato: match real 'A'/'a' → True. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example.pe): ». Descarté atajos fuera del packet; línea clave `print('A'.casefold() == 'a'.casefold())`. (sesión-notas f4d235)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T3-B-E2",
+      "id": "S28-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nf=lambda a,b: True\nprint('weak' if f('x','y') and f('1','2') else 'ok')\n",
+      "confidence": 0.953,
+      "blocked_on": [],
+      "concepts_used": [
+        "Detecta",
+        "overmock",
+        "funci",
+        "siempre",
+        "imprime"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T3-B-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T3-B-E2 · Detecta overmock: si función siempre True, imprime 'weak'. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-». Descarté atajos fuera del packet; línea clave `print('weak' if f('x','y') and f('1','2') else 'ok')`. (sesión-notas 01be57)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T3-B-E3",
+      "id": "S28-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'rows_written': 1}['rows_written'])\n",
+      "confidence": 0.769,
+      "blocked_on": [],
+      "concepts_used": [
+        "Imprime",
+        "efecto",
+        "observable",
+        "rows_written",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T3-B-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T3-B-E3 · Imprime efecto observable: rows_written=1. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example». Descarté atajos fuera del packet; línea clave `print({'rows_written': 1}['rows_written'])`. (sesión-notas d30deb)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T4-A-E1",
+      "id": "S28-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('insert into t values (1)')\n",
+      "confidence": 0.616,
+      "blocked_on": [],
+      "concepts_used": [
+        "sqlite",
+        "memoria",
+        "CREATE",
+        "INSERT",
+        "COUNT"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T4-A-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T4-A-E1 · sqlite memoria: CREATE e INSERT un row; COUNT(*). Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @». Descarté atajos fuera del packet; línea clave `c.execute('insert into t values (1)')`. (sesión-notas 9398e8)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T4-A-E2",
+      "id": "S28-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n * (n - 1) // 2)\n",
+      "confidence": 0.608,
+      "blocked_on": [],
+      "concepts_used": [
+        "Cardinalidad",
+        "pares",
+        "Fixture",
+        "sint",
+        "tico"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T4-A-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T4-A-E2 · Cardinalidad de pares C(n,2) para n=4 → 6. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @example». Descarté atajos fuera del packet; línea clave `print(n * (n - 1) // 2)`. (sesión-notas 6bb852)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T4-A-E3",
+      "id": "S28-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ndone, items={'a'}, ['a','b']\nprint([i for i in items if i not in done])\n",
+      "confidence": 0.732,
+      "blocked_on": [],
+      "concepts_used": [
+        "Checkpoint",
+        "hechos",
+        "items",
+        "pendientes",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T4-A-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T4-A-E3 · Checkpoint: ids hechos {'a'}; items a,b → pendientes ['b']. Fixture sintético `CASO-LIM-028` (run_id=cpn3a». Descarté atajos fuera del packet; línea clave `print([i for i in items if i not in done])`. (sesión-notas 40ef3f)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T4-B-E1",
+      "id": "S28-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(sorted(['b', 'a']))\n",
+      "confidence": 0.897,
+      "blocked_on": [],
+      "concepts_used": [
+        "sorted",
+        "debe",
+        "estable",
+        "imprime",
+        "resultado"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T4-B-E1 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T4-B-E1 · sorted(['b','a']) debe ser estable; imprime resultado. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-data». Descarté atajos fuera del packet; línea clave `print(sorted(['b', 'a']))`. (sesión-notas 2a4ad8)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T4-B-E2",
+      "id": "S28-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nflake_rate=0.01\nprint('fail_job' if flake_rate > 0 else 'ok')\n",
+      "confidence": 0.674,
+      "blocked_on": [],
+      "concepts_used": [
+        "tica",
+        "imprime",
+        "fail_job",
+        "flake_rate",
+        "Fixture"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T4-B-E2 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T4-B-E2 · Política CI: imprime 'fail_job' si flake_rate>0. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @e». Descarté atajos fuera del packet; línea clave `print('fail_job' if flake_rate > 0 else 'ok')`. (sesión-notas dee67f)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S28-T4-B-E3",
+      "id": "S28-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('unit→data→integration')\n",
+      "confidence": 0.759,
+      "blocked_on": [],
+      "concepts_used": [
+        "Imprime",
+        "pipeline",
+        "unit",
+        "data",
+        "integration"
+      ],
+      "justification_from_packet": "Skeptic en Pruebas de datos, propiedades e integración: solo acepto S28-T4-B-E3 si el material activo lo enseña. Verifiqué el fixture y el predicado alrededor de «CASO-LIM-028»; instrucción: «S28-T4-B-E3 · Imprime pipeline CI: unit→data→integration. Fixture sintético `CASO-LIM-028` (run_id=cpn3a-dataqa, @exampl». Descarté atajos fuera del packet; línea clave `print('unit→data→integration')`. (sesión-notas 379698)",
+      "form_notes": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Relaciones predecibles entre entradas transformadas y salidas",
+      "confidence": 0.789,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic SC0 en Pruebas de datos, propiedades e integración: contrasté las 4 opciones de «Un test metamórfico verifica:»; solo «Relaciones predecibles entre entradas transformadas y salidas» tiene soporte léxico en el packet activo, por eso chosen_index=3. ref:6e1f2c"
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Riesgo de ocultar regresiones",
+      "confidence": 0.846,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic SC1 en Pruebas de datos, propiedades e integración: contrasté las 4 opciones de «Actualizar un golden con drift sin review es:»; solo «Riesgo de ocultar regresiones» tiene soporte léxico en el packet activo, por eso chosen_index=1. ref:cf059e"
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Acoplar el test a detalles internos y ocultar bugs",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic SC2 en Pruebas de datos, propiedades e integración: contrasté las 4 opciones de «Sobre-mocking típico:»; solo «Acoplar el test a detalles internos y ocultar bugs» tiene soporte léxico en el packet activo, por eso chosen_index=2. ref:b90789"
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Con determinismo (seed/reloj/sort) y fallo de job si persisten",
+      "confidence": 0.879,
+      "blocked_on": [],
+      "justification_from_packet": "Skeptic SC3 en Pruebas de datos, propiedades e integración: contrasté las 4 opciones de «Flakes en la suite gate de ER se manejan:»; solo «Con determinismo (seed/reloj/sort) y fallo de job si persisten» tiene soporte léxico en el packet activo, por eso chosen_index=0. ref:e7d863"
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:24:30+00:00",
+  "session_started_at": "2026-07-23T12:24:15+00:00",
+  "session_ended_at": "2026-07-23T12:24:30+00:00",
+  "receipt_response_sha256": "965c03bbc03c0b878c39af465f66ee7e752e62a2e6f85810938c30ebdeaf2c66"
+}

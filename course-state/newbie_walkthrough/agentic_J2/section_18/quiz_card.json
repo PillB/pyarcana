@@ -1,0 +1,503 @@
+{
+  "section_index": 18,
+  "title": "EDA, estadística descriptiva e incertidumbre",
+  "outcomes": [
+    "Resumir distribuciones con centro, dispersión y cuantiles",
+    "Elegir métricas robustas y escalas honestas",
+    "Identificar sesgo de población/muestra",
+    "Reportar intervalos y tamaños de efecto básicos",
+    "Interpretar correlación sin confundir causalidad",
+    "Segmentar y marcar anomalías con límites claros",
+    "Estructurar preguntas, hipótesis y evidencia",
+    "Entregar notebook/script reproducible con data notes"
+  ],
+  "theory": [
+    {
+      "subtopicId": "S18-T1-A",
+      "heading": "centro, dispersión y cuantiles",
+      "paragraphs": [
+        "El **centro** se resume con media (`mean`) o mediana (`median`); la **dispersión** con desviación estándar muestral (`std`, `ddof=1`) o **IQR** (Q3−Q1). En montos de tickets peruanos sintéticos la media se mueve con colas; la mediana suele ser el “ticket típico” que el negocio pregunta primero.",
+        "Contrato operativo: reporta siempre **n**, al menos un cuantil de cola (p90/p95 o max) y la métrica de centro elegida con justificación. Los cuantiles (p25, p50, p75, p90) describen la forma **sin asumir normalidad** — no digas “distribución normal” solo porque calculaste media y std.",
+        "Caso sintético: montos `[12.5, 18, 22, 25.5, 30, 45, 120]` PEN → media ~39, mediana 25.5, IQR ~17.5. En el memo de CP-N2-B escribes “mediana 25.5 PEN (n=7); cola p90 elevada por un outlier de 120” — no “el ticket promedio es 39 y representa al cliente típico”."
+      ],
+      "code": "import numpy as np\n\nmontos = np.array([12.5, 18.0, 22.0, 25.5, 30.0, 45.0, 120.0])  # sintético PEN\nprint(\"n\", montos.size)\nprint(\"mean\", round(float(montos.mean()), 2))\nprint(\"median\", float(np.median(montos)))\nprint(\"std\", round(float(montos.std(ddof=1)), 2))\nq = np.quantile(montos, [0.25, 0.5, 0.75, 0.9])\nprint(\"q25_q50_q75_q90\", [round(float(x), 2) for x in q])\nprint(\"IQR\", round(float(q[2] - q[0]), 2))",
+      "code_output": "n 7\nmean 39.0\nmedian 25.5\nstd 37.18\nq25_q50_q75_q90 [20.0, 25.5, 37.5, 75.0]\nIQR 17.5"
+    },
+    {
+      "subtopicId": "S18-T1-B",
+      "heading": "métricas robustas y escalas",
+      "paragraphs": [
+        "Métricas **robustas** (mediana, IQR, MAD = mediana de |x − mediana|) resisten outliers mejor que media/std. Úsalas cuando la pregunta sea “típico” o cuando un solo valor extremo distorsione el resumen ejecutivo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato de escala: `log1p` de montos reduce asimetría visual para EDA, pero **no** compares diferencias log como soles PEN sin transformar de vuelta. Si el eje está en log, dilo en el gráfico y en la conclusión; si el KPI es en PEN, reporta en PEN.",
+        "Elige métrica según la pregunta de negocio: “ticket típico web Lima” → mediana + IQR; “ingreso total esperado del día” → suma o media con cola documentada. Caso: x con un 200 PEN junto a tickets ~12 → media ~43 vs mediana ~12; el dashboard debe preferir mediana para “típico”."
+      ],
+      "code": "import numpy as np\n\nx = np.array([10.0, 12.0, 11.0, 13.0, 12.5, 200.0])\nmed = float(np.median(x))\nmad = float(np.median(np.abs(x - med)))\nprint(\"median\", med, \"MAD\", mad)\nprint(\"mean_vs_median\", round(float(x.mean()), 2), med)\nprint(\"log1p\", np.round(np.log1p(x), 3).tolist())",
+      "code_output": "median 12.25 MAD 1.0\nmean_vs_median 43.08 12.25\nlog1p [2.398, 2.565, 2.485, 2.639, 2.603, 5.303]"
+    },
+    {
+      "subtopicId": "S18-T2-A",
+      "heading": "población, muestra y sesgo",
+      "paragraphs": [
+        "La **población** es el universo de interés (p. ej. todos los tickets del canal en el mes); la **muestra** es lo observado. El **sesgo de selección** aparece si el muestreo no es representativo — p. ej. solo Lima o solo canal web — aunque el `mean` esté bien calculado.",
+        "Contrato: compara shares de la muestra vs un **marco** conocido (cuotas por región). Documenta exclusiones (filtros de fecha, canal, `monto>0`). Calcula `bias_pp = share_muestra − share_pob` por segmento y reporta el máximo |bias| como riesgo de generalización.",
+        "Sin marco poblacional, declara **cobertura limitada** y no generalices a “todos los clientes del Perú”. Caso sintético: pob Lima 0.55 / Arequipa 0.25 / Cusco 0.20 vs muestra 80% Lima → bias Lima +0.25; cualquier KPI regional debe llevar esa nota en el data note."
+      ],
+      "code": "import numpy as np\n\n# población sintética de tickets por región\npob = {\"Lima\": 0.55, \"Arequipa\": 0.25, \"Cusco\": 0.20}\n# muestra sesgada: sobremuestra Lima\nmuestra = np.array([\"Lima\"] * 40 + [\"Arequipa\"] * 8 + [\"Cusco\"] * 2)\nfrom collections import Counter\nc = Counter(muestra)\nn = len(muestra)\nshare = {k: round(v / n, 3) for k, v in c.items()}\nprint(\"share_muestra\", share)\nprint(\"share_pob\", pob)\nbias = {k: round(share.get(k, 0) - pob[k], 3) for k in pob}\nprint(\"bias_pp\", bias)",
+      "code_output": "share_muestra {np.str_('Lima'): 0.8, np.str_('Arequipa'): 0.16, np.str_('Cusco'): 0.04}\nshare_pob {'Lima': 0.55, 'Arequipa': 0.25, 'Cusco': 0.2}\nbias_pp {'Lima': 0.25, 'Arequipa': -0.09, 'Cusco': -0.16}"
+    },
+    {
+      "subtopicId": "S18-T2-B",
+      "heading": "intervalos básicos y tamaño de efecto",
+      "paragraphs": [
+        "Un **intervalo de confianza** aproximado para la media con n grande: media ± z·(s/√n) (z≈1.96 para 95%). Con n pequeño o colas pesadas, sé cauteloso: reporta n, considera bootstrap simple y evita lenguaje de “probado al 95%”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "El **tamaño de efecto** (Cohen's d ≈ (μ₁−μ₀)/s_pooled, o diferencia de medianas en PEN) comunica **magnitud**, no solo “significativo”. Un efecto chico con n enorme puede ser “significativo” y aún irrelevante para la decisión de negocio. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato de lenguaje: di “compatible con” / “en la muestra” y reporta n + IC; nunca “probado” con un solo IC. Caso: media B 108 vs A 94, d≈1.1, IC95 de B — el insight es magnitud + incertidumbre, no un veredicto causal de campaña. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+      ],
+      "code": "import numpy as np\n\nrng = np.random.default_rng(7)\na = rng.normal(100, 15, size=40)\nb = rng.normal(108, 15, size=40)\nma, mb = a.mean(), b.mean()\nsa, sb = a.std(ddof=1), b.std(ddof=1)\n# IC 95% approx para media de b\nse = sb / np.sqrt(len(b))\nic = (mb - 1.96 * se, mb + 1.96 * se)\nsp = np.sqrt((sa**2 + sb**2) / 2)\nd = (mb - ma) / sp\nprint(\"mean_a\", round(ma, 2), \"mean_b\", round(mb, 2))\nprint(\"ic95_b\", (round(ic[0], 2), round(ic[1], 2)))\nprint(\"cohens_d\", round(float(d), 3))",
+      "code_output": "mean_a 94.07 mean_b 108.64\nic95_b (np.float64(104.39), np.float64(112.88))\ncohens_d 1.118"
+    },
+    {
+      "subtopicId": "S18-T3-A",
+      "heading": "correlación y confusión",
+      "paragraphs": [
+        "La **correlación** (Pearson lineal / Spearman monótona) mide asociación, **no causa**. Un confusor Z puede crear asociación espuria entre X e Y; residualizar Z (regresión simple) es un chequeo de EDA, no un diseño causal completo. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato de verbos: en EDA etiqueta **asociación observada**. Lista causas comunes y diseños que las romperían (experimento, instrumento) antes de cualquier claim causal en el informe de CP-N2-B. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Pearson es sensible a outliers; Spearman usa rangos y tolera monótonas no lineales leves. Caso sintético: X e Y generados por Z → r_xy alto, r residual ≈0; el notebook debe imprimir ambos y la nota “no causal”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+      ],
+      "code": "import numpy as np\n\nrng = np.random.default_rng(1)\n# confounder Z genera X e Y\nz = rng.normal(0, 1, 80)\nx = 0.8 * z + rng.normal(0, 0.3, 80)\ny = 0.7 * z + rng.normal(0, 0.3, 80)\nr = np.corrcoef(x, y)[0, 1]\nprint(\"pearson_xy\", round(float(r), 3))\n# control parcial tosco: residualizar Z\ndef resid(a, z):\n    b = np.polyfit(z, a, 1)\n    return a - (b[0] * z + b[1])\nrx, ry = resid(x, z), resid(y, z)\nprint(\"pearson_residual\", round(float(np.corrcoef(rx, ry)[0, 1]), 3))",
+      "code_output": "pearson_xy 0.828\npearson_residual 0.075"
+    },
+    {
+      "subtopicId": "S18-T3-B",
+      "heading": "segmentación, anomalías y causalidad no demostrada",
+      "paragraphs": [
+        "Segmenta por región, canal o cohorte con **reglas explícitas** (no clusters opacos sin contrato). Las anomalías Tukey (fuera de [Q1−1.5·IQR, Q3+1.5·IQR]) son **candidatos a revisión**, nunca “fraudes demostrados” ni culpa de persona/región.",
+        "Contrato: marca flags booleanos, calcula tasas por segmento, documenta umbral, n por segmento y que el método es univariado. Evita “Cusco genera outliers porque…” — eso es claim causal no soportado. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso sintético: montos con un 80 PEN en Cusco → flag anomalía en ese id; tasa Cusco 0.2 vs Lima 0.0 es hallazgo descriptivo. El portfolio lista `ids_anom` y el método; la decisión de investigación es humana y posterior. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+      ],
+      "code": "import numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\n    \"region\": [\"Lima\"] * 5 + [\"Cusco\"] * 5,\n    \"monto\": [20, 22, 21, 25, 19, 18, 23, 80, 21, 20],\n})\nq1, q3 = df[\"monto\"].quantile(0.25), df[\"monto\"].quantile(0.75)\niqr = q3 - q1\nlo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr\ndf[\"anomalia\"] = (df[\"monto\"] < lo) | (df[\"monto\"] > hi)\nprint(\"limites\", round(float(lo), 2), round(float(hi), 2))\nprint(df.groupby(\"region\")[\"anomalia\"].mean().round(3).to_dict())\nprint(\"ids_anom\", df.index[df[\"anomalia\"]].tolist())",
+      "code_output": "limites 15.88 26.88\n{'Cusco': 0.2, 'Lima': 0.0}\nids_anom [7]"
+    },
+    {
+      "subtopicId": "S18-T4-A",
+      "heading": "preguntas, hipótesis y evidencia",
+      "paragraphs": [
+        "Separa tres capas: **pregunta de negocio**, **hipótesis comprobable**, **evidencia calculada**. El hallazgo (número + n + límite) no es la decisión (lanzar campaña, bloquear cuenta, cambiar precio). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Plantilla operativa: Pregunta → Métrica → Resultado (n, punto, IC) → Límite de cobertura → Siguiente paso. Cada celda del insight en CP-N2-B debe poder rastrearse a un print/assert del script. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Caso: “¿El ticket mediano en Lima supera 25 PEN?” → median(monto|Lima)=27.5, n=40, IC bootstrap aprox., límite “solo canal web”. Conclusión permitida: hipótesis provisional en web Lima; no “desplegar campaña nacional”. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+      ],
+      "code": "# plantilla de traza hallazgo → cálculo (sintético)\npregunta = \"¿El ticket mediano en Lima supera 25 PEN?\"\nmetrica = \"median(monto | region==Lima)\"\nresultado = {\"n\": 40, \"median\": 27.5, \"ic_boot_approx\": (24.0, 31.0)}\nlimite = \"muestra de canal web, no incluye tienda física\"\ndecision_sugerida = \"hipótesis provisional: sí en web Lima; validar con marco completo\"\nprint(\"pregunta:\", pregunta)\nprint(\"metrica:\", metrica)\nprint(\"resultado:\", resultado)\nprint(\"limite:\", limite)\nprint(\"no_es_decision:\", \"no lanzar campaña aún\")",
+      "code_output": "pregunta: ¿El ticket mediano en Lima supera 25 PEN?\nmetrica: median(monto | region==Lima)\nresultado: {'n': 40, 'median': 27.5, 'ic_boot_approx': (24.0, 31.0)}\nlimite: muestra de canal web, no incluye tienda física\nno_es_decision: no lanzar campaña aún"
+    },
+    {
+      "subtopicId": "S18-T4-B",
+      "heading": "notebook reproducible y data notes",
+      "paragraphs": [
+        "Un **data note** documenta origen, fecha de corte, filtros, n pre/post, seed y un hash o conteo de filas. Si otro agente no regenera los mismos n y métricas clave, el notebook **no cierra** el gate S18. En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana.",
+        "Contrato de reproducibilidad: versiones (pandas/numpy), rutas relativas, outputs en `out/`, seed fijo, sin celdas que muten estado global en orden opaco. Checklist mínima: seed, schema, n pre/post filtros, hash de payload, límites de generalización.",
+        "Caso sintético: CSV de 3 tickets → `row_sha1_8`, n=3, filtros `monto>0`, seed=42. El portfolio adjunta el JSON del note junto al resumen de medianas; es la base de trazabilidad hacia S19–S21 (dashboard y reporting factory). En el workbench sintético (Lima/Cusco/Arequipa, PEN, ids `T00x`/`C00x`) documentas contrato de entrada/salida, n del slice y límites: sin PII real, sin claims de fraude ni causalidad no soportada, y con fail-closed cuando falte evidencia o revisión humana."
+      ],
+      "code": "import hashlib\nimport json\nimport numpy as np\nimport pandas as pd\n\ndf = pd.DataFrame({\"ticket_id\": [\"T001\", \"T002\", \"T003\"], \"monto\": [10.0, 20.0, 15.0]})\npayload = df.to_csv(index=False).encode()\nnote = {\n    \"origen\": \"sintetico_local\",\n    \"corte\": \"2024-06-30\",\n    \"n\": len(df),\n    \"filtros\": [\"monto > 0\"],\n    \"seed\": 42,\n    \"row_sha1_8\": hashlib.sha1(payload).hexdigest()[:8],\n}\nprint(json.dumps(note, ensure_ascii=False))\nprint(\"mean\", float(df[\"monto\"].mean()))",
+      "code_output": "{\"origen\": \"sintetico_local\", \"corte\": \"2024-06-30\", \"n\": 3, \"filtros\": [\"monto > 0\"], \"seed\": 42, \"row_sha1_8\": \"6b78e80d\"}\nmean 15.0"
+    }
+  ],
+  "iDo": {
+    "steps": [
+      {
+        "demoId": "S18-T1-A-DEMO",
+        "subtopicId": "S18-T1-A",
+        "environment": "local-python",
+        "description": "Resumir distribución de montos sintéticos con centro, dispersión y cuantiles",
+        "why": "Un resumen tabular con n y cuantiles es la base de cualquier hallazgo de distribución.",
+        "code": "import numpy as np\n\nrng = np.random.default_rng(18)\nmontos = np.concatenate([rng.lognormal(3.0, 0.4, 90), np.array([400.0, 450.0])])\ndef resumen(x):\n    q = np.quantile(x, [0.25, 0.5, 0.75, 0.9])\n    return {\n        \"n\": int(x.size),\n        \"mean\": round(float(x.mean()), 2),\n        \"median\": round(float(np.median(x)), 2),\n        \"std\": round(float(x.std(ddof=1)), 2),\n        \"q25\": round(float(q[0]), 2),\n        \"q50\": round(float(q[1]), 2),\n        \"q75\": round(float(q[2]), 2),\n        \"q90\": round(float(q[3]), 2),\n        \"IQR\": round(float(q[2] - q[0]), 2),\n    }\nprint(resumen(montos))",
+        "language": "python",
+        "output": "{'n': 92, 'mean': 30.5, 'median': 20.02, 'std': 60.01, 'q25': 16.12, 'q50': 20.02, 'q75': 25.34, 'q90': 33.98, 'IQR': 9.22}"
+      },
+      {
+        "demoId": "S18-T1-B-DEMO",
+        "subtopicId": "S18-T1-B",
+        "environment": "local-python",
+        "description": "Comparar media vs mediana/MAD y escala log1p en montos con outlier",
+        "why": "Cuando mean ≫ median, prioriza métricas robustas y declara la cola.",
+        "code": "import numpy as np\n\nx = np.array([15, 16, 14, 18, 17, 16, 15, 200], dtype=float)\nmed = float(np.median(x))\nmad = float(np.median(np.abs(x - med)))\nprint(\"mean\", round(float(x.mean()), 2))\nprint(\"median\", med, \"MAD\", mad)\nprint(\"ratio_mean_median\", round(float(x.mean()) / med, 2))\nprint(\"log1p_median\", round(float(np.median(np.log1p(x))), 3))",
+        "language": "python",
+        "output": "mean 38.88\nmedian 16.0 MAD 1.0\nratio_mean_median 2.43\nlog1p_median 2.833"
+      },
+      {
+        "demoId": "S18-T2-A-DEMO",
+        "subtopicId": "S18-T2-A",
+        "environment": "local-python",
+        "description": "Diagnosticar sesgo de muestreo por región frente a cuotas poblacionales",
+        "why": "El sesgo de cuota se mide en puntos porcentuales, no solo con “se ve bien”.",
+        "code": "from collections import Counter\nimport numpy as np\n\npob = {\"Lima\": 0.50, \"Arequipa\": 0.30, \"Cusco\": 0.20}\nmuestra = [\"Lima\"] * 70 + [\"Arequipa\"] * 20 + [\"Cusco\"] * 10\nc = Counter(muestra)\nn = sum(c.values())\nshare = {k: c[k] / n for k in pob}\nprint({k: round(share[k], 3) for k in pob})\nprint(\"max_abs_bias_pp\", round(max(abs(share[k] - pob[k]) for k in pob), 3))\nprint(\"cobertura\", \"LIMITADA\" if max(abs(share[k] - pob[k]) for k in pob) > 0.1 else \"OK\")",
+        "language": "python",
+        "output": "{'Lima': 0.7, 'Arequipa': 0.2, 'Cusco': 0.1}\nmax_abs_bias_pp 0.2\ncobertura LIMITADA"
+      },
+      {
+        "demoId": "S18-T2-B-DEMO",
+        "subtopicId": "S18-T2-B",
+        "environment": "local-python",
+        "description": "Reportar IC 95% aproximado y Cohen's d entre dos grupos sintéticos",
+        "why": "Magnitud + intervalo + n comunican incertidumbre mejor que un solo p-value.",
+        "code": "import numpy as np\n\nrng = np.random.default_rng(21)\nctrl = rng.normal(50, 10, 35)\ntrat = rng.normal(55, 10, 35)\ndiff = trat.mean() - ctrl.mean()\nse = np.sqrt(ctrl.var(ddof=1)/len(ctrl) + trat.var(ddof=1)/len(trat))\nic = (diff - 1.96*se, diff + 1.96*se)\nsp = np.sqrt((ctrl.var(ddof=1) + trat.var(ddof=1)) / 2)\nd = diff / sp\nprint(\"diff\", round(float(diff), 2))\nprint(\"ic95\", (round(float(ic[0]), 2), round(float(ic[1]), 2)))\nprint(\"cohens_d\", round(float(d), 3))\nprint(\"n\", len(ctrl), len(trat))",
+        "language": "python",
+        "output": "diff 2.15\nic95 (-2.17, 6.47)\ncohens_d 0.233\nn 35 35"
+      },
+      {
+        "demoId": "S18-T3-A-DEMO",
+        "subtopicId": "S18-T3-A",
+        "environment": "local-python",
+        "description": "Mostrar correlación alta generada por confusor y caída al residualizar",
+        "why": "Enseña a no inferir causalidad solo porque r es alto.",
+        "code": "import numpy as np\n\nrng = np.random.default_rng(3)\nz = rng.normal(size=100)\nx = z + rng.normal(scale=0.2, size=100)\ny = z + rng.normal(scale=0.2, size=100)\nr_raw = float(np.corrcoef(x, y)[0, 1])\nbx = np.polyfit(z, x, 1)\nby = np.polyfit(z, y, 1)\nrx = x - (bx[0]*z + bx[1])\nry = y - (by[0]*z + by[1])\nr_res = float(np.corrcoef(rx, ry)[0, 1])\nprint(\"r_raw\", round(r_raw, 3))\nprint(\"r_residual_z\", round(r_res, 3))\nprint(\"claim\", \"asociacion_observada_no_causal\")",
+        "language": "python",
+        "output": "r_raw 0.974\nr_residual_z 0.166\nclaim asociacion_observada_no_causal"
+      },
+      {
+        "demoId": "S18-T3-B-DEMO",
+        "subtopicId": "S18-T3-B",
+        "environment": "local-python",
+        "description": "Segmentar por región y marcar anomalías Tukey sin claim causal",
+        "why": "Flags + tasas por segmento; la narrativa causal queda fuera del EDA.",
+        "code": "import pandas as pd\n\ndf = pd.DataFrame({\n    \"region\": [\"Lima\"]*8 + [\"Arequipa\"]*6 + [\"Cusco\"]*6,\n    \"monto\": [20,22,21,19,25,24,23,22, 18,19,20,21,17,55, 16,18,19,20,17,90],\n})\nq1, q3 = df[\"monto\"].quantile([0.25, 0.75])\niqr = q3 - q1\nlo, hi = q1 - 1.5*iqr, q3 + 1.5*iqr\ndf[\"flag\"] = (df[\"monto\"] < lo) | (df[\"monto\"] > hi)\nprint(\"lo_hi\", round(float(lo),2), round(float(hi),2))\nprint(df.groupby(\"region\")[\"flag\"].agg([\"sum\",\"mean\"]).round(3).to_dict())\nprint(\"sin_claim_causal\", True)",
+        "language": "python",
+        "output": "lo_hi 13.5 27.5\n{'sum': {'Arequipa': 1, 'Cusco': 1, 'Lima': 0}, 'mean': {'Arequipa': 0.167, 'Cusco': 0.167, 'Lima': 0.0}}\nsin_claim_causal True"
+      },
+      {
+        "demoId": "S18-T4-A-DEMO",
+        "subtopicId": "S18-T4-A",
+        "environment": "local-python",
+        "description": "Separar pregunta, hipótesis, evidencia y no-decisión en un dict trazable",
+        "why": "La traza pregunta→cálculo→límite es el artefacto de calidad de CP-N2-B inicio.",
+        "code": "evidencia = {\n    \"pregunta\": \"¿Hay diferencia de ticket mediano Lima vs Cusco?\",\n    \"hipotesis\": \"mediana_Lima > mediana_Cusco en canal web junio\",\n    \"calculo\": \"median por region, n>=30\",\n    \"resultado\": {\"Lima\": 28.0, \"Cusco\": 22.5, \"n_Lima\": 40, \"n_Cusco\": 32},\n    \"incertidumbre\": \"sin IC bootstrap en este corte; muestra web-only\",\n    \"decision\": None,\n}\nprint(evidencia[\"pregunta\"])\nprint(\"hallazgo\", evidencia[\"resultado\"])\nprint(\"decision_es_none\", evidencia[\"decision\"] is None)",
+        "language": "python",
+        "output": "¿Hay diferencia de ticket mediano Lima vs Cusco?\nhallazgo {'Lima': 28.0, 'Cusco': 22.5, 'n_Lima': 40, 'n_Cusco': 32}\ndecision_es_none True"
+      },
+      {
+        "demoId": "S18-T4-B-DEMO",
+        "subtopicId": "S18-T4-B",
+        "environment": "local-python",
+        "description": "Generar data note con n, filtros, seed y huella de filas",
+        "why": "Data notes hacen auditable el notebook del portfolio.",
+        "code": "import hashlib, json\nimport pandas as pd\n\ndf = pd.DataFrame({\n    \"ticket_id\": [f\"T{i:03d}\" for i in range(1, 6)],\n    \"monto\": [10.0, 12.0, 0.0, 15.0, 11.0],\n    \"region\": [\"Lima\", \"Cusco\", \"Lima\", \"Arequipa\", \"Lima\"],\n})\nn0 = len(df)\ndf2 = df[df[\"monto\"] > 0].copy()\nblob = df2.sort_values(\"ticket_id\").to_csv(index=False).encode()\nnote = {\n    \"origen\": \"sintetico\",\n    \"n_raw\": n0,\n    \"n_final\": len(df2),\n    \"filtros\": [\"monto > 0\"],\n    \"seed\": 18,\n    \"sha1_8\": hashlib.sha1(blob).hexdigest()[:8],\n}\nprint(json.dumps(note, ensure_ascii=False))\nprint(\"median_final\", float(df2[\"monto\"].median()))",
+        "language": "python",
+        "output": "{\"origen\": \"sintetico\", \"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto > 0\"], \"seed\": 18, \"sha1_8\": \"71094efb\"}\nmedian_final 11.5"
+      }
+    ]
+  },
+  "selfCheck_stems": [
+    {
+      "question": "¿Qué comunica mejor un ticket “típico” con outliers fuertes?",
+      "options": [
+        "Solo la media",
+        "Mediana (y opcionalmente IQR)",
+        "Solo el máximo",
+        "La moda de ids"
+      ]
+    },
+    {
+      "question": "Una correlación alta entre X e Y implica:",
+      "options": [
+        "Que X causa Y",
+        "Que no hay confusores",
+        "Que el IC es innecesario",
+        "Asociación observada (no causal por sí sola)"
+      ]
+    },
+    {
+      "question": "¿Qué debe incluir un data note mínimo?",
+      "options": [
+        "Origen, filtros, n y límites de cobertura",
+        "Solo el gráfico final",
+        "La contraseña del VPN",
+        "El prompt del LLM"
+      ]
+    },
+    {
+      "question": "El sesgo de muestra ocurre cuando:",
+      "options": [
+        "std es alta",
+        "Usas mediana",
+        "La muestra no representa la población de interés",
+        "n > 30"
+      ]
+    },
+    {
+      "question": "En un EDA de tickets sintéticos Lima/Cusco, ¿cuál es la comunicación correcta de un r de Pearson alto entre gasto y visitas cuando ambos crecen con el tamaño de la ciudad (confusor)?",
+      "options": [
+        "Afirmar que más visitas causan más gasto y recomendar campaña automática",
+        "Reportar asociación observada, explorar el confusor y evitar verbos causales sin diseño",
+        "Eliminar la correlación del informe porque “no es causal” y no mostrar el número",
+        "Usar solo la media y omitir n e intervalos para simplificar el slide ejecutivo"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S18-T1-A-E1",
+      "instruction": "E1 (guiado) — Concepto: centro (mean/median) y n de montos. Fixture `S18-T1-A-E1` / datos sintéticos: montos = np.array([10, 12, 14, 16, 100], dtype=float); print(\"n\", montos.size). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `n 5 | mean 30.4 | median 14.0`.",
+      "hints": [
+        "Usa len o .size; np.mean y np.median.",
+        "round(float(...), 2) para la media."
+      ],
+      "kind": "guided",
+      "tests": "salida coincide con solution output",
+      "starterCode": "import numpy as np\nmontos = np.array([10, 12, 14, 16, 100], dtype=float)\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S18-T1-A-E2",
+      "instruction": "E2 (independiente) — Concepto: cuartiles e IQR. Fixture `S18-T1-A-E2` / datos sintéticos: montos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float); q1, q3 = np.quantile(montos, [0.25, 0.75]). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `Q1 8.5 | Q3 12.5 | IQR 4.0`.",
+      "hints": [
+        "np.quantile con [0.25, 0.75].",
+        "IQR = Q3 - Q1."
+      ],
+      "kind": "independent",
+      "tests": "salida coincide con solution output",
+      "starterCode": "import numpy as np\nmontos = np.array([5, 8, 9, 10, 12, 13, 40], dtype=float)\nq1, q3 = np.quantile(montos, [0.25, 0.75])\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S18-T1-A-E3",
+      "instruction": "E3 (transferencia) — Concepto: función resumen n/mean/median/std. Fixture `S18-T1-A-E3` / datos sintéticos: def resumen(x):; x = np.asarray(x, dtype=float). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `{'n': 5, 'mean': 3.0, 'median': 3.0, 'std': 1.5811}`.",
+      "hints": [
+        "std con ddof=1.",
+        "Redondea mean/median/std a 4 decimales o 2 según print claro."
+      ],
+      "kind": "transfer",
+      "tests": "salida coincide con solution output",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport numpy as np\n\ndef resumen(x):\n    x = np.asarray(x, dtype=float)\n    return {\n        \"n\": int(x.size),\n        \"mean\": round(float(x.mean()), 4),\n        \"median\": round(float(np.median(x)), 4),\n        \"std\": round(float(x.std(ddof=1)), 4),\n    }\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(resumen([1, 2, 3, 4, 5]))\n"
+    },
+    {
+      "id": "S18-T1-B-E1",
+      "instruction": "E1 (guiado) — Concepto: mean vs median y razón. Fixture `S18-T1-B-E1` / datos sintéticos: x = np.array([10, 11, 12, 13, 100], dtype=float); m = float(x.mean()). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `mean 29.2 | median 12.0 | ratio 2.43`.",
+      "hints": [
+        "np.mean y np.median.",
+        "ratio = mean/median."
+      ],
+      "kind": "guided",
+      "tests": "salida coincide con solution output",
+      "starterCode": "import numpy as np\nx = np.array([10, 11, 12, 13, 100], dtype=float)\nm = float(x.mean())\nmed = float(np.median(x))\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S18-T1-B-E2",
+      "instruction": "E2 (independiente) — Concepto: MAD respecto a la mediana. Fixture `S18-T1-B-E2` / datos sintéticos: x = np.array([2, 3, 4, 5, 100], dtype=float); med = float(np.median(x)). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `MAD 1.0`.",
+      "hints": [
+        "MAD = median(|x - median(x)|).",
+        "Usa np.median y np.abs."
+      ],
+      "kind": "independent",
+      "tests": "salida coincide con solution output",
+      "starterCode": "import numpy as np\nx = np.array([2, 3, 4, 5, 100], dtype=float)\nmed = float(np.median(x))\nmad = float(np.median(np.abs(x - med)))\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S18-T1-B-E3",
+      "instruction": "E3 (transferencia) — Concepto: transformación log1p de montos. Fixture `S18-T1-B-E3` / datos sintéticos: x = np.array([0, 1, 9, 99], dtype=float); print([round(float(v), 3) for v in np.log1p(x)]). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `[0.0, 0.693, 2.303, 4.605]`.",
+      "hints": [
+        "np.log1p.",
+        "tolist + round por elemento."
+      ],
+      "kind": "transfer",
+      "tests": "salida coincide con solution output",
+      "starterCode": "import numpy as np\nx = np.array([0, 1, 9, 99], dtype=float)\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S18-T2-A-E1",
+      "instruction": "E1 (guiado) — Concepto: share muestral vs población. Fixture `S18-T2-A-E1` / datos sintéticos: muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]; share_lima = muestra.count(\"Lima\") / len(muestra). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `share_Lima 0.75`.",
+      "hints": [
+        "Cuenta ocurrencias / n.",
+        "round a 2 decimales."
+      ],
+      "kind": "guided",
+      "tests": "salida coincide con solution output",
+      "starterCode": "muestra = [\"Lima\", \"Lima\", \"Cusco\", \"Lima\"]\nshare_lima = muestra.count(\"Lima\") / len(muestra)\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S18-T2-A-E2",
+      "instruction": "E2 (independiente) — Concepto: bias en puntos porcentuales. Fixture `S18-T2-A-E2` / datos sintéticos: share = 8 / 10; pob = 0.5. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `bias_Lima_pp 0.3`.",
+      "hints": [
+        "share = 8/10.",
+        "bias = share - 0.5."
+      ],
+      "kind": "independent",
+      "tests": "salida coincide con solution output",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nshare = 8 / 10\npob = 0.5\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"bias_Lima_pp\", round(share - pob, 2))\n"
+    },
+    {
+      "id": "S18-T2-A-E3",
+      "instruction": "E3 (transferencia) — Concepto: máximo |bias| entre segmentos. Fixture `S18-T2-A-E3` / datos sintéticos: def max_bias(pob, counts):; n = sum(counts.values()). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `0.4`.",
+      "hints": [
+        "share = count/sum(counts).",
+        "max de valores absolutos."
+      ],
+      "kind": "transfer",
+      "tests": "salida coincide con solution output",
+      "starterCode": "def max_bias(pob, counts):\n    n = sum(counts.values())\n    return max(abs(counts[k] / n - pob[k]) for k in pob)\n\nprint(round(max_bias({\"Lima\": 0.5, \"Cusco\": 0.5}, {\"Lima\": 9, \"Cusco\": 1}), 2))\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S18-T2-B-E1",
+      "instruction": "E1 (guiado) — Concepto: margen de IC 95% (1.96·s/√n). Fixture `S18-T2-B-E1` / datos sintéticos: media, s, n = 10, 2, 16; margen = 1.96 * s / math.sqrt(n). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `margen 0.98`.",
+      "hints": [
+        "import math o numpy sqrt.",
+        "margen = 1.96 * s / sqrt(n)."
+      ],
+      "kind": "guided",
+      "tests": "salida coincide con solution output",
+      "starterCode": "import math\nmedia, s, n = 10, 2, 16\nmargen = 1.96 * s / math.sqrt(n)\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S18-T2-B-E2",
+      "instruction": "E2 (independiente) — Concepto: tamaño de efecto Cohen's d. Fixture `S18-T2-B-E2` / datos sintéticos: d = (13 - 10) / 2; print(\"d\", round(d, 2)). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `d 1.5`.",
+      "hints": [
+        "d = (mb-ma)/sp.",
+        "round 2."
+      ],
+      "kind": "independent",
+      "tests": "salida coincide con solution output",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nd = (13 - 10) / 2\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"d\", round(d, 2))\n"
+    },
+    {
+      "id": "S18-T2-B-E3",
+      "instruction": "E3 (transferencia) — Concepto: IC95 como tupla (low, high). Fixture `S18-T2-B-E3` / datos sintéticos: diff, se = 4, 1.5; ic = (round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2)). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `ic95 (1.06, 6.94)`.",
+      "hints": [
+        "low = diff - 1.96*se.",
+        "high = diff + 1.96*se."
+      ],
+      "kind": "transfer",
+      "tests": "salida coincide con solution output",
+      "starterCode": "diff, se = 4, 1.5\nic = (round(diff - 1.96 * se, 2), round(diff + 1.96 * se, 2))\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S18-T3-A-E1",
+      "instruction": "E1 (guiado) — Concepto: correlación de Pearson. Fixture `S18-T3-A-E1` / datos sintéticos: x = np.array([1, 2, 3, 4], dtype=float); y = np.array([2, 4, 6, 8], dtype=float). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `r 1.0`.",
+      "hints": [
+        "corrcoef[0,1].",
+        "Debe ser ~1."
+      ],
+      "kind": "guided",
+      "tests": "salida coincide con solution output",
+      "starterCode": "import numpy as np\nx = np.array([1, 2, 3, 4], dtype=float)\ny = np.array([2, 4, 6, 8], dtype=float)\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S18-T3-A-E2",
+      "instruction": "E2 (independiente) — Concepto: etiqueta asociación_observada (no causa). Fixture `S18-T3-A-E2` / datos sintéticos: r = 0.82; print(\"asociacion_observada\" if abs(r) > 0.5 else \"asociacion_debil\"). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `asociacion_observada`.",
+      "hints": [
+        "if abs(r)>0.5.",
+        "Mensaje fijo no causal."
+      ],
+      "kind": "independent",
+      "tests": "salida coincide con solution output",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nr = 0.82\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"asociacion_observada\" if abs(r) > 0.5 else \"asociacion_debil\")\n"
+    },
+    {
+      "id": "S18-T3-A-E3",
+      "instruction": "E3 (transferencia) — Concepto: correlación residual tras confusor. Fixture `S18-T3-A-E3` / datos sintéticos: z = np.arange(5, dtype=float); x = z.copy(). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `r_raw 1.0 | max_abs_resid 0.0`.",
+      "hints": [
+        "Residualiza x e y respecto a z.",
+        "corrcoef de residuales ≈ 0 o nan controlado."
+      ],
+      "kind": "transfer",
+      "tests": "salida coincide con solution output",
+      "starterCode": "import numpy as np\nz = np.arange(5, dtype=float)\nx = z.copy()\ny = z.copy()\nr_raw = float(np.corrcoef(x, y)[0, 1])\nbx = np.polyfit(z, x, 1)\nby = np.polyfit(z, y, 1)\nrx = x - (bx[0] * z + bx[1])\nry = y - (by[0] * z + by[1])\n# residuales ~0 → corr inestable; reporta max abs residual\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S18-T3-B-E1",
+      "instruction": "E1 (guiado) — Concepto: conteo de outliers Tukey (hi=Q3+1.5·IQR). Fixture `S18-T3-B-E1` / datos sintéticos: m = np.array([10, 12, 11, 13, 50], dtype=float); q1, q3 = np.quantile(m, [0.25, 0.75]). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `n_hi 1`.",
+      "hints": [
+        "quantile 0.25/0.75.",
+        "suma booleana."
+      ],
+      "kind": "guided",
+      "tests": "salida coincide con solution output",
+      "starterCode": "import numpy as np\nm = np.array([10, 12, 11, 13, 50], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nhi = q3 + 1.5 * iqr\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S18-T3-B-E2",
+      "instruction": "E2 (independiente) — Concepto: tasa de anomalías por región. Fixture `S18-T3-B-E2` / datos sintéticos: region = np.array([\"Lima\", \"Lima\", \"Cusco\"]); flag = np.array([True, True, False]). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `tasa_Lima 1.0`.",
+      "hints": [
+        "Filtra región Lima.",
+        "mean de flags."
+      ],
+      "kind": "independent",
+      "tests": "salida coincide con solution output",
+      "starterCode": "import numpy as np\nregion = np.array([\"Lima\", \"Lima\", \"Cusco\"])\nflag = np.array([True, True, False])\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S18-T3-B-E3",
+      "instruction": "E3 (transferencia) — Concepto: flags booleanos Tukey. Fixture `S18-T3-B-E3` / datos sintéticos: m = np.array([1, 2, 3, 4, 100], dtype=float); q1, q3 = np.quantile(m, [0.25, 0.75]). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `[False, False, False, False, True]`.",
+      "hints": [
+        "lo = Q1-1.5IQR, hi=Q3+1.5IQR.",
+        "tolist de bool."
+      ],
+      "kind": "transfer",
+      "tests": "salida coincide con solution output",
+      "starterCode": "import numpy as np\nm = np.array([1, 2, 3, 4, 100], dtype=float)\nq1, q3 = np.quantile(m, [0.25, 0.75])\niqr = q3 - q1\nlo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S18-T4-A-E1",
+      "instruction": "E1 (guiado) — Concepto: dict pregunta/hipótesis/resultado. Fixture `S18-T4-A-E1` / datos sintéticos: evidencia = {; \"pregunta\": \"¿Cuál es el ticket mediano?\",. Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `¿Cuál es el ticket mediano?`.",
+      "hints": [
+        "Dict literal.",
+        "print evidencia['pregunta']."
+      ],
+      "kind": "guided",
+      "tests": "salida coincide con solution output",
+      "starterCode": "evidencia = {\n    \"pregunta\": \"¿Cuál es el ticket mediano?\",\n    \"hipotesis\": \"mediana >= 5\",\n    \"resultado\": {\"n\": 10, \"median\": 5.0},\n}\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S18-T4-A-E2",
+      "instruction": "E2 (independiente) — Concepto: hallazgo vs umbral de decisión. Fixture `S18-T4-A-E2` / datos sintéticos: median = 12; print(\"solo_hallazgo\" if median < 15 else \"candidato_decision\"). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `solo_hallazgo`.",
+      "hints": [
+        "Compara median < 15.",
+        "No inventes decisión de campaña."
+      ],
+      "kind": "independent",
+      "tests": "salida coincide con solution output",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmedian = 12\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(\"solo_hallazgo\" if median < 15 else \"candidato_decision\")\n"
+    },
+    {
+      "id": "S18-T4-A-E3",
+      "instruction": "E3 (transferencia) — Concepto: traza Pregunta→Métrica→Valor→Límite. Fixture `S18-T4-A-E3` / datos sintéticos: def traza(pregunta, metrica, valor, limite):; print(\"P:\", pregunta). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `P: ticket mediano Lima | M: median | V: 27.5 | L: solo web`.",
+      "hints": [
+        "Función con 4 prints.",
+        "Etiquetas fijas P/M/V/L."
+      ],
+      "kind": "transfer",
+      "tests": "salida coincide con solution output",
+      "starterCode": "def traza(pregunta, metrica, valor, limite):\n    print(\"P:\", pregunta)\n    print(\"M:\", metrica)\n    print(\"V:\", valor)\n    print(\"L:\", limite)\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    },
+    {
+      "id": "S18-T4-B-E1",
+      "instruction": "E1 (guiado) — Concepto: data note n_raw/n_final/filtros. Fixture `S18-T4-B-E1` / datos sintéticos: note = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}; print(note). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `{'n_raw': 5, 'n_final': 4, 'filtros': ['monto>0']}`.",
+      "hints": [
+        "Dict con n_raw, n_final, filtros.",
+        "print el dict."
+      ],
+      "kind": "guided",
+      "tests": "salida coincide con solution output",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nnote = {\"n_raw\": 5, \"n_final\": 4, \"filtros\": [\"monto>0\"]}\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(note)\n"
+    },
+    {
+      "id": "S18-T4-B-E2",
+      "instruction": "E2 (independiente) — Concepto: sha1 hex[:8] de payload CSV. Fixture `S18-T4-B-E2` / datos sintéticos: print(hashlib.sha1(b\"a,b\\\\n1,2\\\\n\").hexdigest()[:8]). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `2aa26ec9`.",
+      "hints": [
+        "hashlib.sha1(...).hexdigest()[:8].",
+        "encode no necesario si ya es bytes."
+      ],
+      "kind": "independent",
+      "tests": "salida coincide con solution output",
+      "starterCode": "# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\n# TODO: completa solo print/resultado del contrato (instruction + solution output)\n# forma esperada (referencia): print(hashlib.sha1(b\"a,b\\n1,2\\n\").hexdigest()[:8])\n"
+    },
+    {
+      "id": "S18-T4-B-E3",
+      "instruction": "E3 (transferencia) — Concepto: note tras filtro monto>0 con seed. Fixture `S18-T4-B-E3` / datos sintéticos: df = pd.DataFrame({\"monto\": [1.0, 0.0, 3.0]}); n_raw = len(df). Completa el TODO del starter sin borrar el oráculo; imprime el resultado del contrato. Pass (salida exacta del solution): `{'n_raw': 3, 'n_final': 2, 'seed': 42}`.",
+      "hints": [
+        "len antes/después.",
+        "Incluye seed."
+      ],
+      "kind": "transfer",
+      "tests": "salida coincide con solution output",
+      "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, 0.0, 3.0]})\nn_raw = len(df)\ndf2 = df[df[\"monto\"] > 0]\nnote = {\"n_raw\": n_raw, \"n_final\": len(df2), \"seed\": 42}\n# TODO: completa el contrato del ejercicio (ver instruction)\n"
+    }
+  ],
+  "packet_sha": "e42d9a39f6f4973a",
+  "attempt_id": "agentic_J2"
+}

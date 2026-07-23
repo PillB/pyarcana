@@ -1,0 +1,435 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 29,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s29-f30f0d729317",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S29-T1-A-E1",
+      "code": "# Explorer notes for S29-T1-A-E1: follow packet fixture + instruction contract\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table entities(id text primary key)')\nc.execute(\"insert into entities values ('e1')\")\nprint(c.execute('select count(*) from entities').fetchone()[0])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T1-A-E1 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(c.execute('select count(*) from entities').fetchone()[0]) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Crea",
+        "tabla",
+        "entities",
+        "TEXT",
+        "PRIMARY",
+        "KEY"
+      ],
+      "confidence": 0.66
+    },
+    {
+      "exercise_id": "S29-T1-A-E2",
+      "code": "# Explorer notes for S29-T1-A-E2: follow packet fixture + instruction contract\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\nprint('bad_score')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T1-A-E2 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print('bad_score') como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "CHECK",
+        "score",
+        "debe",
+        "fallar",
+        "caza",
+        "IntegrityError"
+      ],
+      "confidence": 0.63
+    },
+    {
+      "exercise_id": "S29-T1-A-E3",
+      "code": "# Explorer notes for S29-T1-A-E3: follow packet fixture + instruction contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('e1' < 'e2')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T1-A-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print('e1' < 'e2')`; los hints piden Imprime / True / si / 'e1'<'e2' / (orden / canónico / de / par).. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Imprime",
+        "True",
+        "orden",
+        "can",
+        "nico",
+        "par"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S29-T1-B-E1",
+      "code": "# Explorer notes for S29-T1-B-E1: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.executemany('insert into d values (?,?)', [('p1','review'),('p1','match')])\nprint(c.execute(\"select count(*) from d where pair='p1'\").fetchone()[0])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T1-B-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(c.execute(\"select count(*) from d where pair='p1'\").fetchone()[0])`; los hints piden Inserta / dos / labels / para / pair / p1; / imprime / número. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Inserta",
+        "dos",
+        "labels",
+        "para",
+        "pair",
+        "imprime"
+      ],
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S29-T1-B-E2",
+      "code": "# Explorer notes for S29-T1-B-E2: follow packet fixture + instruction contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'source': 'crm_synth', 'record': 'r9'})\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T1-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print({'source': 'crm_synth', 'record': 'r9'})`; los hints piden Imprime / provenance / dict / source='crm_synth' / record='r9'. / Fixture / sintético / `CASO-LIM-029`. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Imprime",
+        "provenance",
+        "dict",
+        "source",
+        "crm_synth",
+        "record"
+      ],
+      "confidence": 0.66
+    },
+    {
+      "exercise_id": "S29-T1-B-E3",
+      "code": "# Explorer notes for S29-T1-B-E3: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nvalid_to=None\nprint('open' if valid_to is None else 'closed')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T1-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print('open' if valid_to is None else 'closed')`; los hints piden valid_to / NULL / significa / vigente: / imprime / 'open' / si / valid_to. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "valid_to",
+        "NULL",
+        "significa",
+        "vigente",
+        "imprime",
+        "open"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S29-T2-A-E1",
+      "code": "# Explorer notes for S29-T2-A-E1: follow packet fixture + instruction contract\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\nprint('ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T2-A-E1 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print('ok') como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Con",
+        "pairs",
+        "decision",
+        "solo",
+        "lista",
+        "ids"
+      ],
+      "confidence": 0.71
+    },
+    {
+      "exercise_id": "S29-T2-A-E2",
+      "code": "# Explorer notes for S29-T2-A-E2: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0.2,0.9,0.5]\nprint(sorted(scores, reverse=True)[0])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T2-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(sorted(scores, reverse=True)[0])`; los hints piden Window / conceptual: / ordena / scores / [0.2,0.9,0.5] / desc / e / imprime. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Window",
+        "conceptual",
+        "ordena",
+        "scores",
+        "desc",
+        "imprime"
+      ],
+      "confidence": 0.66
+    },
+    {
+      "exercise_id": "S29-T2-A-E3",
+      "code": "# Explorer notes for S29-T2-A-E3: follow packet fixture + instruction contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ranked')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T2-A-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print('ranked')`; los hints piden Imprime / el / nombre / de / la / CTE / de / ejemplo:. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Imprime",
+        "nombre",
+        "CTE",
+        "ejemplo",
+        "ranked",
+        "Fixture"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S29-T2-B-E1",
+      "code": "# Explorer notes for S29-T2-B-E1: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=5\nprint(n*(n-1)//2)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T2-B-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(n*(n-1)//2)`; los hints piden C(n,2) / para / n=5 / → / 10. / Fixture / sintético / `CASO-LIM-029`. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "para",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO",
+        "LIM"
+      ],
+      "confidence": 0.62
+    },
+    {
+      "exercise_id": "S29-T2-B-E2",
+      "code": "# Explorer notes for S29-T2-B-E2: follow packet fixture + instruction contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(None is None)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T2-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(None is None)`; los hints piden Imprime / True / si / None / is / None / (recuerda / NULL. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Imprime",
+        "True",
+        "None",
+        "None",
+        "recuerda",
+        "NULL"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S29-T2-B-E3",
+      "code": "# Explorer notes for S29-T2-B-E3: follow packet fixture + instruction contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('SCAN')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T2-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print('SCAN')`; los hints piden Imprime / prefijo / de / plan / 'SCAN' / o / 'SEARCH' / para. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Imprime",
+        "prefijo",
+        "plan",
+        "SCAN",
+        "SEARCH",
+        "para"
+      ],
+      "confidence": 0.66
+    },
+    {
+      "exercise_id": "S29-T3-A-E1",
+      "code": "# Explorer notes for S29-T3-A-E1: follow packet fixture + instruction contract\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('begin')\nc.execute('insert into t values (1)')\nc.execute('rollback')\nprint(c.execute('select count(*) from t').fetchone()[0])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T3-A-E1 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(c.execute('select count(*) from t').fetchone()[0]) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Tras",
+        "BEGIN",
+        "insert",
+        "ROLLBACK",
+        "count",
+        "debe"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S29-T3-A-E2",
+      "code": "# Explorer notes for S29-T3-A-E2: follow packet fixture + instruction contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('A,C,I,D')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T3-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print('A,C,I,D')`; los hints piden Imprime / las / 4 / letras / de / ACID / separadas / por. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Imprime",
+        "las",
+        "letras",
+        "ACID",
+        "separadas",
+        "por"
+      ],
+      "confidence": 0.63
+    },
+    {
+      "exercise_id": "S29-T3-A-E3",
+      "code": "# Explorer notes for S29-T3-A-E3: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nevidence_ok=False\nprint('abort' if not evidence_ok else 'commit')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T3-A-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print('abort' if not evidence_ok else 'commit')`; los hints piden Si / evidence_ok / es / False / no / hagas / commit / conceptual:. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "evidence_ok",
+        "False",
+        "hagas",
+        "commit",
+        "conceptual",
+        "imprime"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S29-T3-B-E1",
+      "code": "# Explorer notes for S29-T3-B-E1: follow packet fixture + instruction contract\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\nprint('ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T3-B-E1 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print('ok') como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Upsert",
+        "segunda",
+        "insert",
+        "con",
+        "mismo",
+        "actualiza"
+      ],
+      "confidence": 0.79
+    },
+    {
+      "exercise_id": "S29-T3-B-E2",
+      "code": "# Explorer notes for S29-T3-B-E2: follow packet fixture + instruction contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'job': 'er_block', 'status': 'pending'}['status'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T3-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print({'job': 'er_block', 'status': 'pending'}['status'])`; los hints piden Recuperación: / job / status / 'pending' / tras / crash; / imprime / status.. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Recuperaci",
+        "job",
+        "status",
+        "pending",
+        "tras",
+        "crash"
+      ],
+      "confidence": 0.61
+    },
+    {
+      "exercise_id": "S29-T3-B-E3",
+      "code": "# Explorer notes for S29-T3-B-E3: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nconflict=True\nprint('retry' if conflict else 'ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T3-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print('retry' if conflict else 'ok')`; los hints piden Conflicto / de / par / duplicado / → / imprime / 'retry'. / Fixture. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Conflicto",
+        "par",
+        "duplicado",
+        "imprime",
+        "retry",
+        "Fixture"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S29-T4-A-E1",
+      "code": "# Explorer notes for S29-T4-A-E1: follow packet fixture + instruction contract\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\nprint('ok')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T4-A-E1 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print('ok') como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Registra",
+        "migration",
+        "version",
+        "name",
+        "add_index",
+        "imprime"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "exercise_id": "S29-T4-A-E2",
+      "code": "# Explorer notes for S29-T4-A-E2: follow packet fixture + instruction contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('idx_pairs_block_key')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T4-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print('idx_pairs_block_key')`; los hints piden Imprime / nombre / de / índice / sugerido / idx_pairs_block_key. / Fixture / sintético. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Imprime",
+        "nombre",
+        "ndice",
+        "sugerido",
+        "idx_pairs_block_key",
+        "Fixture"
+      ],
+      "confidence": 0.66
+    },
+    {
+      "exercise_id": "S29-T4-A-E3",
+      "code": "# Explorer notes for S29-T4-A-E3: follow packet fixture + instruction contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('no_drop_without_backup')\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T4-A-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print('no_drop_without_backup')`; los hints piden Política: / imprime / 'no_drop_without_backup'. / Fixture / sintético / `CASO-LIM-029` / (run_id=cpn3a-sql, / @example.pe):. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Pol",
+        "tica",
+        "imprime",
+        "no_drop_without_backup",
+        "Fixture",
+        "sint"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S29-T4-B-E1",
+      "code": "# Explorer notes for S29-T4-B-E1: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore={'e1':'Ana'}\nprint(store.get('e1'))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T4-B-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(store.get('e1'))`; los hints piden Repo.get: / dict / store / {'e1':'Ana'}; / imprime / get / e1. / Fixture. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Repo",
+        "get",
+        "dict",
+        "store",
+        "Ana",
+        "imprime"
+      ],
+      "confidence": 0.63
+    },
+    {
+      "exercise_id": "S29-T4-B-E2",
+      "code": "# Explorer notes for S29-T4-B-E2: follow packet fixture + instruction contract\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'pool_size': 5}['pool_size'])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T4-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print({'pool_size': 5}['pool_size'])`; los hints piden Pool / size / conceptual / 5; / imprime / pool_size. / Fixture / sintético. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Pool",
+        "size",
+        "conceptual",
+        "imprime",
+        "pool_size",
+        "Fixture"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S29-T4-B-E3",
+      "code": "# Explorer notes for S29-T4-B-E3: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\npending_count=1\nprint(pending_count)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S29-T4-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(pending_count)`; los hints piden Test / de / repo: / pending / count / 1; / imprime / 1.. Lectura anclada en section packet outcomes + iDo del subtopic de S29.",
+      "concepts_used": [
+        "Test",
+        "repo",
+        "pending",
+        "count",
+        "imprime",
+        "Fixture"
+      ],
+      "confidence": 0.58
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Explorer en S29 Q0: la opción «Evitar duplicar el mismo par en orden invertido» cuadra con theory/iDo del paquete sobre «entity_a < entity_b en el par sirve para:»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.69,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Explorer en S29 Q1: la opción «Nueva fila por cambio de decisión» cuadra con theory/iDo del paquete sobre «Append-only en decisions significa:»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.82,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Explorer en S29 Q2: la opción «Ser atómicas en la misma transacción lógica» cuadra con theory/iDo del paquete sobre «Decisión y evidencia deben:»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.62,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Explorer en S29 Q3: la opción «Encapsula acceso a datos y facilita tests con :memory:» cuadra con theory/iDo del paquete sobre «El repository pattern:»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.74,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:55.615241+00:00",
+  "session_started_at": "2026-07-23T13:03:03.030199+00:00",
+  "session_ended_at": "2026-07-23T13:03:16.610066+00:00",
+  "receipt_response_sha256": "a958f57153e1416bade48031c49bd00c66c09aa2ed9b54c5b6161aa6d7ac7701"
+}

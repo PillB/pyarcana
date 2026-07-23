@@ -1,0 +1,463 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_J1",
+  "section_index": 32,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-explorer-s32-be750487b189",
+  "production_note": "agentic_J1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S32-T1-A-E1",
+      "id": "S32-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\nmeets_contract = record[\"catalog_ok\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_UNKNOWN_FEATURE\"\nprint(\"S32-T1-A\", status)\n",
+      "confidence": 0.622,
+      "blocked_on": [],
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "ricas",
+        "categ",
+        "texto"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T1-A-E1 siguiendo la instrucción del paquete: «S32-T1-A-E1 · Calcula el contrato de `numéricas/categóricas/texto` sobre `CASO-LIM-032-1A`. La entrada es el dict completo del starter; la o». Implementé el contrato con `numéricas/categóricas/texto` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(\"S32-T1-A\", status)`. (sesión-notas 91a4d3)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T1-A-E2",
+      "id": "S32-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'schema', 'row', 'catalog_ok'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"catalog_ok\"] is True else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}\nincomplete = {**valid}\nincomplete.pop(\"schema\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.787,
+      "blocked_on": [],
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "ricas",
+        "categ"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T1-A-E2 siguiendo la instrucción del paquete: «S32-T1-A-E2 · Modela tres rutas de `numéricas/categóricas/texto`: fixture válido, fixture adverso y registro sin `schema`. Entrada: dict con». Implementé el contrato con `numéricas/categóricas/texto` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(*results)`. (sesión-notas c88b34)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T1-A-E3",
+      "id": "S32-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"schema\", \"row\", \"catalog_ok\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_CATALOG\"\n    return \"CONTINUE\" if record[\"catalog_ok\"] is True else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{\"schema\": {\"numeric\": [\"amount_7d\"], \"categorical\": [\"canal\"]}, \"row\": {\"amount_7d\": 1.0, \"canal\": \"app\"}, \"catalog_ok\": True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{\"schema\": {\"numeric\": [\"amount_7d\"]}, \"row\": {\"unknown_feat\": 1}, \"catalog_ok\": False}}\nuncertain = {**valid}\nuncertain.pop(\"schema\")\nprint(*[decide(x) for x in (valid, invalid, uncertain)])\n",
+      "confidence": 0.587,
+      "blocked_on": [],
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "ricas",
+        "categ"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T1-A-E3 siguiendo la instrucción del paquete: «S32-T1-A-E3 · Contrasta fallo cerrado para `numéricas/categóricas/texto` con tres fixtures distintos. `CASO-LIM-032-1A` debe continuar, el a». Implementé el contrato con `numéricas/categóricas/texto` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(*[decide(x) for x in (valid, invalid, uncertain)])`. (sesión-notas e4bbbc)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T1-B-E1",
+      "id": "S32-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\nmeets_contract = record[\"silent_fill\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_FILL\"\nprint(\"S32-T1-B\", status)\n",
+      "confidence": 0.552,
+      "blocked_on": [],
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "missing",
+        "indicators",
+        "escalamiento"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T1-B-E1 siguiendo la instrucción del paquete: «S32-T1-B-E1 · Calcula el contrato de `missing indicators, escalamiento y encoding` sobre `CASO-LIM-032-1B`. La entrada es el dict completo d». Implementé el contrato con `missing indicators, escalamiento y encoding` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(\"S32-T1-B\", status)`. (sesión-notas 1c2145)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T1-B-E2",
+      "id": "S32-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"silent_fill\"] is False else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nincomplete = {**valid}\nincomplete.pop(\"median\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.891,
+      "blocked_on": [],
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "missing",
+        "indicators"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T1-B-E2 siguiendo la instrucción del paquete: «S32-T1-B-E2 · Modela tres rutas de `missing indicators, escalamiento y encoding`: fixture válido, fixture adverso y registro sin `median`. E». Implementé el contrato con `missing indicators, escalamiento y encoding` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(*results)`. (sesión-notas f241cf)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T1-B-E3",
+      "id": "S32-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_MEDIAN\"\n    return \"CONTINUE\" if record[\"silent_fill\"] is False else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nuncertain = {**valid}\nuncertain.pop(\"median\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.782,
+      "blocked_on": [],
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "missing",
+        "indicators"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T1-B-E3 siguiendo la instrucción del paquete: «S32-T1-B-E3 · Contrasta fallo cerrado para `missing indicators, escalamiento y encoding` con tres fixtures distintos. `CASO-LIM-032-1B` debe». Implementé el contrato con `missing indicators, escalamiento y encoding` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(*results)`. (sesión-notas 655750)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T2-A-E1",
+      "id": "S32-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\nmeets_contract = record[\"uses_label\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LABEL_AS_FEATURE\"\nprint(\"S32-T2-A\", status)\n",
+      "confidence": 0.639,
+      "blocked_on": [],
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "shared",
+        "contact",
+        "address"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T2-A-E1 siguiendo la instrucción del paquete: «S32-T2-A-E1 · Calcula el contrato de `shared contact/address, distance y graph features` sobre `CASO-LIM-032-2A`. La entrada es el dict comp». Implementé el contrato con `shared contact/address, distance y graph features` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(\"S32-T2-A\", status)`. (sesión-notas 7817a0)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T2-A-E2",
+      "id": "S32-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"uses_label\"] is False else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nincomplete = {**valid}\nincomplete.pop(\"degree\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.725,
+      "blocked_on": [],
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "shared",
+        "contact"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T2-A-E2 siguiendo la instrucción del paquete: «S32-T2-A-E2 · Modela tres rutas de `shared contact/address, distance y graph features`: fixture válido, fixture adverso y registro sin `degr». Implementé el contrato con `shared contact/address, distance y graph features` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(*results)`. (sesión-notas e91ade)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T2-A-E3",
+      "id": "S32-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_GRAPH_FEAT\"\n    return \"CONTINUE\" if record[\"uses_label\"] is False else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nuncertain = {**valid}\nuncertain.pop(\"degree\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.683,
+      "blocked_on": [],
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "shared",
+        "contact"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T2-A-E3 siguiendo la instrucción del paquete: «S32-T2-A-E3 · Contrasta fallo cerrado para `shared contact/address, distance y graph features` con tres fixtures distintos. `CASO-LIM-032-2A». Implementé el contrato con `shared contact/address, distance y graph features` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(*results)`. (sesión-notas 9a4083)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T2-B-E1",
+      "id": "S32-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\nmeets_contract = record[\"includes_t\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_FUTURE_TS\"\nprint(\"S32-T2-B\", status)\n",
+      "confidence": 0.733,
+      "blocked_on": [],
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "ventanas",
+        "frecuencia",
+        "sobre"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T2-B-E1 siguiendo la instrucción del paquete: «S32-T2-B-E1 · Calcula el contrato de `ventanas y frecuencia` sobre `CASO-LIM-032-2B`. La entrada es el dict completo del starter; la operaci». Implementé el contrato con `ventanas y frecuencia` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(\"S32-T2-B\", status)`. (sesión-notas 89f0a6)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T2-B-E2",
+      "id": "S32-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"includes_t\"] is False else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nincomplete = {**valid}\nincomplete.pop(\"w\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.616,
+      "blocked_on": [],
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "ventanas",
+        "frecuencia"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T2-B-E2 siguiendo la instrucción del paquete: «S32-T2-B-E2 · Modela tres rutas de `ventanas y frecuencia`: fixture válido, fixture adverso y registro sin `w`. Entrada: dict con case_id, e». Implementé el contrato con `ventanas y frecuencia` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(*results)`. (sesión-notas e6987b)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T2-B-E3",
+      "id": "S32-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_WINDOW\"\n    return \"CONTINUE\" if record[\"includes_t\"] is False else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nuncertain = {**valid}\nuncertain.pop(\"w\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.849,
+      "blocked_on": [],
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "ventanas",
+        "frecuencia"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T2-B-E3 siguiendo la instrucción del paquete: «S32-T2-B-E3 · Contrasta fallo cerrado para `ventanas y frecuencia` con tres fixtures distintos. `CASO-LIM-032-2B` debe continuar, el adverso». Implementé el contrato con `ventanas y frecuencia` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(*results)`. (sesión-notas daa2d3)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T3-A-E1",
+      "id": "S32-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\nmeets_contract = record[\"transform_before_fit\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_TRANSFORM_BEFORE_FIT\"\nprint(\"S32-T3-A\", status)\n",
+      "confidence": 0.756,
+      "blocked_on": [],
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "ColumnTransformer",
+        "custom",
+        "transformers"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T3-A-E1 siguiendo la instrucción del paquete: «S32-T3-A-E1 · Calcula el contrato de `ColumnTransformer y custom transformers` sobre `CASO-LIM-032-3A`. La entrada es el dict completo del s». Implementé el contrato con `ColumnTransformer y custom transformers` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(\"S32-T3-A\", status)`. (sesión-notas 78c324)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T3-A-E2",
+      "id": "S32-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"transform_before_fit\"] is False else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nincomplete = {**valid}\nincomplete.pop(\"fitted\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.821,
+      "blocked_on": [],
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "ColumnTransformer",
+        "custom"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T3-A-E2 siguiendo la instrucción del paquete: «S32-T3-A-E2 · Modela tres rutas de `ColumnTransformer y custom transformers`: fixture válido, fixture adverso y registro sin `fitted`. Entra». Implementé el contrato con `ColumnTransformer y custom transformers` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(*results)`. (sesión-notas 2b3585)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T3-A-E3",
+      "id": "S32-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FIT_STATE\"\n    return \"CONTINUE\" if record[\"transform_before_fit\"] is False else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nuncertain = {**valid}\nuncertain.pop(\"fitted\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.597,
+      "blocked_on": [],
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "ColumnTransformer",
+        "custom"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T3-A-E3 siguiendo la instrucción del paquete: «S32-T3-A-E3 · Contrasta fallo cerrado para `ColumnTransformer y custom transformers` con tres fixtures distintos. `CASO-LIM-032-3A` debe con». Implementé el contrato con `ColumnTransformer y custom transformers` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(*results)`. (sesión-notas a31453)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T3-B-E1",
+      "id": "S32-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\nmeets_contract = record[\"versioned\"] is True or bool(record[\"version\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_UNVERSIONED\"\nprint(\"S32-T3-B\", status)\n",
+      "confidence": 0.694,
+      "blocked_on": [],
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "transform",
+        "persistencia",
+        "sobre"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T3-B-E1 siguiendo la instrucción del paquete: «S32-T3-B-E1 · Calcula el contrato de `fit/transform y persistencia` sobre `CASO-LIM-032-3B`. La entrada es el dict completo del starter; la ». Implementé el contrato con `fit/transform y persistencia` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(\"S32-T3-B\", status)`. (sesión-notas 0acc9d)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T3-B-E2",
+      "id": "S32-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"versioned\"] is True or bool(record[\"version\"]) else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nincomplete = {**valid}\nincomplete.pop(\"version\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.738,
+      "blocked_on": [],
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "transform",
+        "persistencia"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T3-B-E2 siguiendo la instrucción del paquete: «S32-T3-B-E2 · Modela tres rutas de `fit/transform y persistencia`: fixture válido, fixture adverso y registro sin `version`. Entrada: dict c». Implementé el contrato con `fit/transform y persistencia` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(*results)`. (sesión-notas 5dfdc6)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T3-B-E3",
+      "id": "S32-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_STATE_JSON\"\n    return \"CONTINUE\" if record[\"versioned\"] is True or bool(record[\"version\"]) else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nuncertain = {**valid}\nuncertain.pop(\"version\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.718,
+      "blocked_on": [],
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "transform",
+        "persistencia"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T3-B-E3 siguiendo la instrucción del paquete: «S32-T3-B-E3 · Contrasta fallo cerrado para `fit/transform y persistencia` con tres fixtures distintos. `CASO-LIM-032-3B` debe continuar, el ». Implementé el contrato con `fit/transform y persistencia` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(*results)`. (sesión-notas 1e0885)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T4-A-E1",
+      "id": "S32-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\nmeets_contract = record[\"overlap\"] <= 0\nstatus = \"PASS\" if meets_contract else \"REJECT_ENTITY_OVERLAP\"\nprint(\"S32-T4-A\", status)\n",
+      "confidence": 0.912,
+      "blocked_on": [],
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "split",
+        "entidad",
+        "grupo"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T4-A-E1 siguiendo la instrucción del paquete: «S32-T4-A-E1 · Calcula el contrato de `split por entidad/grupo/tiempo` sobre `CASO-LIM-032-4A`. La entrada es el dict completo del starter; l». Implementé el contrato con `split por entidad/grupo/tiempo` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(\"S32-T4-A\", status)`. (sesión-notas 9443b2)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T4-A-E2",
+      "id": "S32-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"overlap\"] <= 0 else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nincomplete = {**valid}\nincomplete.pop(\"overlap\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.703,
+      "blocked_on": [],
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "split",
+        "entidad"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T4-A-E2 siguiendo la instrucción del paquete: «S32-T4-A-E2 · Modela tres rutas de `split por entidad/grupo/tiempo`: fixture válido, fixture adverso y registro sin `overlap`. Entrada: dict». Implementé el contrato con `split por entidad/grupo/tiempo` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(*results)`. (sesión-notas 975a52)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T4-A-E3",
+      "id": "S32-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_SPLIT_KEYS\"\n    return \"CONTINUE\" if record[\"overlap\"] <= 0 else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nuncertain = {**valid}\nuncertain.pop(\"overlap\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.784,
+      "blocked_on": [],
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "split",
+        "entidad"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T4-A-E3 siguiendo la instrucción del paquete: «S32-T4-A-E3 · Contrasta fallo cerrado para `split por entidad/grupo/tiempo` con tres fixtures distintos. `CASO-LIM-032-4A` debe continuar, e». Implementé el contrato con `split por entidad/grupo/tiempo` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(*results)`. (sesión-notas 481200)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T4-B-E1",
+      "id": "S32-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\nmeets_contract = (not record[\"leaky\"]) and record[\"skew\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_LEAKAGE\"\nprint(\"S32-T4-B\", status)\n",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "leakage",
+        "train",
+        "serve"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T4-B-E1 siguiendo la instrucción del paquete: «S32-T4-B-E1 · Calcula el contrato de `leakage, train–serve skew y versionado` sobre `CASO-LIM-032-4B`. La entrada es el dict completo del st». Implementé el contrato con `leakage, train–serve skew y versionado` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(\"S32-T4-B\", status)`. (sesión-notas 0717d8)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T4-B-E2",
+      "id": "S32-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not record[\"leaky\"]) and record[\"skew\"] is False else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nincomplete = {**valid}\nincomplete.pop(\"feature_set\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.723,
+      "blocked_on": [],
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "leakage",
+        "train"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T4-B-E2 siguiendo la instrucción del paquete: «S32-T4-B-E2 · Modela tres rutas de `leakage, train–serve skew y versionado`: fixture válido, fixture adverso y registro sin `feature_set`. E». Implementé el contrato con `leakage, train–serve skew y versionado` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(*results)`. (sesión-notas 539ef1)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S32-T4-B-E3",
+      "id": "S32-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_FEATURE_SET_ID\"\n    return \"CONTINUE\" if (not record[\"leaky\"]) and record[\"skew\"] is False else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nuncertain = {**valid}\nuncertain.pop(\"feature_set\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "confidence": 0.601,
+      "blocked_on": [],
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "leakage",
+        "train"
+      ],
+      "justification_from_packet": "Como Explorer en Feature engineering y pipelines sin leakage, resolví S32-T4-B-E3 siguiendo la instrucción del paquete: «S32-T4-B-E3 · Contrasta fallo cerrado para `leakage, train–serve skew y versionado` con tres fixtures distintos. `CASO-LIM-032-4B` debe cont». Implementé el contrato con `leakage, train–serve skew y versionado` y el starter del weDo; outcomes: Diseñar features numéricas/categóricas/texto Aplicar missing indicators, scale y. Código ancla: `print(*results)`. (sesión-notas b3fa5b)",
+      "form_notes": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "El instante t y el futuro",
+      "confidence": 0.842,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer SC0 en Feature engineering y pipelines sin leakage: la pregunta «Una ventana half-open [t−w, t) excluye:» se alinea con theory/iDo del paquete; elijo «El instante t y el futuro» (índice 3) porque el material enfatiza ese concepto frente a distractores. ref:65e347"
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Fallar de forma explícita",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer SC1 en Feature engineering y pipelines sin leakage: la pregunta «Transform antes de fit debe:» se alinea con theory/iDo del paquete; elijo «Fallar de forma explícita» (índice 1) porque el material enfatiza ese concepto frente a distractores. ref:819e8d"
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Es leakage de identidad",
+      "confidence": 0.821,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer SC2 en Feature engineering y pipelines sin leakage: la pregunta «Overlap de entidades entre train y test:» se alinea con theory/iDo del paquete; elijo «Es leakage de identidad» (índice 2) porque el material enfatiza ese concepto frente a distractores. ref:7f001a"
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Es red flag de leakage",
+      "confidence": 0.814,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer SC3 en Feature engineering y pipelines sin leakage: la pregunta «Un nombre de feature con 'label' o 'decision':» se alinea con theory/iDo del paquete; elijo «Es red flag de leakage» (índice 0) porque el material enfatiza ese concepto frente a distractores. ref:7a2499"
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:26:50+00:00",
+  "session_started_at": "2026-07-23T12:26:35+00:00",
+  "session_ended_at": "2026-07-23T12:26:50+00:00",
+  "receipt_response_sha256": "fbaa3c87495f6b3d19c418ef48338d232723495971cfbcd1affe58615309ee83"
+}

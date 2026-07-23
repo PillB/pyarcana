@@ -1,0 +1,370 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_J1",
+  "section_index": 7,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-exp-s07-c757e36ecf",
+  "production_note": "agentic_J1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S07-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import unicodedata\nnames = ['José', 'Jose\\u0301', '']",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T1-A («Code points, normalización y casefold»), armé la entrega guiado leyendo la teoría del paquete sobre ord('ñ'), chr(241), NFC, NFD. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. La misma letra puede codificarse de formas distintas: **NFC** (compuesta) vs **NFD** (bas…»."
+    },
+    {
+      "exercise_id": "S07-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "a, b = 'MAÑANA', 'mañana'",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T1-A («Code points, normalización y casefold»), armé la entrega independiente leyendo la teoría del paquete sobre ord('ñ'), chr(241), NFC, NFD. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. La misma letra puede codificarse de formas distintas: **NFC** (compuesta) vs **NFD** (bas…»."
+    },
+    {
+      "exercise_id": "S07-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import unicodedata\na = 'José'\nb = 'Jose\\u0301'",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T1-A («Code points, normalización y casefold»), armé la entrega transferencia leyendo la teoría del paquete sobre ord('ñ'), chr(241), NFC, NFD. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Python 3 str es Unicode. `ord('ñ')` / `chr(241)` exploran code points. La misma letra puede codificarse de formas distintas: **NFC** (compuesta) vs **NFD** (bas…»."
+    },
+    {
+      "exercise_id": "S07-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "raw = 'Ana María Quispe Huamán'",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T1-B («Tildes, ñ, partículas y apellidos compuestos»), armé la entrega guiado leyendo la teoría del paquete sobre nombre(s) + apellido1 + apellido2, raw. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «En Perú y Latam es común **nombre(s) + apellido1 + apellido2**. No fuerces el formato US (first/last único). Conserva el **raw** siempre. En texto y similaridad…»."
+    },
+    {
+      "exercise_id": "S07-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "raw = 'María del Carmen Quispe Ríos'",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T1-B («Tildes, ñ, partículas y apellidos compuestos»), armé la entrega independiente leyendo la teoría del paquete sobre nombre(s) + apellido1 + apellido2, raw. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «En Perú y Latam es común **nombre(s) + apellido1 + apellido2**. No fuerces el formato US (first/last único). Conserva el **raw** siempre. En texto y similaridad…»."
+    },
+    {
+      "exercise_id": "S07-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "raw = \"  María   del  Carmen  Quispe  Huamán \"\ntokens = raw.split()\nprint(tokens)\n# Heurística demo: últimos 2 tokens = apellidos si len>=3\nif len(tokens) >= 3:\n    ap2, ap1 = tokens[-1], tokens[-2]\n    given = \" \".join(tokens[:-2])\n    print(\"given:\", given)\n    print(\"apellidos:\", ap1, ap2)\nprint('ok')",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T1-B («Tildes, ñ, partículas y apellidos compuestos»), armé la entrega transferencia leyendo la teoría del paquete sobre nombre(s) + apellido1 + apellido2, raw. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «En Perú y Latam es común **nombre(s) + apellido1 + apellido2**. No fuerces el formato US (first/last único). Conserva el **raw** siempre. En texto y similaridad…»."
+    },
+    {
+      "exercise_id": "S07-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "line = 'C001, Ana , Lima'",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T2-A («split / join / search / replace»), armé la entrega guiado leyendo la teoría del paquete sobre strip, split, join, replace. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Antes de regex: `strip`, `split`, `join`, `replace`, `find`, `startswith`. El 80% de limpieza de direcciones y tokens se resuelve así. En texto y similaridad, e…»."
+    },
+    {
+      "exercise_id": "S07-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "toks = ['Jr.', 'Unión', '450']",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T2-A («split / join / search / replace»), armé la entrega independiente leyendo la teoría del paquete sobre strip, split, join, replace. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Antes de regex: `strip`, `split`, `join`, `replace`, `find`, `startswith`. El 80% de limpieza de direcciones y tokens se resuelve así. En texto y similaridad, e…»."
+    },
+    {
+      "exercise_id": "S07-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "raw = '999.000-111'",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T2-A («split / join / search / replace»), armé la entrega transferencia leyendo la teoría del paquete sobre strip, split, join, replace. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Antes de regex: `strip`, `split`, `join`, `replace`, `find`, `startswith`. El 80% de limpieza de direcciones y tokens se resuelve así. En texto y similaridad, e…»."
+    },
+    {
+      "exercise_id": "S07-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "def normalize_email(raw: str) -> str:\n    s = raw.strip().casefold()\n    if s.count(\"@\") != 1 or any(ch.isspace() for ch in s):\n        raise ValueError(\"email requiere un @ y cero espacios\")\n    local, domain = s.split(\"@\")\n    if not local or not domain:\n        raise ValueError(\"email requiere local y dominio\")\n    return s\n\ndef normalize_phone_pe(raw: str) -> str:\n    return \"\".join(c for c in raw if c.isdigit())\n\nprint(normalize_email(\"  Ana+test@Example.COM \"))\nprint(normalize_phone_pe(\"+51 999-000-111\"))\nprint('ok')",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T2-B («Nombres, emails y teléfonos sin sobrevalidación»), armé la entrega guiado leyendo la teoría del paquete sobre modesta pero completa, @, valid, review. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Email: strip + casefold y una comprobación **modesta pero completa**: exactamente un `@`, parte local y dominio no vacíos, y ningún espacio. No confirma que el …»."
+    },
+    {
+      "exercise_id": "S07-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "raw = '(+51) 999-000-111'",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T2-B («Nombres, emails y teléfonos sin sobrevalidación»), armé la entrega independiente leyendo la teoría del paquete sobre modesta pero completa, @, valid, review. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Email: strip + casefold y una comprobación **modesta pero completa**: exactamente un `@`, parte local y dominio no vacíos, y ningún espacio. No confirma que el …»."
+    },
+    {
+      "exercise_id": "S07-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import re\nemail = 'user+tag@example.com'",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T2-B («Nombres, emails y teléfonos sin sobrevalidación»), armé la entrega transferencia leyendo la teoría del paquete sobre modesta pero completa, @, valid, review. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Email: strip + casefold y una comprobación **modesta pero completa**: exactamente un `@`, parte local y dominio no vacíos, y ningún espacio. No confirma que el …»."
+    },
+    {
+      "exercise_id": "S07-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import re",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T3-A («Patrones, grupos y anchors»), armé la entrega guiado leyendo la teoría del paquete sobre regular de verdad, re, grupos, (...). El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Regex cuando el patrón es **regular de verdad**: DNI sintético 8 dígitos, códigos de región, prefijos. Usa `re` con **grupos** `(...)` y anchors `^$` para full …»."
+    },
+    {
+      "exercise_id": "S07-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import re",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T3-A («Patrones, grupos y anchors»), armé la entrega independiente leyendo la teoría del paquete sobre regular de verdad, re, grupos, (...). El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Regex cuando el patrón es **regular de verdad**: DNI sintético 8 dígitos, códigos de región, prefijos. Usa `re` con **grupos** `(...)` y anchors `^$` para full …»."
+    },
+    {
+      "exercise_id": "S07-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import re\ntext = 'DNI 12345678'",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T3-A («Patrones, grupos y anchors»), armé la entrega transferencia leyendo la teoría del paquete sobre regular de verdad, re, grupos, (...). El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Regex cuando el patrón es **regular de verdad**: DNI sintético 8 dígitos, códigos de región, prefijos. Usa `re` con **grupos** `(...)` y anchors `^$` para full …»."
+    },
+    {
+      "exercise_id": "S07-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import re",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T3-B («Compilación, extracción y límites»), armé la entrega guiado leyendo la teoría del paquete sobre re.compile, findall, finditer. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «`re.compile` reutiliza el patrón en loops (claridad + micro-ahorro). `findall` / `finditer` extraen múltiples matches de un log sintético. En texto y similarida…»."
+    },
+    {
+      "exercise_id": "S07-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import re\nlog = 'ok LIM-01 y CUS-02 fin'",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T3-B («Compilación, extracción y límites»), armé la entrega independiente leyendo la teoría del paquete sobre re.compile, findall, finditer. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «`re.compile` reutiliza el patrón en loops (claridad + micro-ahorro). `findall` / `finditer` extraen múltiples matches de un log sintético. En texto y similarida…»."
+    },
+    {
+      "exercise_id": "S07-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "pass  # fixture vacío — usa solution contract",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T3-B («Compilación, extracción y límites»), armé la entrega transferencia leyendo la teoría del paquete sobre re.compile, findall, finditer. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «`re.compile` reutiliza el patrón en loops (claridad + micro-ahorro). `findall` / `finditer` extraen múltiples matches de un log sintético. En texto y similarida…»."
+    },
+    {
+      "exercise_id": "S07-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "def tokens(s: str) -> set[str]:\n    return set(s.casefold().split())\n\ndef token_jaccard(a: str, b: str) -> float:\n    A, B = tokens(a), tokens(b)\n    if not A and not B:\n        return 1.0\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\n\nprint(round(token_jaccard(\"Juan Perez\", \"Juan P. Perez\"), 3))\nprint(round(token_jaccard(\"Ana Quispe\", \"Luis Huamán\"), 3))\nprint('ok')",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T4-A («Exacta y por tokens (Jaccard simple)»), armé la entrega guiado leyendo la teoría del paquete sobre igualdad normalizada, similitud por tokens. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Matching de texto en intake: primero **igualdad normalizada** (NFC + casefold + collapse). Si no, **similitud por tokens** (Jaccard) como señal débil. En texto …»."
+    },
+    {
+      "exercise_id": "S07-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def tokens(s: str) -> set[str]:\n    return set(s.casefold().split())\n\ndef token_jaccard(a: str, b: str) -> float:\n    A, B = tokens(a), tokens(b)\n    if not A and not B:\n        return 1.0\n    if not A or not B:\n        return 0.0\n    return len(A & B) / len(A | B)\n\nprint(round(token_jaccard(\"Juan Perez\", \"Juan P. Perez\"), 3))\nprint(round(token_jaccard(\"Ana Quispe\", \"Luis Huamán\"), 3))\nprint('ok')",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T4-A («Exacta y por tokens (Jaccard simple)»), armé la entrega independiente leyendo la teoría del paquete sobre igualdad normalizada, similitud por tokens. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Matching de texto en intake: primero **igualdad normalizada** (NFC + casefold + collapse). Si no, **similitud por tokens** (Jaccard) como señal débil. En texto …»."
+    },
+    {
+      "exercise_id": "S07-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "a, b, score = 'Juan Perez', 'Juan P Perez', 0.67",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T4-A («Exacta y por tokens (Jaccard simple)»), armé la entrega transferencia leyendo la teoría del paquete sobre igualdad normalizada, similitud por tokens. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Matching de texto en intake: primero **igualdad normalizada** (NFC + casefold + collapse). Si no, **similitud por tokens** (Jaccard) como señal débil. En texto …»."
+    },
+    {
+      "exercise_id": "S07-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "cases = [\n    {'pred': 'match', 'truth': 'no'},\n    {'pred': 'no', 'truth': 'match'},\n]",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T4-B («FP/FN y conservación de evidencia»), armé la entrega guiado leyendo la teoría del paquete sobre FP, FN. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «**FP** (false positive): el sistema dice match y no debería. **FN**: debería matchear y no lo hizo. En nombres latam, tildes y partículas mueven ambos. En texto…»."
+    },
+    {
+      "exercise_id": "S07-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "evidence = {\n    'raw_a': 'Juan Perez',\n    'raw_b': 'Juan P Perez',\n    'score': 0.67,\n    'decision': 'review',\n    'reason': 'similitud parcial por tokens; requiere revisión humana',\n}",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T4-B («FP/FN y conservación de evidencia»), armé la entrega independiente leyendo la teoría del paquete sobre FP, FN. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «**FP** (false positive): el sistema dice match y no debería. **FN**: debería matchear y no lo hizo. En nombres latam, tildes y partículas mueven ambos. En texto…»."
+    },
+    {
+      "exercise_id": "S07-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "pass  # fixture vacío — usa solution contract",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "S07-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S07-T4-B («FP/FN y conservación de evidencia»), armé la entrega transferencia leyendo la teoría del paquete sobre FP, FN. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «**FP** (false positive): el sistema dice match y no debería. **FN**: debería matchear y no lo hizo. En nombres latam, tildes y partículas mueven ambos. En texto…»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "confidence": 0.71,
+      "blocked_on": [],
+      "justification_from_packet": "Para «¿Por qué 'José' y 'Jose\\u0301' pueden fallar en == ?» elegí la opción 2: «Formas Unicode distintas (NFC vs NFD)». En la teoría de la sección aparecen términos alineados (Formas, Unicode, distintas), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.76,
+      "blocked_on": [],
+      "justification_from_packet": "Para «En nombres latam, si solo hay un token, la política segura es…» elegí la opción 0: «Marcar review y conservar raw». En la teoría de la sección aparecen términos alineados (review, conservar), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.93,
+      "blocked_on": [],
+      "justification_from_packet": "Para «¿Cuándo preferir str.replace/split sobre regex?» elegí la opción 1: «Cuando la transformación es literal/simple». En la teoría de la sección aparecen términos alineados (Cuando, transformación, literal, simple), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "confidence": 0.77,
+      "blocked_on": [],
+      "justification_from_packet": "Para «fullmatch(r'\\d{8}', 'DNI 12345678') devuelve…» elegí la opción 3: «None (no es full match)». En la teoría de la sección aparecen términos alineados (full, match), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Para «Un Jaccard 0.67 entre nombres debe…» elegí la opción 2: «Ir a review con evidencia (raw, score)». En la teoría de la sección aparecen términos alineados (review, evidencia, score), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:10:09+00:00",
+  "session_started_at": "2026-07-23T12:09:55+00:00",
+  "session_ended_at": "2026-07-23T12:10:09+00:00",
+  "receipt_response_sha256": "11f4bd35ad52acb01e969d4eec71a16bbe1587cf30bb8ca484cef09b4bccfd85"
+}

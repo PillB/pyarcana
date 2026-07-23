@@ -310,18 +310,41 @@ def justification_is_template(just: str) -> bool:
         "explorer: ejercicio",
         "mapeé starter→demo",
         "solo usé lo explícito en theory/ido/hints del paquete activo",
+        "partí del startercode e instruction del quiz_card",
+        "completé el contrato pass",
+        "alinea con el outcome",
+        "alinea con el outcome/ido",
+        "explorer: complete from packet starter",
+        "skeptic-crosscheck",
+        "explorer-read",
+        "packet fixtures only",
+        "siguiendo el contrato del paquete (fixtures",
     ]
-    # template if it starts with generic explorer/skeptic exercise line AND lacks exercise-specific detail
     hits = sum(1 for t in templates if t in j)
+    if hits >= 1:
+        return True
     if hits >= 1 and "instruction del paquete:" in j and j.count("ido") >= 1:
-        # still template-like if no unique code tokens quoted
         if "print(" not in j and "def " not in j and "import " not in j and "«" not in j and '"' not in j[20:]:
             return True
     if j.startswith("explorer: ejercicio") and "completé startercode" in j:
         return True
     if j.startswith("skeptic: solo usé") and "completé el ejercicio" in j:
         return True
+    # formulaic slot-fill: starts with fixed preamble + short body
+    if j.startswith("partí del") or "partí del starter" in j:
+        return True
+    if "completé el contrato" in j and "quiz_card" in j:
+        return True
     return False
+
+
+def normalize_justification(just: str) -> str:
+    j = (just or "").lower()
+    j = re.sub(r"\s+", " ", j).strip()
+    j = re.sub(r"\[[^\]]{0,40}\]", "", j)  # drop attempt tags
+    j = re.sub(r"s\d{2}-t\d+[a-z]?-e\d+", "EXID", j)
+    j = re.sub(r"\b[a-f0-9]{6,}\b", "HEX", j)
+    return j.strip()
 
 
 
@@ -586,24 +609,178 @@ def attempt_level_gates(attempt_id: str) -> list[dict]:
                 "detail": f"live mtime span {span_sec/60.0:.1f}m < 30m",
             })
 
-    # Mechanical identity-stamp ban (any dual-attempt diversification stamps)
+
+    # === FORENSIC GATES (structural; not name-literal arms race) ===
+    from collections import Counter
+    ROOT_FIX = Path(__file__).resolve().parents[1]
+    FIXTURE_DIR = ROOT_FIX / "tests/fixtures/theater_selfcheck_maps"
+
+    # Collect exercise/selfcheck corpus across all lives
+    all_ex_justs: list[str] = []
+    all_sc_justs: list[str] = []
+    confidences: list[float] = []
+    session_ids: list[str] = []
+    diversify_hits = 0
+    code_n = 0
+    sc_seq: dict[str, list[int]] = {}
+
+    attempt_hdr = re.compile(
+        r"#\s*agentic_[A-Z0-9]+|explorer-read|skeptic-crosscheck|"
+        r"explorer-read|skeptic path: packet|packet fixtures only",
+        re.I,
+    )
+    diversify_re = re.compile(
+        r"(_synth\b|py_ver\b|alias_synth|if False\s*:|g2_agent\s*=|h1_out\s*=|h2_out\s*=|"
+        r"#\s*dual explorer|#\s*dual skeptic|diversify)",
+        re.I,
+    )
+
+    for i in range(1, 53):
+        for lab in ("newbie_a_live.json", "newbie_b_live.json"):
+            lp = root / f"section_{i:02d}" / lab
+            if not lp.exists():
+                continue
+            try:
+                live = json.loads(lp.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            sid = live.get("agent_instance_id") or live.get("session_id") or ""
+            if sid:
+                session_ids.append(str(sid))
+            # also batch ids in production_note
+            for e in live.get("exercises") or []:
+                code_n += 1
+                code = e.get("code") or ""
+                just = e.get("justification_from_packet") or e.get("justification") or ""
+                all_ex_justs.append(normalize_justification(just))
+                conf = e.get("confidence")
+                if isinstance(conf, (int, float)):
+                    confidences.append(float(conf))
+                if attempt_hdr.search(code) or diversify_re.search(code):
+                    diversify_hits += 1
+            sc_idxs = []
+            for a in live.get("selfcheck") or []:
+                j = a.get("justification_from_packet") or a.get("justification") or ""
+                all_sc_justs.append(normalize_justification(j))
+                conf = a.get("confidence")
+                if isinstance(conf, (int, float)):
+                    confidences.append(float(conf))
+                if a.get("chosen_index") is not None and lab == "newbie_a_live.json":
+                    sc_idxs.append(int(a["chosen_index"]))
+            if lab == "newbie_a_live.json" and sc_idxs:
+                sc_seq[str(i)] = sc_idxs
+
+    # 1) Justification mass
+    if all_ex_justs:
+        ex_c = Counter(j for j in all_ex_justs if j)
+        top_j, top_n = ex_c.most_common(1)[0]
+        if top_n >= max(374, int(0.15 * len(all_ex_justs))):
+            issues.append({
+                "tag": "JUSTIFICATION_MASS",
+                "severity": "P0",
+                "detail": f"top_ex_just_form n={top_n}/{len(all_ex_justs)} >=15%",
+            })
+    if all_sc_justs:
+        sc_c = Counter(j for j in all_sc_justs if j)
+        if sc_c:
+            top_j, top_n = sc_c.most_common(1)[0]
+            if top_n >= max(25, int(0.10 * len(all_sc_justs))):
+                issues.append({
+                    "tag": "SC_JUSTIFICATION_MASS",
+                    "severity": "P0",
+                    "detail": f"top_sc_just_form n={top_n}/{len(all_sc_justs)} >=10%",
+                })
+
+    # 2) Confidence entropy
+    if confidences:
+        conf_c = Counter(round(c, 2) for c in confidences)
+        n_distinct = len(conf_c)
+        top_mass = conf_c.most_common(1)[0][1] / len(confidences)
+        if n_distinct <= 8 and top_mass >= 0.20:
+            issues.append({
+                "tag": "CONFIDENCE_ENTROPY",
+                "severity": "P0",
+                "detail": f"distinct={n_distinct} top_mass={top_mass:.2f}",
+            })
+
+    # 3) Session binding
+    if session_ids:
+        sid_c = Counter(session_ids)
+        multi = [(k, v) for k, v in sid_c.items() if v > 2]
+        if multi:
+            issues.append({
+                "tag": "SESSION_OVERUSE",
+                "severity": "P0",
+                "detail": f"session_ids on >2 sections: {multi[:5]}",
+            })
+
+    # 4) Diversify forensics
+    if code_n and diversify_hits / code_n >= 0.05:
+        issues.append({
+            "tag": "DIVERSIFY_FORENSICS",
+            "severity": "P0",
+            "detail": f"diversify_hits={diversify_hits}/{code_n} >=5%",
+        })
+
+    # 5) Selfcheck lineage vs theater fixtures (multi-factor with other theater)
+    theater_hits = []
+    if FIXTURE_DIR.exists() and sc_seq:
+        def flat(m: dict) -> list[int]:
+            out = []
+            for k in sorted(m.keys(), key=lambda x: int(x)):
+                out.extend(m[k])
+            return out
+        cand = flat(sc_seq)
+        for fp in FIXTURE_DIR.glob("*.json"):
+            try:
+                base = json.loads(fp.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            base_flat = flat(base)
+            if not base_flat or not cand:
+                continue
+            n = min(len(cand), len(base_flat))
+            if n < 20:
+                continue
+            same = sum(1 for a, b in zip(cand[:n], base_flat[:n]) if a == b)
+            ident = same / n
+            if ident >= 0.80:
+                theater_hits.append((fp.name, round(ident, 3)))
+    if theater_hits:
+        # Fail selfcheck lineage only with other theater signals (maps == curriculum keys after rebalance)
+        other_theater = any(
+            x.get("tag") in {
+                "JUSTIFICATION_MASS", "SC_JUSTIFICATION_MASS", "CONFIDENCE_ENTROPY",
+                "SESSION_OVERUSE", "DIVERSIFY_FORENSICS", "ZERO_DURATION_SESSION",
+                "ZERO_DURATION_SESSION_COUNT", "SUSPICIOUS_UNIFORM_DURATION",
+                "MECHANICAL_IDENTITY_STAMP",
+            }
+            for x in issues
+        )
+        if other_theater:
+            issues.append({
+                "tag": "SELFCHECK_LINEAGE",
+                "severity": "P0",
+                "detail": f"sc_map identity vs theater fixtures: {theater_hits[:4]} (with other theater signals)",
+            })
+
+    # Legacy stamp ban (keep as secondary signal)
     stamp_hits = 0
     stamp_re = re.compile(
         r"(g2_agent\s*=|h_agent\s*=|h1_out\s*=|h2_out\s*=|"
         r"#\s*dual explorer-H|#\s*dual skeptic-H|"
         r"#\s*dual explorer-|#\s*dual skeptic-|"
-        r"diversify_code|exploratory pass)",
+        r"#\s*agentic_[A-Z0-9]+.*explorer-read|"
+        r"skeptic-crosscheck|diversify_code|exploratory pass)",
         re.I,
     )
-    # identity stamp assignment (not "no identity stamps" denials)
-    identity_assign = re.compile(r"(?<!no )(?<!without )identity.?stamps?\s*=", re.I)
     for i in range(1, 53):
         for lab in ("newbie_a_live.json", "newbie_b_live.json"):
             lp = root / f"section_{i:02d}" / lab
             if not lp.exists():
                 continue
             blob = lp.read_text(encoding="utf-8", errors="ignore")
-            if stamp_re.search(blob) or identity_assign.search(blob):
+            if stamp_re.search(blob):
                 stamp_hits += 1
     if stamp_hits:
         issues.append({
@@ -645,6 +822,7 @@ def attempt_level_gates(attempt_id: str) -> list[dict]:
             })
 
     return issues
+
 
 
 

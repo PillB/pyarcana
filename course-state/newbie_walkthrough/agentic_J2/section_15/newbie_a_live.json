@@ -1,0 +1,287 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 15,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s15-68514765ad76",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "id": "S15-T1-A-E1",
+      "code": "# exploración s15/S15-T1-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\ndf = df.set_index(\"cliente_id\")\nprint(df.index.tolist())\n_j2_mark = 15\n",
+      "justification_from_packet": "Para S15-T1-A-E1 el paquete de «Pandas: ingesta, selección y tipos» pide: E1 (guiado) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (. Anclé la respuesta a «set_index('cliente_id').» y conservé el fixture del starter. [82d4d2] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "id": "S15-T1-A-E2",
+      "code": "# exploración s15/S15-T1-A-E2\nimport pandas as pd\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\nprint(float(s[\"C002\"]))\n_j2_mark = 15\n",
+      "justification_from_packet": "Armé S15-T1-A-E2 desde el quiz_card de «Pandas: ingesta, selección y tipos». Instruction recortada: «E2 (independiente) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st». Verifiqué con la pista «pd.Series(..., index=..., name=...).». [1c3a77] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "id": "S15-T1-A-E3",
+      "code": "# exploración s15/S15-T1-A-E3\nimport pandas as pd\ns1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.5], index=[\"C002\"])\nout = s1.add(s2, fill_value=0).sort_index()\nprint(out.round(2).to_dict())\n_j2_mark = 15\n",
+      "justification_from_packet": "Armé S15-T1-A-E3 desde el quiz_card de «Pandas: ingesta, selección y tipos». Instruction recortada: «E3 (transferencia) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st». Verifiqué con la pista «s1.add(s2, fill_value=0).». [a51d1f] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "id": "S15-T1-B-E1",
+      "code": "# exploración s15/S15-T1-B-E1\nimport pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"a,b\\\\n1,2\\\\n3,NA\\\\n\"), na_values=[\"NA\"])\nprint(int(df[\"b\"].isna().sum()))\n_j2_mark = 15\n",
+      "justification_from_packet": "Exercise S15-T1-B-E1: el contrato observable es «E1 (guiado) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (». Del theory/iDo cercano tomé «isna().sum().» y de hints «pd.read_csv(StringIO(...), na_values=...).». [cf9066] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "id": "S15-T1-B-E2",
+      "code": "# exploración s15/S15-T1-B-E2\nimport pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"fecha,x\\\\n2024-01-01,1\\\\n\"), parse_dates=[\"fecha\"])\nprint(str(df[\"fecha\"].dtype))\n_j2_mark = 15\n",
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» resolví S15-T1-B-E2 leyendo la instruction: «E2 (independiente) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st». La pista «parse_dates=['fecha'].» me dio el patrón concreto del weDo. [f908b8] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "id": "S15-T1-B-E3",
+      "code": "# exploración s15/S15-T1-B-E3\nimport pandas as pd\nfrom io import StringIO\ndf = pd.read_csv(StringIO(\"cliente_id,monto,z\\\\nC001,1,9\\\\n\"), usecols=[\"cliente_id\", \"monto\"])\nprint(df.columns.tolist())\n_j2_mark = 15\n",
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» resolví S15-T1-B-E3 leyendo la instruction: «E3 (transferencia) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st». La pista «usecols=[...].» me dio el patrón concreto del weDo. [1545e5] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "id": "S15-T2-A-E1",
+      "code": "# exploración s15/S15-T2-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\nprint(df.loc[df[\"score\"] >= 0.5, \"cliente_id\"].tolist())\n_j2_mark = 15\n",
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» resolví S15-T2-A-E1 leyendo la instruction: «E1 (guiado) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (». La pista «df.loc[df.score>=0.5, 'cliente_id'].» me dio el patrón concreto del weDo. [ca0b12] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "id": "S15-T2-A-E2",
+      "code": "# exploración s15/S15-T2-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nprint(df.assign(doble=lambda x: x[\"score\"] * 2)[\"doble\"].tolist())\n_j2_mark = 15\n",
+      "justification_from_packet": "Como explorer en «Pandas: ingesta, selección y tipos», S15-T2-A-E2 se cierra con lo enseñado: E2 (independiente) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Hint operativa: «df.assign(doble=...).». [b44218] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "id": "S15-T2-A-E3",
+      "code": "# exploración s15/S15-T2-A-E3\nimport pandas as pd\ndf = pd.DataFrame([[1, 2], [3, 4]])\nprint(int(df.iloc[1, 0]))\n_j2_mark = 15\n",
+      "justification_from_packet": "Exercise S15-T2-A-E3: el contrato observable es «E3 (transferencia) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st». Del theory/iDo cercano tomé «No uses loc.» y de hints «iloc posición 1,0 → 3.». [e83d29] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "id": "S15-T2-B-E1",
+      "code": "# exploración s15/S15-T2-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\ndf.loc[df[\"score\"] < 0.5, \"flag\"] = \"x\"\nprint(df[\"flag\"].fillna(\"\").tolist())\n_j2_mark = 15\n",
+      "justification_from_packet": "Exercise S15-T2-B-E1: el contrato observable es «E1 (guiado) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (». Del theory/iDo cercano tomé «Imprime lista con fillna('').» y de hints «df.loc[mask, 'flag'] = 'x'.». [eba2c3] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "id": "S15-T2-B-E2",
+      "code": "# exploración s15/S15-T2-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\nsub = df.loc[df[\"score\"] > 0.5].copy()\nsub[\"ok\"] = True\nprint(sub[\"ok\"].tolist())\n_j2_mark = 15\n",
+      "justification_from_packet": "Como explorer en «Pandas: ingesta, selección y tipos», S15-T2-B-E2 se cierra con lo enseñado: E2 (independiente) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Hint operativa: «subset = df.loc[...].copy().». [837810] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "id": "S15-T2-B-E3",
+      "code": "# exploración s15/S15-T2-B-E3\nimport pandas as pd\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\nc = df.copy()\nc.iloc[0, 0] = 99.0\nprint(df[\"score\"].tolist())\n_j2_mark = 15\n",
+      "justification_from_packet": "Como explorer en «Pandas: ingesta, selección y tipos», S15-T2-B-E3 se cierra con lo enseñado: E3 (transferencia) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Hint operativa: «c = df.copy(); c.iloc[0,0]=99.». [ee2ca8] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "id": "S15-T3-A-E1",
+      "code": "# exploración s15/S15-T3-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\ns = df[\"region\"].str.title().astype(\"category\")\nprint(s.dtype.name)\n_j2_mark = 15\n",
+      "justification_from_packet": "Como explorer en «Pandas: ingesta, selección y tipos», S15-T3-A-E1 se cierra con lo enseñado: E1 (guiado) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (. Hint operativa: «astype('category').». [ca650e] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "id": "S15-T3-A-E2",
+      "code": "# exploración s15/S15-T3-A-E2\nimport pandas as pd\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\nprint(s.tolist())\n_j2_mark = 15\n",
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» resolví S15-T3-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st». La pista «pd.to_numeric(..., errors='coerce').» me dio el patrón concreto del weDo. [7d82cf] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "id": "S15-T3-A-E3",
+      "code": "# exploración s15/S15-T3-A-E3\nimport pandas as pd\ns = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), errors=\"coerce\")\nprint(int(s.isna().sum()))\n_j2_mark = 15\n",
+      "justification_from_packet": "Armé S15-T3-A-E3 desde el quiz_card de «Pandas: ingesta, selección y tipos». Instruction recortada: «E3 (transferencia) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st». Verifiqué con la pista «isna().sum().». [c2717f] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "id": "S15-T3-B-E1",
+      "code": "# exploración s15/S15-T3-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\nbefore = df[\"monto\"].isna().sum()\ndf[\"monto\"] = pd.to_numeric(df[\"monto\"], errors=\"coerce\")\nprint(int(df[\"monto\"].isna().sum() - before))\n_j2_mark = 15\n",
+      "justification_from_packet": "Para S15-T3-B-E1 el paquete de «Pandas: ingesta, selección y tipos» pide: E1 (guiado) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (. Anclé la respuesta a «Compara isna antes/después.» y conservé el fixture del starter. [3b0923] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "id": "S15-T3-B-E2",
+      "code": "# exploración s15/S15-T3-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nschema = {\"monto\": \"float64\"}\ntry:\n    for col in schema:\n        if col not in df.columns:\n            raise KeyError(col)\nexcept KeyError:\n    print(\"missing\")\n_j2_mark = 15\n",
+      "justification_from_packet": "Para S15-T3-B-E2 el paquete de «Pandas: ingesta, selección y tipos» pide: E2 (independiente) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Anclé la respuesta a «if col not in df.columns.» y conservé el fixture del starter. [244be1] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "id": "S15-T3-B-E3",
+      "code": "# exploración s15/S15-T3-B-E3\nimport pandas as pd\ns = pd.Series([\"C001\"]).astype(\"string\")\nprint(str(s.dtype))\n_j2_mark = 15\n",
+      "justification_from_packet": "Para S15-T3-B-E3 el paquete de «Pandas: ingesta, selección y tipos» pide: E3 (transferencia) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Anclé la respuesta a «astype('string').» y conservé el fixture del starter. [767db8] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "id": "S15-T4-A-E1",
+      "code": "# exploración s15/S15-T4-A-E1\nimport pandas as pd\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\nbuf = StringIO()\ndf.to_csv(buf, index=False)\nbuf.seek(0)\nprint(pd.read_csv(buf).columns.tolist())\n_j2_mark = 15\n",
+      "justification_from_packet": "Como explorer en «Pandas: ingesta, selección y tipos», S15-T4-A-E1 se cierra con lo enseñado: E1 (guiado) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (. Hint operativa: «to_csv(buf, index=False).». [86fbad] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "id": "S15-T4-A-E2",
+      "code": "# exploración s15/S15-T4-A-E2\nimport pandas as pd\nfrom io import BytesIO\nbio = BytesIO()\npd.DataFrame({\"a\": [1]}).to_excel(bio, index=False, engine=\"openpyxl\")\nprint(len(bio.getvalue()) > 0)\n_j2_mark = 15\n",
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» resolví S15-T4-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st». La pista «engine='openpyxl'.» me dio el patrón concreto del weDo. [4af7fe] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "id": "S15-T4-A-E3",
+      "code": "# exploración s15/S15-T4-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\ncontract = {c: str(df[c].dtype) for c in df.columns}\nprint(dict(sorted(contract.items())))\n_j2_mark = 15\n",
+      "justification_from_packet": "Exercise S15-T4-A-E3: el contrato observable es «E3 (transferencia) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st». Del theory/iDo cercano tomé «sorted items o print dict estable.» y de hints «dict comprehension.». [b1c34a] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "id": "S15-T4-B-E1",
+      "code": "# exploración s15/S15-T4-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]})\nprint(int(df.memory_usage(deep=True).sum()) > 0)\n_j2_mark = 15\n",
+      "justification_from_packet": "En «Pandas: ingesta, selección y tipos» resolví S15-T4-B-E1 leyendo la instruction: «E1 (guiado) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (». La pista «memory_usage(deep=True).sum().» me dio el patrón concreto del weDo. [a9a541] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "id": "S15-T4-B-E2",
+      "code": "# exploración s15/S15-T4-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\nprint(manifest[\"rows\"], manifest[\"columns\"])\n_j2_mark = 15\n",
+      "justification_from_packet": "Como explorer en «Pandas: ingesta, selección y tipos», S15-T4-B-E2 se cierra con lo enseñado: E2 (independiente) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Hint operativa: «len(df) y columns.tolist().». [50d04a] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "id": "S15-T4-B-E3",
+      "code": "# exploración s15/S15-T4-B-E3\nimport pandas as pd, hashlib\ndf = pd.DataFrame({\"a\": [1]})\nblob = df.to_csv(index=False).encode()\nprint(hashlib.sha1(blob).hexdigest()[:8])\n_j2_mark = 15\n",
+      "justification_from_packet": "Para S15-T4-B-E3 el paquete de «Pandas: ingesta, selección y tipos» pide: E3 (transferencia) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st. Anclé la respuesta a «hashlib.sha1(blob).hexdigest()[:8].» y conservé el fixture del starter. [24d8f1] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Pandas: ingesta, selección y tipos"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck de «Pandas: ingesta, selección y tipos» #0: «¿Qué método de selección usa etiquetas de index/columnas?». Elegí «loc» porque el theory del paquete describe ese comportamiento de forma directa. [b16a72] conf~0.95.",
+      "confidence": 0.95
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck de «Pandas: ingesta, selección y tipos» #1: «SettingWithCopyWarning se relaciona con:». Elegí «Asignación sobre slices que pueden ser view/copy (chained assignment)» porque el theory del paquete describe ese comportamiento de forma directa. [5c55a2] conf~0.79.",
+      "confidence": 0.79
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck de «Pandas: ingesta, selección y tipos» #2: «errors='coerce' en to_numeric:». Elegí «Convierte inválidos a NaN» porque el theory del paquete describe ese comportamiento de forma directa. [058eaa] conf~0.76.",
+      "confidence": 0.76
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck de «Pandas: ingesta, selección y tipos» #3: «Un manifest de export debería incluir al menos:». Elegí «Filas, columnas y provenance/hash del artefacto» porque el theory del paquete describe ese comportamiento de forma directa. [e4323d] conf~0.91.",
+      "confidence": 0.91
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:33.861481+00:00",
+  "session_started_at": "2026-07-23T12:53:43.030199+00:00",
+  "session_ended_at": "2026-07-23T12:54:02.704199+00:00",
+  "receipt_response_sha256": "ab296a19229a14e379a0dc304afabd72de1648fa4ee5e34ef3ce1a7f5d7053e0"
+}

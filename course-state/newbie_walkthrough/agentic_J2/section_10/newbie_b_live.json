@@ -1,0 +1,299 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 10,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s10-80a3ede2212a",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "id": "S10-T1-A-E1",
+      "code": "# revisión escéptica s10/S10-T1-A-E1\ndef _ws(s: str) -> str:\n    return \" \".join(s.split())\n\ndef clean(s: str) -> str:\n    return _ws(s).casefold()\n\n__all__ = [\"clean\"]\nprint(__all__)\nprint(clean(\"  X \"))\n_j2_chk = 'S10-T1-A-E1'\n",
+      "justification_from_packet": "En «Módulos, packaging y CLI profesional», S10-T1-A-E1 queda justificado por «E1 (guiado) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/id» y por «Imprime __all__ y clean(' X ').» del paquete; confié en hints antes que en inventos. [14b509] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "id": "S10-T1-A-E2",
+      "code": "# revisión escéptica s10/S10-T1-A-E2\ndef util_norm(s: str) -> str:\n    return s.strip().casefold()\n\ndef module_a_process(s: str) -> str:\n    return util_norm(s) + \":a\"\n\ndef module_b_process(s: str) -> str:\n    return util_norm(s) + \":b\"\n\nprint(module_a_process(\" Hola \"))\nprint(module_b_process(\" Hola \"))\nprint(\"ok\")\n_j2_chk = 'S10-T1-A-E2'\n",
+      "justification_from_packet": "Escéptico en S10-T1-A-E2 («Módulos, packaging y CLI profesional»): contrasté la instruction «E2 (independiente) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`C» con la hint «a importa b y b importa a → rompe; mueve la función común a util.» y rechacé huecos del starter. [fe3ccc] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "id": "S10-T1-A-E3",
+      "code": "# revisión escéptica s10/S10-T1-A-E3\nrecs = {\n    \"normalize.py importa compare en el mismo paquete\": \"relativo o absoluto del paquete (from . import compare)\",\n    \"plugin externo usa familiarity_core\": \"absoluto (import familiarity_core)\",\n    \"ejecutar el CLI del paquete\": \"python -m familiarity_core\",\n}\nfor c, r in recs.items():\n    print(f\"{c} -> {r}\")\n_j2_chk = 'S10-T1-A-E3'\n",
+      "justification_from_packet": "Escéptico en S10-T1-A-E3 («Módulos, packaging y CLI profesional»): contrasté la instruction «E3 (transferencia) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`C» con la hint «Dentro del paquete: relativo OK; plugins externos: absoluto; scripts: -m.» y rechacé huecos del starter. [075acd] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "id": "S10-T1-B-E1",
+      "code": "# revisión escéptica s10/S10-T1-B-E1\ndef _tokenize(s):\n    return s.split()\n\ndef normalize(s):\n    return \" \".join(_tokenize(s)).lower()\n\ndef compare(a, b):\n    return normalize(a) == normalize(b)\n\nnames = [\"_tokenize\", \"normalize\", \"compare\"]\npublic = [n for n in names if not n.startswith(\"_\")]\nprivate = [n for n in names if n.startswith(\"_\")]\nprint(\"public\", public)\nprint(\"private\", private)\nprint(compare(\"A\", \"a\"))\n_j2_chk = 'S10-T1-B-E1'\n",
+      "justification_from_packet": "Revisión de S10-T1-B-E1 en «Módulos, packaging y CLI profesional»: la instruction («E1 (guiado) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/id») y la hint («Imprime lista public vs private detectada por nombre.») bastan para una forma completa. [62efba] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "id": "S10-T1-B-E2",
+      "code": "# revisión escéptica s10/S10-T1-B-E2\ndef normalize(s: str) -> str:\n    return s.strip().casefold()\n\ndef compare(a: str, b: str) -> bool:\n    return normalize(a) == normalize(b)\n\n# facade reexport\n__all__ = [\"normalize\", \"compare\"]\nprint(__all__)\nprint(compare(\"Z\", \" z \"))\n_j2_chk = 'S10-T1-B-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S10-T1-B-E2: E2 (independiente) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`C. El material activo menciona «Las implementaciones pueden ser locales.»; el código refleja ese contrato sin TODO. [cf0ab6] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "id": "S10-T1-B-E3",
+      "code": "# revisión escéptica s10/S10-T1-B-E3\nprint(\"BREAKING: compare(a,b)->bool  =>  compare(a,b)->float score\")\nprint(\"NEW_VERSION: 1.0.0 -> 2.0.0\")\nprint(\"MIGRATION: usar compare(a,b) == 1.0 en vez de is True\")\n_j2_chk = 'S10-T1-B-E3'\n",
+      "justification_from_packet": "Escéptico en S10-T1-B-E3 («Módulos, packaging y CLI profesional»): contrasté la instruction «E3 (transferencia) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`C» con la hint «Imprime BREAKING y NEW_VERSION.» y rechacé huecos del starter. [ad1275] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "id": "S10-T2-A-E1",
+      "code": "# revisión escéptica s10/S10-T2-A-E1\nproject = {\n    \"name\": \"familiarity-core\",\n    \"version\": \"0.1.0\",\n    \"requires-python\": \">=3.11\",\n}\nprint(project)\n_j2_chk = 'S10-T2-A-E1'\n",
+      "justification_from_packet": "Revisión de S10-T2-A-E1 en «Módulos, packaging y CLI profesional»: la instruction («E1 (guiado) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/id») y la hint («name=familiarity-core version=0.1.0») bastan para una forma completa. [e7799a] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "id": "S10-T2-A-E2",
+      "code": "# revisión escéptica s10/S10-T2-A-E2\npaths = [\n    \"src/familiarity_core/__init__.py\",\n    \"src/familiarity_core/normalize.py\",\n    \"src/familiarity_core/cli.py\",\n    \"pyproject.toml\",\n]\nfor p in paths:\n    print(p)\n_j2_chk = 'S10-T2-A-E2'\n",
+      "justification_from_packet": "Revisión de S10-T2-A-E2 en «Módulos, packaging y CLI profesional»: la instruction («E2 (independiente) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`C») y la hint («Incluye __init__.py, normalize.py, cli.py, pyproject.toml.») bastan para una forma completa. [bc3f08] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "id": "S10-T2-A-E3",
+      "code": "# revisión escéptica s10/S10-T2-A-E3\ncauses = [\n    \"cause: paquete no instalado (falta pip install -e .)\",\n    \"cause: nombre import != nombre de carpeta (familiarity_core)\",\n    \"cause: se ejecuta un script que tapa el paquete en sys.path\",\n]\nfor c in causes:\n    print(c)\n_j2_chk = 'S10-T2-A-E3'\n",
+      "justification_from_packet": "En «Módulos, packaging y CLI profesional», S10-T2-A-E3 queda justificado por «E3 (transferencia) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`C» y por «Formato cause: ...» del paquete; confié en hints antes que en inventos. [de10ff] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "id": "S10-T2-B-E1",
+      "code": "# revisión escéptica s10/S10-T2-B-E1\nniveles = {\n    \"renombrar normalize a clean_name (API pública)\": \"major\",\n    \"añadir flag --format a report\": \"minor\",\n    \"corregir typo en help\": \"patch\",\n    \"eliminar subcomando compare\": \"major\",\n}\nfor c, n in niveles.items():\n    print(f\"{c}: {n}\")\n_j2_chk = 'S10-T2-B-E1'\n",
+      "justification_from_packet": "Para S10-T2-B-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/id. Criterio: «Breaking → major; feature → minor; fix → patch.». Segunda ancla: «Imprime cambio: nivel.». [efc595] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "id": "S10-T2-B-E2",
+      "code": "# revisión escéptica s10/S10-T2-B-E2\ndeps = {\n    \"requires-python\": \">=3.11\",\n    \"dependencies\": [],\n    \"optional-dependencies\": {\"dev\": [\"pytest\"]},\n}\nprint(deps)\n_j2_chk = 'S10-T2-B-E2'\n",
+      "justification_from_packet": "En «Módulos, packaging y CLI profesional», S10-T2-B-E2 queda justificado por «E2 (independiente) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`C» y por «requires-python>=3.11.» del paquete; confié en hints antes que en inventos. [0e9a7f] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "id": "S10-T2-B-E3",
+      "code": "# revisión escéptica s10/S10-T2-B-E3\nfor line in [\n    \"POLICY: renombrar ClientRecord es MAJOR; documentar migración\",\n    \"POLICY: añadir campo opcional con default es MINOR\",\n    \"POLICY: S11 no rompe CLI de S10 sin bump y CHANGELOG\",\n]:\n    print(line)\n_j2_chk = 'S10-T2-B-E3'\n",
+      "justification_from_packet": "Escéptico en S10-T2-B-E3 («Módulos, packaging y CLI profesional»): contrasté la instruction «E3 (transferencia) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`C» con la hint «Cubrir renames de entidades y versiones.» y rechacé huecos del starter. [0fe0f8] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "id": "S10-T3-A-E1",
+      "code": "# revisión escéptica s10/S10-T3-A-E1\nimport argparse\np = argparse.ArgumentParser()\nsub = p.add_subparsers(dest=\"cmd\", required=True)\nr = sub.add_parser(\"report\")\nr.add_argument(\"--format\", choices=[\"text\", \"json\"], default=\"text\")\nns = p.parse_args([\"report\", \"--format\", \"json\"])\nprint(ns)\n_j2_chk = 'S10-T3-A-E1'\n",
+      "justification_from_packet": "En «Módulos, packaging y CLI profesional», S10-T3-A-E1 queda justificado por «E1 (guiado) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/id» y por «Imprime el namespace.» del paquete; confié en hints antes que en inventos. [f367f0] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "id": "S10-T3-A-E2",
+      "code": "# revisión escéptica s10/S10-T3-A-E2\ncodes = {\n    \"normalize ok\": 0,\n    \"archivo de input no existe\": 1,\n    \"flag desconocido\": 2,\n    \"subcomando ausente\": 2,\n    \"validación de config falla al arrancar\": 1,\n}\nfor c, code in codes.items():\n    print(f\"{c}: {code}\")\n_j2_chk = 'S10-T3-A-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S10-T3-A-E2: E2 (independiente) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`C. El material activo menciona «0 éxito, 1 runtime, 2 usage.»; el código refleja ese contrato sin TODO. [b86b0e] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "id": "S10-T3-A-E3",
+      "code": "# revisión escéptica s10/S10-T3-A-E3\nfor h in [\n    \"HELP: familiarity ingest --input data/clientes.csv  # carga el archivo de clientes\",\n    \"HELP: familiarity normalize --field name            # limpia espacios y mayúsculas\",\n    \"HELP: Si falla, revise el código de salida: 2=uso, 1=error de datos/config\",\n]:\n    print(h)\n_j2_chk = 'S10-T3-A-E3'\n",
+      "justification_from_packet": "En «Módulos, packaging y CLI profesional», S10-T3-A-E3 queda justificado por «E3 (transferencia) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`C» y por «Imprime HELP: ...» del paquete; confié en hints antes que en inventos. [011527] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "id": "S10-T3-B-E1",
+      "code": "# revisión escéptica s10/S10-T3-B-E1\nfrom io import StringIO\nimport sys\n\ndef process(n: int, err: StringIO) -> int:\n    err.write(\"event=done\\\\n\")\n    return n * 2\n\nerr = StringIO()\nout = process(3, err)\nprint(out)\nprint(\"stderr:\", err.getvalue().strip())\n_j2_chk = 'S10-T3-B-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S10-T3-B-E1: E1 (guiado) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/id. El material activo menciona «Función process(n) retorna n*2; log event=done.»; el código refleja ese contrato sin TODO. [126e40] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "id": "S10-T3-B-E2",
+      "code": "# revisión escéptica s10/S10-T3-B-E2\ndef read_input(path_or_dash, stdin_text=\"\", file_text=None):\n    if path_or_dash == \"-\":\n        return stdin_text\n    return file_text if file_text is not None else \"\"\n\nprint(read_input(\"-\", stdin_text=\"desde stdin\"))\nprint(read_input(\"file.csv\", file_text=\"desde file\"))\n_j2_chk = 'S10-T3-B-E2'\n",
+      "justification_from_packet": "Revisión de S10-T3-B-E2 en «Módulos, packaging y CLI profesional»: la instruction («E2 (independiente) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`C») y la hint («Si path=='-', usa stdin_text.») bastan para una forma completa. [d6046b] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "id": "S10-T3-B-E3",
+      "code": "# revisión escéptica s10/S10-T3-B-E3\nfrom io import StringIO\n\ndef bad_cli():\n    return \"empezando\\\\n{\\\\\"ok\\\\\": true}\\\\nfin\"\n\ndef good_cli(err: StringIO) -> str:\n    err.write(\"empezando\\\\n\")\n    err.write(\"fin\\\\n\")\n    return '{\"ok\": true}'\n\nprint(\"BAD\")\nprint(bad_cli())\nerr = StringIO()\nprint(\"GOOD\")\nprint(good_cli(err))\nprint(\"stderr_only\", err.getvalue().replace(\"\\\\n\", \" | \").strip())\n_j2_chk = 'S10-T3-B-E3'\n",
+      "justification_from_packet": "Para S10-T3-B-E3 no acepté un esqueleto a medias. Pedido del paquete: E3 (transferencia) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`C. Criterio: «Imprime BAD y GOOD.». Segunda ancla: «GOOD solo JSON final.». [8a63b9] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "id": "S10-T4-A-E1",
+      "code": "# revisión escéptica s10/S10-T4-A-E1\nlayers = [\"defaults\", \"file\", \"env\", \"flags\"]\nfor i, name in enumerate(layers, 1):\n    print(f\"{i}:{name}\")\n_j2_chk = 'S10-T4-A-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S10-T4-A-E1: E1 (guiado) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/id. El material activo menciona «defaults < file < env < flags.»; el código refleja ese contrato sin TODO. [10aae6] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "id": "S10-T4-A-E2",
+      "code": "# revisión escéptica s10/S10-T4-A-E2\ndef merge(defaults, file_cfg, env_cfg, flags):\n    out = dict(defaults)\n    for layer in (file_cfg, env_cfg, flags):\n        for k, v in layer.items():\n            if v is not None:\n                out[k] = v\n    return out\n\nprint(merge(\n    {\"log_level\": \"INFO\", \"jobs\": 1},\n    {\"log_level\": \"WARNING\"},\n    {\"log_level\": \"DEBUG\", \"jobs\": None},\n    {\"log_level\": \"ERROR\"},\n))\n_j2_chk = 'S10-T4-A-E2'\n",
+      "justification_from_packet": "Para S10-T4-A-E2 no acepté un esqueleto a medias. Pedido del paquete: E2 (independiente) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`C. Criterio: «Prueba con log_level en todas las capas.». Segunda ancla: «El flag debe ganar.». [feba78] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "id": "S10-T4-A-E3",
+      "code": "# revisión escéptica s10/S10-T4-A-E3\nprint(\"result=INFO\")\nprint(\"razon=el flag CLI tiene mayor precedencia que la variable de entorno\")\n_j2_chk = 'S10-T4-A-E3'\n",
+      "justification_from_packet": "Escéptico en S10-T4-A-E3 («Módulos, packaging y CLI profesional»): contrasté la instruction «E3 (transferencia) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`C» con la hint «Una línea result= y una razón.» y rechacé huecos del starter. [99dcc9] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "id": "S10-T4-B-E1",
+      "code": "# revisión escéptica s10/S10-T4-B-E1\nfor x in [\".env\", \".env.*\", \"*.pem\", \"credentials.json\"]:\n    print(\"ignore:\", x)\n_j2_chk = 'S10-T4-B-E1'\n",
+      "justification_from_packet": "Revisión de S10-T4-B-E1 en «Módulos, packaging y CLI profesional»: la instruction («E1 (guiado) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/id») y la hint («Incluye .env, *.pem, credentials.json, .venv opcional no es secreto pero sí») bastan para una forma completa. [57d365] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "id": "S10-T4-B-E2",
+      "code": "# revisión escéptica s10/S10-T4-B-E2\ndef validate_config(cfg: dict) -> None:\n    for k in (\"log_level\", \"data_dir\"):\n        if not cfg.get(k):\n            raise RuntimeError(f\"config: falta clave requerida '{k}'\")\n\nvalidate_config({\"log_level\": \"INFO\", \"data_dir\": \"data\"})\nprint(\"ok\")\ntry:\n    validate_config({\"log_level\": \"INFO\"})\nexcept RuntimeError as e:\n    print(e)\n_j2_chk = 'S10-T4-B-E2'\n",
+      "justification_from_packet": "En «Módulos, packaging y CLI profesional», S10-T4-B-E2 queda justificado por «E2 (independiente) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`C» y por «Prueba ok y fail.» del paquete; confié en hints antes que en inventos. [6d6cc6] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "id": "S10-T4-B-E3",
+      "code": "# revisión escéptica s10/S10-T4-B-E3\ninseguro = {\"log_level\": \"DEBUG\", \"echo_sql\": True, \"api_token\": \"hardcoded\"}\nseguro = {\"log_level\": \"INFO\", \"echo_sql\": False, \"api_token\": None}\nfor k in inseguro:\n    print(f\"{k}: {inseguro[k]!r} -> {seguro[k]!r}\")\n_j2_chk = 'S10-T4-B-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S10-T4-B-E3: E3 (transferencia) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`C. El material activo menciona «Imprime old → new por clave.»; el código refleja ese contrato sin TODO. [9c6765] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Módulos, packaging y CLI profesional"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #0 en «Módulos, packaging y CLI profesional»: «¿Para qué sirve `if __name__ == '__main__'`?». Las otras opciones no cuadran con iDo/theory; me quedo con «Ejecutar el CLI/demo solo al correr el módulo, no al importar». [af6640] conf~0.83.",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #1 en «Módulos, packaging y CLI profesional»: «Precedencia correcta de config…». Las otras opciones no cuadran con iDo/theory; me quedo con «flags > env > file > defaults». [ba83bc] conf~0.92.",
+      "confidence": 0.92
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #2 en «Módulos, packaging y CLI profesional»: «Exit code 2 en CLI argparse suele significar…». Las otras opciones no cuadran con iDo/theory; me quedo con «Error de uso/parseo de argumentos». [b792ca] conf~0.85.",
+      "confidence": 0.85
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #3 en «Módulos, packaging y CLI profesional»: «¿Dónde van los logs de progreso?». Las otras opciones no cuadran con iDo/theory; me quedo con «stderr». [a0ecfe] conf~0.86.",
+      "confidence": 0.86
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #4 en «Módulos, packaging y CLI profesional»: «Añadir un subcomando nuevo compatible es tipicamente…». Las otras opciones no cuadran con iDo/theory; me quedo con «minor». [1a97d2] conf~0.86.",
+      "confidence": 0.86
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #5 en «Módulos, packaging y CLI profesional»: «¿Qué no debe ir al git del paquete?». Las otras opciones no cuadran con iDo/theory; me quedo con «.env con API_TOKEN». [e950aa] conf~0.79.",
+      "confidence": 0.79
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:21.234143+00:00",
+  "session_started_at": "2026-07-23T12:50:43.030199+00:00",
+  "session_ended_at": "2026-07-23T12:51:03.080199+00:00",
+  "receipt_response_sha256": "25eff52bf98693f5ead7b576a931cb63303a0ae4511671b151b0e39fbe2248bc"
+}

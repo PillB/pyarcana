@@ -1,0 +1,479 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_J1",
+  "section_index": 40,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-ske-s40-ab50787e23",
+  "production_note": "agentic_J1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S40-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\": 'ops',\"stimulus\": '100 req/s',\"environment\": 'peak',\"response\": 'serve',\"observed_ms\": 280,\"target_ms\": 300,\"owner\": 'platform'}}\nmeets_contract = bool(not (record[\"observed_ms\"] >= record[\"target_ms\"]))\nstatus = (\"PASS\" if meets_contract else \"REJECT_QA_SCENARIO\")\nprint(\"S40-T1-A\", status)\n",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T1-A-E1",
+        "S40",
+        "Calcula",
+        "contrato",
+        "requisitos",
+        "funcionales",
+        "quality",
+        "attributes"
+      ],
+      "justification_from_packet": "Skeptic en S40-T1-A-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"observed_ms\"] >= record[\"target_ms\"])`. Instrucción del paquete: S40-T1-A-E1 · Calcula el contrato de `requisitos funcionales y quality attributes` sobre `CASO-LIM-040-1A`. La entrada es el dict completo del starter; la opera. Ante incumplimiento devuelve `REJECT_QA_SCENARIO`. Ancla theory: Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, estímulo, entorno, respues Campos usados: observed_ms, target_ms."
+    },
+    {
+      "exercise_id": "S40-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"source\", \"stimulus\", \"environment\", \"response\", \"observed_ms\", \"target_ms\", \"owner\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"observed_ms\"] >= record[\"target_ms\"])\n    return \"PASS\" if ok else \"REJECT_QA_SCENARIO\"\n\nvalid = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300, 'owner': 'platform'}\ninvalid = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 1280, 'target_ms': 300, 'owner': 'platform'}\nincomplete = dict(valid)\nif \"owner\" in incomplete:\n    del incomplete[\"owner\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T1-A-E2",
+        "S40",
+        "Modela",
+        "tres",
+        "rutas",
+        "requisitos",
+        "funcionales",
+        "quality"
+      ],
+      "justification_from_packet": "Skeptic en S40-T1-A-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"observed_ms\"] >= record[\"target_ms\"])`. Instrucción del paquete: S40-T1-A-E2 · Modela tres rutas de `requisitos funcionales y quality attributes`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case. Ante incumplimiento devuelve `REJECT_QA_SCENARIO`; sin `owner` no se evalúa dominio. Ancla theory: Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, estímulo, entorno, respues Campos usados: observed_ms, target_ms."
+    },
+    {
+      "exercise_id": "S40-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"source\", \"stimulus\", \"environment\", \"response\", \"observed_ms\", \"target_ms\", \"owner\"}\n    if any(k not in record for k in required):\n        return \"REQUEST_QA_OWNER\"\n    if not (record[\"observed_ms\"] >= record[\"target_ms\"]):\n        return \"CONTINUE\"\n    return \"REJECT_QA_SCENARIO\"\n\nvalid = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 280, 'target_ms': 300, 'owner': 'platform'}\ninvalid = {'case_id': 'CASO-LIM-040-1A', 'source': 'ops', 'stimulus': '100 req/s', 'environment': 'peak', 'response': 'serve', 'observed_ms': 1280, 'target_ms': 300, 'owner': 'platform'}\nincomplete = dict(valid)\nincomplete.pop(\"owner\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T1-A-E3",
+        "S40",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "requisitos",
+        "funcionales"
+      ],
+      "justification_from_packet": "Skeptic en S40-T1-A-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"observed_ms\"] >= record[\"target_ms\"])`. Instrucción del paquete: S40-T1-A-E3 · Simula fallo cerrado para `requisitos funcionales y quality attributes` con tres fixtures distintos. `CASO-LIM-040-1A` debe continuar, el adverso . Ante incumplimiento devuelve `REJECT_QA_SCENARIO`; sin `owner` no se evalúa dominio y la incertidumbre cierra en `REQUEST_QA_OWNER`. Ancla theory: Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, estímulo, entorno, respues Campos usados: observed_ms, target_ms."
+    },
+    {
+      "exercise_id": "S40-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\": {'sync': 3.8, 'async': 2.2},\"selected\": 'async',\"risk_owner\": 'arquitectura',\"residual_risk\": 2}}\nmeets_contract = bool(not (record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get)))\nstatus = (\"PASS\" if meets_contract else \"REOPEN_TRADEOFF\")\nprint(\"S40-T1-B\", status)\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T1-B-E1",
+        "S40",
+        "Compara",
+        "contrato",
+        "trade",
+        "offs",
+        "riesgos",
+        "criterios"
+      ],
+      "justification_from_packet": "Skeptic en S40-T1-B-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get))`. Instrucción del paquete: S40-T1-B-E1 · Compara el contrato de `trade-offs, riesgos y criterios medibles` sobre `CASO-LIM-040-1B`. La entrada es el dict completo del starter; la operació. Ante incumplimiento devuelve `REOPEN_TRADEOFF`. Ancla theory: Un trade-off compara alternativas contra criterios ponderados y registra riesgo, probabilidad, impacto y mitigación; la arquitectura no tien Campos usados: selected, scores, scores."
+    },
+    {
+      "exercise_id": "S40-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"scores\", \"selected\", \"risk_owner\", \"residual_risk\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get))\n    return \"PASS\" if ok else \"REOPEN_TRADEOFF\"\n\nvalid = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'async', 'risk_owner': 'arquitectura', 'residual_risk': 2}\ninvalid = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'sync', 'risk_owner': 'arquitectura', 'residual_risk': 2}\nincomplete = dict(valid)\nif \"residual_risk\" in incomplete:\n    del incomplete[\"residual_risk\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T1-B-E2",
+        "S40",
+        "Verifica",
+        "tres",
+        "rutas",
+        "trade",
+        "offs",
+        "riesgos"
+      ],
+      "justification_from_packet": "Skeptic en S40-T1-B-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get))`. Instrucción del paquete: S40-T1-B-E2 · Verifica tres rutas de `trade-offs, riesgos y criterios medibles`: fixture válido, fixture adverso y registro sin `residual_risk`. Entrada: dict c. Ante incumplimiento devuelve `REOPEN_TRADEOFF`; sin `residual_risk` no se evalúa dominio. Ancla theory: Un trade-off compara alternativas contra criterios ponderados y registra riesgo, probabilidad, impacto y mitigación; la arquitectura no tien Campos usados: selected, scores, scores."
+    },
+    {
+      "exercise_id": "S40-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"scores\", \"selected\", \"risk_owner\", \"residual_risk\"}\n    if any(k not in record for k in required):\n        return \"ESCALATE_RESIDUAL_RISK\"\n    if not (record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get)):\n        return \"CONTINUE\"\n    return \"REOPEN_TRADEOFF\"\n\nvalid = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'async', 'risk_owner': 'arquitectura', 'residual_risk': 2}\ninvalid = {'case_id': 'CASO-LIM-040-1B', 'scores': {'sync': 3.8, 'async': 2.2}, 'selected': 'sync', 'risk_owner': 'arquitectura', 'residual_risk': 2}\nincomplete = dict(valid)\nincomplete.pop(\"residual_risk\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T1-B-E3",
+        "S40",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "trade",
+        "offs"
+      ],
+      "justification_from_packet": "Skeptic en S40-T1-B-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get))`. Instrucción del paquete: S40-T1-B-E3 · Extiende fallo cerrado para `trade-offs, riesgos y criterios medibles` con tres fixtures distintos. `CASO-LIM-040-1B` debe continuar, el adverso d. Ante incumplimiento devuelve `REOPEN_TRADEOFF`; sin `residual_risk` no se evalúa dominio y la incertidumbre cierra en `ESCALATE_RESIDUAL_RISK`. Ancla theory: Un trade-off compara alternativas contra criterios ponderados y registra riesgo, probabilidad, impacto y mitigación; la arquitectura no tien Campos usados: selected, scores, scores."
+    },
+    {
+      "exercise_id": "S40-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\": ['presentation', 'application', 'domain', 'infrastructure'],\"dependencies\": [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']]}}\nmeets_contract = bool(not (all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"])))\nstatus = (\"PASS\" if meets_contract else \"REDRAW_BOUNDARY\")\nprint(\"S40-T2-A\", status)\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T2-A-E1",
+        "S40",
+        "Filtra",
+        "contrato",
+        "cohesión",
+        "coupling",
+        "capas",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic en S40-T2-A-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"]))`. Instrucción del paquete: S40-T2-A-E1 · Filtra el contrato de `cohesión/coupling y capas` sobre `CASO-LIM-040-2A`. La entrada es el dict completo del starter; la operación debe demostrar. Ante incumplimiento devuelve `REDRAW_BOUNDARY`. Ancla theory: Alta cohesión mantiene juntas reglas que cambian por la misma razón; bajo acoplamiento evita que presentación e infraestructura dicten el do Campos usados: dependencies."
+    },
+    {
+      "exercise_id": "S40-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"layers\", \"dependencies\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"]))\n    return \"PASS\" if ok else \"REDRAW_BOUNDARY\"\n\nvalid = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']]}\ninvalid = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'infrastructure'], ['application', 'infrastructure'], ['infrastructure', 'infrastructure']]}\nincomplete = dict(valid)\nif \"dependencies\" in incomplete:\n    del incomplete[\"dependencies\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T2-A-E2",
+        "S40",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "cohesión",
+        "coupling",
+        "capas"
+      ],
+      "justification_from_packet": "Skeptic en S40-T2-A-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"]))`. Instrucción del paquete: S40-T2-A-E2 · Clasifica tres rutas de `cohesión/coupling y capas`: fixture válido, fixture adverso y registro sin `dependencies`. Entrada: dict con case_id, lay. Ante incumplimiento devuelve `REDRAW_BOUNDARY`; sin `dependencies` no se evalúa dominio. Ancla theory: Alta cohesión mantiene juntas reglas que cambian por la misma razón; bajo acoplamiento evita que presentación e infraestructura dicten el do Campos usados: dependencies."
+    },
+    {
+      "exercise_id": "S40-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"layers\", \"dependencies\"}\n    if any(k not in record for k in required):\n        return \"REVIEW_LAYER_OWNER\"\n    if not (all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"])):\n        return \"CONTINUE\"\n    return \"REDRAW_BOUNDARY\"\n\nvalid = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'application'], ['application', 'domain'], ['infrastructure', 'domain']]}\ninvalid = {'case_id': 'CASO-LIM-040-2A', 'layers': ['presentation', 'application', 'domain', 'infrastructure'], 'dependencies': [['presentation', 'infrastructure'], ['application', 'infrastructure'], ['infrastructure', 'infrastructure']]}\nincomplete = dict(valid)\nincomplete.pop(\"dependencies\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T2-A-E3",
+        "S40",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "cohesión",
+        "coupling"
+      ],
+      "justification_from_packet": "Skeptic en S40-T2-A-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"]))`. Instrucción del paquete: S40-T2-A-E3 · Defiende fallo cerrado para `cohesión/coupling y capas` con tres fixtures distintos. `CASO-LIM-040-2A` debe continuar, el adverso debe devolver `R. Ante incumplimiento devuelve `REDRAW_BOUNDARY`; sin `dependencies` no se evalúa dominio y la incertidumbre cierra en `REVIEW_LAYER_OWNER`. Ancla theory: Alta cohesión mantiene juntas reglas que cambian por la misma razón; bajo acoplamiento evita que presentación e infraestructura dicten el do Campos usados: dependencies."
+    },
+    {
+      "exercise_id": "S40-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\": 'CaseRepository',\"adapter\": 'MemoryCaseRepository',\"domain_imports\": [],\"contract_tests\": 3}}\nmeets_contract = bool(not (record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"])))\nstatus = (\"PASS\" if meets_contract else \"INVERT_DEPENDENCY\")\nprint(\"S40-T2-B\", status)\n",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T2-B-E1",
+        "S40",
+        "Modela",
+        "contrato",
+        "ports",
+        "adapters",
+        "dependencia",
+        "hacia"
+      ],
+      "justification_from_packet": "Skeptic en S40-T2-B-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"]))`. Instrucción del paquete: S40-T2-B-E1 · Modela el contrato de `ports/adapters y dependencia hacia dominio` sobre `CASO-LIM-040-2B`. La entrada es el dict completo del starter; la operaci. Ante incumplimiento devuelve `INVERT_DEPENDENCY`. Ancla theory: Un port define lo que necesita el dominio y un adapter traduce HTTP, SQL o colas; las flechas de código apuntan hacia políticas estables. Campos usados: adapter, port, domain_imports."
+    },
+    {
+      "exercise_id": "S40-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"port\", \"adapter\", \"domain_imports\", \"contract_tests\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"]))\n    return \"PASS\" if ok else \"INVERT_DEPENDENCY\"\n\nvalid = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': [], 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'CaseRepository', 'domain_imports': ['infra'], 'contract_tests': 3}\nincomplete = dict(valid)\nif \"contract_tests\" in incomplete:\n    del incomplete[\"contract_tests\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T2-B-E2",
+        "S40",
+        "Audita",
+        "tres",
+        "rutas",
+        "ports",
+        "adapters",
+        "dependencia"
+      ],
+      "justification_from_packet": "Skeptic en S40-T2-B-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"]))`. Instrucción del paquete: S40-T2-B-E2 · Audita tres rutas de `ports/adapters y dependencia hacia dominio`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict . Ante incumplimiento devuelve `INVERT_DEPENDENCY`; sin `contract_tests` no se evalúa dominio. Ancla theory: Un port define lo que necesita el dominio y un adapter traduce HTTP, SQL o colas; las flechas de código apuntan hacia políticas estables. Campos usados: adapter, port, domain_imports."
+    },
+    {
+      "exercise_id": "S40-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"port\", \"adapter\", \"domain_imports\", \"contract_tests\"}\n    if any(k not in record for k in required):\n        return \"DEFINE_PORT_CONTRACT\"\n    if not (record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"])):\n        return \"CONTINUE\"\n    return \"INVERT_DEPENDENCY\"\n\nvalid = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'MemoryCaseRepository', 'domain_imports': [], 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-LIM-040-2B', 'port': 'CaseRepository', 'adapter': 'CaseRepository', 'domain_imports': ['infra'], 'contract_tests': 3}\nincomplete = dict(valid)\nincomplete.pop(\"contract_tests\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T2-B-E3",
+        "S40",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "ports",
+        "adapters"
+      ],
+      "justification_from_packet": "Skeptic en S40-T2-B-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"]))`. Instrucción del paquete: S40-T2-B-E3 · Recupera fallo cerrado para `ports/adapters y dependencia hacia dominio` con tres fixtures distintos. `CASO-LIM-040-2B` debe continuar, el adverso. Ante incumplimiento devuelve `INVERT_DEPENDENCY`; sin `contract_tests` no se evalúa dominio y la incertidumbre cierra en `DEFINE_PORT_CONTRACT`. Ancla theory: Un port define lo que necesita el dominio y un adapter traduce HTTP, SQL o colas; las flechas de código apuntan hacia políticas estables. Campos usados: adapter, port, domain_imports."
+    },
+    {
+      "exercise_id": "S40-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\": {'intake': {'case'}, 'er': {'record', 'score'}},\"translations\": {'case': 'record'}}}\nmeets_contract = bool(not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"])))\nstatus = (\"PASS\" if meets_contract else \"SPLIT_CONTEXTS\")\nprint(\"S40-T3-A\", status)\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T3-A-E1",
+        "S40",
+        "Verifica",
+        "contrato",
+        "bounded",
+        "contexts",
+        "lenguaje",
+        "ubicuo"
+      ],
+      "justification_from_packet": "Skeptic en S40-T3-A-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"]))`. Instrucción del paquete: S40-T3-A-E1 · Verifica el contrato de `bounded contexts y lenguaje ubicuo` sobre `CASO-LIM-040-3A`. La entrada es el dict completo del starter; la operación deb. Ante incumplimiento devuelve `SPLIT_CONTEXTS`. Ancla theory: Un bounded context da significado local a términos; el context map declara traducciones para que «caso» de intake no se confunda con un reco Campos usados: contexts, contexts."
+    },
+    {
+      "exercise_id": "S40-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"contexts\", \"translations\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"]))\n    return \"PASS\" if ok else \"SPLIT_CONTEXTS\"\n\nvalid = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'intake': {'case'}, 'er': {'record', 'score'}}, 'translations': {'case': 'record'}}\ninvalid = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'intake': {'SHARED', 'case'}, 'er': {'SHARED', 'record', 'score'}}, 'translations': {'case': 'record'}}\nincomplete = dict(valid)\nif \"translations\" in incomplete:\n    del incomplete[\"translations\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T3-A-E2",
+        "S40",
+        "Decide",
+        "tres",
+        "rutas",
+        "bounded",
+        "contexts",
+        "lenguaje"
+      ],
+      "justification_from_packet": "Skeptic en S40-T3-A-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"]))`. Instrucción del paquete: S40-T3-A-E2 · Decide tres rutas de `bounded contexts y lenguaje ubicuo`: fixture válido, fixture adverso y registro sin `translations`. Entrada: dict con case_i. Ante incumplimiento devuelve `SPLIT_CONTEXTS`; sin `translations` no se evalúa dominio. Ancla theory: Un bounded context da significado local a términos; el context map declara traducciones para que «caso» de intake no se confunda con un reco Campos usados: contexts, contexts."
+    },
+    {
+      "exercise_id": "S40-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"contexts\", \"translations\"}\n    if any(k not in record for k in required):\n        return \"WORKSHOP_UBIQUITOUS_LANGUAGE\"\n    if not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"])):\n        return \"CONTINUE\"\n    return \"SPLIT_CONTEXTS\"\n\nvalid = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'intake': {'case'}, 'er': {'record', 'score'}}, 'translations': {'case': 'record'}}\ninvalid = {'case_id': 'CASO-LIM-040-3A', 'contexts': {'intake': {'SHARED', 'case'}, 'er': {'SHARED', 'record', 'score'}}, 'translations': {'case': 'record'}}\nincomplete = dict(valid)\nincomplete.pop(\"translations\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T3-A-E3",
+        "S40",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "bounded",
+        "contexts"
+      ],
+      "justification_from_packet": "Skeptic en S40-T3-A-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"]))`. Instrucción del paquete: S40-T3-A-E3 · Contrasta fallo cerrado para `bounded contexts y lenguaje ubicuo` con tres fixtures distintos. `CASO-LIM-040-3A` debe continuar, el adverso debe d. Ante incumplimiento devuelve `SPLIT_CONTEXTS`; sin `translations` no se evalúa dominio y la incertidumbre cierra en `WORKSHOP_UBIQUITOUS_LANGUAGE`. Ancla theory: Un bounded context da significado local a términos; el context map declara traducciones para que «caso» de intake no se confunda con un reco Campos usados: contexts, contexts."
+    },
+    {
+      "exercise_id": "S40-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\": 'CASE-001',\"vo\": {'amount': 150, 'currency': 'PEN'},\"vo_frozen\": True,\"service_stateless\": True}}\nmeets_contract = bool(not (record[\"vo\"][\"currency\"] == record[\"entity_id\"]))\nstatus = (\"PASS\" if meets_contract else \"REJECT_DOMAIN_MODEL\")\nprint(\"S40-T3-B\", status)\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T3-B-E1",
+        "S40",
+        "Clasifica",
+        "contrato",
+        "entities",
+        "value",
+        "objects",
+        "servicios"
+      ],
+      "justification_from_packet": "Skeptic en S40-T3-B-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"vo\"][\"currency\"] == record[\"entity_id\"])`. Instrucción del paquete: S40-T3-B-E1 · Clasifica el contrato de `entities, value objects y servicios` sobre `CASO-LIM-040-3B`. La entrada es el dict completo del starter; la operación d. Ante incumplimiento devuelve `REJECT_DOMAIN_MODEL`. Ancla theory: Una entity conserva identidad, un value object se compara por valor y un servicio de dominio contiene una regla que no pertenece naturalment Campos usados: vo, entity_id."
+    },
+    {
+      "exercise_id": "S40-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"entity_id\", \"vo\", \"vo_frozen\", \"service_stateless\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"vo\"][\"currency\"] == record[\"entity_id\"])\n    return \"PASS\" if ok else \"REJECT_DOMAIN_MODEL\"\n\nvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True, 'service_stateless': True}\ninvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'CASE-001'}, 'vo_frozen': True, 'service_stateless': True}\nincomplete = dict(valid)\nif \"service_stateless\" in incomplete:\n    del incomplete[\"service_stateless\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T3-B-E2",
+        "S40",
+        "Calcula",
+        "tres",
+        "rutas",
+        "entities",
+        "value",
+        "objects"
+      ],
+      "justification_from_packet": "Skeptic en S40-T3-B-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"vo\"][\"currency\"] == record[\"entity_id\"])`. Instrucción del paquete: S40-T3-B-E2 · Calcula tres rutas de `entities, value objects y servicios`: fixture válido, fixture adverso y registro sin `service_stateless`. Entrada: dict con. Ante incumplimiento devuelve `REJECT_DOMAIN_MODEL`; sin `service_stateless` no se evalúa dominio. Ancla theory: Una entity conserva identidad, un value object se compara por valor y un servicio de dominio contiene una regla que no pertenece naturalment Campos usados: vo, entity_id."
+    },
+    {
+      "exercise_id": "S40-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"entity_id\", \"vo\", \"vo_frozen\", \"service_stateless\"}\n    if any(k not in record for k in required):\n        return \"CLARIFY_INVARIANT\"\n    if not (record[\"vo\"][\"currency\"] == record[\"entity_id\"]):\n        return \"CONTINUE\"\n    return \"REJECT_DOMAIN_MODEL\"\n\nvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'PEN'}, 'vo_frozen': True, 'service_stateless': True}\ninvalid = {'case_id': 'CASO-LIM-040-3B', 'entity_id': 'CASE-001', 'vo': {'amount': 150, 'currency': 'CASE-001'}, 'vo_frozen': True, 'service_stateless': True}\nincomplete = dict(valid)\nincomplete.pop(\"service_stateless\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T3-B-E3",
+        "S40",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "entities",
+        "value"
+      ],
+      "justification_from_packet": "Skeptic en S40-T3-B-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"vo\"][\"currency\"] == record[\"entity_id\"])`. Instrucción del paquete: S40-T3-B-E3 · Instrumenta fallo cerrado para `entities, value objects y servicios` con tres fixtures distintos. `CASO-LIM-040-3B` debe continuar, el adverso deb. Ante incumplimiento devuelve `REJECT_DOMAIN_MODEL`; sin `service_stateless` no se evalúa dominio y la incertidumbre cierra en `CLARIFY_INVARIANT`. Ancla theory: Una entity conserva identidad, un value object se compara por valor y un servicio de dominio contiene una regla que no pertenece naturalment Campos usados: vo, entity_id."
+    },
+    {
+      "exercise_id": "S40-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\": {'container', 'context'},\"adr_fields\": {'alternatives', 'consequences', 'context', 'decision', 'rollback'},\"adr_status\": 'accepted'}}\nmeets_contract = bool(not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3))\nstatus = (\"PASS\" if meets_contract else \"RETURN_ADR_TO_DRAFT\")\nprint(\"S40-T4-A\", status)\n",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T4-A-E1",
+        "S40",
+        "Audita",
+        "contrato",
+        "diagramas",
+        "flujo",
+        "ADRs",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic en S40-T4-A-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3)`. Instrucción del paquete: S40-T4-A-E1 · Audita el contrato de `diagramas C4/flujo y ADRs` sobre `CASO-LIM-040-4A`. La entrada es el dict completo del starter; la operación debe demostrar. Ante incumplimiento devuelve `RETURN_ADR_TO_DRAFT`. Ancla theory: C4 explica personas, sistemas y contenedores; un ADR conserva contexto, decisión, alternativas, estado y consecuencias, no solo un dibujo fi Campos usados: adr_status, adr_fields."
+    },
+    {
+      "exercise_id": "S40-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"c4_levels\", \"adr_fields\", \"adr_status\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3)\n    return \"PASS\" if ok else \"RETURN_ADR_TO_DRAFT\"\n\nvalid = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'alternatives', 'consequences', 'context', 'decision', 'rollback'}, 'adr_status': 'accepted'}\ninvalid = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'rollback'}, 'adr_status': 'draft'}\nincomplete = dict(valid)\nif \"adr_status\" in incomplete:\n    del incomplete[\"adr_status\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T4-A-E2",
+        "S40",
+        "Compara",
+        "tres",
+        "rutas",
+        "diagramas",
+        "flujo",
+        "ADRs"
+      ],
+      "justification_from_packet": "Skeptic en S40-T4-A-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3)`. Instrucción del paquete: S40-T4-A-E2 · Compara tres rutas de `diagramas C4/flujo y ADRs`: fixture válido, fixture adverso y registro sin `adr_status`. Entrada: dict con case_id, c4_leve. Ante incumplimiento devuelve `RETURN_ADR_TO_DRAFT`; sin `adr_status` no se evalúa dominio. Ancla theory: C4 explica personas, sistemas y contenedores; un ADR conserva contexto, decisión, alternativas, estado y consecuencias, no solo un dibujo fi Campos usados: adr_status, adr_fields."
+    },
+    {
+      "exercise_id": "S40-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"c4_levels\", \"adr_fields\", \"adr_status\"}\n    if any(k not in record for k in required):\n        return \"REQUEST_ARCH_REVIEW\"\n    if not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3):\n        return \"CONTINUE\"\n    return \"RETURN_ADR_TO_DRAFT\"\n\nvalid = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'alternatives', 'consequences', 'context', 'decision', 'rollback'}, 'adr_status': 'accepted'}\ninvalid = {'case_id': 'CASO-LIM-040-4A', 'c4_levels': {'container', 'context'}, 'adr_fields': {'rollback'}, 'adr_status': 'draft'}\nincomplete = dict(valid)\nincomplete.pop(\"adr_status\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T4-A-E3",
+        "S40",
+        "Aísla",
+        "fallo",
+        "cerrado",
+        "para",
+        "diagramas",
+        "flujo"
+      ],
+      "justification_from_packet": "Skeptic en S40-T4-A-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3)`. Instrucción del paquete: S40-T4-A-E3 · Aísla fallo cerrado para `diagramas C4/flujo y ADRs` con tres fixtures distintos. `CASO-LIM-040-4A` debe continuar, el adverso debe devolver `RETU. Ante incumplimiento devuelve `RETURN_ADR_TO_DRAFT`; sin `adr_status` no se evalúa dominio y la incertidumbre cierra en `REQUEST_ARCH_REVIEW`. Ancla theory: C4 explica personas, sistemas y contenedores; un ADR conserva contexto, decisión, alternativas, estado y consecuencias, no solo un dibujo fi Campos usados: adr_status, adr_fields."
+    },
+    {
+      "exercise_id": "S40-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\": {'case_id', 'status'},\"v11_fields\": {'case_id', 'priority', 'status'},\"debt_owner\": 'platform',\"retire_on\": '2026-12-01'}}\nmeets_contract = bool(not (record[\"v11_fields\"] < record[\"v1_fields\"]))\nstatus = (\"PASS\" if meets_contract else \"BLOCK_BREAKING_CHANGE\")\nprint(\"S40-T4-B\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T4-B-E1",
+        "S40",
+        "Decide",
+        "contrato",
+        "APIs",
+        "eventos",
+        "deuda",
+        "evolución"
+      ],
+      "justification_from_packet": "Skeptic en S40-T4-B-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"v11_fields\"] < record[\"v1_fields\"])`. Instrucción del paquete: S40-T4-B-E1 · Decide el contrato de `APIs, eventos, deuda y evolución compatible` sobre `CASO-LIM-040-4B`. La entrada es el dict completo del starter; la operac. Ante incumplimiento devuelve `BLOCK_BREAKING_CHANGE`. Ancla theory: Los cambios compatibles son aditivos, preservan consumidores y versionan eventos; deuda técnica lleva dueño, fecha y criterio de retiro. Campos usados: v11_fields, v1_fields."
+    },
+    {
+      "exercise_id": "S40-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"v1_fields\", \"v11_fields\", \"debt_owner\", \"retire_on\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"v11_fields\"] < record[\"v1_fields\"])\n    return \"PASS\" if ok else \"BLOCK_BREAKING_CHANGE\"\n\nvalid = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {'case_id', 'priority', 'status'}, 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\ninvalid = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {}, 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\nincomplete = dict(valid)\nif \"retire_on\" in incomplete:\n    del incomplete[\"retire_on\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T4-B-E2",
+        "S40",
+        "Filtra",
+        "tres",
+        "rutas",
+        "APIs",
+        "eventos",
+        "deuda"
+      ],
+      "justification_from_packet": "Skeptic en S40-T4-B-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"v11_fields\"] < record[\"v1_fields\"])`. Instrucción del paquete: S40-T4-B-E2 · Filtra tres rutas de `APIs, eventos, deuda y evolución compatible`: fixture válido, fixture adverso y registro sin `retire_on`. Entrada: dict con . Ante incumplimiento devuelve `BLOCK_BREAKING_CHANGE`; sin `retire_on` no se evalúa dominio. Ancla theory: Los cambios compatibles son aditivos, preservan consumidores y versionan eventos; deuda técnica lleva dueño, fecha y criterio de retiro. Campos usados: v11_fields, v1_fields."
+    },
+    {
+      "exercise_id": "S40-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"v1_fields\", \"v11_fields\", \"debt_owner\", \"retire_on\"}\n    if any(k not in record for k in required):\n        return \"NEGOTIATE_VERSION\"\n    if not (record[\"v11_fields\"] < record[\"v1_fields\"]):\n        return \"CONTINUE\"\n    return \"BLOCK_BREAKING_CHANGE\"\n\nvalid = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {'case_id', 'priority', 'status'}, 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\ninvalid = {'case_id': 'CASO-LIM-040-4B', 'v1_fields': {'case_id', 'status'}, 'v11_fields': {}, 'debt_owner': 'platform', 'retire_on': '2026-12-01'}\nincomplete = dict(valid)\nincomplete.pop(\"retire_on\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S40-T4-B-E3",
+        "S40",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "APIs",
+        "eventos"
+      ],
+      "justification_from_packet": "Skeptic en S40-T4-B-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"v11_fields\"] < record[\"v1_fields\"])`. Instrucción del paquete: S40-T4-B-E3 · Demuestra fallo cerrado para `APIs, eventos, deuda y evolución compatible` con tres fixtures distintos. `CASO-LIM-040-4B` debe continuar, el adver. Ante incumplimiento devuelve `BLOCK_BREAKING_CHANGE`; sin `retire_on` no se evalúa dominio y la incertidumbre cierra en `NEGOTIATE_VERSION`. Ancla theory: Los cambios compatibles son aditivos, preservan consumidores y versionan eventos; deuda técnica lleva dueño, fecha y criterio de retiro. Campos usados: v11_fields, v1_fields."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "confidence": 0.97,
+      "justification_from_packet": "Skeptic SC0: elijo «escenario QA completo con umbral y dueño» porque el selfCheck del paquete pregunta «¿Qué evidencia permite aprobar `requisitos funcionales y quality attributes` en CASO-LIM-040?» y esa opción alinea con el gate/evidencia del theory: Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, estímu. Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "confidence": 0.97,
+      "justification_from_packet": "Skeptic SC1: elijo «emitir BLOCK_ARCHITECTURE y conservar evidencia» porque el selfCheck del paquete pregunta «Si ocurre la condición de error de S40, ¿qué respuesta preserva seguridad y auditabilidad?» y esa opción alinea con el gate/evidencia del theory: Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, estímu. Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "confidence": 0.83,
+      "justification_from_packet": "Skeptic SC2: elijo «cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia» porque el selfCheck del paquete pregunta «¿Cuál resultado demuestra el gate `CP-N4-A · mapa de arquitectura gobernado`?» y esa opción alinea con el gate/evidencia del theory: Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, estímu. Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "confidence": 0.87,
+      "justification_from_packet": "Skeptic SC3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el selfCheck del paquete pregunta «¿Qué tratamiento de `CASO-LIM-040` respeta el alcance del curso?» y esa opción alinea con el gate/evidencia del theory: Un requisito funcional describe una capacidad; un atributo de calidad se expresa como escenario medible — fuente, estímu. Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:32:26+00:00",
+  "session_started_at": "2026-07-23T12:32:15+00:00",
+  "session_ended_at": "2026-07-23T12:32:26+00:00",
+  "receipt_response_sha256": "809d9131cd8067cd3c5f3f403b53bd4eb7208d0f3ce8fddafd0b99791658ab06"
+}

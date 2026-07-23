@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 12,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s12-f0cb79d53a57",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S12-T1-A-E1",
+      "id": "S12-T1-A-E1",
+      "code": "# exploración s12/S12-T1-A-E1\nstore = {\"C001\": {\"id\": \"C001\", \"region\": \"Lima\"}}\ndef get_entity(store, entity_id):\n    if entity_id not in store:\n        return 404, {\"error\": \"not_found\"}\n    return 200, store[entity_id]\nprint(get_entity(store, \"C001\"))\nprint(get_entity(store, \"C999\"))\n_j2_mark = 12\n",
+      "justification_from_packet": "Armé S12-T1-A-E1 desde el quiz_card de «APIs, SQL y geodatos responsables». Instruction recortada: «E1 (guiado) — Concepto: S12-T1-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (». Verifiqué con la pista «Devuelve una tupla (status_code, dict).». [bf5efb] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T1-A-E2",
+      "id": "S12-T1-A-E2",
+      "code": "# exploración s12/S12-T1-A-E2\ndef parse_entity(payload):\n    if not isinstance(payload, dict):\n        return None\n    if \"id\" not in payload or \"region\" not in payload:\n        return None\n    return {\"id\": payload[\"id\"], \"region\": payload[\"region\"]}\nprint(parse_entity({\"id\": \"C001\", \"region\": \"Lima\", \"extra\": 1}))\nprint(parse_entity({\"id\": \"C001\"}))\n_j2_mark = 12\n",
+      "justification_from_packet": "Exercise S12-T1-A-E2: el contrato observable es «E2 (independiente) — Dado un `payload` JSON-like dict de respuesta, implementa `parse_entity(payload)` que exi». Del theory/iDo cercano tomé «No mutes el payload original; construye un dict nuevo.» y de hints «Usa set de required keys.». [f6787a] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T1-A-E3",
+      "id": "S12-T1-A-E3",
+      "code": "# exploración s12/S12-T1-A-E3\nSTATUS_ACTION = {\n    200: \"use_body\",\n    404: \"missing\",\n    429: \"retry\",\n    500: \"retry\",\n    400: \"fix_client\",\n}\nfor code in [200, 404, 429, 400, 500]:\n    print(code, STATUS_ACTION.get(code, \"unknown\"))\n_j2_mark = 12\n",
+      "justification_from_packet": "Exercise S12-T1-A-E3: el contrato observable es «E3 (transferencia) — Construye `STATUS_ACTION` mapeando 200→'use_body', 404→'missing', 429→'retry', 500→'retry». Del theory/iDo cercano tomé «400 no es retry.» y de hints «dict.get(code, 'unknown')». [c986f1] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T1-B-E1",
+      "id": "S12-T1-B-E1",
+      "code": "# exploración s12/S12-T1-B-E1\ndef fetch(timeout_s, cost_s):\n    if cost_s > timeout_s:\n        return \"timeout\"\n    return \"ok\"\nprint(fetch(2.0, 0.5))\nprint(fetch(1.0, 3.0))\n_j2_mark = 12\n",
+      "justification_from_packet": "Armé S12-T1-B-E1 desde el quiz_card de «APIs, SQL y geodatos responsables». Instruction recortada: «E1 (guiado) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (». Verifiqué con la pista «if cost > timeout: return 'timeout'». [b5d1ba] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T1-B-E2",
+      "id": "S12-T1-B-E2",
+      "code": "# exploración s12/S12-T1-B-E2\napi = {\n    1: {\"items\": [\"a\"], \"next\": 2},\n    2: {\"items\": [\"b\", \"c\"], \"next\": None},\n}\ndef collect_all(api):\n    out = []\n    page = 1\n    while page is not None:\n        chunk = api[page]\n        out.extend(chunk[\"items\"])\n        page = chunk[\"next\"]\n    return out\nprint(collect_all(api))\n_j2_mark = 12\n",
+      "justification_from_packet": "Para S12-T1-B-E2 el paquete de «APIs, SQL y geodatos responsables» pide: E2 (independiente) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del st. Anclé la respuesta a «while page is not None» y conservé el fixture del starter. [1363e0] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T1-B-E3",
+      "id": "S12-T1-B-E3",
+      "code": "# exploración s12/S12-T1-B-E3\ndef should_retry(status):\n    return status in {429, 503}\nfor s in [400, 404, 429, 503, 200]:\n    print(s, should_retry(s))\n_j2_mark = 12\n",
+      "justification_from_packet": "Armé S12-T1-B-E3 desde el quiz_card de «APIs, SQL y geodatos responsables». Instruction recortada: «E3 (transferencia) — Concepto: S12-T1-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del st». Verifiqué con la pista «return status in {429, 503}». [24c128] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-A-E1",
+      "id": "S12-T2-A-E1",
+      "code": "# exploración s12/S12-T2-A-E1\ndef require_token(env):\n    tok = env.get(\"API_TOKEN\")\n    if not tok:\n        raise ValueError(\"API_TOKEN missing\")\n    return tok\nprint(require_token({\"API_TOKEN\": \"abc\"}))\ntry:\n    require_token({})\nexcept ValueError as e:\n    print(str(e))\n_j2_mark = 12\n",
+      "justification_from_packet": "Para S12-T2-A-E1 el paquete de «APIs, SQL y geodatos responsables» pide: E1 (guiado) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (. Anclé la respuesta a «tok = env.get('API_TOKEN')» y conservé el fixture del starter. [20b7cc] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-A-E2",
+      "id": "S12-T2-A-E2",
+      "code": "# exploración s12/S12-T2-A-E2\nclass Cache:\n    def __init__(self):\n        self._data = {}\n    def get(self, url):\n        if url in self._data:\n            return self._data[url], True\n        return None, False\n    def set(self, url, body):\n        self._data[url] = body\nc = Cache()\nc.set(\"u1\", {\"ok\": True})\nprint(c.get(\"u1\"))\nprint(c.get(\"missing\"))\n_j2_mark = 12\n",
+      "justification_from_packet": "Armé S12-T2-A-E2 desde el quiz_card de «APIs, SQL y geodatos responsables». Instruction recortada: «E2 (independiente) — Concepto: S12-T2-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del st». Verifiqué con la pista «key = url». [7f21b3] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-A-E3",
+      "id": "S12-T2-A-E3",
+      "code": "# exploración s12/S12-T2-A-E3\ndef min_provenance(url, status, cache_hit):\n    return {\n        \"source_url\": url,\n        \"fetched_at\": \"2026-07-20T00:00:00Z\",\n        \"status_code\": status,\n        \"cache_hit\": cache_hit,\n    }\nprint(sorted(min_provenance(\"https://x\", 200, False).items()))\n_j2_mark = 12\n",
+      "justification_from_packet": "Para S12-T2-A-E3 el paquete de «APIs, SQL y geodatos responsables» pide: E3 (transferencia) — `min_provenance(url, status, cache_hit)` devuelve dict con source_url, fetched_at fijo '2. Anclé la respuesta a «Campos mínimos de auditoría.» y conservé el fixture del starter. [bea9ff] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-B-E1",
+      "id": "S12-T2-B-E1",
+      "code": "# exploración s12/S12-T2-B-E1\ndef assert_keys(payload, required):\n    missing = set(required) - set(payload)\n    if missing:\n        raise AssertionError(f\"missing keys: {sorted(missing)}\")\nassert_keys({\"lat\": 1, \"lon\": 2}, [\"lat\", \"lon\"])\nprint(\"ok\")\ntry:\n    assert_keys({\"lat\": 1}, [\"lat\", \"lon\"])\nexcept AssertionError as e:\n    print(e)\n_j2_mark = 12\n",
+      "justification_from_packet": "Como explorer en «APIs, SQL y geodatos responsables», S12-T2-B-E1 se cierra con lo enseñado: E1 (guiado) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (. Hint operativa: «missing = set(required) - set(payload)». [6d7a3a] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-B-E2",
+      "id": "S12-T2-B-E2",
+      "code": "# exploración s12/S12-T2-B-E2\ndef fetch_with_fallback(status, local_body):\n    if status >= 500:\n        return local_body, \"offline\"\n    return {\"online\": True}, \"online\"\nprint(fetch_with_fallback(200, {\"lat\": 0}))\nprint(fetch_with_fallback(503, {\"lat\": -12.0}))\n_j2_mark = 12\n",
+      "justification_from_packet": "En «APIs, SQL y geodatos responsables» resolví S12-T2-B-E2 leyendo la instruction: «E2 (independiente) — `fetch_with_fallback(status, local_body)`: si status>=500 devuelve (local_body, 'offline'». La pista «if status >= 500» me dio el patrón concreto del weDo. [025731] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T2-B-E3",
+      "id": "S12-T2-B-E3",
+      "code": "# exploración s12/S12-T2-B-E3\nmatrix = {\n    True: \"live_api\",\n    False: \"local_file\",\n}\nfor online in (True, False):\n    print(online, matrix[online])\n_j2_mark = 12\n",
+      "justification_from_packet": "Como explorer en «APIs, SQL y geodatos responsables», S12-T2-B-E3 se cierra con lo enseñado: E3 (transferencia) — Concepto: S12-T2-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del st. Hint operativa: «Usa tuplas como clave de dict.». [caed19] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-A-E1",
+      "id": "S12-T3-A-E1",
+      "code": "# exploración s12/S12-T3-A-E1\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\n    \"CREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT NOT NULL)\"\n)\ncon.execute(\"INSERT INTO evidence VALUES (?,?,?)\", (\"E1\", \"C001\", \"geo\"))\ncon.commit()\nprint(con.execute(\"SELECT COUNT(*) FROM evidence\").fetchone()[0])\ncon.close()\n_j2_mark = 12\n",
+      "justification_from_packet": "Exercise S12-T3-A-E1: el contrato observable es «E1 (guiado) — En SQLite :memory:, crea tabla evidence(id TEXT PRIMARY KEY, entity_id TEXT NOT NULL, kind TEXT». Del theory/iDo cercano tomé «INSERT + SELECT COUNT(*)» y de hints «CREATE TABLE evidence (...)». [43c46b] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-A-E2",
+      "id": "S12-T3-A-E2",
+      "code": "# exploración s12/S12-T3-A-E2\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES (?,?)\", (\"C001\", \"Ana\"))\ncon.execute(\"UPDATE clients SET name=? WHERE id=?\", (\"Ana Q\", \"C001\"))\nprint(con.execute(\"SELECT name FROM clients WHERE id=?\", (\"C001\",)).fetchone()[0])\ncon.execute(\"DELETE FROM clients WHERE id=?\", (\"C001\",))\nprint(con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()\n_j2_mark = 12\n",
+      "justification_from_packet": "Como explorer en «APIs, SQL y geodatos responsables», S12-T3-A-E2 se cierra con lo enseñado: E2 (independiente) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del st. Hint operativa: «UPDATE clients SET name=? WHERE id=?». [29af9c] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-A-E3",
+      "id": "S12-T3-A-E3",
+      "code": "# exploración s12/S12-T3-A-E3\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.executescript('''\nCREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT);\nCREATE TABLE evidence(id TEXT PRIMARY KEY, entity_id TEXT, kind TEXT);\nINSERT INTO clients VALUES ('C001','Ana');\nINSERT INTO evidence VALUES ('E1','C001','geo');\nINSERT INTO evidence VALUES ('E2','C001','phone');\nINSERT INTO evidence VALUES ('E3','C002','geo');\n''')\nrows = con.execute(\n    \"SELECT e.kind FROM clients c JOIN evidence e ON c.id=e.entity_id WHERE c.id=? ORDER BY e.kind\",\n    (\"C001\",),\n).fetchall()\nprint([r[0] for r in rows])\ncon.close()\n_j2_mark = 12\n",
+      "justification_from_packet": "Exercise S12-T3-A-E3: el contrato observable es «E3 (transferencia) — Concepto: S12-T3-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del st». Del theory/iDo cercano tomé «WHERE c.id = ?» y de hints «JOIN ON c.id = e.entity_id». [cbd191] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-B-E1",
+      "id": "S12-T3-B-E1",
+      "code": "# exploración s12/S12-T3-B-E1\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, name TEXT)\")\ncon.execute(\"INSERT INTO clients VALUES ('C001','Ana')\")\nuser_id = \"C001' OR '1'='1\"\nprint(con.execute(\"SELECT name FROM clients WHERE id = ?\", (user_id,)).fetchone())\ncon.close()\n_j2_mark = 12\n",
+      "justification_from_packet": "Armé S12-T3-B-E1 desde el quiz_card de «APIs, SQL y geodatos responsables». Instruction recortada: «E1 (guiado) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (». Verifiqué con la pista «WHERE id = ?». [e228bd] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-B-E2",
+      "id": "S12-T3-B-E2",
+      "code": "# exploración s12/S12-T3-B-E2\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY)\")\ntry:\n    con.execute(\"BEGIN\")\n    con.execute(\"INSERT INTO clients VALUES ('C001')\")\n    con.execute(\"INSERT INTO clients VALUES ('C001')\")\n    con.commit()\nexcept sqlite3.IntegrityError:\n    con.rollback()\nprint(con.execute(\"SELECT COUNT(*) FROM clients\").fetchone()[0])\ncon.close()\n_j2_mark = 12\n",
+      "justification_from_packet": "En «APIs, SQL y geodatos responsables» resolví S12-T3-B-E2 leyendo la instruction: «E2 (independiente) — Transacción: inserta C001 ok; segundo insert con mismo id debe rollback y dejar count=0 s». La pista «BEGIN; insert; insert duplicado; except rollback» me dio el patrón concreto del weDo. [196193] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T3-B-E3",
+      "id": "S12-T3-B-E3",
+      "code": "# exploración s12/S12-T3-B-E3\nimport sqlite3\ncon = sqlite3.connect(\":memory:\")\ncon.execute(\"CREATE TABLE clients(id TEXT PRIMARY KEY, document_id TEXT)\")\ncon.execute(\"CREATE INDEX idx_document_id ON clients(document_id)\")\nnames = [r[1] for r in con.execute(\"PRAGMA index_list('clients')\").fetchall()]\nprint(sorted(names))\ncon.close()\n_j2_mark = 12\n",
+      "justification_from_packet": "Para S12-T3-B-E3 el paquete de «APIs, SQL y geodatos responsables» pide: E3 (transferencia) — Concepto: S12-T3-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del st. Anclé la respuesta a «CREATE INDEX idx_document_id ON clients(document_id)» y conservé el fixture del starter. [438c1c] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-A-E1",
+      "id": "S12-T4-A-E1",
+      "code": "# exploración s12/S12-T4-A-E1\nimport re\ndef normalize_address(s):\n    return re.sub(r\"\\\\s+\", \" \", s.strip())\nprint(repr(normalize_address(\"  Jr.  de  la  Unión  100 \")))\n_j2_mark = 12\n",
+      "justification_from_packet": "Como explorer en «APIs, SQL y geodatos responsables», S12-T4-A-E1 se cierra con lo enseñado: E1 (guiado) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (. Hint operativa: «re.sub(r'\\s+', ' ', s.strip())». [011bdf] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-A-E2",
+      "id": "S12-T4-A-E2",
+      "code": "# exploración s12/S12-T4-A-E2\nclass MockGeocoder:\n    DB = {\"Lima\": (-12.0464, -77.0428), \"Arequipa\": (-16.4090, -71.5375)}\n    def geocode(self, city):\n        if city not in self.DB:\n            return None\n        lat, lon = self.DB[city]\n        return {\"city\": city, \"lat\": lat, \"lon\": lon, \"provider\": \"mock\"}\ng = MockGeocoder()\nprint(g.geocode(\"Lima\")[\"lat\"])\nprint(g.geocode(\"Cusco\"))\n_j2_mark = 12\n",
+      "justification_from_packet": "Armé S12-T4-A-E2 desde el quiz_card de «APIs, SQL y geodatos responsables». Instruction recortada: «E2 (independiente) — Concepto: S12-T4-A (APIs, SQL y geodatos responsables). Entrada: fixture sintético del st». Verifiqué con la pista «Tabla city→(lat,lon)». [727c30] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-A-E3",
+      "id": "S12-T4-A-E3",
+      "code": "# exploración s12/S12-T4-A-E3\nALLOWED = {\"address\", \"city\", \"country\"}\ndef allowed_for_public_geocoder(payload):\n    return set(payload) <= ALLOWED\nprint(allowed_for_public_geocoder({\"city\": \"Lima\", \"address\": \"Av 1\"}))\nprint(allowed_for_public_geocoder({\"city\": \"Lima\", \"document_id\": \"D1\"}))\n_j2_mark = 12\n",
+      "justification_from_packet": "En «APIs, SQL y geodatos responsables» resolví S12-T4-A-E3 leyendo la instruction: «E3 (transferencia) — Checklist de egress: dado un payload dict, `allowed_for_public_geocoder(payload)` True so». La pista «set(payload) <= allowed» me dio el patrón concreto del weDo. [a7b923] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-B-E1",
+      "id": "S12-T4-B-E1",
+      "code": "# exploración s12/S12-T4-B-E1\ndef valid_lat_lon(lat, lon):\n    return -90 <= lat <= 90 and -180 <= lon <= 180\nfor p in [(0,0), (91,0), (0,181), (-12.04, -77.04)]:\n    print(p, valid_lat_lon(*p))\n_j2_mark = 12\n",
+      "justification_from_packet": "Para S12-T4-B-E1 el paquete de «APIs, SQL y geodatos responsables» pide: E1 (guiado) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del starter (. Anclé la respuesta a «-90<=lat<=90 and -180<=lon<=180» y conservé el fixture del starter. [282203] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-B-E2",
+      "id": "S12-T4-B-E2",
+      "code": "# exploración s12/S12-T4-B-E2\nimport math\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\nd = haversine_km((0.0, 0.0), (0.0, 1.0))\nprint(round(d, 2))\nassert abs(d - 111.19) < 1\nprint(\"tolerance_ok\")\n_j2_mark = 12\n",
+      "justification_from_packet": "Para S12-T4-B-E2 el paquete de «APIs, SQL y geodatos responsables» pide: E2 (independiente) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del st. Anclé la respuesta a «Fórmula Haversine con R=6371» y conservé el fixture del starter. [af6f97] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    },
+    {
+      "exercise_id": "S12-T4-B-E3",
+      "id": "S12-T4-B-E3",
+      "code": "# exploración s12/S12-T4-B-E3\ndef as_relationship_signal(km):\n    return {\n        \"type\": \"geo_distance_km\",\n        \"value\": km,\n        \"kinship_verdict\": None,\n    }\nprint(as_relationship_signal(1.2))\n_j2_mark = 12\n",
+      "justification_from_packet": "Exercise S12-T4-B-E3: el contrato observable es «E3 (transferencia) — Concepto: S12-T4-B (APIs, SQL y geodatos responsables). Entrada: fixture sintético del st». Del theory/iDo cercano tomé «kinship_verdict siempre None en N1» y de hints «Nunca setees is_family». [fa1801] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "APIs, SQL y geodatos responsables"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck de «APIs, SQL y geodatos responsables» #0: «Un 400 Bad Request del proveedor debe…». Elegí «Tratarse como error de cliente (no retry ciego)» porque el theory del paquete describe ese comportamiento de forma directa. [be752f] conf~0.75.",
+      "confidence": 0.75
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck de «APIs, SQL y geodatos responsables» #1: «¿Dónde debe vivir el token de API?». Elegí «En variable de entorno / secret store» porque el theory del paquete describe ese comportamiento de forma directa. [6e620e] conf~0.92.",
+      "confidence": 0.92
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck de «APIs, SQL y geodatos responsables» #2: «SQL con f-string e input de usuario es…». Elegí «Inyección / inseguro; usar placeholders `?`» porque el theory del paquete describe ese comportamiento de forma directa. [363832] conf~0.83.",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck de «APIs, SQL y geodatos responsables» #3: «Enviar document_id bancario a un geocoder público…». Elegí «Viola la política de egress de CP-N1-C» porque el theory del paquete describe ese comportamiento de forma directa. [b93358] conf~0.83.",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck de «APIs, SQL y geodatos responsables» #4: «1.2 km entre dos entidades sintéticas implica…». Elegí «Una geoseñal de relación, no un veredicto» porque el theory del paquete describe ese comportamiento de forma directa. [c74b69] conf~0.94.",
+      "confidence": 0.94
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:25.081539+00:00",
+  "session_started_at": "2026-07-23T12:51:43.030199+00:00",
+  "session_ended_at": "2026-07-23T12:52:09.872199+00:00",
+  "receipt_response_sha256": "82c3bbcc5c0dc21d3700e8d589d8c12ea08da9fe3e677528d2e53d93a17ba72c"
+}

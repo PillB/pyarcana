@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 21,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s21-e307fe12c74e",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S21-T1-A-E1",
+      "id": "S21-T1-A-E1",
+      "code": "# revisión escéptica s21/S21-T1-A-E1\nfrom jinja2 import Template\nprint(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"))\n_j2_chk = 'S21-T1-A-E1'\n",
+      "justification_from_packet": "En «Documentos, plantillas y reportes trazables», S21-T1-A-E1 queda justificado por «E1 (guiado) — Concepto: render Jinja de saludo. Fixture `S21-T1-A-E1` / datos sintéticos: print(Template(\"Hola» y por «print.» del paquete; confié en hints antes que en inventos. [9a4329] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T1-A-E2",
+      "id": "S21-T1-A-E2",
+      "code": "# revisión escéptica s21/S21-T1-A-E2\nfrom jinja2 import Template\nprint(Template(\"{{ m }} PEN (n={{ n }})\").render(m=28, n=40))\n_j2_chk = 'S21-T1-A-E2'\n",
+      "justification_from_packet": "Para S21-T1-A-E2 no acepté un esqueleto a medias. Pedido del paquete: E2 (independiente) — Concepto: template de KPI median y n. Fixture `S21-T1-A-E2` / datos sintéticos: print(Tem. Criterio: «Dos variables.». Segunda ancla: «Incluye PEN.». [292cd4] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T1-A-E3",
+      "id": "S21-T1-A-E3",
+      "code": "# revisión escéptica s21/S21-T1-A-E3\nfrom jinja2 import Template\n\ndef render_kpi(ctx):\n    return Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(**ctx)\nprint(render_kpi({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n_j2_chk = 'S21-T1-A-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S21-T1-A-E3: E3 (transferencia) — Concepto: render_kpi(ctx) reutilizable. Fixture `S21-T1-A-E3` / datos sintéticos: def ren. El material activo menciona «Template dentro o global.»; el código refleja ese contrato sin TODO. [886754] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T1-B-E1",
+      "id": "S21-T1-B-E1",
+      "code": "# revisión escéptica s21/S21-T1-B-E1\nmedian = None\nprint(\"—\" if median is None else median)\n_j2_chk = 'S21-T1-B-E1'\n",
+      "justification_from_packet": "En «Documentos, plantillas y reportes trazables», S21-T1-B-E1 queda justificado por «E1 (guiado) — Concepto: missing → em-dash —. Fixture `S21-T1-B-E1` / datos sintéticos: median = None; print(\"—» y por «print.» del paquete; confié en hints antes que en inventos. [5fc454] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T1-B-E2",
+      "id": "S21-T1-B-E2",
+      "code": "# revisión escéptica s21/S21-T1-B-E2\nx = 28.456\nprint(f\"{x:.2f}\")\n_j2_chk = 'S21-T1-B-E2'\n",
+      "justification_from_packet": "En «Documentos, plantillas y reportes trazables», S21-T1-B-E2 queda justificado por «E2 (independiente) — Concepto: formato a 2 decimales. Fixture `S21-T1-B-E2` / datos sintéticos: x = 28.456; pr» y por «print 28.46.» del paquete; confié en hints antes que en inventos. [10cf1d] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T1-B-E3",
+      "id": "S21-T1-B-E3",
+      "code": "# revisión escéptica s21/S21-T1-B-E3\nfrom jinja2 import Template\ntmpl = Template(\"{% for r in rows %}{{ r.region }}:{{ r.v }}\\\\n{% endfor %}\")\nprint(tmpl.render(rows=[{\"region\": \"Lima\", \"v\": 1}, {\"region\": \"Cusco\", \"v\": 2}]), end=\"\")\n_j2_chk = 'S21-T1-B-E3'\n",
+      "justification_from_packet": "Revisión de S21-T1-B-E3 en «Documentos, plantillas y reportes trazables»: la instruction («E3 (transferencia) — Concepto: for de filas region:value. Fixture `S21-T1-B-E3` / datos sintéticos: tmpl = Tem») y la hint («Template for.») bastan para una forma completa. [1ec5fd] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T2-A-E1",
+      "id": "S21-T2-A-E1",
+      "code": "# revisión escéptica s21/S21-T2-A-E1\nfrom pathlib import Path\nfrom docx import Document\n\npath = Path(\"informe.docx\")\ndoc = Document()\ndoc.add_heading(\"Informe sintético\", 0)\ndoc.add_heading(\"Resumen\", 1)\ndoc.add_paragraph(\"Muestra reconciliada: n=40\")\ndoc.save(path)\nopened = Document(path)\ntext = \" | \".join(p.text for p in opened.paragraphs if p.text)\nprint(path.exists(), path.read_bytes()[:2] == b\"PK\")\nprint(\"Resumen\" in text, \"n=40\" in text)\n_j2_chk = 'S21-T2-A-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S21-T2-A-E1: E1 (guiado) — Concepto: DOCX con heading y n=. Fixture `S21-T2-A-E1` / datos sintéticos: path = Path(\"informe.. El material activo menciona «La firma de un DOCX comienza con bytes PK porque es un paquete ZIP.»; el código refleja ese contrato sin TODO. [b0be1b] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T2-A-E2",
+      "id": "S21-T2-A-E2",
+      "code": "# revisión escéptica s21/S21-T2-A-E2\nfrom docx import Document\n\nlevels = [(\"Resumen\", 1), (\"Método\", 2), (\"Anexos\", 1)]\ndoc = Document()\nfor text, level in levels:\n    doc.add_heading(text, level)\ndoc.save(\"estructura.docx\")\nopened = Document(\"estructura.docx\")\nstyles = [p.style.name for p in opened.paragraphs if p.text]\nprint(styles.count(\"Heading 1\"))\nprint(styles)\n_j2_chk = 'S21-T2-A-E2'\n",
+      "justification_from_packet": "Para S21-T2-A-E2 no acepté un esqueleto a medias. Pedido del paquete: E2 (independiente) — Concepto: conteo de estilos Heading. Fixture `S21-T2-A-E2` / datos sintéticos: levels = [. Criterio: «Filtra exactamente `Heading 1` y conserva también la jerarquía completa.». Segunda ancla: «La evidencia debe provenir del archivo guardado, no del». [1e1ef0] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T2-A-E3",
+      "id": "S21-T2-A-E3",
+      "code": "# revisión escéptica s21/S21-T2-A-E3\nfrom docx import Document\n\nmetrics = [(\"Ticket mediano\", \"28.0\"), (\"Reclamos\", \"—\")]\ndoc = Document()\ndoc.add_heading(\"Auditoría\", 1)\ntable = doc.add_table(rows=1, cols=2)\ntable.rows[0].cells[0].text = \"Métrica\"\ntable.rows[0].cells[1].text = \"Valor\"\nfor name, value in metrics:\n    cells = table.add_row().cells\n    cells[0].text, cells[1].text = name, value\ndoc.save(\"auditoria.docx\")\nopened = Document(\"auditoria.docx\")\nrows = [[c.text for c in row.cells] for row in opened.tables[0].rows]\nprint(rows[1])\nprint(rows[2], rows[2][1] != \"0\")\n_j2_chk = 'S21-T2-A-E3'\n",
+      "justification_from_packet": "Para S21-T2-A-E3 no acepté un esqueleto a medias. Pedido del paquete: E3 (transferencia) — Concepto: extracción de texto al reabrir. Fixture `S21-T2-A-E3` / datos sintéticos: metri. Criterio: «La tabla debe contener columnas métrica y valor.». Segunda ancla: «Representa el dato faltante como em dash, no como 0.». [48d095] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T2-B-E1",
+      "id": "S21-T2-B-E1",
+      "code": "# revisión escéptica s21/S21-T2-B-E1\nfrom pathlib import Path\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npath = Path(\"digital.pdf\")\nc = canvas.Canvas(str(path))\nc.drawString(72, 760, \"Resumen sintetico n=40\")\nc.save()\ntext = PdfReader(path).pages[0].extract_text() or \"\"\nprint(path.read_bytes()[:4] == b\"%PDF\")\nprint(\"n=40\" in text)\n_j2_chk = 'S21-T2-B-E1'\n",
+      "justification_from_packet": "Para S21-T2-B-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Concepto: PDF digital con texto extraíble. Fixture `S21-T2-B-E1` / datos sintéticos: path = Path. Criterio: «Comprueba primero los bytes `%PDF`.». Segunda ancla: «No declares digital sin extraer texto del archivo.». [813c4d] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T2-B-E2",
+      "id": "S21-T2-B-E2",
+      "code": "# revisión escéptica s21/S21-T2-B-E2\nfrom pathlib import Path\nimport fitz\nfrom reportlab.pdfgen import canvas\n\npdf, png = Path(\"render.pdf\"), Path(\"render-p1.png\")\nc = canvas.Canvas(str(pdf))\nc.drawString(72, 760, \"Hallazgo H1\")\nc.save()\ndocument = fitz.open(pdf)\ndocument[0].get_pixmap().save(png)\nprint(pdf.stat().st_size > 0, png.stat().st_size > 0)\n_j2_chk = 'S21-T2-B-E2'\n",
+      "justification_from_packet": "En «Documentos, plantillas y reportes trazables», S21-T2-B-E2 queda justificado por «E2 (independiente) — Concepto: render página a PNG. Fixture `S21-T2-B-E2` / datos sintéticos: pdf, png = Path(» y por «Verifica tamaño positivo, no solo el nombre del archivo» del paquete; confié en hints antes que en inventos. [7f7c46] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T2-B-E3",
+      "id": "S21-T2-B-E3",
+      "code": "# revisión escéptica s21/S21-T2-B-E3\nfrom pathlib import Path\nfrom PIL import Image, ImageDraw\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npng, pdf = Path(\"scan.png\"), Path(\"scan.pdf\")\nimage = Image.new(\"RGB\", (500, 120), \"white\")\nImageDraw.Draw(image).text((20, 40), \"Documento sintetico n=17\", fill=\"black\")\nimage.save(png)\nc = canvas.Canvas(str(pdf), pagesize=(500, 120))\nc.drawImage(str(png), 0, 0, width=500, height=120)\nc.save()\ntext = PdfReader(pdf).pages[0].extract_text() or \"\"\nprint(pdf.read_bytes()[:4] == b\"%PDF\", \"n=17\" not in text)\nprint({\"needs_ocr\": not bool(text.strip()), \"n_chars\": len(text)})\n_j2_chk = 'S21-T2-B-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S21-T2-B-E3: E3 (transferencia) — Concepto: PDF imagen-only → needs_ocr. Fixture `S21-T2-B-E3` / datos sintéticos: png, pdf. El material activo menciona «No agregues texto con drawString al PDF: eso crearía capa digital.»; el código refleja ese contrato sin TODO. [1e575d] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T3-A-E1",
+      "id": "S21-T3-A-E1",
+      "code": "# revisión escéptica s21/S21-T3-A-E1\nh = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}\nprint(h[\"id\"])\n_j2_chk = 'S21-T3-A-E1'\n",
+      "justification_from_packet": "Escéptico en S21-T3-A-E1 («Documentos, plantillas y reportes trazables»): contrasté la instruction «E1 (guiado) — Concepto: hallazgo H1 con evidencia. Fixture `S21-T3-A-E1` / datos sintéticos: h = {\"id\": \"H1\",» con la hint «dict.» y rechacé huecos del starter. [65ea38] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T3-A-E2",
+      "id": "S21-T3-A-E2",
+      "code": "# revisión escéptica s21/S21-T3-A-E2\ns = \"mediana 28 PEN n=40\"\nprint(\"n=\" in s)\n_j2_chk = 'S21-T3-A-E2'\n",
+      "justification_from_packet": "Para S21-T3-A-E2 no acepté un esqueleto a medias. Pedido del paquete: E2 (independiente) — Concepto: validar resumen contiene n=. Fixture `S21-T3-A-E2` / datos sintéticos: s = \"med. Criterio: «in.». Segunda ancla: «caso con n=40.». [b78ad0] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T3-A-E3",
+      "id": "S21-T3-A-E3",
+      "code": "# revisión escéptica s21/S21-T3-A-E3\ndef pack_report(resumen, metodo, hallazgos):\n    return {\"resumen\": resumen, \"metodo\": metodo, \"hallazgos\": hallazgos}\nprint(sorted(pack_report([\"a\"], {}, []).keys()))\n_j2_chk = 'S21-T3-A-E3'\n",
+      "justification_from_packet": "En «Documentos, plantillas y reportes trazables», S21-T3-A-E3 queda justificado por «E3 (transferencia) — Concepto: pack_report tres claves. Fixture `S21-T3-A-E3` / datos sintéticos: def pack_rep» y por «print.» del paquete; confié en hints antes que en inventos. [5da2e4] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T3-B-E1",
+      "id": "S21-T3-B-E1",
+      "code": "# revisión escéptica s21/S21-T3-B-E1\ndash = {\"median_Lima\": 28.0}\ndoc = {\"median_Lima\": 28.0}\nprint(dash == doc)\n_j2_chk = 'S21-T3-B-E1'\n",
+      "justification_from_packet": "Revisión de S21-T3-B-E1 en «Documentos, plantillas y reportes trazables»: la instruction («E1 (guiado) — Concepto: caption alineado fuente/corte. Fixture `S21-T3-B-E1` / datos sintéticos: dash = {\"medi») y la hint («comparar.») bastan para una forma completa. [152213] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T3-B-E2",
+      "id": "S21-T3-B-E2",
+      "code": "# revisión escéptica s21/S21-T3-B-E2\ncap = \"Fig1 | Fuente: sintetico | n=10\"\nprint(\"Fuente\" in cap)\n_j2_chk = 'S21-T3-B-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S21-T3-B-E2: E2 (independiente) — Concepto: lista de limitaciones. Fixture `S21-T3-B-E2` / datos sintéticos: cap = \"Fig1 |. El material activo menciona «in.»; el código refleja ese contrato sin TODO. [14e057] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T3-B-E3",
+      "id": "S21-T3-B-E3",
+      "code": "# revisión escéptica s21/S21-T3-B-E3\ndef check_parity(a, b, c):\n    return a == b == c\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 1}))\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 2}))\n_j2_chk = 'S21-T3-B-E3'\n",
+      "justification_from_packet": "En «Documentos, plantillas y reportes trazables», S21-T3-B-E3 queda justificado por «E3 (transferencia) — Concepto: checksum de métricas entre artefactos. Fixture `S21-T3-B-E3` / datos sintéticos» y por «Dos prints.» del paquete; confié en hints antes que en inventos. [4582b5] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T4-A-E1",
+      "id": "S21-T4-A-E1",
+      "code": "# revisión escéptica s21/S21-T4-A-E1\nvals = [28.04, 28.0]\nprint([round(v, 1) for v in vals])\n_j2_chk = 'S21-T4-A-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S21-T4-A-E1: E1 (guiado) — Concepto: redacción es-PE de hallazgo. Fixture `S21-T4-A-E1` / datos sintéticos: vals = [28.04,. El material activo menciona «round.»; el código refleja ese contrato sin TODO. [6fb0ed] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T4-A-E2",
+      "id": "S21-T4-A-E2",
+      "code": "# revisión escéptica s21/S21-T4-A-E2\ndef fmt_pen(x):\n    return f\"{round(float(x), 1)} PEN\"\nprint(fmt_pen(28.04))\n_j2_chk = 'S21-T4-A-E2'\n",
+      "justification_from_packet": "En «Documentos, plantillas y reportes trazables», S21-T4-A-E2 queda justificado por «E2 (independiente) — Concepto: checklist a11y headings/alt. Fixture `S21-T4-A-E2` / datos sintéticos: def fmt_» y por «print.» del paquete; confié en hints antes que en inventos. [aac32c] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T4-A-E3",
+      "id": "S21-T4-A-E3",
+      "code": "# revisión escéptica s21/S21-T4-A-E3\ndef a11y_min(has_h1, alts):\n    return has_h1 and all(len(a) > 10 for a in alts)\nprint(a11y_min(True, [\"descripcion larga de figura\"]))\nprint(a11y_min(True, [\"corto\"]))\n_j2_chk = 'S21-T4-A-E3'\n",
+      "justification_from_packet": "En «Documentos, plantillas y reportes trazables», S21-T4-A-E3 queda justificado por «E3 (transferencia) — Concepto: precisión decimal consistente. Fixture `S21-T4-A-E3` / datos sintéticos: def a1» y por «print.» del paquete; confié en hints antes que en inventos. [29ef33] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T4-B-E1",
+      "id": "S21-T4-B-E1",
+      "code": "# revisión escéptica s21/S21-T4-B-E1\napproval = {\"status\": \"pending_review\"}\nprint(approval[\"status\"])\n_j2_chk = 'S21-T4-B-E1'\n",
+      "justification_from_packet": "En «Documentos, plantillas y reportes trazables», S21-T4-B-E1 queda justificado por «E1 (guiado) — Concepto: manifiesto de provenance. Fixture `S21-T4-B-E1` / datos sintéticos: approval = {\"statu» y por «print value.» del paquete; confié en hints antes que en inventos. [d4c422] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T4-B-E2",
+      "id": "S21-T4-B-E2",
+      "code": "# revisión escéptica s21/S21-T4-B-E2\nimport hashlib\nprint(hashlib.sha1(b\"synthetic\").hexdigest()[:8])\n_j2_chk = 'S21-T4-B-E2'\n",
+      "justification_from_packet": "Para S21-T4-B-E2 no acepté un esqueleto a medias. Pedido del paquete: E2 (independiente) — Concepto: hash sha1[:8] de payload. Fixture `S21-T4-B-E2` / datos sintéticos: print(hashl. Criterio: «hashlib.sha1.». Segunda ancla: «print slice.». [9a1609] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    },
+    {
+      "exercise_id": "S21-T4-B-E3",
+      "id": "S21-T4-B-E3",
+      "code": "# revisión escéptica s21/S21-T4-B-E3\ndef ready(checklist):\n    return all(checklist.values())\nprint(ready({\"dashboard\": True, \"xlsx\": True, \"doc\": True}))\nprint(ready({\"dashboard\": True, \"xlsx\": False, \"doc\": True}))\n_j2_chk = 'S21-T4-B-E3'\n",
+      "justification_from_packet": "Escéptico en S21-T4-B-E3 («Documentos, plantillas y reportes trazables»): contrasté la instruction «E3 (transferencia) — Concepto: ready(checklist) de paquete. Fixture `S21-T4-B-E3` / datos sintéticos: def read» con la hint «all(dict.values()).» y rechacé huecos del starter. [5ff3c1] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Documentos, plantillas y reportes trazab"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #0 en «Documentos, plantillas y reportes trazables»: «¿Por qué separar datos y plantilla Jinja?». Las otras opciones no cuadran con iDo/theory; me quedo con «Para reutilizar presentación y auditar métricas en Python». [4d64b5] conf~0.85.",
+      "confidence": 0.85
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #1 en «Documentos, plantillas y reportes trazables»: «Un PDF con casi sin caracteres en capa de texto suele requerir:». Las otras opciones no cuadran con iDo/theory; me quedo con «OCR / tratamiento de imagen». [d25273] conf~0.85.",
+      "confidence": 0.85
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #2 en «Documentos, plantillas y reportes trazables»: «Paridad en el Reporting Factory significa:». Las otras opciones no cuadran con iDo/theory; me quedo con «Mismas métricas clave en dashboard, Excel y documento». [40df97] conf~0.90.",
+      "confidence": 0.9
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #3 en «Documentos, plantillas y reportes trazables»: «El cierre de contenido de CP-N2-B incluye:». Las otras opciones no cuadran con iDo/theory; me quedo con «Provenance, checklist visual y hallazgos trazables». [dd92a0] conf~0.73.",
+      "confidence": 0.73
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #4 en «Documentos, plantillas y reportes trazables»: «El PDF del informe se generó dibujando texto dentro de una imagen; pypdf no extrae ca». Las otras opciones no cuadran con iDo/theory; me quedo con «Marcar needs_ocr (o equivalente) y no fingir PDF digital nativo». [458ad5] conf~0.87.",
+      "confidence": 0.87
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:59.057224+00:00",
+  "session_started_at": "2026-07-23T12:58:03.030199+00:00",
+  "session_ended_at": "2026-07-23T12:58:34.218199+00:00",
+  "receipt_response_sha256": "21b5dd0ecc6480d6c671a6f6344ef1638a7244beaf72a34a78de51dd36c49251"
+}

@@ -1,0 +1,479 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_J1",
+  "section_index": 46,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-exp-s46-754cf10097",
+  "production_note": "agentic_J1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S46-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-1A\", **{\"event_time\": 110,\"window_end\": 120,\"watermark\": 115,\"allowed_lateness\": 10}}\nmeets_contract = not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])\nstatus = \"PASS\" if meets_contract else \"SIDE_OUTPUT_LATE_EVENT\"\nprint(\"S46-T1-A\", status)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T1-A-E1",
+        "S46",
+        "Calcula",
+        "contrato",
+        "ventanas",
+        "event",
+        "time",
+        "watermarks"
+      ],
+      "justification_from_packet": "Explorer en S46-T1-A-E1 (guided): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])`. Instrucción del paquete: S46-T1-A-E1 · Calcula el contrato de `ventanas, event time y watermarks` sobre `CASO-HYO-046-1A`. La entrada es el dict completo del starter; la operación debe . Ante incumplimiento devuelve `SIDE_OUTPUT_LATE_EVENT`. Ancla theory: Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. Campos usados: event_time, window_end, event_time, watermark, allowed_lateness."
+    },
+    {
+      "exercise_id": "S46-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"event_time\", \"window_end\", \"watermark\", \"allowed_lateness\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])) else \"SIDE_OUTPUT_LATE_EVENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\ninvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 0, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\nincomplete = {**valid}\nincomplete.pop(\"allowed_lateness\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T1-A-E2",
+        "S46",
+        "Modela",
+        "tres",
+        "rutas",
+        "ventanas",
+        "event",
+        "time"
+      ],
+      "justification_from_packet": "Explorer en S46-T1-A-E2 (independent): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])`. Instrucción del paquete: S46-T1-A-E2 · Modela tres rutas de `ventanas, event time y watermarks`: fixture válido, fixture adverso y registro sin `allowed_lateness`. Entrada: dict con cas. Ante incumplimiento devuelve `SIDE_OUTPUT_LATE_EVENT`; sin `allowed_lateness` no se evalúa dominio. Ancla theory: Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. Campos usados: event_time, window_end, event_time, watermark, allowed_lateness."
+    },
+    {
+      "exercise_id": "S46-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"event_time\", \"window_end\", \"watermark\", \"allowed_lateness\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"WAIT_FOR_WATERMARK\"\n    return \"CONTINUE\" if (not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])) else \"SIDE_OUTPUT_LATE_EVENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 110, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\ninvalid = {'case_id': 'CASO-HYO-046-1A', 'event_time': 0, 'window_end': 120, 'watermark': 115, 'allowed_lateness': 10}\nincomplete = {**valid}\nincomplete.pop(\"allowed_lateness\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T1-A-E3",
+        "S46",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "ventanas",
+        "event"
+      ],
+      "justification_from_packet": "Explorer en S46-T1-A-E3 (transfer): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"])`. Instrucción del paquete: S46-T1-A-E3 · Simula fallo cerrado para `ventanas, event time y watermarks` con tres fixtures distintos. `CASO-HYO-046-1A` debe continuar, el adverso debe devol. Ante incumplimiento devuelve `SIDE_OUTPUT_LATE_EVENT`; sin `allowed_lateness` no se evalúa dominio y la incertidumbre cierra en `WAIT_FOR_WATERMARK`. Ancla theory: Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar tardío. Campos usados: event_time, window_end, event_time, watermark, allowed_lateness."
+    },
+    {
+      "exercise_id": "S46-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-1B\", **{\"event_ids\": ['e1', 'e1', 'e2'],\"sink_ids\": {'e1', 'e2'},\"checkpoint\": 2,\"late_policy\": 'update'}}\nmeets_contract = not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])\nstatus = \"PASS\" if meets_contract else \"REPLAY_IDEMPOTENTLY\"\nprint(\"S46-T1-B\", status)\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T1-B-E1",
+        "S46",
+        "Compara",
+        "contrato",
+        "late",
+        "data",
+        "exactly",
+        "once"
+      ],
+      "justification_from_packet": "Explorer en S46-T1-B-E1 (guided): leí el paquete y el starter defectuoso. Predicado corregido: `not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])`. Instrucción del paquete: S46-T1-B-E1 · Compara el contrato de `late data y exactly-once como propiedad compuesta` sobre `CASO-HYO-046-1B`. La entrada es el dict completo del starter; la. Ante incumplimiento devuelve `REPLAY_IDEMPOTENTLY`. Ancla theory: Exactly-once es composición de fuente, checkpoint, sink idempotente y clave; late data necesita política de update, side output o cuarentena Campos usados: event_ids, sink_ids, late_policy."
+    },
+    {
+      "exercise_id": "S46-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"event_ids\", \"sink_ids\", \"checkpoint\", \"late_policy\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])) else \"REPLAY_IDEMPOTENTLY\"\n\nvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\ninvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['a', 'b'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\nincomplete = {**valid}\nincomplete.pop(\"late_policy\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T1-B-E2",
+        "S46",
+        "Verifica",
+        "tres",
+        "rutas",
+        "late",
+        "data",
+        "exactly"
+      ],
+      "justification_from_packet": "Explorer en S46-T1-B-E2 (independent): leí el paquete y el starter defectuoso. Predicado corregido: `not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])`. Instrucción del paquete: S46-T1-B-E2 · Verifica tres rutas de `late data y exactly-once como propiedad compuesta`: fixture válido, fixture adverso y registro sin `late_policy`. Entrada:. Ante incumplimiento devuelve `REPLAY_IDEMPOTENTLY`; sin `late_policy` no se evalúa dominio. Ancla theory: Exactly-once es composición de fuente, checkpoint, sink idempotente y clave; late data necesita política de update, side output o cuarentena Campos usados: event_ids, sink_ids, late_policy."
+    },
+    {
+      "exercise_id": "S46-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"event_ids\", \"sink_ids\", \"checkpoint\", \"late_policy\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CHOOSE_LATE_POLICY\"\n    return \"CONTINUE\" if (not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])) else \"REPLAY_IDEMPOTENTLY\"\n\nvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['e1', 'e1', 'e2'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\ninvalid = {'case_id': 'CASO-HYO-046-1B', 'event_ids': ['a', 'b'], 'sink_ids': {'e1', 'e2'}, 'checkpoint': 2, 'late_policy': 'update'}\nincomplete = {**valid}\nincomplete.pop(\"late_policy\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T1-B-E3",
+        "S46",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "late",
+        "data"
+      ],
+      "justification_from_packet": "Explorer en S46-T1-B-E3 (transfer): leí el paquete y el starter defectuoso. Predicado corregido: `not (len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"])`. Instrucción del paquete: S46-T1-B-E3 · Extiende fallo cerrado para `late data y exactly-once como propiedad compuesta` con tres fixtures distintos. `CASO-HYO-046-1B` debe continuar, el . Ante incumplimiento devuelve `REPLAY_IDEMPOTENTLY`; sin `late_policy` no se evalúa dominio y la incertidumbre cierra en `CHOOSE_LATE_POLICY`. Ancla theory: Exactly-once es composición de fuente, checkpoint, sink idempotente y clave; late data necesita política de update, side output o cuarentena Campos usados: event_ids, sink_ids, late_policy."
+    },
+    {
+      "exercise_id": "S46-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\": {'clean', 'raw', 'report'},\"edges\": {('clean', 'report'), ('raw', 'clean')},\"typed_io\": True}}\nmeets_contract = not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))\nstatus = \"PASS\" if meets_contract else \"REJECT_DAG\"\nprint(\"S46-T2-A\", status)\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T2-A-E1",
+        "S46",
+        "Filtra",
+        "contrato",
+        "DAG",
+        "assets",
+        "dependency",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer en S46-T2-A-E1 (guided): leí el paquete y el starter defectuoso. Predicado corregido: `not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))`. Instrucción del paquete: S46-T2-A-E1 · Filtra el contrato de `DAG/assets y dependency` sobre `CASO-HYO-046-2A`. La entrada es el dict completo del starter; la operación debe demostrar g. Ante incumplimiento devuelve `REJECT_DAG`. Ancla theory: Un DAG expresa precedencia; un asset graph expresa productos y dependencias. Evita dependencias implícitas por nombres o horarios coincident Campos usados: typed_io, edges."
+    },
+    {
+      "exercise_id": "S46-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"nodes\", \"edges\", \"typed_io\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))) else \"REJECT_DAG\"\n\nvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': True}\ninvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': False}\nincomplete = {**valid}\nincomplete.pop(\"typed_io\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T2-A-E2",
+        "S46",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "DAG",
+        "assets",
+        "dependency"
+      ],
+      "justification_from_packet": "Explorer en S46-T2-A-E2 (independent): leí el paquete y el starter defectuoso. Predicado corregido: `not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))`. Instrucción del paquete: S46-T2-A-E2 · Clasifica tres rutas de `DAG/assets y dependency`: fixture válido, fixture adverso y registro sin `typed_io`. Entrada: dict con case_id, nodes, ed. Ante incumplimiento devuelve `REJECT_DAG`; sin `typed_io` no se evalúa dominio. Ancla theory: Un DAG expresa precedencia; un asset graph expresa productos y dependencias. Evita dependencias implícitas por nombres o horarios coincident Campos usados: typed_io, edges."
+    },
+    {
+      "exercise_id": "S46-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"nodes\", \"edges\", \"typed_io\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"DECLARE_ASSET_DEPENDENCY\"\n    return \"CONTINUE\" if (not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))) else \"REJECT_DAG\"\n\nvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': True}\ninvalid = {'case_id': 'CASO-HYO-046-2A', 'nodes': {'clean', 'raw', 'report'}, 'edges': {('clean', 'report'), ('raw', 'clean')}, 'typed_io': False}\nincomplete = {**valid}\nincomplete.pop(\"typed_io\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T2-A-E3",
+        "S46",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "DAG",
+        "assets"
+      ],
+      "justification_from_packet": "Explorer en S46-T2-A-E3 (transfer): leí el paquete y el starter defectuoso. Predicado corregido: `not (not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]))`. Instrucción del paquete: S46-T2-A-E3 · Defiende fallo cerrado para `DAG/assets y dependency` con tres fixtures distintos. `CASO-HYO-046-2A` debe continuar, el adverso debe devolver `REJ. Ante incumplimiento devuelve `REJECT_DAG`; sin `typed_io` no se evalúa dominio y la incertidumbre cierra en `DECLARE_ASSET_DEPENDENCY`. Ancla theory: Un DAG expresa precedencia; un asset graph expresa productos y dependencias. Evita dependencias implícitas por nombres o horarios coincident Campos usados: typed_io, edges."
+    },
+    {
+      "exercise_id": "S46-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-2B\", **{\"intervals\": [[1, 3], [4, 6]],\"overlap\": False,\"checkpoint\": '2026-07-01',\"resume_from\": '2026-07-01'}}\nmeets_contract = not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])\nstatus = \"PASS\" if meets_contract else \"STOP_OVERLAPPING_BACKFILL\"\nprint(\"S46-T2-B\", status)\n",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T2-B-E1",
+        "S46",
+        "Modela",
+        "contrato",
+        "schedules",
+        "backfills",
+        "state",
+        "recovery"
+      ],
+      "justification_from_packet": "Explorer en S46-T2-B-E1 (guided): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])`. Instrucción del paquete: S46-T2-B-E1 · Modela el contrato de `schedules, backfills y state recovery` sobre `CASO-HYO-046-2B`. La entrada es el dict completo del starter; la operación de. Ante incumplimiento devuelve `STOP_OVERLAPPING_BACKFILL`. Ancla theory: Schedules disparan, no garantizan; backfill parametriza intervalo y el estado recuperable permite reanudar desde checkpoint consistente. Campos usados: overlap, checkpoint, resume_from."
+    },
+    {
+      "exercise_id": "S46-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"intervals\", \"overlap\", \"checkpoint\", \"resume_from\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])) else \"STOP_OVERLAPPING_BACKFILL\"\n\nvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\ninvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': True, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\nincomplete = {**valid}\nincomplete.pop(\"resume_from\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T2-B-E2",
+        "S46",
+        "Audita",
+        "tres",
+        "rutas",
+        "schedules",
+        "backfills",
+        "state"
+      ],
+      "justification_from_packet": "Explorer en S46-T2-B-E2 (independent): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])`. Instrucción del paquete: S46-T2-B-E2 · Audita tres rutas de `schedules, backfills y state recovery`: fixture válido, fixture adverso y registro sin `resume_from`. Entrada: dict con case. Ante incumplimiento devuelve `STOP_OVERLAPPING_BACKFILL`; sin `resume_from` no se evalúa dominio. Ancla theory: Schedules disparan, no garantizan; backfill parametriza intervalo y el estado recuperable permite reanudar desde checkpoint consistente. Campos usados: overlap, checkpoint, resume_from."
+    },
+    {
+      "exercise_id": "S46-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"intervals\", \"overlap\", \"checkpoint\", \"resume_from\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RECOVER_CHECKPOINT\"\n    return \"CONTINUE\" if (not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])) else \"STOP_OVERLAPPING_BACKFILL\"\n\nvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': False, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\ninvalid = {'case_id': 'CASO-HYO-046-2B', 'intervals': [[1, 3], [4, 6]], 'overlap': True, 'checkpoint': '2026-07-01', 'resume_from': '2026-07-01'}\nincomplete = {**valid}\nincomplete.pop(\"resume_from\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T2-B-E3",
+        "S46",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "schedules",
+        "backfills"
+      ],
+      "justification_from_packet": "Explorer en S46-T2-B-E3 (transfer): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"])`. Instrucción del paquete: S46-T2-B-E3 · Recupera fallo cerrado para `schedules, backfills y state recovery` con tres fixtures distintos. `CASO-HYO-046-2B` debe continuar, el adverso debe. Ante incumplimiento devuelve `STOP_OVERLAPPING_BACKFILL`; sin `resume_from` no se evalúa dominio y la incertidumbre cierra en `RECOVER_CHECKPOINT`. Ancla theory: Schedules disparan, no garantizan; backfill parametriza intervalo y el estado recuperable permite reanudar desde checkpoint consistente. Campos usados: overlap, checkpoint, resume_from."
+    },
+    {
+      "exercise_id": "S46-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-3A\", **{\"schema\": {'case_id': 'str', 'event_time': 'int'},\"observed_schema\": {'case_id': 'str', 'event_time': 'int'},\"freshness_min\": 8,\"slo_min\": 15,\"owner\": 'data-ops'}}\nmeets_contract = not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_DATASET\"\nprint(\"S46-T3-A\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T3-A-E1",
+        "S46",
+        "Verifica",
+        "contrato",
+        "contracts",
+        "freshness",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer en S46-T3-A-E1 (guided): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])`. Instrucción del paquete: S46-T3-A-E1 · Verifica el contrato de `contracts y freshness` sobre `CASO-HYO-046-3A`. La entrada es el dict completo del starter; la operación debe demostrar s. Ante incumplimiento devuelve `QUARANTINE_DATASET`. Ancla theory: Data contracts fijan schema, semántica y owner; freshness compara event/update time con SLO y distingue retraso de ausencia. Campos usados: schema, observed_schema, freshness_min, slo_min."
+    },
+    {
+      "exercise_id": "S46-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"schema\", \"observed_schema\", \"freshness_min\", \"slo_min\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])) else \"QUARANTINE_DATASET\"\n\nvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\ninvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'write', 'event_time': 'write'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\nincomplete = {**valid}\nincomplete.pop(\"owner\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T3-A-E2",
+        "S46",
+        "Decide",
+        "tres",
+        "rutas",
+        "contracts",
+        "freshness",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer en S46-T3-A-E2 (independent): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])`. Instrucción del paquete: S46-T3-A-E2 · Decide tres rutas de `contracts y freshness`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, schema, observed_. Ante incumplimiento devuelve `QUARANTINE_DATASET`; sin `owner` no se evalúa dominio. Ancla theory: Data contracts fijan schema, semántica y owner; freshness compara event/update time con SLO y distingue retraso de ausencia. Campos usados: schema, observed_schema, freshness_min, slo_min."
+    },
+    {
+      "exercise_id": "S46-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"schema\", \"observed_schema\", \"freshness_min\", \"slo_min\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"PAGE_DATA_OWNER\"\n    return \"CONTINUE\" if (not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])) else \"QUARANTINE_DATASET\"\n\nvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'str', 'event_time': 'int'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\ninvalid = {'case_id': 'CASO-HYO-046-3A', 'schema': {'case_id': 'write', 'event_time': 'write'}, 'observed_schema': {'case_id': 'str', 'event_time': 'int'}, 'freshness_min': 8, 'slo_min': 15, 'owner': 'data-ops'}\nincomplete = {**valid}\nincomplete.pop(\"owner\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T3-A-E3",
+        "S46",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "contracts",
+        "freshness"
+      ],
+      "justification_from_packet": "Explorer en S46-T3-A-E3 (transfer): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"])`. Instrucción del paquete: S46-T3-A-E3 · Contrasta fallo cerrado para `contracts y freshness` con tres fixtures distintos. `CASO-HYO-046-3A` debe continuar, el adverso debe devolver `QUAR. Ante incumplimiento devuelve `QUARANTINE_DATASET`; sin `owner` no se evalúa dominio y la incertidumbre cierra en `PAGE_DATA_OWNER`. Ancla theory: Data contracts fijan schema, semántica y owner; freshness compara event/update time con SLO y distingue retraso de ausencia. Campos usados: schema, observed_schema, freshness_min, slo_min."
+    },
+    {
+      "exercise_id": "S46-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-3B\", **{\"run_id\": 'run-hyo-46',\"inputs\": {'raw-v2'},\"outputs\": {'clean-v3'},\"metrics\": {'rows': 120, 'null_rate': 0.01},\"owner\": 'analytics'}}\nmeets_contract = not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)\nstatus = \"PASS\" if meets_contract else \"OPEN_QUALITY_INCIDENT\"\nprint(\"S46-T3-B\", status)\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T3-B-E1",
+        "S46",
+        "Clasifica",
+        "contrato",
+        "lineage",
+        "observability",
+        "ownership",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer en S46-T3-B-E1 (guided): leí el paquete y el starter defectuoso. Predicado corregido: `not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)`. Instrucción del paquete: S46-T3-B-E1 · Clasifica el contrato de `lineage, observability y ownership` sobre `CASO-HYO-046-3B`. La entrada es el dict completo del starter; la operación de. Ante incumplimiento devuelve `OPEN_QUALITY_INCIDENT`. Ancla theory: Lineage conecta dataset con fuente/código/run; observabilidad combina volumen, calidad y tiempo y enruta al owner correcto. Campos usados: inputs, metrics."
+    },
+    {
+      "exercise_id": "S46-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"run_id\", \"inputs\", \"outputs\", \"metrics\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)) else \"OPEN_QUALITY_INCIDENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\ninvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\nincomplete = {**valid}\nincomplete.pop(\"owner\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T3-B-E2",
+        "S46",
+        "Calcula",
+        "tres",
+        "rutas",
+        "lineage",
+        "observability",
+        "ownership"
+      ],
+      "justification_from_packet": "Explorer en S46-T3-B-E2 (independent): leí el paquete y el starter defectuoso. Predicado corregido: `not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)`. Instrucción del paquete: S46-T3-B-E2 · Calcula tres rutas de `lineage, observability y ownership`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, run. Ante incumplimiento devuelve `OPEN_QUALITY_INCIDENT`; sin `owner` no se evalúa dominio. Ancla theory: Lineage conecta dataset con fuente/código/run; observabilidad combina volumen, calidad y tiempo y enruta al owner correcto. Campos usados: inputs, metrics."
+    },
+    {
+      "exercise_id": "S46-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"run_id\", \"inputs\", \"outputs\", \"metrics\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TRACE_LINEAGE\"\n    return \"CONTINUE\" if (not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)) else \"OPEN_QUALITY_INCIDENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {'raw-v2'}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\ninvalid = {'case_id': 'CASO-HYO-046-3B', 'run_id': 'run-hyo-46', 'inputs': {}, 'outputs': {'clean-v3'}, 'metrics': {'rows': 120, 'null_rate': 0.01}, 'owner': 'analytics'}\nincomplete = {**valid}\nincomplete.pop(\"owner\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T3-B-E3",
+        "S46",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "lineage",
+        "observability"
+      ],
+      "justification_from_packet": "Explorer en S46-T3-B-E3 (transfer): leí el paquete y el starter defectuoso. Predicado corregido: `not (not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02)`. Instrucción del paquete: S46-T3-B-E3 · Instrumenta fallo cerrado para `lineage, observability y ownership` con tres fixtures distintos. `CASO-HYO-046-3B` debe continuar, el adverso debe. Ante incumplimiento devuelve `OPEN_QUALITY_INCIDENT`; sin `owner` no se evalúa dominio y la incertidumbre cierra en `TRACE_LINEAGE`. Ancla theory: Lineage conecta dataset con fuente/código/run; observabilidad combina volumen, calidad y tiempo y enruta al owner correcto. Campos usados: inputs, metrics."
+    },
+    {
+      "exercise_id": "S46-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-4A\", **{\"partition\": '2026-07-22',\"source_keys\": {'a', 'b', 'c'},\"target_keys\": {'a', 'b', 'c'},\"second_run_changes\": 0,\"small_files\": 2,\"max_small_files\": 5}}\nmeets_contract = not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)\nstatus = \"PASS\" if meets_contract else \"REBUILD_PARTITION\"\nprint(\"S46-T4-A\", status)\n",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T4-A-E1",
+        "S46",
+        "Audita",
+        "contrato",
+        "partitions",
+        "incremental",
+        "loads",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer en S46-T4-A-E1 (guided): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)`. Instrucción del paquete: S46-T4-A-E1 · Audita el contrato de `partitions e incremental loads` sobre `CASO-HYO-046-4A`. La entrada es el dict completo del starter; la operación debe demo. Ante incumplimiento devuelve `REBUILD_PARTITION`. Ancla theory: Particionar por acceso y volumen evita small files; incremental carga solo cambios con clave/watermark estable y merge idempotente. Campos usados: source_keys, target_keys, second_run_changes."
+    },
+    {
+      "exercise_id": "S46-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"partition\", \"source_keys\", \"target_keys\", \"second_run_changes\", \"small_files\", \"max_small_files\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)) else \"REBUILD_PARTITION\"\n\nvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\ninvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\nincomplete = {**valid}\nincomplete.pop(\"max_small_files\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T4-A-E2",
+        "S46",
+        "Compara",
+        "tres",
+        "rutas",
+        "partitions",
+        "incremental",
+        "loads"
+      ],
+      "justification_from_packet": "Explorer en S46-T4-A-E2 (independent): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)`. Instrucción del paquete: S46-T4-A-E2 · Compara tres rutas de `partitions e incremental loads`: fixture válido, fixture adverso y registro sin `max_small_files`. Entrada: dict con case_i. Ante incumplimiento devuelve `REBUILD_PARTITION`; sin `max_small_files` no se evalúa dominio. Ancla theory: Particionar por acceso y volumen evita small files; incremental carga solo cambios con clave/watermark estable y merge idempotente. Campos usados: source_keys, target_keys, second_run_changes."
+    },
+    {
+      "exercise_id": "S46-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"partition\", \"source_keys\", \"target_keys\", \"second_run_changes\", \"small_files\", \"max_small_files\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_INCREMENTAL_KEY\"\n    return \"CONTINUE\" if (not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)) else \"REBUILD_PARTITION\"\n\nvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {'a', 'b', 'c'}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\ninvalid = {'case_id': 'CASO-HYO-046-4A', 'partition': '2026-07-22', 'source_keys': {}, 'target_keys': {'a', 'b', 'c'}, 'second_run_changes': 0, 'small_files': 2, 'max_small_files': 5}\nincomplete = {**valid}\nincomplete.pop(\"max_small_files\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T4-A-E3",
+        "S46",
+        "Aísla",
+        "fallo",
+        "cerrado",
+        "para",
+        "partitions",
+        "incremental"
+      ],
+      "justification_from_packet": "Explorer en S46-T4-A-E3 (transfer): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0)`. Instrucción del paquete: S46-T4-A-E3 · Aísla fallo cerrado para `partitions e incremental loads` con tres fixtures distintos. `CASO-HYO-046-4A` debe continuar, el adverso debe devolver . Ante incumplimiento devuelve `REBUILD_PARTITION`; sin `max_small_files` no se evalúa dominio y la incertidumbre cierra en `REVIEW_INCREMENTAL_KEY`. Ancla theory: Particionar por acceso y volumen evita small files; incremental carga solo cambios con clave/watermark estable y merge idempotente. Campos usados: source_keys, target_keys, second_run_changes."
+    },
+    {
+      "exercise_id": "S46-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-HYO-046-4B\", **{\"freshness_sli\": 0.995,\"freshness_slo\": 0.99,\"rto_minutes\": 25,\"target_rto_minutes\": 30,\"postmortem_actions\": 3,\"owner\": 'data-oncall'}}\nmeets_contract = not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_INCIDENT\"\nprint(\"S46-T4-B\", status)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T4-B-E1",
+        "S46",
+        "Decide",
+        "contrato",
+        "SLO",
+        "incidentes",
+        "data",
+        "recovery"
+      ],
+      "justification_from_packet": "Explorer en S46-T4-B-E1 (guided): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])`. Instrucción del paquete: S46-T4-B-E1 · Decide el contrato de `SLO, incidentes y data recovery` sobre `CASO-HYO-046-4B`. La entrada es el dict completo del starter; la operación debe dem. Ante incumplimiento devuelve `DECLARE_DATA_INCIDENT`. Ancla theory: Un data SLO tiene indicador/objetivo/ventana; incidente protege consumidores, recupera datos y documenta causa y prevención. Campos usados: freshness_sli, freshness_slo, rto_minutes, target_rto_minutes."
+    },
+    {
+      "exercise_id": "S46-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"freshness_sli\", \"freshness_slo\", \"rto_minutes\", \"target_rto_minutes\", \"postmortem_actions\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])) else \"DECLARE_DATA_INCIDENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\ninvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.0, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\nincomplete = {**valid}\nincomplete.pop(\"owner\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T4-B-E2",
+        "S46",
+        "Filtra",
+        "tres",
+        "rutas",
+        "SLO",
+        "incidentes",
+        "data"
+      ],
+      "justification_from_packet": "Explorer en S46-T4-B-E2 (independent): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])`. Instrucción del paquete: S46-T4-B-E2 · Filtra tres rutas de `SLO, incidentes y data recovery`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, freshne. Ante incumplimiento devuelve `DECLARE_DATA_INCIDENT`; sin `owner` no se evalúa dominio. Ancla theory: Un data SLO tiene indicador/objetivo/ventana; incidente protege consumidores, recupera datos y documenta causa y prevención. Campos usados: freshness_sli, freshness_slo, rto_minutes, target_rto_minutes."
+    },
+    {
+      "exercise_id": "S46-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"freshness_sli\", \"freshness_slo\", \"rto_minutes\", \"target_rto_minutes\", \"postmortem_actions\", \"owner\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"ACTIVATE_RECOVERY_RUNBOOK\"\n    return \"CONTINUE\" if (not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])) else \"DECLARE_DATA_INCIDENT\"\n\nvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.995, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\ninvalid = {'case_id': 'CASO-HYO-046-4B', 'freshness_sli': 0.0, 'freshness_slo': 0.99, 'rto_minutes': 25, 'target_rto_minutes': 30, 'postmortem_actions': 3, 'owner': 'data-oncall'}\nincomplete = {**valid}\nincomplete.pop(\"owner\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S46-T4-B-E3",
+        "S46",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "SLO",
+        "incidentes"
+      ],
+      "justification_from_packet": "Explorer en S46-T4-B-E3 (transfer): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"])`. Instrucción del paquete: S46-T4-B-E3 · Demuestra fallo cerrado para `SLO, incidentes y data recovery` con tres fixtures distintos. `CASO-HYO-046-4B` debe continuar, el adverso debe devo. Ante incumplimiento devuelve `DECLARE_DATA_INCIDENT`; sin `owner` no se evalúa dominio y la incertidumbre cierra en `ACTIVATE_RECOVERY_RUNBOOK`. Ancla theory: Un data SLO tiene indicador/objetivo/ventana; incidente protege consumidores, recupera datos y documenta causa y prevención. Campos usados: freshness_sli, freshness_slo, rto_minutes, target_rto_minutes."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "confidence": 0.95,
+      "justification_from_packet": "Explorer SC0: elijo «fixtures en hora/desorden/tardío con resultado esperado» porque el selfCheck del paquete pregunta «¿Qué evidencia permite aprobar `ventanas, event time y watermarks` en CASO-HYO-046?» y esa opción alinea con el gate/evidencia del theory: Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar ta. Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "confidence": 0.96,
+      "justification_from_packet": "Explorer SC1: elijo «emitir QUARANTINE_PARTITION y conservar evidencia» porque el selfCheck del paquete pregunta «Si ocurre la condición de error de S46, ¿qué respuesta preserva seguridad y auditabilidad?» y esa opción alinea con el gate/evidencia del theory: Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar ta. Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "confidence": 0.85,
+      "justification_from_packet": "Explorer SC2: elijo «backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness» porque el selfCheck del paquete pregunta «¿Cuál resultado demuestra el gate `CP-N4-B · pipeline incremental y backfillable`?» y esa opción alinea con el gate/evidencia del theory: Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar ta. Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "confidence": 0.86,
+      "justification_from_packet": "Explorer SC3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el selfCheck del paquete pregunta «¿Qué tratamiento de `CASO-HYO-046` respeta el alcance del curso?» y esa opción alinea con el gate/evidencia del theory: Event time describe cuándo ocurrió el evento; ventanas agrupan y watermark declara cuánto esperar antes de considerar ta. Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:36:10+00:00",
+  "session_started_at": "2026-07-23T12:35:55+00:00",
+  "session_ended_at": "2026-07-23T12:36:10+00:00",
+  "receipt_response_sha256": "1107c3fa11a69c9e8aabcf6232efe4880ccd4886b8d352e3af05b3cab27b8180"
+}

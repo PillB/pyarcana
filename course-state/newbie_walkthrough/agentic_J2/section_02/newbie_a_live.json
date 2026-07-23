@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 2,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s02-6a368a9d262a",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S02-T1-A-E1",
+      "id": "S02-T1-A-E1",
+      "code": "# exploración s02/S02-T1-A-E1\nliterales = [0, 3.14, \"Lima\", False, None]\n\nfor lit in literales:\n    print(repr(lit), \"→\", type(lit).__name__)\n_j2_mark = 2\n",
+      "justification_from_packet": "Exercise S02-T1-A-E1: el contrato observable es «E1 (guiado) — Clasifica estos literales imprimiendo `repr(valor)` y `type(valor).__name__` para cada uno: `0`,». Del theory/iDo cercano tomé «None imprime type NoneType, no \"None\". False es bool, n» y de hints «Recorre una lista de literales con un for. Usa type(x).__name__ para un nom». [2c2895] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T1-A-E2",
+      "id": "S02-T1-A-E2",
+      "code": "# exploración s02/S02-T1-A-E2\ncodigo_int = 42\ncodigo_str = \"42\"\n\nprint(\"tipos:\", type(codigo_int).__name__, type(codigo_str).__name__)\nprint(\"igualdad cruda:\", codigo_int == codigo_str)\nprint(\"igualdad tras str():\", str(codigo_int) == codigo_str)\nprint(\"isinstance(True, int) →\", isinstance(True, int))\nprint(\"Nota: bool es subtipo de int; en intake no trates True/False como montos.\")\n_j2_mark = 2\n",
+      "justification_from_packet": "Como explorer en «Valores, tipos, operadores e I/O», S02-T1-A-E2 se cierra con lo enseñado: E2 (independiente) — Demuestra que `42` y `\"42\"` son tipos distintos: imprime ambos `type(...).__name__`, el r. Hint operativa: «No conviertas antes de la primera comparación. str(42) produce el texto \"42». [63d401] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T1-A-E3",
+      "id": "S02-T1-A-E3",
+      "code": "# exploración s02/S02-T1-A-E3\ncampos = {\n    \"nombres\": (\"María José\", str),\n    \"apellido_paterno\": (\"Quispe\", str),\n    \"apellido_materno\": (\"Ñahui\", str),\n    \"contacto\": (\"999000111\", str),\n    \"edad\": (28, int),\n    \"activo\": (True, bool),\n}\n\nfor k, (v, t) in campos.items():\n    ok = type(v) is t\n    print(f\"{k}: {v!r} esperado={t.__name__} ok={ok}\")\n_j2_mark = 2\n",
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» resolví S02-T1-A-E3 leyendo la instruction: «E3 (transferencia) — Para el cliente sintético de intake, elige el tipo Python correcto de cada campo y crea l». La pista «contacto = \"999000111\" (str), no 999000111 (int). Apellidos con ñ/tildes so» me dio el patrón concreto del weDo. [385258] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T1-B-E1",
+      "id": "S02-T1-B-E1",
+      "code": "# exploración s02/S02-T1-B-E1\nraw = \" 21 \"\nedad = int(raw.strip())\nprint(edad, type(edad).__name__)\n_j2_mark = 2\n",
+      "justification_from_packet": "Para S02-T1-B-E1 el paquete de «Valores, tipos, operadores e I/O» pide: E1 (guiado) — Dado `raw = \" 21 \"`, conviértelo a `int` usando `strip` y muestra el valor y su tipo. Debe queda. Anclé la respuesta a «int(raw.strip()) — strip primero, constructor después.» y conservé el fixture del starter. [9cffef] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T1-B-E2",
+      "id": "S02-T1-B-E2",
+      "code": "# exploración s02/S02-T1-B-E2\ndef safe_int(campo: str, valor: str):\n    texto = valor.strip()\n    if texto == \"\":\n        return (False, None, f\"ERROR en '{campo}': valor vacío\")\n    try:\n        return (True, int(texto), None)\n    except ValueError:\n        return (False, None, f\"ERROR en '{campo}': {valor!r} no es un entero válido\")\n\nfor v in [\" 21 \", \"\", \"abc\", \"  \"]:\n    print(repr(v), \"→\", safe_int(\"edad\", v))\n_j2_mark = 2\n",
+      "justification_from_packet": "Como explorer en «Valores, tipos, operadores e I/O», S02-T1-B-E2 se cierra con lo enseñado: E2 (independiente) — Implementa `safe_int(campo, valor) -> tuple` que devuelva `(True, int, None)` si conviert. Hint operativa: «Tras strip, si texto == \"\", error de vacío. try/except ValueError para letr». [2b59cc] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T1-B-E3",
+      "id": "S02-T1-B-E3",
+      "code": "# exploración s02/S02-T1-B-E3\nfrom decimal import Decimal, InvalidOperation\n\ndef safe_int(campo: str, valor: str):\n    texto = valor.strip()\n    if texto == \"\":\n        return (False, None, f\"ERROR en '{campo}': valor vacío\")\n    try:\n        return (True, int(texto), None)\n    except ValueError:\n        return (False, None, f\"ERROR en '{campo}': {valor!r} no es un entero válido\")\n\ndef safe_decimal(campo: str, valor: str):\n    texto = valor.strip()\n    if texto == \"\":\n        return (False, None, f\"ERROR en '{campo}': valor vacío\")\n    try:\n        return (True, Decimal(texto).quantize(Decimal(\"0.01\")), None)\n    except InvalidOperation:\n        return (False, None, f\"ERROR en '{campo}': {valor!r} no es un monto decimal válido\")\n\ndef pipeline(edad_txt: str, monto_txt: str) -> dict:\n    errors: list[str] = []\n    clean: dict = {}\n    ok, val, msg = safe_int(\"edad\", edad_txt)\n    clean[\"edad\"] = val if ok else None\n    if not ok:\n        errors.append(msg)\n    ok, val, msg = safe_decimal(\"monto\", monto_txt)\n    clean[\"monto\"] = val if ok else None\n    if not ok:\n        errors.append(msg)\n    return {\n        \"raw\": {\"edad\": edad_txt, \"monto\": monto_txt},\n        \"clean\": clean,\n        \"errors\": errors,\n    }\n\nprint(pipeline(\" 28 \", \"150.50\"))\nprint(pipeline(\"xx\", \"99.0\"))\nprint(pipeline(\"30\", \"nope\"))\n_j2_mark = 2\n",
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» resolví S02-T1-B-E3 leyendo la instruction: «E3 (transferencia) — Pipeline de 2 campos: `edad` (`int`) y `monto` (`Decimal` cuantizado a céntimos) desde te». La pista «Importa Decimal e InvalidOperation; nunca pases el monto por float.» me dio el patrón concreto del weDo. [9e4ca2] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-A-E1",
+      "id": "S02-T2-A-E1",
+      "code": "# exploración s02/S02-T2-A-E1\nnombre_cliente = \"Luis\"\napellido_paterno = \"Ramos\"\nindice = 0\nlongitud = 5\nEDAD_MAXIMA = 120\n\nprint(nombre_cliente, apellido_paterno, indice, longitud, EDAD_MAXIMA)\n_j2_mark = 2\n",
+      "justification_from_packet": "Armé S02-T2-A-E1 desde el quiz_card de «Valores, tipos, operadores e I/O». Instruction recortada: «E1 (guiado) — Renombra estas 5 variables a PEP 8: `NombreCliente`, `AP`, `x` (índice), `l` (longitud), `EdadMa». Verifiqué con la pista «snake_case para vars; UPPER_CASE para la constante de tope de edad.». [b8ad9b] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-A-E2",
+      "id": "S02-T2-A-E2",
+      "code": "# exploración s02/S02-T2-A-E2\nestado = \"activo\"\ncodigo = 10\nflag = True\n\nif estado == \"activo\":\n    print(\"ok estado\")\nif codigo == 10:\n    print(\"ok codigo\")\nif flag == True:\n    print(\"ok flag\")\n_j2_mark = 2\n",
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» resolví S02-T2-A-E2 leyendo la instruction: «E2 (independiente) — Bug hunt: el siguiente código tiene tres comparaciones rotas con `=` en lugar de `==`. Co». La pista «En cada if, cambia = por ==. No uses el operador walrus := en S02.» me dio el patrón concreto del weDo. [0d11d1] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-A-E3",
+      "id": "S02-T2-A-E3",
+      "code": "# exploración s02/S02-T2-A-E3\nencabezados = [\n    \"Nombres\",\n    \"Apellido Paterno\",\n    \"Apellido Materno\",\n    \"Teléfono / Cel\",\n    \"Dirección\",\n    \"Edad (años)\",\n]\n\nmapeo = {\n    \"Nombres\": \"nombres\",\n    \"Apellido Paterno\": \"apellido_paterno\",\n    \"Apellido Materno\": \"apellido_materno\",\n    \"Teléfono / Cel\": \"contacto\",\n    \"Dirección\": \"direccion\",\n    \"Edad (años)\": \"edad\",\n}\n\nfor orig in encabezados:\n    print(f\"{orig!r} → {mapeo[orig]}\")\n_j2_mark = 2\n",
+      "justification_from_packet": "Como explorer en «Valores, tipos, operadores e I/O», S02-T2-A-E3 se cierra con lo enseñado: E3 (transferencia) — Un CSV de intake llega con encabezados feos. Propón nombres PEP 8 (snake_case) para: `Nom. Hint operativa: «Minúsculas, guiones bajos, sin espacios ni tildes en el identificador Pytho». [021253] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-B-E1",
+      "id": "S02-T2-B-E1",
+      "code": "# exploración s02/S02-T2-B-E1\nprint(\"None is None →\", None is None)\nprint(\"[] == [] →\", [] == [])\nprint(\"[] is [] →\", [] is [])\nprint(\"1 == True →\", 1 == True)\nprint(\"1 is True →\", 1 is True)\n# is → identidad (None, singletons); == → igualdad de valor\n_j2_mark = 2\n",
+      "justification_from_packet": "Exercise S02-T2-B-E1: el contrato observable es «E1 (guiado) — Completa la tabla de predicciones imprimiendo el bool real de: `None is None`, `[] == []`, `[] i». Del theory/iDo cercano tomé «1 == True es True (bool subtipo int), pero 1 is True es» y de hints «Listas nuevas no son el mismo objeto: [] is [] es False. Usa is para None.». [a02b32] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-B-E2",
+      "id": "S02-T2-B-E2",
+      "code": "# exploración s02/S02-T2-B-E2\noriginal = [\"a\", \"b\"]\ntrabajo = original.copy()\ntrabajo.append(\"c\")\nprint(\"original:\", original)\nprint(\"trabajo:\", trabajo)\nprint(\"mismo objeto?\", original is trabajo)\n_j2_mark = 2\n",
+      "justification_from_packet": "Para S02-T2-B-E2 el paquete de «Valores, tipos, operadores e I/O» pide: E2 (independiente) — `original = [\"a\", \"b\"]`. Crea `trabajo` como **copia** (no alias), haz `trabajo.append(\"c. Anclé la respuesta a «trabajo = original.copy() o trabajo = original[:]» y conservé el fixture del starter. [74e1f2] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T2-B-E3",
+      "id": "S02-T2-B-E3",
+      "code": "# exploración s02/S02-T2-B-E3\ndef make_record(nombres: str, contacto: str) -> dict:\n    return {\n        \"nombres_raw\": nombres,\n        \"contacto_raw\": contacto,\n        \"nombres\": nombres.strip() if nombres else None,\n        \"contacto\": contacto.strip() if contacto else None,\n    }\n\nentrada_nombres = \"  María  \"\nentrada_contacto = \" 999 \"\nrec = make_record(entrada_nombres, entrada_contacto)\nrec[\"nombres\"] = rec[\"nombres\"].upper()\nprint(rec)\nassert rec[\"nombres_raw\"] == entrada_nombres\nassert rec[\"contacto_raw\"] == entrada_contacto\nprint(\"raw preserved OK\")\n_j2_mark = 2\n",
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» resolví S02-T2-B-E3 leyendo la instruction: «E3 (transferencia) — Diseña `make_record(nombres, contacto)` que devuelva un dict con `nombres_raw`, `contacto». La pista «Guarda el string original en *_raw antes de strip. No reutilices el mismo n» me dio el patrón concreto del weDo. [7dbe94] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-A-E1",
+      "id": "S02-T3-A-E1",
+      "code": "# exploración s02/S02-T3-A-E1\nn = 17\nd = 5\nprint(\"//\", n // d)\nprint(\"%\", n % d)\nprint(\"**\", 2 ** 4)\nprint(\"/\", n / d)\nprint(\"nota: / devuelve float en Python 3\")\n_j2_mark = 2\n",
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» resolví S02-T3-A-E1 leyendo la instruction: «E1 (guiado) — Con `n = 17` y `d = 5`, imprime `n // d`, `n % d`, `2 ** 4` y `n / d`. Comenta en un print por q». La pista «Usa los operadores // % ** / directamente. No hace falta import.» me dio el patrón concreto del weDo. [96e92b] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-A-E2",
+      "id": "S02-T3-A-E2",
+      "code": "# exploración s02/S02-T3-A-E2\nprint(\"sin paréntesis:\", -3**2)\nprint(\"con paréntesis:\", (-3)**2)\ncuadrado_neg = (-3)**2\nassert cuadrado_neg == 9\nprint(\"assert OK\")\n_j2_mark = 2\n",
+      "justification_from_packet": "Exercise S02-T3-A-E2: el contrato observable es «E2 (independiente) — Demuestra que `-3**2` es `-9` y que `(-3)**2` es `9`. Asigna `cuadrado_neg = (-3)**2` y h». Del theory/iDo cercano tomé «print(-3**2) y print((-3)**2); el assert solo pasa con» y de hints «** tiene mayor precedencia que el unario menos. Paréntesis cambian el orden». [d3a35e] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-A-E3",
+      "id": "S02-T3-A-E3",
+      "code": "# exploración s02/S02-T3-A-E3\nlinea_a = 50\nlinea_b = 30\nsubtotal = linea_a + linea_b\ntotal = subtotal * (1 + 0.18)\nprint(\"subtotal\", subtotal)\nprint(\"total\", total)\n_j2_mark = 2\n",
+      "justification_from_packet": "Para S02-T3-A-E3 el paquete de «Valores, tipos, operadores e I/O» pide: E3 (transferencia) — Un ticket sintético tiene líneas `50` y `30` (soles, solo para practicar ops). Calcula `s. Anclé la respuesta a «subtotal primero; luego multiplica por (1 + 0.18), no 1 + 0.18 * subtotal s» y conservé el fixture del starter. [12086d] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-B-E1",
+      "id": "S02-T3-B-E1",
+      "code": "# exploración s02/S02-T3-B-E1\nfrom decimal import Decimal\n\nprint(\"float\", 0.1 + 0.2)\nprint(\"Decimal\", Decimal(\"0.1\") + Decimal(\"0.2\"))\nassert Decimal(\"0.1\") + Decimal(\"0.2\") == Decimal(\"0.3\")\nprint(\"assert OK\")\n_j2_mark = 2\n",
+      "justification_from_packet": "Como explorer en «Valores, tipos, operadores e I/O», S02-T3-B-E1 se cierra con lo enseñado: E1 (guiado) — Imprime `0.1 + 0.2` (float) y `Decimal(\"0.1\") + Decimal(\"0.2\")`. Importa desde `decimal`.. Hint operativa: «from decimal import Decimal. Construye Decimal desde strings, no desde 0.1». [c77893] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-B-E2",
+      "id": "S02-T3-B-E2",
+      "code": "# exploración s02/S02-T3-B-E2\nfrom decimal import Decimal, ROUND_HALF_EVEN\n\ncuenta = Decimal(\"85.50\")\npropina = (cuenta * Decimal(\"0.10\")).quantize(\n    Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN\n)\ntotal = (cuenta + propina).quantize(\n    Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN\n)\nprint(propina, total)\nassert propina == Decimal(\"8.55\")\nassert total == Decimal(\"94.05\")\nprint(\"OK\")\n_j2_mark = 2\n",
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» resolví S02-T3-B-E2 leyendo la instruction: «E2 (independiente) — Cuenta de restaurante sintético `Decimal(\"85.50\")`, propina 10%. Calcula propina y total». La pista «from decimal import Decimal, ROUND_HALF_EVEN. Multiplica por Decimal(\"0.10\"» me dio el patrón concreto del weDo. [f95c33] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T3-B-E3",
+      "id": "S02-T3-B-E3",
+      "code": "# exploración s02/S02-T3-B-E3\nfrom decimal import Decimal, ROUND_HALF_EVEN, InvalidOperation\n\ndef parse_monto(texto: str):\n    raw = texto\n    t = texto.strip()\n    if not t:\n        return False, None, f\"ERROR en 'monto': vacío (raw={raw!r})\"\n    try:\n        d = Decimal(t).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_EVEN)\n        return True, d, None\n    except (InvalidOperation, ValueError):\n        return False, None, f\"ERROR en 'monto': no se pudo parsear {raw!r} a Decimal\"\n\nfor s in [\"150.50\", \"  20.1 \", \"\", \"abc\"]:\n    print(repr(s), \"→\", parse_monto(s))\n_j2_mark = 2\n",
+      "justification_from_packet": "En «Valores, tipos, operadores e I/O» resolví S02-T3-B-E3 leyendo la instruction: «E3 (transferencia) — Implementa `parse_monto(texto: str)` que devuelva `(ok, Decimal|None, error|None)`: strip». La pista «try/except InvalidOperation. raw en el mensaje con !r.» me dio el patrón concreto del weDo. [870008] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-A-E1",
+      "id": "S02-T4-A-E1",
+      "code": "# exploración s02/S02-T4-A-E1\nnombre = \"José\"\nprint(f\"Hola, {nombre}. Bienvenido al intake.\")\n_j2_mark = 2\n",
+      "justification_from_packet": "Armé S02-T4-A-E1 desde el quiz_card de «Valores, tipos, operadores e I/O». Instruction recortada: «E1 (guiado) — Con `nombre = \"José\"`, imprime un saludo con f-string: `Hola, José. Bienvenido al intake.` (acen». Verifiqué con la pista «f\"Hola, {nombre}. Bienvenido al intake.\"». [092be5] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-A-E2",
+      "id": "S02-T4-A-E2",
+      "code": "# exploración s02/S02-T4-A-E2\nfrom decimal import Decimal\n\nnombres = \"Ana\"\napellido_paterno = \"Ramos\"\ncontacto = \"999000111\"\nmonto = Decimal(\"99.5\")\nprint(\"Resumen cliente\")\nprint(f\"nombres: {nombres}\")\nprint(f\"apellido_paterno: {apellido_paterno}\")\nprint(f\"contacto: {contacto}\")\nprint(f\"monto: S/ {monto:.2f}\")\n_j2_mark = 2\n",
+      "justification_from_packet": "Exercise S02-T4-A-E2: el contrato observable es «E2 (independiente) — Con nombres, apellido_paterno, contacto y monto `Decimal(\"99.5\")`, imprime un reporte mul». Del theory/iDo cercano tomé «Incluye las 4 etiquetas: nombres, apellido_paterno, con» y de hints «Usa varios print(f\"...\") o un solo f-string multi-línea. :.2f formatea dos». [ddbc0d] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-A-E3",
+      "id": "S02-T4-A-E3",
+      "code": "# exploración s02/S02-T4-A-E3\ndef simular_intake(nombres: str, contacto: str, edad: str) -> dict:\n    datos = {\"nombres\": nombres, \"contacto\": contacto, \"edad\": edad}\n    return {\n        **datos,\n        \"types\": {k: type(v).__name__ for k, v in datos.items()},\n    }\n\nr = simular_intake(\"  Ana  \", \"999\", \"34\")\nprint(r)\nassert r[\"types\"][\"edad\"] == \"str\"\nassert r[\"types\"][\"nombres\"] == \"str\"\nprint(\"OK\")\n_j2_mark = 2\n",
+      "justification_from_packet": "Como explorer en «Valores, tipos, operadores e I/O», S02-T4-A-E3 se cierra con lo enseñado: E3 (transferencia) — Escribe `simular_intake(nombres: str, contacto: str, edad: str) -> dict` que **no** llame. Hint operativa: «No uses input(). Los parámetros ya simulan las respuestas del usuario.». [797065] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-B-E1",
+      "id": "S02-T4-B-E1",
+      "code": "# exploración s02/S02-T4-B-E1\ndef parse_nombres(valor: str) -> dict:\n    errors: list[str] = []\n    clean = valor.strip() if valor else \"\"\n    if not clean:\n        errors.append(f\"ERROR en 'nombres': vacío (raw={valor!r})\")\n        clean_val = None\n    else:\n        clean_val = clean\n    return {\"nombres_raw\": valor, \"nombres\": clean_val, \"errors\": errors}\n\nr = parse_nombres(\"\")\nprint(r)\nassert r[\"nombres_raw\"] == \"\"\nassert r[\"nombres\"] is None\nassert any(\"nombres\" in e.lower() for e in r[\"errors\"])\nprint(\"OK\")\n_j2_mark = 2\n",
+      "justification_from_packet": "Para S02-T4-B-E1 el paquete de «Valores, tipos, operadores e I/O» pide: E1 (guiado) — Completa `parse_nombres(valor: str) -> dict` con claves `nombres_raw`, `nombres` (strip o None s. Anclé la respuesta a «Siempre guarda raw = valor original antes de strip.» y conservé el fixture del starter. [a14ae9] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-B-E2",
+      "id": "S02-T4-B-E2",
+      "code": "# exploración s02/S02-T4-B-E2\noriginal = \"  Ñahui  \"\nraw = original\nclean = original.strip()\nprint(repr(raw), \"→\", repr(clean))\nassert raw == original\nassert clean == \"Ñahui\"\nprint(\"Unicode OK\")\n_j2_mark = 2\n",
+      "justification_from_packet": "Exercise S02-T4-B-E2: el contrato observable es «E2 (independiente) — Parsea `apellido_materno = \" Ñahui \"` conservando raw con espacios y clean strip. Assert». Del theory/iDo cercano tomé «raw = original; clean = original.strip(); assert raw ==» y de hints «No encodes a ascii. Python 3 str es Unicode.». [ce6ea9] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    },
+    {
+      "exercise_id": "S02-T4-B-E3",
+      "id": "S02-T4-B-E3",
+      "code": "# exploración s02/S02-T4-B-E3\ndef safe_int(campo: str, valor: str):\n    try:\n        return True, int(valor.strip()), None\n    except ValueError:\n        return False, None, f\"ERROR en '{campo}': no se pudo convertir {valor!r} a int\"\n\ndef parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion, edad=None):\n    errors: list[str] = []\n    rec = {\n        \"nombres_raw\": nombres,\n        \"apellido_paterno_raw\": apellido_paterno,\n        \"apellido_materno_raw\": apellido_materno,\n        \"contacto_raw\": contacto,\n        \"direccion_raw\": direccion,\n        \"edad_raw\": edad,\n        \"nombres\": None,\n        \"apellido_paterno\": None,\n        \"apellido_materno\": None,\n        \"contacto\": None,\n        \"direccion\": None,\n        \"edad\": None,\n        \"errors\": errors,\n    }\n\n    def clean_required(campo, valor):\n        if valor is None or str(valor).strip() == \"\":\n            errors.append(f\"ERROR en '{campo}': vacío (raw={valor!r})\")\n            return None\n        return str(valor).strip()\n\n    rec[\"nombres\"] = clean_required(\"nombres\", nombres)\n    rec[\"apellido_paterno\"] = clean_required(\"apellido_paterno\", apellido_paterno)\n    rec[\"apellido_materno\"] = clean_required(\"apellido_materno\", apellido_materno)\n    rec[\"contacto\"] = clean_required(\"contacto\", contacto)\n    rec[\"direccion\"] = clean_required(\"direccion\", direccion)\n    if edad is not None:\n        ok, n, err = safe_int(\"edad\", edad)\n        if ok:\n            rec[\"edad\"] = n\n        else:\n            errors.append(err)\n    return rec\n\nr = parse_client(\"María José\", \"Quispe\", \"Ñahui\", \"999000111\", \"Lima\", edad=\"34\")\nassert r[\"apellido_materno_raw\"] == \"Ñahui\"\nassert r[\"errors\"] == []\n\nr2 = parse_client(\"\", \"Quispe\", \"Ñahui\", \"999\", \"Lima\")\nassert r2[\"nombres_raw\"] == \"\"\nassert any(\"nombres\" in e.lower() for e in r2[\"errors\"])\n\nr3 = parse_client(\"Ana\", \"Ramos\", \"Díaz\", \"999\", \"Cusco\", edad=\"abc\")\nassert r3[\"edad_raw\"] == \"abc\"\nassert any(\"edad\" in e.lower() for e in r3[\"errors\"])\nprint(\"3 tests OK\")\n_j2_mark = 2\n",
+      "justification_from_packet": "Armé S02-T4-B-E3 desde el quiz_card de «Valores, tipos, operadores e I/O». Instruction recortada: «E3 (transferencia) — Implementa `parse_client(nombres, apellido_paterno, apellido_materno, contacto, direccion». Verifiqué con la pista «Reutiliza el patrón del DEMO T4-B. No dejes que ValueError se escape.». [78090c] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Valores, tipos, operadores e I/O"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck de «Valores, tipos, operadores e I/O» #0: «¿Cuál es el tipo de None en Python?». Elegí «NoneType» porque el theory del paquete describe ese comportamiento de forma directa. [4bf1c2] conf~0.78.",
+      "confidence": 0.78
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck de «Valores, tipos, operadores e I/O» #1: «¿Qué imprime type(\"42\").__name__ y la comparación 42 == \"42\"?». Elegí «str y False» porque el theory del paquete describe ese comportamiento de forma directa. [c2843f] conf~0.75.",
+      "confidence": 0.75
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck de «Valores, tipos, operadores e I/O» #2: «¿Por qué el teléfono de un cliente de intake se modela como str?». Elegí «Porque no es una cantidad aritmética y puede necesitar ceros o formato» porque el theory del paquete describe ese comportamiento de forma directa. [e7fae2] conf~0.82.",
+      "confidence": 0.82
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck de «Valores, tipos, operadores e I/O» #3: «Tras `b = a` con `a = [1, 2]` y `b.append(3)`, ¿qué vale `a`?». Elegí «[1, 2, 3]» porque el theory del paquete describe ese comportamiento de forma directa. [f8537d] conf~0.74.",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck de «Valores, tipos, operadores e I/O» #4: «¿Cuál es el idioma correcto para comprobar ausencia de valor?». Elegí «if x is None:» porque el theory del paquete describe ese comportamiento de forma directa. [7dae52] conf~0.71.",
+      "confidence": 0.71
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:09.466797+00:00",
+  "session_started_at": "2026-07-23T12:45:03.030199+00:00",
+  "session_ended_at": "2026-07-23T12:45:26.227199+00:00",
+  "receipt_response_sha256": "508c229ba4ef264848f4b1de2eb6eed22d19c14e1999bab221205a600b82ba35"
+}

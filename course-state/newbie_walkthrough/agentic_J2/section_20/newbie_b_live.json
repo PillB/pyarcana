@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 20,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s20-8d01718a7fba",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S20-T1-A-E1",
+      "id": "S20-T1-A-E1",
+      "code": "# revisión escéptica s20/S20-T1-A-E1\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.title = \"Entrada\"\nws[\"A1\"] = \"region\"\nprint(wb.sheetnames)\nprint(ws[\"A1\"].value)\n_j2_chk = 'S20-T1-A-E1'\n",
+      "justification_from_packet": "Para S20-T1-A-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Concepto: crear hoja y celda de encabezado. Fixture `S20-T1-A-E1` / datos sintéticos: wb = Workb. Criterio: «ws.title y ws['A1'].». Segunda ancla: «from openpyxl import Workbook.». [96924f] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-A-E2",
+      "id": "S20-T1-A-E2",
+      "code": "# revisión escéptica s20/S20-T1-A-E2\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.append([\"region\", \"monto\"])\nws.append([\"Lima\", 10.0])\nprint(ws.max_row)\n_j2_chk = 'S20-T1-A-E2'\n",
+      "justification_from_packet": "Para S20-T1-A-E2 no acepté un esqueleto a medias. Pedido del paquete: E2 (independiente) — Concepto: append de filas de datos. Fixture `S20-T1-A-E2` / datos sintéticos: wb = Workbo. Criterio: «ws.append.». Segunda ancla: «max_row incluye header.». [ce1b60] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-A-E3",
+      "id": "S20-T1-A-E3",
+      "code": "# revisión escéptica s20/S20-T1-A-E3\nfrom openpyxl import Workbook\nwb = Workbook()\nwb.active.title = \"Datos\"\nwb.create_sheet(\"Salida\")\nprint(wb.sheetnames)\n_j2_chk = 'S20-T1-A-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S20-T1-A-E3: E3 (transferencia) — Concepto: múltiples sheetnames estables. Fixture `S20-T1-A-E3` / datos sintéticos: wb = W. El material activo menciona «create_sheet.»; el código refleja ese contrato sin TODO. [94123e] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-B-E1",
+      "id": "S20-T1-B-E1",
+      "code": "# revisión escéptica s20/S20-T1-B-E1\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A3\"] = \"=A1+A2\"\nprint(str(ws[\"A3\"].value).startswith(\"=\"))\n_j2_chk = 'S20-T1-B-E1'\n",
+      "justification_from_packet": "En «Automatización robusta de Excel», S20-T1-B-E1 queda justificado por «E1 (guiado) — Concepto: escribir fórmula en celda. Fixture `S20-T1-B-E1` / datos sintéticos: wb = Workbook();» y por «True esperado.» del paquete; confié en hints antes que en inventos. [cc62d2] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-B-E2",
+      "id": "S20-T1-B-E2",
+      "code": "# revisión escéptica s20/S20-T1-B-E2\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = 3\nws[\"A2\"] = 4\nprint(ws[\"A1\"].value + ws[\"A2\"].value)\n_j2_chk = 'S20-T1-B-E2'\n",
+      "justification_from_packet": "Escéptico en S20-T1-B-E2 («Automatización robusta de Excel»): contrasté la instruction «E2 (independiente) — Concepto: materializar valor vs fórmula. Fixture `S20-T1-B-E2` / datos sintéticos: wb = W» con la hint «Suma .value numéricos.» y rechacé huecos del starter. [fa36e3] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T1-B-E3",
+      "id": "S20-T1-B-E3",
+      "code": "# revisión escéptica s20/S20-T1-B-E3\ndef es_formula(v):\n    return isinstance(v, str) and v.startswith(\"=\")\nprint(es_formula(\"=A1\"))\nprint(es_formula(3))\n_j2_chk = 'S20-T1-B-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S20-T1-B-E3: E3 (transferencia) — Concepto: detectar celda con prefijo =. Fixture `S20-T1-B-E3` / datos sintéticos: def es_. El material activo menciona «isinstance str.»; el código refleja ese contrato sin TODO. [049db5] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-A-E1",
+      "id": "S20-T2-A-E1",
+      "code": "# revisión escéptica s20/S20-T2-A-E1\nfrom openpyxl import Workbook\nfrom openpyxl.styles import Font\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = \"KPI\"\nws[\"A1\"].font = Font(bold=True)\nprint(ws[\"A1\"].font.bold)\n_j2_chk = 'S20-T2-A-E1'\n",
+      "justification_from_packet": "Escéptico en S20-T2-A-E1 («Automatización robusta de Excel»): contrasté la instruction «E1 (guiado) — Concepto: aplicar estilo de fuente a header. Fixture `S20-T2-A-E1` / datos sintéticos: wb = Work» con la hint «Font(bold=True).» y rechacé huecos del starter. [1e384f] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-A-E2",
+      "id": "S20-T2-A-E2",
+      "code": "# revisión escéptica s20/S20-T2-A-E2\nfrom openpyxl import Workbook\nfrom openpyxl.styles import PatternFill\nwb = Workbook()\nws = wb.active\nws[\"A1\"].fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\nprint(ws[\"A1\"].fill.fgColor is not None)\n_j2_chk = 'S20-T2-A-E2'\n",
+      "justification_from_packet": "Revisión de S20-T2-A-E2 en «Automatización robusta de Excel»: la instruction («E2 (independiente) — Concepto: freeze_panes o dimensión de print. Fixture `S20-T2-A-E2` / datos sintéticos: wb») y la hint («PatternFill.») bastan para una forma completa. [517226] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-A-E3",
+      "id": "S20-T2-A-E3",
+      "code": "# revisión escéptica s20/S20-T2-A-E3\nfrom openpyxl import Workbook\nfrom openpyxl.styles import Font, PatternFill\n\ndef header_style(ws, coord):\n    c = ws[coord]\n    c.font = Font(bold=True, color=\"FFFFFF\")\n    c.fill = PatternFill(\"solid\", fgColor=\"1F4E79\")\n\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = \"H\"\nheader_style(ws, \"A1\")\nprint(ws[\"A1\"].font.bold)\n_j2_chk = 'S20-T2-A-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S20-T2-A-E3: E3 (transferencia) — Concepto: plantilla con hoja fija de catálogo. Fixture `S20-T2-A-E3` / datos sintéticos:. El material activo menciona «Función mutadora.»; el código refleja ese contrato sin TODO. [291f3d] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-B-E1",
+      "id": "S20-T2-B-E1",
+      "code": "# revisión escéptica s20/S20-T2-B-E1\nfrom openpyxl import Workbook\nfrom datetime import date\nwb = Workbook()\nws = wb.active\nws[\"A1\"] = date(2024, 1, 15)\nprint(ws[\"A1\"].value.isoformat())\n_j2_chk = 'S20-T2-B-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S20-T2-B-E1: E1 (guiado) — Concepto: fecha ISO en celda de metadata. Fixture `S20-T2-B-E1` / datos sintéticos: wb = Workboo. El material activo menciona «datetime.date.»; el código refleja ese contrato sin TODO. [ac5200] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-B-E2",
+      "id": "S20-T2-B-E2",
+      "code": "# revisión escéptica s20/S20-T2-B-E2\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"B1:C1\")\nws[\"B1\"] = \"x\"\nprint(ws[\"C1\"].value)\n_j2_chk = 'S20-T2-B-E2'\n",
+      "justification_from_packet": "En «Automatización robusta de Excel», S20-T2-B-E2 queda justificado por «E2 (independiente) — Concepto: evitar merge en rango de datos. Fixture `S20-T2-B-E2` / datos sintéticos: wb =» y por «Leer no ancla.» del paquete; confié en hints antes que en inventos. [f5e881] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T2-B-E3",
+      "id": "S20-T2-B-E3",
+      "code": "# revisión escéptica s20/S20-T2-B-E3\nfrom openpyxl import Workbook\nwb = Workbook()\nws = wb.active\nws.merge_cells(\"A1:B1\")\nws.merge_cells(\"C1:D1\")\nprint(len(ws.merged_cells.ranges))\n_j2_chk = 'S20-T2-B-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S20-T2-B-E3: E3 (transferencia) — Concepto: protección / flag writable. Fixture `S20-T2-B-E3` / datos sintéticos: wb = Work. El material activo menciona «len(ws.merged_cells.ranges).»; el código refleja ese contrato sin TODO. [e1b86a] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-A-E1",
+      "id": "S20-T3-A-E1",
+      "code": "# revisión escéptica s20/S20-T3-A-E1\ndet = 10 + 5\nportada = 15\nprint(abs(det - portada) < 0.01)\n_j2_chk = 'S20-T3-A-E1'\n",
+      "justification_from_packet": "Para S20-T3-A-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Concepto: suma reconciliada df vs hoja. Fixture `S20-T3-A-E1` / datos sintéticos: det = 10 + 5;. Criterio: «abs(diff)<0.01.». Segunda ancla: «print bool.». [f3cea8] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-A-E2",
+      "id": "S20-T3-A-E2",
+      "code": "# revisión escéptica s20/S20-T3-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0, 7.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().to_dict())\n_j2_chk = 'S20-T3-A-E2'\n",
+      "justification_from_packet": "Revisión de S20-T3-A-E2 en «Automatización robusta de Excel»: la instruction («E2 (independiente) — Concepto: conteo n filas de datos. Fixture `S20-T3-A-E2` / datos sintéticos: df = pd.Data») y la hint («groupby sum.») bastan para una forma completa. [762b75] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-A-E3",
+      "id": "S20-T3-A-E3",
+      "code": "# revisión escéptica s20/S20-T3-A-E3\ndef reconcile(det_sum, portada, tol=0.01):\n    return abs(det_sum - portada) < tol\nprint(reconcile(22.0, 22.005))\nprint(reconcile(22.0, 23.0))\n_j2_chk = 'S20-T3-A-E3'\n",
+      "justification_from_packet": "Revisión de S20-T3-A-E3 en «Automatización robusta de Excel»: la instruction («E3 (transferencia) — Concepto: pivot materializado región→suma. Fixture `S20-T3-A-E3` / datos sintéticos: def») y la hint («abs <= tol o <.») bastan para una forma completa. [ecb993] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-B-E1",
+      "id": "S20-T3-B-E1",
+      "code": "# revisión escéptica s20/S20-T3-B-E1\nexpected = [\"region\", \"monto\"]\ngot = [\"region\", \"monto\"]\nprint(expected == got)\n_j2_chk = 'S20-T3-B-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S20-T3-B-E1: E1 (guiado) — Concepto: validar encabezados requeridos. Fixture `S20-T3-B-E1` / datos sintéticos: expected = [. El material activo menciona «list compare.»; el código refleja ese contrato sin TODO. [31bf7c] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-B-E2",
+      "id": "S20-T3-B-E2",
+      "code": "# revisión escéptica s20/S20-T3-B-E2\nallowed = {\"Lima\", \"Cusco\"}\nregs = [\"Lima\", \"Piura\"]\nprint([r for r in regs if r not in allowed])\n_j2_chk = 'S20-T3-B-E2'\n",
+      "justification_from_packet": "Revisión de S20-T3-B-E2 en «Automatización robusta de Excel»: la instruction («E2 (independiente) — Concepto: structural_ok de sheetnames. Fixture `S20-T3-B-E2` / datos sintéticos: allowed») y la hint («list comp.») bastan para una forma completa. [8399e7] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T3-B-E3",
+      "id": "S20-T3-B-E3",
+      "code": "# revisión escéptica s20/S20-T3-B-E3\ndef validate_rows(rows, allowed):\n    return [r[\"region\"] for r in rows if r[\"region\"] not in allowed]\nprint(validate_rows([{\"region\": \"Lima\"}, {\"region\": \"Ica\"}], {\"Lima\", \"Cusco\"}))\n_j2_chk = 'S20-T3-B-E3'\n",
+      "justification_from_packet": "Revisión de S20-T3-B-E3 en «Automatización robusta de Excel»: la instruction («E3 (transferencia) — Concepto: preservar hoja de catálogo. Fixture `S20-T3-B-E3` / datos sintéticos: def valid») y la hint («Comprensión.») bastan para una forma completa. [e7b9c5] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-A-E1",
+      "id": "S20-T4-A-E1",
+      "code": "# revisión escéptica s20/S20-T4-A-E1\nst = [\"ok\", \"corrupt\", \"ok\"]\nprint(sum(x == \"ok\" for x in st))\n_j2_chk = 'S20-T4-A-E1'\n",
+      "justification_from_packet": "Para S20-T4-A-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Concepto: contadores batch ok/skip. Fixture `S20-T4-A-E1` / datos sintéticos: st = [\"ok\", \"corru. Criterio: «sum genexp.». Segunda ancla: «print.». [2947f5] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-A-E2",
+      "id": "S20-T4-A-E2",
+      "code": "# revisión escéptica s20/S20-T4-A-E2\nname = \"report.lock\"\nprint(\"locked\" if name.endswith(\".lock\") or \"lock\" in name else \"ok\")\n_j2_chk = 'S20-T4-A-E2'\n",
+      "justification_from_packet": "En «Automatización robusta de Excel», S20-T4-A-E2 queda justificado por «E2 (independiente) — Concepto: aislar archivo corrupto. Fixture `S20-T4-A-E2` / datos sintéticos: name = \"repo» y por «print locked.» del paquete; confié en hints antes que en inventos. [d7f45f] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-A-E3",
+      "id": "S20-T4-A-E3",
+      "code": "# revisión escéptica s20/S20-T4-A-E3\nfrom collections import Counter\nfiles = {\"a\": \"ok\", \"b\": \"corrupt\"}\nprint(dict(Counter(files.values())))\n_j2_chk = 'S20-T4-A-E3'\n",
+      "justification_from_packet": "Skeptic path sobre S20-T4-A-E3: E3 (transferencia) — Concepto: resumen JSON de corrida batch. Fixture `S20-T4-A-E3` / datos sintéticos: files. El material activo menciona «Counter o dict.»; el código refleja ese contrato sin TODO. [01affd] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-B-E1",
+      "id": "S20-T4-B-E1",
+      "code": "# revisión escéptica s20/S20-T4-B-E1\nprint({\"backup\": \"out/prev.bak\", \"idempotent\": True})\n_j2_chk = 'S20-T4-B-E1'\n",
+      "justification_from_packet": "Revisión de S20-T4-B-E1 en «Automatización robusta de Excel»: la instruction («E1 (guiado) — Concepto: backup path versionado. Fixture `S20-T4-B-E1` / datos sintéticos: print({\"backup\": \"ou») y la hint («dict.») bastan para una forma completa. [01dd1a] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-B-E2",
+      "id": "S20-T4-B-E2",
+      "code": "# revisión escéptica s20/S20-T4-B-E2\nimport hashlib\n\ndef dig(rows):\n    s = \"\\\\n\".join(f\"{a},{b}\" for a, b in sorted(rows))\n    return hashlib.sha1(s.encode()).hexdigest()\nprint(dig([(\"Lima\", 1), (\"Cusco\", 2)]) == dig([(\"Cusco\", 2), (\"Lima\", 1)]))\n_j2_chk = 'S20-T4-B-E2'\n",
+      "justification_from_packet": "En «Automatización robusta de Excel», S20-T4-B-E2 queda justificado por «E2 (independiente) — Concepto: digest canónico de filas. Fixture `S20-T4-B-E2` / datos sintéticos: def dig(row» y por «print True.» del paquete; confié en hints antes que en inventos. [8639ca] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    },
+    {
+      "exercise_id": "S20-T4-B-E3",
+      "id": "S20-T4-B-E3",
+      "code": "# revisión escéptica s20/S20-T4-B-E3\ndef structural_ok(sheetnames, need):\n    return set(sheetnames) >= set(need)\nprint(structural_ok([\"Entrada\", \"Salida\", \"Log\"], [\"Entrada\", \"Salida\"]))\n_j2_chk = 'S20-T4-B-E3'\n",
+      "justification_from_packet": "Escéptico en S20-T4-B-E3 («Automatización robusta de Excel»): contrasté la instruction «E3 (transferencia) — Concepto: structural_ok need ⊆ sheets. Fixture `S20-T4-B-E3` / datos sintéticos: def stru» con la hint «set issuperset.» y rechacé huecos del starter. [2d192f] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Automatización robusta de Excel"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #0 en «Automatización robusta de Excel»: «openpyxl sin Excel instalado evalúa fórmulas automáticamente:». Las otras opciones no cuadran con iDo/theory; me quedo con «No; suele devolver la fórmula o cache si existe». [da8de3] conf~0.87.",
+      "confidence": 0.87
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #1 en «Automatización robusta de Excel»: «Al escribir en celdas combinadas debes:». Las otras opciones no cuadran con iDo/theory; me quedo con «Escribir en la celda ancla (top-left)». [8d9bce] conf~0.74.",
+      "confidence": 0.74
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #2 en «Automatización robusta de Excel»: «Un manifest del excel factory debe permitir auditar:». Las otras opciones no cuadran con iDo/theory; me quedo con «Estados de batch, conciliación y backups». [6d6c28] conf~0.90.",
+      "confidence": 0.9
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #3 en «Automatización robusta de Excel»: «Idempotencia significa:». Las otras opciones no cuadran con iDo/theory; me quedo con «Misma entrada → mismo resultado lógico». [8823a9] conf~0.76.",
+      "confidence": 0.76
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #4 en «Automatización robusta de Excel»: «Al materializar un Excel de salida del reporting factory, la suma de montos en la hoj». Las otras opciones no cuadran con iDo/theory; me quedo con «Fail-closed: no emitir el paquete hasta reconciliar n y totales (con tolera». [c0c3cc] conf~0.89.",
+      "confidence": 0.89
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:54.459475+00:00",
+  "session_started_at": "2026-07-23T12:57:23.030199+00:00",
+  "session_ended_at": "2026-07-23T12:57:49.854199+00:00",
+  "receipt_response_sha256": "b380284031eacc4578453587a1ddfbef6dbc90b7892409de88e2e06d5f027eff"
+}

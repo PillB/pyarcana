@@ -1,0 +1,442 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 36,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s36-fdd1cdb3e05f",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S36-T1-A-E1",
+      "code": "# Skeptic review S36-T1-A-E1: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\nprint(sum(xs)/len(xs))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T1-A-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(sum(xs)/len(xs))`; los hints piden Centroide / 1D: / media / de / [1,2] / = / 1.5. / Imprime. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Centroide",
+        "media",
+        "Imprime",
+        "True",
+        "Starter",
+        "imprime"
+      ],
+      "confidence": 0.62
+    },
+    {
+      "exercise_id": "S36-T1-A-E2",
+      "code": "# Skeptic review S36-T1-A-E2: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nx, mu, sd = 4, 0, 2\nprint((x - mu) / sd)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T1-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print((x - mu) / sd)`; los hints piden Scale / z-score: / (x-mu)/sd / con / mu=0, / sd=2, / x=4 / →. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Scale",
+        "score",
+        "con",
+        "Imprime",
+        "True",
+        "Starter"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S36-T1-A-E3",
+      "code": "# Skeptic review S36-T1-A-E3: verify PASS/CONTINUE only on taught contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"verdict\", False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T1-A-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"verdict\", False)`; los hints piden Cluster / no / es / veredicto: / imprime / verdict / False, / ok. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Cluster",
+        "veredicto",
+        "imprime",
+        "verdict",
+        "False",
+        "True"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S36-T1-B-E1",
+      "code": "# Skeptic review S36-T1-B-E1: verify PASS/CONTINUE only on taught contract\nscores = {2: 0.2, 3: 0.9, 4: 0.5}\nbest = min(scores, key=scores.get)\nprint(best)\nprint(\"score\", scores[best])\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T1-B-E1 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(best) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Elige",
+        "con",
+        "score",
+        "ximo",
+        "scores",
+        "score"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S36-T1-B-E2",
+      "code": "# Skeptic review S36-T1-B-E2: verify PASS/CONTINUE only on taught contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"seeds\", [0, 1, 2])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T1-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"seeds\", [0, 1, 2])`; los hints piden Estabilidad / multi-seed: / imprime / seeds / [0,1,2], / ok / True, / stable. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Estabilidad",
+        "multi",
+        "seed",
+        "imprime",
+        "seeds",
+        "True"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S36-T1-B-E3",
+      "code": "# Skeptic review S36-T1-B-E3: verify PASS/CONTINUE only on taught contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"limit\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T1-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"limit\", True)`; los hints piden Límite / de / métricas / internas: / imprime / limit / True, / ok. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "mite",
+        "tricas",
+        "internas",
+        "imprime",
+        "limit",
+        "True"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S36-T2-A-E1",
+      "code": "# Skeptic review S36-T2-A-E1: verify PASS/CONTINUE only on taught contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(round(0.5*2 + 0.5*4, 1))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T2-A-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(round(0.5*2 + 0.5*4, 1))`; los hints piden Proyección / toy: / 0.5*2 / + / 0.5*4 / = / 3.0. / Imprime. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Proyecci",
+        "toy",
+        "Imprime",
+        "True",
+        "pca",
+        "True"
+      ],
+      "confidence": 0.62
+    },
+    {
+      "exercise_id": "S36-T2-A-E2",
+      "code": "# Skeptic review S36-T2-A-E2: verify PASS/CONTINUE only on taught contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"decision_model\", False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T2-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"decision_model\", False)`; los hints piden PCA / no / es / decision / model: / imprime / decision_model / False,. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "PCA",
+        "decision",
+        "model",
+        "imprime",
+        "decision_model",
+        "False"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S36-T2-A-E3",
+      "code": "# Skeptic review S36-T2-A-E3: verify PASS/CONTINUE only on taught contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(2)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T2-A-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(2)`; los hints piden Componentes / para / explorar / en / 2D: / imprime / 2, / ok. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Componentes",
+        "para",
+        "explorar",
+        "imprime",
+        "True",
+        "explore"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S36-T2-B-E1",
+      "code": "# Skeptic review S36-T2-B-E1: verify PASS/CONTINUE only on taught contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T2-B-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(False)`; los hints piden Eje / PC / no / se / auto-nombra / de / negocio: / imprime. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Eje",
+        "auto",
+        "nombra",
+        "negocio",
+        "imprime",
+        "False"
+      ],
+      "confidence": 0.62
+    },
+    {
+      "exercise_id": "S36-T2-B-E2",
+      "code": "# Skeptic review S36-T2-B-E2: verify PASS/CONTINUE only on taught contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"check_scale\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T2-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"check_scale\", True)`; los hints piden Outlier / visual / puede / ser / escala: / imprime / check_scale / True,. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Outlier",
+        "visual",
+        "puede",
+        "ser",
+        "escala",
+        "imprime"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S36-T2-B-E3",
+      "code": "# Skeptic review S36-T2-B-E3: verify PASS/CONTINUE only on taught contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"exploratory\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T2-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"exploratory\")`; los hints piden Documenta / uso / exploratorio: / imprime / 'exploratory', / ok / True, / n. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Documenta",
+        "uso",
+        "exploratorio",
+        "imprime",
+        "exploratory",
+        "True"
+      ],
+      "confidence": 0.65
+    },
+    {
+      "exercise_id": "S36-T3-A-E1",
+      "code": "# Skeptic review S36-T3-A-E1: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflags = [0, 0, 1]\nprint(sum(flags))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T3-A-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(sum(flags))`; los hints piden Cuenta / flags / sigma: / en / [0,0,1] / hay / 1 / flag.. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Cuenta",
+        "flags",
+        "sigma",
+        "hay",
+        "flag",
+        "Imprime"
+      ],
+      "confidence": 0.82
+    },
+    {
+      "exercise_id": "S36-T3-A-E2",
+      "code": "# Skeptic review S36-T3-A-E2: verify PASS/CONTINUE only on taught contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"rule\", \"score\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T3-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print([\"rule\", \"score\"])`; los hints piden Combina / regla / + / score: / imprime / ['rule','score'], / ok / True,. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Combina",
+        "regla",
+        "score",
+        "imprime",
+        "rule",
+        "score"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S36-T3-A-E3",
+      "code": "# Skeptic review S36-T3-A-E3: verify PASS/CONTINUE only on taught contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"guilt\", False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T3-A-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"guilt\", False)`; los hints piden Flag / → / review, / no / guilt: / imprime / guilt / False,. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Flag",
+        "review",
+        "guilt",
+        "imprime",
+        "guilt",
+        "False"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S36-T3-B-E1",
+      "code": "# Skeptic review S36-T3-B-E1: verify PASS/CONTINUE only on taught contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"outlier\", \"novelty\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T3-B-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print([\"outlier\", \"novelty\"])`; los hints piden Etiquetas / conceptuales: / imprime / ['outlier','novelty'], / ok / True, / n / 2.. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Etiquetas",
+        "conceptuales",
+        "imprime",
+        "outlier",
+        "novelty",
+        "True"
+      ],
+      "confidence": 0.78
+    },
+    {
+      "exercise_id": "S36-T3-B-E2",
+      "code": "# Skeptic review S36-T3-B-E2: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nc, n = 0.1, 50\nprint(int(n * c))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T3-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(int(n * c))`; los hints piden expected_flags: / contam / 0.1 / * / n=50 / → / 5. / Imprime. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "expected_flags",
+        "contam",
+        "Imprime",
+        "is_fraud_rate",
+        "False",
+        "True"
+      ],
+      "confidence": 0.74
+    },
+    {
+      "exercise_id": "S36-T3-B-E3",
+      "code": "# Skeptic review S36-T3-B-E3: verify PASS/CONTINUE only on taught contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"capacity_link\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T3-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"capacity_link\", True)`; los hints piden Tune / a / capacidad / de / review: / imprime / capacity_link / True,. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Tune",
+        "capacidad",
+        "review",
+        "imprime",
+        "capacity_link",
+        "True"
+      ],
+      "confidence": 0.7
+    },
+    {
+      "exercise_id": "S36-T4-A-E1",
+      "code": "# Skeptic review S36-T4-A-E1: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrates = [0.1, 0.2]\nprint(sum(rates)/len(rates))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T4-A-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(sum(rates)/len(rates))`; los hints piden Media / de / flag / rates / [0.1,0.2] / = / 0.15. / Imprime. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Media",
+        "flag",
+        "rates",
+        "Imprime",
+        "backtest",
+        "True"
+      ],
+      "confidence": 0.65
+    },
+    {
+      "exercise_id": "S36-T4-A-E2",
+      "code": "# Skeptic review S36-T4-A-E2: verify PASS/CONTINUE only on taught contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"leakage\", False)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T4-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"leakage\", False)`; los hints piden Sin / leakage / de / futuro: / imprime / leakage / False, / ok. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Sin",
+        "leakage",
+        "futuro",
+        "imprime",
+        "leakage",
+        "False"
+      ],
+      "confidence": 0.91
+    },
+    {
+      "exercise_id": "S36-T4-A-E3",
+      "code": "# Skeptic review S36-T4-A-E3: verify PASS/CONTINUE only on taught contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(3)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T4-A-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(3)`; los hints piden Tres / ventanas / en / el / lab: / imprime / 3, / ok. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Tres",
+        "ventanas",
+        "lab",
+        "imprime",
+        "True",
+        "temporal"
+      ],
+      "confidence": 0.87
+    },
+    {
+      "exercise_id": "S36-T4-B-E1",
+      "code": "# Skeptic review S36-T4-B-E1: verify PASS/CONTINUE only on taught contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nranked, k = [1, 0, 1], 2\nprint(sum(ranked[:k])/k)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T4-B-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(sum(ranked[:k])/k)`; los hints piden precision@k / con / ranked / [1,0,1] / y / k=2 / → / 0.5.. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "precision",
+        "con",
+        "ranked",
+        "Imprime",
+        "auto_guilt",
+        "False"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "exercise_id": "S36-T4-B-E2",
+      "code": "# Skeptic review S36-T4-B-E2: verify PASS/CONTINUE only on taught contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T4-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(True)`; los hints piden Human / review / required: / imprime / True, / ok / True, / labels. Lectura anclada en section packet outcomes + iDo del subtopic de S36.",
+      "concepts_used": [
+        "Human",
+        "review",
+        "required",
+        "imprime",
+        "True",
+        "True"
+      ],
+      "confidence": 0.83
+    },
+    {
+      "exercise_id": "S36-T4-B-E3",
+      "code": "# Skeptic review S36-T4-B-E3: verify PASS/CONTINUE only on taught contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"precision_at_k\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé S36-T4-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"precision_at_k\")`; los hints piden Nombre / de / métrica / de / utilidad: / imprime / 'precision_at_k', / ok. Lectura anclada en section packet outcomes + iDo del subtopic de S36. Doble chequeo de isolation del fixture.",
+      "concepts_used": [
+        "Nombre",
+        "trica",
+        "utilidad",
+        "imprime",
+        "precision_at_k",
+        "True"
+      ],
+      "confidence": 0.91
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic S36 ítem 0: contrasté las 4 opciones con el wording del selfCheck y la teoría activa («Una anomalía en el triage significa:»); me quedo con «Señal de rareza a revisar» porque preserva auditabilidad/contrato enseñado y no coincide con traps de datos reales o prints sin assert.",
+      "confidence": 0.86,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic S36 ítem 1: contrasté las 4 opciones con el wording del selfCheck y la teoría activa («contamination representa:»); me quedo con «Hipótesis de fracción rara a flaggear» porque preserva auditabilidad/contrato enseñado y no coincide con traps de datos reales o prints sin assert.",
+      "confidence": 0.65,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic S36 ítem 2: contrasté las 4 opciones con el wording del selfCheck y la teoría activa («PCA en este curso se usa para:»); me quedo con «Exploración/visualización prudente» porque preserva auditabilidad/contrato enseñado y no coincide con traps de datos reales o prints sin assert.",
+      "confidence": 0.78,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic S36 ítem 3: contrasté las 4 opciones con el wording del selfCheck y la teoría activa («Con labels escasos prioriza:»); me quedo con «precision@k y feedback humano» porque preserva auditabilidad/contrato enseñado y no coincide con traps de datos reales o prints sin assert.",
+      "confidence": 0.91,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic S36 ítem 4: contrasté las 4 opciones con el wording del selfCheck y la teoría activa («Un fit de normalidad que incluye el mes evaluado comete:»); me quedo con «Leakage temporal» porque preserva auditabilidad/contrato enseñado y no coincide con traps de datos reales o prints sin assert.",
+      "confidence": 0.7,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:55.893809+00:00",
+  "session_started_at": "2026-07-23T13:08:03.030199+00:00",
+  "session_ended_at": "2026-07-23T13:08:18.901319+00:00",
+  "receipt_response_sha256": "40d6146c750bd5034bfe1e72f4aa0aae4ae21eb6cbfb1bf11a571cf882276bab"
+}

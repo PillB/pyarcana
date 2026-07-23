@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 4,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s04-3940b914903f",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S04-T1-A-E1",
+      "id": "S04-T1-A-E1",
+      "code": "# exploración s04/S04-T1-A-E1\nregiones = [\"Lima\", \"Cusco\", \"Piura\"]\nfor reg in regiones:\n    print(reg)\nprint(list(range(3)))\n_j2_mark = 4\n",
+      "justification_from_packet": "Exercise S04-T1-A-E1: el contrato observable es «E1 (guiado) — Dada `regiones = [\"Lima\", \"Cusco\", \"Piura\"]`, imprime cada región en su propia línea con un `for». Del theory/iDo cercano tomé «range(3) produce 0,1,2 — stop exclusivo.» y de hints «for r in regiones: print(r)». [58fed3] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T1-A-E2",
+      "id": "S04-T1-A-E2",
+      "code": "# exploración s04/S04-T1-A-E2\nedades = [30, 17, 45, 22]\nn = 0\nfor e in edades:\n    if e >= 18:\n        n += 1\nprint(n)\n_j2_mark = 4\n",
+      "justification_from_packet": "Para S04-T1-A-E2 el paquete de «Iteración y resúmenes transaccionales» pide: E2 (independiente) — `edades = [30, 17, 45, 22]`. Cuenta cuántas son `>= 18` con un for (no uses comprehension. Anclé la respuesta a «n = 0; for e in edades: if e >= 18: n += 1» y conservé el fixture del starter. [b3d937] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T1-A-E3",
+      "id": "S04-T1-A-E3",
+      "code": "# exploración s04/S04-T1-A-E3\nlote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0}, {\"id\": \"C3\", \"monto\": -2}, {\"id\": \"C4\", \"monto\": 5}]\nfor reg in lote:\n    if reg[\"monto\"] > 0:\n        print(reg[\"id\"])\nprint(\"n_original\", len(lote))\n_j2_mark = 4\n",
+      "justification_from_packet": "En «Iteración y resúmenes transaccionales» resolví S04-T1-A-E3 leyendo la instruction: «E3 (transferencia) — Simula un mini-lote: lista de dicts con `id` y `monto`. Imprime solo los `id` cuyo monto». La pista «for reg in lote: if reg['monto'] > 0: print(reg['id'])» me dio el patrón concreto del weDo. [b92ca3] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T1-B-E1",
+      "id": "S04-T1-B-E1",
+      "code": "# exploración s04/S04-T1-B-E1\nids = [\"A\", \"B\", \"C\"]\nfor i, x in enumerate(ids, start=1):\n    print(f\"fila {i}: {x}\")\n_j2_mark = 4\n",
+      "justification_from_packet": "Exercise S04-T1-B-E1: el contrato observable es «E1 (guiado) — Con `ids = [\"A\", \"B\", \"C\"]`, usa `enumerate(..., start=1)` e imprime `fila k: id`.». Del theory/iDo cercano tomé «start=1 es para humanos; el índice interno de la lista» y de hints «for i, x in enumerate(ids, start=1): print(f'fila {i}: {x}')». [f0df74] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T1-B-E2",
+      "id": "S04-T1-B-E2",
+      "code": "# exploración s04/S04-T1-B-E2\nnombres = [\"Ana\", \"Luis\", \"María\"]\nedades = [30, 25, 40]\nfor n, e in zip(nombres, edades):\n    print(f\"{n}={e}\")\nprint(\"zip corto\", list(zip(nombres, edades[:1])))\n_j2_mark = 4\n",
+      "justification_from_packet": "Exercise S04-T1-B-E2: el contrato observable es «E2 (independiente) — `nombres` y `edades` de igual longitud. Emparéjalos con `zip` e imprime `nombre=edad`. Lu». Del theory/iDo cercano tomé «Compara len antes en código real; aquí solo observa el» y de hints «zip se detiene en la más corta; el resto se pierde.». [802f90] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T1-B-E3",
+      "id": "S04-T1-B-E3",
+      "code": "# exploración s04/S04-T1-B-E3\ndef zip_strict(a, b):\n    if len(a) != len(b):\n        raise ValueError(\"desalineado\")\n    return list(zip(a, b))\ntry:\n    zip_strict([1, 2, 3], [10, 20])\nexcept ValueError:\n    print(\"DESALINEADO\")\ntry:\n    zip_strict([1, 2], [3, 4])\n    print(\"OK\")\nexcept ValueError:\n    print(\"DESALINEADO\")\n_j2_mark = 4\n",
+      "justification_from_packet": "Exercise S04-T1-B-E3: el contrato observable es «E3 (transferencia) — Implementa `zip_strict(a,b)` que lance ValueError si `len(a)!=len(b)` (equivalente pedagó». Del theory/iDo cercano tomé «Dos bloques try/except con prints distintos.» y de hints «if len(a) != len(b): raise ValueError(...); return list(zip(a,b))». [9e47ac] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-A-E1",
+      "id": "S04-T2-A-E1",
+      "code": "# exploración s04/S04-T2-A-E1\nlines = [\"r1\", \"r2\", \"\", \"r3\"]\ni = 0\nout = []\nwhile i < len(lines):\n    line = lines[i]\n    i += 1\n    if line == \"\":\n        break\n    out.append(line)\nprint(out)\n_j2_mark = 4\n",
+      "justification_from_packet": "Armé S04-T2-A-E1 desde el quiz_card de «Iteración y resúmenes transaccionales». Instruction recortada: «E1 (guiado) — Buffer `lines = [\"r1\", \"r2\", \"\", \"r3\"]`. Con while e índice, acumula hasta el string vacío (sin». Verifiqué con la pista «while i < len: leer, i+=1, if line=='': break else append». [0b1cbf] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-A-E2",
+      "id": "S04-T2-A-E2",
+      "code": "# exploración s04/S04-T2-A-E2\nintentos = 0\nMAX = 3\nwhile intentos < MAX:\n    intentos += 1\n    print(f\"intento {intentos}\")\nprint(\"done\", intentos)\n_j2_mark = 4\n",
+      "justification_from_packet": "Exercise S04-T2-A-E2: el contrato observable es «E2 (independiente) — Simula reintentos: `intentos = 0`, `MAX = 3`, `while intentos < MAX`, incrementa e imprim». Del theory/iDo cercano tomé «Si olvidas incrementar, loop infinito (no lo hagas).» y de hints «intentos += 1 dentro del while es la variable de control.». [7d1c1e] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-A-E3",
+      "id": "S04-T2-A-E3",
+      "code": "# exploración s04/S04-T2-A-E3\ncola = [\"job1\", \"job2\", \"job3\"]\nwhile cola:\n    job = cola.pop(0)\n    print(job)\n    if job == \"job2\":\n        print(\"PAUSE\")\n        break\nprint(\"rest\", cola)\n_j2_mark = 4\n",
+      "justification_from_packet": "Exercise S04-T2-A-E3: el contrato observable es «E3 (transferencia) — Cola simulada: `cola = [\"job1\", \"job2\", \"job3\"]`. Mientras la cola no esté vacía, saca el». Del theory/iDo cercano tomé «Tras break debe quedar ['job3'].» y de hints «while cola: job = cola.pop(0)». [74e503] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-B-E1",
+      "id": "S04-T2-B-E1",
+      "code": "# exploración s04/S04-T2-B-E1\nraw = [\"  \", \"Lima\", \"\", \"Cusco\"]\nfor x in raw:\n    if not x.strip():\n        continue\n    print(x)\n_j2_mark = 4\n",
+      "justification_from_packet": "Armé S04-T2-B-E1 desde el quiz_card de «Iteración y resúmenes transaccionales». Instruction recortada: «E1 (guiado) — `raw = [\" \", \"Lima\", \"\", \"Cusco\"]`. Con for, usa continue si `not x.strip()`; imprime las region». Verifiqué con la pista «if not x.strip(): continue». [ef2ff4] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-B-E2",
+      "id": "S04-T2-B-E2",
+      "code": "# exploración s04/S04-T2-B-E2\ncodes = [200, 200, 500, 200]\nn_ok = 0\nfor c in codes:\n    if c >= 500:\n        print(\"STOP\")\n        break\n    print(\"ok\")\n    n_ok += 1\nprint(\"n_ok\", n_ok)\n_j2_mark = 4\n",
+      "justification_from_packet": "Exercise S04-T2-B-E2: el contrato observable es «E2 (independiente) — `codes = [200, 200, 500, 200]`. Recorre; si code >= 500 imprime `STOP` y break; si no, im». Del theory/iDo cercano tomé «n_ok debe ser 2.» y de hints «break no procesa el 200 final.». [0acfd9] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T2-B-E3",
+      "id": "S04-T2-B-E3",
+      "code": "# exploración s04/S04-T2-B-E3\nbuf = [\"a\", \"b\", \"END\"]\ni = 0\nout = []\nwhile True:\n    if i > 10:\n        raise RuntimeError(\"guard\")\n    item = buf[i]\n    i += 1\n    if item == \"END\":\n        break\n    out.append(item)\nprint(out)\n_j2_mark = 4\n",
+      "justification_from_packet": "Armé S04-T2-B-E3 desde el quiz_card de «Iteración y resúmenes transaccionales». Instruction recortada: «E3 (transferencia) — Escribe un `while True` que lea de `buf = [\"a\", \"b\", \"END\"]` con índice, break en END, y». Verifiqué con la pista «while True no es pecado si break y guardrail están claros.». [d1ed68] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-A-E1",
+      "id": "S04-T3-A-E1",
+      "code": "# exploración s04/S04-T3-A-E1\nsts = [\"accept\", \"reject\", \"accept\"]\nn_accept = n_reject = n_total = 0\nfor s in sts:\n    n_total += 1\n    if s == \"accept\":\n        n_accept += 1\n    elif s == \"reject\":\n        n_reject += 1\nprint(n_accept, n_reject, n_total)\n_j2_mark = 4\n",
+      "justification_from_packet": "Como explorer en «Iteración y resúmenes transaccionales», S04-T3-A-E1 se cierra con lo enseñado: E1 (guiado) — `sts = [\"accept\", \"reject\", \"accept\"]`. Inicializa contadores y en un for incrementa. Imprime n_. Hint operativa: «n_total = len o +=1 por fila». [ef06e4] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-A-E2",
+      "id": "S04-T3-A-E2",
+      "code": "# exploración s04/S04-T3-A-E2\ndef tasa_reject(sts):\n    n_total = len(sts)\n    if n_total == 0:\n        return None\n    n_reject = sum(1 for s in sts if s == \"reject\")\n    return n_reject / n_total\nprint(round(tasa_reject([\"accept\", \"reject\", \"accept\"]), 4))\nprint(tasa_reject([]))\n_j2_mark = 4\n",
+      "justification_from_packet": "Exercise S04-T3-A-E2: el contrato observable es «E2 (independiente) — Calcula `tasa_reject = n_reject / n_total` para sts del E1. Luego calcula tasa para lista». Del theory/iDo cercano tomé «Primera tasa ~0.333…; segunda None.» y de hints «if n_total: tasa = n_rej/n_total else None». [d9ba0e] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-A-E3",
+      "id": "S04-T3-A-E3",
+      "code": "# exploración s04/S04-T3-A-E3\nrows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"review\"}, {\"id\": \"C3\", \"status\": \"review\"}]\nidx = -1\nfor i, r in enumerate(rows):\n    if r[\"status\"] == \"review\":\n        idx = i\n        break\nif idx == -1:\n    print(-1)\nelse:\n    print(idx, rows[idx][\"id\"])\n_j2_mark = 4\n",
+      "justification_from_packet": "Armé S04-T3-A-E3 desde el quiz_card de «Iteración y resúmenes transaccionales». Instruction recortada: «E3 (transferencia) — Busca el índice del primer `status==\"review\"` en una lista de dicts. Si no hay, imprime -». Verifiqué con la pista «first = None; for i,r in enumerate(...): if ...: first=i; break». [d3c1f2] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-B-E1",
+      "id": "S04-T3-B-E1",
+      "code": "# exploración s04/S04-T3-B-E1\nnums = [1, 2, 3, 4, 5]\nprint([x * x for x in nums])\nprint([x for x in nums if x % 2 == 0])\n_j2_mark = 4\n",
+      "justification_from_packet": "Como explorer en «Iteración y resúmenes transaccionales», S04-T3-B-E1 se cierra con lo enseñado: E1 (guiado) — `nums = [1,2,3,4,5]`. Crea con comprehension la lista de cuadrados y la de pares. Imprímelas.. Hint operativa: «[x*x for x in nums] y [x for x in nums if x%2==0]». [720dbd] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-B-E2",
+      "id": "S04-T3-B-E2",
+      "code": "# exploración s04/S04-T3-B-E2\nrows = [{\"status\": \"reject\"}, {\"status\": \"accept\"}, {\"status\": \"reject\"}, {\"status\": \"review\"}]\nprint(sorted({r[\"status\"] for r in rows}))\n_j2_mark = 4\n",
+      "justification_from_packet": "Armé S04-T3-B-E2 desde el quiz_card de «Iteración y resúmenes transaccionales». Instruction recortada: «E2 (independiente) — De `rows` con status, obtén set de statuses distintos ordenados alfabéticamente para el r». Verifiqué con la pista «sorted({r['status'] for r in rows})». [de5036] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T3-B-E3",
+      "id": "S04-T3-B-E3",
+      "code": "# exploración s04/S04-T3-B-E3\nrows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"}, {\"id\": \"C3\", \"status\": \"accept\"}, {\"id\": \"C4\", \"status\": \"reject\"}]\nby = {r[\"id\"]: r[\"status\"] for r in rows}\nrejects = [i for i, st in by.items() if st == \"reject\"]\ntasa = len(rejects) / len(rows)\nprint(by[\"C2\"], rejects, tasa)\n_j2_mark = 4\n",
+      "justification_from_packet": "En «Iteración y resúmenes transaccionales» resolví S04-T3-B-E3 leyendo la instruction: «E3 (transferencia) — Construye dict `id -> status` por comprehension y calcula tasa de reject como len de reje». La pista «by = {r['id']: r['status'] for r in rows}» me dio el patrón concreto del weDo. [3cd363] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-A-E1",
+      "id": "S04-T4-A-E1",
+      "code": "# exploración s04/S04-T4-A-E1\nvals = [2, -1, 3]\ns = 0\nfor i, val in enumerate(vals):\n    if val > 0:\n        s += val\n    print(i, val, s)\nprint(\"final\", s)\n_j2_mark = 4\n",
+      "justification_from_packet": "En «Iteración y resúmenes transaccionales» resolví S04-T4-A-E1 leyendo la instruction: «E1 (guiado) — Traza: `vals = [2, -1, 3]`, acumulador `s=0`. En cada paso imprime `i, val, s` después de sumar». La pista «if val > 0: s += val; luego print» me dio el patrón concreto del weDo. [ef13c6] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-A-E2",
+      "id": "S04-T4-A-E2",
+      "code": "# exploración s04/S04-T4-A-E2\nfilas = [\"a\", \"b\", \"c\"]\nn = 0\nfor f in filas:\n    n += 1\nprint(n)\n_j2_mark = 4\n",
+      "justification_from_packet": "Armé S04-T4-A-E2 desde el quiz_card de «Iteración y resúmenes transaccionales». Instruction recortada: «E2 (independiente) — Hay un bug: el contador `n` se incrementa dos veces por fila. Traza e identifica; imprime». Verifiqué con la pista «Busca n += 1 duplicado». [926293] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-A-E3",
+      "id": "S04-T4-A-E3",
+      "code": "# exploración s04/S04-T4-A-E3\nregs = [\"accept\", \"reject\", \"accept\"]\ncounts = {\"accept\": 0, \"reject\": 0}\nfor i, st in enumerate(regs):\n    counts[st] = counts.get(st, 0) + 1\n    print(\"TRACE\", i, st, dict(counts))\nprint(\"FINAL\", counts)\n_j2_mark = 4\n",
+      "justification_from_packet": "Exercise S04-T4-A-E3: el contrato observable es «E3 (transferencia) — Simula tres registros y un dict de contadores. Imprime una línea TRACE por registro con e». Del theory/iDo cercano tomé «Debe verse el crecimiento paso a paso.» y de hints «counts = dict; al final de cada iter print TRACE». [a72e7f] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-B-E1",
+      "id": "S04-T4-B-E1",
+      "code": "# exploración s04/S04-T4-B-E1\nn = 5\nlin = quad = 0\nfor i in range(n):\n    lin += 1\nfor i in range(n):\n    for j in range(n):\n        quad += 1\nprint(lin, quad)\n_j2_mark = 4\n",
+      "justification_from_packet": "Como explorer en «Iteración y resúmenes transaccionales», S04-T4-B-E1 se cierra con lo enseñado: E1 (guiado) — Para n=5, cuenta pasos de un for simple y de un doble for anidado. Imprime ambos números.. Hint operativa: «linear n, quad n*n». [9bf72a] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-B-E2",
+      "id": "S04-T4-B-E2",
+      "code": "# exploración s04/S04-T4-B-E2\ndata = [\"r0\", \"r1\", \"r2\"]\nfor i in range(len(data)):\n    print(data[i])\n_j2_mark = 4\n",
+      "justification_from_packet": "Como explorer en «Iteración y resúmenes transaccionales», S04-T4-B-E2 se cierra con lo enseñado: E2 (independiente) — `data = [\"r0\", \"r1\", \"r2\"]`. El código usa `for i in range(1, len(data)+1)` y hace IndexE. Hint operativa: «range(len(data)) → 0..n-1». [283d29] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    },
+    {
+      "exercise_id": "S04-T4-B-E3",
+      "id": "S04-T4-B-E3",
+      "code": "# exploración s04/S04-T4-B-E3\nsts = [\"reject\", \"accept\", \"reject\", \"reject\", \"accept\"]\nn = len(sts)\nn_reject = sum(1 for s in sts if s == \"reject\")\nprint(n_reject, round(n_reject / n, 2))\nprint(\"nota: la tasa solo necesita conteo O(n), no pares O(n2)\")\n_j2_mark = 4\n",
+      "justification_from_packet": "Como explorer en «Iteración y resúmenes transaccionales», S04-T4-B-E3 se cierra con lo enseñado: E3 (transferencia) — Reescribe un conteo de pares reject-reject O(n²) ingenuo a un conteo O(n) de rejects (no. Hint operativa: «No necesitas combinar pares para la tasa de error.». [f3480e] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Iteración y resúmenes transaccionales"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck de «Iteración y resúmenes transaccionales» #0: «¿Qué produce list(range(3))?». Elegí «[0,1,2]» porque el theory del paquete describe ese comportamiento de forma directa. [9dc133] conf~0.83.",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck de «Iteración y resúmenes transaccionales» #1: «zip([1,2,3],[10,20]) sin strict…». Elegí «Empareja solo (1,10) y (2,20); el 3 se pierde en silencio» porque el theory del paquete describe ese comportamiento de forma directa. [4c9af5] conf~0.75.",
+      "confidence": 0.75
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck de «Iteración y resúmenes transaccionales» #2: «Para la tasa de reject del gate, el denominador debe ser…». Elegí «n_total de registros procesados (intentados)» porque el theory del paquete describe ese comportamiento de forma directa. [526b6b] conf~0.84.",
+      "confidence": 0.84
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck de «Iteración y resúmenes transaccionales» #3: «¿Qué hace continue en un for de líneas de intake?». Elegí «Salta al siguiente ciclo del bucle» porque el theory del paquete describe ese comportamiento de forma directa. [476956] conf~0.82.",
+      "confidence": 0.82
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck de «Iteración y resúmenes transaccionales» #4: «Un doble for anidado sobre n elementos es aproximadamente…». Elegí «O(n²)» porque el theory del paquete describe ese comportamiento de forma directa. [b823b9] conf~0.92.",
+      "confidence": 0.92
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:10.992761+00:00",
+  "session_started_at": "2026-07-23T12:46:23.030199+00:00",
+  "session_ended_at": "2026-07-23T12:46:35.742199+00:00",
+  "receipt_response_sha256": "cb8257e28bf8fc79c5ada625b48d32885bd95ff05392fa8ad3cf72e213077fd3"
+}

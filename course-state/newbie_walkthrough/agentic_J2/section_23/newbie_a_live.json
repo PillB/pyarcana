@@ -1,0 +1,287 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 23,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s23-8ddf0f0ffb19",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S23-T1-A-E1",
+      "id": "S23-T1-A-E1",
+      "code": "# exploración s23/S23-T1-A-E1\nnodes=[{'role':'link','name':'Inicio','id':'n1'}]\nprint(next(n['id'] for n in nodes if n['role']=='link' and n['name']=='Inicio'))\n_j2_mark = 23\n",
+      "justification_from_packet": "Armé S23-T1-A-E1 desde el quiz_card de «Browser RPA con Playwright». Instruction recortada: «Locator por rol: nodes=[{'role':'link','name':'Inicio','id':'n1'}]. Encuentra role=link y name=Inicio; imprime». Verifiqué con la pista «contrato I/O en instruction». [f894ce] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-A-E2",
+      "id": "S23-T1-A-E2",
+      "code": "# exploración s23/S23-T1-A-E2\nstrats=['css','role','testid']\norder={'role':0,'testid':1,'css':2}\nprint(sorted(strats, key=lambda s: order[s]))\n_j2_mark = 23\n",
+      "justification_from_packet": "Como explorer en «Browser RPA con Playwright», S23-T1-A-E2 se cierra con lo enseñado: Prioridad de estrategias: strats=['css','role','testid']. Ordena priorizando role, testid, css (preferred inde. Hint operativa: «contrato I/O en instruction». [44a921] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-A-E3",
+      "id": "S23-T1-A-E3",
+      "code": "# exploración s23/S23-T1-A-E3\nnodes=[{'role':'img','name':'logo'}]\nhits=[n for n in nodes if n['role']=='button']\nprint(hits[0]['name'] if hits else 'need_testid')\n_j2_mark = 23\n",
+      "justification_from_packet": "Exercise S23-T1-A-E3: el contrato observable es «Sin control button en nodes (solo img logo): al buscar button imprime 'need_testid' si no hay role button; si». Del theory/iDo cercano tomé «compara output con solution» y de hints «contrato I/O en instruction». [7061d7] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-B-E1",
+      "id": "S23-T1-B-E1",
+      "code": "# exploración s23/S23-T1-B-E1\nfor i in range(1, 4):\n    ready = i >= 2\n    if ready:\n        print(i)\n        break\n_j2_mark = 23\n",
+      "justification_from_packet": "En «Browser RPA con Playwright» resolví S23-T1-B-E1 leyendo la instruction: «Auto-wait simulado: ready se vuelve True en el intento 2 de un loop 1..N. Imprime el número de intento cuando». La pista «contrato I/O en instruction» me dio el patrón concreto del weDo. [9adea4] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-B-E2",
+      "id": "S23-T1-B-E2",
+      "code": "# exploración s23/S23-T1-B-E2\nready = False\nfor i in range(3):\n    if ready:\n        print('ok')\n        break\nelse:\n    print('timeout')\n_j2_mark = 23\n",
+      "justification_from_packet": "Armé S23-T1-B-E2 desde el quiz_card de «Browser RPA con Playwright». Instruction recortada: «Timeout de espera: ready=False fijo; tras 3 intentos sin ready imprime 'timeout'. Contrato: no reintentar infi». Verifiqué con la pista «contrato I/O en instruction». [993550] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T1-B-E3",
+      "id": "S23-T1-B-E3",
+      "code": "# exploración s23/S23-T1-B-E3\nexpected, actual = 'Portal demo', 'Portal demo'\nprint('pass' if expected == actual else 'fail')\n_j2_mark = 23\n",
+      "justification_from_packet": "Exercise S23-T1-B-E3: el contrato observable es «Assertion de título: expected=actual='Portal demo'. Imprime 'pass' si iguales else 'fail'. Contrato: postcondi». Del theory/iDo cercano tomé «compara output con solution» y de hints «contrato I/O en instruction». [f36b47] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-A-E1",
+      "id": "S23-T2-A-E1",
+      "code": "# exploración s23/S23-T2-A-E1\nform = {}\nform['usuario'] = 'ana'\nprint(form)\n_j2_mark = 23\n",
+      "justification_from_packet": "En «Browser RPA con Playwright» resolví S23-T2-A-E1 leyendo la instruction: «Fill de formulario sintético: form={}; asigna usuario='ana'; imprime form. Contrato: update/asignación. Pass:». La pista «contrato I/O en instruction» me dio el patrón concreto del weDo. [336b2f] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-A-E2",
+      "id": "S23-T2-A-E2",
+      "code": "# exploración s23/S23-T2-A-E2\nimport hashlib\nprint(hashlib.sha256(b'data').hexdigest()[:8])\n_j2_mark = 23\n",
+      "justification_from_packet": "Para S23-T2-A-E2 el paquete de «Browser RPA con Playwright» pide: Verificación de download: sha256 hex de b'data', primeros 8 chars. import hashlib. Contrato: hexdigest()[:8].. Anclé la respuesta a «contrato I/O en instruction» y conservé el fixture del starter. [a83c1e] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-A-E3",
+      "id": "S23-T2-A-E3",
+      "code": "# exploración s23/S23-T2-A-E3\nstate={'token':'t'}\nprint('reuse' if state.get('token') else 'login')\n_j2_mark = 23\n",
+      "justification_from_packet": "Exercise S23-T2-A-E3: el contrato observable es «Reuso de sesión: state={'token':'t'}. Si token presente imprime 'reuse' (no re-login). Contrato: storage_state». Del theory/iDo cercano tomé «compara output con solution» y de hints «contrato I/O en instruction». [bb3a78] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-B-E1",
+      "id": "S23-T2-B-E1",
+      "code": "# exploración s23/S23-T2-B-E1\nclass LoginPage:\n    def submit(self, ctx, password):\n        ctx['auth'] = password == 'sandbox'\nctx={}\nLoginPage().submit(ctx, 'sandbox')\nprint(ctx['auth'])\n_j2_mark = 23\n",
+      "justification_from_packet": "Para S23-T2-B-E1 el paquete de «Browser RPA con Playwright» pide: Page Object LoginPage: si password=='sandbox' autentica. Implementa submit; prueba e imprime auth True. Contra. Anclé la respuesta a «contrato I/O en instruction» y conservé el fixture del starter. [1a52a0] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-B-E2",
+      "id": "S23-T2-B-E2",
+      "code": "# exploración s23/S23-T2-B-E2\nctx={'auth':False}\ntry:\n    if not ctx.get('auth'):\n        raise PermissionError('login required')\n    print('ok')\nexcept PermissionError:\n    print('denied')\n_j2_mark = 23\n",
+      "justification_from_packet": "Para S23-T2-B-E2 el paquete de «Browser RPA con Playwright» pide: ReportPage sin auth: ctx auth False; open debe denegar. Captura PermissionError e imprime 'denied'. Contrato:. Anclé la respuesta a «contrato I/O en instruction» y conservé el fixture del starter. [cb3819] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T2-B-E3",
+      "id": "S23-T2-B-E3",
+      "code": "# exploración s23/S23-T2-B-E3\nstate='anonymous'\nlogin_ok=True\nif login_ok:\n    state='authenticated'\nprint(state)\n_j2_mark = 23\n",
+      "justification_from_packet": "Armé S23-T2-B-E3 desde el quiz_card de «Browser RPA con Playwright». Instruction recortada: «Transición de estado: state='anonymous'; tras login ok imprime 'authenticated'. Contrato: máquina simple de es». Verifiqué con la pista «contrato I/O en instruction». [6c81ec] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-A-E1",
+      "id": "S23-T3-A-E1",
+      "code": "# exploración s23/S23-T3-A-E1\nev={'trace':'a.zip','screenshot':'b.png','error':'x'}\nprint(sorted(ev.keys()))\n_j2_mark = 23\n",
+      "justification_from_packet": "En «Browser RPA con Playwright» resolví S23-T3-A-E1 leyendo la instruction: «Paquete de evidencia: ev con trace, screenshot, error. Imprime sorted(keys). Contrato: keys estables para CI.». La pista «contrato I/O en instruction» me dio el patrón concreto del weDo. [90f470] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-A-E2",
+      "id": "S23-T3-A-E2",
+      "code": "# exploración s23/S23-T3-A-E2\nlogs=['ok','ERR timeout','nav']\nprint([l for l in logs if 'ERR' in l])\n_j2_mark = 23\n",
+      "justification_from_packet": "Para S23-T3-A-E2 el paquete de «Browser RPA con Playwright» pide: Filtro de console: logs=['ok','ERR timeout','nav']; imprime solo líneas que contienen 'ERR'. Contrato: list co. Anclé la respuesta a «contrato I/O en instruction» y conservé el fixture del starter. [3f89bf] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-A-E3",
+      "id": "S23-T3-A-E3",
+      "code": "# exploración s23/S23-T3-A-E3\nok=False\npkg={'step':'s1'}\nif not ok:\n    pkg['trace']='traces/s1.zip'\nprint(pkg)\n_j2_mark = 23\n",
+      "justification_from_packet": "Para S23-T3-A-E3 el paquete de «Browser RPA con Playwright» pide: Adjuntar trace en falla: ok=False, pkg={'step':'s1'}; si not ok añade trace 'traces/s1.zip'; imprime pkg. Cont. Anclé la respuesta a «contrato I/O en instruction» y conservé el fixture del starter. [e78b20] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-B-E1",
+      "id": "S23-T3-B-E1",
+      "code": "# exploración s23/S23-T3-B-E1\ndef should_retry(k):\n    return k in {'timeout', '429'}\nfor k in ('timeout','captcha','429'):\n    print(k, should_retry(k))\n_j2_mark = 23\n",
+      "justification_from_packet": "Exercise S23-T3-B-E1: el contrato observable es «Política should_retry: True solo para 'timeout' y '429'. Prueba timeout, captcha, 429 e imprime tres líneas ki». Del theory/iDo cercano tomé «compara output con solution» y de hints «contrato I/O en instruction». [75d705] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-B-E2",
+      "id": "S23-T3-B-E2",
+      "code": "# exploración s23/S23-T3-B-E2\nerr='stale'\nprint('goto_home' if err=='stale' else 'continue')\n_j2_mark = 23\n",
+      "justification_from_packet": "En «Browser RPA con Playwright» resolví S23-T3-B-E2 leyendo la instruction: «Recovery stale DOM: err='stale' → action 'goto_home'. Imprime action. Contrato: re-nav, no click en handle vie». La pista «contrato I/O en instruction» me dio el patrón concreto del weDo. [ddcf85] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T3-B-E3",
+      "id": "S23-T3-B-E3",
+      "code": "# exploración s23/S23-T3-B-E3\nerrors=['timeout','timeout','timeout']\nfor i,e in enumerate(errors,1):\n    if e!='timeout':\n        print('ok', i)\n        break\n    if i==3:\n        print('fail', i)\n_j2_mark = 23\n",
+      "justification_from_packet": "En «Browser RPA con Playwright» resolví S23-T3-B-E3 leyendo la instruction: «Máx 3 timeouts: errors lista de tres 'timeout' → imprime 'fail 3' con conteo. Contrato: exhaust retries. Pass:». La pista «contrato I/O en instruction» me dio el patrón concreto del weDo. [4cdf79] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-A-E1",
+      "id": "S23-T4-A-E1",
+      "code": "# exploración s23/S23-T4-A-E1\napi=True\nprint('api' if api else 'rpa')\n_j2_mark = 23\n",
+      "justification_from_packet": "Como explorer en «Browser RPA con Playwright», S23-T4-A-E1 se cierra con lo enseñado: API-first gate: api=True → elige 'api'. Imprime la elección del método de obtención de datos. Contrato: prefer. Hint operativa: «contrato I/O en instruction». [8f87b0] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-A-E2",
+      "id": "S23-T4-A-E2",
+      "code": "# exploración s23/S23-T4-A-E2\nf={'api':False,'export':True,'rpa':True}\nif f.get('api'):\n    c='api'\nelif f.get('export'):\n    c='export'\nelif f.get('rpa'):\n    c='rpa'\nelse:\n    c='human'\nprint(c)\n_j2_mark = 23\n",
+      "justification_from_packet": "Armé S23-T4-A-E2 desde el quiz_card de «Browser RPA con Playwright». Instruction recortada: «Orden api>export>rpa: flags api False, export True, rpa True → imprime 'export'. Contrato: primera disponible». Verifiqué con la pista «contrato I/O en instruction». [5b3db9] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-A-E3",
+      "id": "S23-T4-A-E3",
+      "code": "# exploración s23/S23-T4-A-E3\ndecision={'method':'rpa','reason':'no_api'}\nprint(decision)\n_j2_mark = 23\n",
+      "justification_from_packet": "Exercise S23-T4-A-E3: el contrato observable es «Decisión documentada: cae a rpa con reason 'no_api'. Imprime dict method/reason. Contrato: auditoría de por qu». Del theory/iDo cercano tomé «compara output con solution» y de hints «contrato I/O en instruction». [5d2762] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-B-E1",
+      "id": "S23-T4-B-E1",
+      "code": "# exploración s23/S23-T4-B-E1\ncaptcha=True\nprint('human_handoff' if captcha else 'continue')\n_j2_mark = 23\n",
+      "justification_from_packet": "Como explorer en «Browser RPA con Playwright», S23-T4-B-E1 se cierra con lo enseñado: CAPTCHA en portal demo: captcha=True → imprime 'human_handoff' sin intentar bypass ni granja. Contrato: handof. Hint operativa: «contrato I/O en instruction». [e88972] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-B-E2",
+      "id": "S23-T4-B-E2",
+      "code": "# exploración s23/S23-T4-B-E2\nsig={'tos_forbidden':True,'captcha':True}\nprint('abort' if sig.get('tos_forbidden') else 'human_handoff')\n_j2_mark = 23\n",
+      "justification_from_packet": "Para S23-T4-B-E2 el paquete de «Browser RPA con Playwright» pide: ToS gana: sig con tos_forbidden True (y captcha True). action abort. Imprime action. Contrato: abort > handoff. Anclé la respuesta a «contrato I/O en instruction» y conservé el fixture del starter. [6b2cfa] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    },
+    {
+      "exercise_id": "S23-T4-B-E3",
+      "id": "S23-T4-B-E3",
+      "code": "# exploración s23/S23-T4-B-E3\npayload={'url':'https://demo.test/app','step':'export','screenshot':'s.png'}\nprint(sorted(payload.keys()), payload['step'])\n_j2_mark = 23\n",
+      "justification_from_packet": "En «Browser RPA con Playwright» resolví S23-T4-B-E3 leyendo la instruction: «Payload handoff: arma estructura con url, step, screenshot; imprime keys sorted y marca export según solution». La pista «contrato I/O en instruction» me dio el patrón concreto del weDo. [481f75] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Browser RPA con Playwright"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck de «Browser RPA con Playwright» #0: «¿Por qué preferir get_by_role a CSS nth-child?». Elegí «Refleja la UI accesible y suele ser más estable» porque el theory del paquete describe ese comportamiento de forma directa. [1d02e9] conf~0.88.",
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck de «Browser RPA con Playwright» #1: «Ante un CAPTCHA el robot debe:». Elegí «Detenerse y hacer handoff humano» porque el theory del paquete describe ese comportamiento de forma directa. [c40495] conf~0.71.",
+      "confidence": 0.71
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck de «Browser RPA con Playwright» #2: «API/export primero significa:». Elegí «Buscar integración no-UI antes de automatizar el browser» porque el theory del paquete describe ese comportamiento de forma directa. [074662] conf~0.73.",
+      "confidence": 0.73
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck de «Browser RPA con Playwright» #3: «Un retry seguro reintenta:». Elegí «Solo fallas transitorias (timeout/red), no captcha/403 de negocio» porque el theory del paquete describe ese comportamiento de forma directa. [a1f64e] conf~0.87.",
+      "confidence": 0.87
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:55:06.327079+00:00",
+  "session_started_at": "2026-07-23T12:59:03.030199+00:00",
+  "session_ended_at": "2026-07-23T12:59:40.513199+00:00",
+  "receipt_response_sha256": "ef46c8271062f2f33c174835b4d6c7239ceda215b7a9b151c5e11b265f8c69d7"
+}

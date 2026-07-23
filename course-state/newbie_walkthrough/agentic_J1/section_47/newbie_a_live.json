@@ -1,0 +1,479 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_J1",
+  "section_index": 47,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-exp-s47-a48a5eb8cd",
+  "production_note": "agentic_J1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S47-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-1A\", **{\"seed\": 42,\"params\": {'depth': 4},\"metric\": 0.81,\"rerun_metric\": 0.805,\"tolerance\": 0.01}}\nmeets_contract = not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])\nstatus = \"PASS\" if meets_contract else \"MARK_RUN_NONREPRODUCIBLE\"\nprint(\"S47-T1-A\", status)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T1-A-E1",
+        "S47",
+        "Calcula",
+        "contrato",
+        "tracking",
+        "reproducibilidad",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Explorer en S47-T1-A-E1 (guided): leí el paquete y el starter defectuoso. Predicado corregido: `not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])`. Instrucción del paquete: S47-T1-A-E1 · Calcula el contrato de `tracking y reproducibilidad` sobre `CASO-TAC-047-1A`. La entrada es el dict completo del starter; la operación debe demost. Ante incumplimiento devuelve `MARK_RUN_NONREPRODUCIBLE`. Ancla theory: Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida antigua Campos usados: metric, rerun_metric, tolerance."
+    },
+    {
+      "exercise_id": "S47-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"seed\", \"params\", \"metric\", \"rerun_metric\", \"tolerance\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])) else \"MARK_RUN_NONREPRODUCIBLE\"\n\nvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\ninvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.0, 'rerun_metric': 0.805, 'tolerance': 0.01}\nincomplete = {**valid}\nincomplete.pop(\"tolerance\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T1-A-E2",
+        "S47",
+        "Modela",
+        "tres",
+        "rutas",
+        "tracking",
+        "reproducibilidad",
+        "fixture"
+      ],
+      "justification_from_packet": "Explorer en S47-T1-A-E2 (independent): leí el paquete y el starter defectuoso. Predicado corregido: `not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])`. Instrucción del paquete: S47-T1-A-E2 · Modela tres rutas de `tracking y reproducibilidad`: fixture válido, fixture adverso y registro sin `tolerance`. Entrada: dict con case_id, seed, p. Ante incumplimiento devuelve `MARK_RUN_NONREPRODUCIBLE`; sin `tolerance` no se evalúa dominio. Ancla theory: Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida antigua Campos usados: metric, rerun_metric, tolerance."
+    },
+    {
+      "exercise_id": "S47-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"seed\", \"params\", \"metric\", \"rerun_metric\", \"tolerance\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"INVESTIGATE_RANDOMNESS\"\n    return \"CONTINUE\" if (not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])) else \"MARK_RUN_NONREPRODUCIBLE\"\n\nvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.81, 'rerun_metric': 0.805, 'tolerance': 0.01}\ninvalid = {'case_id': 'CASO-TAC-047-1A', 'seed': 42, 'params': {'depth': 4}, 'metric': 0.0, 'rerun_metric': 0.805, 'tolerance': 0.01}\nincomplete = {**valid}\nincomplete.pop(\"tolerance\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T1-A-E3",
+        "S47",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "tracking",
+        "reproducibilidad"
+      ],
+      "justification_from_packet": "Explorer en S47-T1-A-E3 (transfer): leí el paquete y el starter defectuoso. Predicado corregido: `not (abs(record[\"metric\"] - record[\"rerun_metric\"]) > record[\"tolerance\"])`. Instrucción del paquete: S47-T1-A-E3 · Simula fallo cerrado para `tracking y reproducibilidad` con tres fixtures distintos. `CASO-TAC-047-1A` debe continuar, el adverso debe devolver `M. Ante incumplimiento devuelve `MARK_RUN_NONREPRODUCIBLE`; sin `tolerance` no se evalúa dominio y la incertidumbre cierra en `INVESTIGATE_RANDOMNESS`. Ancla theory: Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver una corrida antigua Campos usados: metric, rerun_metric, tolerance."
+    },
+    {
+      "exercise_id": "S47-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-1B\", **{\"data\": 'ds-v3',\"code\": 'git:abc',\"env\": 'lock:def',\"split\": 'holdout-v1',\"metric_definition\": 'f1-v2',\"candidate\": 0.82,\"baseline\": 0.78}}\nmeets_contract = not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])\nstatus = \"PASS\" if meets_contract else \"INVALIDATE_COMPARISON\"\nprint(\"S47-T1-B\", status)\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T1-B-E1",
+        "S47",
+        "Compara",
+        "contrato",
+        "data",
+        "code",
+        "env",
+        "lineage"
+      ],
+      "justification_from_packet": "Explorer en S47-T1-B-E1 (guided): leí el paquete y el starter defectuoso. Predicado corregido: `not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])`. Instrucción del paquete: S47-T1-B-E1 · Compara el contrato de `data/code/env lineage y comparación` sobre `CASO-TAC-047-1B`. La entrada es el dict completo del starter; la operación deb. Ante incumplimiento devuelve `INVALIDATE_COMPARISON`. Ancla theory: Cada run enlaza versión de data, código y entorno; comparar exige misma partición/metric definition y reportar incertidumbre. Campos usados: data, candidate, baseline."
+    },
+    {
+      "exercise_id": "S47-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"data\", \"code\", \"env\", \"split\", \"metric_definition\", \"candidate\", \"baseline\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])) else \"INVALIDATE_COMPARISON\"\n\nvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}\ninvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.0, 'baseline': 0.78}\nincomplete = {**valid}\nincomplete.pop(\"baseline\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T1-B-E2",
+        "S47",
+        "Verifica",
+        "tres",
+        "rutas",
+        "data",
+        "code",
+        "env"
+      ],
+      "justification_from_packet": "Explorer en S47-T1-B-E2 (independent): leí el paquete y el starter defectuoso. Predicado corregido: `not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])`. Instrucción del paquete: S47-T1-B-E2 · Verifica tres rutas de `data/code/env lineage y comparación`: fixture válido, fixture adverso y registro sin `baseline`. Entrada: dict con case_id. Ante incumplimiento devuelve `INVALIDATE_COMPARISON`; sin `baseline` no se evalúa dominio. Ancla theory: Cada run enlaza versión de data, código y entorno; comparar exige misma partición/metric definition y reportar incertidumbre. Campos usados: data, candidate, baseline."
+    },
+    {
+      "exercise_id": "S47-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"data\", \"code\", \"env\", \"split\", \"metric_definition\", \"candidate\", \"baseline\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"RESTORE_LINEAGE\"\n    return \"CONTINUE\" if (not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])) else \"INVALIDATE_COMPARISON\"\n\nvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.82, 'baseline': 0.78}\ninvalid = {'case_id': 'CASO-TAC-047-1B', 'data': 'ds-v3', 'code': 'git:abc', 'env': 'lock:def', 'split': 'holdout-v1', 'metric_definition': 'f1-v2', 'candidate': 0.0, 'baseline': 0.78}\nincomplete = {**valid}\nincomplete.pop(\"baseline\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T1-B-E3",
+        "S47",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "data",
+        "code"
+      ],
+      "justification_from_packet": "Explorer en S47-T1-B-E3 (transfer): leí el paquete y el starter defectuoso. Predicado corregido: `not (not record[\"data\"] or record[\"candidate\"] <= record[\"baseline\"])`. Instrucción del paquete: S47-T1-B-E3 · Extiende fallo cerrado para `data/code/env lineage y comparación` con tres fixtures distintos. `CASO-TAC-047-1B` debe continuar, el adverso debe d. Ante incumplimiento devuelve `INVALIDATE_COMPARISON`; sin `baseline` no se evalúa dominio y la incertidumbre cierra en `RESTORE_LINEAGE`. Ancla theory: Cada run enlaza versión de data, código y entorno; comparar exige misma partición/metric definition y reportar incertidumbre. Campos usados: data, candidate, baseline."
+    },
+    {
+      "exercise_id": "S47-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-2A\", **{\"input_signature\": {'age': 'int', 'region': 'str'},\"output_signature\": {'priority': 'float'},\"stage\": 'staging',\"approved\": True}}\nmeets_contract = not (not record[\"approved\"] or record[\"stage\"] == \"production\")\nstatus = \"PASS\" if meets_contract else \"DENY_MODEL_PROMOTION\"\nprint(\"S47-T2-A\", status)\n",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T2-A-E1",
+        "S47",
+        "Filtra",
+        "contrato",
+        "firmas",
+        "stages",
+        "approvals",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer en S47-T2-A-E1 (guided): leí el paquete y el starter defectuoso. Predicado corregido: `not (not record[\"approved\"] or record[\"stage\"] == \"production\")`. Instrucción del paquete: S47-T2-A-E1 · Filtra el contrato de `firmas, stages y approvals` sobre `CASO-TAC-047-2A`. La entrada es el dict completo del starter; la operación debe demostra. Ante incumplimiento devuelve `DENY_MODEL_PROMOTION`. Ancla theory: Una firma fija nombres/tipos/rangos de entrada y salida; stages son estados gobernados y approval requiere evidencia independiente. Campos usados: approved, stage."
+    },
+    {
+      "exercise_id": "S47-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"input_signature\", \"output_signature\", \"stage\", \"approved\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"approved\"] or record[\"stage\"] == \"production\")) else \"DENY_MODEL_PROMOTION\"\n\nvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}\ninvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': False}\nincomplete = {**valid}\nincomplete.pop(\"approved\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T2-A-E2",
+        "S47",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "firmas",
+        "stages",
+        "approvals"
+      ],
+      "justification_from_packet": "Explorer en S47-T2-A-E2 (independent): leí el paquete y el starter defectuoso. Predicado corregido: `not (not record[\"approved\"] or record[\"stage\"] == \"production\")`. Instrucción del paquete: S47-T2-A-E2 · Clasifica tres rutas de `firmas, stages y approvals`: fixture válido, fixture adverso y registro sin `approved`. Entrada: dict con case_id, input_. Ante incumplimiento devuelve `DENY_MODEL_PROMOTION`; sin `approved` no se evalúa dominio. Ancla theory: Una firma fija nombres/tipos/rangos de entrada y salida; stages son estados gobernados y approval requiere evidencia independiente. Campos usados: approved, stage."
+    },
+    {
+      "exercise_id": "S47-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"input_signature\", \"output_signature\", \"stage\", \"approved\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REQUEST_MODEL_APPROVAL\"\n    return \"CONTINUE\" if (not (not record[\"approved\"] or record[\"stage\"] == \"production\")) else \"DENY_MODEL_PROMOTION\"\n\nvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': True}\ninvalid = {'case_id': 'CASO-TAC-047-2A', 'input_signature': {'age': 'int', 'region': 'str'}, 'output_signature': {'priority': 'float'}, 'stage': 'staging', 'approved': False}\nincomplete = {**valid}\nincomplete.pop(\"approved\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T2-A-E3",
+        "S47",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "firmas",
+        "stages"
+      ],
+      "justification_from_packet": "Explorer en S47-T2-A-E3 (transfer): leí el paquete y el starter defectuoso. Predicado corregido: `not (not record[\"approved\"] or record[\"stage\"] == \"production\")`. Instrucción del paquete: S47-T2-A-E3 · Defiende fallo cerrado para `firmas, stages y approvals` con tres fixtures distintos. `CASO-TAC-047-2A` debe continuar, el adverso debe devolver `. Ante incumplimiento devuelve `DENY_MODEL_PROMOTION`; sin `approved` no se evalúa dominio y la incertidumbre cierra en `REQUEST_MODEL_APPROVAL`. Ancla theory: Una firma fija nombres/tipos/rangos de entrada y salida; stages son estados gobernados y approval requiere evidencia independiente. Campos usados: approved, stage."
+    },
+    {
+      "exercise_id": "S47-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-2B\", **{\"artifact_digest\": 'sha256:model',\"feature_version\": 'features-v3',\"serving_feature_version\": 'features-v3',\"card_sections\": {'limits', 'metrics', 'risks', 'use'}}}\nmeets_contract = not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)\nstatus = \"PASS\" if meets_contract else \"REJECT_MODEL_ARTIFACT\"\nprint(\"S47-T2-B\", status)\n",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T2-B-E1",
+        "S47",
+        "Modela",
+        "contrato",
+        "artefactos",
+        "model",
+        "card",
+        "compatibilidad"
+      ],
+      "justification_from_packet": "Explorer en S47-T2-B-E1 (guided): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)`. Instrucción del paquete: S47-T2-B-E1 · Modela el contrato de `artefactos, model card y compatibilidad` sobre `CASO-TAC-047-2B`. La entrada es el dict completo del starter; la operación . Ante incumplimiento devuelve `REJECT_MODEL_ARTIFACT`. Ancla theory: Artefactos llevan digest y dependencia; model card explica uso, límites, métricas y riesgos, incluida incompatibilidad de features. Campos usados: feature_version, serving_feature_version, card_sections."
+    },
+    {
+      "exercise_id": "S47-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"artifact_digest\", \"feature_version\", \"serving_feature_version\", \"card_sections\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)) else \"REJECT_MODEL_ARTIFACT\"\n\nvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}\ninvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'sha256:model', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}\nincomplete = {**valid}\nincomplete.pop(\"card_sections\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T2-B-E2",
+        "S47",
+        "Audita",
+        "tres",
+        "rutas",
+        "artefactos",
+        "model",
+        "card"
+      ],
+      "justification_from_packet": "Explorer en S47-T2-B-E2 (independent): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)`. Instrucción del paquete: S47-T2-B-E2 · Audita tres rutas de `artefactos, model card y compatibilidad`: fixture válido, fixture adverso y registro sin `card_sections`. Entrada: dict con . Ante incumplimiento devuelve `REJECT_MODEL_ARTIFACT`; sin `card_sections` no se evalúa dominio. Ancla theory: Artefactos llevan digest y dependencia; model card explica uso, límites, métricas y riesgos, incluida incompatibilidad de features. Campos usados: feature_version, serving_feature_version, card_sections."
+    },
+    {
+      "exercise_id": "S47-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"artifact_digest\", \"feature_version\", \"serving_feature_version\", \"card_sections\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"COMPLETE_MODEL_CARD\"\n    return \"CONTINUE\" if (not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)) else \"REJECT_MODEL_ARTIFACT\"\n\nvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'features-v3', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}\ninvalid = {'case_id': 'CASO-TAC-047-2B', 'artifact_digest': 'sha256:model', 'feature_version': 'sha256:model', 'serving_feature_version': 'features-v3', 'card_sections': {'limits', 'metrics', 'risks', 'use'}}\nincomplete = {**valid}\nincomplete.pop(\"card_sections\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T2-B-E3",
+        "S47",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "artefactos",
+        "model"
+      ],
+      "justification_from_packet": "Explorer en S47-T2-B-E3 (transfer): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"feature_version\"] != record[\"serving_feature_version\"] or len(record[\"card_sections\"]) < 4)`. Instrucción del paquete: S47-T2-B-E3 · Recupera fallo cerrado para `artefactos, model card y compatibilidad` con tres fixtures distintos. `CASO-TAC-047-2B` debe continuar, el adverso de. Ante incumplimiento devuelve `REJECT_MODEL_ARTIFACT`; sin `card_sections` no se evalúa dominio y la incertidumbre cierra en `COMPLETE_MODEL_CARD`. Ancla theory: Artefactos llevan digest y dependencia; model card explica uso, límites, métricas y riesgos, incluida incompatibilidad de features. Campos usados: feature_version, serving_feature_version, card_sections."
+    },
+    {
+      "exercise_id": "S47-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-3A\", **{\"batch_features\": [0.1, 0.4, 0.8],\"online_features\": [0.1, 0.4, 0.8],\"leakage\": False,\"contract_tests\": 3}}\nmeets_contract = not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])\nstatus = \"PASS\" if meets_contract else \"DISABLE_INCONSISTENT_SERVING\"\nprint(\"S47-T3-A\", status)\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T3-A-E1",
+        "S47",
+        "Verifica",
+        "contrato",
+        "batch",
+        "online",
+        "feature",
+        "consistency"
+      ],
+      "justification_from_packet": "Explorer en S47-T3-A-E1 (guided): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])`. Instrucción del paquete: S47-T3-A-E1 · Verifica el contrato de `batch/online y feature consistency` sobre `CASO-TAC-047-3A`. La entrada es el dict completo del starter; la operación deb. Ante incumplimiento devuelve `DISABLE_INCONSISTENT_SERVING`. Ancla theory: Batch y online deben compartir transformación o contract tests para evitar training-serving skew y feature leakage. Campos usados: batch_features, online_features, leakage."
+    },
+    {
+      "exercise_id": "S47-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"batch_features\", \"online_features\", \"leakage\", \"contract_tests\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])) else \"DISABLE_INCONSISTENT_SERVING\"\n\nvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\nincomplete = {**valid}\nincomplete.pop(\"contract_tests\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T3-A-E2",
+        "S47",
+        "Decide",
+        "tres",
+        "rutas",
+        "batch",
+        "online",
+        "feature"
+      ],
+      "justification_from_packet": "Explorer en S47-T3-A-E2 (independent): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])`. Instrucción del paquete: S47-T3-A-E2 · Decide tres rutas de `batch/online y feature consistency`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict con case. Ante incumplimiento devuelve `DISABLE_INCONSISTENT_SERVING`; sin `contract_tests` no se evalúa dominio. Ancla theory: Batch y online deben compartir transformación o contract tests para evitar training-serving skew y feature leakage. Campos usados: batch_features, online_features, leakage."
+    },
+    {
+      "exercise_id": "S47-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"batch_features\", \"online_features\", \"leakage\", \"contract_tests\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TRACE_FEATURE_PIPELINE\"\n    return \"CONTINUE\" if (not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])) else \"DISABLE_INCONSISTENT_SERVING\"\n\nvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [0.1, 0.4, 0.8], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\ninvalid = {'case_id': 'CASO-TAC-047-3A', 'batch_features': [], 'online_features': [0.1, 0.4, 0.8], 'leakage': False, 'contract_tests': 3}\nincomplete = {**valid}\nincomplete.pop(\"contract_tests\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T3-A-E3",
+        "S47",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "batch",
+        "online"
+      ],
+      "justification_from_packet": "Explorer en S47-T3-A-E3 (transfer): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"batch_features\"] != record[\"online_features\"] or record[\"leakage\"])`. Instrucción del paquete: S47-T3-A-E3 · Contrasta fallo cerrado para `batch/online y feature consistency` con tres fixtures distintos. `CASO-TAC-047-3A` debe continuar, el adverso debe d. Ante incumplimiento devuelve `DISABLE_INCONSISTENT_SERVING`; sin `contract_tests` no se evalúa dominio y la incertidumbre cierra en `TRACE_FEATURE_PIPELINE`. Ancla theory: Batch y online deben compartir transformación o contract tests para evitar training-serving skew y feature leakage. Campos usados: batch_features, online_features, leakage."
+    },
+    {
+      "exercise_id": "S47-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-3B\", **{\"p95_ms\": 120,\"slo_ms\": 180,\"batch_size\": 16,\"fallback\": 'rules-v2',\"fallback_tested\": True}}\nmeets_contract = not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ACTIVATE_SAFE_FALLBACK\"\nprint(\"S47-T3-B\", status)\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T3-B-E1",
+        "S47",
+        "Clasifica",
+        "contrato",
+        "latency",
+        "batching",
+        "fallback",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer en S47-T3-B-E1 (guided): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])`. Instrucción del paquete: S47-T3-B-E1 · Clasifica el contrato de `latency, batching y fallback` sobre `CASO-TAC-047-3B`. La entrada es el dict completo del starter; la operación debe dem. Ante incumplimiento devuelve `ACTIVATE_SAFE_FALLBACK`. Ancla theory: Presupuesta p95/p99, batching y capacidad; fallback debe ser seguro, medible y menos capaz, nunca una versión silenciosamente riesgosa. Campos usados: p95_ms, slo_ms, fallback_tested."
+    },
+    {
+      "exercise_id": "S47-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"p95_ms\", \"slo_ms\", \"batch_size\", \"fallback\", \"fallback_tested\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])) else \"ACTIVATE_SAFE_FALLBACK\"\n\nvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\ninvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 200, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\nincomplete = {**valid}\nincomplete.pop(\"fallback_tested\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.95,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T3-B-E2",
+        "S47",
+        "Calcula",
+        "tres",
+        "rutas",
+        "latency",
+        "batching",
+        "fallback"
+      ],
+      "justification_from_packet": "Explorer en S47-T3-B-E2 (independent): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])`. Instrucción del paquete: S47-T3-B-E2 · Calcula tres rutas de `latency, batching y fallback`: fixture válido, fixture adverso y registro sin `fallback_tested`. Entrada: dict con case_id,. Ante incumplimiento devuelve `ACTIVATE_SAFE_FALLBACK`; sin `fallback_tested` no se evalúa dominio. Ancla theory: Presupuesta p95/p99, batching y capacidad; fallback debe ser seguro, medible y menos capaz, nunca una versión silenciosamente riesgosa. Campos usados: p95_ms, slo_ms, fallback_tested."
+    },
+    {
+      "exercise_id": "S47-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"p95_ms\", \"slo_ms\", \"batch_size\", \"fallback\", \"fallback_tested\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"TUNE_BATCH_OR_CAPACITY\"\n    return \"CONTINUE\" if (not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])) else \"ACTIVATE_SAFE_FALLBACK\"\n\nvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 120, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\ninvalid = {'case_id': 'CASO-TAC-047-3B', 'p95_ms': 200, 'slo_ms': 180, 'batch_size': 16, 'fallback': 'rules-v2', 'fallback_tested': True}\nincomplete = {**valid}\nincomplete.pop(\"fallback_tested\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.96,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T3-B-E3",
+        "S47",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "latency",
+        "batching"
+      ],
+      "justification_from_packet": "Explorer en S47-T3-B-E3 (transfer): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"p95_ms\"] > record[\"slo_ms\"] or not record[\"fallback_tested\"])`. Instrucción del paquete: S47-T3-B-E3 · Instrumenta fallo cerrado para `latency, batching y fallback` con tres fixtures distintos. `CASO-TAC-047-3B` debe continuar, el adverso debe devol. Ante incumplimiento devuelve `ACTIVATE_SAFE_FALLBACK`; sin `fallback_tested` no se evalúa dominio y la incertidumbre cierra en `TUNE_BATCH_OR_CAPACITY`. Ancla theory: Presupuesta p95/p99, batching y capacidad; fallback debe ser seguro, medible y menos capaz, nunca una versión silenciosamente riesgosa. Campos usados: p95_ms, slo_ms, fallback_tested."
+    },
+    {
+      "exercise_id": "S47-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-4A\", **{\"mode\": 'canary',\"traffic_pct\": 5,\"quality_delta\": 0.01,\"max_quality_drop\": 0.02,\"error_rate\": 0.004,\"max_error_rate\": 0.01,\"hooks\": True}}\nmeets_contract = not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])\nstatus = \"PASS\" if meets_contract else \"STOP_CANARY\"\nprint(\"S47-T4-A\", status)\n",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T4-A-E1",
+        "S47",
+        "Audita",
+        "contrato",
+        "shadow",
+        "canary",
+        "monitoring",
+        "hooks"
+      ],
+      "justification_from_packet": "Explorer en S47-T4-A-E1 (guided): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])`. Instrucción del paquete: S47-T4-A-E1 · Audita el contrato de `shadow/canary y monitoring hooks` sobre `CASO-TAC-047-4A`. La entrada es el dict completo del starter; la operación debe de. Ante incumplimiento devuelve `STOP_CANARY`. Ancla theory: Shadow observa sin decidir; canary recibe tráfico limitado y monitoring hooks comparan calidad, drift, errores y negocio antes de promover. Campos usados: traffic_pct, error_rate, max_error_rate."
+    },
+    {
+      "exercise_id": "S47-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"mode\", \"traffic_pct\", \"quality_delta\", \"max_quality_drop\", \"error_rate\", \"max_error_rate\", \"hooks\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])) else \"STOP_CANARY\"\n\nvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\ninvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 21, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\nincomplete = {**valid}\nincomplete.pop(\"hooks\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T4-A-E2",
+        "S47",
+        "Compara",
+        "tres",
+        "rutas",
+        "shadow",
+        "canary",
+        "monitoring"
+      ],
+      "justification_from_packet": "Explorer en S47-T4-A-E2 (independent): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])`. Instrucción del paquete: S47-T4-A-E2 · Compara tres rutas de `shadow/canary y monitoring hooks`: fixture válido, fixture adverso y registro sin `hooks`. Entrada: dict con case_id, mode,. Ante incumplimiento devuelve `STOP_CANARY`; sin `hooks` no se evalúa dominio. Ancla theory: Shadow observa sin decidir; canary recibe tráfico limitado y monitoring hooks comparan calidad, drift, errores y negocio antes de promover. Campos usados: traffic_pct, error_rate, max_error_rate."
+    },
+    {
+      "exercise_id": "S47-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"mode\", \"traffic_pct\", \"quality_delta\", \"max_quality_drop\", \"error_rate\", \"max_error_rate\", \"hooks\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"COLLECT_MORE_SHADOW_EVIDENCE\"\n    return \"CONTINUE\" if (not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])) else \"STOP_CANARY\"\n\nvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 5, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\ninvalid = {'case_id': 'CASO-TAC-047-4A', 'mode': 'canary', 'traffic_pct': 21, 'quality_delta': 0.01, 'max_quality_drop': 0.02, 'error_rate': 0.004, 'max_error_rate': 0.01, 'hooks': True}\nincomplete = {**valid}\nincomplete.pop(\"hooks\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.97,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T4-A-E3",
+        "S47",
+        "Aísla",
+        "fallo",
+        "cerrado",
+        "para",
+        "shadow",
+        "canary"
+      ],
+      "justification_from_packet": "Explorer en S47-T4-A-E3 (transfer): leí el paquete y el starter defectuoso. Predicado corregido: `not (record[\"traffic_pct\"] > 10 or record[\"error_rate\"] > record[\"max_error_rate\"])`. Instrucción del paquete: S47-T4-A-E3 · Aísla fallo cerrado para `shadow/canary y monitoring hooks` con tres fixtures distintos. `CASO-TAC-047-4A` debe continuar, el adverso debe devolve. Ante incumplimiento devuelve `STOP_CANARY`; sin `hooks` no se evalúa dominio y la incertidumbre cierra en `COLLECT_MORE_SHADOW_EVIDENCE`. Ancla theory: Shadow observa sin decidir; canary recibe tráfico limitado y monitoring hooks comparan calidad, drift, errores y negocio antes de promover. Campos usados: traffic_pct, error_rate, max_error_rate."
+    },
+    {
+      "exercise_id": "S47-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-TAC-047-4B\", **{\"current\": '1.2.0',\"last_good\": '1.1.0',\"compatible_features\": True,\"rollback_tested\": True,\"retired\": {'1.0.0'},\"audit_entry\": True}}\nmeets_contract = not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_TO_LAST_GOOD\"\nprint(\"S47-T4-B\", status)\n",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T4-B-E1",
+        "S47",
+        "Decide",
+        "contrato",
+        "rollback",
+        "retirement",
+        "audit",
+        "sobre"
+      ],
+      "justification_from_packet": "Explorer en S47-T4-B-E1 (guided): leí el paquete y el starter defectuoso. Predicado corregido: `not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])`. Instrucción del paquete: S47-T4-B-E1 · Decide el contrato de `rollback, retirement y audit` sobre `CASO-TAC-047-4B`. La entrada es el dict completo del starter; la operación debe demost. Ante incumplimiento devuelve `ROLLBACK_TO_LAST_GOOD`. Ancla theory: Rollback conserva modelo/config/features compatibles; retiro bloquea uso nuevo, mantiene audit y define fecha de eliminación. Campos usados: compatible_features, rollback_tested."
+    },
+    {
+      "exercise_id": "S47-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def assess(record: dict) -> str:\n    required = {\"case_id\", \"current\", \"last_good\", \"compatible_features\", \"rollback_tested\", \"retired\", \"audit_entry\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if (not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])) else \"ROLLBACK_TO_LAST_GOOD\"\n\nvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\ninvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': False, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\nincomplete = {**valid}\nincomplete.pop(\"audit_entry\", None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T4-B-E2",
+        "S47",
+        "Filtra",
+        "tres",
+        "rutas",
+        "rollback",
+        "retirement",
+        "audit"
+      ],
+      "justification_from_packet": "Explorer en S47-T4-B-E2 (independent): leí el paquete y el starter defectuoso. Predicado corregido: `not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])`. Instrucción del paquete: S47-T4-B-E2 · Filtra tres rutas de `rollback, retirement y audit`: fixture válido, fixture adverso y registro sin `audit_entry`. Entrada: dict con case_id, curr. Ante incumplimiento devuelve `ROLLBACK_TO_LAST_GOOD`; sin `audit_entry` no se evalúa dominio. Ancla theory: Rollback conserva modelo/config/features compatibles; retiro bloquea uso nuevo, mantiene audit y define fecha de eliminación. Campos usados: compatible_features, rollback_tested."
+    },
+    {
+      "exercise_id": "S47-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"current\", \"last_good\", \"compatible_features\", \"rollback_tested\", \"retired\", \"audit_entry\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_RETIREMENT\"\n    return \"CONTINUE\" if (not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])) else \"ROLLBACK_TO_LAST_GOOD\"\n\nvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': True, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\ninvalid = {'case_id': 'CASO-TAC-047-4B', 'current': '1.2.0', 'last_good': '1.1.0', 'compatible_features': False, 'rollback_tested': True, 'retired': {'1.0.0'}, 'audit_entry': True}\nincomplete = {**valid}\nincomplete.pop(\"audit_entry\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S47-T4-B-E3",
+        "S47",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "rollback",
+        "retirement"
+      ],
+      "justification_from_packet": "Explorer en S47-T4-B-E3 (transfer): leí el paquete y el starter defectuoso. Predicado corregido: `not (not record[\"compatible_features\"] or not record[\"rollback_tested\"])`. Instrucción del paquete: S47-T4-B-E3 · Demuestra fallo cerrado para `rollback, retirement y audit` con tres fixtures distintos. `CASO-TAC-047-4B` debe continuar, el adverso debe devolve. Ante incumplimiento devuelve `ROLLBACK_TO_LAST_GOOD`; sin `audit_entry` no se evalúa dominio y la incertidumbre cierra en `REVIEW_RETIREMENT`. Ancla theory: Rollback conserva modelo/config/features compatibles; retiro bloquea uso nuevo, mantiene audit y define fecha de eliminación. Campos usados: compatible_features, rollback_tested."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "confidence": 0.97,
+      "justification_from_packet": "Explorer SC0: elijo «rerun dentro de tolerancia declarada» porque el selfCheck del paquete pregunta «¿Qué evidencia permite aprobar `tracking y reproducibilidad` en CASO-TAC-047?» y esa opción alinea con el gate/evidencia del theory: Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver. Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "confidence": 0.97,
+      "justification_from_packet": "Explorer SC1: elijo «emitir ROLLBACK_MODEL y conservar evidencia» porque el selfCheck del paquete pregunta «Si ocurre la condición de error de S47, ¿qué respuesta preserva seguridad y auditabilidad?» y esa opción alinea con el gate/evidencia del theory: Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver. Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "confidence": 0.87,
+      "justification_from_packet": "Explorer SC2: elijo «solo gates aprobados promueven y una versión previa puede restaurarse sin perder evidencia» porque el selfCheck del paquete pregunta «¿Cuál resultado demuestra el gate `CP-N4-B + CF-4 · modelo promovible y reversible`?» y esa opción alinea con el gate/evidencia del theory: Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver. Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "confidence": 0.9,
+      "justification_from_packet": "Explorer SC3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el selfCheck del paquete pregunta «¿Qué tratamiento de `CASO-TAC-047` respeta el alcance del curso?» y esa opción alinea con el gate/evidencia del theory: Tracking registra parámetros, métricas, seed y artefactos; reproducibilidad requiere reejecutar el baseline, no solo ver. Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:36:45+00:00",
+  "session_started_at": "2026-07-23T12:36:35+00:00",
+  "session_ended_at": "2026-07-23T12:36:45+00:00",
+  "receipt_response_sha256": "f8d42fbd01feba371cf80cbda1fcd863835931da277b6953acda501b99e7e4db"
+}

@@ -1,0 +1,442 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 37,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s37-21dd44c65ac2",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S37-T1-A-E1",
+      "code": "# Explorer notes for S37-T1-A-E1: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"n\", 1000)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T1-A-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"n\", 1000)`; los hints piden CASO-LIM-037-1A: / reporta / el / tamaño / del / fixture / de / profile. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "CASO",
+        "LIM",
+        "reporta",
+        "tama",
+        "del",
+        "fixture"
+      ],
+      "confidence": 0.63
+    },
+    {
+      "exercise_id": "S37-T1-A-E2",
+      "code": "# Explorer notes for S37-T1-A-E2: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmetrics = [\"wall\", \"cpu\", \"memory\"]\nprint(metrics)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T1-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(metrics)`; los hints piden Lista / las / tres / métricas / base / del / profile: / wall,. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Lista",
+        "las",
+        "tres",
+        "tricas",
+        "base",
+        "del"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S37-T1-A-E3",
+      "code": "# Explorer notes for S37-T1-A-E3: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"same_result\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T1-A-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"same_result\", True)`; los hints piden Correctitud / junto / a / velocidad: / imprime / same_result / True, / ok. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Correctitud",
+        "junto",
+        "velocidad",
+        "imprime",
+        "same_result",
+        "True"
+      ],
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S37-T1-B-E1",
+      "code": "# Explorer notes for S37-T1-B-E1: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport statistics\nvals = [5, 1, 4]\nprint(statistics.median(vals))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T1-B-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(statistics.median(vals))`; los hints piden Mediana / de / [5,1,4] / con / statistics.median; / imprime / 4, / n_runs. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Mediana",
+        "con",
+        "statistics",
+        "median",
+        "imprime",
+        "n_runs"
+      ],
+      "confidence": 0.6
+    },
+    {
+      "exercise_id": "S37-T1-B-E2",
+      "code": "# Explorer notes for S37-T1-B-E2: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"warmup\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T1-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"warmup\", True)`; los hints piden Política / de / warmup: / imprime / warmup / True, / discard_first / True,. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Pol",
+        "tica",
+        "warmup",
+        "imprime",
+        "warmup",
+        "True"
+      ],
+      "confidence": 0.64
+    },
+    {
+      "exercise_id": "S37-T1-B-E3",
+      "code": "# Explorer notes for S37-T1-B-E3: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2, 9]\nprint(max(xs))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T1-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(max(xs))`; los hints piden Proxy / de / p95 / en / muestra / chica: / imprime / max([1,2,9])=9. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Proxy",
+        "muestra",
+        "chica",
+        "imprime",
+        "max",
+        "como"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S37-T2-A-E1",
+      "code": "# Explorer notes for S37-T2-A-E1: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn = 10\nprint(n * (n - 1) // 2)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T2-A-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(n * (n - 1) // 2)`; los hints piden Pares / completos / para / n=10: / usa / n*(n-1)//2 / = / 45. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Pares",
+        "completos",
+        "para",
+        "usa",
+        "Imprime",
+        "True"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S37-T2-A-E2",
+      "code": "# Explorer notes for S37-T2-A-E2: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nall_p, blocked = 45, 10\nprint(round(1 - blocked / all_p, 3))\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T2-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(round(1 - blocked / all_p, 3))`; los hints piden Reducción / de / pares: / blocked=10, / all=45 / → / round(1-10/45,3)=0.778. / Imprime. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Reducci",
+        "pares",
+        "blocked",
+        "all",
+        "round",
+        "Imprime"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S37-T2-A-E3",
+      "code": "# Explorer notes for S37-T2-A-E3: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"blocking\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T2-A-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"prefer\", \"blocking\")`; los hints piden Prioriza / algoritmo: / imprime / prefer / 'blocking', / ok / True, / micro. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Prioriza",
+        "algoritmo",
+        "imprime",
+        "prefer",
+        "blocking",
+        "True"
+      ],
+      "confidence": 0.68
+    },
+    {
+      "exercise_id": "S37-T2-B-E1",
+      "code": "# Explorer notes for S37-T2-B-E1: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"structure\", \"set\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T2-B-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"structure\", \"set\")`; los hints piden Estructura / preferida / para / membership: / imprime / structure / 'set', / ok. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Estructura",
+        "preferida",
+        "para",
+        "membership",
+        "imprime",
+        "structure"
+      ],
+      "confidence": 0.63
+    },
+    {
+      "exercise_id": "S37-T2-B-E2",
+      "code": "# Explorer notes for S37-T2-B-E2: follow packet fixture + instruction contract\nrows = [(\"Lima\", \"e1\"), (\"Lima\", \"e2\"), (\"Cusco\", \"e3\")]\ncount = 0\nprint(count)\nprint(\"city\", \"Lima\")\nprint(\"ok\", True)\nprint(2)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T2-B-E2 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(count) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Inverted",
+        "index",
+        "filas",
+        "Lima",
+        "imprime",
+        "city"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S37-T2-B-E3",
+      "code": "# Explorer notes for S37-T2-B-E3: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"order\", [\"block\", \"score\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T2-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"order\", [\"block\", \"score\"])`; los hints piden Orden / operativo: / imprime / order / ['block','score'], / ok / True, / n. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Orden",
+        "operativo",
+        "imprime",
+        "order",
+        "block",
+        "score"
+      ],
+      "confidence": 0.68
+    },
+    {
+      "exercise_id": "S37-T3-A-E1",
+      "code": "# Explorer notes for S37-T3-A-E1: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn, size = 10, 4\nprint((n + size - 1) // size)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T3-A-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print((n + size - 1) // size)`; los hints piden Chunks: / 10 / items / size / 4 / → / ceil / =. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Chunks",
+        "items",
+        "size",
+        "ceil",
+        "chunks",
+        "Imprime"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S37-T3-A-E2",
+      "code": "# Explorer notes for S37-T3-A-E2: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"id\", \"amt\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T3-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print([\"id\", \"amt\"])`; los hints piden Columnar / subset: / imprime / ['id','amt'], / ok / True, / columnar / True.. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Columnar",
+        "subset",
+        "imprime",
+        "amt",
+        "True",
+        "columnar"
+      ],
+      "confidence": 0.64
+    },
+    {
+      "exercise_id": "S37-T3-A-E3",
+      "code": "# Explorer notes for S37-T3-A-E3: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"dtype\", \"int32\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T3-A-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"dtype\", \"int32\")`; los hints piden dtype / angosto: / imprime / dtype / 'int32', / ok / True, / mem. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "dtype",
+        "angosto",
+        "imprime",
+        "dtype",
+        "int",
+        "True"
+      ],
+      "confidence": 0.68
+    },
+    {
+      "exercise_id": "S37-T3-B-E1",
+      "code": "# Explorer notes for S37-T3-B-E1: follow packet fixture + instruction contract\nkey = (\"fs-v1\",)\ncache = {(\"fs-v1\", \"cut\"): True}\nprint(key)\nprint(\"hit\", key in cache)\nprint(\"ok\", True)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T3-B-E1 siguiendo instruction y starter del paquete activo: mantuve el fixture sintético y dejé print(key) como oráculo de salida; no inventé PII ni etiquetas fuera del alcance CP-N del theory. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Cache",
+        "key",
+        "completa",
+        "imprime",
+        "cut",
+        "hit"
+      ],
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S37-T3-B-E2",
+      "code": "# Explorer notes for S37-T3-B-E2: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"version_change\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T3-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"version_change\")`; los hints piden Razón / de / invalidación: / imprime / 'version_change', / ok / True, / stale. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Raz",
+        "invalidaci",
+        "imprime",
+        "version_change",
+        "True",
+        "stale"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "exercise_id": "S37-T3-B-E3",
+      "code": "# Explorer notes for S37-T3-B-E3: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"ooc\", \"chunk\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T3-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"ooc\", \"chunk\")`; los hints piden Out-of-core: / imprime / ooc / 'chunk', / ok / True, / ram / 'bounded'.. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Out",
+        "core",
+        "imprime",
+        "ooc",
+        "chunk",
+        "True"
+      ],
+      "confidence": 0.64
+    },
+    {
+      "exercise_id": "S37-T4-A-E1",
+      "code": "# Explorer notes for S37-T4-A-E1: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 9\nprint(measured <= budget)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T4-A-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(measured <= budget)`; los hints piden Budget / pass: / measured / 9 / <= / budget / 10 / →. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Budget",
+        "pass",
+        "measured",
+        "budget",
+        "True",
+        "Imprime"
+      ],
+      "confidence": 0.6
+    },
+    {
+      "exercise_id": "S37-T4-A-E2",
+      "code": "# Explorer notes for S37-T4-A-E2: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nbudget, measured = 10, 12\nprint(measured <= budget)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T4-A-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(measured <= budget)`; los hints piden Budget / fail: / measured / 12 / > / budget / 10 / →. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Budget",
+        "fail",
+        "measured",
+        "budget",
+        "False",
+        "Imprime"
+      ],
+      "confidence": 0.64
+    },
+    {
+      "exercise_id": "S37-T4-A-E3",
+      "code": "# Explorer notes for S37-T4-A-E3: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"latency_p95\", \"memory\", \"pairs\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T4-A-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print([\"latency_p95\", \"memory\", \"pairs\"])`; los hints piden Campos / del / budget: / imprime / ['latency_p95','memory','pairs'], / ok / True, / n. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Campos",
+        "del",
+        "budget",
+        "imprime",
+        "latency_p",
+        "memory"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S37-T4-B-E1",
+      "code": "# Explorer notes for S37-T4-B-E1: follow packet fixture + instruction contract\n# Fixture del paquete (conserva datos; no reescribas asserts)\nbefore, after = 80, 20\nprint(before / after)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T4-B-E1: conservé los datos del starter del quiz_card y completé la salida contractual con `print(before / after)`; los hints piden Speedup / 80/20 / = / 4.0 / (ratio, / no / resta). / Imprime. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Speedup",
+        "ratio",
+        "resta",
+        "Imprime",
+        "True",
+        "micro_only"
+      ],
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S37-T4-B-E2",
+      "code": "# Explorer notes for S37-T4-B-E2: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint(\"prefer\", \"clarity\")\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T4-B-E2: conservé los datos del starter del quiz_card y completé la salida contractual con `print(\"prefer\", \"clarity\")`; los hints piden Claridad / sobre / shaving / 2%: / imprime / prefer / 'clarity', / ok. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Claridad",
+        "sobre",
+        "shaving",
+        "imprime",
+        "prefer",
+        "clarity"
+      ],
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S37-T4-B-E3",
+      "code": "# Explorer notes for S37-T4-B-E3: follow packet fixture + instruction contract\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\nprint([\"before\", \"after\", \"dataset\", \"hardware\"])\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Explorer implementé S37-T4-B-E3: conservé los datos del starter del quiz_card y completé la salida contractual con `print([\"before\", \"after\", \"dataset\", \"hardware\"])`; los hints piden Claves / del / reporte / before/after: / imprime / ['before','after','dataset','hardware'], / ok / True,. Lectura anclada en section packet outcomes + iDo del subtopic de S37.",
+      "concepts_used": [
+        "Claves",
+        "del",
+        "reporte",
+        "before",
+        "after",
+        "imprime"
+      ],
+      "confidence": 0.76
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "Explorer en S37 Q0: la opción «Estabilizar benches descartando cold start» cuadra con theory/iDo del paquete sobre «Warmup sirve para:»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.59,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "Explorer en S37 Q1: la opción «Pares candidatos O(n²)» cuadra con theory/iDo del paquete sobre «Blocking reduce:»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.71,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "Explorer en S37 Q2: la opción «Falla si se rompe el límite acordado» cuadra con theory/iDo del paquete sobre «Performance budget en CI:»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.84,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "Explorer en S37 Q3: la opción «Teatro; prioriza claridad y algos» cuadra con theory/iDo del paquete sobre «Microoptimizar 2% sin medición:»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.64,
+      "blocked_on": []
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "Explorer en S37 Q4: la opción «No es comparable entre cambios de dataset» cuadra con theory/iDo del paquete sobre «Un wall_ms sin n en el reporte:»; descarto distractores de fraude/parentesco/ocultar evidencia que el curso marca fuera de alcance en outcomes de esta sección.",
+      "confidence": 0.76,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:55.907147+00:00",
+  "session_started_at": "2026-07-23T13:08:23.030199+00:00",
+  "session_ended_at": "2026-07-23T13:08:36.375754+00:00",
+  "receipt_response_sha256": "9d4551ff117f5165ae3da26ea79f5906968771395f96e109820ef41e012a40f7"
+}

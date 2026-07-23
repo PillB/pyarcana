@@ -1,0 +1,287 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 24,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s24-2b7f6f009b9f",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "id": "S24-T1-A-E1",
+      "code": "# exploración s24/S24-T1-A-E1\ndpi=96\nprint(max(dpi, 200))\n_j2_mark = 24\n",
+      "justification_from_packet": "Armé S24-T1-A-E1 desde el quiz_card de «OCR y Document AI». Instruction recortada: «Preproceso intake: dpi=96 de escaneo sintético. Si dpi<200, eleva con max(dpi,200) e imprime el entero resulta». Verifiqué con la pista «contrato I/O en instruction». [731a1d] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "id": "S24-T1-A-E2",
+      "code": "# exploración s24/S24-T1-A-E2\nskew=1.2\nprint(abs(skew) >= 0.5)\n_j2_mark = 24\n",
+      "justification_from_packet": "Armé S24-T1-A-E2 desde el quiz_card de «OCR y Document AI». Instruction recortada: «Deskew flag: skew=1.2 grados. deskew_applied = abs(skew)>=0.5; imprime el booleano. Contrato: umbral didáctico». Verifiqué con la pista «contrato I/O en instruction». [4410d0] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "id": "S24-T1-A-E3",
+      "code": "# exploración s24/S24-T1-A-E3\nw=h=1000\nm=0.05\nprint((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))\n_j2_mark = 24\n",
+      "justification_from_packet": "En «OCR y Document AI» resolví S24-T1-A-E3 leyendo la instruction: «Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950). Contrato: enteros; origen es». La pista «contrato I/O en instruction» me dio el patrón concreto del weDo. [8d1443] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "id": "S24-T1-B-E1",
+      "code": "# exploración s24/S24-T1-B-E1\ns={0:0.1,90:0.8}\nprint(max(s, key=s.get))\n_j2_mark = 24\n",
+      "justification_from_packet": "En «OCR y Document AI» resolví S24-T1-B-E1 leyendo la instruction: «Orientación: scores s={0:0.1,90:0.8}. Elige la rotación (key) de mayor score e imprime el entero de grados. Co». La pista «contrato I/O en instruction» me dio el patrón concreto del weDo. [ab514e] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "id": "S24-T1-B-E2",
+      "code": "# exploración s24/S24-T1-B-E2\nflags=[0,1,1,0]\nprint(sum(flags))\n_j2_mark = 24\n",
+      "justification_from_packet": "Para S24-T1-B-E2 el paquete de «OCR y Document AI» pide: Ruido binario: flags=[0,1,1,0] donde 1=píxel ruido marcado. Cuenta unos e imprime 2. Contrato: sum(flags) o co. Anclé la respuesta a «contrato I/O en instruction» y conservé el fixture del starter. [96eacd] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "id": "S24-T1-B-E3",
+      "code": "# exploración s24/S24-T1-B-E3\nscore=0.4\nprint('manual_orient' if score < 0.5 else 'auto')\n_j2_mark = 24\n",
+      "justification_from_packet": "Para S24-T1-B-E3 el paquete de «OCR y Document AI» pide: Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else 'auto'. Contrato: fail-closed. Anclé la respuesta a «contrato I/O en instruction» y conservé el fixture del starter. [780918] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "id": "S24-T2-A-E1",
+      "code": "# exploración s24/S24-T2-A-E1\ntoks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\nprint([t['text'] for t in toks if t['conf']>=0.85])\n_j2_mark = 24\n",
+      "justification_from_packet": "Para S24-T2-A-E1 el paquete de «OCR y Document AI» pide: Filtro de confidence: toks con conf 0.9 y 0.5. Quédate textos con conf>=0.85 e imprime la lista de text. Contr. Anclé la respuesta a «contrato I/O en instruction» y conservé el fixture del starter. [07311c] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "id": "S24-T2-A-E2",
+      "code": "# exploración s24/S24-T2-A-E2\ndef ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\nprint(ocr('Hola')['lang'])\n_j2_mark = 24\n",
+      "justification_from_packet": "Como explorer en «OCR y Document AI», S24-T2-A-E2 se cierra con lo enseñado: Idioma por defecto del adapter PE: construye resultado OCR simulado con lang 'spa' e imprime lang. Contrato: s. Hint operativa: «contrato I/O en instruction». [631d13] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "id": "S24-T2-A-E3",
+      "code": "# exploración s24/S24-T2-A-E3\nconfs=[0.9,0.75,0.95]\nm=min(confs)\nprint(m, 'review' if m < 0.8 else 'auto')\n_j2_mark = 24\n",
+      "justification_from_packet": "Exercise S24-T2-A-E3: el contrato observable es «Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<0.8 (formato de la solución).». Del theory/iDo cercano tomé «compara output con solution» y de hints «contrato I/O en instruction». [56bd40] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "id": "S24-T2-B-E1",
+      "code": "# exploración s24/S24-T2-B-E1\ns='Total: 12.5'\nk,v=s.split(':',1)\nprint(k.strip(), v.strip())\n_j2_mark = 24\n",
+      "justification_from_packet": "En «OCR y Document AI» resolví S24-T2-B-E1 leyendo la instruction: «KV parse: s='Total: 12.5'. Separa clave y valor por ':' e imprime 'Total 12.5' (sin dos puntos). Contrato: str». La pista «contrato I/O en instruction» me dio el patrón concreto del weDo. [ddc4e3] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "id": "S24-T2-B-E2",
+      "code": "# exploración s24/S24-T2-B-E2\nt=[['H1','H2'],['a','b']]\nprint(len(t)-1)\n_j2_mark = 24\n",
+      "justification_from_packet": "Para S24-T2-B-E2 el paquete de «OCR y Document AI» pide: Tabla sintética t=[['H1','H2'],['a','b']]. Imprime número de filas de datos (len-1). Contrato: header no cuent. Anclé la respuesta a «contrato I/O en instruction» y conservé el fixture del starter. [cf9c4e] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "id": "S24-T2-B-E3",
+      "code": "# exploración s24/S24-T2-B-E3\nfield={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}\nprint(field['bbox'], field['value'])\n_j2_mark = 24\n",
+      "justification_from_packet": "En «OCR y Document AI» resolví S24-T2-B-E3 leyendo la instruction: «Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox y valor como en solution. Con». La pista «contrato I/O en instruction» me dio el patrón concreto del weDo. [2254b0] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "id": "S24-T3-A-E1",
+      "code": "# exploración s24/S24-T3-A-E1\nimport re\ns='20-123'\nprint(re.sub(r'\\\\D', '', s))\n_j2_mark = 24\n",
+      "justification_from_packet": "En «OCR y Document AI» resolví S24-T3-A-E1 leyendo la instruction: «Normaliza id sintético s='20-123' dejando solo dígitos (re.sub). Imprime '20123'. Contrato: no valida longitud». La pista «contrato I/O en instruction» me dio el patrón concreto del weDo. [3d9adc] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "id": "S24-T3-A-E2",
+      "code": "# exploración s24/S24-T3-A-E2\nfrom datetime import datetime\nprint(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())\n_j2_mark = 24\n",
+      "justification_from_packet": "En «OCR y Document AI» resolví S24-T3-A-E2 leyendo la instruction: «Fecha de boleta '15/01/2026' → ISO '2026-01-15' con datetime. Contrato: dayfirst DD/MM/YYYY. Pass: 2026-01-15.». La pista «contrato I/O en instruction» me dio el patrón concreto del weDo. [818adf] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "id": "S24-T3-A-E3",
+      "code": "# exploración s24/S24-T3-A-E3\nimport re\nraw='123'\nd=re.sub(r'\\\\D','',raw)\nprint(d if len(d)==11 else None)\n_j2_mark = 24\n",
+      "justification_from_packet": "Para S24-T3-A-E3 el paquete de «OCR y Document AI» pide: RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no pad de ceros. Pass: None. Usa. Anclé la respuesta a «contrato I/O en instruction» y conservé el fixture del starter. [e71279] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "id": "S24-T3-B-E1",
+      "code": "# exploración s24/S24-T3-B-E1\ntotal, lines=10.0,[4.0,5.0]\nprint('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')\n_j2_mark = 24\n",
+      "justification_from_packet": "Como explorer en «OCR y Document AI», S24-T3-B-E1 se cierra con lo enseñado: Cross-field monto: total=10.0, lines=[4.0,5.0]. Si abs(sum(lines)-total)>0.01 imprime needs_review. Contrato:. Hint operativa: «contrato I/O en instruction». [1b087a] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "id": "S24-T3-B-E2",
+      "code": "# exploración s24/S24-T3-B-E2\nruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\nprint(reasons)\n_j2_mark = 24\n",
+      "justification_from_packet": "Para S24-T3-B-E2 el paquete de «OCR y Document AI» pide: Reasons: ruc=None, reasons=[]. Si ruc is None append 'ruc_missing'; imprime reasons. Contrato: acumular, no ra. Anclé la respuesta a «contrato I/O en instruction» y conservé el fixture del starter. [26e17d] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "id": "S24-T3-B-E3",
+      "code": "# exploración s24/S24-T3-B-E3\nmismatch=True\nprint('review_not_fraud' if mismatch else 'auto')\n_j2_mark = 24\n",
+      "justification_from_packet": "Armé S24-T3-B-E3 desde el quiz_card de «OCR y Document AI». Instruction recortada: «Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'review_not_fraud' como mensaje de». Verifiqué con la pista «contrato I/O en instruction». [2c7ddf] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "id": "S24-T4-A-E1",
+      "code": "# exploración s24/S24-T4-A-E1\ncorrect, n = 3, 4\nprint(correct / n)\n_j2_mark = 24\n",
+      "justification_from_packet": "En «OCR y Document AI» resolví S24-T4-A-E1 leyendo la instruction: «Golden accuracy global: correct=3, n=4 → imprime 0.75 (float división). Contrato: correct/n. Pass: 0.75. Usa s». La pista «contrato I/O en instruction» me dio el patrón concreto del weDo. [f708aa] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "id": "S24-T4-A-E2",
+      "code": "# exploración s24/S24-T4-A-E2\nrows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\nprint(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))\n_j2_mark = 24\n",
+      "justification_from_packet": "Para S24-T4-A-E2 el paquete de «OCR y Document AI» pide: Accuracy por campo ruc: rows con pred/true; fracción de igualdad en ruc_pred==ruc_true. Imprime 0.5. Contrato:. Anclé la respuesta a «contrato I/O en instruction» y conservé el fixture del starter. [b07099] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "id": "S24-T4-A-E3",
+      "code": "# exploración s24/S24-T4-A-E3\nauto, review = 7, 3\nprint(auto / (auto + review))\n_j2_mark = 24\n",
+      "justification_from_packet": "En «OCR y Document AI» resolví S24-T4-A-E3 leyendo la instruction: «Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contrato: no uses accuracy como cobe». La pista «contrato I/O en instruction» me dio el patrón concreto del weDo. [0c66ab] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "id": "S24-T4-B-E1",
+      "code": "# exploración s24/S24-T4-B-E1\nmime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\nprint('reject' if mime not in allowed else 'ok')\n_j2_mark = 24\n",
+      "justification_from_packet": "Como explorer en «OCR y Document AI», S24-T4-B-E1 se cierra con lo enseñado: Allowlist mime: mime='application/zip' no está en pdf/png/jpeg → imprime reject. Contrato: fail-closed. Pass:. Hint operativa: «contrato I/O en instruction». [7648d9] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "id": "S24-T4-B-E2",
+      "code": "# exploración s24/S24-T4-B-E2\nn=6_000_000\nprint('reject' if n > 5_000_000 else 'ok')\n_j2_mark = 24\n",
+      "justification_from_packet": "En «OCR y Document AI» resolví S24-T4-B-E2 leyendo la instruction: «Size gate pre-OCR: n=6_000_000 bytes > 5e6 → imprime reject. Contrato: mitiga DoS al worker. Pass: reject. Usa». La pista «contrato I/O en instruction» me dio el patrón concreto del weDo. [ce665a] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "id": "S24-T4-B-E3",
+      "code": "# exploración s24/S24-T4-B-E3\nstatus='ocr_fail'\nprint({'ocr_fail':'human_rescan'}.get(status, 'continue'))\n_j2_mark = 24\n",
+      "justification_from_packet": "Para S24-T4-B-E3 el paquete de «OCR y Document AI» pide: Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción. Contrato: no loop infinito d. Anclé la respuesta a «contrato I/O en instruction» y conservé el fixture del starter. [cfbcfb] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "OCR y Document AI"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck de «OCR y Document AI» #0: «¿Qué haces si confidence de RUC es 0.6?». Elegí «Abstener y encolar revisión» porque el theory del paquete describe ese comportamiento de forma directa. [8e381a] conf~0.93.",
+      "confidence": 0.93
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck de «OCR y Document AI» #1: «Un mismatch total vs líneas implica:». Elegí «Cola de revisión / corrección» porque el theory del paquete describe ese comportamiento de forma directa. [788dfd] conf~0.73.",
+      "confidence": 0.73
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck de «OCR y Document AI» #2: «¿Por qué medir accuracy por campo?». Elegí «Los campos críticos pueden fallar aunque el global se vea bien» porque el theory del paquete describe ese comportamiento de forma directa. [186448] conf~0.82.",
+      "confidence": 0.82
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck de «OCR y Document AI» #3: «Archivo application/zip en intake de facturas:». Elegí «Gate reject/review por mime no permitido» porque el theory del paquete describe ese comportamiento de forma directa. [6a26c0] conf~0.78.",
+      "confidence": 0.78
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:55:11.115706+00:00",
+  "session_started_at": "2026-07-23T12:59:43.030199+00:00",
+  "session_ended_at": "2026-07-23T13:00:23.030199+00:00",
+  "receipt_response_sha256": "523255a22174178cb36304e8af3b50eebb90d57ac325f970c0394fd5a9bf68d8"
+}

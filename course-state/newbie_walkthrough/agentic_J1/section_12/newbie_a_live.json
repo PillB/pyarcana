@@ -1,0 +1,370 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_J1",
+  "section_index": 12,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-exp-s12-f40227a7c4",
+  "production_note": "agentic_J1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S12-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "class MockResponse:\n    def __init__(self, status_code, payload):\n        self.status_code = status_code\n        self._payload = payload\n    def json(self):\n        return self._payload\n\ndef get_entity(store, entity_id):\n    if entity_id not in store:\n        return MockResponse(404, {\"error\": \"not_found\"})\n    return MockResponse(200, store[entity_id])\n\nstore = {\"C001\": {\"id\": \"C001\", \"region\": \"Lima\", \"score\": 0.8}}\nok = get_entity(store, \"C001\")\nmiss = get_entity(store, \"C999\")\nprint(\"200 keys:\", sorted(ok.json().keys()), \"status\", ok.status_code)\nprint(\"404 status\", miss.status_code, \"body\", miss.json())\nprint('ok')",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T1-A («requests/responses, status y JSON»), armé la entrega guiado leyendo la teoría del paquete sobre GET/POST, status code, cliente mock, urllib. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerpo (a menudo JSON). En este curso usamos un **cliente mock** o `urllib` con fixtu…»."
+    },
+    {
+      "exercise_id": "S12-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "class MockResponse:\n    def __init__(self, status_code, payload):\n        self.status_code = status_code\n        self._payload = payload\n    def json(self):\n        return self._payload\n\ndef get_entity(store, entity_id):\n    if entity_id not in store:\n        return MockResponse(404, {\"error\": \"not_found\"})\n    return MockResponse(200, store[entity_id])\n\nstore = {\"C001\": {\"id\": \"C001\", \"region\": \"Lima\", \"score\": 0.8}}\nok = get_entity(store, \"C001\")\nmiss = get_entity(store, \"C999\")\nprint(\"200 keys:\", sorted(ok.json().keys()), \"status\", ok.status_code)\nprint(\"404 status\", miss.status_code, \"body\", miss.json())\nprint('ok')",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T1-A («requests/responses, status y JSON»), armé la entrega independiente leyendo la teoría del paquete sobre GET/POST, status code, cliente mock, urllib. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerpo (a menudo JSON). En este curso usamos un **cliente mock** o `urllib` con fixtu…»."
+    },
+    {
+      "exercise_id": "S12-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "STATUS_ACTION = {\n    200: \"use_body\",\n    404: \"missing\",\n    429: \"retry\",\n    500: \"retry\",\n    400: \"fix_client\",\n}",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T1-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T1-A («requests/responses, status y JSON»), armé la entrega transferencia leyendo la teoría del paquete sobre GET/POST, status code, cliente mock, urllib. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Un cliente HTTP síncrono hace **GET/POST**, recibe un **status code** y un cuerpo (a menudo JSON). En este curso usamos un **cliente mock** o `urllib` con fixtu…»."
+    },
+    {
+      "exercise_id": "S12-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import time\n\npages = {\n    1: {\"items\": [\"s1\", \"s2\"], \"next\": 2},\n    2: {\"items\": [\"s3\"], \"next\": 3},\n    3: {\"items\": [\"s4\"], \"next\": None},\n}\n\ndef fetch_page(n):\n    return pages[n]\n\nall_items = []\npage = 1\ndelays = 0\nwhile page is not None:\n    data = fetch_page(page)\n    all_items.extend(data[\"items\"])\n    page = data[\"next\"]\n    if page is not None:\n        delays += 1  # simula rate-limit sleep\nprint(\"items\", all_items, \"rate_limit_pauses\", delays)\nprint('ok')",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T1-B («Timeout, paginación, retry/backoff y rate limit»), armé la entrega guiado leyendo la teoría del paquete sobre Timeout, Paginación, page, cursor. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «**Timeout** acota la espera por request. **Paginación** (`page` o `cursor`/`next`) recorre colecciones grandes sin traer todo de una vez. En APIs y geodatos, el…»."
+    },
+    {
+      "exercise_id": "S12-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "print(\"protocolo S12-T1-B-E2\")\nprint(\"contrato packet: entrada explícita → transformación → salida medible\")",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T1-B («Timeout, paginación, retry/backoff y rate limit»), armé la entrega independiente leyendo la teoría del paquete sobre Timeout, Paginación, page, cursor. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «**Timeout** acota la espera por request. **Paginación** (`page` o `cursor`/`next`) recorre colecciones grandes sin traer todo de una vez. En APIs y geodatos, el…»."
+    },
+    {
+      "exercise_id": "S12-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import time\n\npages = {\n    1: {\"items\": [\"s1\", \"s2\"], \"next\": 2},\n    2: {\"items\": [\"s3\"], \"next\": 3},\n    3: {\"items\": [\"s4\"], \"next\": None},\n}\n\ndef fetch_page(n):\n    return pages[n]\n\nall_items = []\npage = 1\ndelays = 0\nwhile page is not None:\n    data = fetch_page(page)\n    all_items.extend(data[\"items\"])\n    page = data[\"next\"]\n    if page is not None:\n        delays += 1  # simula rate-limit sleep\nprint(\"items\", all_items, \"rate_limit_pauses\", delays)\nprint('ok')",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T1-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T1-B («Timeout, paginación, retry/backoff y rate limit»), armé la entrega transferencia leyendo la teoría del paquete sobre Timeout, Paginación, page, cursor. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «**Timeout** acota la espera por request. **Paginación** (`page` o `cursor`/`next`) recorre colecciones grandes sin traer todo de una vez. En APIs y geodatos, el…»."
+    },
+    {
+      "exercise_id": "S12-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import os, hashlib, time, json\n\nos.environ[\"API_TOKEN\"] = \"demo-token-not-real\"\n\ndef get_token():\n    tok = os.environ.get(\"API_TOKEN\")\n    if not tok:\n        raise RuntimeError(\"API_TOKEN missing\")\n    return tok\n\nCACHE = {}\ndef cached_get(url, ttl=60):\n    key = hashlib.sha256(url.encode()).hexdigest()[:12]\n    now = time.time()\n    if key in CACHE and now - CACHE[key][\"ts\"] < ttl:\n        return CACHE[key][\"body\"], True\n    body = {\"url\": url, \"ok\": True}\n    CACHE[key] = {\"ts\": now, \"body\": body}\n    return body, False\n\ntoken = get_token()\nbody, hit = cached_get(\"https://api.example.com/signals\")\nprov = {\n    \"source_url\": \"https://api.example.com/signals\",\n    \"fetched_at\": \"2026-07-20T12:00:00Z\",\n    \"cache_hit\": hit,\n    \"auth\": \"bearer\",\n    # token NEVER in provenance dump\n}\nprint(\"token_len\", len(token))\nprint(\"cache_hit\", hit)\nprint(\"provenance\", json.dumps(prov, sort_keys=True))\nbody2, hit2 = cached_get(\"https://api.example.com/signals\")\nprint(\"second_hit\", hit2)\nprint('ok')",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T2-A («Auth, secretos, cache y provenance»), armé la entrega guiado leyendo la teoría del paquete sobre Bearer, variable de entorno. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Autenticación **Bearer** o basic lee el token de **variable de entorno**, nunca hardcodeado. Si falta el secreto, falla cerrado con mensaje claro. En APIs y geo…»."
+    },
+    {
+      "exercise_id": "S12-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import os, hashlib, time, json\n\nos.environ[\"API_TOKEN\"] = \"demo-token-not-real\"\n\ndef get_token():\n    tok = os.environ.get(\"API_TOKEN\")\n    if not tok:\n        raise RuntimeError(\"API_TOKEN missing\")\n    return tok\n\nCACHE = {}\ndef cached_get(url, ttl=60):\n    key = hashlib.sha256(url.encode()).hexdigest()[:12]\n    now = time.time()\n    if key in CACHE and now - CACHE[key][\"ts\"] < ttl:\n        return CACHE[key][\"body\"], True\n    body = {\"url\": url, \"ok\": True}\n    CACHE[key] = {\"ts\": now, \"body\": body}\n    return body, False\n\ntoken = get_token()\nbody, hit = cached_get(\"https://api.example.com/signals\")\nprov = {\n    \"source_url\": \"https://api.example.com/signals\",\n    \"fetched_at\": \"2026-07-20T12:00:00Z\",\n    \"cache_hit\": hit,\n    \"auth\": \"bearer\",\n    # token NEVER in provenance dump\n}\nprint(\"token_len\", len(token))\nprint(\"cache_hit\", hit)\nprint(\"provenance\", json.dumps(prov, sort_keys=True))\nbody2, hit2 = cached_get(\"https://api.example.com/signals\")\nprint(\"second_hit\", hit2)\nprint('ok')",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T2-A («Auth, secretos, cache y provenance»), armé la entrega independiente leyendo la teoría del paquete sobre Bearer, variable de entorno. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Autenticación **Bearer** o basic lee el token de **variable de entorno**, nunca hardcodeado. Si falta el secreto, falla cerrado con mensaje claro. En APIs y geo…»."
+    },
+    {
+      "exercise_id": "S12-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import os, hashlib, time, json\n\nos.environ[\"API_TOKEN\"] = \"demo-token-not-real\"\n\ndef get_token():\n    tok = os.environ.get(\"API_TOKEN\")\n    if not tok:\n        raise RuntimeError(\"API_TOKEN missing\")\n    return tok\n\nCACHE = {}\ndef cached_get(url, ttl=60):\n    key = hashlib.sha256(url.encode()).hexdigest()[:12]\n    now = time.time()\n    if key in CACHE and now - CACHE[key][\"ts\"] < ttl:\n        return CACHE[key][\"body\"], True\n    body = {\"url\": url, \"ok\": True}\n    CACHE[key] = {\"ts\": now, \"body\": body}\n    return body, False\n\ntoken = get_token()\nbody, hit = cached_get(\"https://api.example.com/signals\")\nprov = {\n    \"source_url\": \"https://api.example.com/signals\",\n    \"fetched_at\": \"2026-07-20T12:00:00Z\",\n    \"cache_hit\": hit,\n    \"auth\": \"bearer\",\n    # token NEVER in provenance dump\n}\nprint(\"token_len\", len(token))\nprint(\"cache_hit\", hit)\nprint(\"provenance\", json.dumps(prov, sort_keys=True))\nbody2, hit2 = cached_get(\"https://api.example.com/signals\")\nprint(\"second_hit\", hit2)\nprint('ok')",
+      "confidence": 0.94,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T2-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T2-A («Auth, secretos, cache y provenance»), armé la entrega transferencia leyendo la teoría del paquete sobre Bearer, variable de entorno. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Autenticación **Bearer** o basic lee el token de **variable de entorno**, nunca hardcodeado. Si falta el secreto, falla cerrado con mensaje claro. En APIs y geo…»."
+    },
+    {
+      "exercise_id": "S12-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "REQUIRED = {\"lat\", \"lon\", \"label\"}\n\ndef assert_contract(payload):\n    missing = REQUIRED - set(payload)\n    if missing:\n        raise AssertionError(f\"missing keys: {sorted(missing)}\")\n    return True\n\ndef geocode(addr, online=True):\n    if online:\n        # mock online ok\n        return {\"lat\": -12.0464, \"lon\": -77.0428, \"label\": addr, \"mode\": \"online\"}\n    return {\"lat\": -12.05, \"lon\": -77.04, \"label\": addr, \"mode\": \"offline_fallback\"}\n\nfix = {\"lat\": -16.4090, \"lon\": -71.5375, \"label\": \"Arequipa\"}\nprint(\"contract\", assert_contract(fix))\nprint(\"online\", geocode(\"Lima\", online=True)[\"mode\"])\nprint(\"offline\", geocode(\"Lima\", online=False)[\"mode\"])\nprint('ok')",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T2-B («Contract tests y fallback»), armé la entrega guiado leyendo la teoría del paquete sobre contract test. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Un **contract test** fija las claves obligatorias del JSON del proveedor (fixture). Si el schema cambia, el test falla antes de producción. En APIs y geodatos, …»."
+    },
+    {
+      "exercise_id": "S12-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "REQUIRED = {\"lat\", \"lon\", \"label\"}\n\ndef assert_contract(payload):\n    missing = REQUIRED - set(payload)\n    if missing:\n        raise AssertionError(f\"missing keys: {sorted(missing)}\")\n    return True\n\ndef geocode(addr, online=True):\n    if online:\n        # mock online ok\n        return {\"lat\": -12.0464, \"lon\": -77.0428, \"label\": addr, \"mode\": \"online\"}\n    return {\"lat\": -12.05, \"lon\": -77.04, \"label\": addr, \"mode\": \"offline_fallback\"}\n\nfix = {\"lat\": -16.4090, \"lon\": -71.5375, \"label\": \"Arequipa\"}\nprint(\"contract\", assert_contract(fix))\nprint(\"online\", geocode(\"Lima\", online=True)[\"mode\"])\nprint(\"offline\", geocode(\"Lima\", online=False)[\"mode\"])\nprint('ok')",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T2-B («Contract tests y fallback»), armé la entrega independiente leyendo la teoría del paquete sobre contract test. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Un **contract test** fija las claves obligatorias del JSON del proveedor (fixture). Si el schema cambia, el test falla antes de producción. En APIs y geodatos, …»."
+    },
+    {
+      "exercise_id": "S12-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "matrix = {\n    True: \"live_api\",\n    False: \"local_file\",\n}",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T2-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T2-B («Contract tests y fallback»), armé la entrega transferencia leyendo la teoría del paquete sobre contract test. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Un **contract test** fija las claves obligatorias del JSON del proveedor (fixture). Si el schema cambia, el test falla antes de producción. En APIs y geodatos, …»."
+    },
+    {
+      "exercise_id": "S12-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3",
+      "confidence": 0.91,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T3-A («Esquema, CRUD y joins»), armé la entrega guiado leyendo la teoría del paquete sobre sqlite3, clients, transactions, evidence. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «SQLite vía `sqlite3` basta para el almacén local de CP-N1-C: tablas `clients`, `transactions`, `evidence`. En APIs y geodatos, el *porqué* es operativo: reduce …»."
+    },
+    {
+      "exercise_id": "S12-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T3-A («Esquema, CRUD y joins»), armé la entrega independiente leyendo la teoría del paquete sobre sqlite3, clients, transactions, evidence. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «SQLite vía `sqlite3` basta para el almacén local de CP-N1-C: tablas `clients`, `transactions`, `evidence`. En APIs y geodatos, el *porqué* es operativo: reduce …»."
+    },
+    {
+      "exercise_id": "S12-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T3-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T3-A («Esquema, CRUD y joins»), armé la entrega transferencia leyendo la teoría del paquete sobre sqlite3, clients, transactions, evidence. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «SQLite vía `sqlite3` basta para el almacén local de CP-N1-C: tablas `clients`, `transactions`, `evidence`. En APIs y geodatos, el *porqué* es operativo: reduce …»."
+    },
+    {
+      "exercise_id": "S12-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T3-B («Parámetros, transacciones, constraints e índices»), armé la entrega guiado leyendo la teoría del paquete sobre ?, :name, Prohibido. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Usa placeholders `?` (o `:name`). **Prohibido** armar SQL con f-strings de input de usuario: es inyección. En APIs y geodatos, el *porqué* es operativo: reduce …»."
+    },
+    {
+      "exercise_id": "S12-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T3-B («Parámetros, transacciones, constraints e índices»), armé la entrega independiente leyendo la teoría del paquete sobre ?, :name, Prohibido. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Usa placeholders `?` (o `:name`). **Prohibido** armar SQL con f-strings de input de usuario: es inyección. En APIs y geodatos, el *porqué* es operativo: reduce …»."
+    },
+    {
+      "exercise_id": "S12-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import sqlite3",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T3-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T3-B («Parámetros, transacciones, constraints e índices»), armé la entrega transferencia leyendo la teoría del paquete sobre ?, :name, Prohibido. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Usa placeholders `?` (o `:name`). **Prohibido** armar SQL con f-strings de input de usuario: es inyección. En APIs y geodatos, el *porqué* es operativo: reduce …»."
+    },
+    {
+      "exercise_id": "S12-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import re\n\ndef normalize_address(s: str) -> str:\n    s = re.sub(r\"\\s+\", \" \", s.strip())\n    return s.title()\n\nclass MockGeocoder:\n    TABLE = {\n        \"Lima\": (-12.0464, -77.0428),\n        \"Arequipa\": (-16.4090, -71.5375),\n    }\n    def geocode(self, city: str):\n        coords = self.TABLE.get(city.title())\n        if not coords:\n            return None\n        lat, lon = coords\n        return {\"city\": city.title(), \"lat\": lat, \"lon\": lon, \"provider\": \"mock\"}\n\naddr = normalize_address(\"  av.  larco  123  \")\ngeo = MockGeocoder().geocode(\"lima\")\nprint(\"addr\", addr)\nprint(\"geo\", geo)\nprint('ok')",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T4-A («Normalización y geocoding autorizado»), armé la entrega guiado leyendo la teoría del paquete sobre Normalización y geocoding autorizado. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No inventes campos que no vinieron. En APIs y geodatos, el *porqué* es operativo: r…»."
+    },
+    {
+      "exercise_id": "S12-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import re\n\ndef normalize_address(s: str) -> str:\n    s = re.sub(r\"\\s+\", \" \", s.strip())\n    return s.title()\n\nclass MockGeocoder:\n    TABLE = {\n        \"Lima\": (-12.0464, -77.0428),\n        \"Arequipa\": (-16.4090, -71.5375),\n    }\n    def geocode(self, city: str):\n        coords = self.TABLE.get(city.title())\n        if not coords:\n            return None\n        lat, lon = coords\n        return {\"city\": city.title(), \"lat\": lat, \"lon\": lon, \"provider\": \"mock\"}\n\naddr = normalize_address(\"  av.  larco  123  \")\ngeo = MockGeocoder().geocode(\"lima\")\nprint(\"addr\", addr)\nprint(\"geo\", geo)\nprint('ok')",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T4-A («Normalización y geocoding autorizado»), armé la entrega independiente leyendo la teoría del paquete sobre Normalización y geocoding autorizado. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No inventes campos que no vinieron. En APIs y geodatos, el *porqué* es operativo: r…»."
+    },
+    {
+      "exercise_id": "S12-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import re\n\ndef normalize_address(s: str) -> str:\n    s = re.sub(r\"\\s+\", \" \", s.strip())\n    return s.title()\n\nclass MockGeocoder:\n    TABLE = {\n        \"Lima\": (-12.0464, -77.0428),\n        \"Arequipa\": (-16.4090, -71.5375),\n    }\n    def geocode(self, city: str):\n        coords = self.TABLE.get(city.title())\n        if not coords:\n            return None\n        lat, lon = coords\n        return {\"city\": city.title(), \"lat\": lat, \"lon\": lon, \"provider\": \"mock\"}\n\naddr = normalize_address(\"  av.  larco  123  \")\ngeo = MockGeocoder().geocode(\"lima\")\nprint(\"addr\", addr)\nprint(\"geo\", geo)\nprint('ok')",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T4-A",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T4-A («Normalización y geocoding autorizado»), armé la entrega transferencia leyendo la teoría del paquete sobre Normalización y geocoding autorizado. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Normaliza direcciones sintéticas: trim, colapsa espacios, title-case ligero. No inventes campos que no vinieron. En APIs y geodatos, el *porqué* es operativo: r…»."
+    },
+    {
+      "exercise_id": "S12-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import math\n\ndef valid_coord(lat, lon):\n    return -90 <= lat <= 90 and -180 <= lon <= 180\n\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat, dlon = lat2 - lat1, lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\n\nlima = (-12.0464, -77.0428)\ncallao = (-12.0500, -77.1250)\nprint(\"valid\", valid_coord(*lima))\nprint(\"invalid\", valid_coord(91, 0))\nd = haversine_km(lima, callao)\nprint(\"km_approx\", round(d, 2))\nprint(\"signal_only\", \"relationship_signal not kinship\")\nprint('ok')",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T4-B («Calidad de coordenada, Haversine, caching y política»), armé la entrega guiado leyendo la teoría del paquete sobre lat ∈ [-90,90], lon ∈ [-180,180]. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Valida **lat ∈ [-90,90]** y **lon ∈ [-180,180]** antes de calcular. Coordenadas basura no entran al mapa. En APIs y geodatos, el *porqué* es operativo: reduce a…»."
+    },
+    {
+      "exercise_id": "S12-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import math\n\ndef haversine_km(a, b):\n    R = 6371.0\n    lat1, lon1 = map(math.radians, a)\n    lat2, lon2 = map(math.radians, b)\n    dlat = lat2 - lat1\n    dlon = lon2 - lon1\n    h = math.sin(dlat/2)**2 + math.cos(lat1)*math.cos(lat2)*math.sin(dlon/2)**2\n    return 2 * R * math.asin(math.sqrt(h))\n\nprint(round(haversine_km((-12.0464, -77.0428), (-12.05, -77.04)), 3))",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T4-B («Calidad de coordenada, Haversine, caching y política»), armé la entrega independiente leyendo la teoría del paquete sobre lat ∈ [-90,90], lon ∈ [-180,180]. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Valida **lat ∈ [-90,90]** y **lon ∈ [-180,180]** antes de calcular. Coordenadas basura no entran al mapa. En APIs y geodatos, el *porqué* es operativo: reduce a…»."
+    },
+    {
+      "exercise_id": "S12-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def as_relationship_signal(km):\n    if km is None:\n        return {\"signal\": 0.0, \"note\": \"missing geo\"}\n    if km <= 2.0:\n        return {\"signal\": 0.7, \"note\": \"geoseñal de relación, no un veredicto\"}\n    return {\"signal\": 0.1, \"note\": \"distante\"}\n\nprint(as_relationship_signal(1.2))",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "S12-T4-B",
+        "packet_theory",
+        "quiz_card"
+      ],
+      "justification_from_packet": "Como explorer en S12-T4-B («Calidad de coordenada, Haversine, caching y política»), armé la entrega transferencia leyendo la teoría del paquete sobre lat ∈ [-90,90], lon ∈ [-180,180]. El starter y la instruction piden un resultado verificable; usé el patrón del iDo/theory (p. ej. estructuras y llamadas presentes en el paquete) y dejé el código sin placeholders. Fragmento de teoría que guió la respuesta: «Valida **lat ∈ [-90,90]** y **lon ∈ [-180,180]** antes de calcular. Coordenadas basura no entran al mapa. En APIs y geodatos, el *porqué* es operativo: reduce a…»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "Para «Un 400 Bad Request del proveedor debe…» elegí la opción 3: «Tratarse como error de cliente (no retry ciego)». En la teoría de la sección aparecen términos alineados (como, error, cliente, retry), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "Para «¿Dónde debe vivir el token de API?» elegí la opción 1: «En variable de entorno / secret store». En la teoría de la sección aparecen términos alineados (variable, entorno, secret), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "confidence": 0.79,
+      "blocked_on": [],
+      "justification_from_packet": "Para «SQL con f-string e input de usuario es…» elegí la opción 2: «Inyección / inseguro; usar placeholders `?`». En la teoría de la sección aparecen términos alineados (Inyección, placeholders), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "confidence": 0.84,
+      "blocked_on": [],
+      "justification_from_packet": "Para «Enviar document_id bancario a un geocoder público…» elegí la opción 0: «Viola la política de egress de CP-N1-C». En la teoría de la sección aparecen términos alineados (política), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "confidence": 0.82,
+      "blocked_on": [],
+      "justification_from_packet": "Para «1.2 km entre dos entidades sintéticas implica…» elegí la opción 3: «Una geoseñal de relación, no un veredicto». En la teoría de la sección aparecen términos alineados (geoseñal, relación, veredicto), y las distracciones no coinciden con el contrato descrito en el paquete (p. ej. venv/Git/tipos/control de flujo según el tema). Por eso descarto las otras alternativas."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:13:25+00:00",
+  "session_started_at": "2026-07-23T12:13:15+00:00",
+  "session_ended_at": "2026-07-23T12:13:25+00:00",
+  "receipt_response_sha256": "e4ad1ad4b6ddf66210d90c96709d2b36245f041c4cddf6a9cb4c55c3c9166223"
+}

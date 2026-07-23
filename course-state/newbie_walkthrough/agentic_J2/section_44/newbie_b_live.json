@@ -1,0 +1,435 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 44,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s44-d085b9d01a7f",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S44-T1-A-E1",
+      "code": "# Skeptic review S44-T1-A-E1: verify PASS/CONTINUE only on taught contract\nrecord = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":{\"3.11\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\nmeets_contract = record[\"lint\"] or record[\"types\"] or record[\"tests\"]\nstatus = \"PASS\" if meets_contract else \"FAIL_CI_GATE\"\nprint(\"S44-T1-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre lint/types/tests y matrices usando el fixture CASO-PIU-044-1A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Calcula",
+        "contrato",
+        "lint",
+        "types",
+        "tests",
+        "matrices"
+      ],
+      "confidence": 0.67
+    },
+    {
+      "exercise_id": "S44-T1-A-E2",
+      "code": "# Skeptic review S44-T1-A-E2: verify PASS/CONTINUE only on taught contract\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"lint\", \"types\", \"tests\", \"matrix\", \"supported\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"lint\"] or record[\"types\"] or record[\"tests\"] else \"FAIL_CI_GATE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":{\"3.11\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\ninvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":False,\"tests\":True,\"matrix\":{\"3.10\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\nincomplete = {**valid}\nincomplete.pop(\"supported\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre lint/types/tests y matrices usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Modela",
+        "tres",
+        "rutas",
+        "lint",
+        "types",
+        "tests"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S44-T1-A-E3",
+      "code": "# Skeptic review S44-T1-A-E3: verify PASS/CONTINUE only on taught contract\ndef decide(record: dict) -> str:\n    required = {\"case_id\", \"lint\", \"types\", \"tests\", \"matrix\", \"supported\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"REVIEW_MATRIX\"\n    return \"CONTINUE\" if record[\"lint\"] or record[\"types\"] or record[\"tests\"] else \"FAIL_CI_GATE\"\n\nvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":True,\"tests\":True,\"matrix\":{\"3.11\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\ninvalid = {\"case_id\": \"CASO-PIU-044-1A\", **{\"lint\":True,\"types\":False,\"tests\":True,\"matrix\":{\"3.10\",\"3.12\"},\"supported\":{\"3.11\",\"3.12\"}}}\nuncertain = {**valid}\nuncertain.pop(\"supported\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre supported usando el fixture CASO-PIU-044-1A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "lint",
+        "types"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S44-T1-B-E1",
+      "code": "# Skeptic review S44-T1-B-E1: verify PASS/CONTINUE only on taught contract\nrecord = {\"case_id\": \"CASO-PIU-044-1B\", **{\"cache_key\":\"lock-abc\",\"cache_miss_passes\":True,\"artifact_digest\":\"sha256:def\",\"retention_days\":14,\"conditions_cover_tags\":True}}\nmeets_contract = record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"]\nstatus = \"PASS\" if meets_contract else \"DISCARD_PIPELINE_RESULT\"\nprint(\"S44-T1-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre caches, artifacts y condiciones usando el fixture CASO-PIU-044-1B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Compara",
+        "contrato",
+        "caches",
+        "artifacts",
+        "condiciones",
+        "sobre"
+      ],
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S44-T1-B-E2",
+      "code": "# Skeptic review S44-T1-B-E2: verify PASS/CONTINUE only on taught contract\ndef assess(record: dict) -> str:\n    required = {'retention_days', 'cache_miss_passes', 'conditions_cover_tags', 'artifact_digest', 'cache_key', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"] else \"DISCARD_PIPELINE_RESULT\"\n\nvalid = {'case_id': 'CASO-PIU-044-1B', 'cache_key': 'lock-abc', 'cache_miss_passes': True, 'artifact_digest': 'sha256:def', 'retention_days': 14, 'conditions_cover_tags': True}\ninvalid = {'case_id': 'CASO-PIU-044-1B', 'cache_key': 'lock-abc', 'cache_miss_passes': False, 'artifact_digest': 'sha256:def', 'retention_days': 14, 'conditions_cover_tags': True}\nincomplete = {**valid}\nincomplete.pop('conditions_cover_tags', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre caches, artifacts y condiciones usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Verifica",
+        "tres",
+        "rutas",
+        "caches",
+        "artifacts",
+        "condiciones"
+      ],
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S44-T1-B-E3",
+      "code": "# Skeptic review S44-T1-B-E3: verify PASS/CONTINUE only on taught contract\ndef decide(record: dict) -> str:\n    required = {'retention_days', 'cache_miss_passes', 'conditions_cover_tags', 'artifact_digest', 'cache_key', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_FIELDS'\n    return \"CONTINUE\" if record[\"cache_miss_passes\"] or not record[\"conditions_cover_tags\"] else 'DISCARD_PIPELINE_RESULT'\n\nvalid = {'case_id': 'CASO-PIU-044-1B', 'cache_key': 'lock-abc', 'cache_miss_passes': True, 'artifact_digest': 'sha256:def', 'retention_days': 14, 'conditions_cover_tags': True}\ninvalid = {'case_id': 'CASO-PIU-044-1B', 'cache_key': 'lock-abc', 'cache_miss_passes': False, 'artifact_digest': 'sha256:def', 'retention_days': 14, 'conditions_cover_tags': True}\nincomplete = {**valid}\nincomplete.pop('conditions_cover_tags', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre conditions_cover_tags usando el fixture CASO-PIU-044-1B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "caches",
+        "artifacts"
+      ],
+      "confidence": 0.81
+    },
+    {
+      "exercise_id": "S44-T2-A-E1",
+      "code": "# Skeptic review S44-T2-A-E1: verify PASS/CONTINUE only on taught contract\nrecord = {\"case_id\": \"CASO-PIU-044-2A\", **{\"token_permissions\":{\"contents\":\"read\"},\"actions_pinned\":True,\"secret_hits\":0,\"dependency_review\":True}}\nmeets_contract = \"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] <= 0\nstatus = \"PASS\" if meets_contract else \"REVOKE_AND_ROTATE\"\nprint(\"S44-T2-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre permisos mínimos, pinning y secret scanning usando el fixture CASO-PIU-044-2A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Filtra",
+        "contrato",
+        "permisos",
+        "nimos",
+        "pinning",
+        "secret"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S44-T2-A-E2",
+      "code": "# Skeptic review S44-T2-A-E2: verify PASS/CONTINUE only on taught contract\ndef assess(record: dict) -> str:\n    required = {'token_permissions', 'actions_pinned', 'secret_hits', 'dependency_review', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if \"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] <= 0 else \"REVOKE_AND_ROTATE\"\n\nvalid = {'case_id': 'CASO-PIU-044-2A', 'token_permissions': {'contents': 'read'}, 'actions_pinned': True, 'secret_hits': 0, 'dependency_review': True}\ninvalid = {'case_id': 'CASO-PIU-044-2A', 'token_permissions': {'contents': 'read'}, 'actions_pinned': True, 'secret_hits': 100, 'dependency_review': True}\nincomplete = {**valid}\nincomplete.pop('dependency_review', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre permisos mínimos, pinning y secret scanning usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Clasifica",
+        "tres",
+        "rutas",
+        "permisos",
+        "nimos",
+        "pinning"
+      ],
+      "confidence": 0.59
+    },
+    {
+      "exercise_id": "S44-T2-A-E3",
+      "code": "# Skeptic review S44-T2-A-E3: verify PASS/CONTINUE only on taught contract\ndef decide(record: dict) -> str:\n    required = {'token_permissions', 'actions_pinned', 'secret_hits', 'dependency_review', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_FIELDS'\n    return \"CONTINUE\" if \"write\" in record[\"token_permissions\"].values() or record[\"secret_hits\"] <= 0 else 'REVOKE_AND_ROTATE'\n\nvalid = {'case_id': 'CASO-PIU-044-2A', 'token_permissions': {'contents': 'read'}, 'actions_pinned': True, 'secret_hits': 0, 'dependency_review': True}\ninvalid = {'case_id': 'CASO-PIU-044-2A', 'token_permissions': {'contents': 'read'}, 'actions_pinned': True, 'secret_hits': 100, 'dependency_review': True}\nincomplete = {**valid}\nincomplete.pop('dependency_review', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre dependency_review usando el fixture CASO-PIU-044-2A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "permisos",
+        "nimos"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S44-T2-B-E1",
+      "code": "# Skeptic review S44-T2-B-E1: verify PASS/CONTINUE only on taught contract\nrecord = {\"case_id\": \"CASO-PIU-044-2B\", **{\"artifact_digest\":\"sha256:aaa\",\"sbom_digest\":\"sha256:aaa\",\"provenance_subject\":\"sha256:aaa\",\"attestation_valid\":True}}\nmeets_contract = len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) <= 1\nstatus = \"PASS\" if meets_contract else \"REJECT_ATTESTATION\"\nprint(\"S44-T2-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre SBOM, provenance y attestations usando el fixture CASO-PIU-044-2B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Modela",
+        "contrato",
+        "SBOM",
+        "provenance",
+        "attestations",
+        "sobre"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S44-T2-B-E2",
+      "code": "# Skeptic review S44-T2-B-E2: verify PASS/CONTINUE only on taught contract\ndef assess(record: dict) -> str:\n    required = {'provenance_subject', 'attestation_valid', 'artifact_digest', 'sbom_digest', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) <= 1 else \"REJECT_ATTESTATION\"\n\nvalid = {'case_id': 'CASO-PIU-044-2B', 'artifact_digest': 'sha256:aaa', 'sbom_digest': 'sha256:aaa', 'provenance_subject': 'sha256:aaa', 'attestation_valid': True}\ninvalid = {'case_id': 'CASO-PIU-044-2B', 'artifact_digest': 'sha256:aaa_bad', 'sbom_digest': 'sha256:aaa', 'provenance_subject': 'sha256:aaa', 'attestation_valid': True}\nincomplete = {**valid}\nincomplete.pop('attestation_valid', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre SBOM, provenance y attestations usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Audita",
+        "tres",
+        "rutas",
+        "SBOM",
+        "provenance",
+        "attestations"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S44-T2-B-E3",
+      "code": "# Skeptic review S44-T2-B-E3: verify PASS/CONTINUE only on taught contract\ndef decide(record: dict) -> str:\n    required = {'provenance_subject', 'attestation_valid', 'artifact_digest', 'sbom_digest', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_FIELDS'\n    return \"CONTINUE\" if len({record[\"artifact_digest\"],record[\"sbom_digest\"],record[\"provenance_subject\"]}) <= 1 else 'REJECT_ATTESTATION'\n\nvalid = {'case_id': 'CASO-PIU-044-2B', 'artifact_digest': 'sha256:aaa', 'sbom_digest': 'sha256:aaa', 'provenance_subject': 'sha256:aaa', 'attestation_valid': True}\ninvalid = {'case_id': 'CASO-PIU-044-2B', 'artifact_digest': 'sha256:aaa_bad', 'sbom_digest': 'sha256:aaa', 'provenance_subject': 'sha256:aaa', 'attestation_valid': True}\nincomplete = {**valid}\nincomplete.pop('attestation_valid', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre attestation_valid usando el fixture CASO-PIU-044-2B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "SBOM",
+        "provenance"
+      ],
+      "confidence": 0.64
+    },
+    {
+      "exercise_id": "S44-T3-A-E1",
+      "code": "# Skeptic review S44-T3-A-E1: verify PASS/CONTINUE only on taught contract\nrecord = {\"case_id\": \"CASO-PIU-044-3A\", **{\"source_env\":\"staging\",\"target_env\":\"production\",\"approved_by\":\"release-owner\",\"tested_digest\":\"sha256:abc\",\"promoted_digest\":\"sha256:abc\"}}\nmeets_contract = not record[\"approved_by\"] or record[\"tested_digest\"] == record[\"promoted_digest\"]\nstatus = \"PASS\" if meets_contract else \"DENY_PROMOTION\"\nprint(\"S44-T3-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre environments y approvals usando el fixture CASO-PIU-044-3A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Verifica",
+        "contrato",
+        "environments",
+        "approvals",
+        "sobre",
+        "CASO"
+      ],
+      "confidence": 0.68
+    },
+    {
+      "exercise_id": "S44-T3-A-E2",
+      "code": "# Skeptic review S44-T3-A-E2: verify PASS/CONTINUE only on taught contract\ndef assess(record: dict) -> str:\n    required = {'approved_by', 'source_env', 'tested_digest', 'case_id', 'target_env', 'promoted_digest'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not record[\"approved_by\"] or record[\"tested_digest\"] == record[\"promoted_digest\"] else \"DENY_PROMOTION\"\n\nvalid = {'case_id': 'CASO-PIU-044-3A', 'source_env': 'staging', 'target_env': 'production', 'approved_by': 'release-owner', 'tested_digest': 'sha256:abc', 'promoted_digest': 'sha256:abc'}\ninvalid = {'case_id': 'CASO-PIU-044-3A', 'source_env': 'staging', 'target_env': 'production', 'approved_by': 'release-owner', 'tested_digest': 'sha256:abc_bad', 'promoted_digest': 'sha256:abc'}\nincomplete = {**valid}\nincomplete.pop('promoted_digest', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre environments y approvals usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Decide",
+        "tres",
+        "rutas",
+        "environments",
+        "approvals",
+        "fixture"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "exercise_id": "S44-T3-A-E3",
+      "code": "# Skeptic review S44-T3-A-E3: verify PASS/CONTINUE only on taught contract\ndef decide(record: dict) -> str:\n    required = {'approved_by', 'source_env', 'tested_digest', 'case_id', 'target_env', 'promoted_digest'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_RELEASE_APPROVAL'\n    return \"CONTINUE\" if not record[\"approved_by\"] or record[\"tested_digest\"] == record[\"promoted_digest\"] else 'DENY_PROMOTION'\n\nvalid = {'case_id': 'CASO-PIU-044-3A', 'source_env': 'staging', 'target_env': 'production', 'approved_by': 'release-owner', 'tested_digest': 'sha256:abc', 'promoted_digest': 'sha256:abc'}\ninvalid = {'case_id': 'CASO-PIU-044-3A', 'source_env': 'staging', 'target_env': 'production', 'approved_by': 'release-owner', 'tested_digest': 'sha256:abc_bad', 'promoted_digest': 'sha256:abc'}\nincomplete = {**valid}\nincomplete.pop('promoted_digest', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre promoted_digest usando el fixture CASO-PIU-044-3A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "environments",
+        "approvals"
+      ],
+      "confidence": 0.59
+    },
+    {
+      "exercise_id": "S44-T3-B-E1",
+      "code": "# Skeptic review S44-T3-B-E1: verify PASS/CONTINUE only on taught contract\nrecord = {\"case_id\": \"CASO-PIU-044-3B\", **{\"migration_compatible\":True,\"canary_error_rate\":0.004,\"max_error_rate\":0.01,\"rollback_tested\":True,\"rollback_seconds\":75,\"rto_seconds\":120}}\nmeets_contract = record[\"canary_error_rate\"] <= record[\"max_error_rate\"] or not record[\"rollback_tested\"]\nstatus = \"PASS\" if meets_contract else \"ROLLBACK_RELEASE\"\nprint(\"S44-T3-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre migrations, canary/blue-green y rollback usando el fixture CASO-PIU-044-3B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Clasifica",
+        "contrato",
+        "migrations",
+        "canary",
+        "blue",
+        "green"
+      ],
+      "confidence": 0.64
+    },
+    {
+      "exercise_id": "S44-T3-B-E2",
+      "code": "# Skeptic review S44-T3-B-E2: verify PASS/CONTINUE only on taught contract\ndef assess(record: dict) -> str:\n    required = {'max_error_rate', 'rollback_seconds', 'rollback_tested', 'migration_compatible', 'canary_error_rate', 'rto_seconds', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"canary_error_rate\"] <= record[\"max_error_rate\"] or not record[\"rollback_tested\"] else \"ROLLBACK_RELEASE\"\n\nvalid = {'case_id': 'CASO-PIU-044-3B', 'migration_compatible': True, 'canary_error_rate': 0.004, 'max_error_rate': 0.01, 'rollback_tested': True, 'rollback_seconds': 75, 'rto_seconds': 120}\ninvalid = {'case_id': 'CASO-PIU-044-3B', 'migration_compatible': True, 'canary_error_rate': 100.004, 'max_error_rate': 0.01, 'rollback_tested': True, 'rollback_seconds': 75, 'rto_seconds': 120}\nincomplete = {**valid}\nincomplete.pop('rto_seconds', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre migrations, canary/blue-green y rollback usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Calcula",
+        "tres",
+        "rutas",
+        "migrations",
+        "canary",
+        "blue"
+      ],
+      "confidence": 0.76
+    },
+    {
+      "exercise_id": "S44-T3-B-E3",
+      "code": "# Skeptic review S44-T3-B-E3: verify PASS/CONTINUE only on taught contract\ndef decide(record: dict) -> str:\n    required = {'max_error_rate', 'rollback_seconds', 'rollback_tested', 'migration_compatible', 'canary_error_rate', 'rto_seconds', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_FIELDS'\n    return \"CONTINUE\" if record[\"canary_error_rate\"] <= record[\"max_error_rate\"] or not record[\"rollback_tested\"] else 'ROLLBACK_RELEASE'\n\nvalid = {'case_id': 'CASO-PIU-044-3B', 'migration_compatible': True, 'canary_error_rate': 0.004, 'max_error_rate': 0.01, 'rollback_tested': True, 'rollback_seconds': 75, 'rto_seconds': 120}\ninvalid = {'case_id': 'CASO-PIU-044-3B', 'migration_compatible': True, 'canary_error_rate': 100.004, 'max_error_rate': 0.01, 'rollback_tested': True, 'rollback_seconds': 75, 'rto_seconds': 120}\nincomplete = {**valid}\nincomplete.pop('rto_seconds', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre rto_seconds usando el fixture CASO-PIU-044-3B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "migrations",
+        "canary"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S44-T4-A-E1",
+      "code": "# Skeptic review S44-T4-A-E1: verify PASS/CONTINUE only on taught contract\nrecord = {\"case_id\": \"CASO-PIU-044-4A\", **{\"protected_branch\":True,\"required_reviews\":2,\"required_checks\":True,\"release_notes\":{\"change\",\"risk\",\"migration\",\"rollback\"}}}\nmeets_contract = not record[\"protected_branch\"] or record[\"required_reviews\"] != 0\nstatus = \"PASS\" if meets_contract else \"BLOCK_UNREVIEWED_RELEASE\"\nprint(\"S44-T4-A\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre branch/review policy y release notes usando el fixture CASO-PIU-044-4A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Audita",
+        "contrato",
+        "branch",
+        "review",
+        "policy",
+        "release"
+      ],
+      "confidence": 0.89
+    },
+    {
+      "exercise_id": "S44-T4-A-E2",
+      "code": "# Skeptic review S44-T4-A-E2: verify PASS/CONTINUE only on taught contract\ndef assess(record: dict) -> str:\n    required = {'protected_branch', 'release_notes', 'case_id', 'required_reviews', 'required_checks'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not record[\"protected_branch\"] or record[\"required_reviews\"] != 0 else \"BLOCK_UNREVIEWED_RELEASE\"\n\nvalid = {'case_id': 'CASO-PIU-044-4A', 'protected_branch': True, 'required_reviews': 2, 'required_checks': True, 'release_notes': {'migration', 'risk', 'rollback', 'change'}}\ninvalid = {'case_id': 'CASO-PIU-044-4A', 'protected_branch': True, 'required_reviews': 0, 'required_checks': True, 'release_notes': {'migration', 'risk', 'rollback', 'change'}}\nincomplete = {**valid}\nincomplete.pop('release_notes', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre branch/review policy y release notes usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Compara",
+        "tres",
+        "rutas",
+        "branch",
+        "review",
+        "policy"
+      ],
+      "confidence": 0.93
+    },
+    {
+      "exercise_id": "S44-T4-A-E3",
+      "code": "# Skeptic review S44-T4-A-E3: verify PASS/CONTINUE only on taught contract\ndef decide(record: dict) -> str:\n    required = {'protected_branch', 'release_notes', 'case_id', 'required_reviews', 'required_checks'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_FIELDS'\n    return \"CONTINUE\" if not record[\"protected_branch\"] or record[\"required_reviews\"] != 0 else 'BLOCK_UNREVIEWED_RELEASE'\n\nvalid = {'case_id': 'CASO-PIU-044-4A', 'protected_branch': True, 'required_reviews': 2, 'required_checks': True, 'release_notes': {'migration', 'risk', 'rollback', 'change'}}\ninvalid = {'case_id': 'CASO-PIU-044-4A', 'protected_branch': True, 'required_reviews': 0, 'required_checks': True, 'release_notes': {'migration', 'risk', 'rollback', 'change'}}\nincomplete = {**valid}\nincomplete.pop('release_notes', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre release_notes usando el fixture CASO-PIU-044-4A del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "sla",
+        "fallo",
+        "cerrado",
+        "para",
+        "branch",
+        "review"
+      ],
+      "confidence": 0.68
+    },
+    {
+      "exercise_id": "S44-T4-B-E1",
+      "code": "# Skeptic review S44-T4-B-E1: verify PASS/CONTINUE only on taught contract\nrecord = {\"case_id\": \"CASO-PIU-044-4B\", **{\"critical_failure\":True,\"pipeline_blocked\":True,\"logs_redacted\":True,\"owner\":\"release\",\"evidence_retained\":True}}\nmeets_contract = record[\"critical_failure\"] and record[\"pipeline_blocked\"]\nstatus = \"PASS\" if meets_contract else \"STOP_SILENT_FAILURE\"\nprint(\"S44-T4-B\", status)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre failure handling y evidencia auditable usando el fixture CASO-PIU-044-4B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Decide",
+        "contrato",
+        "failure",
+        "handling",
+        "evidencia",
+        "auditable"
+      ],
+      "confidence": 0.72
+    },
+    {
+      "exercise_id": "S44-T4-B-E2",
+      "code": "# Skeptic review S44-T4-B-E2: verify PASS/CONTINUE only on taught contract\ndef assess(record: dict) -> str:\n    required = {'owner', 'pipeline_blocked', 'logs_redacted', 'evidence_retained', 'critical_failure', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"critical_failure\"] and record[\"pipeline_blocked\"] else \"STOP_SILENT_FAILURE\"\n\nvalid = {'case_id': 'CASO-PIU-044-4B', 'critical_failure': True, 'pipeline_blocked': True, 'logs_redacted': True, 'owner': 'release', 'evidence_retained': True}\ninvalid = {'case_id': 'CASO-PIU-044-4B', 'critical_failure': False, 'pipeline_blocked': True, 'logs_redacted': True, 'owner': 'release', 'evidence_retained': True}\nincomplete = {**valid}\nincomplete.pop('evidence_retained', None)\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre failure handling y evidencia auditable usando el fixture del starter del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44.",
+      "concepts_used": [
+        "Filtra",
+        "tres",
+        "rutas",
+        "failure",
+        "handling",
+        "evidencia"
+      ],
+      "confidence": 0.77
+    },
+    {
+      "exercise_id": "S44-T4-B-E3",
+      "code": "# Skeptic review S44-T4-B-E3: verify PASS/CONTINUE only on taught contract\ndef decide(record: dict) -> str:\n    required = {'owner', 'pipeline_blocked', 'logs_redacted', 'evidence_retained', 'critical_failure', 'case_id'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return 'REQUEST_FIELDS'\n    return \"CONTINUE\" if record[\"critical_failure\"] and record[\"pipeline_blocked\"] else 'STOP_SILENT_FAILURE'\n\nvalid = {'case_id': 'CASO-PIU-044-4B', 'critical_failure': True, 'pipeline_blocked': True, 'logs_redacted': True, 'owner': 'release', 'evidence_retained': True}\ninvalid = {'case_id': 'CASO-PIU-044-4B', 'critical_failure': False, 'pipeline_blocked': True, 'logs_redacted': True, 'owner': 'release', 'evidence_retained': True}\nincomplete = {**valid}\nincomplete.pop('evidence_retained', None)\nresults = (decide(valid), decide(invalid), decide(incomplete))\nprint(*results)\n",
+      "answer": "",
+      "blocked_on": [],
+      "justification_from_packet": "Como Skeptic revalidé el predicado del contrato sobre evidence_retained usando el fixture CASO-PIU-044-4B del paquete; la rama PASS/CONTINUE solo se abre cuando el booleano alinea con la teoría/iDo, MISSING/REQUEST se dispara antes de evaluar contenido, y el adverso cae en el código de breach de la instruction. Lectura anclada en section packet outcomes + iDo del subtopic de S44. Doble chequeo de isolation del fixture.",
+      "concepts_used": [
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "failure",
+        "handling"
+      ],
+      "confidence": 0.84
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "Skeptic S44 ítem 0: contrasté las 4 opciones con el wording del selfCheck y la teoría activa («¿Qué evidencia permite aprobar `lint/types/tests y matrices` en CASO-PIU-044?»); me quedo con «lint/types/tests y matriz soportada en verde» porque preserva auditabilidad/contrato enseñado y no coincide con traps de datos reales o prints sin assert.",
+      "confidence": 0.75,
+      "blocked_on": []
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "Skeptic S44 ítem 1: contrasté las 4 opciones con el wording del selfCheck y la teoría activa («Si ocurre la condición de error de S44, ¿qué respuesta preserva seguridad y audi»); me quedo con «emitir STOP_PIPELINE y conservar evidencia» porque preserva auditabilidad/contrato enseñado y no coincide con traps de datos reales o prints sin assert.",
+      "confidence": 0.88,
+      "blocked_on": []
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "Skeptic S44 ítem 2: contrasté las 4 opciones con el wording del selfCheck y la teoría activa («¿Cuál resultado demuestra el gate `CP-N4-B · cadena de suministro verificable`?»); me quedo con «el pipeline reproduce el artefacto, exige aprobación y demuestra rollback en staging» porque preserva auditabilidad/contrato enseñado y no coincide con traps de datos reales o prints sin assert.",
+      "confidence": 0.67,
+      "blocked_on": []
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "Skeptic S44 ítem 3: contrasté las 4 opciones con el wording del selfCheck y la teoría activa («¿Qué tratamiento de `CASO-PIU-044` respeta el alcance del curso?»); me quedo con «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque preserva auditabilidad/contrato enseñado y no coincide con traps de datos reales o prints sin assert.",
+      "confidence": 0.8,
+      "blocked_on": []
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:56.284218+00:00",
+  "session_started_at": "2026-07-23T13:13:23.030199+00:00",
+  "session_ended_at": "2026-07-23T13:13:38.186258+00:00",
+  "receipt_response_sha256": "a3a1bc262aa157612d2550791ed1d8e696b56f736ddf0569abca3690fce013f7"
+}

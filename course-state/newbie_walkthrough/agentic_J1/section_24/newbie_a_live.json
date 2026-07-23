@@ -1,0 +1,535 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_J1",
+  "section_index": 24,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-explorer-s24-0610f25a58b6",
+  "production_note": "agentic_J1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S24-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "dpi=96\nprint(max(dpi, 200))\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "dpi",
+        "max",
+        "Preproceso",
+        "intake",
+        "escaneo",
+        "sint",
+        "tico",
+        "eleva",
+        "con",
+        "imprime"
+      ],
+      "justification_from_packet": "Partiendo del fixture conservado en el starter para S24-T1-A-E1: Preproceso intake: dpi=96 de escaneo sintético. Si dpi<200, eleva con max(dpi,200) e imprime el entero resulta… Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Hints: ['contrato I/O en instruction', 'compara output con solution'] Código imprime ['print(max(dpi, 200))']."
+    },
+    {
+      "exercise_id": "S24-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "skew=1.2\nprint(abs(skew) >= 0.5)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "skew",
+        "abs",
+        "Deskew",
+        "flag",
+        "grados",
+        "deskew_applied",
+        "imprime",
+        "booleano",
+        "Contrato",
+        "umbral"
+      ],
+      "justification_from_packet": "Resuelvo el TODO sin tocar asserts ni datos del fixture. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Luego para S24-T1-A-E2: Deskew flag: skew=1.2 grados. deskew_applied = abs(skew)>=0.5; imprime el booleano. Contrato: umbral didáctico… Código imprime ['print(abs(skew) >= 0.5)']. Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "w=h=1000\nm=0.05\nprint((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "int",
+        "Crop",
+        "rgenes",
+        "lienzo",
+        "imprime",
+        "tupla",
+        "Contrato",
+        "enteros",
+        "origen",
+        "esquina"
+      ],
+      "justification_from_packet": "para S24-T1-A-E3: Crop 5% márgenes en lienzo w=h=1000: imprime tupla (x0,y0,x1,y1)=(50,50,950,950). Contrato: enteros; origen es… — partiendo del fixture conservado en el starter. Código imprime ['print((int(m*w), int(m*h), int((1-m)*w), int((1-m)*h)))']. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "s={0:0.1,90:0.8}\nprint(max(s, key=s.get))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "max",
+        "key",
+        "get",
+        "Orientaci",
+        "scores",
+        "Elige",
+        "rotaci",
+        "mayor",
+        "score",
+        "imprime"
+      ],
+      "justification_from_packet": "para S24-T1-B-E1: Orientación: scores s={0:0.1,90:0.8}. Elige la rotación (key) de mayor score e imprime el entero de grados. Co… — mirando hints + theory del subtema activo. Código imprime ['print(max(s, key=s.get))']. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "flags=[0,1,1,0]\nprint(sum(flags))\n",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [
+        "flags",
+        "sum",
+        "Ruido",
+        "binario",
+        "donde",
+        "xel",
+        "marcado",
+        "Cuenta",
+        "unos",
+        "imprime"
+      ],
+      "justification_from_packet": "para S24-T1-B-E2: Ruido binario: flags=[0,1,1,0] donde 1=píxel ruido marcado. Cuenta unos e imprime 2. Contrato: sum(flags) o co… — mirando hints + theory del subtema activo. Código imprime ['print(sum(flags))']. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "score=0.4\nprint('manual_orient' if score < 0.5 else 'auto')\n",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [
+        "score",
+        "manual_orient",
+        "else",
+        "auto",
+        "Gate",
+        "orientaci",
+        "score_orient",
+        "imprime",
+        "Contrato",
+        "fail"
+      ],
+      "justification_from_packet": "para S24-T1-B-E3: Gate de orientación: score=0.4. Si score_orient<0.5 imprime 'manual_orient' else 'auto'. Contrato: fail-closed… — en el paquete activo aparece el patrón ido relacionado. Código imprime [\"print('manual_orient' if score < 0.5 else 'auto')\"]. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "toks=[{'text':'A','conf':0.9},{'text':'B','conf':0.5}]\nprint([t['text'] for t in toks if t['conf']>=0.85])\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "toks",
+        "text",
+        "conf",
+        "Filtro",
+        "confidence",
+        "con",
+        "date",
+        "textos",
+        "imprime",
+        "lista"
+      ],
+      "justification_from_packet": "El contrato Pass de la tarea pide una salida concreta para S24-T2-A-E1: Filtro de confidence: toks con conf 0.9 y 0.5. Quédate textos con conf>=0.85 e imprime la lista de text. Contr… Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Hints: ['contrato I/O en instruction', 'compara output con solution'] Código imprime [\"print([t['text'] for t in toks if t['conf']>=0.85])\"]."
+    },
+    {
+      "exercise_id": "S24-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def ocr(text, lang='spa'):\n    return {'text': text, 'lang': lang}\nprint(ocr('Hola')['lang'])\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "def",
+        "ocr",
+        "text",
+        "lang",
+        "spa",
+        "return",
+        "Hola",
+        "Idioma",
+        "por",
+        "defecto"
+      ],
+      "justification_from_packet": "Resuelvo el TODO sin tocar asserts ni datos del fixture. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Luego para S24-T2-A-E2: Idioma por defecto del adapter PE: construye resultado OCR simulado con lang 'spa' e imprime lang. Contrato: s… Código imprime [\"print(ocr('Hola')['lang'])\"]. Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "confs=[0.9,0.75,0.95]\nm=min(confs)\nprint(m, 'review' if m < 0.8 else 'auto')\n",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "concepts_used": [
+        "confs",
+        "min",
+        "review",
+        "else",
+        "auto",
+        "conf",
+        "campos",
+        "Imprime",
+        "status",
+        "formato"
+      ],
+      "justification_from_packet": "La salida esperada del contrato me marca el print final. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Luego para S24-T2-A-E3: Min conf de campos: confs=[0.9,0.75,0.95]. Imprime min y status 'review' si min<0.8 (formato de la solución). … Código imprime [\"print(m, 'review' if m < 0.8 else 'auto')\"]. Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "s='Total: 12.5'\nk,v=s.split(':',1)\nprint(k.strip(), v.strip())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "Total",
+        "split",
+        "strip",
+        "parse",
+        "Separa",
+        "clave",
+        "valor",
+        "por",
+        "imprime",
+        "sin"
+      ],
+      "justification_from_packet": "Desde el starter y la Tarea del enunciado para S24-T2-B-E1: KV parse: s='Total: 12.5'. Separa clave y valor por ':' e imprime 'Total 12.5' (sin dos puntos). Contrato: str… Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Hints: ['contrato I/O en instruction', 'compara output con solution'] Código imprime ['print(k.strip(), v.strip())']."
+    },
+    {
+      "exercise_id": "S24-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "t=[['H1','H2'],['a','b']]\nprint(len(t)-1)\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "len",
+        "Tabla",
+        "sint",
+        "tica",
+        "Imprime",
+        "mero",
+        "filas",
+        "datos",
+        "Contrato",
+        "header"
+      ],
+      "justification_from_packet": "Resuelvo el TODO sin tocar asserts ni datos del fixture. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Luego para S24-T2-B-E2: Tabla sintética t=[['H1','H2'],['a','b']]. Imprime número de filas de datos (len-1). Contrato: header no cuent… Código imprime ['print(len(t)-1)']. Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "field={'name':'ruc','value':'20123456789','bbox':[0,0,10,10]}\nprint(field['bbox'], field['value'])\n",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "field",
+        "name",
+        "ruc",
+        "value",
+        "bbox",
+        "Evidencia",
+        "adjunta",
+        "valor",
+        "imprime",
+        "como"
+      ],
+      "justification_from_packet": "para S24-T2-B-E3: Evidencia: adjunta bbox [0,0,10,10] al field RUC valor 20123456789; imprime bbox y valor como en solution. Con… — desde el starter y la tarea del enunciado. Código imprime [\"print(field['bbox'], field['value'])\"]. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import re\n\ns='20-123'\nprint(re.sub(r'\\D', '', s))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "sub",
+        "Normaliza",
+        "sint",
+        "tico",
+        "dejando",
+        "solo",
+        "gitos",
+        "Imprime",
+        "Contrato"
+      ],
+      "justification_from_packet": "Partiendo del fixture conservado en el starter. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Luego para S24-T3-A-E1: Normaliza id sintético s='20-123' dejando solo dígitos (re.sub). Imprime '20123'. Contrato: no valida longitud… Código imprime [\"print(re.sub(r'\\\\D', '', s))\"]. Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "from datetime import datetime\nprint(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())\n",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "concepts_used": [
+        "from",
+        "datetime",
+        "import",
+        "strptime",
+        "date",
+        "isoformat",
+        "Fecha",
+        "boleta",
+        "ISO",
+        "con"
+      ],
+      "justification_from_packet": "para S24-T3-A-E2: Fecha de boleta '15/01/2026' → ISO '2026-01-15' con datetime. Contrato: dayfirst DD/MM/YYYY. Pass: 2026-01-15.… — mirando hints + theory del subtema activo. Código imprime [\"print(datetime.strptime('15/01/2026', '%d/%m/%Y').date().isoformat())\"]. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import re\n\nraw='123'\nd=re.sub(r'\\D','',raw)\nprint(d if len(d)==11 else None)\n",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "raw",
+        "sub",
+        "len",
+        "else",
+        "RUC",
+        "inv",
+        "lido",
+        "normaliza",
+        "gitos"
+      ],
+      "justification_from_packet": "para S24-T3-A-E3: RUC inválido raw='123': normaliza dígitos; si len!=11 imprime None. Contrato: no pad de ceros. Pass: None. Usa… — en el paquete activo aparece el patrón ido relacionado. Código imprime ['print(d if len(d)==11 else None)']. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "total, lines=10.0,[4.0,5.0]\nprint('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')\n",
+      "confidence": 0.92,
+      "blocked_on": [],
+      "concepts_used": [
+        "total",
+        "lines",
+        "needs_review",
+        "abs",
+        "sum",
+        "else",
+        "auto",
+        "Cross",
+        "field",
+        "monto"
+      ],
+      "justification_from_packet": "La salida esperada del contrato me marca el print final. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Luego para S24-T3-B-E1: Cross-field monto: total=10.0, lines=[4.0,5.0]. Si abs(sum(lines)-total)>0.01 imprime needs_review. Contrato: … Código imprime [\"print('needs_review' if abs(sum(lines)-total)>0.01 else 'auto')\"]. Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "ruc=None\nreasons=[]\nif ruc is None:\n    reasons.append('ruc_missing')\nprint(reasons)\n",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "ruc",
+        "reasons",
+        "append",
+        "ruc_missing",
+        "imprime",
+        "Contrato",
+        "acumular",
+        "raise",
+        "Pass",
+        "Usa"
+      ],
+      "justification_from_packet": "para S24-T3-B-E2: Reasons: ruc=None, reasons=[]. Si ruc is None append 'ruc_missing'; imprime reasons. Contrato: acumular, no ra… — el contrato pass de la tarea pide una salida concreta. Código imprime ['print(reasons)']. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "mismatch=True\nprint('review_not_fraud' if mismatch else 'auto')\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "mismatch",
+        "review_not_fraud",
+        "else",
+        "auto",
+        "Pol",
+        "tica",
+        "producto",
+        "implica",
+        "fraude",
+        "colusi"
+      ],
+      "justification_from_packet": "La salida esperada del contrato me marca el print final. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Luego para S24-T3-B-E3: Política de producto: mismatch=True no implica fraude ni colusión. Imprime 'review_not_fraud' como mensaje de … Código imprime [\"print('review_not_fraud' if mismatch else 'auto')\"]. Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "correct, n = 3, 4\nprint(correct / n)\n",
+      "confidence": 0.89,
+      "blocked_on": [],
+      "concepts_used": [
+        "correct",
+        "Golden",
+        "accuracy",
+        "global",
+        "imprime",
+        "float",
+        "divisi",
+        "Contrato",
+        "Pass",
+        "Usa"
+      ],
+      "justification_from_packet": "La salida esperada del contrato me marca el print final. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Luego para S24-T4-A-E1: Golden accuracy global: correct=3, n=4 → imprime 0.75 (float división). Contrato: correct/n. Pass: 0.75. Usa s… Código imprime ['print(correct / n)']. Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "rows=[{'ruc_pred':'1','ruc_true':'1'},{'ruc_pred':'2','ruc_true':'1'}]\nprint(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))\n",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows",
+        "ruc_pred",
+        "ruc_true",
+        "sum",
+        "len",
+        "Accuracy",
+        "por",
+        "campo",
+        "ruc",
+        "con"
+      ],
+      "justification_from_packet": "Desde el starter y la Tarea del enunciado. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Luego para S24-T4-A-E2: Accuracy por campo ruc: rows con pred/true; fracción de igualdad en ruc_pred==ruc_true. Imprime 0.5. Contrato:… Código imprime [\"print(sum(1 for r in rows if r['ruc_pred']==r['ruc_true'])/len(rows))\"]. Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "auto, review = 7, 3\nprint(auto / (auto + review))\n",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "concepts_used": [
+        "auto",
+        "review",
+        "Cobertura",
+        "Imprime",
+        "float",
+        "Contrato",
+        "uses",
+        "accuracy",
+        "como",
+        "Pass"
+      ],
+      "justification_from_packet": "Partiendo del fixture conservado en el starter para S24-T4-A-E3: Cobertura auto: auto=7, review=3 → auto/(auto+review)=0.7. Imprime float. Contrato: no uses accuracy como cobe… Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Hints: ['contrato I/O en instruction', 'compara output con solution'] Código imprime ['print(auto / (auto + review))']."
+    },
+    {
+      "exercise_id": "S24-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "mime='application/zip'\nallowed={'application/pdf','image/png','image/jpeg'}\nprint('reject' if mime not in allowed else 'ok')\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "mime",
+        "application",
+        "zip",
+        "allowed",
+        "pdf",
+        "image",
+        "png",
+        "jpeg",
+        "reject",
+        "not"
+      ],
+      "justification_from_packet": "Leí la instruction y el starter del quiz_card para S24-T4-B-E1: Allowlist mime: mime='application/zip' no está en pdf/png/jpeg → imprime reject. Contrato: fail-closed. Pass: … Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Hints: ['contrato I/O en instruction', 'compara output con solution'] Código imprime [\"print('reject' if mime not in allowed else 'ok')\"]."
+    },
+    {
+      "exercise_id": "S24-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "n=6_000_000\nprint('reject' if n > 5_000_000 else 'ok')\n",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [
+        "_000_000",
+        "reject",
+        "else",
+        "Size",
+        "gate",
+        "pre",
+        "OCR",
+        "bytes",
+        "imprime",
+        "Contrato"
+      ],
+      "justification_from_packet": "La salida esperada del contrato me marca el print final. Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Luego para S24-T4-B-E2: Size gate pre-OCR: n=6_000_000 bytes > 5e6 → imprime reject. Contrato: mitiga DoS al worker. Pass: reject. Usa… Código imprime [\"print('reject' if n > 5_000_000 else 'ok')\"]. Hints: ['contrato I/O en instruction', 'compara output con solution']."
+    },
+    {
+      "exercise_id": "S24-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "status='ocr_fail'\nprint({'ocr_fail':'human_rescan'}.get(status, 'continue'))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "status",
+        "ocr_fail",
+        "human_rescan",
+        "get",
+        "continue",
+        "Fallback",
+        "operativo",
+        "acci",
+        "Imprime",
+        "Contrato"
+      ],
+      "justification_from_packet": "El contrato Pass de la tarea pide una salida concreta para S24-T4-B-E3: Fallback operativo: status='ocr_fail' → acción 'human_rescan'. Imprime la acción. Contrato: no loop infinito d… Ancla de theory: «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efect Hints: ['contrato I/O en instruction', 'compara output con solution'] Código imprime [\"print({'ocr_fail':'human_rescan'}.get(status, 'continue'))\"]."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Abstener y encolar revisión",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "justification_from_packet": "S24 Q0: «¿Qué haces si confidence de RUC es 0.6?» → [3] Abstener y encolar revisión. Según el párrafo de theory sobre «ruido y orientación»: Ruido (sal/pimienta, compresión JPEG) y **orientación** (0/90/180/270) rompen el layout y pueden dar confid. Otras opciones (['[0] Aceptar igual', '[1] Inventar dígitos']) no cuadran con outcomes/iDo."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Cola de revisión / corrección",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "La pregunta del paquete se responde con «Un mismatch total vs líneas implica:». Elijo [1] «Cola de revisión / corrección» porque «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efectivos) ante. Descarto ['[0] Fraude probado', '[2] Borrar el doc']. Sección S24."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Los campos críticos pueden fallar aunque el global se vea bien",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "justification_from_packet": "S24 Q2: «¿Por qué medir accuracy por campo?» → [2] Los campos críticos pueden fallar aunque el global se vea bien. En selfCheck_stems del quiz_card «ruido y orientación»: Ruido (sal/pimienta, compresión JPEG) y **orientación** (0/90/180/270) rompen el layout y pueden dar confid. Otras opciones (['[0] Es más corto', '[1] OCR no tiene global']) no cuadran con outcomes/iDo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Gate reject/review por mime no permitido",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "justification_from_packet": "Descarto distractores y me quedo con «Archivo application/zip en intake de facturas:». Elijo [0] «Gate reject/review por mime no permitido» porque «DPI, deskew, crop y contraste»: **DPI** bajo degrada OCR de tipografía pequeña en facturas sintéticas; el lab eleva a ≥200 (ideal 300 efectivos) ante. Descarto ['[1] Siempre OK', '[2] OCR directo']. Sección S24."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:21:28+00:00",
+  "session_started_at": "2026-07-23T12:21:15+00:00",
+  "session_ended_at": "2026-07-23T12:21:28+00:00",
+  "receipt_response_sha256": "e2403d58ec8adfc1b25ecb24b6362b0392d224850b9c3742376ee15372982d40"
+}

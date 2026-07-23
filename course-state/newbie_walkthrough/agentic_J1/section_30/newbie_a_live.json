@@ -1,0 +1,463 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_J1",
+  "section_index": 30,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-explorer-s30-45e128f66044",
+  "production_note": "agentic_J1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S30-T1-A-E1",
+      "id": "S30-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na=b='a'\nprint(1.0 if a == b else 0.0)\n",
+      "confidence": 0.63,
+      "blocked_on": [],
+      "concepts_used": [
+        "Exact",
+        "imprime",
+        "Fixture",
+        "sint",
+        "tico"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T1-A-E1 siguiendo la instrucción del paquete: «S30-T1-A-E1 · Exact: imprime 1.0 si 'a'=='a' else 0.0. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el sta». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print(1.0 if a == b else 0.0)`. (sesión-notas 3f0147)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T1-A-E2",
+      "id": "S30-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb=set('a b'.split()),set('b c'.split())\nprint(len(ta&tb)/len(ta|tb))\n",
+      "confidence": 0.951,
+      "blocked_on": [],
+      "concepts_used": [
+        "Jaccard",
+        "tokens",
+        "imprime",
+        "fracci",
+        "reducida"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T1-A-E2 siguiendo la instrucción del paquete: «S30-T1-A-E2 · Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx. Fixture sintético `CASO-LIM-030` (run_id=cp». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print(len(ta&tb)/len(ta|tb))`. (sesión-notas f1ee74)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T1-A-E3",
+      "id": "S30-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nd=date(2026,1,1)\nprint(1.0 if d == d else 0.0)\n",
+      "confidence": 0.853,
+      "blocked_on": [],
+      "concepts_used": [
+        "date_sim",
+        "mismo",
+        "imprime",
+        "date",
+        "Fixture"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T1-A-E3 siguiendo la instrucción del paquete: «S30-T1-A-E3 · date_sim: mismo día → 1.0; imprime para dos date(2026,1,1). Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): l». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print(1.0 if d == d else 0.0)`. (sesión-notas c5cae0)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T1-B-E1",
+      "id": "S30-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='', 'x'\nprint('missing' if (not a or not b) else 'cmp')\n",
+      "confidence": 0.964,
+      "blocked_on": [],
+      "concepts_used": [
+        "imprime",
+        "missing",
+        "Fixture",
+        "sint",
+        "tico"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T1-B-E1 siguiendo la instrucción del paquete: «S30-T1-B-E1 · Si a=='' o b=='' imprime 'missing'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter ». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print('missing' if (not a or not b) else 'cmp')`. (sesión-notas 51c046)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T1-B-E2",
+      "id": "S30-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfreq=10\nprint(1 / freq)\n",
+      "confidence": 0.837,
+      "blocked_on": [],
+      "concepts_used": [
+        "Peso",
+        "freq",
+        "Fixture",
+        "sint",
+        "tico"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T1-B-E2 siguiendo la instrucción del paquete: «S30-T1-B-E2 · Peso 1/freq para freq=10 → 0.1. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter comp». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print(1 / freq)`. (sesión-notas f5c017)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T1-B-E3",
+      "id": "S30-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('informative_missing')\n",
+      "confidence": 0.913,
+      "blocked_on": [],
+      "concepts_used": [
+        "Imprime",
+        "informative_missing",
+        "como",
+        "etiqueta",
+        "dise"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T1-B-E3 siguiendo la instrucción del paquete: «S30-T1-B-E3 · Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phone. Fixture sintético `CASO-LIM-030` (run». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print('informative_missing')`. (sesión-notas e59369)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T2-A-E1",
+      "id": "S30-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nlast,city='lopez','lima'\nprint(f'{last}|{city}')\n",
+      "confidence": 0.586,
+      "blocked_on": [],
+      "concepts_used": [
+        "block_key",
+        "last",
+        "city",
+        "lopez",
+        "lima"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T2-A-E1 siguiendo la instrucción del paquete: «S30-T2-A-E1 · block_key = last + '|' + city para last='lopez' city='lima'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): ». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print(f'{last}|{city}')`. (sesión-notas 49a12d)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T2-A-E2",
+      "id": "S30-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nfound,gold_n=1,2\nprint(found / gold_n)\n",
+      "confidence": 0.789,
+      "blocked_on": [],
+      "concepts_used": [
+        "Candidate",
+        "recall",
+        "gold",
+        "found",
+        "Fixture"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T2-A-E2 siguiendo la instrucción del paquete: «S30-T2-A-E2 · Candidate recall: gold 2, found 1 → 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el sta». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print(found / gold_n)`. (sesión-notas c61fc0)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T2-A-E3",
+      "id": "S30-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\nprint(n*(n-1)//2)\n",
+      "confidence": 0.874,
+      "blocked_on": [],
+      "concepts_used": [
+        "Imprime",
+        "candidatos",
+        "bloque",
+        "tama",
+        "Fixture"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T2-A-E3 siguiendo la instrucción del paquete: «S30-T2-A-E3 · Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la en». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print(n*(n-1)//2)`. (sesión-notas 7535f7)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T2-B-E1",
+      "id": "S30-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nsizes=[3,5]\nprint(sum(n*(n-1)//2 for n in sizes))\n",
+      "confidence": 0.812,
+      "blocked_on": [],
+      "concepts_used": [
+        "Costo",
+        "total",
+        "bloques",
+        "Fixture",
+        "sint"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T2-B-E1 siguiendo la instrucción del paquete: «S30-T2-B-E1 · Costo total bloques [3,5] → 3+10=13. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print(sum(n*(n-1)//2 for n in sizes))`. (sesión-notas b39593)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T2-B-E2",
+      "id": "S30-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb='person','org'\nprint(ta != tb)\n",
+      "confidence": 0.914,
+      "blocked_on": [],
+      "concepts_used": [
+        "Impossible",
+        "types",
+        "difieren",
+        "imprime",
+        "person"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T2-B-E2 siguiendo la instrucción del paquete: «S30-T2-B-E2 · Impossible si types difieren; imprime True para person vs org. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe)». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print(ta != tb)`. (sesión-notas 088119)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T2-B-E3",
+      "id": "S30-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('filter_before_score')\n",
+      "confidence": 0.899,
+      "blocked_on": [],
+      "concepts_used": [
+        "tica",
+        "imprime",
+        "filter_before_score",
+        "Fixture",
+        "sint"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T2-B-E3 siguiendo la instrucción del paquete: «S30-T2-B-E3 · Política: imprime 'filter_before_score'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el sta». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print('filter_before_score')`. (sesión-notas e8eb45)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T3-A-E1",
+      "id": "S30-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n",
+      "confidence": 0.586,
+      "blocked_on": [],
+      "concepts_used": [
+        "Promedio",
+        "ponderado",
+        "name",
+        "email",
+        "Fixture"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T3-A-E1 siguiendo la instrucción del paquete: «S30-T3-A-E1 · Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la en». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))`. (sesión-notas b43c24)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T3-A-E2",
+      "id": "S30-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ns,t_high,t_low=0.7,0.9,0.5\nprint('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\n",
+      "confidence": 0.565,
+      "blocked_on": [],
+      "concepts_used": [
+        "score",
+        "t_high",
+        "t_low",
+        "review",
+        "Fixture"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T3-A-E2 siguiendo la instrucción del paquete: «S30-T3-A-E2 · score=0.7 con t_high=0.9 t_low=0.5 → 'review'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es ». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))`. (sesión-notas 15ab7e)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T3-A-E3",
+      "id": "S30-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint({'name': 0.9, 'email': 1.0})\n",
+      "confidence": 0.567,
+      "blocked_on": [],
+      "concepts_used": [
+        "Imprime",
+        "explicaci",
+        "dict",
+        "name",
+        "email"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T3-A-E3 siguiendo la instrucción del paquete: «S30-T3-A-E3 · Imprime explicación dict {'name':0.9,'email':1.0}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print({'name': 0.9, 'email': 1.0})`. (sesión-notas b71050)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T3-B-E1",
+      "id": "S30-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "p={1:1,2:2,3:3}\ndef find(x):\n    while p[x]!=x: x=p[x]\n    return x\ndef union(a,b):\n    p[find(b)]=find(a)\nunion(1,2); union(2,3)\n",
+      "confidence": 0.805,
+      "blocked_on": [],
+      "concepts_used": [
+        "Union",
+        "Find",
+        "nimo",
+        "union",
+        "imprime"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T3-B-E1 siguiendo la instrucción del paquete: «S30-T3-B-E1 · Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple. Fixture sintético `CASO-LIM-030` (run_i». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `union(1,2); union(2,3)`. (sesión-notas 1d0fbd)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T3-B-E2",
+      "id": "S30-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['match', 'non_match', 'uncertain'])\n",
+      "confidence": 0.594,
+      "blocked_on": [],
+      "concepts_used": [
+        "Review",
+        "queue",
+        "item",
+        "imprime",
+        "action"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T3-B-E2 siguiendo la instrucción del paquete: «S30-T3-B-E2 · Review queue item: imprime action options match/non_match/uncertain. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @examp». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print(['match', 'non_match', 'uncertain'])`. (sesión-notas ad8dc7)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T3-B-E3",
+      "id": "S30-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('ER_only_same_entity')\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "Imprime",
+        "regla",
+        "privacidad",
+        "ER_only_same_entity",
+        "Fixture"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T3-B-E3 siguiendo la instrucción del paquete: «S30-T3-B-E3 · Imprime regla de privacidad: 'ER_only_same_entity'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrad». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print('ER_only_same_entity')`. (sesión-notas 3b1280)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T4-A-E1",
+      "id": "S30-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='e1','e2'\ntrain_e={'e1','e2','e3'}\nprint('train' if {a,b} <= train_e else 'test')\n",
+      "confidence": 0.664,
+      "blocked_on": [],
+      "concepts_used": [
+        "subseteq",
+        "train_e",
+        "imprime",
+        "train",
+        "test"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T4-A-E1 siguiendo la instrucción del paquete: «S30-T4-A-E1 · Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}. Fixture sintético `CASO-LIM-030` (run». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print('train' if {a,b} <= train_e else 'test')`. (sesión-notas b161c7)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T4-A-E2",
+      "id": "S30-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\nmatches,n=1,5\nprint(matches / n)\n",
+      "confidence": 0.827,
+      "blocked_on": [],
+      "concepts_used": [
+        "Prevalencia",
+        "matches",
+        "match",
+        "pares",
+        "Fixture"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T4-A-E2 siguiendo la instrucción del paquete: «S30-T4-A-E2 · Prevalencia matches: 1 match de 5 pares → 0.2. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es ». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print(matches / n)`. (sesión-notas 76fc74)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T4-A-E3",
+      "id": "S30-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint('entity_split')\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "Imprime",
+        "entity_split",
+        "como",
+        "tica",
+        "anti"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T4-A-E3 siguiendo la instrucción del paquete: «S30-T4-A-E3 · Imprime 'entity_split' como política anti-leakage. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print('entity_split')`. (sesión-notas 19f075)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T4-B-E1",
+      "id": "S30-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fp=2,1\nprint(round(tp/(tp+fp), 2))\n",
+      "confidence": 0.967,
+      "blocked_on": [],
+      "concepts_used": [
+        "precision",
+        "approx",
+        "round",
+        "decimals",
+        "Fixture"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T4-B-E1 siguiendo la instrucción del paquete: «S30-T4-B-E1 · tp=2 fp=1 → precision 2/3 approx print round 2 decimals. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la e». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print(round(tp/(tp+fp), 2))`. (sesión-notas 373a76)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T4-B-E2",
+      "id": "S30-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fn=2,2\nprint(tp/(tp+fn))\n",
+      "confidence": 0.564,
+      "blocked_on": [],
+      "concepts_used": [
+        "recall",
+        "Fixture",
+        "sint",
+        "tico",
+        "CASO"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T4-B-E2 siguiendo la instrucción del paquete: «S30-T4-B-E2 · tp=2 fn=2 → recall 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; im». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print(tp/(tp+fn))`. (sesión-notas 73836f)",
+      "form_notes": []
+    },
+    {
+      "exercise_id": "S30-T4-B-E3",
+      "id": "S30-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\nprint(['missing_phone'])\n",
+      "confidence": 0.805,
+      "blocked_on": [],
+      "concepts_used": [
+        "Slice",
+        "error",
+        "imprime",
+        "missing_phone",
+        "como"
+      ],
+      "justification_from_packet": "Como Explorer en Entity resolution probabilístico, resolví S30-T4-B-E3 siguiendo la instrucción del paquete: «S30-T4-B-E3 · Slice error: imprime ['missing_phone'] como slice con más errores sintéticos. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-e». Implementé el contrato con `CASO-LIM-030` y el starter del weDo; outcomes: Comparar exact/edit/token/fecha Tratar missingness y frecuencia Diseñar blocking. Código ancla: `print(['missing_phone'])`. (sesión-notas c40573)",
+      "form_notes": []
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Si dos registros son la misma entidad",
+      "confidence": 0.567,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer SC0 en Entity resolution probabilístico: la pregunta «El motor ER de CP-N3-A debe decidir:» se alinea con theory/iDo del paquete; elijo «Si dos registros son la misma entidad» (índice 1) porque el material enfatiza ese concepto frente a distractores. ref:41a0db"
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Fracción de verdaderos matches que sobreviven al blocking",
+      "confidence": 0.953,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer SC1 en Entity resolution probabilístico: la pregunta «Candidate recall de blocking mide:» se alinea con theory/iDo del paquete; elijo «Fracción de verdaderos matches que sobreviven al blocking» (índice 3) porque el material enfatiza ese concepto frente a distractores. ref:0318f9"
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "clerical review",
+      "confidence": 0.791,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer SC2 en Entity resolution probabilístico: la pregunta «Scores entre t_low y t_high van a:» se alinea con theory/iDo del paquete; elijo «clerical review» (índice 0) porque el material enfatiza ese concepto frente a distractores. ref:a15951"
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Leakage de identidad entre train y test",
+      "confidence": 0.958,
+      "blocked_on": [],
+      "justification_from_packet": "Explorer SC3 en Entity resolution probabilístico: la pregunta «Split por entidad evita:» se alinea con theory/iDo del paquete; elijo «Leakage de identidad entre train y test» (índice 2) porque el material enfatiza ese concepto frente a distractores. ref:43cad8"
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:25:26+00:00",
+  "session_started_at": "2026-07-23T12:25:15+00:00",
+  "session_ended_at": "2026-07-23T12:25:26+00:00",
+  "receipt_response_sha256": "534e275166444cbc5e30cbe9f10811b2e4062f37d5a64c82dd8a3f5f84ed7bad"
+}

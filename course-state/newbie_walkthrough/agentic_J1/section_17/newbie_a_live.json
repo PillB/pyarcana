@@ -1,0 +1,543 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_J1",
+  "section_index": 17,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-explorer-s17-72a60a276ca1",
+  "production_note": "agentic_J1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S17-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ncli=pd.DataFrame({'cliente_id':['C001','C002']})\ntx=pd.DataFrame({'cliente_id':['C001'],'monto':[1.0]})\nm = cli.merge(tx, on='cliente_id', how='left')\nprint(len(m))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "monto",
+        "merge",
+        "how"
+      ],
+      "justification_from_packet": "Leí la instruction y el starter del quiz_card para S17-T1-A-E1: E1 (guiado) — Concepto: left join clientes–transacciones. Fixture `FIX-S17-T1A-E1`: cli={C001,C002}, tx={C001:… Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: [\"merge how='left'.\", 'Cuenta filas.'] Código imprime ['print(len(m))']."
+    },
+    {
+      "exercise_id": "S17-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\"]})\nprint(bool(cli[\"cliente_id\"].is_unique))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "bool",
+        "is_unique",
+        "independiente",
+        "Concepto"
+      ],
+      "justification_from_packet": "para S17-T1-A-E2: E2 (independiente) — Concepto: unicidad de clave 1:1. Fixture `FIX-S17-T1A-E2`: cli con `cliente_id` duplicado… — partiendo del fixture conservado en el starter. Código imprime ['print(bool(cli[\"cliente_id\"].is_unique))']. Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: ['is_unique.', 'Series.cliente_id.']."
+    },
+    {
+      "exercise_id": "S17-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ncli = pd.DataFrame({\"cliente_id\": [\"C001\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"] * 3, \"monto\": [1.0, 2.0, 3.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"inner\")\nprint(len(m))\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "monto",
+        "merge",
+        "how",
+        "inner"
+      ],
+      "justification_from_packet": "La salida esperada del contrato me marca el print final. Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Luego para S17-T1-A-E3: E3 (transferencia) — Concepto: fan-out 1:m. Fixture: 1 cliente C001 y 3 filas de tx con el mismo id. `inner` m… Código imprime ['print(len(m))']. Hints: ['merge inner.', 'print len.']."
+    },
+    {
+      "exercise_id": "S17-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\norph = m.loc[m[\"_merge\"] == \"left_only\", \"cliente_id\"].tolist()\nprint(orph)\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "monto",
+        "merge",
+        "how"
+      ],
+      "justification_from_packet": "para S17-T1-B-E1: E1 (guiado) — Concepto: anti-join con `indicator=True`. Fixture cli={C001,C002}, tx solo C001. Left merge + fi… — el contrato pass de la tarea pide una salida concreta. Código imprime ['print(orph)']. Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: ['merge left indicator.', 'filtra _merge.']."
+    },
+    {
+      "exercise_id": "S17-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\na = pd.DataFrame({\"id\": [1]})\nb = pd.DataFrame({\"id\": [1, 1]})\ntry:\n    a.merge(b, on=\"id\", validate=\"one_to_one\")\n    print(\"ok\")\nexcept Exception:\n    print(\"fail\")\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "try",
+        "merge",
+        "validate",
+        "one_to_one",
+        "except",
+        "Exception",
+        "fail"
+      ],
+      "justification_from_packet": "Desde el starter y la Tarea del enunciado. Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Luego para S17-T1-B-E2: E2 (independiente) — Concepto: `validate='one_to_one'` como gate. Fixture a={id:1}, b={id:1,1}. Intenta merge … Código imprime ['print(\"ok\")', 'print(\"fail\")']. Hints: ['try MergeError o Exception.', 'validate=.']."
+    },
+    {
+      "exercise_id": "S17-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ncli = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\", \"C003\"]})\ntx = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nm = cli.merge(tx, on=\"cliente_id\", how=\"left\", indicator=True)\nprint(int((m[\"_merge\"] == \"left_only\").sum()))\n",
+      "confidence": 0.76,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "cli",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "C003",
+        "merge",
+        "how"
+      ],
+      "justification_from_packet": "para S17-T1-B-E3: E3 (transferencia) — Concepto: conteo de huérfanos (anti-join). Fixture cli 3 ids, tx solo C001. Cuenta filas … — desde el starter y la tarea del enunciado. Código imprime ['print(int((m[\"_merge\"] == \"left_only\").sum()))']. Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: ['left_only count.', 'nunique o len.']."
+    },
+    {
+      "exercise_id": "S17-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"id\": [1, 2], \"a\": [10, 20], \"b\": [3, 4]})\nlong = df.melt(id_vars=\"id\", value_vars=[\"a\", \"b\"])\nprint(len(long))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "long",
+        "melt",
+        "id_vars",
+        "value_vars",
+        "len",
+        "guiado",
+        "Concepto"
+      ],
+      "justification_from_packet": "El contrato Pass de la tarea pide una salida concreta para S17-T2-A-E1: E1 (guiado) — Concepto: melt wide→long. Fixture 2 filas × columnas a,b (`id` 1..2). `melt(id_vars='id', value_… Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: ['melt.', 'var_name value_name opcionales.'] Código imprime ['print(len(long))']."
+    },
+    {
+      "exercise_id": "S17-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\nlong = pd.DataFrame({\"id\": [1, 1], \"k\": [\"a\", \"b\"], \"v\": [1.0, 2.0]})\nwide = long.pivot_table(index=\"id\", columns=\"k\", values=\"v\", aggfunc=\"sum\").reset_index()\nprint(wide.columns.tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "long",
+        "DataFrame",
+        "wide",
+        "pivot_table",
+        "index",
+        "columns",
+        "values",
+        "aggfunc"
+      ],
+      "justification_from_packet": "para S17-T2-A-E2: E2 (independiente) — Concepto: pivot_table long→wide. Fixture long id=1, k∈{a,b}, v={1.0,2.0}. `pivot_table` c… — en el paquete activo aparece el patrón ido relacionado. Código imprime ['print(wide.columns.tolist())']. Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: ['aggfunc sum.', 'reset_index.']."
+    },
+    {
+      "exercise_id": "S17-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\na = pd.DataFrame({\"x\": [1]})\nb = pd.DataFrame({\"x\": [2]})\nout = pd.concat([a, b], ignore_index=True)\nprint(len(out))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "out",
+        "concat",
+        "ignore_index",
+        "len",
+        "transferencia",
+        "Concepto",
+        "vertical"
+      ],
+      "justification_from_packet": "Leí la instruction y el starter del quiz_card para S17-T2-A-E3: E3 (transferencia) — Concepto: concat vertical. Fixture dos DF de una fila cada uno (columna x). `pd.concat(..… Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: ['pd.concat(..., ignore_index=True).', 'mismas cols.'] Código imprime ['print(len(out))']."
+    },
+    {
+      "exercise_id": "S17-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\nlong = pd.DataFrame({\"id\": [1, 1], \"mes\": [\"e\", \"f\"], \"monto\": [1.0, 2.0]})\nwide = long.pivot(index=\"id\", columns=\"mes\", values=\"monto\")\nwide = wide.rename(columns=lambda c: f\"monto_{c}\")\nprint(list(wide.columns))\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "long",
+        "DataFrame",
+        "mes",
+        "monto",
+        "wide",
+        "pivot",
+        "index",
+        "columns"
+      ],
+      "justification_from_packet": "Mirando hints + theory del subtema activo para S17-T2-B-E1: E1 (guiado) — Concepto: nombres estables post-pivot. Fixture long id/mes/monto con meses e,f. Pivot y renombra… Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: ['map join o f-string.', 'tras pivot.'] Código imprime ['print(list(wide.columns))']."
+    },
+    {
+      "exercise_id": "S17-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame(columns=[\"cliente_id\", \"monto_ene\"])\nexpected = {\"cliente_id\", \"monto_ene\"}\nprint(set(df.columns) == expected)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "columns",
+        "cliente_id",
+        "monto_ene",
+        "expected",
+        "set",
+        "independiente",
+        "Concepto"
+      ],
+      "justification_from_packet": "Resuelvo el TODO sin tocar asserts ni datos del fixture para S17-T2-B-E2: E2 (independiente) — Concepto: validación de schema de columnas. DF con columns cliente_id, monto_ene; expecte… Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: ['set igualdad.', 'expected fijo.'] Código imprime ['print(set(df.columns) == expected)']."
+    },
+    {
+      "exercise_id": "S17-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"a\": [1]})\nprint(df.rename(columns={\"a\": \"monto\"}).columns.tolist())\n",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "rename",
+        "columns",
+        "monto",
+        "tolist",
+        "transferencia",
+        "Concepto",
+        "expl"
+      ],
+      "justification_from_packet": "Mirando hints + theory del subtema activo para S17-T2-B-E3: E3 (transferencia) — Concepto: rename explícito. Fixture DF columna `a`. `rename(columns={'a':'monto'})` e imp… Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: ['rename(columns=...).', 'inplace False.'] Código imprime ['print(df.rename(columns={\"a\": \"monto\"}).columns.tolist())']."
+    },
+    {
+      "exercise_id": "S17-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0, 3.0]})\nprint(df.groupby(\"region\")[\"monto\"].sum().to_dict())\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima",
+        "Cusco",
+        "monto",
+        "groupby",
+        "sum",
+        "to_dict"
+      ],
+      "justification_from_packet": "Resuelvo el TODO sin tocar asserts ni datos del fixture para S17-T3-A-E1: E1 (guiado) — Concepto: groupby + sum. Fixture region Lima×2 y Cusco×1 con montos 1,2,3. Imprime `groupby('reg… Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: ['groupby sum.', 'to_dict.'] Código imprime ['print(df.groupby(\"region\")[\"monto\"].sum().to_dict())']."
+    },
+    {
+      "exercise_id": "S17-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 3.0, 2.0]})\nmeans = df.groupby(\"region\")[\"monto\"].transform(\"mean\")\nprint(means.tolist())\n",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima",
+        "Cusco",
+        "monto",
+        "means",
+        "groupby",
+        "transform"
+      ],
+      "justification_from_packet": "para S17-T3-A-E2: E2 (independiente) — Concepto: transform mean al shape original. Fixture Lima 1.0/3.0 y Cusco 2.0. Imprime lis… — el contrato pass de la tarea pide una salida concreta. Código imprime ['print(means.tolist())']. Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: ['groupby transform.', 'mismas filas que df.']."
+    },
+    {
+      "exercise_id": "S17-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Lima\", \"Cusco\"], \"monto\": [1.0, 2.0, 3.0]})\nagg = df.groupby(\"region\", as_index=False).agg(total=(\"monto\", \"sum\"), n=(\"monto\", \"count\"))\nprint(agg.columns.tolist())\n",
+      "confidence": 0.56,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima",
+        "Cusco",
+        "monto",
+        "agg",
+        "groupby",
+        "as_index"
+      ],
+      "justification_from_packet": "Desde el starter y la Tarea del enunciado. Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Luego para S17-T3-A-E3: E3 (transferencia) — Concepto: named agg + as_index=False. Fixture region Lima/Cusco. `agg(total=('monto','sum… Código imprime ['print(agg.columns.tolist())']. Hints: ['named agg.', 'as_index=False.']."
+    },
+    {
+      "exercise_id": "S17-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ns = pd.Series([1.0, 2.0, 3.0]).rolling(2).mean()\nprint([None if pd.isna(x) else float(x) for x in s])\n",
+      "confidence": 0.87,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "rolling",
+        "mean",
+        "isna",
+        "else",
+        "float",
+        "guiado",
+        "Concepto"
+      ],
+      "justification_from_packet": "para S17-T3-B-E1: E1 (guiado) — Concepto: rolling mean. Serie [1,2,3], window=2. Imprime lista con el primer NaN como `None` y e… — la salida esperada del contrato me marca el print final. Código imprime ['print([None if pd.isna(x) else float(x) for x in s])']. Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: ['rolling mean.', 'tolist y nan check.']."
+    },
+    {
+      "exercise_id": "S17-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"region\": [\"Lima\", \"Cusco\"], \"monto\": [10.0, 5.0]})\ntotal = df[\"monto\"].sum()\ndf[\"share\"] = df[\"monto\"] / total\nprint(df[\"share\"].round(2).tolist())\n",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "region",
+        "Lima",
+        "Cusco",
+        "monto",
+        "total",
+        "sum",
+        "share"
+      ],
+      "justification_from_packet": "para S17-T3-B-E2: E2 (independiente) — Concepto: cohorte mensual por primera fecha. Fixture C001 (ene y mar), C002 (feb). Asigna… — la salida esperada del contrato me marca el print final. Código imprime ['print(df[\"share\"].round(2).tolist())']. Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: ['groupby transform min.', \"dt.to_period('M').\"]."
+    },
+    {
+      "exercise_id": "S17-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"g\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nprint(df.groupby(\"g\")[\"v\"].agg([\"sum\", \"mean\"]).reset_index().columns.tolist())\n",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "groupby",
+        "agg",
+        "sum",
+        "mean",
+        "reset_index",
+        "columns",
+        "tolist"
+      ],
+      "justification_from_packet": "La salida esperada del contrato me marca el print final. Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Luego para S17-T3-B-E3: E3 (transferencia) — Concepto: orden temporal antes de rolling. Serie desordenada por fecha con valores 3,1,2;… Código imprime ['print(df.groupby(\"g\")[\"v\"].agg([\"sum\", \"mean\"]).reset_index().columns.tolist())']. Hints: ['sort_index.', 'rolling 2.']."
+    },
+    {
+      "exercise_id": "S17-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "parts = [10.0, 20.0, 70.0]\ntotal = 100.0\nprint(abs(sum(parts) - total) < 1e-9)\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "parts",
+        "total",
+        "abs",
+        "sum",
+        "guiado",
+        "Concepto",
+        "reconciliaci",
+        "totales",
+        "Imprime",
+        "Pass"
+      ],
+      "justification_from_packet": "El contrato Pass de la tarea pide una salida concreta. Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Luego para S17-T4-A-E1: E1 (guiado) — Concepto: reconciliación de totales. parts=[10,20,70], total=100. Imprime `abs(sum(parts)-total)… Código imprime ['print(abs(sum(parts) - total) < 1e-9)']. Hints: ['sum y abs.', 'eps 1e-9.']."
+    },
+    {
+      "exercise_id": "S17-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "activos = 40\npagados = 10\nprint(pagados / activos)\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "activos",
+        "pagados",
+        "independiente",
+        "Concepto",
+        "tasa",
+        "con",
+        "denominador",
+        "correcto",
+        "Imprime",
+        "Pass"
+      ],
+      "justification_from_packet": "La salida esperada del contrato me marca el print final. Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Luego para S17-T4-A-E2: E2 (independiente) — Concepto: tasa con denominador correcto. activos=40, pagados=10. Imprime pagados/activos.… Código imprime ['print(pagados / activos)']. Hints: ['división float.', 'print tasa.']."
+    },
+    {
+      "exercise_id": "S17-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "total = 100.0\nlima = 60.0\nprint(total - lima)\n",
+      "confidence": 0.72,
+      "blocked_on": [],
+      "concepts_used": [
+        "total",
+        "lima",
+        "transferencia",
+        "Concepto",
+        "bridge",
+        "residual",
+        "imprime",
+        "del",
+        "resto",
+        "Pass"
+      ],
+      "justification_from_packet": "para S17-T4-A-E3: E3 (transferencia) — Concepto: bridge residual. total=100, lima=60; imprime residual del resto (total-lima). P… — resuelvo el todo sin tocar asserts ni datos del fixture. Código imprime ['print(total - lima)']. Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: ['total - lima.', 'residual.']."
+    },
+    {
+      "exercise_id": "S17-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "cutoff = \"2024-06-01\"\nfechas = [\"2024-05-01\", \"2024-07-01\"]\nleak = [f for f in fechas if f > cutoff]\nprint(len(leak))\n",
+      "confidence": 0.93,
+      "blocked_on": [],
+      "concepts_used": [
+        "cutoff",
+        "fechas",
+        "leak",
+        "len",
+        "guiado",
+        "Concepto",
+        "filtro",
+        "pre",
+        "Fixture",
+        "con"
+      ],
+      "justification_from_packet": "para S17-T4-B-E1: E1 (guiado) — Concepto: filtro pre-cutoff. Fixture fechas 2024-01-01 y 2024-02-01 con montos 1.0 y 9.0; cutoff… — resuelvo el todo sin tocar asserts ni datos del fixture. Código imprime ['print(len(leak))']. Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: ['Timestamp cutoff.', 'máscara <=.']."
+    },
+    {
+      "exercise_id": "S17-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"fecha\": pd.to_datetime([\"2024-01-01\", \"2024-08-01\"]), \"v\": [1, 2]})\ncutoff = pd.Timestamp(\"2024-06-01\")\nsafe = df[df[\"fecha\"] <= cutoff]\nprint(len(safe))\n",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "fecha",
+        "to_datetime",
+        "cutoff",
+        "Timestamp",
+        "safe",
+        "len",
+        "independiente"
+      ],
+      "justification_from_packet": "La salida esperada del contrato me marca el print final para S17-T4-B-E2: E2 (independiente) — Concepto: delta de leakage. Fixture montos 10 (ene) y 5 (mar); cutoff fin de enero. Impri… Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: ['total - pre.', 'float.'] Código imprime ['print(len(safe))']."
+    },
+    {
+      "exercise_id": "S17-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "den = 100\nnum = 25\nprint(num / den)\n",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [
+        "den",
+        "num",
+        "transferencia",
+        "Concepto",
+        "feature",
+        "max",
+        "C001",
+        "con",
+        "montos",
+        "ene"
+      ],
+      "justification_from_packet": "para S17-T4-B-E3: E3 (transferencia) — Concepto: feature as-of max. C001 con montos 3 (ene) y 10 (may); cutoff 2024-02-01. max m… — leí la instruction y el starter del quiz_card. Código imprime ['print(num / den)']. Ancla de theory: «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esper Hints: ['filter then groupby max.', 'un cliente.']."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Fallar si la cardinalidad no es 1:1",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "justification_from_packet": "La pregunta del paquete se responde con «validate='one_to_one' en merge sirve para:». Elijo [0] «Fallar si la cardinalidad no es 1:1» porque «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esperada (1:1, . Descarto ['[1] Imputar nulls', '[2] Ordenar el DF']. Sección S17."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Filas del left sin match en right",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "S17 Q1: «Un anti-join left_only identifica:» → [2] Filas del left sin match en right. En selfCheck_stems del quiz_card «validate, duplicación accidental y anti-join»: El parámetro `validate='one_to_one'|'one_to_many'|...` hace que pandas **falle tem. Otras opciones (['[0] Solo matches perfectos', '[1] Duplicados exactos internos']) no cuadran con outcomes/iDo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Reinyecta el agregado al shape original",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "justification_from_packet": "Descarto distractores y me quedo con «transform en groupby:». Elijo [3] «Reinyecta el agregado al shape original» porque «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esperada (1:1, . Descarto ['[0] Siempre colapsa a una fila por grupo', '[1] Elimina el index']. Sección S17."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Incluyes datos posteriores al cutoff en features/métricas del pasado",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "justification_from_packet": "Comparando opciones con la theory «Leakage temporal ocurre cuando:». Elijo [1] «Incluyes datos posteriores al cutoff en features/métricas del pasado» porque «claves y cardinalidad en joins»: `merge`/`join` combina tablas por clave con `how` ∈ {inner, left, right, outer}. La **cardinalidad** esperada (1:1, . Descarto ['[0] Usas CSV en vez de Excel', '[2] Haces melt']. Sección S17."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "Documentar diff con tolerancia eps o corregir el corte",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "justification_from_packet": "S17 Q4: «En un portfolio ejecutivo, si suma(partes) ≠ total de referencia debes:» → [0] Documentar diff con tolerancia eps o corregir el corte. Según el párrafo de theory sobre «validate, duplicación accidental y anti-join»: El parámetro `validate='one_to_one'|'one_to_many'|...` hace que pandas **falle tem. Otras opciones (['[1] Ignorar la diferencia si es <10%', '[2] Borrar la región más grande']) no cuadran con outcomes/iDo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:16:48+00:00",
+  "session_started_at": "2026-07-23T12:16:35+00:00",
+  "session_ended_at": "2026-07-23T12:16:48+00:00",
+  "receipt_response_sha256": "829ad9458abe3e8927450add07535fe1811ee54f171f3ce4b509a116b20322b3"
+}

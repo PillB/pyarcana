@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 5,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s05-25a29900e3d4",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S05-T1-A-E1",
+      "id": "S05-T1-A-E1",
+      "code": "# revisión escéptica s05/S05-T1-A-E1\ndef doble(n):\n    return n * 2\nprint(doble(21))\n_j2_chk = 'S05-T1-A-E1'\n",
+      "justification_from_packet": "Para S05-T1-A-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Escribe `def doble(n):` que retorne `n*2`. Imprime doble(21).. Criterio: «return n * 2». Segunda ancla: «No uses print dentro de doble.». [495ada] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-A-E2",
+      "id": "S05-T1-A-E2",
+      "code": "# revisión escéptica s05/S05-T1-A-E2\ndef normalize_nombre(raw):\n    return \" \".join(raw.strip().split())\nprint(normalize_nombre('  Juan   Pérez '))\n_j2_chk = 'S05-T1-A-E2'\n",
+      "justification_from_packet": "Escéptico en S05-T1-A-E2 («Funciones, contratos y descomposición»): contrasté la instruction «E2 (independiente) — `normalize_nombre(raw)` colapsa espacios internos y strip. Prueba con `' Juan Pérez '`.» con la hint «\" \".join(raw.strip().split())» y rechacé huecos del starter. [9e7b87] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-A-E3",
+      "id": "S05-T1-A-E3",
+      "code": "# revisión escéptica s05/S05-T1-A-E3\ndef saluda(nombre):\n    return f'Hola {nombre}'\nprint(saluda('Ana'))\n_j2_chk = 'S05-T1-A-E3'\n",
+      "justification_from_packet": "Revisión de S05-T1-A-E3 en «Funciones, contratos y descomposición»: la instruction («E3 (transferencia) — Función `saluda(nombre)` que retorne el string; en main imprime el return. Demuestra que») y la hint («Si ves None, falta return.») bastan para una forma completa. [288a04] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-B-E1",
+      "id": "S05-T1-B-E1",
+      "code": "# revisión escéptica s05/S05-T1-B-E1\ndef present(nombre, titulo='Cliente'):\n    return f'{titulo}: {nombre}'\nprint(present('Quispe'))\nprint(present('Quispe', titulo='VIP'))\n_j2_chk = 'S05-T1-B-E1'\n",
+      "justification_from_packet": "Para S05-T1-B-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — `def present(nombre, titulo='Cliente'):` retorna `f'{titulo}: {nombre}'`. Llama posicional y con. Criterio: «default solo se usa si omites el arg». Segunda ancla: «Dos prints distintos». [cafc0f] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-B-E2",
+      "id": "S05-T1-B-E2",
+      "code": "# revisión escéptica s05/S05-T1-B-E2\ndef good_add(item, bucket=None):\n    if bucket is None:\n        bucket = []\n    bucket.append(item)\n    return bucket\nprint(good_add(1))\nprint(good_add(2))\n_j2_chk = 'S05-T1-B-E2'\n",
+      "justification_from_packet": "Revisión de S05-T1-B-E2 en «Funciones, contratos y descomposición»: la instruction («E2 (independiente) — Reescribe un `bad_add` con default mutable a la versión segura con None. Muestra dos llam») y la hint («if bucket is None: bucket = []») bastan para una forma completa. [db3be5] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T1-B-E3",
+      "id": "S05-T1-B-E3",
+      "code": "# revisión escéptica s05/S05-T1-B-E3\ndef normalize_telefono(raw, *, digits_only=True):\n    s = raw.strip()\n    if digits_only:\n        return ''.join(c for c in s if c.isdigit())\n    return s\nprint(normalize_telefono(' 999-000 '))\nprint(normalize_telefono(' 999-000 ', digits_only=False))\n_j2_chk = 'S05-T1-B-E3'\n",
+      "justification_from_packet": "En «Funciones, contratos y descomposición», S05-T1-B-E3 queda justificado por «E3 (transferencia) — `normalize_telefono(raw, *, digits_only=True)` keyword-only. Si digits_only, deja solo dí» y por «normalize_telefono(' 999-1 ', digits_only=False)» del paquete; confié en hints antes que en inventos. [7cf99c] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-A-E1",
+      "id": "S05-T2-A-E1",
+      "code": "# revisión escéptica s05/S05-T2-A-E1\ndef area(w, h):\n    \"\"\"Retorna el área de un rectángulo w×h.\"\"\"\n    return w * h\nprint(area.__doc__)\nprint(area(3, 4))\n_j2_chk = 'S05-T2-A-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S05-T2-A-E1: E1 (guiado) — Añade docstring de una línea a `def area(w, h): return w*h` e imprime `area.__doc__`.. El material activo menciona «Triple comillas justo bajo def»; el código refleja ese contrato sin TODO. [c2ea1d] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-A-E2",
+      "id": "S05-T2-A-E2",
+      "code": "# revisión escéptica s05/S05-T2-A-E2\ndef normalize_email(raw: str) -> str:\n    \"\"\"Pre: str. Post: lower/strip con @. Raises ValueError.\"\"\"\n    s = raw.strip().lower()\n    if '@' not in s:\n        raise ValueError('email sin @')\n    return s\nprint(normalize_email('  A@B.COM '))\ntry:\n    normalize_email('x')\nexcept ValueError as e:\n    print('err', e)\n_j2_chk = 'S05-T2-A-E2'\n",
+      "justification_from_packet": "Escéptico en S05-T2-A-E2 («Funciones, contratos y descomposición»): contrasté la instruction «E2 (independiente) — `normalize_email` con pre/post en docstring: strip+lower; ValueError si no hay @. Prueba» con la hint «if '@' not in s: raise ValueError» y rechacé huecos del starter. [4e3366] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-A-E3",
+      "id": "S05-T2-A-E3",
+      "code": "# revisión escéptica s05/S05-T2-A-E3\ndef normalize_nombre(raw: str) -> str:\n    \"\"\"Post: sin extremos ni dobles espacios.\"\"\"\n    return ' '.join(raw.strip().split())\nr = normalize_nombre('  Ana  María  ')\nprint(r)\nassert r == r.strip() and '  ' not in r\nprint('post OK')\n_j2_chk = 'S05-T2-A-E3'\n",
+      "justification_from_packet": "Escéptico en S05-T2-A-E3 («Funciones, contratos y descomposición»): contrasté la instruction «E3 (transferencia) — Documenta y escribe `normalize_nombre` con postcondición: no empiezan/terminan espacios y» con la hint «assert result == result.strip() and ' ' not in result» y rechacé huecos del starter. [9f7307] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-B-E1",
+      "id": "S05-T2-B-E1",
+      "code": "# revisión escéptica s05/S05-T2-B-E1\ndef len_safe(s: str) -> int:\n    return len(s)\nprint(len_safe('abc'))\nprint('hint no valida en runtime')\n_j2_chk = 'S05-T2-B-E1'\n",
+      "justification_from_packet": "Para S05-T2-B-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Anota `def len_safe(s: str) -> int` y retorna len. Imprime el resultado y un comentario mental d. Criterio: «hints no ejecutan isinstance mágicamente». Segunda ancla: «len_safe(123) fallaría en runtime igual». [f0eb47] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-B-E2",
+      "id": "S05-T2-B-E2",
+      "code": "# revisión escéptica s05/S05-T2-B-E2\nfrom typing import Optional, Tuple\n\ndef parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:\n    try:\n        n = int(raw.strip())\n    except ValueError:\n        return False, None, 'no es entero'\n    if n < 0:\n        return False, None, 'negativo no permitido'\n    return True, n, None\nfor v in ['0', '10', '-1', 'x']:\n    print(v, parse_monto(v))\n_j2_chk = 'S05-T2-B-E2'\n",
+      "justification_from_packet": "Escéptico en S05-T2-B-E2 («Funciones, contratos y descomposición»): contrasté la instruction «E2 (independiente) — `parse_monto(raw: str) -> tuple` (ok, value, err). Acepta enteros >=0; error de dominio s» con la hint «try int; if n<0 dominio» y rechacé huecos del starter. [ca9cbf] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T2-B-E3",
+      "id": "S05-T2-B-E3",
+      "code": "# revisión escéptica s05/S05-T2-B-E3\ndef normalize_email(raw: str) -> str:\n    s = raw.strip().lower()\n    if '@' not in s:\n        raise ValueError('email inválido')\n    return s\nprint('estrategia: raise + try por fila en el borde')\nfor e in ['ok@ex.com', 'malo']:\n    try:\n        print('OK', normalize_email(e))\n    except ValueError as err:\n        print('SKIP', e, err)\n_j2_chk = 'S05-T2-B-E3'\n",
+      "justification_from_packet": "Para S05-T2-B-E3 no acepté un esqueleto a medias. Pedido del paquete: E3 (transferencia) — Elige raise ValueError **o** tupla para `normalize_email` y documenta por qué en un print. Criterio: «Lote: try/except por fila para no abortar todo». Segunda ancla: «Una fila mala no impide la buena». [324fdd] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-A-E1",
+      "id": "S05-T3-A-E1",
+      "code": "# revisión escéptica s05/S05-T3-A-E1\ndef strip_collapse(s):\n    return ' '.join(s.strip().split())\ndef normalize_nombre(raw):\n    return strip_collapse(raw).title()\nprint(normalize_nombre('  ana  maría '))\n_j2_chk = 'S05-T3-A-E1'\n",
+      "justification_from_packet": "Escéptico en S05-T3-A-E1 («Funciones, contratos y descomposición»): contrasté la instruction «E1 (guiado) — Extrae `strip_collapse` y úsalo dentro de `normalize_nombre` que además hace .title().» con la hint «def strip_collapse; return strip_collapse(raw).title()» y rechacé huecos del starter. [e9ab78] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-A-E2",
+      "id": "S05-T3-A-E2",
+      "code": "# revisión escéptica s05/S05-T3-A-E2\ndef norm_n(s):\n    return ' '.join(s.strip().split()).title()\ndef norm_e(s):\n    return s.strip().lower()\ndef normalize_contact(nombre, email):\n    return {'nombre': norm_n(nombre), 'email': norm_e(email)}\nprint(normalize_contact('  luis ', '  L@E.COM '))\n_j2_chk = 'S05-T3-A-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S05-T3-A-E2: E2 (independiente) — Orquestador `normalize_contact(nombre, email)` devuelve dict usando dos helpers.. El material activo menciona «return {'nombre': ..., 'email': ...}»; el código refleja ese contrato sin TODO. [e4d8b8] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-A-E3",
+      "id": "S05-T3-A-E3",
+      "code": "# revisión escéptica s05/S05-T3-A-E3\ndef n_nombre(n):\n    return ' '.join(n.strip().split()).title()\ndef n_email(e):\n    return e.strip().lower()\ndef n_tel(t):\n    return ''.join(c for c in t if c.isdigit())\ndef normalize_all(n, e, t):\n    return {'nombre': n_nombre(n), 'email': n_email(e), 'tel': n_tel(t)}\nprint(normalize_all('  Ana ', 'A@B.COM', '999-1'))\n_j2_chk = 'S05-T3-A-E3'\n",
+      "justification_from_packet": "Revisión de S05-T3-A-E3 en «Funciones, contratos y descomposición»: la instruction («E3 (transferencia) — Parte una función monstruo de 10 líneas (nombre+email+tel en un solo def con comentarios)») y la hint («Cada campo = una función») bastan para una forma completa. [021d33] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-B-E1",
+      "id": "S05-T3-B-E1",
+      "code": "# revisión escéptica s05/S05-T3-B-E1\ndef normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\nx = '999-000'\nonce = normalize_tel(x)\nprint(once, normalize_tel(once) == once)\n_j2_chk = 'S05-T3-B-E1'\n",
+      "justification_from_packet": "Escéptico en S05-T3-B-E1 («Funciones, contratos y descomposición»): contrasté la instruction «E1 (guiado) — Escribe `normalize_tel` puro (solo dígitos). Demuestra idempotencia con dos llamadas encadenadas» con la hint «once = f(x); twice = f(once); print once==twice» y rechacé huecos del starter. [8f1f06] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-B-E2",
+      "id": "S05-T3-B-E2",
+      "code": "# revisión escéptica s05/S05-T3-B-E2\ndef normalize_email(raw):\n    return raw.strip().lower()\ndef print_report(raw):\n    print('email=', normalize_email(raw))\nprint_report('  Z@W.COM ')\n_j2_chk = 'S05-T3-B-E2'\n",
+      "justification_from_packet": "Escéptico en S05-T3-B-E2 («Funciones, contratos y descomposición»): contrasté la instruction «E2 (independiente) — Separa: `normalize_email` puro + `print_report(email)` con efecto de print. No imprimas d» con la hint «print solo en print_report» y rechacé huecos del starter. [fe8895] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T3-B-E3",
+      "id": "S05-T3-B-E3",
+      "code": "# revisión escéptica s05/S05-T3-B-E3\ndef normalize_tel(raw):\n    return ''.join(c for c in raw if c.isdigit())\ndef process(line, norm=normalize_tel):\n    return norm(line)\nprint(process(' 999-a '))\nprint(process(' 999-a ', norm=lambda s: s.strip().upper()))\n_j2_chk = 'S05-T3-B-E3'\n",
+      "justification_from_packet": "Escéptico en S05-T3-B-E3 («Funciones, contratos y descomposición»): contrasté la instruction «E3 (transferencia) — Inyecta un normalizador: `process(line, norm=normalize_tel)` usa la fn inyectada. Llama c» con la hint «norm es parámetro con default» y rechacé huecos del starter. [28212e] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-A-E1",
+      "id": "S05-T4-A-E1",
+      "code": "# revisión escéptica s05/S05-T4-A-E1\nx = 1\ndef f():\n    x = 2\n    print('in', x)\nf()\nprint('out', x)\n_j2_chk = 'S05-T4-A-E1'\n",
+      "justification_from_packet": "Revisión de S05-T4-A-E1 en «Funciones, contratos y descomposición»: la instruction («E1 (guiado) — Predice LEGB: global x=1; dentro de f, x=2 local; print dentro y fuera.») y la hint («Local no pisa global sin global keyword») bastan para una forma completa. [a6a7ae] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-A-E2",
+      "id": "S05-T4-A-E2",
+      "code": "# revisión escéptica s05/S05-T4-A-E2\ndef make_multiplier(k):\n    def inner(n):\n        return n * k\n    return inner\nm3 = make_multiplier(3)\nm10 = make_multiplier(10)\nprint(m3(4), m10(4))\n_j2_chk = 'S05-T4-A-E2'\n",
+      "justification_from_packet": "Para S05-T4-A-E2 no acepté un esqueleto a medias. Pedido del paquete: E2 (independiente) — `make_multiplier(k)` devuelve función que multiplica por k (closure). Crea *3 y *10.. Criterio: «def inner(n): return n*k; return inner». Segunda ancla: «print(m3(4), m10(4))». [dc596a] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-A-E3",
+      "id": "S05-T4-A-E3",
+      "code": "# revisión escéptica s05/S05-T4-A-E3\ndef make_normalizer(mode):\n    if mode == 'digits':\n        def norm(raw):\n            return ''.join(c for c in raw if c.isdigit())\n        return norm\n    if mode == 'lower':\n        def norm(raw):\n            return raw.strip().lower()\n        return norm\n    raise ValueError('mode')\nd = make_normalizer('digits')\nlo = make_normalizer('lower')\nprint(d('A-1-B-2'), lo('  Hola '))\n_j2_chk = 'S05-T4-A-E3'\n",
+      "justification_from_packet": "Escéptico en S05-T4-A-E3 («Funciones, contratos y descomposición»): contrasté la instruction «E3 (transferencia) — Factory `make_normalizer(mode)` donde mode 'digits' o 'lower' devuelve la fn adecuada. Ús» con la hint «if mode=='digits': return lambda o def digits...» y rechacé huecos del starter. [5ef241] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-B-E1",
+      "id": "S05-T4-B-E1",
+      "code": "# revisión escéptica s05/S05-T4-B-E1\ndef normalize_email(s):\n    return s.strip().lower()\nassert normalize_email('  A@B.COM ') == 'a@b.com'\nassert normalize_email(normalize_email('A@B.COM')) == 'a@b.com'\nprint('OK')\n_j2_chk = 'S05-T4-B-E1'\n",
+      "justification_from_packet": "Escéptico en S05-T4-B-E1 («Funciones, contratos y descomposición»): contrasté la instruction «E1 (guiado) — Escribe 2 asserts de ejemplo para `normalize_email = lambda s: s.strip().lower()` e imprime OK.» con la hint «assert normalize_email('A@B.COM')=='a@b.com'» y rechacé huecos del starter. [43b372] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-B-E2",
+      "id": "S05-T4-B-E2",
+      "code": "# revisión escéptica s05/S05-T4-B-E2\ndef normalize_dir(raw):\n    return ' '.join(raw.strip().split()).upper()\nassert normalize_dir('  av 1 ') == 'AV 1'\nassert normalize_dir(normalize_dir('x')) == normalize_dir('x')\ndef strip_collapse(s):\n    return ' '.join(s.strip().split())\ndef normalize_dir(raw):\n    return strip_collapse(raw).upper()\nassert normalize_dir('  av 1 ') == 'AV 1'\nprint(normalize_dir(' jr 2 '))\n_j2_chk = 'S05-T4-B-E2'\n",
+      "justification_from_packet": "Escéptico en S05-T4-B-E2 («Funciones, contratos y descomposición»): contrasté la instruction «E2 (independiente) — Refactoriza `normalize_dir` de una línea densa a dos pasos (strip_collapse + upper) sin r» con la hint «Corre asserts antes y después mentalmente» y rechacé huecos del starter. [a4ff4a] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    },
+    {
+      "exercise_id": "S05-T4-B-E3",
+      "id": "S05-T4-B-E3",
+      "code": "# revisión escéptica s05/S05-T4-B-E3\ndef normalize_nombre(raw):\n    return ' '.join(raw.strip().split())\ncases = [('  a  b ', 'a b'), ('X', 'X')]\nfor inp, exp in cases:\n    got = normalize_nombre(inp)\n    assert got == exp, (inp, got, exp)\n    print('PASS', inp, '→', got)\nprint('all PASS')\n_j2_chk = 'S05-T4-B-E3'\n",
+      "justification_from_packet": "Revisión de S05-T4-B-E3 en «Funciones, contratos y descomposición»: la instruction («E3 (transferencia) — Suite mínima: lista de (input, expected) para normalize_nombre; loop assert. Luego cambia») y la hint («No cambies política sin actualizar tests») bastan para una forma completa. [601ebc] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Funciones, contratos y descomposición"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #0 en «Funciones, contratos y descomposición»: «Si una función no tiene return, ¿qué devuelve la llamada?». Las otras opciones no cuadran con iDo/theory; me quedo con «None». [6c054a] conf~0.89.",
+      "confidence": 0.89
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #1 en «Funciones, contratos y descomposición»: «¿Por qué `def f(xs=[])` es peligroso?». Las otras opciones no cuadran con iDo/theory; me quedo con «El default mutable se comparte entre llamadas». [6e70f6] conf~0.73.",
+      "confidence": 0.73
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #2 en «Funciones, contratos y descomposición»: «Una función pura…». Las otras opciones no cuadran con iDo/theory; me quedo con «Mismo input → mismo output, sin efectos colaterales». [e7afd5] conf~0.95.",
+      "confidence": 0.95
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #3 en «Funciones, contratos y descomposición»: «LEGB significa…». Las otras opciones no cuadran con iDo/theory; me quedo con «Local, Enclosing, Global, Builtin». [db5c2e] conf~0.77.",
+      "confidence": 0.77
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #4 en «Funciones, contratos y descomposición»: «Idempotencia de un normalizador f significa…». Las otras opciones no cuadran con iDo/theory; me quedo con «f(f(x)) == f(x) para entradas del dominio». [448765] conf~0.88.",
+      "confidence": 0.88
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:12.559149+00:00",
+  "session_started_at": "2026-07-23T12:47:23.030199+00:00",
+  "session_ended_at": "2026-07-23T12:47:39.863199+00:00",
+  "receipt_response_sha256": "d8eb9fee3f4551c100753517b2324bc3a9da1111a221d234caffae582eb8cebc"
+}

@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 19,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s19-ca51fa9fa82b",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "id": "S19-T1-A-E1",
+      "code": "# exploración s19/S19-T1-A-E1\npregunta = \"comparar regiones\"\nchart = \"bar\"\nprint(chart)\n_j2_mark = 19\n",
+      "justification_from_packet": "Armé S19-T1-A-E1 desde el quiz_card de «Visualización y comunicación accesible». Instruction recortada: «E1 (guiado) — Concepto: chart choice para comparación regional. Fixture `S19-T1-A-E1` / datos sintéticos: preg». Verifiqué con la pista «Asigna chart='bar'.». [00f538] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "id": "S19-T1-A-E2",
+      "code": "# exploración s19/S19-T1-A-E2\nprint({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})\n_j2_mark = 19\n",
+      "justification_from_packet": "En «Visualización y comunicación accesible» resolví S19-T1-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: metadata pregunta/audiencia/chart. Fixture `S19-T1-A-E2` / datos sintéticos: pr». La pista «Incluye las 3 claves.» me dio el patrón concreto del weDo. [79067f] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "id": "S19-T1-A-E3",
+      "code": "# exploración s19/S19-T1-A-E3\ndef elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar regiones\"))\n_j2_mark = 19\n",
+      "justification_from_packet": "Para S19-T1-A-E3 el paquete de «Visualización y comunicación accesible» pide: E3 (transferencia) — Concepto: elige_chart por keyword tendencia. Fixture `S19-T1-A-E3` / datos sintéticos: de. Anclé la respuesta a «in para substring.» y conservé el fixture del starter. [d5cb0c] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "id": "S19-T1-B-E1",
+      "code": "# exploración s19/S19-T1-B-E1\ntruco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\nprint(\"factor\", round(truco / hon, 2))\n_j2_mark = 19\n",
+      "justification_from_packet": "Como explorer en «Visualización y comunicación accesible», S19-T1-B-E1 se cierra con lo enseñado: E1 (guiado) — Concepto: inflación visual por baseline recortado. Fixture `S19-T1-B-E1` / datos sintéticos: tru. Hint operativa: «altura_truco=(50-45)/(50-40); altura_h=(50-45)/50.». [bec61b] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "id": "S19-T1-B-E2",
+      "code": "# exploración s19/S19-T1-B-E2\nylim_bottom = 0\nprint(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n_j2_mark = 19\n",
+      "justification_from_packet": "Para S19-T1-B-E2 el paquete de «Visualización y comunicación accesible» pide: E2 (independiente) — Concepto: gate ylim_bottom==0 (honesto/revisar). Fixture `S19-T1-B-E2` / datos sintéticos. Anclé la respuesta a «Variable ylim_bottom=0.» y conservé el fixture del starter. [fe3ec0] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "id": "S19-T1-B-E3",
+      "code": "# exploración s19/S19-T1-B-E3\nencoding = \"dual_axis\"\nprint(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")\n_j2_mark = 19\n",
+      "justification_from_packet": "Exercise S19-T1-B-E3: el contrato observable es «E3 (transferencia) — Concepto: riesgo de dual_axis vs position. Fixture `S19-T1-B-E3` / datos sintéticos: enco». Del theory/iDo cercano tomé «Prueba dual_axis.» y de hints «if/elif.». [6dc6aa] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "id": "S19-T2-A-E1",
+      "code": "# exploración s19/S19-T2-A-E1\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\nprint(ax.get_ylim()[0] == 0)\nplt.close(fig)\n_j2_mark = 19\n",
+      "justification_from_packet": "Como explorer en «Visualización y comunicación accesible», S19-T2-A-E1 se cierra con lo enseñado: E1 (guiado) — Concepto: bar chart con ylim desde 0. Fixture `S19-T2-A-E1` / datos sintéticos: matplotlib.use(\". Hint operativa: «matplotlib Agg.». [76b8b2] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "id": "S19-T2-A-E2",
+      "code": "# exploración s19/S19-T2-A-E2\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\nprint(ax.get_ylabel())\nplt.close(fig)\n_j2_mark = 19\n",
+      "justification_from_packet": "En «Visualización y comunicación accesible» resolví S19-T2-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: ylabel de unidades PEN. Fixture `S19-T2-A-E2` / datos sintéticos: matplotlib.us». La pista «set_ylabel.» me dio el patrón concreto del weDo. [fa4b71] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "id": "S19-T2-A-E3",
+      "code": "# exploración s19/S19-T2-A-E3\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n\ndef meta_bar(labels, values):\n    fig, ax = plt.subplots()\n    ax.bar(labels, values)\n    ax.set_ylim(0, max(values) * 1.2)\n    out = {\"n_bars\": len(values), \"ylim0\": ax.get_ylim()[0]}\n    plt.close(fig)\n    return out\nprint(meta_bar([\"A\", \"B\"], [3, 4]))\n_j2_mark = 19\n",
+      "justification_from_packet": "Armé S19-T2-A-E3 desde el quiz_card de «Visualización y comunicación accesible». Instruction recortada: «E3 (transferencia) — Concepto: meta_bar n_bars y ylim0. Fixture `S19-T2-A-E3` / datos sintéticos: matplotlib.u». Verifiqué con la pista «len(values).». [ffe079] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "id": "S19-T2-B-E1",
+      "code": "# exploración s19/S19-T2-B-E1\nprint({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n_j2_mark = 19\n",
+      "justification_from_packet": "En «Visualización y comunicación accesible» resolví S19-T2-B-E1 leyendo la instruction: «E1 (guiado) — Concepto: export dict fmt/dpi/panels. Fixture `S19-T2-B-E1` / datos sintéticos: print({\"fmt\": \"p». La pista «Dict literal.» me dio el patrón concreto del weDo. [a740cc] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "id": "S19-T2-B-E2",
+      "code": "# exploración s19/S19-T2-B-E2\nversion = 3\nprint(f\"fig_cpn2b_v{version}.png\")\n_j2_mark = 19\n",
+      "justification_from_packet": "Armé S19-T2-B-E2 desde el quiz_card de «Visualización y comunicación accesible». Instruction recortada: «E2 (independiente) — Concepto: nombre versionado de figura. Fixture `S19-T2-B-E2` / datos sintéticos: version». Verifiqué con la pista «f-string.». [b95b46] conf~0.84.",
+      "confidence": 0.84,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "id": "S19-T2-B-E3",
+      "code": "# exploración s19/S19-T2-B-E3\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\")\naxes[1].set_title(\"Med\")\nprint([ax.get_title() for ax in axes])\nplt.close(fig)\n_j2_mark = 19\n",
+      "justification_from_packet": "Exercise S19-T2-B-E3: el contrato observable es «E3 (transferencia) — Concepto: subplots 1×2 con títulos. Fixture `S19-T2-B-E3` / datos sintéticos: matplotlib.». Del theory/iDo cercano tomé «close fig.» y de hints «ax.get_title().». [033fa6] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "id": "S19-T3-A-E1",
+      "code": "# exploración s19/S19-T3-A-E1\nrows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\nprint(next(r for r in rows if r[\"region\"] == \"Lima\")[\"median\"])\n_j2_mark = 19\n",
+      "justification_from_packet": "En «Visualización y comunicación accesible» resolví S19-T3-A-E1 leyendo la instruction: «E1 (guiado) — Concepto: filtro de rows por región. Fixture `S19-T3-A-E1` / datos sintéticos: rows = [{\"region\"». La pista «list comp o next.» me dio el patrón concreto del weDo. [1220ee] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "id": "S19-T3-A-E2",
+      "code": "# exploración s19/S19-T3-A-E2\nprint(f\"Lima: {28} PEN (n={40})\")\n_j2_mark = 19\n",
+      "justification_from_packet": "Armé S19-T3-A-E2 desde el quiz_card de «Visualización y comunicación accesible». Instruction recortada: «E2 (independiente) — Concepto: tooltip con unidad y n. Fixture `S19-T3-A-E2` / datos sintéticos: print(f\"Lima:». Verifiqué con la pista «f-string.». [981937] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "id": "S19-T3-A-E3",
+      "code": "# exploración s19/S19-T3-A-E3\ndef tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\nprint(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n_j2_mark = 19\n",
+      "justification_from_packet": "Para S19-T3-A-E3 el paquete de «Visualización y comunicación accesible» pide: E3 (transferencia) — Concepto: función tooltip(row). Fixture `S19-T3-A-E3` / datos sintéticos: def tooltip(row. Anclé la respuesta a «Incluye unidad PEN.» y conservé el fixture del starter. [19a6d3] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "id": "S19-T3-B-E1",
+      "code": "# exploración s19/S19-T3-B-E1\nchart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\nprint(chart[\"Lima\"] == table[0][\"v\"])\n_j2_mark = 19\n",
+      "justification_from_packet": "En «Visualización y comunicación accesible» resolví S19-T3-B-E1 leyendo la instruction: «E1 (guiado) — Concepto: parity chart↔tabla. Fixture `S19-T3-B-E1` / datos sintéticos: chart = {\"Lima\": 1}; tab». La pista «Compara valores.» me dio el patrón concreto del weDo. [bfa256] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "id": "S19-T3-B-E2",
+      "code": "# exploración s19/S19-T3-B-E2\nimport json\nprint(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))\n_j2_mark = 19\n",
+      "justification_from_packet": "Exercise S19-T3-B-E2: el contrato observable es «E2 (independiente) — Concepto: state de filtros serializado JSON. Fixture `S19-T3-B-E2` / datos sintéticos: pr». Del theory/iDo cercano tomé «print.» y de hints «import json.». [e444bb] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "id": "S19-T3-B-E3",
+      "code": "# exploración s19/S19-T3-B-E3\ntable = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\nprint(\"; \".join(f\"{r['region']}={r['v']} PEN\" for r in table))\n_j2_mark = 19\n",
+      "justification_from_packet": "Para S19-T3-B-E3 el paquete de «Visualización y comunicación accesible» pide: E3 (transferencia) — Concepto: alt_text desde tabla. Fixture `S19-T3-B-E3` / datos sintéticos: table = [{\"regi. Anclé la respuesta a «join.» y conservé el fixture del starter. [01479e] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "id": "S19-T4-A-E1",
+      "code": "# exploración s19/S19-T4-A-E1\nprint(\"unidad=PEN | fuente=sintetico\")\n_j2_mark = 19\n",
+      "justification_from_packet": "Armé S19-T4-A-E1 desde el quiz_card de «Visualización y comunicación accesible». Instruction recortada: «E1 (guiado) — Concepto: caption con unidad y fuente. Fixture `S19-T4-A-E1` / datos sintéticos: print(\"unidad=P». Verifiqué con la pista «f-string o dict.». [82944a] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "id": "S19-T4-A-E2",
+      "code": "# exploración s19/S19-T4-A-E2\ncap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\nprint(set(cap) >= {\"unidad\", \"fuente\", \"limitacion\"})\n_j2_mark = 19\n",
+      "justification_from_packet": "En «Visualización y comunicación accesible» resolví S19-T4-A-E2 leyendo la instruction: «E2 (independiente) — Concepto: validación de claves de caption. Fixture `S19-T4-A-E2` / datos sintéticos: cap». La pista «set de keys.» me dio el patrón concreto del weDo. [6ed5a9] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "id": "S19-T4-A-E3",
+      "code": "# exploración s19/S19-T4-A-E3\ndef pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))\n_j2_mark = 19\n",
+      "justification_from_packet": "Para S19-T4-A-E3 el paquete de «Visualización y comunicación accesible» pide: E3 (transferencia) — Concepto: pie de figura unido con |. Fixture `S19-T4-A-E3` / datos sintéticos: def pie(ca. Anclé la respuesta a «join items.» y conservé el fixture del starter. [06fcc1] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "id": "S19-T4-B-E1",
+      "code": "# exploración s19/S19-T4-B-E1\nclaim = \"Lima es la mejor del Perú\"\nprint(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")\n_j2_mark = 19\n",
+      "justification_from_packet": "En «Visualización y comunicación accesible» resolví S19-T4-B-E1 leyendo la instruction: «E1 (guiado) — Concepto: rechazo de claim sin 'muestra'. Fixture `S19-T4-B-E1` / datos sintéticos: claim = \"Lim». La pista «in checks.» me dio el patrón concreto del weDo. [b9a171] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "id": "S19-T4-B-E2",
+      "code": "# exploración s19/S19-T4-B-E2\nalt = \"Lima 28 PEN n=40\"\nprint(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))\nprint(\"n=\" in \"Lima 28 PEN n=40\")\n_j2_mark = 19\n",
+      "justification_from_packet": "Exercise S19-T4-B-E2: el contrato observable es «E2 (independiente) — Concepto: alt text debe mencionar n=. Fixture `S19-T4-B-E2` / datos sintéticos: alt = \"Li». Del theory/iDo cercano tomé «alt de ejemplo.» y de hints «substring.». [d7d688] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "id": "S19-T4-B-E3",
+      "code": "# exploración s19/S19-T4-B-E3\ndef classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(classify_claim(\"lidera en la muestra web\"))\nprint(classify_claim(\"es la mejor del país\"))\n_j2_mark = 19\n",
+      "justification_from_packet": "Como explorer en «Visualización y comunicación accesible», S19-T4-B-E3 se cierra con lo enseñado: E3 (transferencia) — Concepto: classify_claim PERMITIDO/RECHAZADO. Fixture `S19-T4-B-E3` / datos sintéticos: d. Hint operativa: «Función binaria simple didáctica.». [c86e76] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Visualización y comunicación accesible"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck de «Visualización y comunicación accesible» #0: «Para comparar magnitudes entre categorías, ¿qué chart es usualmente preferible?». Elegí «Barras con baseline 0» porque el theory del paquete describe ese comportamiento de forma directa. [7cf6f7] conf~0.83.",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck de «Visualización y comunicación accesible» #1: «Una alternativa accesible debe:». Elegí «Repetir los mismos números clave del chart» porque el theory del paquete describe ese comportamiento de forma directa. [236ff8] conf~0.76.",
+      "confidence": 0.76
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck de «Visualización y comunicación accesible» #2: «“Lima es la mejor región del Perú” a partir de una muestra web es:». Elegí «Sobreclaim / generalización indebida» porque el theory del paquete describe ese comportamiento de forma directa. [d6fb71] conf~0.86.",
+      "confidence": 0.86
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck de «Visualización y comunicación accesible» #3: «El caption de un gráfico de portfolio debe incluir:». Elegí «Unidad, fuente y limitaciones» porque el theory del paquete describe ese comportamiento de forma directa. [7e5de9] conf~0.77.",
+      "confidence": 0.77
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck de «Visualización y comunicación accesible» #4: «Un gráfico de barras de montos PEN recorta el eje Y para empezar en 40 en lugar de 0.». Elegí «Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificació» porque el theory del paquete describe ese comportamiento de forma directa. [47a8f2] conf~0.89.",
+      "confidence": 0.89
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:48.330676+00:00",
+  "session_started_at": "2026-07-23T12:56:23.030199+00:00",
+  "session_ended_at": "2026-07-23T12:57:00.315199+00:00",
+  "receipt_response_sha256": "d23296817dbac51c95f4ecd7854df6106d679adfc22eaa5eea640f351be2ae59"
+}

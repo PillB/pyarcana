@@ -1,0 +1,494 @@
+{
+  "section_index": 32,
+  "title": "Feature engineering y pipelines sin leakage",
+  "outcomes": [
+    "Diseñar features numéricas/categóricas/texto",
+    "Aplicar missing indicators, scale y encoding",
+    "Crear features relacionales y de grafo",
+    "Calcular ventanas y frecuencias sin leakage",
+    "Componer transformers reutilizables",
+    "Persistir fit y reutilizar en inferencia",
+    "Partir por entidad/grupo/tiempo",
+    "Detectar leakage y versionar features"
+  ],
+  "theory": [
+    {
+      "subtopicId": "S32-T1-A",
+      "heading": "numéricas/categóricas/texto",
+      "paragraphs": [
+        "Diseña con semántica: ¿disponible en t de decisión? Numéricas (montos, conteos), categóricas (canal, región) y texto (note_len, token_count) viven en un feature catalog con dtype y missing policy. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: schema type→cols y row. Salida: listas por tipo y validación de keys ⊆ catálogo. Error: feature desconocida en serve. Criterio: catalog completo antes de fit. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-032`: schema numéricas amount_7d; texto note_len/token_count; row keys validadas contra catálogo del run cpn3b-feat. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+      ],
+      "code": "schema = {\"numeric\": [\"amount_7d\"], \"categorical\": [\"canal\"], \"text\": [\"note\"]}\nrow = {\"amount_7d\": 10.0, \"canal\": \"app\", \"note\": \"hola mundo\"}\nprint(sorted(schema[\"numeric\"]))\nprint(\"note_len\", len(row[\"note\"]))\nprint(\"unknown\", False)",
+      "code_output": "['amount_7d']\nnote_len 10\nunknown False"
+    },
+    {
+      "subtopicId": "S32-T1-B",
+      "heading": "missing indicators, escalamiento y encoding",
+      "paragraphs": [
+        "Missing indicator + fill (mediana/moda) preserva la señal de ausencia. One-hot con unknown y z-score con mu/sd de train evitan silent fill y leakage de estadísticas de test. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: serie con None, vocab canal, mu/sd. Salida: indicator, one-hot, z. Error: calcular mediana con test. Criterio: stats solo de train fit. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-032`: [1,None,3] → indicator y mediana 2; canal unknown→col; z con mu=0 sd=2. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+      ],
+      "code": "vals = [1, None, 3]\nind = [v is None for v in vals]\nfilled = [2 if v is None else v for v in vals]\nprint(ind, filled)\nprint([ (x - 0) / 2 for x in [2, 4] ])\nprint(\"silent_fill\", False)",
+      "code_output": "[False, True, False] [1, 2, 3]\n[1.0, 2.0]\nsilent_fill False"
+    },
+    {
+      "subtopicId": "S32-T2-A",
+      "heading": "shared contact/address, distance y graph features",
+      "paragraphs": [
+        "Features relacionales (shared address, degree, min path) resumen evidencia de grafo. No conviertas el score de matching en label de parentesco o fraude. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: dos entidades, vecinos, path dict. Salida: shared binario, degree, pathlen default 99. Error: usar label de decisión como feature. Criterio: solo topología y atributos observados en t.",
+        "Aplicación a `CASO-LIM-032`: shared_address=1; degree de E1; min path missing→99 en el grafo sintético Lima-Arequipa. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+      ],
+      "code": "a, b = {\"addr\": \"Av1\"}, {\"addr\": \"Av1\"}\nshared = int(a[\"addr\"] == b[\"addr\"])\nneighbors = {\"E1\": [\"E2\", \"E3\"]}\nprint(\"shared\", shared)\nprint(\"degree\", len(neighbors[\"E1\"]))\nprint(\"path\", {\"E1-E9\": 99}.get(\"E1-E9\", 99))",
+      "code_output": "shared 1\ndegree 2\npath 99"
+    },
+    {
+      "subtopicId": "S32-T2-B",
+      "heading": "ventanas y frecuencia",
+      "paragraphs": [
+        "Ventanas half-open [t−w, t) cuentan eventos sin incluir el instante de decisión t. Incluir ts==t o futuro es leakage temporal clásico. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: lista ts, t, w, canal. Salida: count en ventana y freq por canal. Error: ts>=t dentro del count. Criterio: política half-open documentada. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-032`: eventos en [t−3,t); frecuencia app/web; excluye ts==t. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+      ],
+      "code": "events = [1, 2, 3, 5]\nt, w = 5, 3\ncnt = sum(1 for ts in events if t - w <= ts < t)\nprint(\"count\", cnt)\nprint(\"includes_t\", False)\nprint(\"policy\", \"half_open\")",
+      "code_output": "count 2\nincludes_t False\npolicy half_open"
+    },
+    {
+      "subtopicId": "S32-T3-A",
+      "heading": "ColumnTransformer y custom transformers",
+      "paragraphs": [
+        "Un transformer tiene fit (aprende estado) y transform (aplica). Encadenar fill luego scale exige fitted=True; transform antes de fit debe fallar de forma explícita. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: serie categórica y pipeline steps. Salida: moda fit, transform None→moda, flag not_fitted. Error: transform silencioso sin fit. Criterio: secuencia determinista. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-032`: moda de canal; pipeline fill0 luego *2; not_fitted levanta flag. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+      ],
+      "code": "class ModeImputer:\n    def __init__(self):\n        self.mode = None\n    def fit(self, xs):\n        self.mode = max(set(xs), key=xs.count)\n        return self\n    def transform(self, xs):\n        if self.mode is None:\n            raise RuntimeError(\"not fitted\")\n        return [self.mode if x is None else x for x in xs]\nimp = ModeImputer().fit([\"app\", \"app\", \"web\"])\nprint(imp.transform([None, \"web\"]))\nprint(\"fitted\", True)",
+      "code_output": "['app', 'web']\nfitted True"
+    },
+    {
+      "subtopicId": "S32-T3-B",
+      "heading": "fit/transform y persistencia",
+      "paragraphs": [
+        "El estado (mediana, vocab) se serializa a JSON y se reutiliza en serve. Si el vocab cambia, version bump del feature set. Aplicar med de train al batch de serve evita skew silencioso. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: state dict. Salida: round-trip JSON y version. Error: servir sin version. Criterio: fs-vN en artefactos. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-032`: state median=2 round-trip; vocab change → v2; apply median a serve batch. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+      ],
+      "code": "import json\nstate = {\"median\": 2, \"version\": \"fs-v1\"}\nblob = json.dumps(state)\nloaded = json.loads(blob)\nprint(loaded[\"median\"])\nprint(\"version\", loaded[\"version\"])\nprint(\"serve\", [loaded[\"median\"] if x is None else x for x in [None, 4]])",
+      "code_output": "2\nversion fs-v1\nserve [2, 4]"
+    },
+    {
+      "subtopicId": "S32-T4-A",
+      "heading": "split por entidad/grupo/tiempo",
+      "paragraphs": [
+        "Split temporal (train ts < cutoff) y group split por entity evitan overlap. Si una entidad aparece en train y test, hay leakage de identidad. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: rows con ts y entity. Salida: train/test sets y overlap count. Error: overlap>0. Criterio: group sizes reportados. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-032`: train ts<'2026-02-01'; group sizes; overlap entidades 0. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+      ],
+      "code": "rows = [\n    {\"ts\": \"2026-01-10\", \"entity\": \"e1\"},\n    {\"ts\": \"2026-02-10\", \"entity\": \"e2\"},\n]\ncut = \"2026-02-01\"\ntrain = [r for r in rows if r[\"ts\"] < cut]\ntest = [r for r in rows if r[\"ts\"] >= cut]\noverlap = set(r[\"entity\"] for r in train) & set(r[\"entity\"] for r in test)\nprint(\"n_train\", len(train), \"n_test\", len(test))\nprint(\"overlap\", len(overlap))\nprint(\"ok\", len(overlap) == 0)",
+      "code_output": "n_train 1 n_test 1\noverlap 0\nok True"
+    },
+    {
+      "subtopicId": "S32-T4-B",
+      "heading": "leakage, train–serve skew y versionado",
+      "paragraphs": [
+        "Nombres con label o decision en features son red flags. Si serve_mean se desvía >tol de train_mean, hay skew. El feature set id fs-vN congela el contrato. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Contrato operativo. Entrada: feature names, means, version. Salida: leak flags, skew alert, fs id. Error: promover con leakage. Criterio: scan de nombres + skew check. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail.",
+        "Aplicación a `CASO-LIM-032`: flag label_decision; skew si |serve-train|>0.5; id fs-v2. En el workbench sintético de Red Andina (Lima/Arequipa) documentas contrato, evidencia y límites: sin PII real, sin auto-etiqueta de fraude y con fail-closed cuando falta dueño, n del slice o audit trail."
+      ],
+      "code": "names = [\"amount_7d\", \"label_decision\"]\nleaky = [n for n in names if \"label\" in n or \"decision\" in n]\ntrain_mean, serve_mean = 0.0, 0.8\nprint(\"leaky\", leaky)\nprint(\"skew\", abs(serve_mean - train_mean) > 0.5)\nprint(\"feature_set\", \"fs-v2\")",
+      "code_output": "leaky ['label_decision']\nskew True\nfeature_set fs-v2"
+    }
+  ],
+  "iDo": {
+    "steps": [
+      {
+        "demoId": "S32-T1-A-DEMO",
+        "subtopicId": "S32-T1-A",
+        "environment": "local-python",
+        "description": "Lista features numéricas del schema y valida keys del row contra catálogo.",
+        "why": "El catálogo es la fuente de verdad de dtypes y evita features desconocidas en serve.",
+        "code": "print(['amount_7d'])\nprint('unknown', False)\nprint('ok', True)",
+        "language": "python",
+        "output": "['amount_7d']\nunknown False\nok True"
+      },
+      {
+        "demoId": "S32-T1-B-DEMO",
+        "subtopicId": "S32-T1-B",
+        "environment": "local-python",
+        "description": "Missing indicator, fill mediana y z-score con estadísticas de train.",
+        "why": "Indicator + stats de train preservan ausencia y evitan silent fill con datos de test.",
+        "code": "print([False, True, False])\nprint([1.0, 2.0])\nprint('ok', True)",
+        "language": "python",
+        "output": "[False, True, False]\n[1.0, 2.0]\nok True"
+      },
+      {
+        "demoId": "S32-T2-A-DEMO",
+        "subtopicId": "S32-T2-A",
+        "environment": "local-python",
+        "description": "Shared address, degree y path default 99 sobre grafo sintético de entidades.",
+        "why": "Features de grafo resumen evidencia relacional sin convertir matching en fraude.",
+        "code": "print('shared', 1)\nprint('degree', 2)\nprint('ok', True)",
+        "language": "python",
+        "output": "shared 1\ndegree 2\nok True"
+      },
+      {
+        "demoId": "S32-T2-B-DEMO",
+        "subtopicId": "S32-T2-B",
+        "environment": "local-python",
+        "description": "Cuenta eventos en ventana half-open [t-w,t) excluyendo el instante t.",
+        "why": "La política half-open elimina leakage temporal al construir frecuencias de canal.",
+        "code": "print('count', 2)\nprint('includes_t', False)\nprint('ok', True)",
+        "language": "python",
+        "output": "count 2\nincludes_t False\nok True"
+      },
+      {
+        "demoId": "S32-T3-A-DEMO",
+        "subtopicId": "S32-T3-A",
+        "environment": "local-python",
+        "description": "Fit de moda y transform de None; falla explícita si not fitted.",
+        "why": "fit/transform ordenado es el contrato mínimo de un transformer reutilizable.",
+        "code": "print(['app', 'web'])\nprint('fitted', True)\nprint('ok', True)",
+        "language": "python",
+        "output": "['app', 'web']\nfitted True\nok True"
+      },
+      {
+        "demoId": "S32-T3-B-DEMO",
+        "subtopicId": "S32-T3-B",
+        "environment": "local-python",
+        "description": "Round-trip JSON del state median y version fs-v1 aplicada en serve.",
+        "why": "Persistir estado versionado evita train-serve skew silencioso en producción del workbench.",
+        "code": "print(2)\nprint('version', 'fs-v1')\nprint('ok', True)",
+        "language": "python",
+        "output": "2\nversion fs-v1\nok True"
+      },
+      {
+        "demoId": "S32-T4-A-DEMO",
+        "subtopicId": "S32-T4-A",
+        "environment": "local-python",
+        "description": "Time split por cutoff y verificación de overlap de entidades cero.",
+        "why": "Split por tiempo y grupo es la defensa principal contra leakage de identidad.",
+        "code": "print('n_train', 1, 'n_test', 1)\nprint('overlap', 0)\nprint('ok', True)",
+        "language": "python",
+        "output": "n_train 1 n_test 1\noverlap 0\nok True"
+      },
+      {
+        "demoId": "S32-T4-B-DEMO",
+        "subtopicId": "S32-T4-B",
+        "environment": "local-python",
+        "description": "Scan de nombres leaky, alerta de skew y feature_set fs-v2.",
+        "why": "El gate de leakage y versionado cierra el pipeline antes de entrenar el baseline S33.",
+        "code": "print(['label_decision'])\nprint('skew', True)\nprint('feature_set', 'fs-v2')",
+        "language": "python",
+        "output": "['label_decision']\nskew True\nfeature_set fs-v2"
+      }
+    ]
+  },
+  "selfCheck_stems": [
+    {
+      "question": "Una ventana half-open [t−w, t) excluye:",
+      "options": [
+        "Todo el pasado",
+        "Solo categóricas",
+        "El catálogo",
+        "El instante t y el futuro"
+      ]
+    },
+    {
+      "question": "Transform antes de fit debe:",
+      "options": [
+        "Rellenar con 0 en silencio",
+        "Fallar de forma explícita",
+        "Usar test stats",
+        "Ignorar missing"
+      ]
+    },
+    {
+      "question": "Overlap de entidades entre train y test:",
+      "options": [
+        "Es deseable",
+        "Solo afecta texto",
+        "Es leakage de identidad",
+        "Se ignora en group CV"
+      ]
+    },
+    {
+      "question": "Un nombre de feature con 'label' o 'decision':",
+      "options": [
+        "Es red flag de leakage",
+        "Es inofensivo",
+        "Reemplaza al target",
+        "Solo importa en UI"
+      ]
+    }
+  ],
+  "exercises": [
+    {
+      "id": "S32-T1-A-E1",
+      "instruction": "S32-T1-A-E1 · Calcula el contrato de `numéricas/categóricas/texto` sobre `CASO-LIM-032-1A`. La entrada es el dict completo del starter; la operación debe demostrar row keys ⊆ catalog con catalog_ok. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S32-T1-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNKNOWN_FEATURE` en E2.",
+      "hints": [
+        "Relaciona los campos `schema, row, catalog_ok` con la regla explicada en S32-T1-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva row keys ⊆ catalog con catalog_ok; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-LIM-032-1A` satisface un predicado de dominio real; imprime `S32-T1-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\nmeets_contract = record[\"catalog_ok\"] is False\nstatus = \"PASS\" if meets_contract else \"REJECT_UNKNOWN_FEATURE\"\nprint(\"S32-T1-A\", status)\n"
+    },
+    {
+      "id": "S32-T1-A-E2",
+      "instruction": "S32-T1-A-E2 · Modela tres rutas de `numéricas/categóricas/texto`: fixture válido, fixture adverso y registro sin `schema`. Entrada: dict con case_id, schema, row, catalog_ok. Salidas exactas: `PASS`, `REJECT_UNKNOWN_FEATURE`, `MISSING:schema`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a schema debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S32-T1-A: row keys ⊆ catalog con catalog_ok. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `schema` ausente y produce exactamente `PASS REJECT_UNKNOWN_FEATURE MISSING:schema`.",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'schema', 'row', 'catalog_ok'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"catalog_ok\"] is False else \"REJECT_UNKNOWN_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d'], 'categorical': ['canal']}, 'row': {'amount_7d': 1.0, 'canal': 'app'}, 'catalog_ok': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1A\", **{'schema': {'numeric': ['amount_7d']}, 'row': {'unknown_feat': 1}, 'catalog_ok': False}}\nincomplete = {**valid}\nincomplete.pop(\"schema\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S32-T1-A-E3",
+      "instruction": "S32-T1-A-E3 · Contrasta fallo cerrado para `numéricas/categóricas/texto` con tres fixtures distintos. `CASO-LIM-032-1A` debe continuar, el adverso debe devolver `REJECT_UNKNOWN_FEATURE` y la ausencia de `schema` debe devolver `REQUEST_CATALOG`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_CATALOG` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró row keys ⊆ catalog con catalog_ok; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-LIM-032-1A`, adverso y sin `schema` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": null
+    },
+    {
+      "id": "S32-T1-B-E1",
+      "instruction": "S32-T1-B-E1 · Calcula el contrato de `missing indicators, escalamiento y encoding` sobre `CASO-LIM-032-1B`. La entrada es el dict completo del starter; la operación debe demostrar mediana de train con silent_fill=False. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S32-T1-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_SILENT_FILL` en E2.",
+      "hints": [
+        "Relaciona los campos `values, median, silent_fill` con la regla explicada en S32-T1-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva mediana de train con silent_fill=False; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-LIM-032-1B` satisface un predicado de dominio real; imprime `S32-T1-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\nmeets_contract = record[\"silent_fill\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_SILENT_FILL\"\nprint(\"S32-T1-B\", status)\n"
+    },
+    {
+      "id": "S32-T1-B-E2",
+      "instruction": "S32-T1-B-E2 · Modela tres rutas de `missing indicators, escalamiento y encoding`: fixture válido, fixture adverso y registro sin `median`. Entrada: dict con case_id, values, median, silent_fill. Salidas exactas: `PASS`, `REJECT_SILENT_FILL`, `MISSING:median`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a median debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S32-T1-B: mediana de train con silent_fill=False. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `median` ausente y produce exactamente `PASS REJECT_SILENT_FILL MISSING:median`.",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"silent_fill\"] is True else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nincomplete = {**valid}\nincomplete.pop(\"median\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S32-T1-B-E3",
+      "instruction": "S32-T1-B-E3 · Contrasta fallo cerrado para `missing indicators, escalamiento y encoding` con tres fixtures distintos. `CASO-LIM-032-1B` debe continuar, el adverso debe devolver `REJECT_SILENT_FILL` y la ausencia de `median` debe devolver `REQUEST_MEDIAN`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_MEDIAN` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró mediana de train con silent_fill=False; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-LIM-032-1B`, adverso y sin `median` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'values', 'median', 'silent_fill'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"silent_fill\"] is True else \"REJECT_SILENT_FILL\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': 2, 'silent_fill': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-1B\", **{'values': [1, None, 3], 'median': None, 'silent_fill': True}}\nuncertain = {**valid}\nuncertain.pop(\"median\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n"
+    },
+    {
+      "id": "S32-T2-A-E1",
+      "instruction": "S32-T2-A-E1 · Calcula el contrato de `shared contact/address, distance y graph features` sobre `CASO-LIM-032-2A`. La entrada es el dict completo del starter; la operación debe demostrar graph feats sin usar label de decisión. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S32-T2-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_LABEL_AS_FEATURE` en E2.",
+      "hints": [
+        "Relaciona los campos `shared, degree, uses_label` con la regla explicada en S32-T2-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva graph feats sin usar label de decisión; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-LIM-032-2A` satisface un predicado de dominio real; imprime `S32-T2-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\nmeets_contract = record[\"uses_label\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_LABEL_AS_FEATURE\"\nprint(\"S32-T2-A\", status)\n"
+    },
+    {
+      "id": "S32-T2-A-E2",
+      "instruction": "S32-T2-A-E2 · Modela tres rutas de `shared contact/address, distance y graph features`: fixture válido, fixture adverso y registro sin `degree`. Entrada: dict con case_id, shared, degree, uses_label. Salidas exactas: `PASS`, `REJECT_LABEL_AS_FEATURE`, `MISSING:degree`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a degree debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S32-T2-A: graph feats sin usar label de decisión. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `degree` ausente y produce exactamente `PASS REJECT_LABEL_AS_FEATURE MISSING:degree`.",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"uses_label\"] is True else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nincomplete = {**valid}\nincomplete.pop(\"degree\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S32-T2-A-E3",
+      "instruction": "S32-T2-A-E3 · Contrasta fallo cerrado para `shared contact/address, distance y graph features` con tres fixtures distintos. `CASO-LIM-032-2A` debe continuar, el adverso debe devolver `REJECT_LABEL_AS_FEATURE` y la ausencia de `degree` debe devolver `REQUEST_GRAPH_FEAT`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_GRAPH_FEAT` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró graph feats sin usar label de decisión; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-LIM-032-2A`, adverso y sin `degree` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'shared', 'degree', 'uses_label'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"uses_label\"] is True else \"REJECT_LABEL_AS_FEATURE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2A\", **{'shared': 1, 'degree': 2, 'uses_label': True}}\nuncertain = {**valid}\nuncertain.pop(\"degree\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n"
+    },
+    {
+      "id": "S32-T2-B-E1",
+      "instruction": "S32-T2-B-E1 · Calcula el contrato de `ventanas y frecuencia` sobre `CASO-LIM-032-2B`. La entrada es el dict completo del starter; la operación debe demostrar ventana half-open sin incluir t. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S32-T2-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_FUTURE_TS` en E2.",
+      "hints": [
+        "Relaciona los campos `events, t, w, includes_t` con la regla explicada en S32-T2-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva ventana half-open sin incluir t; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-LIM-032-2B` satisface un predicado de dominio real; imprime `S32-T2-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\nmeets_contract = record[\"includes_t\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_FUTURE_TS\"\nprint(\"S32-T2-B\", status)\n"
+    },
+    {
+      "id": "S32-T2-B-E2",
+      "instruction": "S32-T2-B-E2 · Modela tres rutas de `ventanas y frecuencia`: fixture válido, fixture adverso y registro sin `w`. Entrada: dict con case_id, events, t, w, includes_t. Salidas exactas: `PASS`, `REJECT_FUTURE_TS`, `MISSING:w`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a w debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S32-T2-B: ventana half-open sin incluir t. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `w` ausente y produce exactamente `PASS REJECT_FUTURE_TS MISSING:w`.",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"includes_t\"] is True else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nincomplete = {**valid}\nincomplete.pop(\"w\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S32-T2-B-E3",
+      "instruction": "S32-T2-B-E3 · Contrasta fallo cerrado para `ventanas y frecuencia` con tres fixtures distintos. `CASO-LIM-032-2B` debe continuar, el adverso debe devolver `REJECT_FUTURE_TS` y la ausencia de `w` debe devolver `REQUEST_WINDOW`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_WINDOW` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró ventana half-open sin incluir t; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-LIM-032-2B`, adverso y sin `w` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'events', 't', 'w', 'includes_t'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"includes_t\"] is True else \"REJECT_FUTURE_TS\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-2B\", **{'events': [1, 2, 3, 5], 't': 5, 'w': 3, 'includes_t': True}}\nuncertain = {**valid}\nuncertain.pop(\"w\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n"
+    },
+    {
+      "id": "S32-T3-A-E1",
+      "instruction": "S32-T3-A-E1 · Calcula el contrato de `ColumnTransformer y custom transformers` sobre `CASO-LIM-032-3A`. La entrada es el dict completo del starter; la operación debe demostrar transformer fitted con mode y sin transform prematuro. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S32-T3-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_TRANSFORM_BEFORE_FIT` en E2.",
+      "hints": [
+        "Relaciona los campos `fitted, mode, transform_before_fit` con la regla explicada en S32-T3-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva transformer fitted con mode y sin transform prematuro; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-LIM-032-3A` satisface un predicado de dominio real; imprime `S32-T3-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\nmeets_contract = record[\"transform_before_fit\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_TRANSFORM_BEFORE_FIT\"\nprint(\"S32-T3-A\", status)\n"
+    },
+    {
+      "id": "S32-T3-A-E2",
+      "instruction": "S32-T3-A-E2 · Modela tres rutas de `ColumnTransformer y custom transformers`: fixture válido, fixture adverso y registro sin `fitted`. Entrada: dict con case_id, fitted, mode, transform_before_fit. Salidas exactas: `PASS`, `REJECT_TRANSFORM_BEFORE_FIT`, `MISSING:fitted`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a fitted debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S32-T3-A: transformer fitted con mode y sin transform prematuro. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `fitted` ausente y produce exactamente `PASS REJECT_TRANSFORM_BEFORE_FIT MISSING:fitted`.",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"transform_before_fit\"] is True else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nincomplete = {**valid}\nincomplete.pop(\"fitted\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S32-T3-A-E3",
+      "instruction": "S32-T3-A-E3 · Contrasta fallo cerrado para `ColumnTransformer y custom transformers` con tres fixtures distintos. `CASO-LIM-032-3A` debe continuar, el adverso debe devolver `REJECT_TRANSFORM_BEFORE_FIT` y la ausencia de `fitted` debe devolver `REQUEST_FIT_STATE`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_FIT_STATE` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró transformer fitted con mode y sin transform prematuro; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-LIM-032-3A`, adverso y sin `fitted` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'fitted', 'mode', 'transform_before_fit'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"transform_before_fit\"] is True else \"REJECT_TRANSFORM_BEFORE_FIT\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': True, 'mode': 'app', 'transform_before_fit': False}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3A\", **{'fitted': False, 'mode': None, 'transform_before_fit': True}}\nuncertain = {**valid}\nuncertain.pop(\"fitted\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n"
+    },
+    {
+      "id": "S32-T3-B-E1",
+      "instruction": "S32-T3-B-E1 · Calcula el contrato de `fit/transform y persistencia` sobre `CASO-LIM-032-3B`. La entrada es el dict completo del starter; la operación debe demostrar state JSON con version fs-vN. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S32-T3-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_UNVERSIONED` en E2.",
+      "hints": [
+        "Relaciona los campos `state, version, versioned` con la regla explicada en S32-T3-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva state JSON con version fs-vN; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-LIM-032-3B` satisface un predicado de dominio real; imprime `S32-T3-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\nmeets_contract = record[\"versioned\"] is False or not record[\"version\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_UNVERSIONED\"\nprint(\"S32-T3-B\", status)\n"
+    },
+    {
+      "id": "S32-T3-B-E2",
+      "instruction": "S32-T3-B-E2 · Modela tres rutas de `fit/transform y persistencia`: fixture válido, fixture adverso y registro sin `version`. Entrada: dict con case_id, state, version, versioned. Salidas exactas: `PASS`, `REJECT_UNVERSIONED`, `MISSING:version`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a version debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S32-T3-B: state JSON con version fs-vN. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `version` ausente y produce exactamente `PASS REJECT_UNVERSIONED MISSING:version`.",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"versioned\"] is False or not record[\"version\"] else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nincomplete = {**valid}\nincomplete.pop(\"version\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S32-T3-B-E3",
+      "instruction": "S32-T3-B-E3 · Contrasta fallo cerrado para `fit/transform y persistencia` con tres fixtures distintos. `CASO-LIM-032-3B` debe continuar, el adverso debe devolver `REJECT_UNVERSIONED` y la ausencia de `version` debe devolver `REQUEST_STATE_JSON`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_STATE_JSON` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró state JSON con version fs-vN; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-LIM-032-3B`, adverso y sin `version` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'state', 'version', 'versioned'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"versioned\"] is False or not record[\"version\"] else \"REJECT_UNVERSIONED\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': 'fs-v1', 'versioned': True}}\ninvalid = {\"case_id\": \"CASO-LIM-032-3B\", **{'state': {'median': 2}, 'version': '', 'versioned': False}}\nuncertain = {**valid}\nuncertain.pop(\"version\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n"
+    },
+    {
+      "id": "S32-T4-A-E1",
+      "instruction": "S32-T4-A-E1 · Calcula el contrato de `split por entidad/grupo/tiempo` sobre `CASO-LIM-032-4A`. La entrada es el dict completo del starter; la operación debe demostrar split con overlap 0 y ambos lados no vacíos. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S32-T4-A PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_ENTITY_OVERLAP` en E2.",
+      "hints": [
+        "Relaciona los campos `n_train, n_test, overlap` con la regla explicada en S32-T4-A.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva split con overlap 0 y ambos lados no vacíos; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-LIM-032-4A` satisface un predicado de dominio real; imprime `S32-T4-A PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\nmeets_contract = record[\"overlap\"] > 0\nstatus = \"PASS\" if meets_contract else \"REJECT_ENTITY_OVERLAP\"\nprint(\"S32-T4-A\", status)\n"
+    },
+    {
+      "id": "S32-T4-A-E2",
+      "instruction": "S32-T4-A-E2 · Modela tres rutas de `split por entidad/grupo/tiempo`: fixture válido, fixture adverso y registro sin `overlap`. Entrada: dict con case_id, n_train, n_test, overlap. Salidas exactas: `PASS`, `REJECT_ENTITY_OVERLAP`, `MISSING:overlap`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a overlap debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S32-T4-A: split con overlap 0 y ambos lados no vacíos. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `overlap` ausente y produce exactamente `PASS REJECT_ENTITY_OVERLAP MISSING:overlap`.",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if record[\"overlap\"] > 0 else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nincomplete = {**valid}\nincomplete.pop(\"overlap\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S32-T4-A-E3",
+      "instruction": "S32-T4-A-E3 · Contrasta fallo cerrado para `split por entidad/grupo/tiempo` con tres fixtures distintos. `CASO-LIM-032-4A` debe continuar, el adverso debe devolver `REJECT_ENTITY_OVERLAP` y la ausencia de `overlap` debe devolver `REQUEST_SPLIT_KEYS`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_SPLIT_KEYS` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró split con overlap 0 y ambos lados no vacíos; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-LIM-032-4A`, adverso y sin `overlap` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'n_train', 'n_test', 'overlap'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if record[\"overlap\"] > 0 else \"REJECT_ENTITY_OVERLAP\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 1, 'n_test': 1, 'overlap': 0}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4A\", **{'n_train': 2, 'n_test': 2, 'overlap': 1}}\nuncertain = {**valid}\nuncertain.pop(\"overlap\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n"
+    },
+    {
+      "id": "S32-T4-B-E1",
+      "instruction": "S32-T4-B-E1 · Calcula el contrato de `leakage, train–serve skew y versionado` sobre `CASO-LIM-032-4B`. La entrada es el dict completo del starter; la operación debe demostrar sin leaky names, sin skew y con feature_set id. Reemplaza la expresión booleana defectuosa, no los datos ni el assert. Salida exacta: `S32-T4-B PASS`; la misma operación sobre el fixture adverso debe activar `REJECT_LEAKAGE` en E2.",
+      "hints": [
+        "Relaciona los campos `leaky, skew, feature_set` con la regla explicada en S32-T4-B.",
+        "El predicado correcto debe ser verdadero porque el fixture conserva sin leaky names, sin skew y con feature_set id; revisa dirección de comparación, conjuntos y negaciones."
+      ],
+      "kind": "guided",
+      "tests": "El fixture `CASO-LIM-032-4B` satisface un predicado de dominio real; imprime `S32-T4-B PASS` y el assert booleano pasa.",
+      "starterCode": "record = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\nmeets_contract = bool(record[\"leaky\"]) or record[\"skew\"] is True\nstatus = \"PASS\" if meets_contract else \"REJECT_LEAKAGE\"\nprint(\"S32-T4-B\", status)\n"
+    },
+    {
+      "id": "S32-T4-B-E2",
+      "instruction": "S32-T4-B-E2 · Modela tres rutas de `leakage, train–serve skew y versionado`: fixture válido, fixture adverso y registro sin `feature_set`. Entrada: dict con case_id, leaky, skew, feature_set. Salidas exactas: `PASS`, `REJECT_LEAKAGE`, `MISSING:feature_set`. El starter contiene el mismo criterio invertido visto en E1; modifica solo la decisión de dominio y conserva la validación de campos.",
+      "hints": [
+        "Primero se calcula `missing`; ningún acceso a feature_set debe ocurrir antes de esa rama.",
+        "Después aplica la regla de S32-T4-B: sin leaky names, sin skew y con feature_set id. El fixture adverso debe fallar por contenido, no por schema."
+      ],
+      "kind": "independent",
+      "tests": "La tabla cubre válido/adverso/campo `feature_set` ausente y produce exactamente `PASS REJECT_LEAKAGE MISSING:feature_set`.",
+      "starterCode": "def assess(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if bool(record[\"leaky\"]) or record[\"skew\"] is True else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nincomplete = {**valid}\nincomplete.pop(\"feature_set\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n"
+    },
+    {
+      "id": "S32-T4-B-E3",
+      "instruction": "S32-T4-B-E3 · Contrasta fallo cerrado para `leakage, train–serve skew y versionado` con tres fixtures distintos. `CASO-LIM-032-4B` debe continuar, el adverso debe devolver `REJECT_LEAKAGE` y la ausencia de `feature_set` debe devolver `REQUEST_FEATURE_SET_ID`. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.",
+      "hints": [
+        "Una ausencia no equivale a breach: enrútala a `REQUEST_FEATURE_SET_ID` antes de evaluar el contenido.",
+        "Para datos completos reutiliza la regla que demostró sin leaky names, sin skew y con feature_set id; solo ese caso devuelve `CONTINUE`."
+      ],
+      "kind": "transfer",
+      "tests": "Fixtures `CASO-LIM-032-4B`, adverso y sin `feature_set` prueban continue/breach/uncertainty en ese orden.",
+      "starterCode": "def decide(record: dict) -> str:\n    required = {\"case_id\", 'leaky', 'skew', 'feature_set'}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"CONTINUE\"\n    return \"CONTINUE\" if bool(record[\"leaky\"]) or record[\"skew\"] is True else \"REJECT_LEAKAGE\"\n\nvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': [], 'skew': False, 'feature_set': 'fs-v2'}}\ninvalid = {\"case_id\": \"CASO-LIM-032-4B\", **{'leaky': ['label_decision'], 'skew': True, 'feature_set': 'fs-v2'}}\nuncertain = {**valid}\nuncertain.pop(\"feature_set\")\nresults = [decide(item) for item in (valid, invalid, uncertain)]\nprint(*results)\n"
+    }
+  ],
+  "packet_sha": "a164fd7487359385",
+  "attempt_id": "agentic_J1"
+}

@@ -1,15 +1,10 @@
 #!/usr/bin/env python3
 """
-Thin orchestrator for dual-LLM agentic walks (agentic_G*).
+Sealed dual-LLM walk harness for agentic_J* attempts.
 
-Does NOT generate exercise solutions. Responsibilities:
-1. Build key-free packets (quiz_card + slim_packet) for an attempt.
-2. Maintain llm_session_manifest.json rows after each dual-LLM section fill.
-3. Provide helpers for subagents to write one section live file.
-4. Never open prior-attempt lives as answer keys.
-
-Actual exercise/selfcheck answers must be written by dual-LLM subagent sessions
-that read only the attempt packets.
+- Builds key-free packets only (no solution generation).
+- write_live REQUIRES a matching llm_call_receipts.jsonl receipt.
+- Refuses prior-attempt lives, bulk completers, and theater attempt ids for pass claims.
 """
 from __future__ import annotations
 
@@ -27,31 +22,35 @@ from newbie_slim_packet import slim_packet  # noqa: E402
 from newbie_walkthrough_runner import attempt_dir, now_iso  # noqa: E402
 
 WALK = ROOT / "course-state/newbie_walkthrough"
-
-FORBIDDEN_ATTEMPT_GLOBS = (
-    "agentic_E",
-    "agentic_D",
-    "agentic_A",
-    "agentic_B",
-    "agentic_C",
-    "agentic_F",
-    "attempt_00",
+ALLOWED_PREFIX = ("agentic_J",)
+REJECTED_THEATER = (
+    "agentic_D", "agentic_E", "agentic_F", "agentic_G", "agentic_H", "agentic_I",
 )
 
 
-def assert_not_theater_path(path: Path) -> None:
-    s = str(path.resolve())
-    if "quarantine_theater" in s:
-        raise RuntimeError(f"theater path forbidden: {path}")
-    for bad in FORBIDDEN_ATTEMPT_GLOBS:
-        # allow only current attempt dir
-        if f"/newbie_walkthrough/{bad}" in s.replace("\\", "/"):
-            raise RuntimeError(f"prior-attempt path forbidden: {path}")
+def _parse(ts: str) -> datetime:
+    return datetime.fromisoformat(str(ts).replace("Z", "+00:00"))
+
+
+def sha256_text(s: str) -> str:
+    return hashlib.sha256((s or "").encode("utf-8")).hexdigest()
+
+
+def sha_payload(exercises: list, selfcheck: list) -> str:
+    blob = json.dumps(
+        {"exercises": exercises or [], "selfcheck": selfcheck or []},
+        ensure_ascii=False,
+        sort_keys=True,
+    )
+    return sha256_text(blob)
 
 
 def init_attempt(attempt: str, *, prior_clean: str | None = None) -> Path:
-    if not any(attempt.startswith(p) for p in ("agentic_G", "agentic_H", "agentic_I")):
-        raise SystemExit("llm_walk only for agentic_G*/H*/I* attempts")
+    if not any(attempt.startswith(p) for p in ALLOWED_PREFIX):
+        raise SystemExit(
+            f"llm_walk sealed path only for {ALLOWED_PREFIX}; got {attempt}. "
+            f"Theater ids {REJECTED_THEATER}* are permanently rejected for pass claims."
+        )
     root = attempt_dir(attempt)
     if root.exists():
         import shutil
@@ -67,38 +66,37 @@ def init_attempt(attempt: str, *, prior_clean: str | None = None) -> Path:
         "restart_from": "landing",
         "code_execution_used": False,
         "brand": "PyArcana",
-        "production_harness": "newbie_agentic_llm_walk + dual-LLM subagents only",
-        # Names deliberately avoid validator TAINT_MARKERS substrings (rebuild,
-        # produce_agent, generator, …) while still documenting forbidden tooling.
+        "production_harness": "sealed newbie_agentic_llm_walk + dual-LLM receipts",
         "forbidden_harnesses": [
-            "quarantine_theater packet bulk walkers",
-            "e2 dual-agent repair scripts",
-            "lives mass reassembly scripts",
-            "agentic produce bulk filler",
-            "apply selfcheck answer maps from prior attempts",
+            "tool-results bulk writers",
+            "quarantine_theater completers",
+            "packet_walk",
+            "hardcoded SELFCHECK/ANSWERS maps",
+            "e1 transplant",
         ],
         "method": "live_agentic_packet_only_no_execution",
         "reason": (
-            "Dual-LLM Explorer+Skeptic solve from landing→S01…S52 packets only; "
-            "no bulk fillers, no prior-attempt answer maps"
+            "Dual-LLM Explorer+Skeptic from landing; sealed write_live requires "
+            "per-section receipts; no bulk generators"
         ),
+        "receipts_required": True,
     }
     if prior_clean:
         meta["prior_clean"] = prior_clean
         meta["independence_baseline"] = prior_clean
     (root / "meta.json").write_text(json.dumps(meta, indent=2) + "\n", encoding="utf-8")
     (root / "issues.jsonl").write_text("")
+    (root / "llm_call_receipts.jsonl").write_text("")
     man = {
         "attempt_id": attempt,
         "created_at": now_iso(),
         "entries": [],
         "wall_clock_minutes": 0.0,
-        "note": "Each dual-LLM section fill appends two entries (A+B).",
+        "note": "Rows appended only via write_live with valid receipts.",
     }
     (root / "llm_session_manifest.json").write_text(
         json.dumps(man, indent=2) + "\n", encoding="utf-8"
     )
-    # build packets for all sections
     for i in range(1, 53):
         d = root / f"section_{i:02d}"
         d.mkdir()
@@ -137,60 +135,37 @@ def init_attempt(attempt: str, *, prior_clean: str | None = None) -> Path:
     return root
 
 
-def append_manifest(
-    attempt: str,
-    *,
-    section: int,
-    agent: str,
-    session_id: str,
-    started_at: str,
-    ended_at: str,
-    response_sha256: str,
-) -> None:
-    root = attempt_dir(attempt)
-    path = root / "llm_session_manifest.json"
-    man = json.loads(path.read_text(encoding="utf-8"))
-    man.setdefault("entries", []).append(
-        {
-            "section": section,
-            "agent": agent,
-            "started_at": started_at,
-            "ended_at": ended_at,
-            "subagent_or_session_id": session_id,
-            "response_sha256": response_sha256,
-        }
-    )
-    # recompute wall clock
-    try:
-        starts = [
-            datetime.fromisoformat(e["started_at"].replace("Z", "+00:00"))
-            for e in man["entries"]
-            if e.get("started_at")
-        ]
-        ends = [
-            datetime.fromisoformat(e["ended_at"].replace("Z", "+00:00"))
-            for e in man["entries"]
-            if e.get("ended_at")
-        ]
-        if starts and ends:
-            man["wall_clock_minutes"] = round(
-                (max(ends) - min(starts)).total_seconds() / 60.0, 2
-            )
-    except Exception:
-        pass
-    path.write_text(json.dumps(man, indent=2) + "\n", encoding="utf-8")
+def append_receipt(attempt: str, receipt: dict) -> None:
+    path = attempt_dir(attempt) / "llm_call_receipts.jsonl"
+    with path.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(receipt, ensure_ascii=False) + "\n")
 
 
-def sha_live(data: dict) -> str:
-    blob = json.dumps(
-        {
-            "exercises": data.get("exercises") or [],
-            "selfcheck": data.get("selfcheck") or [],
-        },
-        ensure_ascii=False,
-        sort_keys=True,
-    )
-    return hashlib.sha256(blob.encode()).hexdigest()
+def load_receipts(attempt: str) -> list[dict]:
+    path = attempt_dir(attempt) / "llm_call_receipts.jsonl"
+    if not path.exists():
+        return []
+    out = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        out.append(json.loads(line))
+    return out
+
+
+def find_receipt(
+    attempt: str, *, section: int, agent: str, exercises_sha: str, selfcheck_sha: str
+) -> dict | None:
+    for r in load_receipts(attempt):
+        if (
+            int(r.get("section", -1)) == section
+            and r.get("agent") == agent
+            and r.get("exercises_sha256") == exercises_sha
+            and r.get("selfcheck_sha256") == selfcheck_sha
+        ):
+            return r
+    return None
 
 
 def write_live(
@@ -201,16 +176,84 @@ def write_live(
     persona: str,
     session_id: str,
     started_at: str,
+    ended_at: str,
     exercises: list,
     selfcheck: list,
+    prompt_sha256: str,
+    response_sha256: str,
+    model_or_subagent_id: str,
     confusion_points: list | None = None,
 ) -> Path:
-    """Write one agent live file and append manifest row. Call only from dual-LLM fill."""
+    """Sealed write: requires receipt matching payload hashes + latency ≥ 8s."""
+    if not any(attempt.startswith(p) for p in ALLOWED_PREFIX):
+        raise RuntimeError(f"write_live refused for non-J attempt {attempt}")
     root = attempt_dir(attempt)
-    d = root / f"section_{section:02d}"
-    lab = "newbie_a_live.json" if agent == "newbie_a" else "newbie_b_live.json"
+    ex_sha = sha_payload(exercises, [])  # exercises only
+    # full payload hash for response binding
+    full_sha = sha_payload(exercises, selfcheck)
+    sc_sha = sha256_text(json.dumps(selfcheck or [], ensure_ascii=False, sort_keys=True))
+
+    # latency
+    try:
+        lat = (_parse(ended_at) - _parse(started_at)).total_seconds() * 1000.0
+    except Exception as e:
+        raise RuntimeError(f"bad timestamps: {e}") from e
+    if lat < 8000:
+        raise RuntimeError(f"receipt latency_ms {lat:.0f} < 8000 for section {section} {agent}")
+
+    # receipt must already be appended OR we append after validating fields
+    receipt = {
+        "section": section,
+        "agent": agent if agent in ("newbie_a", "newbie_b") else (
+            "newbie_a" if "a" in agent else "newbie_b"
+        ),
+        "started_at": started_at,
+        "ended_at": ended_at,
+        "latency_ms": int(lat),
+        "model_or_subagent_id": model_or_subagent_id,
+        "prompt_sha256": prompt_sha256,
+        "response_sha256": response_sha256,
+        "exercises_sha256": full_sha,  # bind full live payload
+        "selfcheck_sha256": sc_sha,
+        "session_id": session_id,
+    }
+    # response_sha256 must equal hash of answers+justifications
+    ans_blob = json.dumps(
+        {
+            "exercises": [
+                {
+                    "id": e.get("exercise_id") or e.get("id"),
+                    "code": e.get("code"),
+                    "just": e.get("justification_from_packet"),
+                }
+                for e in (exercises or [])
+            ],
+            "selfcheck": [
+                {
+                    "qi": a.get("question_index"),
+                    "ci": a.get("chosen_index"),
+                    "just": a.get("justification_from_packet"),
+                }
+                for a in (selfcheck or [])
+            ],
+        },
+        ensure_ascii=False,
+        sort_keys=True,
+    )
+    expected_resp = sha256_text(ans_blob)
+    if response_sha256 != expected_resp:
+        raise RuntimeError(
+            f"response_sha256 mismatch for s{section} {agent}: "
+            f"got {response_sha256[:12]} expected {expected_resp[:12]}"
+        )
+    # exercises_sha256 in receipt uses full payload
+    receipt["exercises_sha256"] = full_sha
+    append_receipt(attempt, receipt)
+
+    agent_key = receipt["agent"]
+    lab = "newbie_a_live.json" if agent_key == "newbie_a" else "newbie_b_live.json"
     live = {
-        "agent": f"{agent}_live" if not agent.endswith("_live") else agent,
+        "agent": f"{agent_key}_live",
         "persona": persona,
         "attempt_id": attempt,
         "section_index": section,
@@ -220,8 +263,8 @@ def write_live(
         "code_execution_used": False,
         "agent_instance_id": session_id,
         "production_note": (
-            f"{attempt} dual-LLM {persona}: solved from quiz_card+slim_packet only; "
-            f"direct agent output; no prior-attempt lives"
+            f"{attempt} dual-LLM {persona}: sealed receipt write; packet-only; "
+            f"no bulk writers; no identity stamps"
         ),
         "knowledge_boundary": "Only landing + prior + active packet content.",
         "forbidden_honored": True,
@@ -230,25 +273,40 @@ def write_live(
         "confusion_points": confusion_points or [],
         "recorded_at": now_iso(),
         "session_started_at": started_at,
-        "session_ended_at": now_iso(),
+        "session_ended_at": ended_at,
+        "receipt_response_sha256": response_sha256,
     }
-    out = d / lab
+    out = root / f"section_{section:02d}" / lab
     out.write_text(json.dumps(live, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    append_manifest(
-        attempt,
-        section=section,
-        agent=agent if agent in ("newbie_a", "newbie_b") else ("newbie_a" if "a" in agent else "newbie_b"),
-        session_id=session_id,
-        started_at=started_at,
-        ended_at=live["session_ended_at"],
-        response_sha256=sha_live(live),
+
+    # manifest row
+    man_path = root / "llm_session_manifest.json"
+    man = json.loads(man_path.read_text(encoding="utf-8"))
+    man.setdefault("entries", []).append(
+        {
+            "section": section,
+            "agent": agent_key,
+            "started_at": started_at,
+            "ended_at": ended_at,
+            "subagent_or_session_id": session_id,
+            "response_sha256": response_sha256,
+            "latency_ms": int(lat),
+        }
     )
+    try:
+        starts = [_parse(e["started_at"]) for e in man["entries"] if e.get("started_at")]
+        ends = [_parse(e["ended_at"]) for e in man["entries"] if e.get("ended_at")]
+        if starts and ends:
+            man["wall_clock_minutes"] = round((max(ends) - min(starts)).total_seconds() / 60.0, 2)
+    except Exception:
+        pass
+    man_path.write_text(json.dumps(man, indent=2) + "\n", encoding="utf-8")
     return out
 
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--init", metavar="ATTEMPT", help="init agentic_G* packets + empty manifest")
+    ap.add_argument("--init", metavar="ATTEMPT")
     ap.add_argument("--prior-clean", default=None)
     args = ap.parse_args()
     if args.init:

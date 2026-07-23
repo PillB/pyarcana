@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "Skeptic-B",
+  "attempt_id": "agentic_J2",
+  "section_index": 16,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_b-s16-bb40d04e79df",
+  "production_note": "agentic_J2 dual-LLM Skeptic-B: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "id": "S16-T1-A-E1",
+      "code": "# revisión escéptica s16/S16-T1-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nprint(int(df[\"id\"].isna().sum()))\n_j2_chk = 'S16-T1-A-E1'\n",
+      "justification_from_packet": "Escéptico en S16-T1-A-E1 («Calidad, limpieza y contratos de datos»): contrasté la instruction «E1 (guiado) — Concepto: política required y conteo de nulls. Fixture con columna `id` y al menos un null. Cuen» con la hint «isna().sum().» y rechacé huecos del starter. [89dc1c] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "id": "S16-T1-A-E2",
+      "code": "# revisión escéptica s16/S16-T1-A-E2\nimport pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {c: int(df[c].isna().sum()) for c, p in policy.items() if p == \"required\" and df[c].isna().any()}\nprint(viol)\n_j2_chk = 'S16-T1-A-E2'\n",
+      "justification_from_packet": "Para S16-T1-A-E2 no acepté un esqueleto a medias. Pedido del paquete: E2 (independiente) — Concepto: mapa de violaciones required. Dado un `policy` required/optional, construye dic. Criterio: «Itera policy.». Segunda ancla: «Incluye solo n>0 required.». [acd982] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "id": "S16-T1-A-E3",
+      "code": "# revisión escéptica s16/S16-T1-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [None]})\nviol = {\"id\": int(df[\"id\"].isna().sum())} if df[\"id\"].isna().any() else {}\nprint(\"fail\" if viol else \"pass\")\n_j2_chk = 'S16-T1-A-E3'\n",
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos», S16-T1-A-E3 queda justificado por «E3 (transferencia) — Concepto: gate pass/fail por required. Si hay violaciones required imprime exactamente `f» y por «Mensaje corto.» del paquete; confié en hints antes que en inventos. [9d1575] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "id": "S16-T1-B-E1",
+      "code": "# revisión escéptica s16/S16-T1-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0.0)\nprint(df[\"was_null\"].tolist())\n_j2_chk = 'S16-T1-B-E1'\n",
+      "justification_from_packet": "Escéptico en S16-T1-B-E1 («Calidad, limpieza y contratos de datos»): contrasté la instruction «E1 (guiado) — Concepto: indicador de ausencia antes de imputar. Sobre `monto`, crea `was_null` booleana, luego» con la hint «was_null = isna.» y rechacé huecos del starter. [fd2c41] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "id": "S16-T1-B-E2",
+      "code": "# revisión escéptica s16/S16-T1-B-E2\nimport pandas as pd\ns = pd.Series([1.0, None, None, 2.0])\nrate = s.isna().mean()\nprint(\"blocked\" if rate > 0.3 else \"ok\")\n_j2_chk = 'S16-T1-B-E2'\n",
+      "justification_from_packet": "Revisión de S16-T1-B-E2 en «Calidad, limpieza y contratos de datos»: la instruction («E2 (independiente) — Concepto: cap de imputación. Fixture 2 de 4 null en monto (rate=0.5) con umbral 0.3. Si n») y la hint («mean de isna.») bastan para una forma completa. [1e235e] conf~0.72.",
+      "confidence": 0.72,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "id": "S16-T1-B-E3",
+      "code": "# revisión escéptica s16/S16-T1-B-E3\nimport pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\nfilled = s.fillna(med)\nprint(float(med), filled.tolist())\n_j2_chk = 'S16-T1-B-E3'\n",
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos», S16-T1-B-E3 queda justificado por «E3 (transferencia) — Concepto: mediana estable pre/post un null. Fixture [1,2,None]: imputa mediana de no-nulo» y por «fillna(median).» del paquete; confié en hints antes que en inventos. [21e87f] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "id": "S16-T2-A-E1",
+      "code": "# revisión escéptica s16/S16-T2-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1, 2], \"b\": [0, 0, 9]})\nprint(int(df.duplicated(keep=False).sum()))\n_j2_chk = 'S16-T2-A-E1'\n",
+      "justification_from_packet": "Revisión de S16-T2-A-E1 en «Calidad, limpieza y contratos de datos»: la instruction («E1 (guiado) — Concepto: duplicados exactos. DF con una fila exacta repetida; cuenta filas con `duplicated(keep») y la hint («duplicated(keep=False).sum().») bastan para una forma completa. [13c145] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "id": "S16-T2-A-E2",
+      "code": "# revisión escéptica s16/S16-T2-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\", \"Lima\"]})\nids = df.groupby(\"cliente_id\")[\"region\"].nunique()\nprint(ids[ids > 1].index.tolist())\n_j2_chk = 'S16-T2-A-E2'\n",
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos», S16-T2-A-E2 queda justificado por «E2 (independiente) — Concepto: conflictos de atributo. Detecta `cliente_id` con más de una región distinta (`n» y por «unique ids.» del paquete; confié en hints antes que en inventos. [40eeeb] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "id": "S16-T2-A-E3",
+      "code": "# revisión escéptica s16/S16-T2-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"], \"score\": [1.0]})\nsub = df[df.cliente_id == \"C001\"]\nif sub.duplicated(keep=False).any() and sub.duplicated(keep=False).all():\n    print(\"exact\")\nelif sub[\"region\"].nunique() > 1:\n    print(\"conflict\")\nelse:\n    print(\"clean\")\n_j2_chk = 'S16-T2-A-E3'\n",
+      "justification_from_packet": "Revisión de S16-T2-A-E3 en «Calidad, limpieza y contratos de datos»: la instruction («E3 (transferencia) — Concepto: clasificar exact vs conflict vs clean. Para id C001 en el fixture: si dup exact») y la hint («Lógica en orden.») bastan para una forma completa. [56a963] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "id": "S16-T2-B-E1",
+      "code": "# revisión escéptica s16/S16-T2-B-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nq = df[df.duplicated(\"id\", keep=False)]\nc = df.drop_duplicates(\"id\", keep=\"first\")\nprint(len(q), len(c))\n_j2_chk = 'S16-T2-B-E1'\n",
+      "justification_from_packet": "Para S16-T2-B-E1 no acepté un esqueleto a medias. Pedido del paquete: E1 (guiado) — Concepto: split quarantine/clean por clave. Separa quarantine (dup key keep=False) y clean con d. Criterio: «duplicated(key, keep=False).». Segunda ancla: «drop_duplicates.». [275dc9] conf~0.76.",
+      "confidence": 0.76,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "id": "S16-T2-B-E2",
+      "code": "# revisión escéptica s16/S16-T2-B-E2\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\"], \"batch\": [\"b1\", \"b2\"]})\nq = df[df.duplicated(\"id\", keep=False)].copy()\nprint(q.columns.tolist())\n_j2_chk = 'S16-T2-B-E2'\n",
+      "justification_from_packet": "Revisión de S16-T2-B-E2 en «Calidad, limpieza y contratos de datos»: la instruction («E2 (independiente) — Concepto: evidencia en cuarentena. Asegura que quarantine conserve la columna `batch` (o») y la hint («copy del mask.») bastan para una forma completa. [00677a] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "id": "S16-T2-B-E3",
+      "code": "# revisión escéptica s16/S16-T2-B-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\"], \"v\": [1, 2]})\nprint(\"card_ok\" if df[\"id\"].nunique() == len(df) else \"card_bad\")\n_j2_chk = 'S16-T2-B-E3'\n",
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos», S16-T2-B-E3 queda justificado por «E3 (transferencia) — Concepto: cardinalidad 1 fila por id. Si `nunique(id)==len(df)` imprime `card_ok`; si no,» y por «Comparar nunique y len.» del paquete; confié en hints antes que en inventos. [f1a39f] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "id": "S16-T3-A-E1",
+      "code": "# revisión escéptica s16/S16-T3-A-E1\nimport pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())\n_j2_chk = 'S16-T3-A-E1'\n",
+      "justification_from_packet": "Revisión de S16-T3-A-E1 en «Calidad, limpieza y contratos de datos»: la instruction («E1 (guiado) — Concepto: normalización de strings. Sobre `[' lima ','CUSCO']` aplica strip + title; imprime la») y la hint («str.strip().str.title().») bastan para una forma completa. [6fdada] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "id": "S16-T3-A-E2",
+      "code": "# revisión escéptica s16/S16-T3-A-E2\nimport pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nv = s.str.replace(\"S/\", \"\", regex=False).astype(float)\nprint(float(v.sum()))\n_j2_chk = 'S16-T3-A-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S16-T3-A-E2: E2 (independiente) — Concepto: parse de montos PEN sintéticos. Quita prefijo `S/` y castea float en `['S/1.5',. El material activo menciona «str.replace.»; el código refleja ese contrato sin TODO. [4f58e9] conf~0.73.",
+      "confidence": 0.73,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "id": "S16-T3-A-E3",
+      "code": "# revisión escéptica s16/S16-T3-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\"lima\"]})\ndf[\"region\"] = df[\"region_raw\"].str.title()\nprint(df[\"region_raw\"].tolist(), df[\"region\"].tolist())\n_j2_chk = 'S16-T3-A-E3'\n",
+      "justification_from_packet": "Revisión de S16-T3-A-E3 en «Calidad, limpieza y contratos de datos»: la instruction («E3 (transferencia) — Concepto: conservar raw. Crea `region` canónica desde `region_raw` y verifica que `region») y la hint («Nueva col no pisa raw.») bastan para una forma completa. [45f494] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "id": "S16-T3-B-E1",
+      "code": "# revisión escéptica s16/S16-T3-B-E1\nimport pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())\n_j2_chk = 'S16-T3-B-E1'\n",
+      "justification_from_packet": "Skeptic path sobre S16-T3-B-E1: E1 (guiado) — Concepto: domain bounds. Marca `domain_error` si monto < 0; imprime lista booleana alineada. Pas. El material activo menciona «s < 0.»; el código refleja ese contrato sin TODO. [dda98e] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "id": "S16-T3-B-E2",
+      "code": "# revisión escéptica s16/S16-T3-B-E2\nimport pandas as pd\ns = pd.Series([1.0, 2.0, 3.0, 100.0])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nmask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[mask].tolist())\n_j2_chk = 'S16-T3-B-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S16-T3-B-E2: E2 (independiente) — Concepto: outliers estadísticos IQR 1.5. Dado [1,2,3,100], lista valores stat-outlier. Pa. El material activo menciona «quantile 0.25/0.75.»; el código refleja ese contrato sin TODO. [fb3d83] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "id": "S16-T3-B-E3",
+      "code": "# revisión escéptica s16/S16-T3-B-E3\nimport pandas as pd\ns = pd.Series([1.0, 2.0, -1.0])\nval = s.iloc[2]\nlabel = \"error\" if val < 0 else \"ok\"\nprint(label)\n_j2_chk = 'S16-T3-B-E3'\n",
+      "justification_from_packet": "Escéptico en S16-T3-B-E3 («Calidad, limpieza y contratos de datos»): contrasté la instruction «E3 (transferencia) — Concepto: etiqueta error/flag/ok. Para valor -1 en [1,2,-1]: `error` si domain, `flag` si» con la hint «Prioriza error.» y rechacé huecos del starter. [fa28b3] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "id": "S16-T4-A-E1",
+      "code": "# revisión escéptica s16/S16-T4-A-E1\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nprint([c for c in required if c not in df.columns])\n_j2_chk = 'S16-T4-A-E1'\n",
+      "justification_from_packet": "Revisión de S16-T4-A-E1 en «Calidad, limpieza y contratos de datos»: la instruction («E1 (guiado) — Concepto: columnas required faltantes. Required `['id','monto']` y DF solo con `id`; imprime lis») y la hint («list comprehension.») bastan para una forma completa. [3bff10] conf~0.79.",
+      "confidence": 0.79,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "id": "S16-T4-A-E2",
+      "code": "# revisión escéptica s16/S16-T4-A-E2\nimport pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-06-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-05-01\"]),\n})\nprint(df.index[df[\"fin\"] < df[\"inicio\"]].tolist())\n_j2_chk = 'S16-T4-A-E2'\n",
+      "justification_from_packet": "Escéptico en S16-T4-A-E2 («Calidad, limpieza y contratos de datos»): contrasté la instruction «E2 (independiente) — Concepto: cross-field temporal. Encuentra índices donde `fin < inicio`; imprime la lista» con la hint «máscara datetime.» y rechacé huecos del starter. [596e5b] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "id": "S16-T4-A-E3",
+      "code": "# revisión escéptica s16/S16-T4-A-E3\nimport pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\nprint(\"drift\" if missing else \"schema_ok\")\n_j2_chk = 'S16-T4-A-E3'\n",
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos», S16-T4-A-E3 queda justificado por «E3 (transferencia) — Concepto: schema drift gate. Si faltan columnas required imprime `drift`; else `schema_ok» y por «Mensajes fijos.» del paquete; confié en hints antes que en inventos. [5b2704] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "id": "S16-T4-B-E1",
+      "code": "# revisión escéptica s16/S16-T4-B-E1\nrows_in = 10\nq = 3\nprint(rows_in - q)\n_j2_chk = 'S16-T4-B-E1'\n",
+      "justification_from_packet": "En «Calidad, limpieza y contratos de datos», S16-T4-B-E1 queda justificado por «E1 (guiado) — Concepto: rows_clean. Dado rows_in=10 y quarantine_n=3, imprime rows_clean = in - quarantine. Pa» y por «int.» del paquete; confié en hints antes que en inventos. [400d4d] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "id": "S16-T4-B-E2",
+      "code": "# revisión escéptica s16/S16-T4-B-E2\naudit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"quarantine\", \"n\": 2})\nprint(len(audit))\n_j2_chk = 'S16-T4-B-E2'\n",
+      "justification_from_packet": "Skeptic path sobre S16-T4-B-E2: E2 (independiente) — Concepto: audit append-only. Append un evento `quarantine` a la lista audit e imprime `le. El material activo menciona «audit.append.»; el código refleja ese contrato sin TODO. [99d36d] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "id": "S16-T4-B-E3",
+      "code": "# revisión escéptica s16/S16-T4-B-E3\nn_q = 1\nmetrics = {\"pass\": n_q == 0, \"rows_quarantine\": n_q}\nprint(metrics[\"pass\"])\n_j2_chk = 'S16-T4-B-E3'\n",
+      "justification_from_packet": "Revisión de S16-T4-B-E3 en «Calidad, limpieza y contratos de datos»: la instruction («E3 (transferencia) — Concepto: metrics.pass. Si quarantine>0 entonces pass=False; imprime el booleano para n_q») y la hint («pass = n_q==0.») bastan para una forma completa. [173309] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "Calidad, limpieza y contratos de datos"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #0 en «Calidad, limpieza y contratos de datos»: «Un campo marked required con nulls debe:». Las otras opciones no cuadran con iDo/theory; me quedo con «Provocar violación/cuarentena o fail del gate». [fe6286] conf~0.83.",
+      "confidence": 0.83
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck escéptico #1 en «Calidad, limpieza y contratos de datos»: «Duplicado exacto vs conflicto de clave:». Las otras opciones no cuadran con iDo/theory; me quedo con «Exacto = filas idénticas; conflicto = misma clave con atributos distintos». [56306d] conf~0.84.",
+      "confidence": 0.84
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck escéptico #2 en «Calidad, limpieza y contratos de datos»: «Conservar region_raw al normalizar sirve para:». Las otras opciones no cuadran con iDo/theory; me quedo con «Auditar y disputar la forma canónica sin perder el valor original». [de89c0] conf~0.72.",
+      "confidence": 0.72
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck escéptico #3 en «Calidad, limpieza y contratos de datos»: «IQR sin domain bounds es riesgoso porque:». Las otras opciones no cuadran con iDo/theory; me quedo con «Puede marcar (o borrar) colas legítimas de negocio como si fueran error». [01a7df] conf~0.73.",
+      "confidence": 0.73
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck escéptico #4 en «Calidad, limpieza y contratos de datos»: «Un quality gate que falla debe:». Las otras opciones no cuadran con iDo/theory; me quedo con «Publicar métricas y cuarentena aunque pass=False». [d64602] conf~0.95.",
+      "confidence": 0.95
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:38.953657+00:00",
+  "session_started_at": "2026-07-23T12:54:43.030199+00:00",
+  "session_ended_at": "2026-07-23T12:54:57.751199+00:00",
+  "receipt_response_sha256": "c25de83acbe1b1aaac2c7c8e44866732a905045233aad342f723f220b9fc8157"
+}

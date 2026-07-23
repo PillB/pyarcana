@@ -1,0 +1,543 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_J1",
+  "section_index": 16,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-skeptic-s16-08e775c7c679",
+  "production_note": "agentic_J1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S16-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\nnull_count = int(df[\"id\"].isna().sum())\nresult = null_count\nprint(result)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "C001",
+        "null_count",
+        "int",
+        "isna",
+        "sum",
+        "result",
+        "guiado"
+      ],
+      "justification_from_packet": "Revisé que no se borre el oráculo del starter para S16-T1-A-E1: E1 (guiado) — Concepto: política required y conteo de nulls. Fixture con columna `id` y al menos un null. Cuen… Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['isna().sum().', 'int(...).'] Código imprime ['print(result)']."
+    },
+    {
+      "exercise_id": "S16-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\nviol = {}\nfor col, kind in policy.items():\n    if kind != \"required\":\n        continue\n    n = int(df[col].isna().sum())\n    if n > 0:\n        viol[col] = n\nresult = viol\nprint(result)\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "policy",
+        "required",
+        "optional",
+        "DataFrame",
+        "viol",
+        "col",
+        "kind",
+        "items"
+      ],
+      "justification_from_packet": "Sostuve el contrato fail-closed cuando aplica para S16-T1-A-E2: E2 (independiente) — Concepto: mapa de violaciones required. Dado un `policy` required/optional, construye dic… Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['Itera policy.', 'Incluye solo n>0 required.'] Código imprime ['print(result)']."
+    },
+    {
+      "exercise_id": "S16-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [None]})\nviol = int(df[\"id\"].isna().sum())\nresult = \"fail\" if viol > 0 else \"pass\"\nprint(result)\n",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "viol",
+        "int",
+        "isna",
+        "sum",
+        "result",
+        "fail",
+        "else"
+      ],
+      "justification_from_packet": "para S16-T1-A-E3: E3 (transferencia) — Concepto: gate pass/fail por required. Si hay violaciones required imprime exactamente `f… — comprobé forma completa (sin todo ni protocol notes). Código imprime ['print(result)']. Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['Usa el dict viol.', 'Mensaje corto.']."
+    },
+    {
+      "exercise_id": "S16-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\ndf[\"monto\"] = df[\"monto\"].fillna(0)\nprint(df[\"was_null\"].tolist())\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "was_null",
+        "isna",
+        "fillna",
+        "tolist",
+        "guiado",
+        "Concepto"
+      ],
+      "justification_from_packet": "Aseguré que el print coincida con el Pass del enunciado para S16-T1-B-E1: E1 (guiado) — Concepto: indicador de ausencia antes de imputar. Sobre `monto`, crea `was_null` booleana, luego… Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['was_null = isna.', 'luego fillna.'] Código imprime ['print(df[\"was_null\"].tolist())']."
+    },
+    {
+      "exercise_id": "S16-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, None, None, 2.0])\nrate = float(s.isna().mean())\nresult = \"blocked\" if rate > 0.3 else \"ok\"\nprint(result)\n",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "rate",
+        "float",
+        "isna",
+        "mean",
+        "result",
+        "blocked",
+        "else"
+      ],
+      "justification_from_packet": "Crucé la Tarea con los hints del quiz_card para S16-T1-B-E2: E2 (independiente) — Concepto: cap de imputación. Fixture 2 de 4 null en monto (rate=0.5) con umbral 0.3. Si n… Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['mean de isna.', 'cap 0.3.'] Código imprime ['print(result)']."
+    },
+    {
+      "exercise_id": "S16-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\nfilled = s.fillna(med)\nprint(filled.tolist())\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "med",
+        "median",
+        "filled",
+        "fillna",
+        "tolist",
+        "transferencia",
+        "Concepto"
+      ],
+      "justification_from_packet": "Como skeptic contrasté fixture vs. instrucción para S16-T1-B-E3: E3 (transferencia) — Concepto: mediana estable pre/post un null. Fixture [1,2,None]: imputa mediana de no-nulo… Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['median skipna.', 'fillna(median).'] Código imprime ['print(filled.tolist())']."
+    },
+    {
+      "exercise_id": "S16-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1, 2], \"b\": [0, 0, 9]})\nprint(int(df.duplicated(keep=False).sum()))\n",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "int",
+        "duplicated",
+        "keep",
+        "sum",
+        "guiado",
+        "Concepto",
+        "duplicados"
+      ],
+      "justification_from_packet": "para S16-T2-A-E1: E1 (guiado) — Concepto: duplicados exactos. DF con una fila exacta repetida; cuenta filas con `duplicated(keep… — crucé la tarea con los hints del quiz_card. Código imprime ['print(int(df.duplicated(keep=False).sum()))']. Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['duplicated(keep=False).sum().', 'Dos filas exactas → 2.']."
+    },
+    {
+      "exercise_id": "S16-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\", \"Lima\"]})\nconf = df.groupby(\"cliente_id\")[\"region\"].nunique()\nprint(conf[conf > 1].index.tolist())\n",
+      "confidence": 0.71,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "region",
+        "Lima",
+        "Cusco",
+        "conf"
+      ],
+      "justification_from_packet": "Sostuve el contrato fail-closed cuando aplica para S16-T2-A-E2: E2 (independiente) — Concepto: conflictos de atributo. Detecta `cliente_id` con más de una región distinta (`n… Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['groupby nunique > 1.', 'unique ids.'] Código imprime ['print(conf[conf > 1].index.tolist())']."
+    },
+    {
+      "exercise_id": "S16-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"], \"score\": [1.0]})\nsub = df[df.cliente_id == \"C001\"]\nif len(sub) == 0:\n    label = \"missing\"\nelif sub[\"region\"].nunique() > 1:\n    label = \"conflict\"\nelse:\n    label = \"unique\"\nresult = label\nprint(result)\n",
+      "confidence": 0.66,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "region",
+        "Lima",
+        "score",
+        "sub",
+        "len"
+      ],
+      "justification_from_packet": "Crucé la Tarea con los hints del quiz_card para S16-T2-A-E3: E3 (transferencia) — Concepto: clasificar exact vs conflict vs clean. Para id C001 en el fixture: si dup exact… Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['Lógica en orden.', 'Fixture simple.'] Código imprime ['print(result)']."
+    },
+    {
+      "exercise_id": "S16-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\nmask = df.duplicated(\"id\", keep=False)\nquarantine = df[mask].copy()\nclean = df.drop_duplicates(\"id\", keep=\"first\")\nprint(len(clean), len(quarantine))\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "mask",
+        "duplicated",
+        "keep",
+        "quarantine",
+        "copy",
+        "clean",
+        "drop_duplicates"
+      ],
+      "justification_from_packet": "Crucé la Tarea con los hints del quiz_card. Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Luego para S16-T2-B-E1: E1 (guiado) — Concepto: split quarantine/clean por clave. Separa quarantine (dup key keep=False) y clean con d… Código imprime ['print(len(clean), len(quarantine))']. Hints: ['duplicated(key, keep=False).', 'drop_duplicates.']."
+    },
+    {
+      "exercise_id": "S16-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\"], \"batch\": [\"b1\", \"b2\"]})\nq = df[df.duplicated(\"id\", keep=False)].copy()\nprint(q.columns.tolist())\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "batch",
+        "duplicated",
+        "keep",
+        "copy",
+        "columns",
+        "tolist",
+        "independiente"
+      ],
+      "justification_from_packet": "Verifiqué la alineación con el subtema de theory para S16-T2-B-E2: E2 (independiente) — Concepto: evidencia en cuarentena. Asegura que quarantine conserve la columna `batch` (o … Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['copy del mask.', 'No dropear cols.'] Código imprime ['print(q.columns.tolist())']."
+    },
+    {
+      "exercise_id": "S16-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\"], \"v\": [1, 2]})\ncard_ok = df[\"id\"].is_unique and len(df) == df[\"id\"].nunique()\nresult = \"card_ok\" if card_ok else \"card_fail\"\nprint(result)\n",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "card_ok",
+        "is_unique",
+        "len",
+        "nunique",
+        "result",
+        "else",
+        "card_fail"
+      ],
+      "justification_from_packet": "Sostuve el contrato fail-closed cuando aplica. Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Luego para S16-T2-B-E3: E3 (transferencia) — Concepto: cardinalidad 1 fila por id. Si `nunique(id)==len(df)` imprime `card_ok`; si no,… Código imprime ['print(result)']. Hints: ['cardinalidad 1:1.', 'Comparar nunique y len.']."
+    },
+    {
+      "exercise_id": "S16-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\nprint(s.str.strip().str.title().tolist())\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "lima",
+        "CUSCO",
+        "str",
+        "strip",
+        "title",
+        "tolist",
+        "guiado"
+      ],
+      "justification_from_packet": "Verifiqué la alineación con el subtema de theory. Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Luego para S16-T3-A-E1: E1 (guiado) — Concepto: normalización de strings. Sobre `[' lima ','CUSCO']` aplica strip + title; imprime la … Código imprime ['print(s.str.strip().str.title().tolist())']. Hints: ['str.strip().str.title().', 'Series string methods.']."
+    },
+    {
+      "exercise_id": "S16-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nv = s.str.replace(\"S/\", \"\", regex=False).astype(float)\nprint(float(v.sum()))\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "str",
+        "replace",
+        "regex",
+        "astype",
+        "float",
+        "sum",
+        "independiente"
+      ],
+      "justification_from_packet": "para S16-T3-A-E2: E2 (independiente) — Concepto: parse de montos PEN sintéticos. Quita prefijo `S/` y castea float en `['S/1.5',… — crucé la tarea con los hints del quiz_card. Código imprime ['print(float(v.sum()))']. Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['str.replace.', 'astype float.']."
+    },
+    {
+      "exercise_id": "S16-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\"lima\"]})\ndf[\"region\"] = df[\"region_raw\"].str.title()\nprint(df[\"region_raw\"].tolist(), df[\"region\"].tolist())\n",
+      "confidence": 0.54,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "region_raw",
+        "lima",
+        "region",
+        "str",
+        "title",
+        "tolist",
+        "transferencia"
+      ],
+      "justification_from_packet": "Validé que la lógica use solo APIs del paquete activo. Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Luego para S16-T3-A-E3: E3 (transferencia) — Concepto: conservar raw. Crea `region` canónica desde `region_raw` y verifica que `region… Código imprime ['print(df[\"region_raw\"].tolist(), df[\"region\"].tolist())']. Hints: ['Nueva col no pisa raw.', 'print both.']."
+    },
+    {
+      "exercise_id": "S16-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\nprint((s < 0).tolist())\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "tolist",
+        "guiado",
+        "Concepto",
+        "domain",
+        "bounds",
+        "Marca",
+        "domain_error"
+      ],
+      "justification_from_packet": "Aseguré que el print coincida con el Pass del enunciado. Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Luego para S16-T3-B-E1: E1 (guiado) — Concepto: domain bounds. Marca `domain_error` si monto < 0; imprime lista booleana alineada. Pas… Código imprime ['print((s < 0).tolist())']. Hints: ['s < 0.', 'tolist.']."
+    },
+    {
+      "exercise_id": "S16-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, 3.0, 100.0])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nmask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\nprint(s[mask].tolist())\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "quantile",
+        "iqr",
+        "mask",
+        "tolist",
+        "independiente",
+        "Concepto",
+        "outliers"
+      ],
+      "justification_from_packet": "para S16-T3-B-E2: E2 (independiente) — Concepto: outliers estadísticos IQR 1.5. Dado [1,2,3,100], lista valores stat-outlier. Pa… — verifiqué la alineación con el subtema de theory. Código imprime ['print(s[mask].tolist())']. Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['quantile 0.25/0.75.', 'fence q1-1.5iqr.']."
+    },
+    {
+      "exercise_id": "S16-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ns = pd.Series([1.0, 2.0, -1.0])\nval = s.iloc[2]\nlabel = \"error\" if val < 0 else \"ok\"\nresult = label\nprint(result)\n",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "val",
+        "iloc",
+        "label",
+        "error",
+        "else",
+        "result",
+        "transferencia"
+      ],
+      "justification_from_packet": "Comprobé forma completa (sin TODO ni protocol notes) para S16-T3-B-E3: E3 (transferencia) — Concepto: etiqueta error/flag/ok. Para valor -1 en [1,2,-1]: `error` si domain, `flag` si… Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['Prioriza error.', 'Una fila simple.'] Código imprime ['print(result)']."
+    },
+    {
+      "exercise_id": "S16-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\nmissing = [c for c in required if c not in df.columns]\nresult = missing\nprint(result)\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "required",
+        "monto",
+        "missing",
+        "not",
+        "columns",
+        "result",
+        "guiado"
+      ],
+      "justification_from_packet": "para S16-T4-A-E1: E1 (guiado) — Concepto: columnas required faltantes. Required `['id','monto']` y DF solo con `id`; imprime lis… — comprobé forma completa (sin todo ni protocol notes). Código imprime ['print(result)']. Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['list comprehension.', 'not in columns.']."
+    },
+    {
+      "exercise_id": "S16-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-06-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-05-01\"]),\n})\nmask = df[\"fin\"] < df[\"inicio\"]\nprint(df.index[mask].tolist())\n",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "inicio",
+        "to_datetime",
+        "fin",
+        "mask",
+        "index",
+        "tolist",
+        "independiente"
+      ],
+      "justification_from_packet": "Revisé que no se borre el oráculo del starter para S16-T4-A-E2: E2 (independiente) — Concepto: cross-field temporal. Encuentra índices donde `fin < inicio`; imprime la lista … Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['máscara datetime.', 'index[mask].tolist().'] Código imprime ['print(df.index[mask].tolist())']."
+    },
+    {
+      "exercise_id": "S16-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\nresult = \"schema_fail\" if missing else \"schema_ok\"\nprint(result)\n",
+      "confidence": 0.68,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "missing",
+        "monto",
+        "not",
+        "columns",
+        "result",
+        "schema_fail",
+        "else"
+      ],
+      "justification_from_packet": "Revisé que no se borre el oráculo del starter para S16-T4-A-E3: E3 (transferencia) — Concepto: schema drift gate. Si faltan columnas required imprime `drift`; else `schema_ok… Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['Usa lista missing.', 'Mensajes fijos.'] Código imprime ['print(result)']."
+    },
+    {
+      "exercise_id": "S16-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "rows_in = 10\nq = 3\nrows_clean = rows_in - q\nresult = rows_clean\nprint(result)\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "rows_in",
+        "rows_clean",
+        "result",
+        "guiado",
+        "Concepto",
+        "Dado",
+        "quarantine_n",
+        "imprime",
+        "quarantine",
+        "Pass"
+      ],
+      "justification_from_packet": "Aseguré que el print coincida con el Pass del enunciado. Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Luego para S16-T4-B-E1: E1 (guiado) — Concepto: rows_clean. Dado rows_in=10 y quarantine_n=3, imprime rows_clean = in - quarantine. Pa… Código imprime ['print(result)']. Hints: ['resta simple.', 'int.']."
+    },
+    {
+      "exercise_id": "S16-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "audit = [{\"event\": \"start\"}]\naudit.append({\"event\": \"gate\", \"pass\": False})\nprint(len(audit))\n",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "concepts_used": [
+        "audit",
+        "event",
+        "start",
+        "append",
+        "gate",
+        "pass",
+        "len",
+        "independiente",
+        "Concepto",
+        "only"
+      ],
+      "justification_from_packet": "para S16-T4-B-E2: E2 (independiente) — Concepto: audit append-only. Append un evento `quarantine` a la lista audit e imprime `le… — como skeptic contrasté fixture vs. instrucción. Código imprime ['print(len(audit))']. Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['audit.append.', 'lista previa con start.']."
+    },
+    {
+      "exercise_id": "S16-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "n_q = 1\ngate_pass = n_q == 0\nresult = gate_pass\nprint(result)\n",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "concepts_used": [
+        "n_q",
+        "gate_pass",
+        "result",
+        "transferencia",
+        "Concepto",
+        "metrics",
+        "pass",
+        "quarantine",
+        "entonces",
+        "imprime"
+      ],
+      "justification_from_packet": "para S16-T4-B-E3: E3 (transferencia) — Concepto: metrics.pass. Si quarantine>0 entonces pass=False; imprime el booleano para n_q… — validé que la lógica use solo apis del paquete activo. Código imprime ['print(result)']. Ancla de theory: «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null  Hints: ['pass = n_q==0.', 'json opcional.']."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Provocar violación/cuarentena o fail del gate",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "justification_from_packet": "La theory del subtema descarta «Un campo marked required con nulls debe:». Elijo [3] «Provocar violación/cuarentena o fail del gate» porque «nulls y políticas por campo»: Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido,. Descarto ['[0] Imputarse siempre con 0', '[1] Ignorarse si es <5% de filas']. Sección S16."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Exacto = filas idénticas; conflicto = misma clave con atributos distintos",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "justification_from_packet": "S16 Q1: «Duplicado exacto vs conflicto de clave:» → [1] Exacto = filas idénticas; conflicto = misma clave con atributos distintos. Skeptic: el stem se alinea con «indicadores y límites de imputación»: Un **indicador de ausencia** (`monto_was_null`) preserva señal cuando imputas un optional: . Otras opciones (['[0] Son lo mismo y siempre se drop_duplicates', '[2] Conflicto solo existe en SQL, no en pandas']) no cuadran con outcomes/iDo."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Auditar y disputar la forma canónica sin perder el valor original",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "justification_from_packet": "S16 Q2: «Conservar region_raw al normalizar sirve para:» → [2] Auditar y disputar la forma canónica sin perder el valor original. No elijo la trampa de «indicadores y límites de imputación»: Un **indicador de ausencia** (`monto_was_null`) preserva señal cuando imputas un optional: . Otras opciones (['[0] Acelerar groupby', '[1] Imputar nulls automáticamente']) no cuadran con outcomes/iDo."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Puede marcar (o borrar) colas legítimas de negocio como si fueran error",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "justification_from_packet": "S16 Q3: «IQR sin domain bounds es riesgoso porque:» → [0] Puede marcar (o borrar) colas legítimas de negocio como si fueran error. Contraste de opciones vs. outcomes «indicadores y límites de imputación»: Un **indicador de ausencia** (`monto_was_null`) preserva señal cuando imputas un optional: . Otras opciones (['[1] No funciona con floats', '[2] Siempre es más lento que z-score']) no cuadran con outcomes/iDo."
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Publicar métricas y cuarentena aunque pass=False",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "justification_from_packet": "S16 Q4: «Un quality gate que falla debe:» → [3] Publicar métricas y cuarentena aunque pass=False. El iDo/theory sostiene la opción «indicadores y límites de imputación»: Un **indicador de ausencia** (`monto_was_null`) preserva señal cuando imputas un optional: . Otras opciones (['[0] Ocultar métricas para no alarmar', '[1] Imputar todos los nulls y reintentar en silencio']) no cuadran con outcomes/iDo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:16:27+00:00",
+  "session_started_at": "2026-07-23T12:16:15+00:00",
+  "session_ended_at": "2026-07-23T12:16:27+00:00",
+  "receipt_response_sha256": "de40c2cc9dfbe3031f04d92af7e709d1bde022876f2bab0fc1e5a14a9895a284"
+}

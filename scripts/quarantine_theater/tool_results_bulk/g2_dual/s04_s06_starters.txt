@@ -1,0 +1,915 @@
+
+##### S04 #####
+
+ID S04-T1-A-E1
+INSTR: E1 (guiado) — Dada `regiones = ["Lima", "Cusco", "Piura"]`, imprime cada región en su propia línea con un `for`. Luego imprime `list(range(3))`.
+TESTS: 3 regiones + [0,1,2]
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+regiones = ["Lima", "Cusco", "Piura"]
+for r in regiones:
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(r)
+
+
+ID S04-T1-A-E2
+INSTR: E2 (independiente) — `edades = [30, 17, 45, 22]`. Cuenta cuántas son `>= 18` con un for (no uses comprehension todavía). Imprime el contador.
+TESTS: assert n == 3
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+edades = [30, 17, 45, 22]
+n = 0
+for e in edades:
+    if e >= 18:
+        n += 1
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(n)
+
+
+ID S04-T1-A-E3
+INSTR: E3 (transferencia) — Simula un mini-lote: lista de dicts con `id` y `monto`. Imprime solo los `id` cuyo monto sea `> 0` usando for. No mutes la lista original.
+TESTS: C1 y C4; len 4
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+lote = [{"id": "C1", "monto": 10}, {"id": "C2", "monto": 0}, {"id": "C3", "monto": -2}, {"id": "C4", "monto": 5}]
+for reg in lote:
+    if reg["monto"] > 0:
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(reg["id"])
+
+
+ID S04-T1-B-E1
+INSTR: E1 (guiado) — Con `ids = ["A", "B", "C"]`, usa `enumerate(..., start=1)` e imprime `fila k: id`.
+TESTS: fila 1..3
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+ids = ["A", "B", "C"]
+for i, x in enumerate(ids, start=1):
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(f"fila {i}: {x}")
+
+
+ID S04-T1-B-E2
+INSTR: E2 (independiente) — `nombres` y `edades` de igual longitud. Emparéjalos con `zip` e imprime `nombre=edad`. Luego muestra qué pasa con zip silencioso si acortas edades a 1 elemento (imprime list(zip(.
+TESTS: 3 pares + 1 par en zip corto
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+nombres = ["Ana", "Luis", "María"]
+edades = [30, 25, 40]
+for n, e in zip(nombres, edades):
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(f"{n}={e}")
+
+
+ID S04-T1-B-E3
+INSTR: E3 (transferencia) — Implementa `zip_strict(a,b)` que lance ValueError si `len(a)!=len(b)` (equivalente pedagógico a `zip(..., strict=True)` en Py 3.10+). Prueba desalineado → `DESALINEADO` y alineado
+TESTS: DESALINEADO luego OK
+START:
+def zip_strict(a, b):
+    # TODO
+    ...
+try:
+    zip_strict([1, 2, 3], [10, 20])
+except ValueError:
+    print("DESALINEADO")
+try:
+    zip_strict([1, 2], [3, 4])
+    print("OK")
+except ValueError:
+    print("DESALINEADO")
+
+ID S04-T2-A-E1
+INSTR: E1 (guiado) — Buffer `lines = ["r1", "r2", "", "r3"]`. Con while e índice, acumula hasta el string vacío (sin incluirlo). Imprime la lista.
+TESTS: ['r1','r2']
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+lines = ["r1", "r2", "", "r3"]
+i = 0
+out = []
+while i < len(lines):
+    line = lines[i]
+    i += 1
+    if line == "":
+        break
+    out.append(line)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(out)
+
+
+ID S04-T2-A-E2
+INSTR: E2 (independiente) — Simula reintentos: `intentos = 0`, `MAX = 3`, `while intentos < MAX`, incrementa e imprime `intento k`. Al salir imprime `done` y el valor final de intentos.
+TESTS: 3 intentos + done 3
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+intentos = 0
+MAX = 3
+while intentos < MAX:
+    intentos += 1
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(f"intento {intentos}")
+
+
+ID S04-T2-A-E3
+INSTR: E3 (transferencia) — Cola simulada: `cola = ["job1", "job2", "job3"]`. Mientras la cola no esté vacía, saca el primero con `pop(0)`, imprímelo, y si el job es `job2` imprime `PAUSE` y break. Muestra l
+TESTS: job1 job2 PAUSE rest [job3]
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+cola = ["job1", "job2", "job3"]
+while cola:
+    job = cola.pop(0)
+    if job == "job2":
+        break
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(job)
+
+
+ID S04-T2-B-E1
+INSTR: E1 (guiado) — `raw = ["  ", "Lima", "", "Cusco"]`. Con for, usa continue si `not x.strip()`; imprime las regiones válidas.
+TESTS: Lima\nCusco
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+raw = ["  ", "Lima", "", "Cusco"]
+for x in raw:
+    if not x.strip():
+        continue
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(x)
+
+
+ID S04-T2-B-E2
+INSTR: E2 (independiente) — `codes = [200, 200, 500, 200]`. Recorre; si code >= 500 imprime `STOP` y break; si no, imprime `ok`. Cuenta cuántos ok imprimiste.
+TESTS: ok ok STOP n_ok 2
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+codes = [200, 200, 500, 200]
+n_ok = 0
+for c in codes:
+    if c >= 500:
+        break
+    n_ok += 1
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("STOP")
+
+
+ID S04-T2-B-E3
+INSTR: E3 (transferencia) — Escribe un `while True` que lea de `buf = ["a", "b", "END"]` con índice, break en END, y un guardrail `if i > 10: raise RuntimeError('guard')`. Imprime los valores leídos.
+TESTS: ['a','b']
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+buf = ["a", "b", "END"]
+i = 0
+out = []
+while True:
+    if i > 10:
+        raise RuntimeError("guard")
+    item = buf[i]
+    i += 1
+    if item == "END":
+        break
+    out.append(item)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(out)
+
+
+ID S04-T3-A-E1
+INSTR: E1 (guiado) — `sts = ["accept", "reject", "accept"]`. Inicializa contadores y en un for incrementa. Imprime n_accept, n_reject, n_total.
+TESTS: 2 1 3
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+sts = ["accept", "reject", "accept"]
+n_accept = n_reject = n_total = 0
+for s in sts:
+    n_total += 1
+    if s == "accept":
+        n_accept += 1
+    elif s == "reject":
+        n_reject += 1
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(n_accept, n_reject, n_total)
+
+
+ID S04-T3-A-E2
+INSTR: E2 (independiente) — Calcula `tasa_reject = n_reject / n_total` para sts del E1. Luego calcula tasa para lista vacía sin ZeroDivisionError (imprime None).
+TESTS: 0.3333 y None
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+def tasa_reject(sts):
+    n_total = len(sts)
+    if n_total == 0:
+        return None
+    n_reject = sum(1 for s in sts if s == "reject")
+    return n_reject / n_total
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(round(tasa_reject(["accept", "reject", "accept"]), 4))
+
+
+ID S04-T3-A-E3
+INSTR: E3 (transferencia) — Busca el índice del primer `status=="review"` en una lista de dicts. Si no hay, imprime -1. Si hay, imprime el índice y el id.
+TESTS: 1 C2
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+rows = [{"id": "C1", "status": "accept"}, {"id": "C2", "status": "review"}, {"id": "C3", "status": "review"}]
+idx = -1
+for i, r in enumerate(rows):
+    if r["status"] == "review":
+        idx = i
+        break
+if idx == -1:
+else:
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(-1)
+
+
+ID S04-T3-B-E1
+INSTR: E1 (guiado) — `nums = [1,2,3,4,5]`. Crea con comprehension la lista de cuadrados y la de pares. Imprímelas.
+TESTS: cuadrados y pares
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+nums = [1, 2, 3, 4, 5]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print([x * x for x in nums])
+
+
+ID S04-T3-B-E2
+INSTR: E2 (independiente) — De `rows` con status, obtén set de statuses distintos ordenados alfabéticamente para el reporte.
+TESTS: ['accept','reject','review']
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+rows = [{"status": "reject"}, {"status": "accept"}, {"status": "reject"}, {"status": "review"}]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(sorted({r["status"] for r in rows}))
+
+
+ID S04-T3-B-E3
+INSTR: E3 (transferencia) — Construye dict `id -> status` por comprehension y calcula tasa de reject como len de rejects / len rows usando otra comprehension para rejects.
+TESTS: reject [C2,C4] 0.5
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+rows = [{"id": "C1", "status": "accept"}, {"id": "C2", "status": "reject"}, {"id": "C3", "status": "accept"}, {"id": "C4", "status": "reject"}]
+by = {r["id"]: r["status"] for r in rows}
+rejects = [i for i, st in by.items() if st == "reject"]
+tasa = len(rejects) / len(rows)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(by["C2"], rejects, tasa)
+
+
+ID S04-T4-A-E1
+INSTR: E1 (guiado) — Traza: `vals = [2, -1, 3]`, acumulador `s=0`. En cada paso imprime `i, val, s` después de sumar solo positivos.
+TESTS: traza + final 5
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+vals = [2, -1, 3]
+s = 0
+for i, val in enumerate(vals):
+    if val > 0:
+        s += val
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(i, val, s)
+
+
+ID S04-T4-A-E2
+INSTR: E2 (independiente) — Hay un bug: el contador `n` se incrementa dos veces por fila. Traza e identifica; imprime n corregido para 3 filas (debe ser 3).
+TESTS: 3
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+filas = ["a", "b", "c"]
+n = 0
+for f in filas:
+    n += 1
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(n)
+
+
+ID S04-T4-A-E3
+INSTR: E3 (transferencia) — Simula tres registros y un dict de contadores. Imprime una línea TRACE por registro con el estado completo del dict (copy o str).
+TESTS: 3 TRACE + FINAL
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+regs = ["accept", "reject", "accept"]
+counts = {"accept": 0, "reject": 0}
+for i, st in enumerate(regs):
+    counts[st] = counts.get(st, 0) + 1
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print("TRACE", i, st, dict(counts))
+
+
+ID S04-T4-B-E1
+INSTR: E1 (guiado) — Para n=5, cuenta pasos de un for simple y de un doble for anidado. Imprime ambos números.
+TESTS: 5 25
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+n = 5
+lin = quad = 0
+for i in range(n):
+    lin += 1
+for i in range(n):
+    for j in range(n):
+        quad += 1
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(lin, quad)
+
+
+ID S04-T4-B-E2
+INSTR: E2 (independiente) — `data = ["r0", "r1", "r2"]`. El código usa `for i in range(1, len(data)+1)` y hace IndexError. Arréglalo para recorrer todos los índices válidos e imprimir cada elemento.
+TESTS: r0 r1 r2
+START:
+data = ["r0", "r1", "r2"]
+for i in range(1, len(data) + 1):  # BUG intencional — corrige el off-by-one
+    print(data[i])  # TODO: index error hasta que arregles el range
+
+ID S04-T4-B-E3
+INSTR: E3 (transferencia) — Reescribe un conteo de pares reject-reject O(n²) ingenuo a un conteo O(n) de rejects (no necesitas pares). Imprime n_reject y comenta en un print por qué O(n) basta para la tasa.
+TESTS: 3 0.6 + nota
+START:
+sts = ["reject", "accept", "reject", "reject", "accept"]
+# versión ingenua (no la uses en la solución final):
+# pairs = 0
+# for i in range(len(sts)):
+#     for j in range(i+1, len(sts)):
+#         if sts[i]=="reject" and sts[j]=="reject": pairs += 1
+# TODO O(n)
+
+
+##### S05 #####
+
+ID S05-T1-A-E1
+INSTR: E1 (guiado) — Escribe `def doble(n):` que retorne `n*2`. Imprime doble(21).
+TESTS: 42
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+def doble(n):
+    return n * 2
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(doble(21))
+
+
+ID S05-T1-A-E2
+INSTR: E2 (independiente) — `normalize_nombre(raw)` colapsa espacios internos y strip. Prueba con `'  Juan   Pérez '`.
+TESTS: Juan Pérez
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+def normalize_nombre(raw):
+    return " ".join(raw.strip().split())
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(normalize_nombre('  Juan   Pérez '))
+
+
+ID S05-T1-A-E3
+INSTR: E3 (transferencia) — Función `saluda(nombre)` que retorne el string; en main imprime el return. Demuestra que sin return print(saluda(...)) muestra None si olvidas return (arregla para que no sea None
+TESTS: Hola Ana
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+def saluda(nombre):
+    return f'Hola {nombre}'
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(saluda('Ana'))
+
+
+ID S05-T1-B-E1
+INSTR: E1 (guiado) — `def present(nombre, titulo='Cliente'):` retorna `f'{titulo}: {nombre}'`. Llama posicional y con keyword titulo=.
+TESTS: Cliente: / VIP:
+START:
+def present(nombre, titulo='Cliente'):
+    # TODO
+    ...
+print(present('Quispe'))
+print(present('Quispe', titulo='VIP'))
+
+ID S05-T1-B-E2
+INSTR: E2 (independiente) — Reescribe un `bad_add` con default mutable a la versión segura con None. Muestra dos llamadas good(1), good(2) independientes.
+TESTS: [1] luego [2]
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+def good_add(item, bucket=None):
+    if bucket is None:
+        bucket = []
+    bucket.append(item)
+    return bucket
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(good_add(1))
+
+
+ID S05-T1-B-E3
+INSTR: E3 (transferencia) — `normalize_telefono(raw, *, digits_only=True)` keyword-only. Si digits_only, deja solo dígitos; si False, solo strip. Demuestra ambas llamadas por keyword.
+TESTS: 999000 y 999-000
+START:
+def normalize_telefono(raw, *, digits_only=True):
+    # TODO
+    ...
+print(normalize_telefono(' 999-000 '))
+print(normalize_telefono(' 999-000 ', digits_only=False))
+
+ID S05-T2-A-E1
+INSTR: E1 (guiado) — Añade docstring de una línea a `def area(w, h): return w*h` e imprime `area.__doc__`.
+TESTS: doc + 12
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+def area(w, h):
+    """Retorna el área de un rectángulo w×h."""
+    return w * h
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(area.__doc__)
+
+
+ID S05-T2-A-E2
+INSTR: E2 (independiente) — `normalize_email` con pre/post en docstring: strip+lower; ValueError si no hay @. Prueba OK y error.
+TESTS: a@b.com + err
+START:
+def normalize_email(raw: str) -> str:
+    """TODO pre/post"""
+    # TODO
+    ...
+print(normalize_email('  A@B.COM '))
+try:
+    normalize_email('x')
+except ValueError as e:
+    print('err', e)
+
+ID S05-T2-A-E3
+INSTR: E3 (transferencia) — Documenta y escribe `normalize_nombre` con postcondición: no empiezan/terminan espacios y no hay dobles espacios. Assert de la postcondición en un ejemplo.
+TESTS: Ana María + post OK
+START:
+def normalize_nombre(raw: str) -> str:
+    """Post: sin extremos ni dobles espacios."""
+    # TODO
+    ...
+r = normalize_nombre('  Ana  María  ')
+print(r)
+assert r == r.strip() and '  ' not in r
+print('post OK')
+
+ID S05-T2-B-E1
+INSTR: E1 (guiado) — Anota `def len_safe(s: str) -> int` y retorna len. Imprime el resultado y un comentario mental de que el hint no valida en runtime.
+TESTS: 3 + nota
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+def len_safe(s: str) -> int:
+    return len(s)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(len_safe('abc'))
+
+
+ID S05-T2-B-E2
+INSTR: E2 (independiente) — `parse_monto(raw: str) -> tuple` (ok, value, err). Acepta enteros >=0; error de dominio si negativo o no int.
+TESTS: 4 casos
+START:
+from typing import Optional, Tuple
+
+def parse_monto(raw: str) -> Tuple[bool, Optional[int], Optional[str]]:
+    # TODO
+    ...
+for v in ['0', '10', '-1', 'x']:
+    print(v, parse_monto(v))
+
+ID S05-T2-B-E3
+INSTR: E3 (transferencia) — Elige raise ValueError **o** tupla para `normalize_email` y documenta por qué en un print. Implementa la opción raise y captura en el caller del lote (for de 2 emails).
+TESTS: OK + SKIP
+START:
+def normalize_email(raw: str) -> str:
+    # TODO raise
+    ...
+for e in ['ok@ex.com', 'malo']:
+    # TODO try/except print
+
+ID S05-T3-A-E1
+INSTR: E1 (guiado) — Extrae `strip_collapse` y úsalo dentro de `normalize_nombre` que además hace .title().
+TESTS: Ana María
+START:
+def strip_collapse(s):
+    # TODO
+    ...
+def normalize_nombre(raw):
+    # TODO
+    ...
+print(normalize_nombre('  ana  maría '))
+
+ID S05-T3-A-E2
+INSTR: E2 (independiente) — Orquestador `normalize_contact(nombre, email)` devuelve dict usando dos helpers.
+TESTS: Luis + l@e.com
+START:
+def norm_n(s):
+    return ' '.join(s.strip().split()).title()
+def norm_e(s):
+    return s.strip().lower()
+def normalize_contact(nombre, email):
+    # TODO
+    ...
+print(normalize_contact('  luis ', '  L@E.COM '))
+
+ID S05-T3-A-E3
+INSTR: E3 (transferencia) — Parte una función monstruo de 10 líneas (nombre+email+tel en un solo def con comentarios) en 3 funciones + orquestador. Misma salida.
+TESTS: 3 keys normalizadas
+START:
+# monstruo a reemplazar conceptualmente
+def normalize_all(n, e, t):
+    # TODO descomponer
+    ...
+print(normalize_all('  Ana ', 'A@B.COM', '999-1'))
+
+ID S05-T3-B-E1
+INSTR: E1 (guiado) — Escribe `normalize_tel` puro (solo dígitos). Demuestra idempotencia con dos llamadas encadenadas.
+TESTS: 999000 True
+START:
+def normalize_tel(raw):
+    # TODO
+    ...
+x = '999-000'
+once = normalize_tel(x)
+print(once, normalize_tel(once) == once)
+
+ID S05-T3-B-E2
+INSTR: E2 (independiente) — Separa: `normalize_email` puro + `print_report(email)` con efecto de print. No imprimas dentro del normalizador.
+TESTS: email= z@w.com
+START:
+def normalize_email(raw):
+    # TODO puro
+    ...
+def print_report(raw):
+    # TODO efecto
+    ...
+print_report('  Z@W.COM ')
+
+ID S05-T3-B-E3
+INSTR: E3 (transferencia) — Inyecta un normalizador: `process(line, norm=normalize_tel)` usa la fn inyectada. Llama con default y con un norm alternativo que deja todo upper strip.
+TESTS: 999 y 999-A
+START:
+def normalize_tel(raw):
+    return ''.join(c for c in raw if c.isdigit())
+def process(line, norm=normalize_tel):
+    # TODO
+    ...
+print(process(' 999-a '))
+print(process(' 999-a ', norm=lambda s: s.strip().upper()))
+
+ID S05-T4-A-E1
+INSTR: E1 (guiado) — Predice LEGB: global x=1; dentro de f, x=2 local; print dentro y fuera.
+TESTS: in 2 out 1
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+x = 1
+def f():
+    x = 2
+f()
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('in', x)
+
+
+ID S05-T4-A-E2
+INSTR: E2 (independiente) — `make_multiplier(k)` devuelve función que multiplica por k (closure). Crea *3 y *10.
+TESTS: 12 40
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+def make_multiplier(k):
+    def inner(n):
+        return n * k
+    return inner
+m3 = make_multiplier(3)
+m10 = make_multiplier(10)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(m3(4), m10(4))
+
+
+ID S05-T4-A-E3
+INSTR: E3 (transferencia) — Factory `make_normalizer(mode)` donde mode 'digits' o 'lower' devuelve la fn adecuada. Úsala en dos prints.
+TESTS: 12 hola
+START:
+def make_normalizer(mode):
+    # TODO
+    ...
+d = make_normalizer('digits')
+lo = make_normalizer('lower')
+print(d('A-1-B-2'), lo('  Hola '))
+
+ID S05-T4-B-E1
+INSTR: E1 (guiado) — Escribe 2 asserts de ejemplo para `normalize_email = lambda s: s.strip().lower()` e imprime OK.
+TESTS: OK
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+def normalize_email(s):
+    return s.strip().lower()
+assert normalize_email('  A@B.COM ') == 'a@b.com'
+assert normalize_email(normalize_email('A@B.COM')) == 'a@b.com'
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('OK')
+
+
+ID S05-T4-B-E2
+INSTR: E2 (independiente) — Refactoriza `normalize_dir` de una línea densa a dos pasos (strip_collapse + upper) sin romper asserts dados.
+TESTS: AV 1 / JR 2
+START:
+def normalize_dir(raw):
+    return ' '.join(raw.strip().split()).upper()
+assert normalize_dir('  av 1 ') == 'AV 1'
+assert normalize_dir(normalize_dir('x')) == normalize_dir('x')
+# TODO reescribir cuerpo
+def normalize_dir(raw):
+    # TODO
+    ...
+assert normalize_dir('  av 1 ') == 'AV 1'
+print(normalize_dir(' jr 2 '))
+
+ID S05-T4-B-E3
+INSTR: E3 (transferencia) — Suite mínima: lista de (input, expected) para normalize_nombre; loop assert. Luego cambia implementación a title-case y actualiza expected si la política cambia conscientemente — 
+TESTS: PASS lines
+START:
+def normalize_nombre(raw):
+    return ' '.join(raw.strip().split())
+cases = [('  a  b ', 'a b'), ('X', 'X')]
+# TODO loop
+print('all PASS')
+
+##### S06 #####
+
+ID S06-T1-A-E1
+INSTR: E1 (guiado) — Dada `txs` de 5 montos, imprime los **últimos 2** con slicing y la longitud de la ventana. Caso vacío: si `txs=[]`, imprime `ventana=[]` y `len=0`.
+TESTS: [40, 50] y []
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+txs = [10, 20, 30, 40, 50]
+ventana = txs[-2:]
+empty = []
+v0 = empty[-2:]
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(ventana)
+
+
+ID S06-T1-A-E2
+INSTR: E2 (independiente) — Convierte la lista de headers `['id','monto']` a **tuple** `KEYS` (motivo: inmutable). Imprime `KEYS` y demuestra que `KEYS + ('canal',)` crea otra tupla sin mutar `KEYS`.
+TESTS: KEYS estable + more
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+headers = ['id', 'monto']
+KEYS = tuple(headers)
+more = KEYS + ('canal',)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('KEYS', KEYS)
+
+
+ID S06-T1-A-E3
+INSTR: E3 (transferencia) — Hay un bug: se trata una tupla de ids como lista y se intenta `.append`. Captura el AttributeError, convierte a list, append 'C003', e imprime el resultado y un mensaje de diagnós
+TESTS: AttributeError + lista mutada
+START:
+ids = ('C001', 'C002')
+try:
+    ids.append('C003')  # bug intencional si se ejecuta sobre tuple
+except Exception as e:
+    # TODO
+    ...
+
+ID S06-T1-B-E1
+INSTR: E1 (guiado) — Unpacking de fila `('C001', 'Lima', 10)` en `cid, region, monto`. Imprime los tres. Si la fila tuviera 2 valores, el unpack fallaría (no lo fuerces aquí).
+TESTS: C001 Lima 10
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+fila = ('C001', 'Lima', 10)
+cid, region, monto = fila
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(cid, region, monto)
+
+
+ID S06-T1-B-E2
+INSTR: E2 (independiente) — Demuestra alias vs copy: lista `[1,2]`, `alias = xs`, `copia = xs.copy()`. Mutar alias con append 3; imprimir xs y copia. Luego append 4 a copia e imprimir de nuevo xs.
+TESTS: xs crece con alias; no con copia tras divergencia
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+xs = [1, 2]
+alias = xs
+copia = xs.copy()
+alias.append(3)
+copia.append(4)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('tras alias', xs, copia)
+
+
+ID S06-T1-B-E3
+INSTR: E3 (transferencia) — Lista de dicts anidados `[{'id':'C1','tags':['a']}]`. Muestra que `copy()` de la lista **no** aísla `tags`. Usa `copy.deepcopy`, muta tags del deep, e imprime original vs deep.
+TESTS: deep no contamina original en el append 'd'
+START:
+import copy
+rows = [{'id': 'C1', 'tags': ['a']}]
+shallow = rows.copy()
+# TODO deep + mutaciones
+print('orig', rows)
+print('deep', deep)
+
+ID S06-T2-A-E1
+INSTR: E1 (guiado) — Construye un dict desde pares `[('C001','Lima'),('C002','Cusco')]` e imprime el dict y `d['C002']`.
+TESTS: Cusco
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+pares = [('C001', 'Lima'), ('C002', 'Cusco')]
+d = dict(pares)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(d)
+
+
+ID S06-T2-A-E2
+INSTR: E2 (independiente) — Dado `idx` con C001, usa `get` para C001 y C999 (default 'N/A'). Luego muestra un `try/except KeyError` al acceder `idx['C999']` directo.
+TESTS: Ana / N/A / KeyError
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+idx = {'C001': 'Ana'}
+try:
+except KeyError as e:
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(idx.get('C001', 'N/A'))
+
+
+ID S06-T2-A-E3
+INSTR: E3 (transferencia) — Fusiona `defaults={'retry':1,'timeout':30}` con `override={'retry':5}` **sin** perder timeout. Imprime merged. Luego muestra el peligro de `defaults.update(override)` mutando defa
+TESTS: retry 5 timeout 30; defaults original intacto
+START:
+defaults = {'retry': 1, 'timeout': 30}
+override = {'retry': 5}
+# TODO merged seguro
+print('merged', merged)
+# TODO no mutar original defaults al fusionar
+
+ID S06-T2-B-E1
+INSTR: E1 (guiado) — Deduplica `['a@ex.com','b@ex.com','a@ex.com']` con set y devuelve lista **ordenada** de únicos.
+TESTS: ['a@ex.com', 'b@ex.com']
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+emails = ['a@ex.com', 'b@ex.com', 'a@ex.com']
+unicos = sorted(set(emails))
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(unicos)
+
+
+ID S06-T2-B-E2
+INSTR: E2 (independiente) — Intersección de contactos `lote_a` y `lote_b` (sets de emails). Imprime sorted de la intersección y de la diferencia simétrica.
+TESTS: inter b,c ; symdiff a,d
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+a = {'a@ex.com', 'b@ex.com', 'c@ex.com'}
+b = {'b@ex.com', 'c@ex.com', 'd@ex.com'}
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('inter', sorted(a & b))
+
+
+ID S06-T2-B-E3
+INSTR: E3 (transferencia) — Implementa `dedup_report(rows, key='id')` que devuelve `{unique: [...], conflicts: [...]}` sin eliminar del reporte los conflictos. Filas sintéticas con C001 repetido distinto.
+TESTS: 1 conflict C001
+START:
+def dedup_report(rows, key='id'):
+    # TODO
+    ...
+rows = [
+    {'id': 'C001', 'v': 1},
+    {'id': 'C002', 'v': 2},
+    {'id': 'C001', 'v': 9},
+]
+print(dedup_report(rows))
+
+ID S06-T3-A-E1
+INSTR: E1 (guiado) — Cuenta contactos por cliente e imprime `id → n`.
+TESTS: C001 → 2 ; C002 → 0
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+clients = [
+    {'id': 'C001', 'contacts': [1, 2]},
+    {'id': 'C002', 'contacts': []},
+]
+for c in clients:
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(c['id'], '→', len(c['contacts']))
+
+
+ID S06-T3-A-E2
+INSTR: E2 (independiente) — Aplana `txs` anidadas a filas `{client_id, tx_id, monto}` e imprime la lista.
+TESTS: 3 filas flat
+START:
+clients = [
+    {'id': 'C001', 'txs': [{'id': 'T1', 'monto': 5}]},
+    {'id': 'C002', 'txs': [{'id': 'T2', 'monto': 7}, {'id': 'T3', 'monto': 1}]},
+]
+# TODO flat
+print(flat)
+
+ID S06-T3-A-E3
+INSTR: E3 (transferencia) — Detecta shape inconsistente: si falta `txs` o no es list, marca `status='review'`. Imprime status por cliente sintético (uno ok, uno malo).
+TESTS: ok / review / review
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+clients = [
+    {'id': 'C001', 'txs': []},
+    {'id': 'C002'},
+    {'id': 'C003', 'txs': 'oops'},
+]
+for c in clients:
+    txs = c.get('txs')
+    ok = isinstance(txs, list)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(c['id'], 'ok' if ok else 'review')
+
+
+ID S06-T3-B-E1
+INSTR: E1 (guiado) — Implementa `get_nested(d, *keys, default=None)` y úsalo para `profile.phone` en un dict sintético.
+TESTS: 999 y N/A
+START:
+def get_nested(d, *keys, default=None):
+    # TODO
+    ...
+c = {'profile': {'phone': '999'}}
+print(get_nested(c, 'profile', 'phone'))
+print(get_nested(c, 'profile', 'email', default='N/A'))
+
+ID S06-T3-B-E2
+INSTR: E2 (independiente) — Para cada cliente, marca en un reporte si `email` es missing (None o ausente) o present. Imprime líneas `id: missing|present`.
+TESTS: present/missing/missing
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+clients = [
+    {'id': 'C001', 'email': 'a@ex.com'},
+    {'id': 'C002', 'email': None},
+    {'id': 'C003'},
+]
+for c in clients:
+    if 'email' not in c or c['email'] is None:
+        flag = 'missing'
+    else:
+        flag = 'present'
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(f"{c['id']}: {flag}")
+
+
+ID S06-T3-B-E3
+INSTR: E3 (transferencia) — Construye tabla mental en prints: para valores `None`, `''`, `0`, `[]` indica si son falsy y si representan missing de negocio (solo None = missing aquí).
+TESTS: solo None missing=True
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+vals = [None, '', 0, []]
+for v in vals:
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(repr(v), 'falsy=', not bool(v), 'missing=', v is None)
+
+
+ID S06-T4-A-E1
+INSTR: E1 (guiado) — Ordena por monto ascendente con sorted+key e imprime ids en orden.
+TESTS: T1 luego T2
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+rows = [{'id': 'T2', 'monto': 30}, {'id': 'T1', 'monto': 10}]
+ordered = sorted(rows, key=lambda r: r['monto'])
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print([r['id'] for r in ordered])
+
+
+ID S06-T4-A-E2
+INSTR: E2 (independiente) — key multi-campo: ordena por región y luego nombre. Imprime pares región/nombre.
+TESTS: Cusco Bob; Lima Ana; Lima Zed
+START:
+rows = [
+    {'nombre': 'Zed', 'region': 'Lima'},
+    {'nombre': 'Ana', 'region': 'Lima'},
+    {'nombre': 'Bob', 'region': 'Cusco'},
+]
+# TODO
+
+ID S06-T4-A-E3
+INSTR: E3 (transferencia) — Demuestra que `rows.sort()` retorna None y muta. Imprime tipo del retorno y la lista mutada. Luego usa sorted para obtener copia ordenada sin tocar otra lista `base`.
+TESTS: None + base intacta
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+rows = [3, 1, 2]
+base = [3, 1, 2]
+ret = rows.sort()
+copy_sorted = sorted(base)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('ret', ret)
+
+
+ID S06-T4-B-E1
+INSTR: E1 (guiado) — Para 3 jobs imprime la estructura elegida: (1) cola de llegada (2) lookup por id (3) cohorte de emails únicos.
+TESTS: list/dict/set
+START:
+jobs = [
+    'cola de llegada de filas',
+    'lookup frecuente por id',
+    'emails únicos de un lote',
+]
+# TODO print job → estructura
+
+ID S06-T4-B-E2
+INSTR: E2 (independiente) — Haz determinista un export: ordena ids y `json.dumps(..., sort_keys=True)`. Imprime el JSON una vez.
+TESTS: {"a": 2, "ids": ["C001", "C002"], "z": 1}
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+import json
+payload = {'z': 1, 'a': 2, 'ids': ['C002', 'C001']}
+payload['ids'] = sorted(payload['ids'])
+s = json.dumps(payload, sort_keys=True, ensure_ascii=False)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print(s)
+
+
+ID S06-T4-B-E3
+INSTR: E3 (transferencia) — Justifica tradeoff: membership de 1000 ids en list vs set. Simula con prints de complejidad conceptual y un micro-ejemplo n=5 mostrando `x in set` True.
+TESTS: O(n) vs O(1) + True
+START:
+# Fixture del paquete (conserva datos; no reescribas asserts)
+ids = ['C001', 'C002', 'C003', 'C004', 'C005']
+s = set(ids)
+# TODO: completa solo print/resultado del contrato (instruction + solution output)
+# forma esperada (referencia): print('list membership: O(n) por chequeo')
+

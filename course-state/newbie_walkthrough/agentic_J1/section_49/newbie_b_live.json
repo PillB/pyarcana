@@ -1,0 +1,479 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_J1",
+  "section_index": 49,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-ske-s49-0490be2ff1",
+  "production_note": "agentic_J1 dual-LLM skeptic: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S49-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-1A\", **{\"known_steps\": True,\"branch_count\": 2,\"tool_choice_uncertain\": False,\"baseline_success\": 0.96,\"agent_success\": 0.9}}\nmeets_contract = bool(not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"]))\nstatus = (\"PASS\" if meets_contract else \"KEEP_DETERMINISTIC_WORKFLOW\")\nprint(\"S49-T1-A\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T1-A-E1",
+        "S49",
+        "Calcula",
+        "contrato",
+        "workflow",
+        "agente",
+        "sobre",
+        "CASO"
+      ],
+      "justification_from_packet": "Skeptic en S49-T1-A-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])`. Instrucción del paquete: S49-T1-A-E1 · Calcula el contrato de `workflow vs agente` sobre `CASO-AYA-049-1A`. La entrada es el dict completo del starter; la operación debe demostrar workf. Ante incumplimiento devuelve `KEEP_DETERMINISTIC_WORKFLOW`. Ancla theory: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Campos usados: known_steps, agent_success, baseline_success."
+    },
+    {
+      "exercise_id": "S49-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"known_steps\", \"branch_count\", \"tool_choice_uncertain\", \"baseline_success\", \"agent_success\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])\n    return \"PASS\" if ok else \"KEEP_DETERMINISTIC_WORKFLOW\"\n\nvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\ninvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': False, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\nincomplete = dict(valid)\nif \"agent_success\" in incomplete:\n    del incomplete[\"agent_success\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T1-A-E2",
+        "S49",
+        "Modela",
+        "tres",
+        "rutas",
+        "workflow",
+        "agente",
+        "fixture"
+      ],
+      "justification_from_packet": "Skeptic en S49-T1-A-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])`. Instrucción del paquete: S49-T1-A-E2 · Modela tres rutas de `workflow vs agente`: fixture válido, fixture adverso y registro sin `agent_success`. Entrada: dict con case_id, known_steps,. Ante incumplimiento devuelve `KEEP_DETERMINISTIC_WORKFLOW`; sin `agent_success` no se evalúa dominio. Ancla theory: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Campos usados: known_steps, agent_success, baseline_success."
+    },
+    {
+      "exercise_id": "S49-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"known_steps\", \"branch_count\", \"tool_choice_uncertain\", \"baseline_success\", \"agent_success\"}\n    if any(k not in record for k in required):\n        return \"RUN_AGENT_BASELINE\"\n    if not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"]):\n        return \"CONTINUE\"\n    return \"KEEP_DETERMINISTIC_WORKFLOW\"\n\nvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': True, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\ninvalid = {'case_id': 'CASO-AYA-049-1A', 'known_steps': False, 'branch_count': 2, 'tool_choice_uncertain': False, 'baseline_success': 0.96, 'agent_success': 0.9}\nincomplete = dict(valid)\nincomplete.pop(\"agent_success\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T1-A-E3",
+        "S49",
+        "Simula",
+        "fallo",
+        "cerrado",
+        "para",
+        "workflow",
+        "agente"
+      ],
+      "justification_from_packet": "Skeptic en S49-T1-A-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (not record[\"known_steps\"] or record[\"agent_success\"] > record[\"baseline_success\"])`. Instrucción del paquete: S49-T1-A-E3 · Simula fallo cerrado para `workflow vs agente` con tres fixtures distintos. `CASO-AYA-049-1A` debe continuar, el adverso debe devolver `KEEP_DETER. Ante incumplimiento devuelve `KEEP_DETERMINISTIC_WORKFLOW`; sin `agent_success` no se evalúa dominio y la incertidumbre cierra en `RUN_AGENT_BASELINE`. Ancla theory: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida verificable. Campos usados: known_steps, agent_success, baseline_success."
+    },
+    {
+      "exercise_id": "S49-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-1B\", **{\"route\": 'report',\"plan_steps\": 3,\"max_steps\": 5,\"worker_outputs\": 3,\"evaluator_pass\": True}}\nmeets_contract = bool(not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"]))\nstatus = (\"PASS\" if meets_contract else \"STOP_AGENT_LOOP\")\nprint(\"S49-T1-B\", status)\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T1-B-E1",
+        "S49",
+        "Compara",
+        "contrato",
+        "routing",
+        "planner",
+        "worker",
+        "evaluator"
+      ],
+      "justification_from_packet": "Skeptic en S49-T1-B-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])`. Instrucción del paquete: S49-T1-B-E1 · Compara el contrato de `routing, planner/worker y evaluator–optimizer` sobre `CASO-AYA-049-1B`. La entrada es el dict completo del starter; la ope. Ante incumplimiento devuelve `STOP_AGENT_LOOP`. Ancla theory: Router elige ruta, planner descompone, worker ejecuta y evaluator critica; límites evitan un ciclo abierto entre roles. Campos usados: plan_steps, max_steps, evaluator_pass."
+    },
+    {
+      "exercise_id": "S49-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"route\", \"plan_steps\", \"max_steps\", \"worker_outputs\", \"evaluator_pass\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])\n    return \"PASS\" if ok else \"STOP_AGENT_LOOP\"\n\nvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\ninvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 21, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\nincomplete = dict(valid)\nif \"evaluator_pass\" in incomplete:\n    del incomplete[\"evaluator_pass\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T1-B-E2",
+        "S49",
+        "Verifica",
+        "tres",
+        "rutas",
+        "routing",
+        "planner",
+        "worker"
+      ],
+      "justification_from_packet": "Skeptic en S49-T1-B-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])`. Instrucción del paquete: S49-T1-B-E2 · Verifica tres rutas de `routing, planner/worker y evaluator–optimizer`: fixture válido, fixture adverso y registro sin `evaluator_pass`. Entrada: . Ante incumplimiento devuelve `STOP_AGENT_LOOP`; sin `evaluator_pass` no se evalúa dominio. Ancla theory: Router elige ruta, planner descompone, worker ejecuta y evaluator critica; límites evitan un ciclo abierto entre roles. Campos usados: plan_steps, max_steps, evaluator_pass."
+    },
+    {
+      "exercise_id": "S49-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"route\", \"plan_steps\", \"max_steps\", \"worker_outputs\", \"evaluator_pass\"}\n    if any(k not in record for k in required):\n        return \"REPLAN_WITH_BOUNDS\"\n    if not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"]):\n        return \"CONTINUE\"\n    return \"STOP_AGENT_LOOP\"\n\nvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 3, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\ninvalid = {'case_id': 'CASO-AYA-049-1B', 'route': 'report', 'plan_steps': 21, 'max_steps': 5, 'worker_outputs': 3, 'evaluator_pass': True}\nincomplete = dict(valid)\nincomplete.pop(\"evaluator_pass\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T1-B-E3",
+        "S49",
+        "Extiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "routing",
+        "planner"
+      ],
+      "justification_from_packet": "Skeptic en S49-T1-B-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"plan_steps\"] > record[\"max_steps\"] or not record[\"evaluator_pass\"])`. Instrucción del paquete: S49-T1-B-E3 · Extiende fallo cerrado para `routing, planner/worker y evaluator–optimizer` con tres fixtures distintos. `CASO-AYA-049-1B` debe continuar, el adve. Ante incumplimiento devuelve `STOP_AGENT_LOOP`; sin `evaluator_pass` no se evalúa dominio y la incertidumbre cierra en `REPLAN_WITH_BOUNDS`. Ancla theory: Router elige ruta, planner descompone, worker ejecuta y evaluator critica; límites evitan un ciclo abierto entre roles. Campos usados: plan_steps, max_steps, evaluator_pass."
+    },
+    {
+      "exercise_id": "S49-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-2A\", **{\"tool\": 'get_case_status',\"responsibilities\": 1,\"schema_fields\": {'case_id'},\"side_effect\": False,\"typed_errors\": True}}\nmeets_contract = bool(not (record[\"responsibilities\"] > 1 or record[\"side_effect\"]))\nstatus = (\"PASS\" if meets_contract else \"DISABLE_OVERBROAD_TOOL\")\nprint(\"S49-T2-A\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T2-A-E1",
+        "S49",
+        "Filtra",
+        "contrato",
+        "funciones",
+        "responsabilidad",
+        "única",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic en S49-T2-A-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])`. Instrucción del paquete: S49-T2-A-E1 · Filtra el contrato de `funciones de responsabilidad única` sobre `CASO-AYA-049-2A`. La entrada es el dict completo del starter; la operación debe . Ante incumplimiento devuelve `DISABLE_OVERBROAD_TOOL`. Ancla theory: Una tool hace una sola cosa observable, usa schema estrecho y devuelve error tipado; descripción no concede autoridad. Campos usados: responsibilities, side_effect."
+    },
+    {
+      "exercise_id": "S49-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"tool\", \"responsibilities\", \"schema_fields\", \"side_effect\", \"typed_errors\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])\n    return \"PASS\" if ok else \"DISABLE_OVERBROAD_TOOL\"\n\nvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\ninvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 21, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\nincomplete = dict(valid)\nif \"typed_errors\" in incomplete:\n    del incomplete[\"typed_errors\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T2-A-E2",
+        "S49",
+        "Clasifica",
+        "tres",
+        "rutas",
+        "funciones",
+        "responsabilidad",
+        "única"
+      ],
+      "justification_from_packet": "Skeptic en S49-T2-A-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])`. Instrucción del paquete: S49-T2-A-E2 · Clasifica tres rutas de `funciones de responsabilidad única`: fixture válido, fixture adverso y registro sin `typed_errors`. Entrada: dict con cas. Ante incumplimiento devuelve `DISABLE_OVERBROAD_TOOL`; sin `typed_errors` no se evalúa dominio. Ancla theory: Una tool hace una sola cosa observable, usa schema estrecho y devuelve error tipado; descripción no concede autoridad. Campos usados: responsibilities, side_effect."
+    },
+    {
+      "exercise_id": "S49-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"tool\", \"responsibilities\", \"schema_fields\", \"side_effect\", \"typed_errors\"}\n    if any(k not in record for k in required):\n        return \"SPLIT_TOOL_CONTRACT\"\n    if not (record[\"responsibilities\"] > 1 or record[\"side_effect\"]):\n        return \"CONTINUE\"\n    return \"DISABLE_OVERBROAD_TOOL\"\n\nvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 1, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\ninvalid = {'case_id': 'CASO-AYA-049-2A', 'tool': 'get_case_status', 'responsibilities': 21, 'schema_fields': {'case_id'}, 'side_effect': False, 'typed_errors': True}\nincomplete = dict(valid)\nincomplete.pop(\"typed_errors\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T2-A-E3",
+        "S49",
+        "Defiende",
+        "fallo",
+        "cerrado",
+        "para",
+        "funciones",
+        "responsabilidad"
+      ],
+      "justification_from_packet": "Skeptic en S49-T2-A-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"responsibilities\"] > 1 or record[\"side_effect\"])`. Instrucción del paquete: S49-T2-A-E3 · Defiende fallo cerrado para `funciones de responsabilidad única` con tres fixtures distintos. `CASO-AYA-049-2A` debe continuar, el adverso debe de. Ante incumplimiento devuelve `DISABLE_OVERBROAD_TOOL`; sin `typed_errors` no se evalúa dominio y la incertidumbre cierra en `SPLIT_TOOL_CONTRACT`. Ancla theory: Una tool hace una sola cosa observable, usa schema estrecho y devuelve error tipado; descripción no concede autoridad. Campos usados: responsibilities, side_effect."
+    },
+    {
+      "exercise_id": "S49-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-2B\", **{\"schema_valid\": True,\"scope\": 'report:prepare',\"granted\": {'report:prepare'},\"idempotency_key\": 'tool-1',\"attempts\": 2,\"effects\": 1,\"error_kind\": 'retryable'}}\nmeets_contract = bool(not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1))\nstatus = (\"PASS\" if meets_contract else \"DENY_TOOL_CALL\")\nprint(\"S49-T2-B\", status)\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T2-B-E1",
+        "S49",
+        "Modela",
+        "contrato",
+        "schema",
+        "permisos",
+        "idempotencia",
+        "errores"
+      ],
+      "justification_from_packet": "Skeptic en S49-T2-B-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)`. Instrucción del paquete: S49-T2-B-E1 · Modela el contrato de `schema, permisos, idempotencia y errores` sobre `CASO-AYA-049-2B`. La entrada es el dict completo del starter; la operación. Ante incumplimiento devuelve `DENY_TOOL_CALL`. Ancla theory: Permisos se verifican en ejecución, idempotency key protege retries y errores separan retryable/terminal sin filtrar secretos. Campos usados: scope, granted, effects."
+    },
+    {
+      "exercise_id": "S49-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"schema_valid\", \"scope\", \"granted\", \"idempotency_key\", \"attempts\", \"effects\", \"error_kind\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)\n    return \"PASS\" if ok else \"DENY_TOOL_CALL\"\n\nvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\ninvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'tool-1', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\nincomplete = dict(valid)\nif \"error_kind\" in incomplete:\n    del incomplete[\"error_kind\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T2-B-E2",
+        "S49",
+        "Audita",
+        "tres",
+        "rutas",
+        "schema",
+        "permisos",
+        "idempotencia"
+      ],
+      "justification_from_packet": "Skeptic en S49-T2-B-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)`. Instrucción del paquete: S49-T2-B-E2 · Audita tres rutas de `schema, permisos, idempotencia y errores`: fixture válido, fixture adverso y registro sin `error_kind`. Entrada: dict con ca. Ante incumplimiento devuelve `DENY_TOOL_CALL`; sin `error_kind` no se evalúa dominio. Ancla theory: Permisos se verifican en ejecución, idempotency key protege retries y errores separan retryable/terminal sin filtrar secretos. Campos usados: scope, granted, effects."
+    },
+    {
+      "exercise_id": "S49-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"schema_valid\", \"scope\", \"granted\", \"idempotency_key\", \"attempts\", \"effects\", \"error_kind\"}\n    if any(k not in record for k in required):\n        return \"CLASSIFY_TOOL_ERROR\"\n    if not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1):\n        return \"CONTINUE\"\n    return \"DENY_TOOL_CALL\"\n\nvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'report:prepare', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\ninvalid = {'case_id': 'CASO-AYA-049-2B', 'schema_valid': True, 'scope': 'tool-1', 'granted': {'report:prepare'}, 'idempotency_key': 'tool-1', 'attempts': 2, 'effects': 1, 'error_kind': 'retryable'}\nincomplete = dict(valid)\nincomplete.pop(\"error_kind\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T2-B-E3",
+        "S49",
+        "Recupera",
+        "fallo",
+        "cerrado",
+        "para",
+        "schema",
+        "permisos"
+      ],
+      "justification_from_packet": "Skeptic en S49-T2-B-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"scope\"] not in record[\"granted\"] or record[\"effects\"] > 1)`. Instrucción del paquete: S49-T2-B-E3 · Recupera fallo cerrado para `schema, permisos, idempotencia y errores` con tres fixtures distintos. `CASO-AYA-049-2B` debe continuar, el adverso d. Ante incumplimiento devuelve `DENY_TOOL_CALL`; sin `error_kind` no se evalúa dominio y la incertidumbre cierra en `CLASSIFY_TOOL_ERROR`. Ancla theory: Permisos se verifican en ejecución, idempotency key protege retries y errores separan retryable/terminal sin filtrar secretos. Campos usados: scope, granted, effects."
+    },
+    {
+      "exercise_id": "S49-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-3A\", **{\"context_tokens\": 1200,\"max_context_tokens\": 2000,\"retrieved_just_in_time\": True,\"checkpoint_after_effect\": True,\"provenance\": True}}\nmeets_contract = bool(not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"]))\nstatus = (\"PASS\" if meets_contract else \"COMPACT_AND_CHECKPOINT\")\nprint(\"S49-T3-A\", status)\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T3-A-E1",
+        "S49",
+        "Verifica",
+        "contrato",
+        "contexto",
+        "mínimo",
+        "retrieval",
+        "JIT"
+      ],
+      "justification_from_packet": "Skeptic en S49-T3-A-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])`. Instrucción del paquete: S49-T3-A-E1 · Verifica el contrato de `contexto mínimo, retrieval JIT y checkpoints` sobre `CASO-AYA-049-3A`. La entrada es el dict completo del starter; la ope. Ante incumplimiento devuelve `COMPACT_AND_CHECKPOINT`. Ancla theory: Contexto mínimo reduce costo y fuga; retrieval just-in-time aporta evidencia y checkpoints guardan estado tras efectos durables. Campos usados: context_tokens, max_context_tokens, checkpoint_after_effect."
+    },
+    {
+      "exercise_id": "S49-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"context_tokens\", \"max_context_tokens\", \"retrieved_just_in_time\", \"checkpoint_after_effect\", \"provenance\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])\n    return \"PASS\" if ok else \"COMPACT_AND_CHECKPOINT\"\n\nvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\ninvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1000000, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\nincomplete = dict(valid)\nif \"provenance\" in incomplete:\n    del incomplete[\"provenance\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T3-A-E2",
+        "S49",
+        "Decide",
+        "tres",
+        "rutas",
+        "contexto",
+        "mínimo",
+        "retrieval"
+      ],
+      "justification_from_packet": "Skeptic en S49-T3-A-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])`. Instrucción del paquete: S49-T3-A-E2 · Decide tres rutas de `contexto mínimo, retrieval JIT y checkpoints`: fixture válido, fixture adverso y registro sin `provenance`. Entrada: dict co. Ante incumplimiento devuelve `COMPACT_AND_CHECKPOINT`; sin `provenance` no se evalúa dominio. Ancla theory: Contexto mínimo reduce costo y fuga; retrieval just-in-time aporta evidencia y checkpoints guardan estado tras efectos durables. Campos usados: context_tokens, max_context_tokens, checkpoint_after_effect."
+    },
+    {
+      "exercise_id": "S49-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"context_tokens\", \"max_context_tokens\", \"retrieved_just_in_time\", \"checkpoint_after_effect\", \"provenance\"}\n    if any(k not in record for k in required):\n        return \"RETRIEVE_MINIMUM_CONTEXT\"\n    if not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"]):\n        return \"CONTINUE\"\n    return \"COMPACT_AND_CHECKPOINT\"\n\nvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1200, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\ninvalid = {'case_id': 'CASO-AYA-049-3A', 'context_tokens': 1000000, 'max_context_tokens': 2000, 'retrieved_just_in_time': True, 'checkpoint_after_effect': True, 'provenance': True}\nincomplete = dict(valid)\nincomplete.pop(\"provenance\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.8,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T3-A-E3",
+        "S49",
+        "Contrasta",
+        "fallo",
+        "cerrado",
+        "para",
+        "contexto",
+        "mínimo"
+      ],
+      "justification_from_packet": "Skeptic en S49-T3-A-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"context_tokens\"] > record[\"max_context_tokens\"] or not record[\"checkpoint_after_effect\"])`. Instrucción del paquete: S49-T3-A-E3 · Contrasta fallo cerrado para `contexto mínimo, retrieval JIT y checkpoints` con tres fixtures distintos. `CASO-AYA-049-3A` debe continuar, el adve. Ante incumplimiento devuelve `COMPACT_AND_CHECKPOINT`; sin `provenance` no se evalúa dominio y la incertidumbre cierra en `RETRIEVE_MINIMUM_CONTEXT`. Ancla theory: Contexto mínimo reduce costo y fuga; retrieval just-in-time aporta evidencia y checkpoints guardan estado tras efectos durables. Campos usados: context_tokens, max_context_tokens, checkpoint_after_effect."
+    },
+    {
+      "exercise_id": "S49-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-3B\", **{\"facts_before\": {'budget', 'case_id', 'no_prod_write'},\"facts_after\": {'budget', 'case_id', 'no_prod_write'},\"memory_retention_days\": 7,\"last_known_good\": 'cp-7'}}\nmeets_contract = bool(not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"]))\nstatus = (\"PASS\" if meets_contract else \"RESTORE_LAST_KNOWN_GOOD\")\nprint(\"S49-T3-B\", status)\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T3-B-E1",
+        "S49",
+        "Clasifica",
+        "contrato",
+        "memoria",
+        "compaction",
+        "last",
+        "known"
+      ],
+      "justification_from_packet": "Skeptic en S49-T3-B-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])`. Instrucción del paquete: S49-T3-B-E1 · Clasifica el contrato de `memoria, compaction y last-known-good` sobre `CASO-AYA-049-3B`. La entrada es el dict completo del starter; la operación. Ante incumplimiento devuelve `RESTORE_LAST_KNOWN_GOOD`. Ancla theory: Memoria tiene propósito/retención; compaction conserva hechos y decisiones con provenance, y last-known-good permite volver a estado seguro. Campos usados: facts_before, facts_after, last_known_good."
+    },
+    {
+      "exercise_id": "S49-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"facts_before\", \"facts_after\", \"memory_retention_days\", \"last_known_good\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])\n    return \"PASS\" if ok else \"RESTORE_LAST_KNOWN_GOOD\"\n\nvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\ninvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'OVL', 'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\nincomplete = dict(valid)\nif \"last_known_good\" in incomplete:\n    del incomplete[\"last_known_good\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.84,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T3-B-E2",
+        "S49",
+        "Calcula",
+        "tres",
+        "rutas",
+        "memoria",
+        "compaction",
+        "last"
+      ],
+      "justification_from_packet": "Skeptic en S49-T3-B-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])`. Instrucción del paquete: S49-T3-B-E2 · Calcula tres rutas de `memoria, compaction y last-known-good`: fixture válido, fixture adverso y registro sin `last_known_good`. Entrada: dict con. Ante incumplimiento devuelve `RESTORE_LAST_KNOWN_GOOD`; sin `last_known_good` no se evalúa dominio. Ancla theory: Memoria tiene propósito/retención; compaction conserva hechos y decisiones con provenance, y last-known-good permite volver a estado seguro. Campos usados: facts_before, facts_after, last_known_good."
+    },
+    {
+      "exercise_id": "S49-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"facts_before\", \"facts_after\", \"memory_retention_days\", \"last_known_good\"}\n    if any(k not in record for k in required):\n        return \"REVIEW_COMPACTION_LOSS\"\n    if not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"]):\n        return \"CONTINUE\"\n    return \"RESTORE_LAST_KNOWN_GOOD\"\n\nvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\ninvalid = {'case_id': 'CASO-AYA-049-3B', 'facts_before': {'OVL', 'budget', 'case_id', 'no_prod_write'}, 'facts_after': {'budget', 'case_id', 'no_prod_write'}, 'memory_retention_days': 7, 'last_known_good': 'cp-7'}\nincomplete = dict(valid)\nincomplete.pop(\"last_known_good\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T3-B-E3",
+        "S49",
+        "Instrumenta",
+        "fallo",
+        "cerrado",
+        "para",
+        "memoria",
+        "compaction"
+      ],
+      "justification_from_packet": "Skeptic en S49-T3-B-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (not record[\"facts_before\"] <= record[\"facts_after\"] or not record[\"last_known_good\"])`. Instrucción del paquete: S49-T3-B-E3 · Instrumenta fallo cerrado para `memoria, compaction y last-known-good` con tres fixtures distintos. `CASO-AYA-049-3B` debe continuar, el adverso d. Ante incumplimiento devuelve `RESTORE_LAST_KNOWN_GOOD`; sin `last_known_good` no se evalúa dominio y la incertidumbre cierra en `REVIEW_COMPACTION_LOSS`. Ancla theory: Memoria tiene propósito/retención; compaction conserva hechos y decisiones con provenance, y last-known-good permite volver a estado seguro. Campos usados: facts_before, facts_after, last_known_good."
+    },
+    {
+      "exercise_id": "S49-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-4A\", **{\"goal_met\": True,\"steps\": 4,\"max_steps\": 6,\"tokens\": 3200,\"max_tokens\": 5000,\"cost_pen\": 0.04,\"max_cost_pen\": 0.06}}\nmeets_contract = bool(not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"]))\nstatus = (\"PASS\" if meets_contract else \"STOP_BUDGET_EXHAUSTED\")\nprint(\"S49-T4-A\", status)\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T4-A-E1",
+        "S49",
+        "Audita",
+        "contrato",
+        "stopping",
+        "conditions",
+        "budgets",
+        "sobre"
+      ],
+      "justification_from_packet": "Skeptic en S49-T4-A-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])`. Instrucción del paquete: S49-T4-A-E1 · Audita el contrato de `stopping conditions y budgets` sobre `CASO-AYA-049-4A`. La entrada es el dict completo del starter; la operación debe demos. Ante incumplimiento devuelve `STOP_BUDGET_EXHAUSTED`. Ancla theory: Stopping conditions incluyen meta, máximo de pasos, tiempo, tokens y costo; agotamiento produce estado explícito, no continuación infinita. Campos usados: steps, max_steps, cost_pen, max_cost_pen."
+    },
+    {
+      "exercise_id": "S49-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"goal_met\", \"steps\", \"max_steps\", \"tokens\", \"max_tokens\", \"cost_pen\", \"max_cost_pen\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])\n    return \"PASS\" if ok else \"STOP_BUDGET_EXHAUSTED\"\n\nvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\ninvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 21, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\nincomplete = dict(valid)\nif \"max_cost_pen\" in incomplete:\n    del incomplete[\"max_cost_pen\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.9,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T4-A-E2",
+        "S49",
+        "Compara",
+        "tres",
+        "rutas",
+        "stopping",
+        "conditions",
+        "budgets"
+      ],
+      "justification_from_packet": "Skeptic en S49-T4-A-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])`. Instrucción del paquete: S49-T4-A-E2 · Compara tres rutas de `stopping conditions y budgets`: fixture válido, fixture adverso y registro sin `max_cost_pen`. Entrada: dict con case_id, g. Ante incumplimiento devuelve `STOP_BUDGET_EXHAUSTED`; sin `max_cost_pen` no se evalúa dominio. Ancla theory: Stopping conditions incluyen meta, máximo de pasos, tiempo, tokens y costo; agotamiento produce estado explícito, no continuación infinita. Campos usados: steps, max_steps, cost_pen, max_cost_pen."
+    },
+    {
+      "exercise_id": "S49-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"goal_met\", \"steps\", \"max_steps\", \"tokens\", \"max_tokens\", \"cost_pen\", \"max_cost_pen\"}\n    if any(k not in record for k in required):\n        return \"ASK_FOR_SCOPE_REDUCTION\"\n    if not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"]):\n        return \"CONTINUE\"\n    return \"STOP_BUDGET_EXHAUSTED\"\n\nvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 4, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\ninvalid = {'case_id': 'CASO-AYA-049-4A', 'goal_met': True, 'steps': 21, 'max_steps': 6, 'tokens': 3200, 'max_tokens': 5000, 'cost_pen': 0.04, 'max_cost_pen': 0.06}\nincomplete = dict(valid)\nincomplete.pop(\"max_cost_pen\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T4-A-E3",
+        "S49",
+        "Aísla",
+        "fallo",
+        "cerrado",
+        "para",
+        "stopping",
+        "conditions"
+      ],
+      "justification_from_packet": "Skeptic en S49-T4-A-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"steps\"] > record[\"max_steps\"] or record[\"cost_pen\"] > record[\"max_cost_pen\"])`. Instrucción del paquete: S49-T4-A-E3 · Aísla fallo cerrado para `stopping conditions y budgets` con tres fixtures distintos. `CASO-AYA-049-4A` debe continuar, el adverso debe devolver `. Ante incumplimiento devuelve `STOP_BUDGET_EXHAUSTED`; sin `max_cost_pen` no se evalúa dominio y la incertidumbre cierra en `ASK_FOR_SCOPE_REDUCTION`. Ancla theory: Stopping conditions incluyen meta, máximo de pasos, tiempo, tokens y costo; agotamiento produce estado explícito, no continuación infinita. Campos usados: steps, max_steps, cost_pen, max_cost_pen."
+    },
+    {
+      "exercise_id": "S49-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "record = {\"case_id\": \"CASO-AYA-049-4B\", **{\"network\": 'none',\"filesystem\": 'workspace-read',\"sensitive_action\": 'prepare-draft',\"approval_required\": True,\"approval_present\": True,\"checkpoint\": 'cp-9',\"replayed_effects\": 0}}\nmeets_contract = bool(not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0))\nstatus = (\"PASS\" if meets_contract else \"SANDBOX_AND_STOP\")\nprint(\"S49-T4-B\", status)\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T4-B-E1",
+        "S49",
+        "Decide",
+        "contrato",
+        "sandbox",
+        "human",
+        "approval",
+        "recuperación"
+      ],
+      "justification_from_packet": "Skeptic en S49-T4-B-E1 (guided): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)`. Instrucción del paquete: S49-T4-B-E1 · Decide el contrato de `sandbox, human approval y recuperación` sobre `CASO-AYA-049-4B`. La entrada es el dict completo del starter; la operación d. Ante incumplimiento devuelve `SANDBOX_AND_STOP`. Ancla theory: Sandbox limita filesystem/red; acciones sensibles requieren aprobación contextual y recovery evita repetir una tool con efecto. Campos usados: network, approval_present, replayed_effects."
+    },
+    {
+      "exercise_id": "S49-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "def route(record: dict) -> str:\n    required = {\"case_id\", \"network\", \"filesystem\", \"sensitive_action\", \"approval_required\", \"approval_present\", \"checkpoint\", \"replayed_effects\"}\n    absent = sorted(k for k in required if k not in record)\n    if absent:\n        return \"MISSING:\" + \",\".join(absent)\n    ok = not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)\n    return \"PASS\" if ok else \"SANDBOX_AND_STOP\"\n\nvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\ninvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'open', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\nincomplete = dict(valid)\nif \"replayed_effects\" in incomplete:\n    del incomplete[\"replayed_effects\"]\nprint(route(valid), route(invalid), route(incomplete))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T4-B-E2",
+        "S49",
+        "Filtra",
+        "tres",
+        "rutas",
+        "sandbox",
+        "human",
+        "approval"
+      ],
+      "justification_from_packet": "Skeptic en S49-T4-B-E2 (independent): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)`. Instrucción del paquete: S49-T4-B-E2 · Filtra tres rutas de `sandbox, human approval y recuperación`: fixture válido, fixture adverso y registro sin `replayed_effects`. Entrada: dict co. Ante incumplimiento devuelve `SANDBOX_AND_STOP`; sin `replayed_effects` no se evalúa dominio. Ancla theory: Sandbox limita filesystem/red; acciones sensibles requieren aprobación contextual y recovery evita repetir una tool con efecto. Campos usados: network, approval_present, replayed_effects."
+    },
+    {
+      "exercise_id": "S49-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "def decide(record: dict) -> str:\n    required = {\"case_id\", \"network\", \"filesystem\", \"sensitive_action\", \"approval_required\", \"approval_present\", \"checkpoint\", \"replayed_effects\"}\n    if any(k not in record for k in required):\n        return \"REQUEST_HUMAN_APPROVAL\"\n    if not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0):\n        return \"CONTINUE\"\n    return \"SANDBOX_AND_STOP\"\n\nvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'none', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\ninvalid = {'case_id': 'CASO-AYA-049-4B', 'network': 'open', 'filesystem': 'workspace-read', 'sensitive_action': 'prepare-draft', 'approval_required': True, 'approval_present': True, 'checkpoint': 'cp-9', 'replayed_effects': 0}\nincomplete = dict(valid)\nincomplete.pop(\"replayed_effects\", None)\nprint(decide(valid), decide(invalid), decide(incomplete))\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "S49-T4-B-E3",
+        "S49",
+        "Demuestra",
+        "fallo",
+        "cerrado",
+        "para",
+        "sandbox",
+        "human"
+      ],
+      "justification_from_packet": "Skeptic en S49-T4-B-E3 (transfer): cuestiono el booleano del starter y exijo ramas cerradas. Predicado corregido: `not (record[\"network\"] == \"open\" or not record[\"approval_present\"] or record[\"replayed_effects\"] > 0)`. Instrucción del paquete: S49-T4-B-E3 · Demuestra fallo cerrado para `sandbox, human approval y recuperación` con tres fixtures distintos. `CASO-AYA-049-4B` debe continuar, el adverso de. Ante incumplimiento devuelve `SANDBOX_AND_STOP`; sin `replayed_effects` no se evalúa dominio y la incertidumbre cierra en `REQUEST_HUMAN_APPROVAL`. Ancla theory: Sandbox limita filesystem/red; acciones sensibles requieren aprobación contextual y recovery evita repetir una tool con efecto. Campos usados: network, approval_present, replayed_effects."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "confidence": 0.91,
+      "justification_from_packet": "Skeptic SC0: elijo «ADR workflow/agente con baseline» porque el selfCheck del paquete pregunta «¿Qué evidencia permite aprobar `workflow vs agente` en CASO-AYA-049?» y esa opción alinea con el gate/evidencia del theory: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida . Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "confidence": 0.9,
+      "justification_from_packet": "Skeptic SC1: elijo «emitir STOP_AGENT y conservar evidencia» porque el selfCheck del paquete pregunta «Si ocurre la condición de error de S49, ¿qué respuesta preserva seguridad y auditabilidad?» y esa opción alinea con el gate/evidencia del theory: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida . Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "confidence": 0.76,
+      "justification_from_packet": "Skeptic SC2: elijo «cada tool es idempotente, el agente se detiene y una persona aprueba toda acción sensible» porque el selfCheck del paquete pregunta «¿Cuál resultado demuestra el gate `CP-N4-C · agente acotado con aprobación humana`?» y esa opción alinea con el gate/evidencia del theory: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida . Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "confidence": 0.75,
+      "justification_from_packet": "Skeptic SC3: elijo «mantenerlo sintético, mínimo, trazable y sujeto a revisión humana» porque el selfCheck del paquete pregunta «¿Qué tratamiento de `CASO-AYA-049` respeta el alcance del curso?» y esa opción alinea con el gate/evidencia del theory: Usa workflow cuando pasos y ramas son conocidos; reserva agente para decisiones acotadas con beneficio medible y salida . Descarto las demás por inventar evidencia, ocultar fallos o usar datos reales."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:38:30+00:00",
+  "session_started_at": "2026-07-23T12:38:15+00:00",
+  "session_ended_at": "2026-07-23T12:38:30+00:00",
+  "receipt_response_sha256": "95b23099227fb54e5927534f2f61ab28413bc6e174c54dd6a257753885b2ccb7"
+}

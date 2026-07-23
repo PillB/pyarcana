@@ -1,0 +1,535 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_J1",
+  "section_index": 15,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j1-explorer-s15-39a03d4e7c3a",
+  "production_note": "agentic_J1 dual-LLM explorer: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S15-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.5, 0.8]})\ndf = df.set_index(\"cliente_id\")\nidx_list = df.index.tolist()\nprint(idx_list)\n",
+      "confidence": 0.82,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "score",
+        "set_index",
+        "idx_list",
+        "index"
+      ],
+      "justification_from_packet": "para S15-T1-A-E1: E1 (guiado) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (… — mirando hints + theory del subtema activo. Código imprime ['print(idx_list)']. Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Hints: [\"set_index('cliente_id').\", 'index.tolist().']."
+    },
+    {
+      "exercise_id": "S15-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ns = pd.Series([0.1, 0.9], index=[\"C001\", \"C002\"], name=\"score\")\nval = s[\"C002\"]\nprint(val)\n",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "index",
+        "C001",
+        "C002",
+        "name",
+        "score",
+        "val",
+        "independiente"
+      ],
+      "justification_from_packet": "Resuelvo el TODO sin tocar asserts ni datos del fixture para S15-T1-A-E2: E2 (independiente) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st… Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Hints: ['pd.Series(..., index=..., name=...).', 'Acceso por etiqueta.'] Código imprime ['print(val)']."
+    },
+    {
+      "exercise_id": "S15-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ns1 = pd.Series([1.0, 2.0], index=[\"C001\", \"C002\"])\ns2 = pd.Series([0.5], index=[\"C002\"])\nout = s1.add(s2, fill_value=0).sort_index()\nprint(out.to_dict())\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "index",
+        "C001",
+        "C002",
+        "out",
+        "add",
+        "fill_value",
+        "sort_index"
+      ],
+      "justification_from_packet": "Mirando hints + theory del subtema activo. Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Luego para S15-T1-A-E3: E3 (transferencia) — Concepto: S15-T1-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st… Código imprime ['print(out.to_dict())']. Hints: ['s1.add(s2, fill_value=0).', 'sort_index.']."
+    },
+    {
+      "exercise_id": "S15-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\nfrom io import StringIO\ncsv = \"a,b\\n1,NA\\n2,3\\n\"\ndf = pd.read_csv(StringIO(csv), na_values=[\"NA\"])\nprint(int(df[\"b\"].isna().sum()))\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "StringIO",
+        "csv",
+        "read_csv",
+        "na_values",
+        "int",
+        "isna",
+        "sum"
+      ],
+      "justification_from_packet": "para S15-T1-B-E1: E1 (guiado) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (… — la salida esperada del contrato me marca el print final. Código imprime ['print(int(df[\"b\"].isna().sum()))']. Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Hints: ['pd.read_csv(StringIO(...), na_values=...).', 'isna().sum().']."
+    },
+    {
+      "exercise_id": "S15-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\nfrom io import StringIO\ncsv = \"fecha,x\\n2024-01-01,1\\n2024-02-01,2\\n\"\ndf = pd.read_csv(StringIO(csv), parse_dates=[\"fecha\"])\nprint(str(df[\"fecha\"].dtype))\n",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "StringIO",
+        "csv",
+        "fecha",
+        "n2024",
+        "read_csv",
+        "parse_dates",
+        "str"
+      ],
+      "justification_from_packet": "Resuelvo el TODO sin tocar asserts ni datos del fixture para S15-T1-B-E2: E2 (independiente) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st… Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Hints: [\"parse_dates=['fecha'].\", \"str(df['fecha'].dtype).\"] Código imprime ['print(str(df[\"fecha\"].dtype))']."
+    },
+    {
+      "exercise_id": "S15-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\nfrom io import StringIO\ncsv = \"cliente_id,monto,z\\nC001,1.0,99\\n\"\ndf = pd.read_csv(StringIO(csv), usecols=[\"cliente_id\", \"monto\"])\nprint(df.columns.tolist())\n",
+      "confidence": 0.62,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "StringIO",
+        "csv",
+        "cliente_id",
+        "monto",
+        "nC001",
+        "read_csv",
+        "usecols"
+      ],
+      "justification_from_packet": "para S15-T1-B-E3: E3 (transferencia) — Concepto: S15-T1-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st… — resuelvo el todo sin tocar asserts ni datos del fixture. Código imprime ['print(df.columns.tolist())']. Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Hints: ['usecols=[...].', \"Verifica que no entre 'z'.\"]."
+    },
+    {
+      "exercise_id": "S15-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C002\"], \"score\": [0.4, 0.9]})\npicked = df.loc[df[\"score\"] >= 0.5, \"cliente_id\"].tolist()\nprint(picked)\n",
+      "confidence": 0.85,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "C002",
+        "score",
+        "picked",
+        "loc",
+        "tolist"
+      ],
+      "justification_from_packet": "Partiendo del fixture conservado en el starter para S15-T2-A-E1: E1 (guiado) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (… Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Hints: [\"df.loc[df.score>=0.5, 'cliente_id'].\", 'tolist().'] Código imprime ['print(picked)']."
+    },
+    {
+      "exercise_id": "S15-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\ndf2 = df.assign(doble=df[\"score\"] * 2)\nprint(df2[\"doble\"].tolist())\n",
+      "confidence": 0.67,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "score",
+        "df2",
+        "assign",
+        "doble",
+        "tolist",
+        "independiente",
+        "Concepto"
+      ],
+      "justification_from_packet": "Mirando hints + theory del subtema activo. Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Luego para S15-T2-A-E2: E2 (independiente) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st… Código imprime ['print(df2[\"doble\"].tolist())']. Hints: ['df.assign(doble=...).', 'No mutar in-place obligatorio.']."
+    },
+    {
+      "exercise_id": "S15-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame([[1, 2], [3, 4]])\nprint(int(df.iloc[1, 0]))\n",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "int",
+        "iloc",
+        "transferencia",
+        "Concepto",
+        "S15",
+        "ingesta",
+        "selecci"
+      ],
+      "justification_from_packet": "La salida esperada del contrato me marca el print final para S15-T2-A-E3: E3 (transferencia) — Concepto: S15-T2-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st… Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Hints: ['iloc posición 1,0 → 3.', 'No uses loc.'] Código imprime ['print(int(df.iloc[1, 0]))']."
+    },
+    {
+      "exercise_id": "S15-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"score\": [0.2, 0.9]})\ndf[\"flag\"] = \"\"\ndf.loc[df[\"score\"] < 0.5, \"flag\"] = \"x\"\nprint(df[\"flag\"].tolist())\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "score",
+        "flag",
+        "loc",
+        "tolist",
+        "guiado",
+        "Concepto",
+        "S15"
+      ],
+      "justification_from_packet": "para S15-T2-B-E1: E1 (guiado) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (… — en el paquete activo aparece el patrón ido relacionado. Código imprime ['print(df[\"flag\"].tolist())']. Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Hints: [\"df.loc[mask, 'flag'] = 'x'.\", \"Imprime lista con fillna('').\"]."
+    },
+    {
+      "exercise_id": "S15-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"score\": [0.2, 0.9, 0.7]})\nsub = df.loc[df[\"score\"] > 0.5].copy()\nsub[\"ok\"] = True\nprint(sub[\"ok\"].tolist())\n",
+      "confidence": 0.65,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "score",
+        "sub",
+        "loc",
+        "copy",
+        "tolist",
+        "independiente",
+        "Concepto"
+      ],
+      "justification_from_packet": "Resuelvo el TODO sin tocar asserts ni datos del fixture. Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Luego para S15-T2-B-E2: E2 (independiente) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st… Código imprime ['print(sub[\"ok\"].tolist())']. Hints: ['subset = df.loc[...].copy().', \"subset['ok']=True.\"]."
+    },
+    {
+      "exercise_id": "S15-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"score\": [1.0, 2.0]})\ncopia = df.copy()\ncopia.loc[0, \"score\"] = 99.0\nprint(df[\"score\"].tolist())\n",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "score",
+        "copia",
+        "copy",
+        "loc",
+        "tolist",
+        "transferencia",
+        "Concepto"
+      ],
+      "justification_from_packet": "Partiendo del fixture conservado en el starter. Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Luego para S15-T2-B-E3: E3 (transferencia) — Concepto: S15-T2-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st… Código imprime ['print(df[\"score\"].tolist())']. Hints: ['c = df.copy(); c.iloc[0,0]=99.', 'print df original.']."
+    },
+    {
+      "exercise_id": "S15-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"region\": [\"lima\", \"Lima\"]})\ndf[\"region\"] = df[\"region\"].str.title().astype(\"category\")\nprint(df[\"region\"].dtype.name)\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "region",
+        "lima",
+        "str",
+        "title",
+        "astype",
+        "category",
+        "dtype"
+      ],
+      "justification_from_packet": "Partiendo del fixture conservado en el starter para S15-T3-A-E1: E1 (guiado) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (… Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Hints: [\"astype('category').\", 'str.title primero.'] Código imprime ['print(df[\"region\"].dtype.name)']."
+    },
+    {
+      "exercise_id": "S15-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ns = pd.to_numeric(pd.Series([\"1\", \"a\", \"3\"]), errors=\"coerce\")\nprint([float(x) if pd.notna(x) else float(\"nan\") for x in s])\n",
+      "confidence": 0.73,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "to_numeric",
+        "Series",
+        "errors",
+        "coerce",
+        "float",
+        "notna",
+        "else",
+        "nan"
+      ],
+      "justification_from_packet": "En el paquete activo aparece el patrón iDo relacionado. Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Luego para S15-T3-A-E2: E2 (independiente) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st… Código imprime ['print([float(x) if pd.notna(x) else float(\"nan\") for x in s])']. Hints: [\"pd.to_numeric(..., errors='coerce').\", 'tolist() con nan.']."
+    },
+    {
+      "exercise_id": "S15-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ns = pd.to_datetime(pd.Series([\"2024-01-01\", \"no-fecha\"]), errors=\"coerce\")\nprint(int(s.isna().sum()))\n",
+      "confidence": 0.74,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "to_datetime",
+        "Series",
+        "fecha",
+        "errors",
+        "coerce",
+        "int",
+        "isna",
+        "sum"
+      ],
+      "justification_from_packet": "Leí la instruction y el starter del quiz_card. Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Luego para S15-T3-A-E3: E3 (transferencia) — Concepto: S15-T3-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st… Código imprime ['print(int(s.isna().sum()))']. Hints: ['isna().sum().', 'NaT cuenta como na.']."
+    },
+    {
+      "exercise_id": "S15-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"monto\": [\"1\", \"x\"]})\nbefore = int(df[\"monto\"].isna().sum())\nnum = pd.to_numeric(df[\"monto\"], errors=\"coerce\")\nprint(int(num.isna().sum() - before))\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "monto",
+        "before",
+        "int",
+        "isna",
+        "sum",
+        "num",
+        "to_numeric"
+      ],
+      "justification_from_packet": "para S15-T3-B-E1: E1 (guiado) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (… — en el paquete activo aparece el patrón ido relacionado. Código imprime ['print(int(num.isna().sum() - before))']. Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Hints: ['Compara isna antes/después.', 'errors=coerce.']."
+    },
+    {
+      "exercise_id": "S15-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"]})\nschema = {\"monto\": \"float64\"}\ntry:\n    for col in schema:\n        if col not in df.columns:\n            raise KeyError(col)\nexcept KeyError:\n    print(\"missing\")\n",
+      "confidence": 0.88,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "schema",
+        "monto",
+        "float64",
+        "try",
+        "col"
+      ],
+      "justification_from_packet": "Mirando hints + theory del subtema activo para S15-T3-B-E2: E2 (independiente) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st… Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Hints: ['if col not in df.columns.', 'try/except KeyError.'] Código imprime ['print(\"missing\")']."
+    },
+    {
+      "exercise_id": "S15-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ns = pd.Series([\"C001\"]).astype(\"string\")\nprint(str(s.dtype))\n",
+      "confidence": 0.77,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "Series",
+        "C001",
+        "astype",
+        "string",
+        "str",
+        "dtype",
+        "transferencia",
+        "Concepto"
+      ],
+      "justification_from_packet": "Mirando hints + theory del subtema activo para S15-T3-B-E3: E3 (transferencia) — Concepto: S15-T3-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st… Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Hints: [\"astype('string').\", 'dtype string de pandas.'] Código imprime ['print(str(s.dtype))']."
+    },
+    {
+      "exercise_id": "S15-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\nfrom io import StringIO\ndf = pd.DataFrame({\"a\": [1], \"b\": [2]})\nbuf = StringIO()\ndf.to_csv(buf, index=False)\nbuf.seek(0)\ndf2 = pd.read_csv(buf)\nprint(df2.columns.tolist())\n",
+      "confidence": 0.83,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "StringIO",
+        "DataFrame",
+        "buf",
+        "to_csv",
+        "index",
+        "seek",
+        "df2"
+      ],
+      "justification_from_packet": "Mirando hints + theory del subtema activo. Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Luego para S15-T4-A-E1: E1 (guiado) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (… Código imprime ['print(df2.columns.tolist())']. Hints: ['to_csv(buf, index=False).', 'read_csv.']."
+    },
+    {
+      "exercise_id": "S15-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\nfrom io import BytesIO\ndf = pd.DataFrame({\"a\": [1]})\nbio = BytesIO()\ndf.to_excel(bio, index=False, engine=\"openpyxl\")\nprint(len(bio.getvalue()) > 0)\n",
+      "confidence": 0.75,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "from",
+        "BytesIO",
+        "DataFrame",
+        "bio",
+        "to_excel",
+        "index",
+        "engine",
+        "openpyxl"
+      ],
+      "justification_from_packet": "Partiendo del fixture conservado en el starter para S15-T4-A-E2: E2 (independiente) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st… Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Hints: [\"engine='openpyxl'.\", 'getvalue().'] Código imprime ['print(len(bio.getvalue()) > 0)']."
+    },
+    {
+      "exercise_id": "S15-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"monto\": [1.0]})\ncontract = {c: str(df[c].dtype) for c in sorted(df.columns)}\nprint(contract)\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "cliente_id",
+        "C001",
+        "monto",
+        "contract",
+        "str",
+        "dtype",
+        "sorted"
+      ],
+      "justification_from_packet": "La salida esperada del contrato me marca el print final para S15-T4-A-E3: E3 (transferencia) — Concepto: S15-T4-A (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st… Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Hints: ['dict comprehension.', 'sorted items o print dict estable.'] Código imprime ['print(contract)']."
+    },
+    {
+      "exercise_id": "S15-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"a\": [\"Lima\", \"Cusco\"]})\nmem = int(df.memory_usage(deep=True).sum())\nprint(mem > 0)\n",
+      "confidence": 0.79,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "Lima",
+        "Cusco",
+        "mem",
+        "int",
+        "memory_usage",
+        "deep",
+        "sum"
+      ],
+      "justification_from_packet": "para S15-T4-B-E1: E1 (guiado) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del starter (… — la salida esperada del contrato me marca el print final. Código imprime ['print(mem > 0)']. Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Hints: ['memory_usage(deep=True).sum().', 'int(...).']."
+    },
+    {
+      "exercise_id": "S15-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd\n\ndf = pd.DataFrame({\"a\": [1, 2, 3]})\nmanifest = {\"rows\": len(df), \"columns\": df.columns.tolist()}\nprint(manifest[\"rows\"], manifest[\"columns\"])\n",
+      "confidence": 0.69,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "DataFrame",
+        "manifest",
+        "rows",
+        "len",
+        "columns",
+        "tolist",
+        "independiente",
+        "Concepto"
+      ],
+      "justification_from_packet": "Resuelvo el TODO sin tocar asserts ni datos del fixture para S15-T4-B-E2: E2 (independiente) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st… Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Hints: ['len(df) y columns.tolist().', 'dict.'] Código imprime ['print(manifest[\"rows\"], manifest[\"columns\"])']."
+    },
+    {
+      "exercise_id": "S15-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "import pandas as pd, hashlib\n\ndf = pd.DataFrame({\"a\": [1]})\ndigest = hashlib.sha1(df.to_csv(index=False).encode()).hexdigest()[:8]\nprint(digest)\n",
+      "confidence": 0.64,
+      "blocked_on": [],
+      "concepts_used": [
+        "import",
+        "pandas",
+        "hashlib",
+        "DataFrame",
+        "digest",
+        "sha1",
+        "to_csv",
+        "index",
+        "encode",
+        "hexdigest"
+      ],
+      "justification_from_packet": "para S15-T4-B-E3: E3 (transferencia) — Concepto: S15-T4-B (Pandas ingesta, selección y tipos). Entrada: fixture sintético del st… — en el paquete activo aparece el patrón ido relacionado. Código imprime ['print(digest)']. Ancla de theory: «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). Hints: ['hashlib.sha1(blob).hexdigest()[:8].', 'encode utf-8.']."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "loc",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "justification_from_packet": "En selfCheck_stems del quiz_card «¿Qué método de selección usa etiquetas de index/columnas?». Elijo [2] «loc» porque «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas. Descarto ['[0] iloc', '[1] iat solo posicional forzado']. Sección S15."
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Asignación sobre slices que pueden ser view/copy (chained assignment)",
+      "confidence": 0.81,
+      "blocked_on": [],
+      "justification_from_packet": "Descarto distractores y me quedo con «SettingWithCopyWarning se relaciona con:». Elijo [0] «Asignación sobre slices que pueden ser view/copy (chained assignment)» porque «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas. Descarto ['[1] Parquet vs CSV', '[2] Falta de openpyxl']. Sección S15."
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Convierte inválidos a NaN",
+      "confidence": 0.7,
+      "blocked_on": [],
+      "justification_from_packet": "Comparando opciones con la theory «errors='coerce' en to_numeric:». Elijo [1] «Convierte inválidos a NaN» porque «Series/DataFrame/index»: Una **Series** es un vector con **Index**; un **DataFrame** es una tabla de columnas (Series alineadas por Index). En Pandas. Descarto ['[0] Borra la columna', '[2] Eleva siempre excepción']. Sección S15."
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Filas, columnas y provenance/hash del artefacto",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "justification_from_packet": "S15 Q3: «Un manifest de export debería incluir al menos:» → [3] Filas, columnas y provenance/hash del artefacto. Según el párrafo de theory sobre «lectura CSV/Excel y opciones de parser»: `read_csv` y `read_excel` aceptan `dtype`, `parse_dates`, `na_values`, `usecols`. Contro. Otras opciones (['[0] Solo el nombre del analista', '[1] Contraseñas de BD']) no cuadran con outcomes/iDo."
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:15:24+00:00",
+  "session_started_at": "2026-07-23T12:15:15+00:00",
+  "session_ended_at": "2026-07-23T12:15:24+00:00",
+  "receipt_response_sha256": "341597f39e2ac9a2ab509c1ecbb22d5a39942e4c0b74bd5eb9ff3230ff7d5578"
+}

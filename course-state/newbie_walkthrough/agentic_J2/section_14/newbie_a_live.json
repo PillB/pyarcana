@@ -1,0 +1,287 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 14,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s14-8c825782e3a6",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S14-T1-A-E1",
+      "id": "S14-T1-A-E1",
+      "code": "# exploración s14/S14-T1-A-E1\nimport numpy as np\nflags = np.array([[1, 0], [1, 1], [0, 1]], dtype=np.uint8)\nprint(flags.dtype, flags.shape, flags.ndim)\n_j2_mark = 14\n",
+      "justification_from_packet": "Para S14-T1-A-E1 el paquete de «NumPy y cómputo vectorizado» pide: E1 (guiado) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`. Anclé la respuesta a «Usa np.array(..., dtype=np.uint8).» y conservé el fixture del starter. [9c4746] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-A-E2",
+      "id": "S14-T1-A-E2",
+      "code": "# exploración s14/S14-T1-A-E2\nimport numpy as np\nscores = np.linspace(0, 1, 5, dtype=np.float64)\nprint(scores.itemsize, scores.nbytes, scores.tolist())\n_j2_mark = 14\n",
+      "justification_from_packet": "Para S14-T1-A-E2 el paquete de «NumPy y cómputo vectorizado» pide: E2 (independiente) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter. Anclé la respuesta a «linspace con dtype=float64.» y conservé el fixture del starter. [5407cb] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-A-E3",
+      "id": "S14-T1-A-E3",
+      "code": "# exploración s14/S14-T1-A-E3\nimport numpy as np\n\ndef validate(a):\n    if a.ndim != 1 or a.dtype != np.float64:\n        raise ValueError(\"expected 1d float64\")\n    print(\"ok\", a.size)\n\nvalidate(np.array([0.1, 0.2], dtype=np.float64))\ntry:\n    validate(np.array([1, 2]))\nexcept ValueError as e:\n    print(\"err\", e)\n_j2_mark = 14\n",
+      "justification_from_packet": "Armé S14-T1-A-E3 desde el quiz_card de «NumPy y cómputo vectorizado». Instruction recortada: «E3 (transferencia) — Concepto: S14-T1-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter». Verifiqué con la pista «Comprueba ndim y dtype.». [3b66ab] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E1",
+      "id": "S14-T1-B-E1",
+      "code": "# exploración s14/S14-T1-B-E1\nimport numpy as np\nscore = np.array([0.2, 0.8, 0.4, 0.9])\nidx = np.where(score >= 0.5)[0]\nprint(idx.tolist())\n_j2_mark = 14\n",
+      "justification_from_packet": "Para S14-T1-B-E1 el paquete de «NumPy y cómputo vectorizado» pide: E1 (guiado) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`. Anclé la respuesta a «mask = score >= 0.5.» y conservé el fixture del starter. [660590] conf~0.92.",
+      "confidence": 0.92,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E2",
+      "id": "S14-T1-B-E2",
+      "code": "# exploración s14/S14-T1-B-E2\nimport numpy as np\nids = np.array([\"C001\", \"C002\", \"C003\", \"C004\"])\nscores = np.array([0.1, 0.9, 0.4, 0.7])\nmed = np.median(scores)\nprint(ids[scores < med].tolist())\n_j2_mark = 14\n",
+      "justification_from_packet": "Para S14-T1-B-E2 el paquete de «NumPy y cómputo vectorizado» pide: E2 (independiente) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter. Anclé la respuesta a «np.median(scores).» y conservé el fixture del starter. [e6a9cd] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T1-B-E3",
+      "id": "S14-T1-B-E3",
+      "code": "# exploración s14/S14-T1-B-E3\nimport numpy as np\na = np.array([10, 20, 30, 40])\norder = [2, 0, 3, 1]\nprint(a[order].tolist())\n_j2_mark = 14\n",
+      "justification_from_packet": "Armé S14-T1-B-E3 desde el quiz_card de «NumPy y cómputo vectorizado». Instruction recortada: «E3 (transferencia) — Concepto: S14-T1-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter». Verifiqué con la pista «a[order] con lista de índices.». [7bf0d6] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E1",
+      "id": "S14-T2-A-E1",
+      "code": "# exploración s14/S14-T2-A-E1\nimport numpy as np\nM = np.array([[1., 0., 1.], [1., 1., 0.]])\nprint(np.round(M.mean(axis=0), 2).tolist())\nprint(np.round(M.mean(axis=1), 2).tolist())\n_j2_mark = 14\n",
+      "justification_from_packet": "Armé S14-T2-A-E1 desde el quiz_card de «NumPy y cómputo vectorizado». Instruction recortada: «E1 (guiado) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`». Verifiqué con la pista «M.mean(axis=0) y axis=1.». [e4b614] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E2",
+      "id": "S14-T2-A-E2",
+      "code": "# exploración s14/S14-T2-A-E2\nimport numpy as np\nscores = np.array([[0.5, 0.5], [1.0, 0.0], [0.8, 0.6]])\nprint(np.round(scores.std(axis=0), 4).tolist())\n_j2_mark = 14\n",
+      "justification_from_packet": "Armé S14-T2-A-E2 desde el quiz_card de «NumPy y cómputo vectorizado». Instruction recortada: «E2 (independiente) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter». Verifiqué con la pista «np.std(axis=0).». [60e9d8] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-A-E3",
+      "id": "S14-T2-A-E3",
+      "code": "# exploración s14/S14-T2-A-E3\nimport numpy as np\nX = np.array([[1., 3.], [10., 20.], [2., 2.]])\nXc = X - X.mean(axis=1, keepdims=True)\nprint(np.round(Xc.mean(axis=1), 10).tolist())\n_j2_mark = 14\n",
+      "justification_from_packet": "En «NumPy y cómputo vectorizado» resolví S14-T2-A-E3 leyendo la instruction: «E3 (transferencia) — Concepto: S14-T2-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter». La pista «row - row.mean(axis=1, keepdims=True).» me dio el patrón concreto del weDo. [e2f118] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E1",
+      "id": "S14-T2-B-E1",
+      "code": "# exploración s14/S14-T2-B-E1\nimport numpy as np\nM = np.zeros((2, 3))\nw = np.array([1., 2., 3.])\nprint((M + w).tolist())\n_j2_mark = 14\n",
+      "justification_from_packet": "Exercise S14-T2-B-E1: el contrato observable es «E1 (guiado) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`». Del theory/iDo cercano tomé «Broadcast alinea por la derecha.» y de hints «zeros + pesos (shape (3,)).». [74173a] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E2",
+      "id": "S14-T2-B-E2",
+      "code": "# exploración s14/S14-T2-B-E2\nimport numpy as np\na = np.arange(4)\nb = np.arange(3)\nout = a[:, None] * b[None, :]\nprint(out.shape, out.tolist())\n_j2_mark = 14\n",
+      "justification_from_packet": "Armé S14-T2-B-E2 desde el quiz_card de «NumPy y cómputo vectorizado». Instruction recortada: «E2 (independiente) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter». Verifiqué con la pista «a[:, None] * b[None, :] o a[:, None] * b.». [2e0143] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T2-B-E3",
+      "id": "S14-T2-B-E3",
+      "code": "# exploración s14/S14-T2-B-E3\nimport numpy as np\ntry:\n    np.ones((2, 3)) + np.ones((2, 4))\nexcept ValueError:\n    print(\"incompatible\")\n_j2_mark = 14\n",
+      "justification_from_packet": "Armé S14-T2-B-E3 desde el quiz_card de «NumPy y cómputo vectorizado». Instruction recortada: «E3 (transferencia) — Concepto: S14-T2-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter». Verifiqué con la pista «try/except ValueError.». [39f71e] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E1",
+      "id": "S14-T3-A-E1",
+      "code": "# exploración s14/S14-T3-A-E1\nimport numpy as np\nraw = np.array([1, 2, 3])\nv = raw[:2]\nv[0] = 9\nprint(raw.tolist())\n_j2_mark = 14\n",
+      "justification_from_packet": "Como explorer en «NumPy y cómputo vectorizado», S14-T3-A-E1 se cierra con lo enseñado: E1 (guiado) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`. Hint operativa: «raw[:2] es view.». [718a81] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E2",
+      "id": "S14-T3-A-E2",
+      "code": "# exploración s14/S14-T3-A-E2\nimport numpy as np\nraw = np.array([1, 2, 3])\nc = raw[:2].copy()\nc[0] = 9\nprint(raw.tolist(), c.tolist())\n_j2_mark = 14\n",
+      "justification_from_packet": "Exercise S14-T3-A-E2: el contrato observable es «E2 (independiente) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter». Del theory/iDo cercano tomé «Imprime raw y copia.» y de hints «raw[:2].copy().». [607cce] conf~0.93.",
+      "confidence": 0.93,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-A-E3",
+      "id": "S14-T3-A-E3",
+      "code": "# exploración s14/S14-T3-A-E3\nimport numpy as np\na = np.array([1.0, 2.0])\na.flags.writeable = False\ntry:\n    a[0] = 3.0\nexcept ValueError:\n    print(\"blocked\")\n_j2_mark = 14\n",
+      "justification_from_packet": "Exercise S14-T3-A-E3: el contrato observable es «E3 (transferencia) — Concepto: S14-T3-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter». Del theory/iDo cercano tomé «Asignar a[0] debe fallar.» y de hints «a.flags.writeable = False.». [377819] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E1",
+      "id": "S14-T3-B-E1",
+      "code": "# exploración s14/S14-T3-B-E1\nimport numpy as np\nx = np.array([1.0, np.nan, 2.0, np.nan])\nprint(int(np.isnan(x).sum()))\n_j2_mark = 14\n",
+      "justification_from_packet": "Exercise S14-T3-B-E1: el contrato observable es «E1 (guiado) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`». Del theory/iDo cercano tomé «Imprime int.» y de hints «np.isnan(x).sum().». [42912c] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E2",
+      "id": "S14-T3-B-E2",
+      "code": "# exploración s14/S14-T3-B-E2\nimport numpy as np\nx = np.array([1.0, np.nan, 3.0])\nprint(round(float(np.nanmean(x)), 2))\n_j2_mark = 14\n",
+      "justification_from_packet": "Para S14-T3-B-E2 el paquete de «NumPy y cómputo vectorizado» pide: E2 (independiente) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter. Anclé la respuesta a «np.nanmean.» y conservé el fixture del starter. [b9010e] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T3-B-E3",
+      "id": "S14-T3-B-E3",
+      "code": "# exploración s14/S14-T3-B-E3\nimport numpy as np\nx = np.array([1.0, np.inf, 2.0])\ny = np.where(np.isinf(x), np.nan, x)\nprint(float(np.nansum(y)))\n_j2_mark = 14\n",
+      "justification_from_packet": "Para S14-T3-B-E3 el paquete de «NumPy y cómputo vectorizado» pide: E3 (transferencia) — Concepto: S14-T3-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter. Anclé la respuesta a «np.where(np.isinf(x), np.nan, x).» y conservé el fixture del starter. [aeba46] conf~0.78.",
+      "confidence": 0.78,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E1",
+      "id": "S14-T4-A-E1",
+      "code": "# exploración s14/S14-T4-A-E1\nimport numpy as np\na = np.arange(1000, dtype=float)\nb = a.copy()\ns1 = 0.0\nfor i in range(len(a)):\n    s1 += a[i] * b[i]\ns2 = float((a * b).sum())\nprint(abs(s1 - s2) < 1e-6)\n_j2_mark = 14\n",
+      "justification_from_packet": "Para S14-T4-A-E1 el paquete de «NumPy y cómputo vectorizado» pide: E1 (guiado) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`. Anclé la respuesta a «np.arange(1000, dtype=float).» y conservé el fixture del starter. [4d35cf] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E2",
+      "id": "S14-T4-A-E2",
+      "code": "# exploración s14/S14-T4-A-E2\nimport numpy as np\na = np.arange(5, dtype=float)\nprint(float((a ** 2).sum()))\n_j2_mark = 14\n",
+      "justification_from_packet": "Para S14-T4-A-E2 el paquete de «NumPy y cómputo vectorizado» pide: E2 (independiente) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter. Anclé la respuesta a «(a**2).sum() o np.dot(a,a).» y conservé el fixture del starter. [87a15c] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-A-E3",
+      "id": "S14-T4-A-E3",
+      "code": "# exploración s14/S14-T4-A-E3\nimport numpy as np, time\nn = 10000\na = np.zeros(n)\nb = np.ones(n)\nt0 = time.perf_counter()\nc = a + b\n_ = time.perf_counter() - t0\nprint(\"timed\", float(c.mean()) == 1.0)\n_j2_mark = 14\n",
+      "justification_from_packet": "Armé S14-T4-A-E3 desde el quiz_card de «NumPy y cómputo vectorizado». Instruction recortada: «E3 (transferencia) — Concepto: S14-T4-A (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter». Verifiqué con la pista «time.perf_counter antes/después.». [e96c4b] conf~0.81.",
+      "confidence": 0.81,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E1",
+      "id": "S14-T4-B-E1",
+      "code": "# exploración s14/S14-T4-B-E1\nimport numpy as np\na = np.zeros(1000, dtype=np.float64)\nprint(a.nbytes, a.nbytes == 8000)\n_j2_mark = 14\n",
+      "justification_from_packet": "Para S14-T4-B-E1 el paquete de «NumPy y cómputo vectorizado» pide: E1 (guiado) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter (`CASO`. Anclé la respuesta a «float64 = 8 bytes.» y conservé el fixture del starter. [f2c99b] conf~0.86.",
+      "confidence": 0.86,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E2",
+      "id": "S14-T4-B-E2",
+      "code": "# exploración s14/S14-T4-B-E2\nimport numpy as np\nprint(np.allclose([1.0, 2.0], [1.0 + 1e-9, 2.0], atol=1e-8))\n_j2_mark = 14\n",
+      "justification_from_packet": "Como explorer en «NumPy y cómputo vectorizado», S14-T4-B-E2 se cierra con lo enseñado: E2 (independiente) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter. Hint operativa: «np.allclose(..., atol=1e-8).». [e4f388] conf~0.91.",
+      "confidence": 0.91,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    },
+    {
+      "exercise_id": "S14-T4-B-E3",
+      "id": "S14-T4-B-E3",
+      "code": "# exploración s14/S14-T4-B-E3\nimport numpy as np\ntry:\n    np.testing.assert_allclose([0.0, 0.0], [0.0, 0.1], atol=1e-3)\nexcept AssertionError:\n    print(\"fail\")\n_j2_mark = 14\n",
+      "justification_from_packet": "Armé S14-T4-B-E3 desde el quiz_card de «NumPy y cómputo vectorizado». Instruction recortada: «E3 (transferencia) — Concepto: S14-T4-B (NumPy y cómputo vectorizado). Entrada: fixture sintético del starter». Verifiqué con la pista «np.testing.assert_allclose.». [2445df] conf~0.71.",
+      "confidence": 0.71,
+      "concepts_used": [
+        "NumPy y cómputo vectorizado"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck de «NumPy y cómputo vectorizado» #0: «¿Qué atributo del ndarray indica el tipo homogéneo de sus elementos?». Elegí «dtype» porque el theory del paquete describe ese comportamiento de forma directa. [8b93a3] conf~0.94.",
+      "confidence": 0.94
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck de «NumPy y cómputo vectorizado» #1: «Una máscara booleana a > 0.5 se usa principalmente para:». Elegí «Filtrar o seleccionar elementos que cumplen la condición» porque el theory del paquete describe ese comportamiento de forma directa. [a4f285] conf~0.82.",
+      "confidence": 0.82
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck de «NumPy y cómputo vectorizado» #2: «axis=0 en una reducción sobre una matriz 2D suele agregar:». Elegí «Por columna (colapsa filas)» porque el theory del paquete describe ese comportamiento de forma directa. [d5acf8] conf~0.75.",
+      "confidence": 0.75
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck de «NumPy y cómputo vectorizado» #3: «Mutar un slice simple de un ndarray normalmente:». Elegí «Puede mutar el array base porque suele ser un view» porque el theory del paquete describe ese comportamiento de forma directa. [653323] conf~0.76.",
+      "confidence": 0.76
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:54:30.758577+00:00",
+  "session_started_at": "2026-07-23T12:53:03.030199+00:00",
+  "session_ended_at": "2026-07-23T12:53:25.047199+00:00",
+  "receipt_response_sha256": "8b826765556521f1e84e4e6a78d8a6affd6a67ab7750d62029a72fb4d2343dc3"
+}

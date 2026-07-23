@@ -1,0 +1,293 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "Explorer-A",
+  "attempt_id": "agentic_J2",
+  "section_index": 22,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "j2-newbie_a-s22-4a759dcfba5a",
+  "production_note": "agentic_J2 dual-LLM Explorer-A: sealed receipt write; packet-only; no bulk writers; no identity stamps",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "exercises": [
+    {
+      "exercise_id": "S22-T1-A-E1",
+      "id": "S22-T1-A-E1",
+      "code": "# exploración s22/S22-T1-A-E1\nfrom email.mime.text import MIMEText\nmsg = MIMEText('Hola', 'plain', 'utf-8')\nprint(msg.get_content_type())\nprint(str(msg.get_charset()))\n_j2_mark = 22\n",
+      "justification_from_packet": "Para S22-T1-A-E1 el paquete de «Email, identidad y aprobación humana» pide: E1 (guiado) — Concepto: MIMEText plain utf-8. Fixture `S22-T1-A-E1` / datos sintéticos: msg = MIMEText('Hola',. Anclé la respuesta a «from email.mime.text import MIMEText» y conservé el fixture del starter. [103884] conf~0.89.",
+      "confidence": 0.89,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-A-E2",
+      "id": "S22-T1-A-E2",
+      "code": "# exploración s22/S22-T1-A-E2\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.application import MIMEApplication\nmsg = MIMEMultipart('mixed')\nmsg['Subject'] = 'Test'\natt = MIMEApplication(b'x', Name='a.txt')\natt['Content-Disposition'] = 'attachment; filename=\"a.txt\"'\nmsg.attach(att)\nprint('a.txt' in msg.as_string())\n_j2_mark = 22\n",
+      "justification_from_packet": "Armé S22-T1-A-E2 desde el quiz_card de «Email, identidad y aprobación humana». Instruction recortada: «E2 (independiente) — Concepto: MIMEMultipart mixed + adjunto. Fixture `S22-T1-A-E2` / datos sintéticos: msg =». Verifiqué con la pista «MIMEMultipart + attach». [9129dc] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-A-E3",
+      "id": "S22-T1-A-E3",
+      "code": "# exploración s22/S22-T1-A-E3\nfrom email.mime.multipart import MIMEMultipart\nfrom email.mime.text import MIMEText\nmsg = MIMEMultipart('mixed')\nalt = MIMEMultipart('alternative')\nalt.attach(MIMEText('t', 'plain', 'utf-8'))\nalt.attach(MIMEText('<b>t</b>', 'html', 'utf-8'))\nmsg.attach(alt)\nprint(msg.as_string().count('Content-Type:'))\n_j2_mark = 22\n",
+      "justification_from_packet": "Como explorer en «Email, identidad y aprobación humana», S22-T1-A-E3 se cierra con lo enseñado: E3 (transferencia) — Concepto: alternative text+html anidado. Fixture `S22-T1-A-E3` / datos sintéticos: msg =. Hint operativa: «alternative dentro de mixed». [1f5cf5] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E1",
+      "id": "S22-T1-B-E1",
+      "code": "# exploración s22/S22-T1-B-E1\nimport html\nprint(html.escape('<script>x</script>'))\n_j2_mark = 22\n",
+      "justification_from_packet": "En «Email, identidad y aprobación humana» resolví S22-T1-B-E1 leyendo la instruction: «E1 (guiado) — Concepto: html.escape de script. Fixture `S22-T1-B-E1` / datos sintéticos: print(html.escape('<s». La pista «import html» me dio el patrón concreto del weDo. [22d89f] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E2",
+      "id": "S22-T1-B-E2",
+      "code": "# exploración s22/S22-T1-B-E2\nimport html\nname = '<b>Ana</b>'\nprint('Hola ' + html.escape(name))\n_j2_mark = 22\n",
+      "justification_from_packet": "Exercise S22-T1-B-E2: el contrato observable es «E2 (independiente) — Concepto: interpolación con escape. Fixture `S22-T1-B-E2` / datos sintéticos: name = '<b>». Del theory/iDo cercano tomé «no uses f-string con HTML crudo» y de hints «escape antes de format». [cca543] conf~0.75.",
+      "confidence": 0.75,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T1-B-E3",
+      "id": "S22-T1-B-E3",
+      "code": "# exploración s22/S22-T1-B-E3\nurls = ['https://example.pe/a', 'https://evil.test']\nfor u in urls:\n    print(u, 'ok' if 'example.pe' in u else 'blocked')\n_j2_mark = 22\n",
+      "justification_from_packet": "Como explorer en «Email, identidad y aprobación humana», S22-T1-B-E3 se cierra con lo enseñado: E3 (transferencia) — Concepto: allowlist de dominios en URL. Fixture `S22-T1-B-E3` / datos sintéticos: urls =. Hint operativa: «if 'example.pe' in url». [4d32f7] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E1",
+      "id": "S22-T2-A-E1",
+      "code": "# exploración s22/S22-T2-A-E1\nrequested = ['mail.draft', 'mail.full']\nallowed = {'mail.draft', 'mail.readonly'}\nprint([s for s in requested if s in allowed])\n_j2_mark = 22\n",
+      "justification_from_packet": "Exercise S22-T2-A-E1: el contrato observable es «E1 (guiado) — Concepto: filtrar scopes a allowed. Fixture `S22-T2-A-E1` / datos sintéticos: requested = ['mail». Del theory/iDo cercano tomé «set membership» y de hints «list comprehension». [76b6b0] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E2",
+      "id": "S22-T2-A-E2",
+      "code": "# exploración s22/S22-T2-A-E2\ngranted = ['mail.draft']\nbad = {'mail.full', 'admin'}\nprint(bad.isdisjoint(granted))\n_j2_mark = 22\n",
+      "justification_from_packet": "Exercise S22-T2-A-E2: el contrato observable es «E2 (independiente) — Concepto: denied scopes peligrosos. Fixture `S22-T2-A-E2` / datos sintéticos: granted = [». Del theory/iDo cercano tomé «set isdisjoint» y de hints «all(x not in granted for x in ...)». [b3d0cf] conf~0.80.",
+      "confidence": 0.8,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-A-E3",
+      "id": "S22-T2-A-E3",
+      "code": "# exploración s22/S22-T2-A-E3\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nfor exp in (now - timedelta(minutes=1), now + timedelta(hours=1)):\n    print('refresh' if exp < now else 'valid')\n_j2_mark = 22\n",
+      "justification_from_packet": "Como explorer en «Email, identidad y aprobación humana», S22-T2-A-E3 se cierra con lo enseñado: E3 (transferencia) — Concepto: expires_at → refresh|valid. Fixture `S22-T2-A-E3` / datos sintéticos: now = dat. Hint operativa: «datetime.fromisoformat». [69374e] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E1",
+      "id": "S22-T2-B-E1",
+      "code": "# exploración s22/S22-T2-B-E1\nstore = {}\nstore['d001'] = {'status': 'draft'}\nprint(store['d001']['status'])\n_j2_mark = 22\n",
+      "justification_from_packet": "Para S22-T2-B-E1 el paquete de «Email, identidad y aprobación humana» pide: E1 (guiado) — Concepto: crear draft en store. Fixture `S22-T2-B-E1` / datos sintéticos: store = {}; store['d00. Anclé la respuesta a «dict assignment» y conservé el fixture del starter. [6d031d] conf~0.94.",
+      "confidence": 0.94,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E2",
+      "id": "S22-T2-B-E2",
+      "code": "# exploración s22/S22-T2-B-E2\nfrom datetime import datetime, timezone, timedelta\nnow = datetime.now(timezone.utc)\nexpires_at = now - timedelta(seconds=1)\nprint(now < expires_at)\n_j2_mark = 22\n",
+      "justification_from_packet": "En «Email, identidad y aprobación humana» resolví S22-T2-B-E2 leyendo la instruction: «E2 (independiente) — Concepto: is_usable por expiración. Fixture `S22-T2-B-E2` / datos sintéticos: now = datet». La pista «timedelta» me dio el patrón concreto del weDo. [beb22c] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T2-B-E3",
+      "id": "S22-T2-B-E3",
+      "code": "# exploración s22/S22-T2-B-E3\nstore = {}\n\ndef create_draft():\n    i = f\"d{len(store)+1:03d}\"\n    store[i] = {'status': 'draft'}\n    return i\nprint(create_draft(), create_draft())\n_j2_mark = 22\n",
+      "justification_from_packet": "Para S22-T2-B-E3 el paquete de «Email, identidad y aprobación humana» pide: E3 (transferencia) — Concepto: ids de draft secuenciales. Fixture `S22-T2-B-E3` / datos sintéticos: store = {}. Anclé la respuesta a «len(store)+1» y conservé el fixture del starter. [2f171f] conf~0.82.",
+      "confidence": 0.82,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E1",
+      "id": "S22-T3-A-E1",
+      "code": "# exploración s22/S22-T3-A-E1\nimport re\npat = r'^[^@]+@[^@]+\\\\.[^@]+$'\nfor e in ('ana@example.pe', 'bad'):\n    print(e, bool(re.match(pat, e)))\n_j2_mark = 22\n",
+      "justification_from_packet": "Para S22-T3-A-E1 el paquete de «Email, identidad y aprobación humana» pide: E1 (guiado) — Concepto: regex simple de email. Fixture `S22-T3-A-E1` / datos sintéticos: pat = r'^[^@]+@[^@]+\\. Anclé la respuesta a «re.match» y conservé el fixture del starter. [0c5811] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E2",
+      "id": "S22-T3-A-E2",
+      "code": "# exploración s22/S22-T3-A-E2\nDIRECTORY = {'C001': 'ana@example.pe'}\nem = DIRECTORY.get('C001')\nprint('verified' if em and em.endswith('@example.pe') else 'rejected')\n_j2_mark = 22\n",
+      "justification_from_packet": "Para S22-T3-A-E2 el paquete de «Email, identidad y aprobación humana» pide: E2 (independiente) — Concepto: resolver C001 y dominio. Fixture `S22-T3-A-E2` / datos sintéticos: DIRECTORY =. Anclé la respuesta a «dict.get» y conservé el fixture del starter. [31f908] conf~0.74.",
+      "confidence": 0.74,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-A-E3",
+      "id": "S22-T3-A-E3",
+      "code": "# exploración s22/S22-T3-A-E3\na, b = 'ana.rojas@example.pe', 'ana.rojas@example.com'\nn = 0\nfor x, y in zip(a, b):\n    if x != y:\n        break\n    n += 1\nscore = n / max(len(a), len(b))\nprint(round(score, 2), 'match_no_es_fraude')\n_j2_mark = 22\n",
+      "justification_from_packet": "Armé S22-T3-A-E3 desde el quiz_card de «Email, identidad y aprobación humana». Instruction recortada: «E3 (transferencia) — Concepto: score + nota match_no_es_fraude. Fixture `S22-T3-A-E3` / datos sintéticos: a, b». Verifiqué con la pista «os.path common o loop». [ec5388] conf~0.77.",
+      "confidence": 0.77,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E1",
+      "id": "S22-T3-B-E1",
+      "code": "# exploración s22/S22-T3-B-E1\nxs = ['a@x', 'b@x', 'a@x']\nprint(list(dict.fromkeys(xs)))\n_j2_mark = 22\n",
+      "justification_from_packet": "Como explorer en «Email, identidad y aprobación humana», S22-T3-B-E1 se cierra con lo enseñado: E1 (guiado) — Concepto: dedupe de lista preservando orden. Fixture `S22-T3-B-E1` / datos sintéticos: xs = ['a@. Hint operativa: «dict.fromkeys». [efb52a] conf~0.85.",
+      "confidence": 0.85,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E2",
+      "id": "S22-T3-B-E2",
+      "code": "# exploración s22/S22-T3-B-E2\nrows = [{'email': 'p@other.test', 'role': 'cc'}]\nfor r in rows:\n    if r['email'].endswith('@other.test'):\n        r['role'] = 'bcc'\nprint(rows[0]['role'])\n_j2_mark = 22\n",
+      "justification_from_packet": "Para S22-T3-B-E2 el paquete de «Email, identidad y aprobación humana» pide: E2 (independiente) — Concepto: forzar role bcc a externos. Fixture `S22-T3-B-E2` / datos sintéticos: rows = [{. Anclé la respuesta a «endswith» y conservé el fixture del starter. [5161d1] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T3-B-E3",
+      "id": "S22-T3-B-E3",
+      "code": "# exploración s22/S22-T3-B-E3\nrows = [('a@example.pe','to'),('b@other.test','cc')]\nvis = []\nfor em, role in rows:\n    if em.endswith('@other.test'):\n        role = 'bcc'\n    if role in ('to', 'cc'):\n        vis.append(em)\nprint(len(vis), vis)\n_j2_mark = 22\n",
+      "justification_from_packet": "En «Email, identidad y aprobación humana» resolví S22-T3-B-E3 leyendo la instruction: «E3 (transferencia) — Concepto: conteo de visibles to+cc. Fixture `S22-T3-B-E3` / datos sintéticos: rows = [('a». La pista «filtrar roles» me dio el patrón concreto del weDo. [8a37bc] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E1",
+      "id": "S22-T4-A-E1",
+      "code": "# exploración s22/S22-T4-A-E1\nT = {'draft': {'submit': 'pending'}}\nstate = 'draft'\nstate = T[state]['submit']\nprint(state)\n_j2_mark = 22\n",
+      "justification_from_packet": "Para S22-T4-A-E1 el paquete de «Email, identidad y aprobación humana» pide: E1 (guiado) — Concepto: transición submit draft→pending. Fixture `S22-T4-A-E1` / datos sintéticos: T = {'draft. Anclé la respuesta a «dict de dicts» y conservé el fixture del starter. [3bbacb] conf~0.90.",
+      "confidence": 0.9,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E2",
+      "id": "S22-T4-A-E2",
+      "code": "# exploración s22/S22-T4-A-E2\nT = {'draft': {'submit': 'pending'}, 'pending': {'approve': 'approved'}}\nstate, action = 'draft', 'approve'\nnxt = T.get(state, {}).get(action)\nprint(nxt if nxt else 'invalid')\n_j2_mark = 22\n",
+      "justification_from_packet": "Armé S22-T4-A-E2 desde el quiz_card de «Email, identidad y aprobación humana». Instruction recortada: «E2 (independiente) — Concepto: approve inválido desde draft. Fixture `S22-T4-A-E2` / datos sintéticos: T = {'d». Verifiqué con la pista «try/except o .get». [e0913f] conf~0.87.",
+      "confidence": 0.87,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-A-E3",
+      "id": "S22-T4-A-E3",
+      "code": "# exploración s22/S22-T4-A-E3\nlog = []\nlog.append({'from': 'pending', 'to': 'approved', 'actor': 'rev1'})\nprint(log)\n_j2_mark = 22\n",
+      "justification_from_packet": "Como explorer en «Email, identidad y aprobación humana», S22-T4-A-E3 se cierra con lo enseñado: E3 (transferencia) — Concepto: log de aprobación con actor. Fixture `S22-T4-A-E3` / datos sintéticos: log = []. Hint operativa: «append dict». [484ccc] conf~0.83.",
+      "confidence": 0.83,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E1",
+      "id": "S22-T4-B-E1",
+      "code": "# exploración s22/S22-T4-B-E1\nimport hashlib\nprint(hashlib.sha256(b'run|to|v1').hexdigest()[:8])\n_j2_mark = 22\n",
+      "justification_from_packet": "Para S22-T4-B-E1 el paquete de «Email, identidad y aprobación humana» pide: E1 (guiado) — Concepto: idempotency key sha256[:8]. Fixture `S22-T4-B-E1` / datos sintéticos: print(hashlib.sh. Anclé la respuesta a «hashlib.sha256» y conservé el fixture del starter. [6048d7] conf~0.70.",
+      "confidence": 0.7,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E2",
+      "id": "S22-T4-B-E2",
+      "code": "# exploración s22/S22-T4-B-E2\nstore = {}\n\ndef create(key):\n    if key in store:\n        return store[key]\n    store[key] = 'd1'\n    return store[key]\nprint(create('k') == create('k'))\n_j2_mark = 22\n",
+      "justification_from_packet": "Como explorer en «Email, identidad y aprobación humana», S22-T4-B-E2 se cierra con lo enseñado: E2 (independiente) — Concepto: create idempotente por key. Fixture `S22-T4-B-E2` / datos sintéticos: store = {. Hint operativa: «cache dict». [7ade77] conf~0.95.",
+      "confidence": 0.95,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    },
+    {
+      "exercise_id": "S22-T4-B-E3",
+      "id": "S22-T4-B-E3",
+      "code": "# exploración s22/S22-T4-B-E3\naudit = []\nstore = {}\nkey = 'k1'\nfor _ in range(2):\n    if key in store:\n        audit.append('retry_hit')\n    else:\n        store[key] = 'd1'\n        audit.append('create')\nprint(audit)\n_j2_mark = 22\n",
+      "justification_from_packet": "En «Email, identidad y aprobación humana» resolví S22-T4-B-E3 leyendo la instruction: «E3 (transferencia) — Concepto: audit create + retry_hit. Fixture `S22-T4-B-E3` / datos sintéticos: audit = [];». La pista «lista de event names» me dio el patrón concreto del weDo. [086147] conf~0.88.",
+      "confidence": 0.88,
+      "concepts_used": [
+        "Email, identidad y aprobación humana"
+      ]
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck de «Email, identidad y aprobación humana» #0: «¿Qué garantiza no enviar correo real en el gate de S22?». Elegí «Solo drafts/.eml en sandbox y aprobación humana» porque el theory del paquete describe ese comportamiento de forma directa. [9b246c] conf~0.88.",
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "justification_from_packet": "SelfCheck de «Email, identidad y aprobación humana» #1: «Un score alto de similitud entre dos emails implica:». Elegí «Solo evidencia débil de contacto a revisar; no prueba de fraude» porque el theory del paquete describe ese comportamiento de forma directa. [da4be4] conf~0.90.",
+      "confidence": 0.9
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "justification_from_packet": "SelfCheck de «Email, identidad y aprobación humana» #2: «Least privilege en OAuth de correo significa:». Elegí «Solo los scopes mínimos (p. ej. draft) necesarios» porque el theory del paquete describe ese comportamiento de forma directa. [0d9106] conf~0.71.",
+      "confidence": 0.71
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "justification_from_packet": "SelfCheck de «Email, identidad y aprobación humana» #3: «La idempotency key al reintentar create_draft debe:». Elegí «Reutilizar el mismo draft_id si la key existe» porque el theory del paquete describe ese comportamiento de forma directa. [3eb11c] conf~0.81.",
+      "confidence": 0.81
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "justification_from_packet": "SelfCheck de «Email, identidad y aprobación humana» #4: «Un score de similaridad 0.92 entre dos nombres de contactos sintéticos, ¿qué autoriza». Elegí «Priorizar revisión de entrega/resolución de destinatario, con nota match≠fr» porque el theory del paquete describe ese comportamiento de forma directa. [11734f] conf~0.72.",
+      "confidence": 0.72
+    }
+  ],
+  "confusion_points": [],
+  "recorded_at": "2026-07-23T12:55:01.580016+00:00",
+  "session_started_at": "2026-07-23T12:58:23.030199+00:00",
+  "session_ended_at": "2026-07-23T12:59:00.329199+00:00",
+  "receipt_response_sha256": "8d442c662a617b0c1c4ee0ce2fc3c317fe5bd18888b3e2e12b23b40e34087b59"
+}
