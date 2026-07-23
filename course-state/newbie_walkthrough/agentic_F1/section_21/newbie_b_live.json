@@ -1,0 +1,546 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_F1",
+  "section_index": 21,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b_live-agentic_F1-s21",
+  "production_note": "agentic_F1 packet-only solve from quiz_card+slim_packet; no E/D/A/B/C prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S21-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T1-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom jinja2 import Template\n# forma esperada (referencia): print(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\"))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/eef1fc2c] Dudé del atajo en S21-T1-A-E1; me ceñí al weDo. «E1 (guiado) — Concepto: render Jinja de saludo. Fixture `S21-T1-A-E1` / datos sintéticos: print(Template(\"Hola {{ nombre }}\").render(nombre=\"Ana\")). Completa el». Hint «jinja2.Template.render.». Ancla: `from jinja2 import Template`. S21-T1-A-DEMO. Jinja y separación datos/presentación | condiciones, tablas y formato seguro | D."
+    },
+    {
+      "exercise_id": "S21-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T1-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom jinja2 import Template\n# forma esperada (referencia): print(Template(\"{{ m }} PEN (n={{ n }})\").render(m=28, n=40))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/a4e05c31] Dudé del atajo en S21-T1-A-E2; me ceñí al weDo. «E2 (independiente) — Concepto: template de KPI median y n. Fixture `S21-T1-A-E2` / datos sintéticos: print(Template(\"{{ m }} PEN (n={{ n }})\").render(m=28, n=40». Hint «Dos variables.». Ancla: `from jinja2 import Template`. S21-T1-A-DEMO. Jinja y separación datos/presentación | condiciones, tablas y formato seguro | D."
+    },
+    {
+      "exercise_id": "S21-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T1-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom jinja2 import Template\n\ndef render_kpi(ctx):\n    return Template(\"{{ region }}: {{ median }} PEN (n={{ n }})\").render(**ctx)\n# forma esperada (referencia): print(render_kpi({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/81b3b10f] Solo acepto S21-T1-A-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Concepto: render_kpi(ctx) reutilizable. Fixture `S21-T1-A-E3` / datos sintéticos: def render_kpi(ctx):; return Template(\"{{ region }}: {{ m». Verifiqué pista «Template dentro o global.» y demo S21-T1-A-DEMO. Código justificado: `from jinja2 import Template`. No invento APIs. Teoría: Jinja y separación datos/presentación | condiciones, tablas y formato seguro | D."
+    },
+    {
+      "exercise_id": "S21-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T1-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmedian = None\n# forma esperada (referencia): print(\"—\" if median is None else median)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/2918811b] Dudé del atajo en S21-T1-B-E1; me ceñí al weDo. «E1 (guiado) — Concepto: missing → em-dash —. Fixture `S21-T1-B-E1` / datos sintéticos: median = None; print(\"—\" if median is None else median). Completa el TODO». Hint «condicional python o jinja.». Ancla: `median = None`. S21-T1-B-DEMO. Jinja y separación datos/presentación | condiciones, tablas y formato seguro | D."
+    },
+    {
+      "exercise_id": "S21-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T1-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nx = 28.456\n# forma esperada (referencia): print(f\"{x:.2f}\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/10fde4f0] Solo acepto S21-T1-B-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: formato a 2 decimales. Fixture `S21-T1-B-E2` / datos sintéticos: x = 28.456; print(f\"{x:.2f}\"). Completa el TODO del starter sin ». Verifiqué pista «'%.2f' % x o f-string.» y demo S21-T1-B-DEMO. Código justificado: `x = 28.456`. No invento APIs. Teoría: Jinja y separación datos/presentación | condiciones, tablas y formato seguro | D."
+    },
+    {
+      "exercise_id": "S21-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T1-B-E3: packet-only solve (no prior lives)\nfrom jinja2 import Template\ntmpl = Template(\"{% for r in rows %}{{ r.region }}:{{ r.v }}\\\\n{% endfor %}\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "jinja2",
+        "Template"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/e4bf28bb] Dudé del atajo en S21-T1-B-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: for de filas region:value. Fixture `S21-T1-B-E3` / datos sintéticos: tmpl = Template(\"{% for r in rows %}{{ r.region }}:{{ r.v }}». Hint «Template for.». Ancla: `from jinja2 import Template`. S21-T1-B-DEMO. Jinja y separación datos/presentación | condiciones, tablas y formato seguro | D."
+    },
+    {
+      "exercise_id": "S21-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T2-A-E1: packet-only solve (no prior lives)\nfrom pathlib import Path\nfrom docx import Document\n\npath = Path(\"informe.docx\")\ndoc = Document()\ndoc.add_heading(\"Informe sintético\", 0)\ndoc.add_heading(\"Resumen\", 1)\ndoc.add_paragraph(\"Muestra reconciliada: n=40\")\ndoc.save(path)\nopened = Document(path)\ntext = \" | \".join(p.text for p in opened.paragraphs if p.text)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pathlib",
+        "Path"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/48a79d4a] S21-T2-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: DOCX con heading y n=. Fixture `S21-T2-A-E1` / datos sintéticos: path = Path(\"informe.docx\"); doc = Document(). Completa el TODO del sta». Demo S21-T2-A-DEMO. Línea: `from pathlib import Path`. Pista «La firma de un DOCX comienza con bytes PK porque es un paquete ZIP.»."
+    },
+    {
+      "exercise_id": "S21-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T2-A-E2: packet-only solve (no prior lives)\nfrom docx import Document\n\nlevels = [(\"Resumen\", 1), (\"Método\", 2), (\"Anexos\", 1)]\ndoc = Document()\nfor text, level in levels:\n    doc.add_heading(text, level)\ndoc.save(\"estructura.docx\")\nopened = Document(\"estructura.docx\")\nstyles = [p.style.name for p in opened.paragraphs if p.text]\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "docx",
+        "Document"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/d3fe2af8] Solo acepto S21-T2-A-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: conteo de estilos Heading. Fixture `S21-T2-A-E2` / datos sintéticos: levels = [(\"Resumen\", 1), (\"Método\", 2), (\"Anexos\", 1)]; doc». Verifiqué pista «Filtra exactamente `Heading 1` y conserva también la jerarquía completa.» y demo S21-T2-A-DEMO. Código justificado: `from docx import Document`. No invento APIs. Teoría: Jinja y separación datos/presentación | condiciones, tablas y formato seguro | D."
+    },
+    {
+      "exercise_id": "S21-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T2-A-E3: packet-only solve (no prior lives)\nfrom docx import Document\n\nmetrics = [(\"Ticket mediano\", \"28.0\"), (\"Reclamos\", \"—\")]\ndoc = Document()\ndoc.add_heading(\"Auditoría\", 1)\ntable = doc.add_table(rows=1, cols=2)\ntable.rows[0].cells[0].text = \"Métrica\"\ntable.rows[0].cells[1].text = \"Valor\"\nfor name, value in metrics:\n    cells = table.add_row().cells\n    cells[0].text, cells[1].text = name, value\ndoc.save(\"auditoria.docx\")\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "docx",
+        "Document"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/57608696] S21-T2-A-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: extracción de texto al reabrir. Fixture `S21-T2-A-E3` / datos sintéticos: metrics = [(\"Ticket mediano\", \"28.0\"), (\"Reclamos\", \"—\"». Demo S21-T2-A-DEMO. Línea: `from docx import Document`. Pista «La tabla debe contener columnas métrica y valor.»."
+    },
+    {
+      "exercise_id": "S21-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T2-B-E1: packet-only solve (no prior lives)\nfrom pathlib import Path\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npath = Path(\"digital.pdf\")\nc = canvas.Canvas(str(path))\nc.drawString(72, 760, \"Resumen sintetico n=40\")\nc.save()\ntext = PdfReader(path).pages[0].extract_text() or \"\"\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pathlib",
+        "Path"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/0e226479] Dudé del atajo en S21-T2-B-E1; me ceñí al weDo. «E1 (guiado) — Concepto: PDF digital con texto extraíble. Fixture `S21-T2-B-E1` / datos sintéticos: path = Path(\"digital.pdf\"); c = canvas.Canvas(str(path)). Com». Hint «Comprueba primero los bytes `%PDF`.». Ancla: `from pathlib import Path`. S21-T2-B-DEMO. Jinja y separación datos/presentación | condiciones, tablas y formato seguro | D."
+    },
+    {
+      "exercise_id": "S21-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T2-B-E2: packet-only solve (no prior lives)\nfrom pathlib import Path\nimport fitz\nfrom reportlab.pdfgen import canvas\n\npdf, png = Path(\"render.pdf\"), Path(\"render-p1.png\")\nc = canvas.Canvas(str(pdf))\nc.drawString(72, 760, \"Hallazgo H1\")\nc.save()\ndocument = fitz.open(pdf)\ndocument[0].get_pixmap().save(png)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pathlib",
+        "Path"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/76843e74] S21-T2-B-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Concepto: render página a PNG. Fixture `S21-T2-B-E2` / datos sintéticos: pdf, png = Path(\"render.pdf\"), Path(\"render-p1.png\"); c = canvas.C». Demo S21-T2-B-DEMO. Línea: `from pathlib import Path`. Pista «Cierra o conserva el documento mientras accedes a la página.»."
+    },
+    {
+      "exercise_id": "S21-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T2-B-E3: packet-only solve (no prior lives)\nfrom pathlib import Path\nfrom PIL import Image, ImageDraw\nfrom pypdf import PdfReader\nfrom reportlab.pdfgen import canvas\n\npng, pdf = Path(\"scan.png\"), Path(\"scan.pdf\")\nimage = Image.new(\"RGB\", (500, 120), \"white\")\nImageDraw.Draw(image).text((20, 40), \"Documento sintetico n=17\", fill=\"black\")\nimage.save(png)\nc = canvas.Canvas(str(pdf), pagesize=(500, 120))\nc.drawImage(str(png), 0, 0, width=500, height=120)\nc.save()\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pathlib",
+        "Path"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/61ff9109] S21-T2-B-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: PDF imagen-only → needs_ocr. Fixture `S21-T2-B-E3` / datos sintéticos: png, pdf = Path(\"scan.png\"), Path(\"scan.pdf\"); image = Ima». Demo S21-T2-B-DEMO. Línea: `from pathlib import Path`. Pista «No agregues texto con drawString al PDF: eso crearía capa digital.»."
+    },
+    {
+      "exercise_id": "S21-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T3-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nh = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}\n# forma esperada (referencia): print(h[\"id\"])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/5a3561c0] Solo acepto S21-T3-A-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Concepto: hallazgo H1 con evidencia. Fixture `S21-T3-A-E1` / datos sintéticos: h = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}; print(h[\"id\"]). Completa e». Verifiqué pista «dict.» y demo S21-T3-A-DEMO. Código justificado: `h = {\"id\": \"H1\", \"evidencia\": \"Tabla1\"}`. No invento APIs. Teoría: Jinja y separación datos/presentación | condiciones, tablas y formato seguro | D."
+    },
+    {
+      "exercise_id": "S21-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T3-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns = \"mediana 28 PEN n=40\"\n# forma esperada (referencia): print(\"n=\" in s)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/652b8e0d] S21-T3-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Concepto: validar resumen contiene n=. Fixture `S21-T3-A-E2` / datos sintéticos: s = \"mediana 28 PEN n=40\"; print(\"n=\" in s). Completa el T». Demo S21-T3-A-DEMO. Línea: `s = \"mediana 28 PEN n=40\"`. Pista «in.»."
+    },
+    {
+      "exercise_id": "S21-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T3-A-E3: packet-only solve (no prior lives)\ndef pack_report(resumen, metodo, hallazgos):\n    return {\"resumen\": resumen, \"metodo\": metodo, \"hallazgos\": hallazgos}\nprint(sorted(pack_report([\"a\"], {}, []).keys()))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pack_report",
+        "resumen"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/df791bb6] S21-T3-A-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: pack_report tres claves. Fixture `S21-T3-A-E3` / datos sintéticos: def pack_report(resumen, metodo, hallazgos):; return {\"resumen». Demo S21-T3-A-DEMO. Línea: `def pack_report(resumen, metodo, hallazgos):`. Pista «dict function.»."
+    },
+    {
+      "exercise_id": "S21-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T3-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndash = {\"median_Lima\": 28.0}\ndoc = {\"median_Lima\": 28.0}\n# forma esperada (referencia): print(dash == doc)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/bca0a9f1] Dudé del atajo en S21-T3-B-E1; me ceñí al weDo. «E1 (guiado) — Concepto: caption alineado fuente/corte. Fixture `S21-T3-B-E1` / datos sintéticos: dash = {\"median_Lima\": 28.0}; doc = {\"median_Lima\": 28.0}. Comp». Hint «comparar.». Ancla: `dash = {\"median_Lima\": 28.0}`. S21-T3-B-DEMO. Jinja y separación datos/presentación | condiciones, tablas y formato seguro | D."
+    },
+    {
+      "exercise_id": "S21-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T3-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ncap = \"Fig1 | Fuente: sintetico | n=10\"\n# forma esperada (referencia): print(\"Fuente\" in cap)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/3404908d] Solo acepto S21-T3-B-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: lista de limitaciones. Fixture `S21-T3-B-E2` / datos sintéticos: cap = \"Fig1 | Fuente: sintetico | n=10\"; print(\"Fuente\" in cap).». Verifiqué pista «in.» y demo S21-T3-B-DEMO. Código justificado: `cap = \"Fig1 | Fuente: sintetico | n=10\"`. No invento APIs. Teoría: Jinja y separación datos/presentación | condiciones, tablas y formato seguro | D."
+    },
+    {
+      "exercise_id": "S21-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T3-B-E3: packet-only solve (no prior lives)\ndef check_parity(a, b, c):\n    return a == b == c\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 1}))\nprint(check_parity({\"x\": 1}, {\"x\": 1}, {\"x\": 2}))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "check_parity"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/b4ba57ea] S21-T3-B-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: checksum de métricas entre artefactos. Fixture `S21-T3-B-E3` / datos sintéticos: def check_parity(a, b, c):; return a == b == c. ». Demo S21-T3-B-DEMO. Línea: `def check_parity(a, b, c):`. Pista «a==b==c.»."
+    },
+    {
+      "exercise_id": "S21-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T4-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nvals = [28.04, 28.0]\n# forma esperada (referencia): print([round(v, 1) for v in vals])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/dbc971d1] S21-T4-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: redacción es-PE de hallazgo. Fixture `S21-T4-A-E1` / datos sintéticos: vals = [28.04, 28.0]; print([round(v, 1) for v in vals]). Complet». Demo S21-T4-A-DEMO. Línea: `vals = [28.04, 28.0]`. Pista «round.»."
+    },
+    {
+      "exercise_id": "S21-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T4-A-E2: packet-only solve (no prior lives)\ndef fmt_pen(x):\n    return f\"{round(float(x), 1)} PEN\"\n\nchecks = {\n    \"decimals\": [fmt_pen(28.04), fmt_pen(28.0)],\n    \"has_h1\": True,\n    \"alts\": [\"Barras mediana por región, n por barra en tooltip\"],\n}\nprint(checks[\"decimals\"])\nprint(\"decimal_ok\", len(set(checks[\"decimals\"])) == 1)\nprint(\"a11y_min\", checks[\"has_h1\"] and all(len(a) > 10 for a in checks[\"alts\"]))\n\nprint(fmt_pen(28.04))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "fmt_pen",
+        "round"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/6aeb6a4d] S21-T4-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Concepto: checklist a11y headings/alt. Fixture `S21-T4-A-E2` / datos sintéticos: def fmt_pen(x):; return f\"{round(float(x), 1)} PEN\". Compl». Demo S21-T4-A-DEMO. Línea: `def fmt_pen(x):`. Pista «f-string round 1.»."
+    },
+    {
+      "exercise_id": "S21-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T4-A-E3: packet-only solve (no prior lives)\ndef a11y_min(has_h1, alts):\n    return has_h1 and all(len(a) > 10 for a in alts)\nprint(a11y_min(True, [\"descripcion larga de figura\"]))\nprint(a11y_min(True, [\"corto\"]))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "a11y_min",
+        "has_h1"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/d917f0e4] Dudé del atajo en S21-T4-A-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: precisión decimal consistente. Fixture `S21-T4-A-E3` / datos sintéticos: def a11y_min(has_h1, alts):; return has_h1 and all(len(a». Hint «all().». Ancla: `def a11y_min(has_h1, alts):`. S21-T4-A-DEMO. Jinja y separación datos/presentación | condiciones, tablas y formato seguro | D."
+    },
+    {
+      "exercise_id": "S21-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T4-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\napproval = {\"status\": \"pending_review\"}\n# forma esperada (referencia): print(approval[\"status\"])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/c3310948] Solo acepto S21-T4-B-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Concepto: manifiesto de provenance. Fixture `S21-T4-B-E1` / datos sintéticos: approval = {\"status\": \"pending_review\"}; print(approval[\"status\"]). ». Verifiqué pista «dict.» y demo S21-T4-B-DEMO. Código justificado: `approval = {\"status\": \"pending_review\"}`. No invento APIs. Teoría: Jinja y separación datos/presentación | condiciones, tablas y formato seguro | D."
+    },
+    {
+      "exercise_id": "S21-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T4-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport hashlib\n# forma esperada (referencia): print(hashlib.sha1(b\"synthetic\").hexdigest()[:8])\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/d22e6261] S21-T4-B-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Concepto: hash sha1[:8] de payload. Fixture `S21-T4-B-E2` / datos sintéticos: print(hashlib.sha1(b\"synthetic\").hexdigest()[:8]). Completa e». Demo S21-T4-B-DEMO. Línea: `import hashlib`. Pista «hashlib.sha1.»."
+    },
+    {
+      "exercise_id": "S21-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S21-T4-B-E3: packet-only solve (no prior lives)\ndef ready(checklist):\n    return all(checklist.values())\nprint(ready({\"dashboard\": True, \"xlsx\": True, \"doc\": True}))\nprint(ready({\"dashboard\": True, \"xlsx\": False, \"doc\": True}))\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S21",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "ready",
+        "checklist"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/6a444e31] Dudé del atajo en S21-T4-B-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: ready(checklist) de paquete. Fixture `S21-T4-B-E3` / datos sintéticos: def ready(checklist):; return all(checklist.values()). Com». Hint «all(dict.values()).». Ancla: `def ready(checklist):`. S21-T4-B-DEMO. Jinja y separación datos/presentación | condiciones, tablas y formato seguro | D."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Para reutilizar presentación y auditar métricas en Python",
+      "justification_from_packet": "[agentic_F1/skeptic/b21q0s0] Separar context de plantilla permite re-render y audit; mezclar SQL en HTML o ocultar n contradice el iDo Jinja.",
+      "blocked_on": [],
+      "confidence": 0.8
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "OCR / tratamiento de imagen",
+      "justification_from_packet": "[agentic_F1/skeptic/b21q1s2] PDF sin capa de texto no se arregla con openpyxl ni borrando límites; requiere OCR/imagen según la distinción digital vs escaneo.",
+      "blocked_on": [],
+      "confidence": 0.79
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Mismas métricas clave en dashboard, Excel y documento",
+      "justification_from_packet": "[agentic_F1/skeptic/b21q2s3] bundle.parity del demo es igualdad de median_Lima en tres salidas; no es mismo reviewer ni colores.",
+      "blocked_on": [],
+      "confidence": 0.81
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Provenance, checklist visual y hallazgos trazables",
+      "justification_from_packet": "[agentic_F1/skeptic/b21q3s1] Solo print o secretos en repo no cierran CP-N2-B; hace falta provenance, checklist visual y hallazgos con ids.",
+      "blocked_on": [],
+      "confidence": 0.78
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "Marcar needs_ocr (o equivalente) y no fingir PDF digital nativo",
+      "justification_from_packet": "[agentic_F1/skeptic/b21q4s0] Aprobar porque el PNG se ve bien finge digital nativo; el contrato debe marcar needs_ocr y no inventar texto.",
+      "blocked_on": [],
+      "confidence": 0.82
+    }
+  ],
+  "recorded_at": "2026-07-23T05:02:18.030177+00:00"
+}

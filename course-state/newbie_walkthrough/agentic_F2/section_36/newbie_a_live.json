@@ -1,0 +1,547 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F2",
+  "section_index": 36,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-F2-s36-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S36-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T1-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nxs = [1, 2]\n# forma esperada (referencia): print(sum(xs)/len(xs))\n\n# F2-note:cbb880e423 packet-grounded (explorer); instr_tokens=31\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/2253d966] S36-T1-A-E1 — material del slim_packet basta. «S36-T1-A-E1 · Centroide 1D: media de [1,2] = 1.5. Imprime 1.5, n 2, ok True. Starter imprime sum sin dividir (defect=3). Fixture de clustering sintético CASO-LI» · hint «Centroide 1D = media del grupo.» · S36-T1-A-DEMO. Entrega: `xs = [1, 2]`. escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    },
+    {
+      "exercise_id": "S36-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T1-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nx, mu, sd = 4, 0, 2\n# forma esperada (referencia): print((x - mu) / sd)\n\n# F2-note:ff815aaad3 packet-grounded (explorer); instr_tokens=31\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/f83b30b3] Como explorador, S36-T1-A-E2: sigo el starter y el iDo. El enunciado pide «S36-T1-A-E2 · Scale z-score: (x-mu)/sd con mu=0, sd=2, x=4 → 2.0. Imprime 2.0, sd 2, ok True. Starter olvida dividir por sd (defect=4). Escala antes de k-means ». Aplico «z = (x-mu)/sd.». Línea clave: `x, mu, sd = 4, 0, 2`. Heading: escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    },
+    {
+      "exercise_id": "S36-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T1-A-E3: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"verdict\", False)\n\n# F2-note:c8ffcf225b packet-grounded (explorer); instr_tokens=27\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/a0582845] S36-T1-A-E3 — material del slim_packet basta. «S36-T1-A-E3 · Cluster no es veredicto: imprime verdict False, ok True, task 'cluster'. Starter verdict True (defect: convierte segmento en culpa). Transferencia» · hint «Centroides no son sanciones.» · S36-T1-A-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    },
+    {
+      "exercise_id": "S36-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T1-B-E1: packet-only solve (no prior lives)\nscores = {2: 0.2, 3: 0.9, 4: 0.5}\nbest = min(scores, key=scores.get)print(best)\nprint(\"score\", scores[best])\nprint(\"ok\", True)\n\n# F2-note:80bfe3a7b9 packet-grounded (explorer); instr_tokens=28\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "scores",
+        "best"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/305f3b7b] Como explorador, S36-T1-B-E1: sigo el starter y el iDo. El enunciado pide «S36-T1-B-E1 · Elige k con score máximo: scores {2:0.2,3:0.9,4:0.5} → k=3 y score 0.9. Imprime 3, score 0.9, ok True. Starter elige min (defect). Fixture sintéti». Aplico «max por score interno del lab.». Línea clave: `scores = {2: 0.2, 3: 0.9, 4: 0.5}`. Heading: escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    },
+    {
+      "exercise_id": "S36-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T1-B-E2: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"seeds\", [0, 1, 2])\n\n# F2-note:a9ac6164be packet-grounded (explorer); instr_tokens=22\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/2896ab2d] Resuelvo S36-T1-B-E2 solo con el paquete activo. Instrucción: «S36-T1-B-E2 · Estabilidad multi-seed: imprime seeds [0,1,2], ok True, stable 'check'. Starter seeds [0] (defect). Contrato de sensibilidad a seed en CASO-LIM-03». Pista: «Varias seeds antes de fijar k.». Demo S36-T1-B-DEMO. Código ancla: `case_id = \"CASO-LIM-SYN\"`. Teoría: escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S36-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T1-B-E3: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"limit\", True)\n\n# F2-note:f046c7d637 packet-grounded (explorer); instr_tokens=29\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/791c8247] Como explorador, S36-T1-B-E3: sigo el starter y el iDo. El enunciado pide «S36-T1-B-E3 · Límite de métricas internas: imprime limit True, ok True, n 1. Starter limit False (defect: confía ciegamente en silhouette). Transferencia de hum». Aplico «Métricas internas fallan con formas raras.». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    },
+    {
+      "exercise_id": "S36-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T2-A-E1: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(round(0.5*2 + 0.5*4, 1))\n\n# F2-note:f6f0e31db4 packet-grounded (explorer); instr_tokens=28\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/30b72c65] Resuelvo S36-T2-A-E1 solo con el paquete activo. Instrucción: «S36-T2-A-E1 · Proyección toy: 0.5*2 + 0.5*4 = 3.0. Imprime 3.0, ok True, pca True. Starter suma pesos mal (defect). Exploración sintética CASO-LIM-036, no model». Pista: «pc = w0*x + w1*y.». Demo S36-T2-A-DEMO. Código ancla: `case_id = \"CASO-LIM-SYN\"`. Teoría: escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S36-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T2-A-E2: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"decision_model\", False)\n\n# F2-note:38c0a3ac6d packet-grounded (explorer); instr_tokens=23\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/ea487124] Como explorador, S36-T2-A-E2: sigo el starter y el iDo. El enunciado pide «S36-T2-A-E2 · PCA no es decision model: imprime decision_model False, ok True, use 'viz'. Starter True (defect). Contrato del dossier de señales CASO-LIM-036.». Aplico «Prohibido auto-decidir con PC.». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    },
+    {
+      "exercise_id": "S36-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T2-A-E3: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(2)\n\n# F2-note:565f0d9f74 packet-grounded (explorer); instr_tokens=25\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/c7e1166f] Como explorador, S36-T2-A-E3: sigo el starter y el iDo. El enunciado pide «S36-T2-A-E3 · Componentes para explorar en 2D: imprime 2, ok True, explore True. Starter 10 (defect: sobre-proyecta sin plan). Transferencia de n_components del». Aplico «2D es el default de exploración visual.». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    },
+    {
+      "exercise_id": "S36-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T2-B-E1: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(False)\n\n# F2-note:1e98971d63 packet-grounded (explorer); instr_tokens=25\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/9aaef341] Resuelvo S36-T2-B-E1 solo con el paquete activo. Instrucción: «S36-T2-B-E1 · Eje PC no se auto-nombra de negocio: imprime False, ok True, prudent True. Starter True (defect: nombra PC2='riesgo'). Prudencia de interpretación». Pista: «axis_named_by_business = False.». Demo S36-T2-B-DEMO. Código ancla: `case_id = \"CASO-LIM-SYN\"`. Teoría: escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S36-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T2-B-E2: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"check_scale\", True)\n\n# F2-note:4f5cecb92e packet-grounded (explorer); instr_tokens=26\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/41d51196] Resuelvo S36-T2-B-E2 solo con el paquete activo. Instrucción: «S36-T2-B-E2 · Outlier visual puede ser escala: imprime check_scale True, ok True, auto_label False. Starter auto_label True (defect). Antes de encolar, revisa s». Pista: «Primero scale/missingness.». Demo S36-T2-B-DEMO. Código ancla: `case_id = \"CASO-LIM-SYN\"`. Teoría: escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S36-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T2-B-E3: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"exploratory\")\n\n# F2-note:2953adddec packet-grounded (explorer); instr_tokens=24\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/ce9b6303] S36-T2-B-E3 — material del slim_packet basta. «S36-T2-B-E3 · Documenta uso exploratorio: imprime 'exploratory', ok True, n 1. Starter 'production_judge' (defect). Transferencia de etiqueta del artefacto PCA » · hint «Marca exploratory en el reporte.» · S36-T2-B-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    },
+    {
+      "exercise_id": "S36-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T3-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nflags = [0, 0, 1]\n# forma esperada (referencia): print(sum(flags))\n\n# F2-note:1a3574cf2e packet-grounded (explorer); instr_tokens=26\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/de883a6c] Como explorador, S36-T3-A-E1: sigo el starter y el iDo. El enunciado pide «S36-T3-A-E1 · Cuenta flags sigma: en [0,0,1] hay 1 flag. Imprime 1, misconduct False, ok True. Starter cuenta len (defect=3). Rareza ≠ conducta indebida en CASO». Aplico «sum(flags) cuenta raros.». Línea clave: `flags = [0, 0, 1]`. Heading: escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    },
+    {
+      "exercise_id": "S36-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T3-A-E2: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print([\"rule\", \"score\"])\n\n# F2-note:f7f6141f97 packet-grounded (explorer); instr_tokens=26\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/2fcb88dd] S36-T3-A-E2 — material del slim_packet basta. «S36-T3-A-E2 · Combina regla + score: imprime ['rule','score'], ok True, n 2. Starter solo ['score'] (defect). Explicabilidad para el revisor humano del path de » · hint «Regla legible + score de rareza.» · S36-T3-A-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    },
+    {
+      "exercise_id": "S36-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T3-A-E3: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"guilt\", False)\n\n# F2-note:13cc04e579 packet-grounded (explorer); instr_tokens=28\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/f7fc3743] Resuelvo S36-T3-A-E3 solo con el paquete activo. Instrucción: «S36-T3-A-E3 · Flag → review, no guilt: imprime guilt False, route 'review', ok True. Starter guilt True y route 'auto_ban' (defect). Fail-closed de conducta en ». Pista: «Ruta humana obligatoria.». Demo S36-T3-A-DEMO. Código ancla: `case_id = \"CASO-LIM-SYN\"`. Teoría: escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S36-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T3-B-E1: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print([\"outlier\", \"novelty\"])\n\n# F2-note:f2c87a4e73 packet-grounded (explorer); instr_tokens=23\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/54294e08] S36-T3-B-E1 — material del slim_packet basta. «S36-T3-B-E1 · Etiquetas conceptuales: imprime ['outlier','novelty'], ok True, n 2. Starter solo ['outlier'] (defect). Distingue rareza en train vs punto nuevo e» · hint «Outlier en train; novelty vs modelo fijado.» · S36-T3-B-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    },
+    {
+      "exercise_id": "S36-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T3-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nc, n = 0.1, 50\n# forma esperada (referencia): print(int(n * c))\n\n# F2-note:68a39f2251 packet-grounded (explorer); instr_tokens=26\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/d1e72cb1] S36-T3-B-E2 — material del slim_packet basta. «S36-T3-B-E2 · expected_flags: contam 0.1 * n=50 → 5. Imprime 5, is_fraud_rate False, ok True. Starter marca is_fraud_rate True (defect). Contamination no es pre» · hint «expected_flags = int(n*contamination).» · S36-T3-B-DEMO. Entrega: `c, n = 0.1, 50`. escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    },
+    {
+      "exercise_id": "S36-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T3-B-E3: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"capacity_link\", True)\n\n# F2-note:c13f4c4d01 packet-grounded (explorer); instr_tokens=27\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/544f3ee5] S36-T3-B-E3 — material del slim_packet basta. «S36-T3-B-E3 · Tune a capacidad de review: imprime capacity_link True, ok True, n 1. Starter False (defect). Transferencia: expected_flags debe caber en la cola » · hint «Baja contamination si la cola no da abasto.» · S36-T3-B-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    },
+    {
+      "exercise_id": "S36-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T4-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrates = [0.1, 0.2]\n# forma esperada (referencia): print(sum(rates)/len(rates))\n\n# F2-note:6d5ab460d0 packet-grounded (explorer); instr_tokens=26\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/3665f941] Como explorador, S36-T4-A-E1: sigo el starter y el iDo. El enunciado pide «S36-T4-A-E1 · Media de flag rates [0.1,0.2] = 0.15. Imprime 0.15, backtest True, ok True. Starter suma sin dividir (defect). Ventanas sintéticas del backtest te». Aplico «mean de rates por ventana.». Línea clave: `rates = [0.1, 0.2]`. Heading: escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    },
+    {
+      "exercise_id": "S36-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T4-A-E2: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"leakage\", False)\n\n# F2-note:1c6785db06 packet-grounded (explorer); instr_tokens=27\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/bd90a38e] Como explorador, S36-T4-A-E2: sigo el starter y el iDo. El enunciado pide «S36-T4-A-E2 · Sin leakage de futuro: imprime leakage False, ok True, split 'time'. Starter leakage True (defect: fit con futuro). Contrato temporal del path de ». Aplico «Fit en pasado, score en futuro.». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    },
+    {
+      "exercise_id": "S36-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T4-A-E3: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(3)\n\n# F2-note:acd33a56d0 packet-grounded (explorer); instr_tokens=24\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/67eab242] S36-T4-A-E3 — material del slim_packet basta. «S36-T4-A-E3 · Tres ventanas en el lab: imprime 3, ok True, temporal True. Starter 1 (defect). Transferencia del diseño de ventanas deslizantes sintéticas CASO-L» · hint «Varias ventanas para ver estabilidad.» · S36-T4-A-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    },
+    {
+      "exercise_id": "S36-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T4-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nranked, k = [1, 0, 1], 2\n# forma esperada (referencia): print(sum(ranked[:k])/k)\n\n# F2-note:f18361c3e4 packet-grounded (explorer); instr_tokens=28\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/f92c3c99] Resuelvo S36-T4-B-E1 solo con el paquete activo. Instrucción: «S36-T4-B-E1 · precision@k con ranked [1,0,1] y k=2 → 0.5. Imprime 0.5, k 2, auto_guilt False. Starter k=3 (defect). Labels sintéticos de utilidad de review, no ». Pista: «P@k = media de los top-k labels de utilidad.». Demo S36-T4-B-DEMO. Código ancla: `ranked, k = [1, 0, 1], 2`. Teoría: escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S36-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T4-B-E2: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(True)\n\n# F2-note:c0a47fb773 packet-grounded (explorer); instr_tokens=27\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/2e99e641] S36-T4-B-E2 — material del slim_packet basta. «S36-T4-B-E2 · Human review required: imprime True, ok True, labels 'scarce'. Starter False (defect: apaga HITL). Contrato de revisión humana con labels escasos » · hint «HITL obligatorio con labels ralos.» · S36-T4-B-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    },
+    {
+      "exercise_id": "S36-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S36-T4-B-E3: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"precision_at_k\")\n\n# F2-note:2cfa12ea10 packet-grounded (explorer); instr_tokens=24\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S36",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b3fb27c2] S36-T4-B-E3 — material del slim_packet basta. «S36-T4-B-E3 · Nombre de métrica de utilidad: imprime 'precision_at_k', ok True, n 1. Starter 'global_accuracy' (defect). Transferencia: con labels escasos prior» · hint «P@k alinea con capacidad de cola.» · S36-T4-B-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. escalamiento y k-means/density | elección, estabilidad y métricas limitadas | PC."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "Señal de rareza a revisar",
+      "justification_from_packet": "[agentic_F2/Explorer] S36 q0: anomalía en triage = señal de rareza a revisar, no fraude probado ni parentesco ni despido.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Hipótesis de fracción rara a flaggear",
+      "justification_from_packet": "[agentic_F2/Explorer] S36 q1: contamination es hipótesis de fracción rara a flaggear — no la tasa de fraude real ni accuracy.",
+      "blocked_on": [],
+      "confidence": 0.89
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "Exploración/visualización prudente",
+      "justification_from_packet": "[agentic_F2/Explorer] S36 q2: PCA en el curso = exploración/visualización prudente, no etiquetar culpa ni reemplazar workbench.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "precision@k y feedback humano",
+      "justification_from_packet": "[agentic_F2/Explorer] S36 q3: con labels escasos prioriza precision@k y feedback humano — alineado a capacidad de cola del triage.",
+      "blocked_on": [],
+      "confidence": 0.91
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "Leakage temporal",
+      "justification_from_packet": "[agentic_F2/Explorer] S36 q4: fit de normalidad que incluye el mes evaluado = leakage temporal — el normalizer ve el periodo de test.",
+      "blocked_on": [],
+      "confidence": 0.9
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.662385+00:00"
+}

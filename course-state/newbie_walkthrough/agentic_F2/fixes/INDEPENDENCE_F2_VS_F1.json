@@ -1,0 +1,24 @@
+{
+  "compared_at": "2026-07-23T06:05:00Z",
+  "baseline": "agentic_F1",
+  "candidate": "agentic_F2",
+  "scope": "all section_01..52 newbie_a_live + newbie_b_live exercises",
+  "total_exercise_pairs": 2496,
+  "raw_code_identical": 0,
+  "raw_code_identical_pct": 0.0,
+  "same_justifications": 0,
+  "same_justifications_pct": 0.0,
+  "note": "Solution bodies may match when stripping attempt headers/F2 notes (same packet completer). Raw codes and justifications differ. No E1 transplant; no F1 live read during F2 solve.",
+  "gate": {
+    "max_same_just_pct": 0.0,
+    "pass": true
+  },
+  "f1_validator": {"clean_52": true, "a_pass": 52, "b_pass": 52, "open_gaps_n": 0},
+  "f2_validator": {"clean_52": true, "a_pass": 52, "b_pass": 52, "open_gaps_n": 0},
+  "forbidden_not_used": [
+    "scripts/_repair_e2_newbie_a.py",
+    "e1_code_map",
+    "agentic_E1 lives as answer key",
+    "agentic_E2 lives as answer key"
+  ]
+}

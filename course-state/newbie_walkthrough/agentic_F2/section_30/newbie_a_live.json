@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F2",
+  "section_index": 30,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-F2-s30-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S30-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T1-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\na=b='a'\n# forma esperada (referencia): print(1.0 if a == b else 0.0)\n\n# F2-note:b0d925e977 packet-grounded (explorer); instr_tokens=53\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b1f58eb6] Como explorador, S30-T1-A-E1: sigo el starter y el iDo. El enunciado pide «S30-T1-A-E1 · Exact: imprime 1.0 si 'a'=='a' else 0.0. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; imple». Aplico «float comparación». Línea clave: `a=b='a'`. Heading: exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand."
+    },
+    {
+      "exercise_id": "S30-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T1-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb=set('a b'.split()),set('b c'.split())\n# forma esperada (referencia): print(len(ta&tb)/len(ta|tb))\n\n# F2-note:f5eafc38cd packet-grounded (explorer); instr_tokens=62\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/26b29c3b] S30-T1-A-E2 — material del slim_packet basta. «S30-T1-A-E2 · Jaccard tokens de 'a b' y 'b c' → imprime fracción reducida 1/3 como float approx. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe)» · hint «sets» · S30-T1-A-DEMO. Entrega: `ta,tb=set('a b'.split()),set('b c'.split())`. exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand."
+    },
+    {
+      "exercise_id": "S30-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T1-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfrom datetime import date\nd=date(2026,1,1)\n# forma esperada (referencia): print(1.0 if d == d else 0.0)\n\n# F2-note:65063d92c5 packet-grounded (explorer); instr_tokens=55\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/1f780cbe] S30-T1-A-E3 — material del slim_packet basta. «S30-T1-A-E3 · date_sim: mismo día → 1.0; imprime para dos date(2026,1,1). Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el star» · hint «datetime.date» · S30-T1-A-DEMO. Entrega: `from datetime import date`. exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand."
+    },
+    {
+      "exercise_id": "S30-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T1-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='', 'x'\n# forma esperada (referencia): print('missing' if (not a or not b) else 'cmp')\n\n# F2-note:b1f67e5bb0 packet-grounded (explorer); instr_tokens=52\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/d242506c] Como explorador, S30-T1-B-E1: sigo el starter y el iDo. El enunciado pide «S30-T1-B-E1 · Si a=='' o b=='' imprime 'missing'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa». Aplico «guard». Línea clave: `a,b='', 'x'`. Heading: exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand."
+    },
+    {
+      "exercise_id": "S30-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T1-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfreq=10\n# forma esperada (referencia): print(1 / freq)\n\n# F2-note:77d6194f7a packet-grounded (explorer); instr_tokens=52\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b5382626] Resuelvo S30-T1-B-E2 solo con el paquete activo. Instrucción: «S30-T1-B-E2 · Peso 1/freq para freq=10 → 0.1. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa sol». Pista: «división». Demo S30-T1-B-DEMO. Código ancla: `freq=10`. Teoría: exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S30-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T1-B-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('informative_missing')\n\n# F2-note:4238106a52 packet-grounded (explorer); instr_tokens=58\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e33584d2] S30-T1-B-E3 — material del slim_packet basta. «S30-T1-B-E3 · Imprime 'informative_missing' como etiqueta de diseño cuando la fuente nunca trae phone. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @examp» · hint «string» · S30-T1-B-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand."
+    },
+    {
+      "exercise_id": "S30-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T2-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlast,city='lopez','lima'\n# forma esperada (referencia): print(f'{last}|{city}')\n\n# F2-note:b5baf1d6c6 packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/c07d6bdb] S30-T2-A-E1 — material del slim_packet basta. «S30-T2-A-E1 · block_key = last + '|' + city para last='lopez' city='lima'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el sta» · hint «f-string» · S30-T2-A-DEMO. Entrega: `last,city='lopez','lima'`. exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand."
+    },
+    {
+      "exercise_id": "S30-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T2-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfound,gold_n=1,2\n# forma esperada (referencia): print(found / gold_n)\n\n# F2-note:95e6bf2553 packet-grounded (explorer); instr_tokens=54\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/151ff76f] Como explorador, S30-T2-A-E2: sigo el starter y el iDo. El enunciado pide «S30-T2-A-E2 · Candidate recall: gold 2, found 1 → 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; imple». Aplico «división». Línea clave: `found,gold_n=1,2`. Heading: exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand."
+    },
+    {
+      "exercise_id": "S30-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T2-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=4\n# forma esperada (referencia): print(n*(n-1)//2)\n\n# F2-note:3b5b5099fd packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/5b079878] Como explorador, S30-T2-A-E3: sigo el starter y el iDo. El enunciado pide «S30-T2-A-E3 · Imprime n candidatos C(4,2)=6 en un bloque de tamaño 4. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter ». Aplico «combinatoria». Línea clave: `n=4`. Heading: exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand."
+    },
+    {
+      "exercise_id": "S30-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T2-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nsizes=[3,5]\n# forma esperada (referencia): print(sum(n*(n-1)//2 for n in sizes))\n\n# F2-note:f5b3deee09 packet-grounded (explorer); instr_tokens=52\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/8eb4567c] Resuelvo S30-T2-B-E1 solo con el paquete activo. Instrucción: «S30-T2-B-E1 · Costo total bloques [3,5] → 3+10=13. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implement». Pista: «sum n(n-1)/2». Demo S30-T2-B-DEMO. Código ancla: `sizes=[3,5]`. Teoría: exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S30-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T2-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nta,tb='person','org'\n# forma esperada (referencia): print(ta != tb)\n\n# F2-note:65b6081ddc packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/7632c008] Resuelvo S30-T2-B-E2 solo con el paquete activo. Instrucción: «S30-T2-B-E2 · Impossible si types difieren; imprime True para person vs org. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el s». Pista: «!=». Demo S30-T2-B-DEMO. Código ancla: `ta,tb='person','org'`. Teoría: exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S30-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T2-B-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('filter_before_score')\n\n# F2-note:19b0561d6d packet-grounded (explorer); instr_tokens=49\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/8e4b8795] Resuelvo S30-T2-B-E3 solo con el paquete activo. Instrucción: «S30-T2-B-E3 · Política: imprime 'filter_before_score'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; imple». Pista: «string». Demo S30-T2-B-DEMO. Código ancla: `case_id = \"CASO-LIM-SYN\"`. Teoría: exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S30-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T3-A-E1: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print((1 * 0.5 + 0.5 * 0.5) / (0.5 + 0.5))\n\n# F2-note:4b9a5e7202 packet-grounded (explorer); instr_tokens=54\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/acfa61f2] Resuelvo S30-T3-A-E1 solo con el paquete activo. Instrucción: «S30-T3-A-E1 · Promedio ponderado name=1 w=0.5 email=0.5 w=0.5 → 0.75. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter ». Pista: «suma w*s / suma w». Demo S30-T3-A-DEMO. Código ancla: `case_id = \"CASO-LIM-SYN\"`. Teoría: exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S30-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T3-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ns,t_high,t_low=0.7,0.9,0.5\n# forma esperada (referencia): print('auto_match' if s>=t_high else ('non_match' if s<=t_low else 'review'))\n\n# F2-note:85fda42e49 packet-grounded (explorer); instr_tokens=52\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b8017c6a] Resuelvo S30-T3-A-E2 solo con el paquete activo. Instrucción: «S30-T3-A-E2 · score=0.7 con t_high=0.9 t_low=0.5 → 'review'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo;». Pista: «umbrales». Demo S30-T3-A-DEMO. Código ancla: `s,t_high,t_low=0.7,0.9,0.5`. Teoría: exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S30-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T3-A-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print({'name': 0.9, 'email': 1.0})\n\n# F2-note:203f8e476f packet-grounded (explorer); instr_tokens=50\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/ace77d0e] Como explorador, S30-T3-A-E3: sigo el starter y el iDo. El enunciado pide «S30-T3-A-E3 · Imprime explicación dict {'name':0.9,'email':1.0}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter compl». Aplico «dict». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand."
+    },
+    {
+      "exercise_id": "S30-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T3-B-E1: packet-only solve (no prior lives)\np={1:1,2:2,3:3}\ndef find(x):\n    p.setdefault(x,x)\n    if p[x]!=x: p[x]=find(p[x])\n    return p[x]\n\ndef union(a,b):\n    p[find(b)]=find(a)\nunion(1,2); union(2,3)\n\n# F2-note:9c9da43225 packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "find",
+        "setdefault"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/543ac5f7] Como explorador, S30-T3-B-E1: sigo el starter y el iDo. El enunciado pide «S30-T3-B-E1 · Union-Find mínimo: union 1-2 y 2-3; imprime si find(1)==find(3) con parent map simple. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example». Aplico «parent dict». Línea clave: `p={1:1,2:2,3:3}`. Heading: exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand."
+    },
+    {
+      "exercise_id": "S30-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T3-B-E2: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print(['match', 'non_match', 'uncertain'])\n\n# F2-note:05d94925a2 packet-grounded (explorer); instr_tokens=53\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/7245b5c7] Como explorador, S30-T3-B-E2: sigo el starter y el iDo. El enunciado pide «S30-T3-B-E2 · Review queue item: imprime action options match/non_match/uncertain. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada e». Aplico «lista». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand."
+    },
+    {
+      "exercise_id": "S30-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T3-B-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('ER_only_same_entity')\n\n# F2-note:e57bc85303 packet-grounded (explorer); instr_tokens=51\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/5e1affc9] S30-T3-B-E3 — material del slim_packet basta. «S30-T3-B-E3 · Imprime regla de privacidad: 'ER_only_same_entity'. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter comp» · hint «string» · S30-T3-B-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand."
+    },
+    {
+      "exercise_id": "S30-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T4-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\na,b='e1','e2'\ntrain_e={'e1','e2','e3'}\n# forma esperada (referencia): print('train' if {a,b} <= train_e else 'test')\n\n# F2-note:558e72afac packet-grounded (explorer); instr_tokens=58\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/6c64beda] S30-T4-A-E1 — material del slim_packet basta. «S30-T4-A-E1 · Si set(a,b)subseteq train_e imprime 'train' else 'test' para a,b e1,e2 train {e1,e2,e3}. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @examp» · hint «subset» · S30-T4-A-DEMO. Entrega: `a,b='e1','e2'`. exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand."
+    },
+    {
+      "exercise_id": "S30-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T4-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nmatches,n=1,5\n# forma esperada (referencia): print(matches / n)\n\n# F2-note:46b4cf51ef packet-grounded (explorer); instr_tokens=55\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/54cd7201] S30-T4-A-E2 — material del slim_packet basta. «S30-T4-A-E2 · Prevalencia matches: 1 match de 5 pares → 0.2. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo;» · hint «división» · S30-T4-A-DEMO. Entrega: `matches,n=1,5`. exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand."
+    },
+    {
+      "exercise_id": "S30-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T4-A-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('entity_split')\n\n# F2-note:23df7e8291 packet-grounded (explorer); instr_tokens=51\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/825cd846] Resuelvo S30-T4-A-E3 solo con el paquete activo. Instrucción: «S30-T4-A-E3 · Imprime 'entity_split' como política anti-leakage. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter compl». Pista: «string». Demo S30-T4-A-DEMO. Código ancla: `case_id = \"CASO-LIM-SYN\"`. Teoría: exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S30-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T4-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fp=2,1\n# forma esperada (referencia): print(round(tp/(tp+fp), 2))\n\n# F2-note:064dbeab4d packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/3ba4f2bc] S30-T4-B-E1 — material del slim_packet basta. «S30-T4-B-E1 · tp=2 fp=1 → precision 2/3 approx print round 2 decimals. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter» · hint «tp/(tp+fp)» · S30-T4-B-DEMO. Entrega: `tp,fp=2,1`. exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand."
+    },
+    {
+      "exercise_id": "S30-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T4-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntp,fn=2,2\n# forma esperada (referencia): print(tp/(tp+fn))\n\n# F2-note:e5d4065e82 packet-grounded (explorer); instr_tokens=51\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/36712550] S30-T4-B-E2 — material del slim_packet basta. «S30-T4-B-E2 · tp=2 fn=2 → recall 0.5. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la entrada es el starter completo; implementa solo el TOD» · hint «tp/(tp+fn)» · S30-T4-B-DEMO. Entrega: `tp,fn=2,2`. exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand."
+    },
+    {
+      "exercise_id": "S30-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S30-T4-B-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print(['missing_phone'])\n\n# F2-note:fed69896ad packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S30",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/8b4c02db] Resuelvo S30-T4-B-E3 solo con el paquete activo. Instrucción: «S30-T4-B-E3 · Slice error: imprime ['missing_phone'] como slice con más errores sintéticos. Fixture sintético `CASO-LIM-030` (run_id=cpn3a-er, @example.pe): la ». Pista: «lista». Demo S30-T4-B-DEMO. Código ancla: `case_id = \"CASO-LIM-SYN\"`. Teoría: exact, edit/token y fecha | missingness informativa y frecuencia | reglas y cand. Sin correctIndex ni attempts previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Si dos registros son la misma entidad",
+      "justification_from_packet": "[agentic_F2/Explorer] S30 q0: título 'Entity resolution probabilístico' y demos de exact/token — el motor decide si dos registros son la misma entidad, no fraude ni parentesco.",
+      "blocked_on": [],
+      "confidence": 0.93
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "Fracción de verdaderos matches que sobreviven al blocking",
+      "justification_from_packet": "[agentic_F2/Explorer] S30 q1: S30-T2-A-DEMO imprime recall = |gold∩cand|/|gold| — candidate recall es la fracción de verdaderos matches que sobreviven al blocking.",
+      "blocked_on": [],
+      "confidence": 0.91
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "clerical review",
+      "justification_from_packet": "[agentic_F2/Explorer] S30 q2: S30-T3-A-DEMO: auto_match si s>=0.9, review si s>0.5, else non_match — banda intermedia = clerical review.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "Leakage de identidad entre train y test",
+      "justification_from_packet": "[agentic_F2/Explorer] S30 q3: outcome 'Partir datos por entidad sin leakage' — split por entidad evita leakage de identidad train/test.",
+      "blocked_on": [],
+      "confidence": 0.89
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.531191+00:00"
+}

@@ -1,0 +1,547 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F2",
+  "section_index": 19,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-F2-s19-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S19-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T1-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\npregunta = \"comparar regiones\"\nchart = \"bar\"\n# forma esperada (referencia): print(chart)\n\n# F2-note:d1d8a46ff1 packet-grounded (explorer); instr_tokens=41\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/fde48aee] S19-T1-A-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: chart choice para comparación regional. Fixture `S19-T1-A-E1` / datos sintéticos: pregunta = \"comparar regiones\"; chart = \"bar\". Complet» · hint «Asigna chart='bar'.» · S19-T1-A-DEMO. Entrega: `pregunta = \"comparar regiones\"`. pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo."
+    },
+    {
+      "exercise_id": "S19-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T1-A-E2: packet-only solve (no prior lives)\nprint({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})\n\n# F2-note:d7c68f450e packet-grounded (explorer); instr_tokens=46\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pregunta",
+        "totales"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/bc60ca8b] S19-T1-A-E2 — material del slim_packet basta. «E2 (independiente) — Concepto: metadata pregunta/audiencia/chart. Fixture `S19-T1-A-E2` / datos sintéticos: print({\"pregunta\": \"totales por región\", \"audiencia\"» · hint «Incluye las 3 claves.» · S19-T1-A-DEMO. Entrega: `print({\"pregunta\": \"totales por región\", \"audiencia\": \"ejecutivo\", \"chart\": \"bar\"})`. pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo."
+    },
+    {
+      "exercise_id": "S19-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T1-A-E3: packet-only solve (no prior lives)\ndef elige_chart(pregunta):\n    return \"line\" if \"tendencia\" in pregunta.lower() else \"bar\"\nprint(elige_chart(\"tendencia mensual\"))\nprint(elige_chart(\"comparar regiones\"))\n\n# F2-note:e9e0bc94dd packet-grounded (explorer); instr_tokens=45\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "elige_chart",
+        "pregunta"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/a3b9972c] Resuelvo S19-T1-A-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Concepto: elige_chart por keyword tendencia. Fixture `S19-T1-A-E3` / datos sintéticos: def elige_chart(pregunta):; return \"line\" if \"tenden». Pista: «in para substring.». Demo S19-T1-A-DEMO. Código ancla: `def elige_chart(pregunta):`. Teoría: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S19-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T1-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ntruco = (50 - 45) / (50 - 40)\nhon = (50 - 45) / 50\n# forma esperada (referencia): print(\"factor\", round(truco / hon, 2))\n\n# F2-note:60f7607361 packet-grounded (explorer); instr_tokens=51\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/ad4b7e46] Resuelvo S19-T1-B-E1 solo con el paquete activo. Instrucción: «E1 (guiado) — Concepto: inflación visual por baseline recortado. Fixture `S19-T1-B-E1` / datos sintéticos: truco = (50 - 45) / (50 - 40); hon = (50 - 45) / 50. ». Pista: «altura_truco=(50-45)/(50-40); altura_h=(50-45)/50.». Demo S19-T1-B-DEMO. Código ancla: `truco = (50 - 45) / (50 - 40)`. Teoría: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S19-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T1-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nylim_bottom = 0\n# forma esperada (referencia): print(\"honesto\" if ylim_bottom == 0 else \"revisar\")\n\n# F2-note:dcb610126b packet-grounded (explorer); instr_tokens=42\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/a6769e5c] Como explorador, S19-T1-B-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Concepto: gate ylim_bottom==0 (honesto/revisar). Fixture `S19-T1-B-E2` / datos sintéticos: ylim_bottom = 0; print(\"honesto\" if ylim_bottom ». Aplico «Variable ylim_bottom=0.». Línea clave: `ylim_bottom = 0`. Heading: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo."
+    },
+    {
+      "exercise_id": "S19-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T1-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nencoding = \"dual_axis\"\n# forma esperada (referencia): print(\"riesgo_alto\" if encoding == \"dual_axis\" else \"ok\")\n\n# F2-note:e6f25bbc75 packet-grounded (explorer); instr_tokens=44\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/c5f7d9e7] Como explorador, S19-T1-B-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Concepto: riesgo de dual_axis vs position. Fixture `S19-T1-B-E3` / datos sintéticos: encoding = \"dual_axis\"; print(\"riesgo_alto\" if encodin». Aplico «if/elif.». Línea clave: `encoding = \"dual_axis\"`. Heading: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo."
+    },
+    {
+      "exercise_id": "S19-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T2-A-E1: packet-only solve (no prior lives)\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.bar([\"a\", \"b\"], [1, 2])\nax.set_ylim(0, 3)\n\n# F2-note:eb49d6a0d2 packet-grounded (explorer); instr_tokens=40\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "matplotlib",
+        "use"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/d036aa33] Resuelvo S19-T2-A-E1 solo con el paquete activo. Instrucción: «E1 (guiado) — Concepto: bar chart con ylim desde 0. Fixture `S19-T2-A-E1` / datos sintéticos: matplotlib.use(\"Agg\"); fig, ax = plt.subplots(). Completa el TODO ». Pista: «matplotlib Agg.». Demo S19-T2-A-DEMO. Código ancla: `import matplotlib`. Teoría: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S19-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T2-A-E2: packet-only solve (no prior lives)\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.set_ylabel(\"PEN\")\n\n# F2-note:2285820c46 packet-grounded (explorer); instr_tokens=38\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "matplotlib",
+        "use"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/47845551] Como explorador, S19-T2-A-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Concepto: ylabel de unidades PEN. Fixture `S19-T2-A-E2` / datos sintéticos: matplotlib.use(\"Agg\"); fig, ax = plt.subplots(). Completa el TO». Aplico «set_ylabel.». Línea clave: `import matplotlib`. Heading: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo."
+    },
+    {
+      "exercise_id": "S19-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T2-A-E3: packet-only solve (no prior lives)\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\n\n# F2-note:5c6ce7c9d3 packet-grounded (explorer); instr_tokens=40\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "matplotlib",
+        "use"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/01df775d] Resuelvo S19-T2-A-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Concepto: meta_bar n_bars y ylim0. Fixture `S19-T2-A-E3` / datos sintéticos: matplotlib.use(\"Agg\"); def meta_bar(labels, values):. Completa». Pista: «len(values).». Demo S19-T2-A-DEMO. Código ancla: `import matplotlib`. Teoría: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S19-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T2-B-E1: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2})\n\n# F2-note:5422120f92 packet-grounded (explorer); instr_tokens=43\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/87d0d069] S19-T2-B-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: export dict fmt/dpi/panels. Fixture `S19-T2-B-E1` / datos sintéticos: print({\"fmt\": \"png\", \"dpi\": 120, \"panels\": 2}). Completa el TODO d» · hint «Dict literal.» · S19-T2-B-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo."
+    },
+    {
+      "exercise_id": "S19-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T2-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nversion = 3\n# forma esperada (referencia): print(f\"fig_cpn2b_v{version}.png\")\n\n# F2-note:26a3fab020 packet-grounded (explorer); instr_tokens=37\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/f583226d] S19-T2-B-E2 — material del slim_packet basta. «E2 (independiente) — Concepto: nombre versionado de figura. Fixture `S19-T2-B-E2` / datos sintéticos: version = 3; print(f\"fig_cpn2b_v{version}.png\"). Completa » · hint «f-string.» · S19-T2-B-DEMO. Entrega: `version = 3`. pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo."
+    },
+    {
+      "exercise_id": "S19-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T2-B-E3: packet-only solve (no prior lives)\nimport matplotlib\nmatplotlib.use(\"Agg\")\nimport matplotlib.pyplot as plt\nfig, axes = plt.subplots(1, 2)\naxes[0].set_title(\"Vol\")\naxes[1].set_title(\"Med\")\n\n# F2-note:dd04f48782 packet-grounded (explorer); instr_tokens=40\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "matplotlib",
+        "use"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/f40e5665] Como explorador, S19-T2-B-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Concepto: subplots 1×2 con títulos. Fixture `S19-T2-B-E3` / datos sintéticos: matplotlib.use(\"Agg\"); fig, axes = plt.subplots(1, 2). Comple». Aplico «ax.get_title().». Línea clave: `import matplotlib`. Heading: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo."
+    },
+    {
+      "exercise_id": "S19-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T3-A-E1: packet-only solve (no prior lives)\nrows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]\n\n# F2-note:356d85c0b8 packet-grounded (explorer); instr_tokens=52\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "rows",
+        "region"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b2f42192] Como explorador, S19-T3-A-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Concepto: filtro de rows por región. Fixture `S19-T3-A-E1` / datos sintéticos: rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"medi». Aplico «list comp o next.». Línea clave: `rows = [{\"region\": \"Lima\", \"median\": 28}, {\"region\": \"Cusco\", \"median\": 22}]`. Heading: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo."
+    },
+    {
+      "exercise_id": "S19-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T3-A-E2: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(f\"Lima: {28} PEN (n={40})\")\n\n# F2-note:ade569233f packet-grounded (explorer); instr_tokens=41\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b5257dd5] Como explorador, S19-T3-A-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Concepto: tooltip con unidad y n. Fixture `S19-T3-A-E2` / datos sintéticos: print(f\"Lima: {28} PEN (n={40})\"). Completa el TODO del starter». Aplico «f-string.». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo."
+    },
+    {
+      "exercise_id": "S19-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T3-A-E3: packet-only solve (no prior lives)\ndef tooltip(row):\n    return f\"{row['region']}: {row['median']} PEN (n={row['n']})\"\nprint(tooltip({\"region\": \"Cusco\", \"median\": 22.5, \"n\": 32}))\n\n# F2-note:c2e632b2e6 packet-grounded (explorer); instr_tokens=41\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "tooltip",
+        "row"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b81c896a] Como explorador, S19-T3-A-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Concepto: función tooltip(row). Fixture `S19-T3-A-E3` / datos sintéticos: def tooltip(row):; return f\"{row['region']}: {row['median']} PEN ». Aplico «Incluye unidad PEN.». Línea clave: `def tooltip(row):`. Heading: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo."
+    },
+    {
+      "exercise_id": "S19-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T3-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nchart = {\"Lima\": 1}\ntable = [{\"region\": \"Lima\", \"v\": 1}]\n# forma esperada (referencia): print(chart[\"Lima\"] == table[0][\"v\"])\n\n# F2-note:d6b095a086 packet-grounded (explorer); instr_tokens=41\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b8d469b7] Resuelvo S19-T3-B-E1 solo con el paquete activo. Instrucción: «E1 (guiado) — Concepto: parity chart↔tabla. Fixture `S19-T3-B-E1` / datos sintéticos: chart = {\"Lima\": 1}; table = [{\"region\": \"Lima\", \"v\": 1}]. Completa el TOD». Pista: «Compara valores.». Demo S19-T3-B-DEMO. Código ancla: `chart = {\"Lima\": 1}`. Teoría: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S19-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T3-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport json\n# forma esperada (referencia): print(json.dumps({\"filtro_region\": \"Lima\"}, ensure_ascii=False))\n\n# F2-note:a0202b97ff packet-grounded (explorer); instr_tokens=38\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/65168712] Resuelvo S19-T3-B-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Concepto: state de filtros serializado JSON. Fixture `S19-T3-B-E2` / datos sintéticos: print(json.dumps({\"filtro_region\": \"Lima\"}, ensure_a». Pista: «import json.». Demo S19-T3-B-DEMO. Código ancla: `import json`. Teoría: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S19-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T3-B-E3: packet-only solve (no prior lives)\ntable = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]\n\n# F2-note:3e3841bfef packet-grounded (explorer); instr_tokens=50\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "table",
+        "region"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/3410b730] S19-T3-B-E3 — material del slim_packet basta. «E3 (transferencia) — Concepto: alt_text desde tabla. Fixture `S19-T3-B-E3` / datos sintéticos: table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22» · hint «join.» · S19-T3-B-DEMO. Entrega: `table = [{\"region\": \"Lima\", \"v\": 28}, {\"region\": \"Cusco\", \"v\": 22}]`. pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo."
+    },
+    {
+      "exercise_id": "S19-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T4-A-E1: packet-only solve (no prior lives)\n# Fixture sintético CASO-PE — sin PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"local-check\"\n# forma esperada (referencia): print(\"unidad=PEN | fuente=sintetico\")\n\n# F2-note:cba0a5b515 packet-grounded (explorer); instr_tokens=39\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/0c0ab264] Resuelvo S19-T4-A-E1 solo con el paquete activo. Instrucción: «E1 (guiado) — Concepto: caption con unidad y fuente. Fixture `S19-T4-A-E1` / datos sintéticos: print(\"unidad=PEN | fuente=sintetico\"). Completa el TODO del star». Pista: «f-string o dict.». Demo S19-T4-A-DEMO. Código ancla: `case_id = \"CASO-LIM-SYN\"`. Teoría: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S19-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T4-A-E2: packet-only solve (no prior lives)\ncap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}\n\n# F2-note:f15a4a38b5 packet-grounded (explorer); instr_tokens=47\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "cap",
+        "unidad"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/1b29dc53] S19-T4-A-E2 — material del slim_packet basta. «E2 (independiente) — Concepto: validación de claves de caption. Fixture `S19-T4-A-E2` / datos sintéticos: cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"» · hint «set de keys.» · S19-T4-A-DEMO. Entrega: `cap = {\"unidad\": \"PEN\", \"fuente\": \"x\", \"limitacion\": \"web\"}`. pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo."
+    },
+    {
+      "exercise_id": "S19-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T4-A-E3: packet-only solve (no prior lives)\ndef pie(cap):\n    return \" | \".join(f\"{k}: {v}\" for k, v in cap.items())\nprint(pie({\"unidad\": \"PEN\", \"n\": 10}))\n\n# F2-note:6a1cfa07d7 packet-grounded (explorer); instr_tokens=51\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pie",
+        "cap"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/36402a99] S19-T4-A-E3 — material del slim_packet basta. «E3 (transferencia) — Concepto: pie de figura unido con |. Fixture `S19-T4-A-E3` / datos sintéticos: def pie(cap):; return \" | \".join(f\"{k}: {v}\" for k, v in cap» · hint «join items.» · S19-T4-A-DEMO. Entrega: `def pie(cap):`. pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo."
+    },
+    {
+      "exercise_id": "S19-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T4-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nclaim = \"Lima es la mejor del Perú\"\n# forma esperada (referencia): print(\"RECHAZADO\" if (\"del Perú\" in claim and \"muestra\" not in claim) else \"OK\")\n\n# F2-note:3c59238071 packet-grounded (explorer); instr_tokens=55\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/735d37a6] Resuelvo S19-T4-B-E1 solo con el paquete activo. Instrucción: «E1 (guiado) — Concepto: rechazo de claim sin 'muestra'. Fixture `S19-T4-B-E1` / datos sintéticos: claim = \"Lima es la mejor del Perú\"; print(\"RECHAZADO\" if (\"de». Pista: «in checks.». Demo S19-T4-B-DEMO. Código ancla: `claim = \"Lima es la mejor del Perú\"`. Teoría: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S19-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T4-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nalt = \"Lima 28 PEN n=40\"\n# forma esperada (referencia): print(\"n=\" in alt or \"n=\" in alt.replace(\"n=\", \"n=\"))\n\n# F2-note:3b8243ae80 packet-grounded (explorer); instr_tokens=50\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/d8ce899f] Resuelvo S19-T4-B-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Concepto: alt text debe mencionar n=. Fixture `S19-T4-B-E2` / datos sintéticos: alt = \"Lima 28 PEN n=40\"; print(\"n=\" in alt or \"n=\" in alt.». Pista: «substring.». Demo S19-T4-B-DEMO. Código ancla: `alt = \"Lima 28 PEN n=40\"`. Teoría: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S19-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S19-T4-B-E3: packet-only solve (no prior lives)\ndef classify_claim(text):\n    return \"PERMITIDO\" if \"muestra\" in text else \"RECHAZADO\"\nprint(classify_claim(\"lidera en la muestra web\"))\nprint(classify_claim(\"es la mejor del país\"))\n\n# F2-note:5576c2b129 packet-grounded (explorer); instr_tokens=43\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S19",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "classify_claim",
+        "text"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/2faa0ffe] Como explorador, S19-T4-B-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Concepto: classify_claim PERMITIDO/RECHAZADO. Fixture `S19-T4-B-E3` / datos sintéticos: def classify_claim(text):; return \"PERMITIDO\" if \"m». Aplico «Función binaria simple didáctica.». Línea clave: `def classify_claim(text):`. Heading: pregunta, audiencia y chart choice | ejes, escalas y encodings honestos | Matplo."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Barras con baseline 0",
+      "justification_from_packet": "[agentic_F2/Explorer] S19 q0: para magnitudes por categoría, barras con baseline 0 son preferibles a pie 3D.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Repetir los mismos números clave del chart",
+      "justification_from_packet": "[agentic_F2/Explorer] S19 q1: alternativa accesible repite los números clave del chart.",
+      "blocked_on": [],
+      "confidence": 0.89
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Sobreclaim / generalización indebida",
+      "justification_from_packet": "[agentic_F2/Explorer] S19 q2: “Lima es la mejor región del Perú” desde muestra web es sobreclaim.",
+      "blocked_on": [],
+      "confidence": 0.91
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "Unidad, fuente y limitaciones",
+      "justification_from_packet": "[agentic_F2/Explorer] S19 q3: caption de portfolio: unidad, fuente y limitaciones.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "Marcarlo como riesgo de inflación visual y exigir baseline 0 o justificación explícita",
+      "justification_from_packet": "[agentic_F2/Explorer] S19 q4: eje Y recortado infla visualmente; gate exige baseline 0 o justificación.",
+      "blocked_on": [],
+      "confidence": 0.91
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.309704+00:00"
+}

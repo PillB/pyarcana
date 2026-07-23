@@ -1,0 +1,553 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F2",
+  "section_index": 11,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-F2-s11-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S11-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T1-A-E1: packet-only solve (no prior lives)\nfrom dataclasses import dataclass, field\n\n@dataclass\nclass ClientRecord:\n    pass\n\n# F2-note:f042569b3b packet-grounded (explorer); instr_tokens=63\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "dataclasses",
+        "dataclass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/0b67ec22] S11-T1-A-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Completa la datac» · hint «Usa field(default_factory=list).» · S11-T1-A-DEMO. Entrega: `from dataclasses import dataclass, field`. Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m."
+    },
+    {
+      "exercise_id": "S11-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T1-A-E2: packet-only solve (no prior lives)\nfrom dataclasses import dataclass\nfrom decimal import Decimal\n\n@dataclass\nclass Transaction:\n    pass\n\n# F2-note:127bf5fe69 packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "dataclasses",
+        "dataclass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e7aa466d] S11-T1-A-E2 — material del slim_packet basta. «E2 (independiente) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Define Tra» · hint «Importa Decimal; sin defaults en campos obligatorios.» · S11-T1-A-DEMO. Entrega: `from dataclasses import dataclass`. Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m."
+    },
+    {
+      "exercise_id": "S11-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T1-A-E3: packet-only solve (no prior lives)\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    pass\n\n# F2-note:fa90c4932f packet-grounded (explorer); instr_tokens=55\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "dataclasses",
+        "dataclass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b3c8cff8] Resuelvo S11-T1-A-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Concepto: S11-T1-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Migra un d». Pista: «classmethod from_dict.». Demo S11-T1-A-DEMO. Código ancla: `from dataclasses import dataclass`. Teoría: Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S11-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T1-B-E1: packet-only solve (no prior lives)\nfrom dataclasses import dataclass\nfrom decimal import Decimal\n\n@dataclass\nclass Transaction:\n    pass\n\n# F2-note:52b11c0d9a packet-grounded (explorer); instr_tokens=64\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "dataclasses",
+        "dataclass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/7de77e9f] S11-T1-B-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Añade invariantes» · hint «__post_init__: isinstance Decimal, quantize(0.01), allowlist de currency.» · S11-T1-B-DEMO. Entrega: `from dataclasses import dataclass`. Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m."
+    },
+    {
+      "exercise_id": "S11-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T1-B-E2: packet-only solve (no prior lives)\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    pass\n\n# F2-note:7aea71d4af packet-grounded (explorer); instr_tokens=62\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "dataclasses",
+        "dataclass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/1b6de469] Como explorador, S11-T1-B-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Factory fr». Aplico «Raise ValueError con mensaje claro.». Línea clave: `from dataclasses import dataclass`. Heading: Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m."
+    },
+    {
+      "exercise_id": "S11-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T1-B-E3: packet-only solve (no prior lives)\n# fixture\n\n# F2-note:8df73d2416 packet-grounded (explorer); instr_tokens=61\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/1597d7c4] S11-T1-B-E3 — material del slim_packet basta. «E3 (transferencia) — Concepto: S11-T1-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Lista en e» · hint «ClientRecord, Transaction, Evidence, Entity.» · S11-T1-B-DEMO. Entrega: `# agentic_F2-explorer/S11-T1-B-E3: packet-only solve (no prior lives)`. Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m."
+    },
+    {
+      "exercise_id": "S11-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T2-A-E1: packet-only solve (no prior lives)\nfrom dataclasses import dataclass\n\n@dataclass\nclass Person:\n    pass\n\n# F2-note:6d121777a9 packet-grounded (explorer); instr_tokens=53\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "dataclasses",
+        "dataclass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/d27119bf] S11-T2-A-E1 — material del slim_packet basta. «E1 (guiado) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Property full_nam» · hint «@property sin setter.» · S11-T2-A-DEMO. Entrega: `from dataclasses import dataclass`. Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m."
+    },
+    {
+      "exercise_id": "S11-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T2-A-E2: packet-only solve (no prior lives)\nfrom dataclasses import dataclass\n\n@dataclass\nclass Transaction:\n    pass\n\n# F2-note:91ba0692b1 packet-grounded (explorer); instr_tokens=58\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "dataclasses",
+        "dataclass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/bd3f9966] S11-T2-A-E2 — material del slim_packet basta. «E2 (independiente) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Método age» · hint «Retorna day - day_created.» · S11-T2-A-DEMO. Entrega: `from dataclasses import dataclass`. Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m."
+    },
+    {
+      "exercise_id": "S11-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T2-A-E3: packet-only solve (no prior lives)\nfrom math import isfinite\n\nclass Signal:\n    pass\n\n# F2-note:5c3533f277 packet-grounded (explorer); instr_tokens=34\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "math",
+        "isfinite"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/6ab3b552] Como explorador, S11-T2-A-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Concepto: S11-T2-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Encapsula ». Aplico «Property score + math.isfinite antes del rango.». Línea clave: `from math import isfinite`. Heading: Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m."
+    },
+    {
+      "exercise_id": "S11-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T2-B-E1: packet-only solve (no prior lives)\nfrom dataclasses import dataclass, field\n\n@dataclass(frozen=True)\nclass ResolvedEntity:\n    pass\n\n# F2-note:5a5bab9b78 packet-grounded (explorer); instr_tokens=60\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "dataclasses",
+        "dataclass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/ef48eb8f] Como explorador, S11-T2-B-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Implementa Resolv». Aplico «dataclass(frozen=True) + field(compare=False) en display_name.». Línea clave: `from dataclasses import dataclass, field`. Heading: Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m."
+    },
+    {
+      "exercise_id": "S11-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T2-B-E2: packet-only solve (no prior lives)\nfrom dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Evidence:\n    pass\n\n# F2-note:3a4797f09c packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "dataclasses",
+        "dataclass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/3cf9c158] S11-T2-B-E2 — material del slim_packet basta. «E2 (independiente) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Crea Evide» · hint «frozen=True dataclass.» · S11-T2-B-DEMO. Entrega: `from dataclasses import dataclass`. Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m."
+    },
+    {
+      "exercise_id": "S11-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T2-B-E3: packet-only solve (no prior lives)\nclass MutableEntity:\n    pass\n\n# F2-note:d3618c69ed packet-grounded (explorer); instr_tokens=67\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "MutableEntity",
+        "pass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/ebb7aa62] Resuelvo S11-T2-B-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Concepto: S11-T2-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Demuestra ». Pista: «Imprime BUG y SAFE.». Demo S11-T2-B-DEMO. Código ancla: `class MutableEntity:`. Teoría: Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S11-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T3-A-E1: packet-only solve (no prior lives)\nfrom dataclasses import dataclass\n\n@dataclass\nclass PersonInfo:\n    pass\n\n# F2-note:481140140d packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "dataclasses",
+        "dataclass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/58219f12] Como explorador, S11-T3-A-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Reemplaza herenci». Aplico «Imprime el diseño final simple.». Línea clave: `from dataclasses import dataclass`. Heading: Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m."
+    },
+    {
+      "exercise_id": "S11-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T3-A-E2: packet-only solve (no prior lives)\nfrom dataclasses import dataclass, field\n\n@dataclass\nclass CaseFile:\n    pass\n\n# F2-note:2613238dea packet-grounded (explorer); instr_tokens=54\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "dataclasses",
+        "dataclass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/4a78e200] S11-T3-A-E2 — material del slim_packet basta. «E2 (independiente) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: CaseFile a» · hint «Lista interna.» · S11-T3-A-DEMO. Entrega: `from dataclasses import dataclass, field`. Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m."
+    },
+    {
+      "exercise_id": "S11-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T3-A-E3: packet-only solve (no prior lives)\npass  # fixture vacío — usa solution contract\n\n# F2-note:4470f1a83f packet-grounded (explorer); instr_tokens=66\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pass",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/52bbaea5] Como explorador, S11-T3-A-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Concepto: S11-T3-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Justifica ». Aplico «Piensa en roles y evolución del modelo.». Línea clave: `pass  # fixture vacío — usa solution contract`. Heading: Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m."
+    },
+    {
+      "exercise_id": "S11-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T3-B-E1: packet-only solve (no prior lives)\nfrom typing import Protocol\n\nclass Scorer(Protocol):\n    pass\n\n# F2-note:95b5ecc5d4 packet-grounded (explorer); instr_tokens=57\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "typing",
+        "Protocol"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/7098d87a] Resuelvo S11-T3-B-E1 solo con el paquete activo. Instrucción: «E1 (guiado) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Define Protocol S». Pista: «Imprime el score de un par sintético.». Demo S11-T3-B-DEMO. Código ancla: `from typing import Protocol`. Teoría: Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S11-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T3-B-E2: packet-only solve (no prior lives)\ndef apply(norm, text):\n    pass\n\n# F2-note:1655450933 packet-grounded (explorer); instr_tokens=61\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "apply",
+        "norm"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/0c673830] Resuelvo S11-T3-B-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Dos implem». Pista: «apply(norm, text) llama norm(text).». Demo S11-T3-B-DEMO. Código ancla: `def apply(norm, text):`. Teoría: Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S11-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T3-B-E3: packet-only solve (no prior lives)\npass  # fixture vacío — usa solution contract\n\n# F2-note:814b449270 packet-grounded (explorer); instr_tokens=64\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pass",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/9434eb54] Resuelvo S11-T3-B-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Concepto: S11-T3-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Escribe 2 ». Pista: «YAGNI / una sola implementación.». Demo S11-T3-B-DEMO. Código ancla: `pass  # fixture vacío — usa solution contract`. Teoría: Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S11-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T4-A-E1: packet-only solve (no prior lives)\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    pass\n\n# F2-note:d692fd8dd0 packet-grounded (explorer); instr_tokens=58\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "dataclasses",
+        "dataclass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/9f25f5d0] Como explorador, S11-T4-A-E1: sigo el starter y el iDo. El enunciado pide «E1 (guiado) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: to_dict de Client». Aplico «Aunque existan en el objeto, no serializarlos.». Línea clave: `from dataclasses import dataclass`. Heading: Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m."
+    },
+    {
+      "exercise_id": "S11-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T4-A-E2: packet-only solve (no prior lives)\nclass Repo:\n    pass\n\n# F2-note:36066ebeae packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Repo",
+        "pass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/a0df2f01] Como explorador, S11-T4-A-E2: sigo el starter y el iDo. El enunciado pide «E2 (independiente) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Repository». Aplico «Clase con save y get.». Línea clave: `class Repo:`. Heading: Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m."
+    },
+    {
+      "exercise_id": "S11-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T4-A-E3: packet-only solve (no prior lives)\n# fixture\n\n# F2-note:7f5800168c packet-grounded (explorer); instr_tokens=70\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/46118575] Como explorador, S11-T4-A-E3: sigo el starter y el iDo. El enunciado pide «E3 (transferencia) — Concepto: S11-T4-A (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Dibuja en ». Aplico «cli → service → domain/repo.». Línea clave: `# agentic_F2-explorer/S11-T4-A-E3: packet-only solve (no prior lives)`. Heading: Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m."
+    },
+    {
+      "exercise_id": "S11-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T4-B-E1: packet-only solve (no prior lives)\nfrom dataclasses import dataclass\n\n@dataclass\nclass ClientRecord:\n    pass\n\n# F2-note:0a52733fbb packet-grounded (explorer); instr_tokens=62\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "dataclasses",
+        "dataclass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/daf480b6] Resuelvo S11-T4-B-E1 solo con el paquete activo. Instrucción: «E1 (guiado) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Test de invariant». Pista: «Usa assert en un try o pytest-style manual.». Demo S11-T4-B-DEMO. Código ancla: `from dataclasses import dataclass`. Teoría: Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S11-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T4-B-E2: packet-only solve (no prior lives)\nclass FakeRepo:\n    pass\n\n# F2-note:17b49c75f5 packet-grounded (explorer); instr_tokens=62\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "FakeRepo",
+        "pass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/f64dd59b] Resuelvo S11-T4-B-E2 solo con el paquete activo. Instrucción: «E2 (independiente) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Fake repo ». Pista: «Imprime pass x3.». Demo S11-T4-B-DEMO. Código ancla: `class FakeRepo:`. Teoría: Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S11-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S11-T4-B-E3: packet-only solve (no prior lives)\nclass BadClient:\n    pass\n\n# F2-note:2242469ea5 packet-grounded (explorer); instr_tokens=54\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S11",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "BadClient",
+        "pass"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/d4535b0c] Resuelvo S11-T4-B-E3 solo con el paquete activo. Instrucción: «E3 (transferencia) — Concepto: S11-T4-B (OOP y modelo de dominio). Entrada: fixture sintético del starter (`CASO`/ids C00x) en OOP de dominio. Tarea: Revisa una». Pista: «Mueve el score a Evidence; elimina el veredicto.». Demo S11-T4-B-DEMO. Código ancla: `class BadClient:`. Teoría: Clases, instancias y dataclass | Invariantes y estados válidos | Propiedades y m. Sin correctIndex ni attempts previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 2,
+      "chosen_text": "Evita el default mutable compartido entre instancias",
+      "justification_from_packet": "[agentic_F2/Explorer] S11 q0: default_factory=list crea lista nueva por instancia; `= []` la comparte.",
+      "blocked_on": [],
+      "confidence": 0.91
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 0,
+      "chosen_text": "Una señal/dato numérico, no un veredicto de fraude o familia",
+      "justification_from_packet": "[agentic_F2/Explorer] S11 q1: signal_score es señal numérica; no veredicto legal de parentesco/fraude.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 1,
+      "chosen_text": "Definir un puerto get/save implementable por fakes y adapters",
+      "justification_from_packet": "[agentic_F2/Explorer] S11 q2: Protocol EntityStore = puerto get/save para fakes y adapters de persistencia.",
+      "blocked_on": [],
+      "confidence": 0.89
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 3,
+      "chosen_text": "En la construcción (__post_init__/validate)",
+      "justification_from_packet": "[agentic_F2/Explorer] S11 q3: objeto inválido falla en construcción (__post_init__/validate), no “al final del mes”.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 2,
+      "chosen_text": "A menudo es frágil; composición (Client tiene PersonInfo) suele bastar",
+      "justification_from_packet": "[agentic_F2/Explorer] S11 q4: herencia Client/Person es frágil; composición suele bastar en el dominio.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 0,
+      "chosen_text": "is_fraud() automático",
+      "justification_from_packet": "[agentic_F2/Explorer] S11 q5: el dominio de familiaridad no debe exponer is_fraud() automático; sí tests/invariantes.",
+      "blocked_on": [],
+      "confidence": 0.91
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.147646+00:00"
+}

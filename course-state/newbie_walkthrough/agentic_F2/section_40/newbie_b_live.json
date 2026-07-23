@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_F2",
+  "section_index": 40,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b_live-F2-s40-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S40-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T1-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"response\":\"serve\",\"observed_ms\":280,\"target_ms\":300,\"owner\":\"platform\"}}\nmeets_contract = record[\"observed_ms\"] >= record[\"target_ms\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_QA_SCENARIO\"\nprint(\"S40-T1-A\", status)\n\n# F2-note:c457c2062c packet-grounded (skeptic); instr_tokens=58\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/29ca0334] S40-T1-A-E1: rechazo claves offline. Paquete dice «S40-T1-A-E1 · Calcula el contrato de `requisitos funcionales y quality attributes` sobre `CASO-LIM-040-1A`. La entrada es el dict completo del starter; la opera». Demo S40-T1-A-DEMO. Línea: `record = {\"case_id\": \"CASO-LIM-040-1A\", **{\"source\":\"ops\",\"stimulus\":\"100 req/s\",\"environment\":\"peak\",\"respons`. Pista «Relaciona los campos `source`, `stimulus`, `environment`, `response`, `observed_ms`, `targ»."
+    },
+    {
+      "exercise_id": "S40-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T1-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('requisitos funcionales y quality attributes')\n\n# F2-note:960a48a87d packet-grounded (skeptic); instr_tokens=57\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/7e0b301f] Solo acepto S40-T1-A-E2 si el paquete lo enseña. Instrucción: «S40-T1-A-E2 · Modela tres rutas de `requisitos funcionales y quality attributes`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case». Verifiqué pista «Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.» y demo S40-T1-A-DEMO. Código justificado: `print('requisitos funcionales y quality attributes')`. No invento APIs. Teoría: requisitos funcionales y quality attributes | trade-offs, riesgos y criterios me."
+    },
+    {
+      "exercise_id": "S40-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T1-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S40-T1-A-E3 · Simula fallo cerrado para `requisitos funcionales y quality attributes` con tres fixtures distintos\n2. `CASO-LIM-040-1A` debe continuar, el adverso debe devolver `REJECT_QA_SCENARIO` y la ausencia de `owner` debe devolver `REQUEST_QA_OWNER`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REQUEST_QA_OWNER` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró latencia observada contra umbral y dueño; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:f3b5385fb0 packet-grounded (skeptic); instr_tokens=50\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/753e6ea8] S40-T1-A-E3: rechazo claves offline. Paquete dice «S40-T1-A-E3 · Simula fallo cerrado para `requisitos funcionales y quality attributes` con tres fixtures distintos. `CASO-LIM-040-1A` debe continuar, el adverso ». Demo S40-T1-A-DEMO. Línea: `1. S40-T1-A-E3 · Simula fallo cerrado para `requisitos funcionales y quality attributes` con tres fixtures dis`. Pista «Una ausencia no equivale a breach: enrútala a `REQUEST_QA_OWNER` antes de evaluar el conte»."
+    },
+    {
+      "exercise_id": "S40-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T1-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"risk_owner\":\"arquitectura\",\"residual_risk\":2}}\nmeets_contract = record[\"selected\"] == max(record[\"scores\"], key=record[\"scores\"].get)\nstatus = \"PASS\" if meets_contract else \"REOPEN_TRADEOFF\"\nprint(\"S40-T1-B\", status)\n\n# F2-note:4f2d4ad4e4 packet-grounded (skeptic); instr_tokens=60\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/66740a3a] Dudé del atajo en S40-T1-B-E1; me ceñí al weDo. «S40-T1-B-E1 · Compara el contrato de `trade-offs, riesgos y criterios medibles` sobre `CASO-LIM-040-1B`. La entrada es el dict completo del starter; la operació». Hint «Relaciona los campos `scores`, `selected`, `risk_owner`, `residual_risk` con la regla expl». Ancla: `record = {\"case_id\": \"CASO-LIM-040-1B\", **{\"scores\":{\"sync\":3.8,\"async\":2.2},\"selected\":\"async\",\"risk_owner\":\"`. S40-T1-B-DEMO. requisitos funcionales y quality attributes | trade-offs, riesgos y criterios me."
+    },
+    {
+      "exercise_id": "S40-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T1-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('trade-offs, riesgos y criterios medibles')\n\n# F2-note:5c872de40e packet-grounded (skeptic); instr_tokens=54\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/507c43c2] S40-T1-B-E2: rechazo claves offline. Paquete dice «S40-T1-B-E2 · Verifica tres rutas de `trade-offs, riesgos y criterios medibles`: fixture válido, fixture adverso y registro sin `residual_risk`. Entrada: dict c». Demo S40-T1-B-DEMO. Línea: `print('trade-offs, riesgos y criterios medibles')`. Pista «Primero se calcula `missing`; ningún acceso a residual_risk debe ocurrir antes de esa rama»."
+    },
+    {
+      "exercise_id": "S40-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T1-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S40-T1-B-E3 · Extiende fallo cerrado para `trade-offs, riesgos y criterios medibles` con tres fixtures distintos\n2. `CASO-LIM-040-1B` debe continuar, el adverso debe devolver `REOPEN_TRADEOFF` y la ausencia de `residual_risk` debe devolver `ESCALATE_RESIDUAL_RISK`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `ESCALATE_RESIDUAL_RISK` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró alternativa con menor score y riesgo residual aceptable; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:2269f16521 packet-grounded (skeptic); instr_tokens=50\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/009ba443] Dudé del atajo en S40-T1-B-E3; me ceñí al weDo. «S40-T1-B-E3 · Extiende fallo cerrado para `trade-offs, riesgos y criterios medibles` con tres fixtures distintos. `CASO-LIM-040-1B` debe continuar, el adverso d». Hint «Una ausencia no equivale a breach: enrútala a `ESCALATE_RESIDUAL_RISK` antes de evaluar el». Ancla: `1. S40-T1-B-E3 · Extiende fallo cerrado para `trade-offs, riesgos y criterios medibles` con tres fixtures dist`. S40-T1-B-DEMO. requisitos funcionales y quality attributes | trade-offs, riesgos y criterios me."
+    },
+    {
+      "exercise_id": "S40-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T2-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"dependencies\":[[\"presentation\",\"application\"],[\"application\",\"domain\"],[\"infrastructure\",\"domain\"]]}}\nmeets_contract = all(edge[1] == \"infrastructure\" for edge in record[\"dependencies\"])\nstatus = \"PASS\" if meets_contract else \"REDRAW_BOUNDARY\"\nprint(\"S40-T2-A\", status)\n\n# F2-note:7a7b39b5ae packet-grounded (skeptic); instr_tokens=57\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/5d0370b7] Solo acepto S40-T2-A-E1 si el paquete lo enseña. Instrucción: «S40-T2-A-E1 · Filtra el contrato de `cohesión/coupling y capas` sobre `CASO-LIM-040-2A`. La entrada es el dict completo del starter; la operación debe demostrar». Verifiqué pista «Relaciona los campos `layers`, `dependencies` con la regla explicada en S40-T2-A.» y demo S40-T2-A-DEMO. Código justificado: `record = {\"case_id\": \"CASO-LIM-040-2A\", **{\"layers\":[\"presentation\",\"application\",\"domain\",\"infrastructure\"],\"`. No invento APIs. Teoría: requisitos funcionales y quality attributes | trade-offs, riesgos y criterios me."
+    },
+    {
+      "exercise_id": "S40-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T2-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('cohesión/coupling y capas')\n\n# F2-note:6400862ca3 packet-grounded (skeptic); instr_tokens=50\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/9cdd7bc7] S40-T2-A-E2: rechazo claves offline. Paquete dice «S40-T2-A-E2 · Clasifica tres rutas de `cohesión/coupling y capas`: fixture válido, fixture adverso y registro sin `dependencies`. Entrada: dict con case_id, lay». Demo S40-T2-A-DEMO. Línea: `print('cohesión/coupling y capas')`. Pista «Primero se calcula `missing`; ningún acceso a dependencies debe ocurrir antes de esa rama.»."
+    },
+    {
+      "exercise_id": "S40-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T2-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S40-T2-A-E3 · Defiende fallo cerrado para `cohesión/coupling y capas` con tres fixtures distintos\n2. `CASO-LIM-040-2A` debe continuar, el adverso debe devolver `REDRAW_BOUNDARY` y la ausencia de `dependencies` debe devolver `REVIEW_LAYER_OWNER`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REVIEW_LAYER_OWNER` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró grafo de dependencias sin dominio hacia infraestructura; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:48804e8a10 packet-grounded (skeptic); instr_tokens=48\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/65c868df] S40-T2-A-E3: rechazo claves offline. Paquete dice «S40-T2-A-E3 · Defiende fallo cerrado para `cohesión/coupling y capas` con tres fixtures distintos. `CASO-LIM-040-2A` debe continuar, el adverso debe devolver `R». Demo S40-T2-A-DEMO. Línea: `1. S40-T2-A-E3 · Defiende fallo cerrado para `cohesión/coupling y capas` con tres fixtures distintos`. Pista «Una ausencia no equivale a breach: enrútala a `REVIEW_LAYER_OWNER` antes de evaluar el con»."
+    },
+    {
+      "exercise_id": "S40-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T2-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",\"domain_imports\":[],\"contract_tests\":3}}\nmeets_contract = record[\"adapter\"] == record[\"port\"] and bool(record[\"domain_imports\"])\nstatus = \"PASS\" if meets_contract else \"INVERT_DEPENDENCY\"\nprint(\"S40-T2-B\", status)\n\n# F2-note:0d1460f0f7 packet-grounded (skeptic); instr_tokens=59\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/cda077b0] Dudé del atajo en S40-T2-B-E1; me ceñí al weDo. «S40-T2-B-E1 · Modela el contrato de `ports/adapters y dependencia hacia dominio` sobre `CASO-LIM-040-2B`. La entrada es el dict completo del starter; la operaci». Hint «Relaciona los campos `port`, `adapter`, `domain_imports`, `contract_tests` con la regla ex». Ancla: `record = {\"case_id\": \"CASO-LIM-040-2B\", **{\"port\":\"CaseRepository\",\"adapter\":\"MemoryCaseRepository\",\"domain_im`. S40-T2-B-DEMO. requisitos funcionales y quality attributes | trade-offs, riesgos y criterios me."
+    },
+    {
+      "exercise_id": "S40-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T2-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('ports/adapters y dependencia hacia dominio')\n\n# F2-note:1eada18b99 packet-grounded (skeptic); instr_tokens=54\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/7e045e26] S40-T2-B-E2: rechazo claves offline. Paquete dice «S40-T2-B-E2 · Audita tres rutas de `ports/adapters y dependencia hacia dominio`: fixture válido, fixture adverso y registro sin `contract_tests`. Entrada: dict ». Demo S40-T2-B-DEMO. Línea: `print('ports/adapters y dependencia hacia dominio')`. Pista «Primero se calcula `missing`; ningún acceso a contract_tests debe ocurrir antes de esa ram»."
+    },
+    {
+      "exercise_id": "S40-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T2-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S40-T2-B-E3 · Recupera fallo cerrado para `ports/adapters y dependencia hacia dominio` con tres fixtures distintos\n2. `CASO-LIM-040-2B` debe continuar, el adverso debe devolver `INVERT_DEPENDENCY` y la ausencia de `contract_tests` debe devolver `DEFINE_PORT_CONTRACT`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `DEFINE_PORT_CONTRACT` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró adapter sustituible y dominio sin imports externos; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:a3284f2d8b packet-grounded (skeptic); instr_tokens=50\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/7b90ccb6] S40-T2-B-E3: rechazo claves offline. Paquete dice «S40-T2-B-E3 · Recupera fallo cerrado para `ports/adapters y dependencia hacia dominio` con tres fixtures distintos. `CASO-LIM-040-2B` debe continuar, el adverso». Demo S40-T2-B-DEMO. Línea: `1. S40-T2-B-E3 · Recupera fallo cerrado para `ports/adapters y dependencia hacia dominio` con tres fixtures di`. Pista «Una ausencia no equivale a breach: enrútala a `DEFINE_PORT_CONTRACT` antes de evaluar el c»."
+    },
+    {
+      "exercise_id": "S40-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T3-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\nmeets_contract = bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"])\nstatus = \"PASS\" if meets_contract else \"SPLIT_CONTEXTS\"\nprint(\"S40-T3-A\", status)\n\n# F2-note:bed972ced7 packet-grounded (skeptic); instr_tokens=58\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/1db9bb66] Dudé del atajo en S40-T3-A-E1; me ceñí al weDo. «S40-T3-A-E1 · Verifica el contrato de `bounded contexts y lenguaje ubicuo` sobre `CASO-LIM-040-3A`. La entrada es el dict completo del starter; la operación deb». Hint «Relaciona los campos `contexts`, `translations` con la regla explicada en S40-T3-A.». Ancla: `record = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translation`. S40-T3-A-DEMO. requisitos funcionales y quality attributes | trade-offs, riesgos y criterios me."
+    },
+    {
+      "exercise_id": "S40-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T3-A-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"contexts\", \"translations\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if bool(record[\"contexts\"][\"intake\"] & record[\"contexts\"][\"er\"]) else \"SPLIT_CONTEXTS\"\n\nvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"record\",\"score\"}},\"translations\":{\"case\":\"record\"}}}\ninvalid = {\"case_id\": \"CASO-LIM-040-3A\", **{\"contexts\":{\"intake\":{\"case\"},\"er\":{\"case\",\"score\"}},\"translations\":{}}}\nincomplete = {**valid}\nincomplete.pop(\"translations\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n\n# F2-note:3c1634affc packet-grounded (skeptic); instr_tokens=52\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/786a1995] Solo acepto S40-T3-A-E2 si el paquete lo enseña. Instrucción: «S40-T3-A-E2 · Decide tres rutas de `bounded contexts y lenguaje ubicuo`: fixture válido, fixture adverso y registro sin `translations`. Entrada: dict con case_i». Verifiqué pista «Primero se calcula `missing`; ningún acceso a translations debe ocurrir antes de esa rama.» y demo S40-T3-A-DEMO. Código justificado: `def assess(record: dict) -> str:`. No invento APIs. Teoría: requisitos funcionales y quality attributes | trade-offs, riesgos y criterios me."
+    },
+    {
+      "exercise_id": "S40-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T3-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S40-T3-A-E3 · Contrasta fallo cerrado para `bounded contexts y lenguaje ubicuo` con tres fixtures distintos\n2. `CASO-LIM-040-3A` debe continuar, el adverso debe devolver `SPLIT_CONTEXTS` y la ausencia de `translations` debe devolver `WORKSHOP_UBIQUITOUS_LANGUAGE`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `WORKSHOP_UBIQUITOUS_LANGUAGE` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró términos locales disjuntos y traducción declarada; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:5977e5bf34 packet-grounded (skeptic); instr_tokens=50\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/2e854ca7] Dudé del atajo en S40-T3-A-E3; me ceñí al weDo. «S40-T3-A-E3 · Contrasta fallo cerrado para `bounded contexts y lenguaje ubicuo` con tres fixtures distintos. `CASO-LIM-040-3A` debe continuar, el adverso debe d». Hint «Una ausencia no equivale a breach: enrútala a `WORKSHOP_UBIQUITOUS_LANGUAGE` antes de eval». Ancla: `1. S40-T3-A-E3 · Contrasta fallo cerrado para `bounded contexts y lenguaje ubicuo` con tres fixtures distintos`. S40-T3-A-DEMO. requisitos funcionales y quality attributes | trade-offs, riesgos y criterios me."
+    },
+    {
+      "exercise_id": "S40-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T3-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN\"},\"vo_frozen\":True,\"service_stateless\":True}}\nmeets_contract = record[\"vo\"][\"currency\"] == record[\"entity_id\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_DOMAIN_MODEL\"\nprint(\"S40-T3-B\", status)\n\n# F2-note:2998104fdf packet-grounded (skeptic); instr_tokens=60\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/87948fda] Solo acepto S40-T3-B-E1 si el paquete lo enseña. Instrucción: «S40-T3-B-E1 · Clasifica el contrato de `entities, value objects y servicios` sobre `CASO-LIM-040-3B`. La entrada es el dict completo del starter; la operación d». Verifiqué pista «Relaciona los campos `entity_id`, `vo`, `vo_frozen`, `service_stateless` con la regla expl» y demo S40-T3-B-DEMO. Código justificado: `record = {\"case_id\": \"CASO-LIM-040-3B\", **{\"entity_id\":\"CASE-001\",\"vo\":{\"amount\":150,\"currency\":\"PEN\"},\"vo_fro`. No invento APIs. Teoría: requisitos funcionales y quality attributes | trade-offs, riesgos y criterios me."
+    },
+    {
+      "exercise_id": "S40-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T3-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('entities, value objects y servicios')\n\n# F2-note:9cdf89b592 packet-grounded (skeptic); instr_tokens=54\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/9eb7fe49] Dudé del atajo en S40-T3-B-E2; me ceñí al weDo. «S40-T3-B-E2 · Calcula tres rutas de `entities, value objects y servicios`: fixture válido, fixture adverso y registro sin `service_stateless`. Entrada: dict con». Hint «Primero se calcula `missing`; ningún acceso a service_stateless debe ocurrir antes de esa ». Ancla: `print('entities, value objects y servicios')`. S40-T3-B-DEMO. requisitos funcionales y quality attributes | trade-offs, riesgos y criterios me."
+    },
+    {
+      "exercise_id": "S40-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T3-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S40-T3-B-E3 · Instrumenta fallo cerrado para `entities, value objects y servicios` con tres fixtures distintos\n2. `CASO-LIM-040-3B` debe continuar, el adverso debe devolver `REJECT_DOMAIN_MODEL` y la ausencia de `service_stateless` debe devolver `CLARIFY_INVARIANT`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `CLARIFY_INVARIANT` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró identidad estable, VO en PEN e invariantes inmutables; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:f4721a8397 packet-grounded (skeptic); instr_tokens=50\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/32044882] Dudé del atajo en S40-T3-B-E3; me ceñí al weDo. «S40-T3-B-E3 · Instrumenta fallo cerrado para `entities, value objects y servicios` con tres fixtures distintos. `CASO-LIM-040-3B` debe continuar, el adverso deb». Hint «Una ausencia no equivale a breach: enrútala a `CLARIFY_INVARIANT` antes de evaluar el cont». Ancla: `1. S40-T3-B-E3 · Instrumenta fallo cerrado para `entities, value objects y servicios` con tres fixtures distin`. S40-T3-B-DEMO. requisitos funcionales y quality attributes | trade-offs, riesgos y criterios me."
+    },
+    {
+      "exercise_id": "S40-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T4-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"context\",\"decision\",\"alternatives\",\"consequences\",\"rollback\"},\"adr_status\":\"accepted\"}}\nmeets_contract = record[\"adr_status\"] == \"draft\" and len(record[\"adr_fields\"]) < 3\nstatus = \"PASS\" if meets_contract else \"RETURN_ADR_TO_DRAFT\"\nprint(\"S40-T4-A\", status)\n\n# F2-note:803a17aa69 packet-grounded (skeptic); instr_tokens=60\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/f456fddd] Dudé del atajo en S40-T4-A-E1; me ceñí al weDo. «S40-T4-A-E1 · Audita el contrato de `diagramas C4/flujo y ADRs` sobre `CASO-LIM-040-4A`. La entrada es el dict completo del starter; la operación debe demostrar». Hint «Relaciona los campos `c4_levels`, `adr_fields`, `adr_status` con la regla explicada en S40». Ancla: `record = {\"case_id\": \"CASO-LIM-040-4A\", **{\"c4_levels\":{\"context\",\"container\"},\"adr_fields\":{\"context\",\"decisi`. S40-T4-A-DEMO. requisitos funcionales y quality attributes | trade-offs, riesgos y criterios me."
+    },
+    {
+      "exercise_id": "S40-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T4-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('diagramas C4/flujo y ADRs')\n\n# F2-note:7ad4810493 packet-grounded (skeptic); instr_tokens=52\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/6d5f1f85] Dudé del atajo en S40-T4-A-E2; me ceñí al weDo. «S40-T4-A-E2 · Compara tres rutas de `diagramas C4/flujo y ADRs`: fixture válido, fixture adverso y registro sin `adr_status`. Entrada: dict con case_id, c4_leve». Hint «Primero se calcula `missing`; ningún acceso a adr_status debe ocurrir antes de esa rama.». Ancla: `print('diagramas C4/flujo y ADRs')`. S40-T4-A-DEMO. requisitos funcionales y quality attributes | trade-offs, riesgos y criterios me."
+    },
+    {
+      "exercise_id": "S40-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T4-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S40-T4-A-E3 · Aísla fallo cerrado para `diagramas C4/flujo y ADRs` con tres fixtures distintos\n2. `CASO-LIM-040-4A` debe continuar, el adverso debe devolver `RETURN_ADR_TO_DRAFT` y la ausencia de `adr_status` debe devolver `REQUEST_ARCH_REVIEW`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REQUEST_ARCH_REVIEW` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró C4 mínimo y ADR con alternativas, consecuencias y rollback; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:fe06b80d1f packet-grounded (skeptic); instr_tokens=49\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/b21607a2] Dudé del atajo en S40-T4-A-E3; me ceñí al weDo. «S40-T4-A-E3 · Aísla fallo cerrado para `diagramas C4/flujo y ADRs` con tres fixtures distintos. `CASO-LIM-040-4A` debe continuar, el adverso debe devolver `RETU». Hint «Una ausencia no equivale a breach: enrútala a `REQUEST_ARCH_REVIEW` antes de evaluar el co». Ancla: `1. S40-T4-A-E3 · Aísla fallo cerrado para `diagramas C4/flujo y ADRs` con tres fixtures distintos`. S40-T4-A-DEMO. requisitos funcionales y quality attributes | trade-offs, riesgos y criterios me."
+    },
+    {
+      "exercise_id": "S40-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T4-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",\"status\",\"priority\"},\"debt_owner\":\"platform\",\"retire_on\":\"2026-12-01\"}}\nmeets_contract = record[\"v11_fields\"] < record[\"v1_fields\"]\nstatus = \"PASS\" if meets_contract else \"BLOCK_BREAKING_CHANGE\"\nprint(\"S40-T4-B\", status)\n\n# F2-note:6d15aca35e packet-grounded (skeptic); instr_tokens=60\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/07518d73] S40-T4-B-E1: rechazo claves offline. Paquete dice «S40-T4-B-E1 · Decide el contrato de `APIs, eventos, deuda y evolución compatible` sobre `CASO-LIM-040-4B`. La entrada es el dict completo del starter; la operac». Demo S40-T4-B-DEMO. Línea: `record = {\"case_id\": \"CASO-LIM-040-4B\", **{\"v1_fields\":{\"case_id\",\"status\"},\"v11_fields\":{\"case_id\",\"status\",\"`. Pista «Relaciona los campos `v1_fields`, `v11_fields`, `debt_owner`, `retire_on` con la regla exp»."
+    },
+    {
+      "exercise_id": "S40-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T4-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('APIs, eventos, deuda y evolución compatible')\n\n# F2-note:ff661f05b6 packet-grounded (skeptic); instr_tokens=55\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/5eaf1142] Solo acepto S40-T4-B-E2 si el paquete lo enseña. Instrucción: «S40-T4-B-E2 · Filtra tres rutas de `APIs, eventos, deuda y evolución compatible`: fixture válido, fixture adverso y registro sin `retire_on`. Entrada: dict con ». Verifiqué pista «Primero se calcula `missing`; ningún acceso a retire_on debe ocurrir antes de esa rama.» y demo S40-T4-B-DEMO. Código justificado: `print('APIs, eventos, deuda y evolución compatible')`. No invento APIs. Teoría: requisitos funcionales y quality attributes | trade-offs, riesgos y criterios me."
+    },
+    {
+      "exercise_id": "S40-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S40-T4-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S40-T4-B-E3 · Demuestra fallo cerrado para `APIs, eventos, deuda y evolución compatible` con tres fixtures distintos\n2. `CASO-LIM-040-4B` debe continuar, el adverso debe devolver `BLOCK_BREAKING_CHANGE` y la ausencia de `retire_on` debe devolver `NEGOTIATE_VERSION`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `NEGOTIATE_VERSION` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró campos v1 preservados y deuda con owner/fecha; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:e4eb833ec0 packet-grounded (skeptic); instr_tokens=51\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S40",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/978f0e90] S40-T4-B-E3: rechazo claves offline. Paquete dice «S40-T4-B-E3 · Demuestra fallo cerrado para `APIs, eventos, deuda y evolución compatible` con tres fixtures distintos. `CASO-LIM-040-4B` debe continuar, el adver». Demo S40-T4-B-DEMO. Línea: `1. S40-T4-B-E3 · Demuestra fallo cerrado para `APIs, eventos, deuda y evolución compatible` con tres fixtures `. Pista «Una ausencia no equivale a breach: enrútala a `NEGOTIATE_VERSION` antes de evaluar el cont»."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "escenario QA completo con umbral y dueño",
+      "justification_from_packet": "[agentic_F2/Skeptic] S40 q0: rechazo PII real y prints sin assert. Escenario QA con umbral y dueño (índice 3) es la única evidencia defendible.",
+      "blocked_on": [],
+      "confidence": 0.78
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "emitir BLOCK_ARCHITECTURE y conservar evidencia",
+      "justification_from_packet": "[agentic_F2/Skeptic] S40 q1: inventar evidencia o borrar trace rompe auditabilidad. BLOCK_ARCHITECTURE + evidencia (índice 1).",
+      "blocked_on": [],
+      "confidence": 0.79
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "cada flujo cruza fronteras explícitas y cada trade-off conserva medida, dueño y consecuencia",
+      "justification_from_packet": "[agentic_F2/Skeptic] S40 q2: 'el archivo existe' no demuestra el gate. Fronteras + trade-offs con dueño (índice 2).",
+      "blocked_on": [],
+      "confidence": 0.76
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "justification_from_packet": "[agentic_F2/Skeptic] S40 q3: datos reales sin consentimiento e inferir fraude desde ER están fuera. Sintético/trazable (índice 0).",
+      "blocked_on": [],
+      "confidence": 0.8
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.750324+00:00"
+}

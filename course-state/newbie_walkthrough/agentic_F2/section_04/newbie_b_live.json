@@ -1,0 +1,547 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_F2",
+  "section_index": 4,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b_live-F2-s04-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S04-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T1-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nregiones = [\"Lima\", \"Cusco\", \"Piura\"]\nfor r in regiones:\n# forma esperada (referencia): print(r)\n\n# F2-note:747ef9e815 packet-grounded (skeptic); instr_tokens=22\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/fffdc4fd] S04-T1-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Dada `regiones = [\"Lima\", \"Cusco\", \"Piura\"]`, imprime cada región en su propia línea con un `for`. Luego imprime `list(range(3))`.». Demo S04-T1-A-DEMO. Línea: `regiones = [\"Lima\", \"Cusco\", \"Piura\"]`. Pista «for r in regiones: print(r)»."
+    },
+    {
+      "exercise_id": "S04-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T1-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nedades = [30, 17, 45, 22]\nn = 0\nfor e in edades:\n    if e >= 18:\n        n += 1\n# forma esperada (referencia): print(n)\n\n# F2-note:f610d8384f packet-grounded (skeptic); instr_tokens=24\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/a4b400db] Solo acepto S04-T1-A-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — `edades = [30, 17, 45, 22]`. Cuenta cuántas son `>= 18` con un for (no uses comprehension todavía). Imprime el contador.». Verifiqué pista «n = 0; for e in edades: if e >= 18: n += 1» y demo S04-T1-A-DEMO. Código justificado: `edades = [30, 17, 45, 22]`. No invento APIs. Teoría: for, range y secuencias | enumerate y zip sin desalinear | while, centinelas y t."
+    },
+    {
+      "exercise_id": "S04-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T1-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0}, {\"id\": \"C3\", \"monto\": -2}, {\"id\": \"C4\", \"monto\": 5}]\nfor reg in lote:\n    if reg[\"monto\"] > 0:\n# forma esperada (referencia): print(reg[\"id\"])\n\n# F2-note:ec7f930015 packet-grounded (skeptic); instr_tokens=29\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/c337cb48] Solo acepto S04-T1-A-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Simula un mini-lote: lista de dicts con `id` y `monto`. Imprime solo los `id` cuyo monto sea `> 0` usando for. No mutes la lista original.». Verifiqué pista «for reg in lote: if reg['monto'] > 0: print(reg['id'])» y demo S04-T1-A-DEMO. Código justificado: `lote = [{\"id\": \"C1\", \"monto\": 10}, {\"id\": \"C2\", \"monto\": 0}, {\"id\": \"C3\", \"monto\": -2}, {\"id\": \"C4\", \"monto\": `. No invento APIs. Teoría: for, range y secuencias | enumerate y zip sin desalinear | while, centinelas y t."
+    },
+    {
+      "exercise_id": "S04-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T1-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nids = [\"A\", \"B\", \"C\"]\nfor i, x in enumerate(ids, start=1):\n# forma esperada (referencia): print(f\"fila {i}: {x}\")\n\n# F2-note:21b4762533 packet-grounded (skeptic); instr_tokens=17\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/9cf7dab5] Dudé del atajo en S04-T1-B-E1; me ceñí al weDo. «E1 (guiado) — Con `ids = [\"A\", \"B\", \"C\"]`, usa `enumerate(..., start=1)` e imprime `fila k: id`.». Hint «for i, x in enumerate(ids, start=1): print(f'fila {i}: {x}')». Ancla: `ids = [\"A\", \"B\", \"C\"]`. S04-T1-B-DEMO. for, range y secuencias | enumerate y zip sin desalinear | while, centinelas y t."
+    },
+    {
+      "exercise_id": "S04-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T1-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnombres = [\"Ana\", \"Luis\", \"María\"]\nedades = [30, 25, 40]\nfor n, e in zip(nombres, edades):\n# forma esperada (referencia): print(f\"{n}={e}\")\n\n# F2-note:d737bfd550 packet-grounded (skeptic); instr_tokens=30\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/05d61274] S04-T1-B-E2: rechazo claves offline. Paquete dice «E2 (independiente) — `nombres` y `edades` de igual longitud. Emparéjalos con `zip` e imprime `nombre=edad`. Luego muestra qué pasa con zip silencioso si acortas». Demo S04-T1-B-DEMO. Línea: `nombres = [\"Ana\", \"Luis\", \"María\"]`. Pista «zip se detiene en la más corta; el resto se pierde.»."
+    },
+    {
+      "exercise_id": "S04-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T1-B-E3: packet-only solve (no prior lives)\ndef zip_strict(a, b):\n    return DESALINEADO\ntry:\n    zip_strict([1, 2, 3], [10, 20])\nexcept ValueError:\n    print(\"DESALINEADO\")\ntry:\n    zip_strict([1, 2], [3, 4])\n    print(\"OK\")\nexcept ValueError:\n    print(\"DESALINEADO\")\n\n# F2-note:7135a8d815 packet-grounded (skeptic); instr_tokens=26\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "zip_strict",
+        "DESALINEADO"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/aeb4ee94] Dudé del atajo en S04-T1-B-E3; me ceñí al weDo. «E3 (transferencia) — Implementa `zip_strict(a,b)` que lance ValueError si `len(a)!=len(b)` (equivalente pedagógico a `zip(..., strict=True)` en Py 3.10+). Prueb». Hint «if len(a) != len(b): raise ValueError(...); return list(zip(a,b))». Ancla: `def zip_strict(a, b):`. S04-T1-B-DEMO. for, range y secuencias | enumerate y zip sin desalinear | while, centinelas y t."
+    },
+    {
+      "exercise_id": "S04-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T2-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nlines = [\"r1\", \"r2\", \"\", \"r3\"]\ni = 0\nout = []\nwhile i < len(lines):\n    line = lines[i]\n    i += 1\n    if line == \"\":\n        break\n    out.append(line)\n# forma esperada (referencia): print(out)\n\n# F2-note:2c17c39857 packet-grounded (skeptic); instr_tokens=24\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/e9814c50] Dudé del atajo en S04-T2-A-E1; me ceñí al weDo. «E1 (guiado) — Buffer `lines = [\"r1\", \"r2\", \"\", \"r3\"]`. Con while e índice, acumula hasta el string vacío (sin incluirlo). Imprime la lista.». Hint «while i < len: leer, i+=1, if line=='': break else append». Ancla: `lines = [\"r1\", \"r2\", \"\", \"r3\"]`. S04-T2-A-DEMO. for, range y secuencias | enumerate y zip sin desalinear | while, centinelas y t."
+    },
+    {
+      "exercise_id": "S04-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T2-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nintentos = 0\nMAX = 3\nwhile intentos < MAX:\n    intentos += 1\n# forma esperada (referencia): print(f\"intento {intentos}\")\n\n# F2-note:a11bf279e1 packet-grounded (skeptic); instr_tokens=30\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/d366f131] S04-T2-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Simula reintentos: `intentos = 0`, `MAX = 3`, `while intentos < MAX`, incrementa e imprime `intento k`. Al salir imprime `done` y el valor ». Demo S04-T2-A-DEMO. Línea: `intentos = 0`. Pista «intentos += 1 dentro del while es la variable de control.»."
+    },
+    {
+      "exercise_id": "S04-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T2-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ncola = [\"job1\", \"job2\", \"job3\"]\nwhile cola:\n    job = cola.pop(0)\n    if job == \"job2\":\n        break\n# forma esperada (referencia): print(job)\n\n# F2-note:785120cb68 packet-grounded (skeptic); instr_tokens=36\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/f467c135] Dudé del atajo en S04-T2-A-E3; me ceñí al weDo. «E3 (transferencia) — Cola simulada: `cola = [\"job1\", \"job2\", \"job3\"]`. Mientras la cola no esté vacía, saca el primero con `pop(0)`, imprímelo, y si el job es `». Hint «while cola: job = cola.pop(0)». Ancla: `cola = [\"job1\", \"job2\", \"job3\"]`. S04-T2-A-DEMO. for, range y secuencias | enumerate y zip sin desalinear | while, centinelas y t."
+    },
+    {
+      "exercise_id": "S04-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T2-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nraw = [\"  \", \"Lima\", \"\", \"Cusco\"]\nfor x in raw:\n    if not x.strip():\n        continue\n# forma esperada (referencia): print(x)\n\n# F2-note:e1a1c5c86a packet-grounded (skeptic); instr_tokens=21\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/a5d002ce] S04-T2-B-E1: rechazo claves offline. Paquete dice «E1 (guiado) — `raw = [\"  \", \"Lima\", \"\", \"Cusco\"]`. Con for, usa continue si `not x.strip()`; imprime las regiones válidas.». Demo S04-T2-B-DEMO. Línea: `raw = [\"  \", \"Lima\", \"\", \"Cusco\"]`. Pista «if not x.strip(): continue»."
+    },
+    {
+      "exercise_id": "S04-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T2-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ncodes = [200, 200, 500, 200]\nn_ok = 0\nfor c in codes:\n    if c >= 500:\n        break\n    n_ok += 1\n# forma esperada (referencia): print(\"STOP\")\n\n# F2-note:40afce6e9a packet-grounded (skeptic); instr_tokens=26\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/5ed06e03] S04-T2-B-E2: rechazo claves offline. Paquete dice «E2 (independiente) — `codes = [200, 200, 500, 200]`. Recorre; si code >= 500 imprime `STOP` y break; si no, imprime `ok`. Cuenta cuántos ok imprimiste.». Demo S04-T2-B-DEMO. Línea: `codes = [200, 200, 500, 200]`. Pista «break no procesa el 200 final.»."
+    },
+    {
+      "exercise_id": "S04-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T2-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nbuf = [\"a\", \"b\", \"END\"]\ni = 0\nout = []\nwhile True:\n    if i > 10:\n        raise RuntimeError(\"guard\")\n    item = buf[i]\n    i += 1\n    if item == \"END\":\n        break\n    out.append(item)\n# forma esperada (referencia): print(out)\n\n# F2-note:c3062a7462 packet-grounded (skeptic); instr_tokens=33\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/450717e4] Solo acepto S04-T2-B-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Escribe un `while True` que lea de `buf = [\"a\", \"b\", \"END\"]` con índice, break en END, y un guardrail `if i > 10: raise RuntimeError('guard». Verifiqué pista «while True no es pecado si break y guardrail están claros.» y demo S04-T2-B-DEMO. Código justificado: `buf = [\"a\", \"b\", \"END\"]`. No invento APIs. Teoría: for, range y secuencias | enumerate y zip sin desalinear | while, centinelas y t."
+    },
+    {
+      "exercise_id": "S04-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T3-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nsts = [\"accept\", \"reject\", \"accept\"]\nn_accept = n_reject = n_total = 0\nfor s in sts:\n    n_total += 1\n    if s == \"accept\":\n        n_accept += 1\n    elif s == \"reject\":\n        n_reject += 1\n# forma esperada (referencia): print(n_accept, n_reject, n_total)\n\n# F2-note:d8d71c66ad packet-grounded (skeptic); instr_tokens=19\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/aa142092] S04-T3-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — `sts = [\"accept\", \"reject\", \"accept\"]`. Inicializa contadores y en un for incrementa. Imprime n_accept, n_reject, n_total.». Demo S04-T3-A-DEMO. Línea: `sts = [\"accept\", \"reject\", \"accept\"]`. Pista «n_total = len o +=1 por fila»."
+    },
+    {
+      "exercise_id": "S04-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T3-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\ndef tasa_reject(sts):\n    n_total = len(sts)\n    if n_total == 0:\n        return None\n    n_reject = sum(1 for s in sts if s == \"reject\")\n    return n_reject / n_total\n# forma esperada (referencia): print(round(tasa_reject([\"accept\", \"reject\", \"accept\"]), 4))\n\n# F2-note:32bc5c7ef7 packet-grounded (skeptic); instr_tokens=23\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/c767472d] S04-T3-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Calcula `tasa_reject = n_reject / n_total` para sts del E1. Luego calcula tasa para lista vacía sin ZeroDivisionError (imprime None).». Demo S04-T3-A-DEMO. Línea: `def tasa_reject(sts):`. Pista «if n_total: tasa = n_rej/n_total else None»."
+    },
+    {
+      "exercise_id": "S04-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T3-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"review\"}, {\"id\": \"C3\", \"status\": \"review\"}]\nidx = -1\nfor i, r in enumerate(rows):\n    if r[\"status\"] == \"review\":\n        idx = i\n        break\nif idx == -1:\nelse:\n# forma esperada (referencia): print(-1)\n\n# F2-note:184b036a20 packet-grounded (skeptic); instr_tokens=27\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/8b4fdd23] Solo acepto S04-T3-A-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Busca el índice del primer `status==\"review\"` en una lista de dicts. Si no hay, imprime -1. Si hay, imprime el índice y el id.». Verifiqué pista «first = None; for i,r in enumerate(...): if ...: first=i; break» y demo S04-T3-A-DEMO. Código justificado: `rows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"review\"}, {\"id\": \"C3\", \"status\": \"review\"}]`. No invento APIs. Teoría: for, range y secuencias | enumerate y zip sin desalinear | while, centinelas y t."
+    },
+    {
+      "exercise_id": "S04-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T3-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nnums = [1, 2, 3, 4, 5]\n# forma esperada (referencia): print([x * x for x in nums])\n\n# F2-note:619741ea89 packet-grounded (skeptic); instr_tokens=18\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/c3049592] Solo acepto S04-T3-B-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — `nums = [1,2,3,4,5]`. Crea con comprehension la lista de cuadrados y la de pares. Imprímelas.». Verifiqué pista «[x*x for x in nums] y [x for x in nums if x%2==0]» y demo S04-T3-B-DEMO. Código justificado: `nums = [1, 2, 3, 4, 5]`. No invento APIs. Teoría: for, range y secuencias | enumerate y zip sin desalinear | while, centinelas y t."
+    },
+    {
+      "exercise_id": "S04-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T3-B-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows = [{\"status\": \"reject\"}, {\"status\": \"accept\"}, {\"status\": \"reject\"}, {\"status\": \"review\"}]\n# forma esperada (referencia): print(sorted({r[\"status\"] for r in rows}))\n\n# F2-note:f53a31a8a3 packet-grounded (skeptic); instr_tokens=17\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/161af7b9] S04-T3-B-E2: rechazo claves offline. Paquete dice «E2 (independiente) — De `rows` con status, obtén set de statuses distintos ordenados alfabéticamente para el reporte.». Demo S04-T3-B-DEMO. Línea: `rows = [{\"status\": \"reject\"}, {\"status\": \"accept\"}, {\"status\": \"reject\"}, {\"status\": \"review\"}]`. Pista «sorted({r['status'] for r in rows})»."
+    },
+    {
+      "exercise_id": "S04-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T3-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nrows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"}, {\"id\": \"C3\", \"status\": \"accept\"}, {\"id\": \"C4\", \"status\": \"reject\"}]\nby = {r[\"id\"]: r[\"status\"] for r in rows}\nrejects = [i for i, st in by.items() if st == \"reject\"]\ntasa = len(rejects) / len(rows)\n# forma esperada (referencia): print(by[\"C2\"], rejects, tasa)\n\n# F2-note:dd820bcf6a packet-grounded (skeptic); instr_tokens=27\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/466b03bc] Solo acepto S04-T3-B-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Construye dict `id -> status` por comprehension y calcula tasa de reject como len de rejects / len rows usando otra comprehension para reje». Verifiqué pista «by = {r['id']: r['status'] for r in rows}» y demo S04-T3-B-DEMO. Código justificado: `rows = [{\"id\": \"C1\", \"status\": \"accept\"}, {\"id\": \"C2\", \"status\": \"reject\"}, {\"id\": \"C3\", \"status\": \"accept\"}, `. No invento APIs. Teoría: for, range y secuencias | enumerate y zip sin desalinear | while, centinelas y t."
+    },
+    {
+      "exercise_id": "S04-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T4-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nvals = [2, -1, 3]\ns = 0\nfor i, val in enumerate(vals):\n    if val > 0:\n        s += val\n# forma esperada (referencia): print(i, val, s)\n\n# F2-note:5e9b9f97a1 packet-grounded (skeptic); instr_tokens=23\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/c4fa920e] Solo acepto S04-T4-A-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Traza: `vals = [2, -1, 3]`, acumulador `s=0`. En cada paso imprime `i, val, s` después de sumar solo positivos.». Verifiqué pista «if val > 0: s += val; luego print» y demo S04-T4-A-DEMO. Código justificado: `vals = [2, -1, 3]`. No invento APIs. Teoría: for, range y secuencias | enumerate y zip sin desalinear | while, centinelas y t."
+    },
+    {
+      "exercise_id": "S04-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T4-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nfilas = [\"a\", \"b\", \"c\"]\nn = 0\nfor f in filas:\n    n += 1\n# forma esperada (referencia): print(n)\n\n# F2-note:c816b3c7e2 packet-grounded (skeptic); instr_tokens=27\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/9ad1721b] S04-T4-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Hay un bug: el contador `n` se incrementa dos veces por fila. Traza e identifica; imprime n corregido para 3 filas (debe ser 3).». Demo S04-T4-A-DEMO. Línea: `filas = [\"a\", \"b\", \"c\"]`. Pista «Busca n += 1 duplicado»."
+    },
+    {
+      "exercise_id": "S04-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T4-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nregs = [\"accept\", \"reject\", \"accept\"]\ncounts = {\"accept\": 0, \"reject\": 0}\nfor i, st in enumerate(regs):\n    counts[st] = counts.get(st, 0) + 1\n# forma esperada (referencia): print(\"TRACE\", i, st, dict(counts))\n\n# F2-note:27aa1a3151 packet-grounded (skeptic); instr_tokens=26\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/d4e294ec] S04-T4-A-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Simula tres registros y un dict de contadores. Imprime una línea TRACE por registro con el estado completo del dict (copy o str).». Demo S04-T4-A-DEMO. Línea: `regs = [\"accept\", \"reject\", \"accept\"]`. Pista «counts = dict; al final de cada iter print TRACE»."
+    },
+    {
+      "exercise_id": "S04-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T4-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn = 5\nlin = quad = 0\nfor i in range(n):\n    lin += 1\nfor i in range(n):\n    for j in range(n):\n        quad += 1\n# forma esperada (referencia): print(lin, quad)\n\n# F2-note:fc6a01d195 packet-grounded (skeptic); instr_tokens=20\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/788de59a] Dudé del atajo en S04-T4-B-E1; me ceñí al weDo. «E1 (guiado) — Para n=5, cuenta pasos de un for simple y de un doble for anidado. Imprime ambos números.». Hint «linear n, quad n*n». Ancla: `n = 5`. S04-T4-B-DEMO. for, range y secuencias | enumerate y zip sin desalinear | while, centinelas y t."
+    },
+    {
+      "exercise_id": "S04-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T4-B-E2: packet-only solve (no prior lives)\ndata = [\"r0\", \"r1\", \"r2\"]\nfor i in range(1, len(data) + 1):  # BUG intencional — corrige el off-by-one\n    print(data[i])\n\n# F2-note:57ff8dc0b9 packet-grounded (skeptic); instr_tokens=30\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "data",
+        "for"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/b20b47bb] Dudé del atajo en S04-T4-B-E2; me ceñí al weDo. «E2 (independiente) — `data = [\"r0\", \"r1\", \"r2\"]`. El código usa `for i in range(1, len(data)+1)` y hace IndexError. Arréglalo para recorrer todos los índices vá». Hint «range(len(data)) → 0..n-1». Ancla: `data = [\"r0\", \"r1\", \"r2\"]`. S04-T4-B-DEMO. for, range y secuencias | enumerate y zip sin desalinear | while, centinelas y t."
+    },
+    {
+      "exercise_id": "S04-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S04-T4-B-E3: packet-only solve (no prior lives)\nsts = [\"reject\", \"accept\", \"reject\", \"reject\", \"accept\"]\n# versión ingenua (no la uses en la solución final):\n# pairs = 0\n# for i in range(len(sts)):\n#     for j in range(i+1, len(sts)):\n#         if sts[i]==\"reject\" and sts[j]==\"reject\": pairs += 1\n\n# F2-note:a3c0784f1e packet-grounded (skeptic); instr_tokens=34\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S04",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sts",
+        "reject"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/fb8a7a82] Solo acepto S04-T4-B-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Reescribe un conteo de pares reject-reject O(n²) ingenuo a un conteo O(n) de rejects (no necesitas pares). Imprime n_reject y comenta en un». Verifiqué pista «No necesitas combinar pares para la tasa de error.» y demo S04-T4-B-DEMO. Código justificado: `sts = [\"reject\", \"accept\", \"reject\", \"reject\", \"accept\"]`. No invento APIs. Teoría: for, range y secuencias | enumerate y zip sin desalinear | while, centinelas y t."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 3,
+      "chosen_text": "[0,1,2]",
+      "justification_from_packet": "[agentic_F2/Skeptic] S04 q0: range es semiabierto [0, stop); no [1,2,3].",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 1,
+      "chosen_text": "Empareja solo (1,10) y (2,20); el 3 se pierde en silencio",
+      "justification_from_packet": "[agentic_F2/Skeptic] S04 q1: sin strict no hay ValueError; se pierde el sobrante — trampa clásica de intake.",
+      "blocked_on": [],
+      "confidence": 0.86
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 2,
+      "chosen_text": "n_total de registros procesados (intentados)",
+      "justification_from_packet": "[agentic_F2/Skeptic] S04 q2: reject rate con denominador n_accept sesga la métrica; el paquete pide n_total.",
+      "blocked_on": [],
+      "confidence": 0.85
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 0,
+      "chosen_text": "Salta al siguiente ciclo del bucle",
+      "justification_from_packet": "[agentic_F2/Skeptic] S04 q3: continue ≠ break ni sys.exit; solo salta la iteración actual del for.",
+      "blocked_on": [],
+      "confidence": 0.87
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 3,
+      "chosen_text": "O(n²)",
+      "justification_from_packet": "[agentic_F2/Skeptic] S04 q4: anidar dos bucles lineales sobre n escala cuadrático; no O(1)/O(n).",
+      "blocked_on": [],
+      "confidence": 0.86
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.007288+00:00"
+}

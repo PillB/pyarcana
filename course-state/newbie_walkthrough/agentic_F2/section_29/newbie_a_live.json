@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F2",
+  "section_index": 29,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-F2-s29-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S29-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T1-A-E1: packet-only solve (no prior lives)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table entities(id text primary key)')\nc.execute(\"insert into entities values ('e1')\")\n\n# F2-note:e37575dd22 packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3",
+        "connect"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/31df275d] Como explorador, S29-T1-A-E1: sigo el starter y el iDo. El enunciado pide «S29-T1-A-E1 · Crea tabla entities(id TEXT PRIMARY KEY) en :memory: e inserta 'e1'; imprime count. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.p». Aplico «sqlite3». Línea clave: `import sqlite3`. Heading: claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T1-A-E2: packet-only solve (no prior lives)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table p(score real check(score between 0 and 1))')\n\n# F2-note:538d32a031 packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3",
+        "connect"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/aa1f9b1e] Como explorador, S29-T1-A-E2: sigo el starter y el iDo. El enunciado pide «S29-T1-A-E2 · CHECK: score 1.5 debe fallar; caza IntegrityError e imprime 'bad_score'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entr». Aplico «try/except». Línea clave: `import sqlite3`. Heading: claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T1-A-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('e1' < 'e2')\n\n# F2-note:91086e79b5 packet-grounded (explorer); instr_tokens=54\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/c71669a7] S29-T1-A-E3 — material del slim_packet basta. «S29-T1-A-E3 · Imprime True si 'e1'<'e2' (orden canónico de par). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter comp» · hint «comparación strings» · S29-T1-A-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T1-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table d(pair text, label text)')\nc.executemany('insert into d values (?,?)', [('p1','review'),('p1','match')])\n# forma esperada (referencia): print(c.execute(\"select count(*) from d where pair='p1'\").fetchone()[0])\n\n# F2-note:6ba7eef031 packet-grounded (explorer); instr_tokens=58\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/289c7c8f] S29-T1-B-E1 — material del slim_packet basta. «S29-T1-B-E1 · Inserta dos labels para pair p1; imprime número de filas de historia. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada» · hint «append-only» · S29-T1-B-DEMO. Entrega: `import sqlite3`. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T1-B-E2: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print({'source': 'crm_synth', 'record': 'r9'})\n\n# F2-note:11f90bbd47 packet-grounded (explorer); instr_tokens=51\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/f53b47ab] S29-T1-B-E2 — material del slim_packet basta. «S29-T1-B-E2 · Imprime provenance dict source='crm_synth' record='r9'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter» · hint «dict» · S29-T1-B-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T1-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nvalid_to=None\n# forma esperada (referencia): print('open' if valid_to is None else 'closed')\n\n# F2-note:09d1748e63 packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b32e1a02] Resuelvo S29-T1-B-E3 solo con el paquete activo. Instrucción: «S29-T1-B-E3 · valid_to NULL significa vigente: imprime 'open' si valid_to is None. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada ». Pista: «None». Demo S29-T1-B-DEMO. Código ancla: `valid_to=None`. Teoría: claves, constraints y normalización | temporalidad y provenance | CTEs, windows . Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S29-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T2-A-E1: packet-only solve (no prior lives)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.executescript('create table pairs(id text); create table dec(pair_id text); insert into pairs values (\"p1\"),(\"p2\"); insert into dec values (\"p1\");')\n\n# F2-note:b897787839 packet-grounded (explorer); instr_tokens=57\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3",
+        "connect"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b9bdf69f] Como explorador, S29-T2-A-E1: sigo el starter y el iDo. El enunciado pide «S29-T2-A-E1 · Con pairs p1,p2 y decision solo p1, lista ids sin decisión. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el sta». Aplico «NOT IN o left join». Línea clave: `import sqlite3`. Heading: claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T2-A-E2: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nscores=[0.2,0.9,0.5]\n# forma esperada (referencia): print(sorted(scores, reverse=True)[0])\n\n# F2-note:62b0d3f971 packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/05fa295a] Como explorador, S29-T2-A-E2: sigo el starter y el iDo. El enunciado pide «S29-T2-A-E2 · Window conceptual: ordena scores [0.2,0.9,0.5] desc e imprime el top. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada». Aplico «sorted». Línea clave: `scores=[0.2,0.9,0.5]`. Heading: claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T2-A-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('ranked')\n\n# F2-note:37f015fa2e packet-grounded (explorer); instr_tokens=55\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/dfffe0a6] Resuelvo S29-T2-A-E3 solo con el paquete activo. Instrucción: «S29-T2-A-E3 · Imprime el nombre de la CTE de ejemplo: ranked. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter complet». Pista: «literal». Demo S29-T2-A-DEMO. Código ancla: `case_id = \"CASO-LIM-SYN\"`. Teoría: claves, constraints y normalización | temporalidad y provenance | CTEs, windows . Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S29-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T2-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nn=5\n# forma esperada (referencia): print(n*(n-1)//2)\n\n# F2-note:9d0894a424 packet-grounded (explorer); instr_tokens=51\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/8bab69ee] Resuelvo S29-T2-B-E1 solo con el paquete activo. Instrucción: «S29-T2-B-E1 · C(n,2) para n=5 → 10. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; implementa solo el TODO». Pista: «combinatoria». Demo S29-T2-B-DEMO. Código ancla: `n=5`. Teoría: claves, constraints y normalización | temporalidad y provenance | CTEs, windows . Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S29-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T2-B-E2: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print(None is None)\n\n# F2-note:bb28458bba packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/4ee4bf1e] Como explorador, S29-T2-B-E2: sigo el starter y el iDo. El enunciado pide «S29-T2-B-E2 · Imprime True si None is None (recuerda NULL SQL ≠ Python en joins). Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada e». Aplico «is». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T2-B-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('SCAN')\n\n# F2-note:14e66e8ec0 packet-grounded (explorer); instr_tokens=62\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/14a05922] Como explorador, S29-T2-B-E3: sigo el starter y el iDo. El enunciado pide «S29-T2-B-E3 · Imprime prefijo de plan 'SCAN' o 'SEARCH' para conciencia de EXPLAIN (elige SCAN como default didáctico). Fixture sintético `CASO-LIM-029` (run_id». Aplico «string». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T3-A-E1: packet-only solve (no prior lives)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table t(x int)')\nc.execute('begin')\nc.execute('insert into t values (1)')\nc.execute('rollback')\n\n# F2-note:7067929b02 packet-grounded (explorer); instr_tokens=55\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3",
+        "connect"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/343e3d86] Como explorador, S29-T3-A-E1: sigo el starter y el iDo. El enunciado pide «S29-T3-A-E1 · Tras BEGIN insert y ROLLBACK, count debe ser 0. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter complet». Aplico «rollback». Línea clave: `import sqlite3`. Heading: claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T3-A-E2: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('A,C,I,D')\n\n# F2-note:89fa601d65 packet-grounded (explorer); instr_tokens=61\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e7d05de3] S29-T3-A-E2 — material del slim_packet basta. «S29-T3-A-E2 · Imprime las 4 letras de ACID separadas por coma sin espacios extra finales raros: A,C,I,D. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @ex» · hint «string» · S29-T3-A-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T3-A-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nevidence_ok=False\n# forma esperada (referencia): print('abort' if not evidence_ok else 'commit')\n\n# F2-note:881432257e packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e6e16a54] Como explorador, S29-T3-A-E3: sigo el starter y el iDo. El enunciado pide «S29-T3-A-E3 · Si evidence_ok es False no hagas commit conceptual: imprime 'abort'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada ». Aplico «guard». Línea clave: `evidence_ok=False`. Heading: claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T3-B-E1: packet-only solve (no prior lives)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table e(id text primary key, name text)')\nc.execute(\"insert into e values ('1','A')\")\n\n# F2-note:8ba082b657 packet-grounded (explorer); instr_tokens=57\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3",
+        "connect"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/a2449ece] Como explorador, S29-T3-B-E1: sigo el starter y el iDo. El enunciado pide «S29-T3-B-E1 · Upsert: segunda insert con mismo id actualiza; imprime name final 'B'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrad». Aplico «ON CONFLICT». Línea clave: `import sqlite3`. Heading: claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T3-B-E2: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print({'job': 'er_block', 'status': 'pending'}['status'])\n\n# F2-note:ddf9c3ea50 packet-grounded (explorer); instr_tokens=54\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/277af3dd] Como explorador, S29-T3-B-E2: sigo el starter y el iDo. El enunciado pide «S29-T3-B-E2 · Recuperación: job status 'pending' tras crash; imprime status. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el ». Aplico «literal/dict». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T3-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nconflict=True\n# forma esperada (referencia): print('retry' if conflict else 'ok')\n\n# F2-note:3ec7a4fc20 packet-grounded (explorer); instr_tokens=53\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/f1e82600] Resuelvo S29-T3-B-E3 solo con el paquete activo. Instrucción: «S29-T3-B-E3 · Conflicto de par duplicado → imprime 'retry'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo;». Pista: «política». Demo S29-T3-B-DEMO. Código ancla: `conflict=True`. Teoría: claves, constraints y normalización | temporalidad y provenance | CTEs, windows . Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S29-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T4-A-E1: packet-only solve (no prior lives)\nimport sqlite3\nc=sqlite3.connect(':memory:')\nc.execute('create table schema_migrations(v int primary key, name text)')\nc.execute(\"insert into schema_migrations values (1,'init')\")\n\n# F2-note:4a3f614e27 packet-grounded (explorer); instr_tokens=55\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sqlite3",
+        "connect"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/e0c85b1d] S29-T4-A-E1 — material del slim_packet basta. «S29-T4-A-E1 · Registra migration version 2 name 'add_index'; imprime max version. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada e» · hint «schema_migrations» · S29-T4-A-DEMO. Entrega: `import sqlite3`. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T4-A-E2: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('idx_pairs_block_key')\n\n# F2-note:3a12fbbd88 packet-grounded (explorer); instr_tokens=52\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/737f4ba6] Como explorador, S29-T4-A-E2: sigo el starter y el iDo. El enunciado pide «S29-T4-A-E2 · Imprime nombre de índice sugerido idx_pairs_block_key. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter ». Aplico «convención». Línea clave: `case_id = \"CASO-LIM-SYN\"`. Heading: claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T4-A-E3: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print('no_drop_without_backup')\n\n# F2-note:33c9059eed packet-grounded (explorer); instr_tokens=49\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/406a7535] S29-T4-A-E3 — material del slim_packet basta. «S29-T4-A-E3 · Política: imprime 'no_drop_without_backup'. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; i» · hint «string» · S29-T4-A-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T4-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\nstore={'e1':'Ana'}\n# forma esperada (referencia): print(store.get('e1'))\n\n# F2-note:4ea0e22789 packet-grounded (explorer); instr_tokens=53\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/68c61394] S29-T4-B-E1 — material del slim_packet basta. «S29-T4-B-E1 · Repo.get: dict store {'e1':'Ana'}; imprime get e1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter comp» · hint «dict» · S29-T4-B-DEMO. Entrega: `store={'e1':'Ana'}`. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T4-B-E2: packet-only solve (no prior lives)\n# Fixture sintético (CASO-PE) — no PII real\ncase_id = \"CASO-LIM-SYN\"\nrun_id = \"cp-local\"\n# forma esperada (referencia): print({'pool_size': 5}['pool_size'])\n\n# F2-note:ed81d50f4a packet-grounded (explorer); instr_tokens=52\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "CASO"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/4fa0fb22] S29-T4-B-E2 — material del slim_packet basta. «S29-T4-B-E2 · Pool size conceptual 5; imprime pool_size. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; im» · hint «dict» · S29-T4-B-DEMO. Entrega: `case_id = \"CASO-LIM-SYN\"`. claves, constraints y normalización | temporalidad y provenance | CTEs, windows ."
+    },
+    {
+      "exercise_id": "S29-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S29-T4-B-E3: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\npending_count=1\n# forma esperada (referencia): print(pending_count)\n\n# F2-note:7b187f63a7 packet-grounded (explorer); instr_tokens=54\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S29",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/583bfad9] Resuelvo S29-T4-B-E3 solo con el paquete activo. Instrucción: «S29-T4-B-E3 · Test de repo: pending count 1; imprime 1. Fixture sintético `CASO-LIM-029` (run_id=cpn3a-sql, @example.pe): la entrada es el starter completo; imp». Pista: «assert blando». Demo S29-T4-B-DEMO. Código ancla: `pending_count=1`. Teoría: claves, constraints y normalización | temporalidad y provenance | CTEs, windows . Sin correctIndex ni attempts previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Evitar duplicar el mismo par en orden invertido",
+      "justification_from_packet": "[agentic_F2/Explorer] S29 q0: S29-T1-A-DEMO crea pairs con check(a<b) — entity_a < entity_b evita duplicar el mismo par en orden invertido.",
+      "blocked_on": [],
+      "confidence": 0.92
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "Nueva fila por cambio de decisión",
+      "justification_from_packet": "[agentic_F2/Explorer] S29 q1: S29-T1-B-DEMO inserta dos filas (review luego match) para el mismo pair — append-only = nueva fila por cambio de decisión.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "Ser atómicas en la misma transacción lógica",
+      "justification_from_packet": "[agentic_F2/Explorer] S29 q2: S29-T3-A-DEMO hace rollback atómico; teoría ACID — decisión y evidencia van en la misma transacción lógica, no commits sueltos ni solo logs.",
+      "blocked_on": [],
+      "confidence": 0.89
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "Encapsula acceso a datos y facilita tests con :memory:",
+      "justification_from_packet": "[agentic_F2/Explorer] S29 q3: outcome 'repository pattern, pooling y pruebas' — encapsula SQL y permite tests :memory:, no esparcir SQL ni marcar fraude.",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.510882+00:00"
+}

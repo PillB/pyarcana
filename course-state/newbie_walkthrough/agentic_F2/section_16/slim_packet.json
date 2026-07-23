@@ -1,0 +1,825 @@
+{
+  "attempt_id": "agentic_F2",
+  "section_index": 16,
+  "landing": {
+    "title": "PyArcana",
+    "subtitle": "De cero a Data Scientist — transforma datos en decisiones que cambian negocios",
+    "description": "Curso autónomo en español peruano, basado en el método I Do / We Do / You Do. 52 secciones en 4 fases que te llevan desde instalar Python hasta arquitectar plataformas de IA a escala. Incluye adquisición de datos, análisis con pandas, ML production-ready, RPA con IA, seguridad, ingeniería de datos, LLMs, y automatización multi-modal. Bienvenido a PyArcana.",
+    "hero_badge": "PyArcana · 52 secciones · Español peruano",
+    "brand_tagline": "El arte de aprender Python",
+    "curriculum_summary": "52 secciones · método I Do / We Do / You Do · proyectos de portafolio",
+    "public_edition_notice": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración.",
+    "footer_copy": [
+      "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish"
+    ],
+    "method_cards": [
+      {
+        "title": "Yo hago — Demostración",
+        "desc": "Te muestro paso a paso cómo se resuelve un problema real, explicando el porqué de cada línea."
+      },
+      {
+        "title": "Hacemos juntos — Práctica guiada",
+        "desc": "Escribes código con mi guía. Te doy starter code, hints y solución para que compares."
+      },
+      {
+        "title": "Tú haces — Proyecto de portafolio",
+        "desc": "Construyes un mini-proyecto que va directo a tu GitHub. Esto es lo que muestras en entrevistas."
+      },
+      {
+        "title": "Quiz con feedback inmediato",
+        "desc": "Active recall para fijar la memoria. Necesitas 70% para desbloquear la siguiente sección."
+      }
+    ],
+    "why_cards": [
+      {
+        "title": "Casos situados en Perú",
+        "desc": "Practicas con escenarios sintéticos de trabajo y datos; no usamos información personal real ni prometemos resultados laborales."
+      },
+      {
+        "title": "Proyectos con evidencia verificable",
+        "desc": "Cada entrega pide código, pruebas, decisiones y límites para que puedas explicar qué construiste y cómo lo validaste."
+      },
+      {
+        "title": "Ruta trazable y progresiva",
+        "desc": "Los conceptos avanzan desde fundamentos hasta sistemas de datos e IA, con documentación oficial enlazada en cada sección."
+      },
+      {
+        "title": "Aprendizaje autoguiado",
+        "desc": "Avanzas a tu ritmo y puedes pedir revisión externa cuando la necesites. En la edición pública, el progreso se guarda solo en tu navegador."
+      }
+    ],
+    "brand": "PyArcana",
+    "language_truth": {
+      "interface_and_lessons_claim": "{tr('footer.method')} · interfaz es-PE, es-ES y English · lecciones en español peruano / lessons in Peruvian Spanish",
+      "public_edition_claim": "Edición pública / Public edition: el progreso se guarda solo en este navegador. GitHub Pages no ofrece cuentas, pagos, feedback privado ni panel de administración."
+    },
+    "source_sha": "78058f8237924509"
+  },
+  "prior_index": [
+    {
+      "index": 1,
+      "id": "setup",
+      "title": "Entorno reproducible y trabajo seguro",
+      "tagline": "Python, editor, entorno aislado (venv) y control de versiones (Git) listos desde el día 1",
+      "learningOutcomes": [
+        "Seleccionar el intérprete Python correcto (el programa que ejecuta tu código) y usar el REPL (modo interactivo) para inspección rápida",
+        "Interpretar códigos de salida (0 = éxito, no-cero = error) y distinguir PATH (dónde el sistema busca programas) del directorio de trabajo",
+        "Instalar Python 3.12+ y verificarlo desde la terminal (PowerShell, bash o zsh)",
+        "Crear y activar un entorno virtual con venv (carpeta `.venv` por proyecto, aislada del Python global)",
+        "Configurar VS Code con extensiones Python esenciales (Pylance, Ruff, Jupyter)",
+        "Inicializar un repositorio Git (repo: carpeta con historial), hacer commit/push y abrir un Pull Request (propuesta de cambios) en GitHub",
+        "Escribir un requirements.txt (lista de paquetes y versiones) reproducible y un .gitignore (qué no subir a Git)"
+      ]
+    },
+    {
+      "index": 2,
+      "id": "basics",
+      "title": "Valores, tipos, operadores e I/O",
+      "tagline": "Literales, nombres, operadores, Decimal e I/O para el parser de intake",
+      "learningOutcomes": [
+        "Identificar literales y tipos básicos (int, float, str, bool, None) y explicar el tipo de expresiones simples",
+        "Inspeccionar con type/isinstance y convertir/validar valores de forma explícita",
+        "Asignar nombres con convenciones PEP 8 y distinguir asignación de comparación",
+        "Explicar identidad vs igualdad, mutabilidad y conservar copias/valores originales",
+        "Evaluar aritmética y comparaciones respetando precedencia",
+        "Calcular montos en soles con Decimal y redondeo a 2 decimales",
+        "Usar input/print y f-strings para capturar y reportar datos",
+        "Parsear un registro sintético de cliente conservando originales y reportando errores accionables"
+      ]
+    },
+    {
+      "index": 3,
+      "id": "data-structures",
+      "title": "Decisiones y reglas de validación",
+      "tagline": "Booleanos, control de flujo y reglas accept/reject/review sin confundir ausencia con falsy",
+      "learningOutcomes": [
+        "Comparar valores y probar pertenencia con ==, !=, <, >, in/not in de forma predecible",
+        "Distinguir truthiness de presencia semántica y predecir short-circuit de and/or",
+        "Escribir if/elif/else que clasifiquen un campo en una sola rama dominante",
+        "Aplicar guard clauses y detectar ramas inalcanzables por orden de condiciones",
+        "Implementar rangos y allowlists combinados para reglas de dominio sintéticas",
+        "Leer una decision table y expresar reglas claras con if o match según el caso",
+        "Enunciar invariantes de campo con ejemplos accept/reject/review",
+        "Redactar mensajes accionables y cubrir cada rama con un caso de prueba"
+      ]
+    },
+    {
+      "index": 4,
+      "id": "functions-modules",
+      "title": "Iteración y resúmenes transaccionales",
+      "tagline": "for/while, contadores, comprehensions y cierre del Client Intake CP-N1-A",
+      "learningOutcomes": [
+        "Recorrer secuencias con for y range sin off-by-one en el stop exclusivo",
+        "Usar enumerate y zip (incl. strict) sin desalinear columnas de intake",
+        "Escribir while con centinelas y condición de terminación explícita",
+        "Aplicar break/continue y guardrails contra loops infinitos",
+        "Implementar contadores, acumuladores y búsquedas en un pase O(n)",
+        "Escribir comprehensions legibles para filtros simples de resumen",
+        "Trazar el estado de un bucle para depurar contadores",
+        "Distinguir costo lineal vs cuadrático y corregir off-by-one en índices"
+      ]
+    },
+    {
+      "index": 5,
+      "id": "oop",
+      "title": "Funciones, contratos y descomposición",
+      "tagline": "def, defaults seguros, docstrings, pureza e inicio de normalizadores CP-N1-B",
+      "learningOutcomes": [
+        "Definir funciones con def, llamarlas y retornar valores (no None accidental)",
+        "Usar parámetros posicionales, keyword y defaults seguros (sin mutables)",
+        "Documentar pre/postcondiciones con docstrings alineados al código",
+        "Anotar type hints graduales y modelar errores de dominio",
+        "Descomponer lógica en funciones pequeñas y orquestadores delgados",
+        "Distinguir pureza de efectos e inyectar I/O en el borde",
+        "Explicar LEGB y escribir closures/factories simples",
+        "Fijar ejemplos/asserts y refactorizar sin cambiar conducta"
+      ]
+    },
+    {
+      "index": 6,
+      "id": "numpy",
+      "title": "Colecciones y estructuras de datos",
+      "tagline": "listas, dicts, sets y estructuras anidadas para modelo en memoria",
+      "learningOutcomes": [
+        "Usar list/tuple y slicing para ventanas de registros sin copiar de más",
+        "Desempaquetar secuencias y distinguir alias vs copia superficial/profunda",
+        "Modelar registros con dict, get e índices id→fila",
+        "Deduplicar con set y reportar conflictos sin borrarlos",
+        "Navegar list[dict] anidados cliente→contactos→txs",
+        "Acceder campos opcionales sin KeyError; missing vs vacío",
+        "Ordenar con sorted(..., key=) de forma estable",
+        "Elegir list/dict/set y producir JSON determinista"
+      ]
+    },
+    {
+      "index": 7,
+      "id": "data-acquisition",
+      "title": "Texto, Unicode y expresiones regulares",
+      "tagline": "Unicode latam, strings y regex sin sobrevalidar",
+      "learningOutcomes": [
+        "Normalizar Unicode (NFC/NFD) y usar casefold en comparaciones",
+        "Modelar nombres latam con dos apellidos y partículas sin forzar formato US",
+        "Manipular texto con métodos str idiomáticos antes de regex",
+        "Normalizar email/teléfono con reglas modestas sin overvalidation",
+        "Escribir patrones con grupos y anchors ^$",
+        "Compilar patrones, extraer con findall/finditer y conocer límites",
+        "Comparar por igualdad normalizada y Jaccard de tokens",
+        "Razonar FP/FN y conservar evidencia sin claims de parentesco"
+      ]
+    },
+    {
+      "index": 8,
+      "id": "pandas",
+      "title": "Archivos, CSV, JSON y contratos de ingesta",
+      "tagline": "pathlib, CSV/JSON, cuarentena y manifest de ingesta",
+      "learningOutcomes": [
+        "Abrir archivos con pathlib/Path y with; encoding utf-8 explícito",
+        "Manejar newlines y escritura atómica (temp + replace)",
+        "Leer/escribir CSV con headers y casts controlados",
+        "Enviar filas irregulares a cuarentena con motivo",
+        "Serializar/deserializar JSON (array y JSONL)",
+        "Validar schema mínimo, nulls y defaults compatibles",
+        "Calcular hashes, backup y provenance de inputs",
+        "Emitir manifest con conteos reconciliados in=clean+quarantine"
+      ]
+    },
+    {
+      "index": 9,
+      "id": "visualization",
+      "title": "Excepciones, debugging y logging seguro",
+      "tagline": "Excepciones específicas, diagnóstico, logging sin PII y resiliencia del pipeline de familiaridad",
+      "learningOutcomes": [
+        "Elegir tipos de excepción, raise con contexto y chaining con from",
+        "Dibujar fronteras try/except/finally y separar recuperable vs fatal",
+        "Leer tracebacks y ubicar el frame útil sin exponer secretos",
+        "Reducir fallos a minimal repro con hipótesis y tests de regresión",
+        "Configurar logging con niveles y campos estructurados",
+        "Propagar correlation_id y redactar email/teléfono/dirección",
+        "Decidir fail-fast vs cuarentena según data|config|provider",
+        "Reintentar solo errores transitorios con operaciones idempotentes"
+      ]
+    },
+    {
+      "index": 10,
+      "id": "sklearn",
+      "title": "Módulos, packaging y CLI profesional",
+      "tagline": "Paquete familiarity_core con CLI ingest/normalize/compare/report y config por precedencia",
+      "learningOutcomes": [
+        "Organizar imports, evitar ciclos y usar if __name__ == '__main__'",
+        "Definir API pública estable y helpers privados",
+        "Crear paquete instalable con layout src y pyproject.toml",
+        "Aplicar semver simple y requires-python / deps con criterio",
+        "Implementar subcomandos argparse con exit codes 0/1/2",
+        "Separar stdout (datos) de stderr (diagnóstico)",
+        "Implementar precedencia flags > env > archivo > defaults",
+        "Mantener secretos fuera del repo y validar config al arranque"
+      ]
+    },
+    {
+      "index": 11,
+      "id": "testing",
+      "title": "OOP y modelo de dominio",
+      "tagline": "ClientRecord, ResolvedEntity, Transaction y RelationshipEvidence sin decidir fraude ni parentesco",
+      "learningOutcomes": [
+        "Modelar entidades con class/dataclass e instancias válidas",
+        "Imponer invariantes en construcción sin side-effects externos",
+        "Encapsular con properties y métodos de consulta seguros",
+        "Definir igualdad/hash y mutabilidad (frozen) consciente",
+        "Preferir composición a herencia frágil",
+        "Usar Protocol/duck typing para puertos del dominio",
+        "Separar dominio de I/O con repo/service y to_dict",
+        "Probar dominio puro y evitar APIs de fraude/parentesco"
+      ]
+    },
+    {
+      "index": 12,
+      "id": "performance",
+      "title": "APIs, SQL y geodatos responsables",
+      "tagline": "HTTP resiliente, SQL parametrizado, geocoding autorizado y adaptadores limitados sin PII bancaria a servicios públicos",
+      "learningOutcomes": [
+        "Consumir APIs HTTP síncronas, interpretar status y parsear JSON con errores controlados",
+        "Implementar timeout obligatorio, paginación y retry/backoff solo en errores transitorios",
+        "Autenticar con secretos fuera de código, cachear GET seguros y registrar provenance",
+        "Escribir contract tests del adaptador y fallback degradado offline",
+        "Diseñar esquema SQLite mínimo y ejecutar CRUD + join entidades/evidencias",
+        "Usar queries parametrizadas, transacciones, constraints e índices; prohibir f-string SQL",
+        "Normalizar direcciones sintéticas y usar solo geocoder autorizado/mock",
+        "Evaluar calidad de coordenadas, Haversine y cache bajo política de proveedor"
+      ]
+    },
+    {
+      "index": 13,
+      "id": "rpa-automation",
+      "title": "Familiarity Evidence Dashboard y cierre de nivel",
+      "tagline": "ER determinista, señales de relación separadas, dashboard pseudonimizado, CP-N1-C + regresión N1 + CF-1",
+      "learningOutcomes": [
+        "Aplicar normalización y blocking para ER determinista y entity_resolution_score",
+        "Evaluar ER con etiquetas sintéticas, precision/recall y cola clerical",
+        "Computar relationship_signal_score (shared contact, distancia, apellidos) separado del ER",
+        "Derivar señales de txs directas y contrapartes comunes sin afirmar colusión",
+        "Producir score de evidencia con incertidumbre y explicación legible",
+        "Aplicar umbrales de revisión/abstención; prohibir inferencia automática de parentesco/fraude",
+        "Ensamblar scaffold de dashboard/mapa con fichas de caso pseudonimizadas",
+        "Entregar ficha de privacidad, tests, demo reproducible y runbook de operación N1"
+      ]
+    },
+    {
+      "index": 14,
+      "id": "security",
+      "title": "NumPy y cómputo vectorizado",
+      "tagline": "cálculo vectorizado de métricas de calidad y señales por pares, con benchmark honesto y resultados equivalentes al baseline",
+      "learningOutcomes": [
+        "Construir y validar ndarrays con dtype y shape correctos",
+        "Indexar y filtrar con máscaras booleanas de forma segura",
+        "Aplicar ufuncs y reducciones por eje para métricas de calidad",
+        "Resolver broadcasting y documentar compatibilidad de shapes",
+        "Distinguir views de copies y controlar mutabilidad",
+        "Manejar NaN/inf y evaluar estabilidad numérica",
+        "Vectorizar frente a loops con benchmark honesto",
+        "Medir memoria y probar equivalencia con tolerancia"
+      ]
+    },
+    {
+      "index": 15,
+      "id": "stdlib-deep",
+      "title": "Pandas: ingesta, selección y tipos",
+      "tagline": "ingesta tipada de clientes/transacciones con reporte de coerciones y reconciliación de filas/columnas",
+      "learningOutcomes": [
+        "Modelar Series/DataFrame con Index estable",
+        "Leer CSV/Excel con parser y dtypes controlados",
+        "Seleccionar con loc/iloc y assign de forma idiomática",
+        "Evitar chained assignment y controlar copias",
+        "Tipar strings, nullable, fechas y categorías",
+        "Aplicar coerción explícita con schema y reporte",
+        "Exportar a CSV/Excel (y contrato Parquet) de forma reproducible",
+        "Documentar índices, provenance y uso de memoria"
+      ]
+    }
+  ],
+  "active": {
+    "id": "wxpython-gui",
+    "index": 16,
+    "title": "Calidad, limpieza y contratos de datos",
+    "tagline": "suite de calidad que falla de forma explicable ante schema drift, cuantifica pérdida y nunca arregla silenciosamente un dato",
+    "jobRelevance": "Los equipos de datos en banca, fintech y retail en Perú necesitan **quality gates explicables**: null policies por campo, duplicados con evidencia, normalización con raw lateral, outliers con dominio y cuarentena con audit trail. Esta sección (id `wxpython-gui` conservado) retematiza a V3 **calidad/limpieza/contratos** e incrementa **CP-N2-A (quality)** — fail-closed, sin PII real, sin arreglos silenciosos.",
+    "learningOutcomes": [
+      "Definir políticas de null por campo",
+      "Limitar imputación y usar indicadores de ausencia",
+      "Distinguir duplicados exactos de conflictos",
+      "Conservar evidencia al resolver claves/cardinalidad",
+      "Normalizar strings/números/fechas/categorías",
+      "Clasificar outliers plausibles vs errores",
+      "Implementar contratos de schema y cross-field",
+      "Cuarentenar fallos con métricas y audit trail"
+    ],
+    "theory": [
+      {
+        "subtopicId": "S16-T1-A",
+        "heading": "nulls y políticas por campo",
+        "paragraphs": [
+          "Cada campo del contrato tiene política **required** (null ⇒ cuarentena o fail del gate) u **optional** (null permitido, idealmente con indicador de ausencia). Mezclar ambas sin documentar es la causa clásica de “defaults mágicos” que envenenan el EDA de S17.",
+          "Contrato operativo: documenta un dict `{campo: 'required'|'optional'}`, mide con `isna`/`notna`, y arma un mapa `violations` solo para required con n>0. No imputes un required “para que pase el job”: eso oculta rotura de fuente y contamina el EDA posterior.",
+          "Caso sintético Perú: `cliente_id` y `monto` required; `email` optional. Filas con id o monto nulo entran a violaciones; la tasa de null de email se reporta como métrica pero no tumba el gate por sí sola. Imprime `violations` y `null_rate` de opcionales en el reporte del run."
+        ],
+        "code": "import pandas as pd\n\npolicy = {\"cliente_id\": \"required\", \"email\": \"optional\", \"monto\": \"required\"}\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", None, \"C003\"],\n    \"email\": [None, \"a@example.com\", \"b@example.com\"],\n    \"monto\": [10.0, 5.0, None],\n})\nviolations = {}\nfor col, pol in policy.items():\n    n = int(df[col].isna().sum())\n    if pol == \"required\" and n:\n        violations[col] = n\nprint(\"violations\", violations)\nprint(\"null_rate_email\", float(df[\"email\"].isna().mean()))",
+        "code_output": "violations {'cliente_id': 1, 'monto': 1}\nnull_rate_email 0.3333333333333333"
+      },
+      {
+        "subtopicId": "S16-T1-B",
+        "heading": "indicadores y límites de imputación",
+        "paragraphs": [
+          "Un **indicador de ausencia** (`monto_was_null`) preserva señal cuando imputas un optional: el modelo, el auditor y el stakeholder de riesgo ven qué filas fueron tocadas. Imputar sin indicador borra evidencia y crea falsos ceros indistinguibles de ceros reales de negocio.",
+          "Límites del gate: no imputar más del **cap** (p. ej. 30–40% null en la columna), no imputar llaves de negocio (`cliente_id`), y documentar la regla (mediana, constante de dominio). Si `null_rate > cap`, el gate imprime `blocked`/`fail` y **no** rellena en silencio.",
+          "Caso: monto con 2/5 null y cap=0.4 → se permite `fillna(mediana)` + columna `was_null`. Si el rate supera el cap, no hay fill silencioso. La mediana se calcula solo sobre no-nulos **pre**-imputación; post-fill no se recalcula para “maquillar” el reporte."
+        ],
+        "code": "import pandas as pd\n\ndf = pd.DataFrame({\"monto\": [10.0, None, None, 8.0, 12.0]})\ncap = 0.4\nrate = df[\"monto\"].isna().mean()\nprint(\"null_rate\", rate)\nif rate > cap:\n    print(\"gate\", \"fail_impute_cap\")\nelse:\n    df = df.copy()\n    df[\"monto_was_null\"] = df[\"monto\"].isna()\n    med = df[\"monto\"].median()\n    df[\"monto\"] = df[\"monto\"].fillna(med)\n    print(df.to_dict(orient=\"list\"))",
+        "code_output": "null_rate 0.4\n{'monto': [10.0, 10.0, 10.0, 8.0, 12.0], 'monto_was_null': [False, True, True, False, False]}"
+      },
+      {
+        "subtopicId": "S16-T2-A",
+        "heading": "duplicados exactos vs conflictos",
+        "paragraphs": [
+          "**Duplicado exacto**: mismas columnas relevantes idénticas. **Conflicto**: misma clave de negocio con atributos distintos (p. ej. dos regiones para un `cliente_id`). Tratarlos igual con `drop_duplicates` ciego puede borrar el único rastro del conflicto y dejar un maestro mentiroso.",
+          "Contrato: usa `duplicated(keep=False)` para exactos y `groupby(clave)[attr].transform('nunique')>1` para conflictos. Solo después eliges política `keep='first'|'last'` o envío a cuarentena. **Clasifica antes de borrar**; el orden evita pérdida de evidencia.",
+          "Caso sintético: C001 repetido exacto (Lima, score 0.9); C002 con Cusco vs Arequipa. Salida esperada: `exact_rows` para C001 y `conflict_ids` para C002. El portfolio de calidad de CP-N2-A debe listar ambos tipos por separado en el memo."
+        ],
+        "code": "import pandas as pd\n\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\", \"C002\"],\n    \"region\": [\"Lima\", \"Lima\", \"Cusco\", \"Arequipa\"],\n    \"score\": [0.9, 0.9, 0.5, 0.5],\n})\nexact = df.duplicated(keep=False)\nconflict = df.groupby(\"cliente_id\")[\"region\"].transform(\"nunique\") > 1\nprint(\"exact_rows\", df.loc[exact].to_dict(orient=\"list\"))\nprint(\"conflict_ids\", df.loc[conflict, \"cliente_id\"].unique().tolist())",
+        "code_output": "exact_rows {'cliente_id': ['C001', 'C001'], 'region': ['Lima', 'Lima'], 'score': [0.9, 0.9]}\nconflict_ids ['C002']"
+      },
+      {
+        "subtopicId": "S16-T2-B",
+        "heading": "claves, cardinalidad y conservación de evidencia",
+        "paragraphs": [
+          "Define la **clave de negocio** y la cardinalidad esperada (típicamente 1 fila por cliente). Los duplicados de clave van a **cuarentena con evidencia completa** (todas las versiones + columnas de origen/batch), no se eliminan sin log append-only.",
+          "Contrato: `clean = drop_duplicates(key, keep=...)` con regla documentada; `quarantine = filas con clave duplicada` sin pérdida de columnas. El set limpio alimenta joins de S17; el audit permite reconstruir por qué se eligió una versión ante revisión humana.",
+          "Caso: C001 con scores 0.9 y 0.4 de src a/b. `keep='first'` deja 0.9 en clean; `quarantine_n=2` conserva ambas filas y columnas de evidencia. Sin esa evidencia, el gate no es auditable ante un stakeholder de riesgo o cumplimiento."
+        ],
+        "code": "import pandas as pd\n\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"score\": [0.9, 0.4, 0.7],\n    \"src\": [\"a\", \"b\", \"a\"],\n})\nkey = \"cliente_id\"\ndup_mask = df.duplicated(key, keep=False)\nquarantine = df.loc[dup_mask].copy()\nclean = df.drop_duplicates(key, keep=\"first\")\nprint(\"clean\", clean.to_dict(orient=\"list\"))\nprint(\"quarantine_n\", len(quarantine))\nprint(\"evidence_cols\", quarantine.columns.tolist())",
+        "code_output": "clean {'cliente_id': ['C001', 'C002'], 'score': [0.9, 0.7], 'src': ['a', 'a']}\nquarantine_n 2\nevidence_cols ['cliente_id', 'score', 'src']"
+      },
+      {
+        "subtopicId": "S16-T3-A",
+        "heading": "normalización de strings, números, fechas y categorías",
+        "paragraphs": [
+          "Normalización: strings (`strip`, colapso de espacios, `title`/`casefold`), números (quitar `S/`, comas de miles, decimal latino), fechas multi-formato, categorías con mapa de sinónimos (LIM→Lima). **Normalizar ≠ imputar**: no inventes valores, solo canonicidad.",
+          "Contrato: conserva **raw** en columna lateral (`region_raw`, `monto_raw`) cuando el valor canónico puede disputarse o re-parsearse. Valida dtypes post-normalización **antes** del join de S17; un float mal parseado revienta cardinalidades.",
+          "Caso Perú sintético: ` lima `, `AREQUIPA`, montos `S/ 10.50` y textos con coma de miles. Salida canónica Lima/Arequipa y floats en PEN ficticios; raw intacto para auditoría. Nunca subas padrones reales ni PII al repo del curso."
+        ],
+        "code": "import pandas as pd\nimport re\n\ndef norm_money(x):\n    if pd.isna(x):\n        return None\n    s = str(x).strip().replace(\"S/\", \"\").replace(\",\", \"\")\n    return float(s)\n\ndf = pd.DataFrame({\n    \"region_raw\": [\" lima \", \"AREQUIPA\", \"Lima\"],\n    \"monto_raw\": [\"S/ 10.50\", \"3,00\", \"4\"],\n})\ndf[\"region\"] = df[\"region_raw\"].str.strip().str.title()\ndf[\"monto\"] = df[\"monto_raw\"].map(norm_money)\nprint(df[[\"region\", \"monto\"]].to_dict(orient=\"list\"))",
+        "code_output": "{'region': ['Lima', 'Arequipa', 'Lima'], 'monto': [10.5, 300.0, 4.0]}"
+      },
+      {
+        "subtopicId": "S16-T3-B",
+        "heading": "outliers plausibles vs errores",
+        "paragraphs": [
+          "Un outlier **plausible** está lejos estadísticamente pero dentro del dominio de negocio (monto alto legítimo en una campaña). Un **error de dominio** viola bounds (monto < 0, lat 999, edad 200). IQR/z-score solo **candidatan**; el dominio de negocio **decide** error vs flag.",
+          "Contrato: mantén máscaras `stat_outlier` y `domain_error` por separado; por defecto flag + cuarentena, nunca drop silencioso solo por IQR. Documenta bounds en el memo del gate (p. ej. monto ∈ [0, 10000] PEN sintéticos del fixture de clase).",
+          "Caso: serie con 5000 (cola plausible) y -1 (error). `stat` marca ambos; `domain` solo -1; `plausible_extreme` = 5000. El EDA de S17 no debe perder la cola legítima de montos por un 1.5·IQR ciego sin revisión explícita de dominio."
+        ],
+        "code": "import pandas as pd\nimport numpy as np\n\ndf = pd.DataFrame({\"monto\": [10, 12, 11, 13, 5000, -1]})\nq1, q3 = df[\"monto\"].quantile(0.25), df[\"monto\"].quantile(0.75)\niqr = q3 - q1\nstat = (df[\"monto\"] < q1 - 1.5 * iqr) | (df[\"monto\"] > q3 + 1.5 * iqr)\ndomain_err = (df[\"monto\"] < 0) | (df[\"monto\"] > 10000)\nprint(\"stat_outlier\", df.loc[stat, \"monto\"].tolist())\nprint(\"domain_error\", df.loc[domain_err, \"monto\"].tolist())\nprint(\"plausible_extreme\", df.loc[stat & ~domain_err, \"monto\"].tolist())",
+        "code_output": "stat_outlier [5000, -1]\ndomain_error [-1]\nplausible_extreme [5000]"
+      },
+      {
+        "subtopicId": "S16-T4-A",
+        "heading": "reglas de schema y cross-field",
+        "paragraphs": [
+          "Contrato de **schema**: columnas presentes, dtypes esperados y nullability por campo. **Cross-field**: p. ej. `fecha_fin >= fecha_ini`, `monto > 0` si estado=pagado. Cada regla devuelve máscara de fallos + código de error legible para cuarentena.",
+          "Ante **schema drift** (columna required faltante o renombrada), el gate falla con el **nombre** de la columna — no con un `KeyError` opaco al final del pipeline. Columnas extra pueden warn o fail según política documentada en el runbook.",
+          "Caso: expected `{inicio, fin, monto}`; detecta cross-field `fin<inicio` e índices de monto negativo. Imprime `drift`, `cross_fail_idx` y `neg_idx` con códigos legibles. Este bloque es el puente al join validado y al portfolio de S17."
+        ],
+        "code": "import pandas as pd\n\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-02-01\"]),\n    \"fin\": pd.to_datetime([\"2024-01-10\", \"2024-01-15\"]),\n    \"monto\": [10.0, -5.0],\n})\nexpected = {\"inicio\", \"fin\", \"monto\"}\ndrift = expected - set(df.columns)\ncross = df[\"fin\"] < df[\"inicio\"]\nneg = df[\"monto\"] < 0\nprint(\"drift\", list(drift))\nprint(\"cross_fail_idx\", df.index[cross].tolist())\nprint(\"neg_idx\", df.index[neg].tolist())",
+        "code_output": "drift []\ncross_fail_idx [1]\nneg_idx [1]"
+      },
+      {
+        "subtopicId": "S16-T4-B",
+        "heading": "métricas, cuarentena y audit trail",
+        "paragraphs": [
+          "Métricas operables del run: `rows_in`, `rows_clean`, `rows_quarantine`, tasas de null/dup/fail_schema y `pass` booleano. Un fail **sin métricas** no se puede operar en un job nocturno ni explicar a negocio, riesgo o auditoría interna.",
+          "Cuarentena = tabla de filas rechazadas + razón codificada. **Audit trail** = lista append-only de eventos (`ingest`, `quarantine`, `promote`). El gate publica el reporte aunque `pass=False` (exit code ≠ 0 acompañado de JSON de métricas).",
+          "Caso: 2 filas in, 1 clean, 1 quarantine por `null_required_monto`; audit con evento quarantine. `metrics.pass` es false. S17 solo debe consumir `clean` y el memo debe declarar cuántas filas quedaron fuera del universo analítico."
+        ],
+        "code": "import pandas as pd, json\n\nclean = pd.DataFrame({\"id\": [\"C001\"], \"ok\": [True]})\nquar = pd.DataFrame({\"id\": [\"C002\"], \"reason\": [\"null_required_monto\"]})\naudit = [\n    {\"event\": \"ingest\", \"n\": 2},\n    {\"event\": \"quarantine\", \"n\": 1, \"reason\": \"null_required_monto\"},\n]\nmetrics = {\n    \"rows_in\": 2,\n    \"rows_clean\": len(clean),\n    \"rows_quarantine\": len(quar),\n    \"pass\": len(quar) == 0,\n}\nprint(json.dumps(metrics, sort_keys=True))\nprint(audit[-1])",
+        "code_output": "{\"pass\": false, \"rows_clean\": 1, \"rows_in\": 2, \"rows_quarantine\": 1}\n{'event': 'quarantine', 'n': 1, 'reason': 'null_required_monto'}"
+      }
+    ],
+    "iDo": {
+      "steps": [
+        {
+          "demoId": "S16-T1-A-DEMO",
+          "subtopicId": "S16-T1-A",
+          "environment": "local-python",
+          "description": "Aplicar políticas de null por campo y listar violaciones required",
+          "why": "Required vs optional se traduce en fail/cuarentena vs continuar.",
+          "code": "import pandas as pd\npolicy = {\"cliente_id\": \"required\", \"telefono\": \"optional\", \"monto\": \"required\"}\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", None, \"C003\"],\n    \"telefono\": [None, \"999\", \"998\"],\n    \"monto\": [1.0, 2.0, None],\n})\nviol = {c: int(df[c].isna().sum()) for c, p in policy.items() if p == \"required\" and df[c].isna().any()}\nprint(viol)\nprint(\"optional_nulls\", int(df[\"telefono\"].isna().sum()))",
+          "language": "python",
+          "output": "{'cliente_id': 1, 'monto': 1}\noptional_nulls 1"
+        },
+        {
+          "demoId": "S16-T1-B-DEMO",
+          "subtopicId": "S16-T1-B",
+          "environment": "local-python",
+          "description": "Imputar mediana solo si null_rate <= cap; marcar indicador",
+          "why": "Cap + indicador evitan imputación masiva silenciosa.",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [10.0, None, 12.0, 11.0]})\ncap = 0.5\nrate = float(df[\"monto\"].isna().mean())\ndf = df.copy()\ndf[\"monto_was_null\"] = df[\"monto\"].isna()\nif rate <= cap:\n    df[\"monto\"] = df[\"monto\"].fillna(df[\"monto\"].median())\n    status = \"imputed\"\nelse:\n    status = \"blocked\"\nprint(status, rate, df.to_dict(orient=\"list\"))",
+          "language": "python",
+          "output": "imputed 0.25 {'monto': [10.0, 11.0, 12.0, 11.0], 'monto_was_null': [False, True, False, False]}"
+        },
+        {
+          "demoId": "S16-T2-A-DEMO",
+          "subtopicId": "S16-T2-A",
+          "environment": "local-python",
+          "description": "Detectar duplicados exactos vs conflictos de región por cliente_id",
+          "why": "Clasificar exacto vs conflicto cambia la acción de limpieza.",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\", \"C002\", \"C003\"],\n    \"region\": [\"Lima\", \"Lima\", \"Cusco\", \"Arequipa\", \"Lima\"],\n    \"score\": [0.5, 0.5, 0.7, 0.7, 0.9],\n})\nexact_n = int(df.duplicated(keep=False).sum())\nconf = df.groupby(\"cliente_id\").filter(lambda g: g[\"region\"].nunique() > 1)\nprint(\"exact_dup_rows\", exact_n)\nprint(\"conflict_ids\", conf[\"cliente_id\"].unique().tolist())",
+          "language": "python",
+          "output": "exact_dup_rows 2\nconflict_ids ['C002']"
+        },
+        {
+          "demoId": "S16-T2-B-DEMO",
+          "subtopicId": "S16-T2-B",
+          "environment": "local-python",
+          "description": "Preservar evidencia en cuarentena al resolver clave duplicada",
+          "why": "keep=first solo sobre el set limpio; evidencia completa en cuarentena.",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"cliente_id\": [\"C001\", \"C001\", \"C002\"],\n    \"score\": [0.9, 0.1, 0.5],\n    \"batch\": [\"b1\", \"b2\", \"b1\"],\n})\nq = df[df.duplicated(\"cliente_id\", keep=False)].copy()\nclean = df.drop_duplicates(\"cliente_id\", keep=\"first\")\nprint(\"clean_ids\", clean[\"cliente_id\"].tolist())\nprint(\"quarantine\", q.to_dict(orient=\"list\"))",
+          "language": "python",
+          "output": "clean_ids ['C001', 'C002']\nquarantine {'cliente_id': ['C001', 'C001'], 'score': [0.9, 0.1], 'batch': ['b1', 'b2']}"
+        },
+        {
+          "demoId": "S16-T3-A-DEMO",
+          "subtopicId": "S16-T3-A",
+          "environment": "local-python",
+          "description": "Normalizar región y montos conservando columnas raw",
+          "why": "Raw + normalizado permite disputar transformaciones.",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"region_raw\": [\" lima\", \"AREQUIPA \"],\n    \"monto_raw\": [\"S/12.5\", \"3.0\"],\n})\ndf[\"region\"] = df[\"region_raw\"].str.strip().str.title()\ndf[\"monto\"] = (\n    df[\"monto_raw\"].str.replace(\"S/\", \"\", regex=False).str.strip().astype(float)\n)\nprint(df.to_dict(orient=\"list\"))",
+          "language": "python",
+          "output": "{'region_raw': [' lima', 'AREQUIPA '], 'monto_raw': ['S/12.5', '3.0'], 'region': ['Lima', 'Arequipa'], 'monto': [12.5, 3.0]}"
+        },
+        {
+          "demoId": "S16-T3-B-DEMO",
+          "subtopicId": "S16-T3-B",
+          "environment": "local-python",
+          "description": "Clasificar outlier estadístico vs error de dominio en montos",
+          "why": "Dominio manda sobre IQR para etiquetar error.",
+          "code": "import pandas as pd\ns = pd.Series([5, 6, 7, 6, 1000, -3])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nstat = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\ndomain_err = (s < 0) | (s > 1e6)\nprint(\"stat\", s[stat].tolist())\nprint(\"error\", s[domain_err].tolist())\nprint(\"plausible\", s[stat & ~domain_err].tolist())",
+          "language": "python",
+          "output": "stat [1000, -3]\nerror [-3]\nplausible [1000]"
+        },
+        {
+          "demoId": "S16-T4-A-DEMO",
+          "subtopicId": "S16-T4-A",
+          "environment": "local-python",
+          "description": "Validar schema required y regla cross-field fin>=inicio",
+          "why": "Schema + cross-field forman el contrato del quality gate.",
+          "code": "import pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-05-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-04-01\"]),\n    \"monto\": [10.0, 20.0],\n})\nrequired = [\"inicio\", \"fin\", \"monto\"]\nmissing = [c for c in required if c not in df.columns]\ncross_fail = df.index[df[\"fin\"] < df[\"inicio\"]].tolist()\nprint(\"missing\", missing, \"cross_fail\", cross_fail)",
+          "language": "python",
+          "output": "missing [] cross_fail [1]"
+        },
+        {
+          "demoId": "S16-T4-B-DEMO",
+          "subtopicId": "S16-T4-B",
+          "environment": "local-python",
+          "description": "Cuarentenar fallos con métricas y audit trail append-only",
+          "why": "Métricas + audit permiten operar el gate aunque falle.",
+          "code": "import json\nrows_in = 5\nquarantine = [{\"id\": \"C002\", \"reason\": \"schema_drift\"}, {\"id\": \"C004\", \"reason\": \"domain_error\"}]\nclean_n = rows_in - len(quarantine)\naudit = []\naudit.append({\"event\": \"start\", \"rows_in\": rows_in})\naudit.append({\"event\": \"quarantine\", \"n\": len(quarantine)})\nmetrics = {\"rows_in\": rows_in, \"rows_clean\": clean_n, \"rows_quarantine\": len(quarantine), \"pass\": False}\nprint(json.dumps(metrics, sort_keys=True))\nprint(len(audit), audit[-1][\"event\"])",
+          "language": "python",
+          "output": "{\"pass\": false, \"rows_clean\": 3, \"rows_in\": 5, \"rows_quarantine\": 2}\n2 quarantine"
+        }
+      ]
+    },
+    "weDo": {
+      "exercises": [
+        {
+          "id": "S16-T1-A-E1",
+          "instruction": "E1 (guiado) — Concepto: política required y conteo de nulls. Fixture con columna `id` y al menos un null. Cuenta nulls de `id` con `isna` e imprime el entero. Pass: el conteo exacto del fixture del starter (no imputes antes de contar).",
+          "hints": [
+            "isna().sum().",
+            "int(...)."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"C001\", None]})\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T1-A-E2",
+          "instruction": "E2 (independiente) — Concepto: mapa de violaciones required. Dado un `policy` required/optional, construye dict solo con campos required que tengan nulls (valor = conteo). Imprime el dict. Pass: coincide con solution (sin opcionales en el mapa).",
+          "hints": [
+            "Itera policy.",
+            "Incluye solo n>0 required."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\npolicy = {\"a\": \"required\", \"b\": \"optional\"}\ndf = pd.DataFrame({\"a\": [1, None], \"b\": [None, 2]})\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T1-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: gate pass/fail por required. Si hay violaciones required imprime exactamente `fail`; si no, `pass`. No rellenes nulls para forzar pass. Pass string: `fail` o `pass` según el fixture del starter.",
+          "hints": [
+            "Usa el dict viol.",
+            "Mensaje corto."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"id\": [None]})\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T1-B-E1",
+          "instruction": "E1 (guiado) — Concepto: indicador de ausencia antes de imputar. Sobre `monto`, crea `was_null` booleana, luego `fillna(0)`; imprime la lista de was_null. Pass: lista booleana alineada a filas (True donde había null).",
+          "hints": [
+            "was_null = isna.",
+            "luego fillna."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"monto\": [1.0, None]})\ndf[\"was_null\"] = df[\"monto\"].isna()\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T1-B-E2",
+          "instruction": "E2 (independiente) — Concepto: cap de imputación. Fixture 2 de 4 null en monto (rate=0.5) con umbral 0.3. Si null_rate>0.3 imprime `blocked`, si no `ok`. Pass: `blocked`. No imputes si está bloqueado.",
+          "hints": [
+            "mean de isna.",
+            "cap 0.3."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ns = pd.Series([1.0, None, None, 2.0])\nrate = s.isna().mean()\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T1-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: mediana estable pre/post un null. Fixture [1,2,None]: imputa mediana de no-nulos; demuestra que la mediana de valores originales no-nulos se preserva conceptualmente e imprime el vector final según solution. Pass: salida idéntica al oracle.",
+          "hints": [
+            "median skipna.",
+            "fillna(median)."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ns = pd.Series([1.0, 2.0, None])\nmed = s.median()\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T2-A-E1",
+          "instruction": "E1 (guiado) — Concepto: duplicados exactos. DF con una fila exacta repetida; cuenta filas con `duplicated(keep=False)` True e imprime el entero. Pass: conteo del fixture (típicamente 2). No uses drop aún.",
+          "hints": [
+            "duplicated(keep=False).sum().",
+            "Dos filas exactas → 2."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"a\": [1, 1, 2], \"b\": [0, 0, 9]})\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T2-A-E2",
+          "instruction": "E2 (independiente) — Concepto: conflictos de atributo. Detecta `cliente_id` con más de una región distinta (`nunique>1`); imprime lista de ids en conflicto. Pass: lista del oracle (p. ej. `['C002']`).",
+          "hints": [
+            "groupby nunique > 1.",
+            "unique ids."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\", \"C001\", \"C002\"], \"region\": [\"Lima\", \"Cusco\", \"Lima\"]})\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T2-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: clasificar exact vs conflict vs clean. Para id C001 en el fixture: si dup exacto print `exact`; elif conflicto de región print `conflict`; else `clean`. Pass: una de esas tres cadenas según solution.",
+          "hints": [
+            "Lógica en orden.",
+            "Fixture simple."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"cliente_id\": [\"C001\"], \"region\": [\"Lima\"], \"score\": [1.0]})\nsub = df[df.cliente_id == \"C001\"]\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T2-B-E1",
+          "instruction": "E1 (guiado) — Concepto: split quarantine/clean por clave. Separa quarantine (dup key keep=False) y clean con drop_duplicates keep first; imprime ambos lens. Pass: tupla/lens del oracle. Conserva evidencia en quarantine.",
+          "hints": [
+            "duplicated(key, keep=False).",
+            "drop_duplicates."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\", \"b\"], \"v\": [1, 2, 3]})\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T2-B-E2",
+          "instruction": "E2 (independiente) — Concepto: evidencia en cuarentena. Asegura que quarantine conserve la columna `batch` (o la de evidencia del fixture); imprime `columns.tolist()` del quarantine. Pass: lista de columnas del oracle.",
+          "hints": [
+            "copy del mask.",
+            "No dropear cols."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"a\"], \"batch\": [\"b1\", \"b2\"]})\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T2-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: cardinalidad 1 fila por id. Si `nunique(id)==len(df)` imprime `card_ok`; si no, otra señal según solution. Pass: `card_ok` en DF sin dups de clave. Prepara el join 1:1 de S17.",
+          "hints": [
+            "cardinalidad 1:1.",
+            "Comparar nunique y len."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"id\": [\"a\", \"b\"], \"v\": [1, 2]})\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T3-A-E1",
+          "instruction": "E1 (guiado) — Concepto: normalización de strings. Sobre `[' lima ','CUSCO']` aplica strip + title; imprime la lista. Pass: `['Lima', 'Cusco']`. No borres el raw si el ejercicio lo pide en columnas separadas.",
+          "hints": [
+            "str.strip().str.title().",
+            "Series string methods."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ns = pd.Series([\" lima \", \"CUSCO\"])\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T3-A-E2",
+          "instruction": "E2 (independiente) — Concepto: parse de montos PEN sintéticos. Quita prefijo `S/` y castea float en `['S/1.5','S/2']`; imprime la suma. Pass: `3.5`. Normalizar no es imputar nulls.",
+          "hints": [
+            "str.replace.",
+            "astype float."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ns = pd.Series([\"S/1.5\", \"S/2\"])\nv = s.str.replace(\"S/\", \"\", regex=False).astype(float)\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T3-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: conservar raw. Crea `region` canónica desde `region_raw` y verifica que `region_raw` sigue igual; imprime evidencia según solution (p. ej. igualdad booleana o dict). Pass: salida del oracle.",
+          "hints": [
+            "Nueva col no pisa raw.",
+            "print both."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"region_raw\": [\"lima\"]})\ndf[\"region\"] = df[\"region_raw\"].str.title()\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T3-B-E1",
+          "instruction": "E1 (guiado) — Concepto: domain bounds. Marca `domain_error` si monto < 0; imprime lista booleana alineada. Pass: lista del fixture (True en negativos). No drops por IQR aquí.",
+          "hints": [
+            "s < 0.",
+            "tolist."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ns = pd.Series([1.0, -2.0, 3.0])\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T3-B-E2",
+          "instruction": "E2 (independiente) — Concepto: outliers estadísticos IQR 1.5. Dado [1,2,3,100], lista valores stat-outlier. Pass: lista del oracle (incluye 100). Domain bounds se evalúan aparte.",
+          "hints": [
+            "quantile 0.25/0.75.",
+            "fence q1-1.5iqr."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ns = pd.Series([1.0, 2.0, 3.0, 100.0])\nq1, q3 = s.quantile(0.25), s.quantile(0.75)\niqr = q3 - q1\nmask = (s < q1 - 1.5 * iqr) | (s > q3 + 1.5 * iqr)\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T3-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: etiqueta error/flag/ok. Para valor -1 en [1,2,-1]: `error` si domain, `flag` si solo stat, `ok` else. Pass: `error` (dominio). Prioriza domain sobre IQR.",
+          "hints": [
+            "Prioriza error.",
+            "Una fila simple."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ns = pd.Series([1.0, 2.0, -1.0])\nval = s.iloc[2]\nlabel = \"error\" if val < 0 else \"ok\"\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T4-A-E1",
+          "instruction": "E1 (guiado) — Concepto: columnas required faltantes. Required `['id','monto']` y DF solo con `id`; imprime lista de faltantes. Pass: `['monto']` (u orden del oracle). Mensaje de drift explicable.",
+          "hints": [
+            "list comprehension.",
+            "not in columns."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nrequired = [\"id\", \"monto\"]\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T4-A-E2",
+          "instruction": "E2 (independiente) — Concepto: cross-field temporal. Encuentra índices donde `fin < inicio`; imprime la lista de índices. Pass: índices del fixture. Cada regla devuelve máscara + significado.",
+          "hints": [
+            "máscara datetime.",
+            "index[mask].tolist()."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\n    \"inicio\": pd.to_datetime([\"2024-01-01\", \"2024-06-01\"]),\n    \"fin\": pd.to_datetime([\"2024-02-01\", \"2024-05-01\"]),\n})\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T4-A-E3",
+          "instruction": "E3 (transferencia) — Concepto: schema drift gate. Si faltan columnas required imprime `drift`; else `schema_ok`. Pass: cadena del oracle según fixture. Fail-closed ante drift.",
+          "hints": [
+            "Usa lista missing.",
+            "Mensajes fijos."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "import pandas as pd\ndf = pd.DataFrame({\"id\": [1]})\nmissing = [c for c in [\"id\", \"monto\"] if c not in df.columns]\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T4-B-E1",
+          "instruction": "E1 (guiado) — Concepto: rows_clean. Dado rows_in=10 y quarantine_n=3, imprime rows_clean = in - quarantine. Pass: `7`. Métrica básica del reporte del gate.",
+          "hints": [
+            "resta simple.",
+            "int."
+          ],
+          "kind": "guided",
+          "tests": "salida coincide con solution output",
+          "starterCode": "rows_in = 10\nq = 3\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T4-B-E2",
+          "instruction": "E2 (independiente) — Concepto: audit append-only. Append un evento `quarantine` a la lista audit e imprime `len(audit)`. Pass: longitud del oracle (n_prev+1). No reescribas el historial.",
+          "hints": [
+            "audit.append.",
+            "lista previa con start."
+          ],
+          "kind": "independent",
+          "tests": "salida coincide con solution output",
+          "starterCode": "audit = [{\"event\": \"start\"}]\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        },
+        {
+          "id": "S16-T4-B-E3",
+          "instruction": "E3 (transferencia) — Concepto: metrics.pass. Si quarantine>0 entonces pass=False; imprime el booleano para n_q=1. Pass: `False`. Publica métricas aunque el gate falle.",
+          "hints": [
+            "pass = n_q==0.",
+            "json opcional."
+          ],
+          "kind": "transfer",
+          "tests": "salida coincide con solution output",
+          "starterCode": "n_q = 1\n# TODO: completa según la instrucción; imprime la salida exacta del contrato\n"
+        }
+      ]
+    },
+    "youDo": {
+      "title": "Quality gate explicable ante schema drift",
+      "context": "Implementa una suite de checks sobre un dataset sintético de clientes/transacciones (regiones Lima/Arequipa/Cusco, montos PEN ficticios): null policies required/optional, duplicados exactos vs conflictos con evidencia, normalización con raw lateral, outliers dominio+IQR, contratos schema/cross-field, cuarentena y audit trail append-only. El set clean alimenta S17/CP-N2-A. Fail-closed: nunca arregles silenciosamente un dato ni uses PII real.",
+      "objectives": [
+        "Suite de checks que falla explicablemente ante drift",
+        "Cuantificar pérdida de filas/campos",
+        "Nunca arreglar silenciosamente un dato",
+        "Cuarentena + audit trail sintético"
+      ],
+      "requirements": [
+        "Fixtures sintéticos",
+        "Demo reproducible",
+        "Documentación en español profesional",
+        "Alineación a CP-N2-A (quality)"
+      ],
+      "portfolioNote": "El gate debe emitir métricas incluso cuando pass=False.",
+      "starterCode": "import pandas as pd\n\ndef run_quality_gate(df: pd.DataFrame, schema: dict) -> dict:\n    \"\"\"Retorna metrics + quarantine. No muta df sin audit.\"\"\"\n    # TODO\n    raise NotImplementedError\n\nif __name__ == \"__main__\":\n    df = pd.DataFrame({\"cliente_id\": [\"C001\", None], \"monto\": [10.0, -1.0]})\n    print(run_quality_gate(df, {\"cliente_id\": \"required\", \"monto\": \"required\"}))\n"
+    },
+    "selfCheck_stems": [
+      {
+        "question": "Un campo marked required con nulls debe:",
+        "options": [
+          "Imputarse siempre con 0",
+          "Ignorarse si es <5% de filas",
+          "Convertirse a string vacío",
+          "Provocar violación/cuarentena o fail del gate"
+        ]
+      },
+      {
+        "question": "Duplicado exacto vs conflicto de clave:",
+        "options": [
+          "Son lo mismo y siempre se drop_duplicates",
+          "Exacto = filas idénticas; conflicto = misma clave con atributos distintos",
+          "Conflicto solo existe en SQL, no en pandas",
+          "Exacto se resuelve con melt"
+        ]
+      },
+      {
+        "question": "Conservar region_raw al normalizar sirve para:",
+        "options": [
+          "Acelerar groupby",
+          "Imputar nulls automáticamente",
+          "Auditar y disputar la forma canónica sin perder el valor original",
+          "Validar one_to_one en merge"
+        ]
+      },
+      {
+        "question": "IQR sin domain bounds es riesgoso porque:",
+        "options": [
+          "Puede marcar (o borrar) colas legítimas de negocio como si fueran error",
+          "No funciona con floats",
+          "Siempre es más lento que z-score",
+          "Requiere MultiIndex"
+        ]
+      },
+      {
+        "question": "Un quality gate que falla debe:",
+        "options": [
+          "Ocultar métricas para no alarmar",
+          "Imputar todos los nulls y reintentar en silencio",
+          "Borrar el audit trail del run anterior",
+          "Publicar métricas y cuarentena aunque pass=False"
+        ]
+      }
+    ]
+  },
+  "forbidden": "Do not use knowledge outside this packet. You have only basic tech literacy and zero Python except what appears in landing + prior_sections + active section theory/demos/instructions/hints/starters. Solutions and correct answers are not in this packet.",
+  "packet_sha": "bf1b1f93ca6fbcee"
+}

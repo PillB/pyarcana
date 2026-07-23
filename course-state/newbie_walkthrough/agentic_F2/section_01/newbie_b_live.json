@@ -1,0 +1,547 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_F2",
+  "section_index": 1,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b_live-F2-s01-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S01-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T1-A-E1: packet-only solve (no prior lives)\n# Transcript REPL (línea por línea; no archivo .py)\n# >>> 2 + 2\n# 4\n# >>> type(\"Hola\")\n# <class 'str'>\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.x.y'\n# >>> quit()\n\n# F2-note:a2ab8d6fb9 packet-grounded (skeptic); instr_tokens=33\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "REPL"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/219e3efc] Dudé del atajo en S01-T1-A-E1; me ceñí al weDo. «E1 (guiado) — Completa el transcript de una sesión REPL: suma, type() e import de sys. No crees un archivo .py; simula el diálogo en comentarios y luego pruébal». Hint «En el REPL el prompt es >>>. Tras import sys, usa sys.version.split()[0] para la versión c». Ancla: `# agentic_F2-skeptic/S01-T1-A-E1: packet-only solve (no prior lives)`. S01-T1-A-DEMO. El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T1-A-E2: packet-only solve (no prior lives)\n# Transcript REPL (línea por línea; no archivo .py)\n# >>> 2 + 2\n# 4\n# >>> type(\"Hola\")\n# <class 'str'>\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.x.y'\n# >>> quit()\n\n# F2-note:f1d21b7aee packet-grounded (skeptic); instr_tokens=36\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "REPL"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/b3412014] Dudé del atajo en S01-T1-A-E2; me ceñí al weDo. «E2 (independiente) — Crea `hello_sys.py` que imprima tu nombre sintético y la versión de Python con sys. Debe usar `if __name__ == \"__main__\":` y salir con códi». Hint «Importa sys. La versión corta es sys.version.split()[0]. Envuelve la lógica en main().». Ancla: `# agentic_F2-skeptic/S01-T1-A-E2: packet-only solve (no prior lives)`. S01-T1-A-DEMO. El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T1-A-E3: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n\n# F2-note:73f1a170ab packet-grounded (skeptic); instr_tokens=58\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/3ee9a9f1] Dudé del atajo en S01-T1-A-E3; me ceñí al weDo. «E3 (transferencia) — Diagnóstico: en una laptop Windows el usuario escribe `python --version` y obtiene \"no se reconoce como comando\". En macOS, `python` falla ». Hint «En Windows el culpable típico es el PATH o el alias de la Microsoft Store. En macOS/Linux ». Ancla: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. S01-T1-A-DEMO. El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T1-B-E1: packet-only solve (no prior lives)\n# Transcript REPL (línea por línea; no archivo .py)\n# >>> 2 + 2\n# 4\n# >>> type(\"Hola\")\n# <class 'str'>\n# >>> import sys\n# >>> sys.version.split()[0]\n# '3.x.y'\n# >>> quit()\n\n# F2-note:1e55943a35 packet-grounded (skeptic); instr_tokens=36\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "REPL"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/36dc57e4] Dudé del atajo en S01-T1-B-E1; me ceñí al weDo. «E1 (guiado) — Completa el transcript de terminal: ejecuta un Python que sale con 0, otro con 1, y anota `$?` (bash/zsh) o `$LASTEXITCODE` (PowerShell). No subas». Hint «Tras cada comando, imprime el código de salida. En bash: echo $?. En PowerShell: echo $LAS». Ancla: `# agentic_F2-skeptic/S01-T1-B-E1: packet-only solve (no prior lives)`. S01-T1-B-DEMO. El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T1-B-E2: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n\n# F2-note:e35ff06b56 packet-grounded (skeptic); instr_tokens=46\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/1b82f862] Solo acepto S01-T1-B-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Escribe `check_arg.py`: si recibe exactamente un argumento de línea de comandos, imprime `OK:<arg>` y termina con código 0; si no hay argum». Verifiqué pista «sys.argv[0] es el nombre del script; los argumentos del usuario empiezan en sys.argv[1].» y demo S01-T1-B-DEMO. Código justificado: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. No invento APIs. Teoría: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T1-B-E3: packet-only solve (no prior lives)\n# From iDo demo in active packet\n# Éxito: el proceso Python termina con 0\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"exit_ok=$?\"\n# PowerShell:\n# python -c \"import sys; print('ok'); sys.exit(0)\"; echo \"exit_ok=$LASTEXITCODE\"\n\n# Fallo controlado: termina con 1 (la shell sigue viva)\npython3 -c \"import sys; print('fallo controlado'); sys.exit(1)\"\necho \"exit_fail=$?\"\n\n# Comando inexistente → también no-cero (mensaje distinto, mismo tipo de señal a CI)\nfalse\necho \"exit_false=$?\"\n\n# Rutas: cwd vs carpeta\npwd\nmkdir -p /tmp/s01_t1b_demo && cd /tmp/s01_t1b_demo\npwd\n# Estar en /tmp/s01_t1b_demo NO \"arregla\" un Python ausente del PATH\n\n# F2-note:995171ea69 packet-grounded (skeptic); instr_tokens=60\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "iDo",
+        "demo"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/e5383d07] S01-T1-B-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Caso: un colega corre `pip install pandas` y ve error. En un escenario el mensaje es \"pip no se reconoce como comando\"; en otro, pip corre ». Demo S01-T1-B-DEMO. Línea: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Pista «Pregunta siempre: ¿qué ejecutable falló? ¿qué python usa import? Preferir python -m pip pa»."
+    },
+    {
+      "exercise_id": "S01-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T2-A-E1: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n\n# F2-note:c198f31b42 packet-grounded (skeptic); instr_tokens=28\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/ec530b87] S01-T2-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — En una carpeta de práctica, crea un entorno `.venv` con `python -m venv`, actívalo y verifica que `sys.prefix` apunta a esa carpeta. Luego ejecuta». Demo S01-T2-A-DEMO. Línea: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Pista «Comando de creación: python3 -m venv .venv. Activación Unix: source .venv/bin/activate. Wi»."
+    },
+    {
+      "exercise_id": "S01-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T2-A-E2: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n\n# F2-note:d73f47d644 packet-grounded (skeptic); instr_tokens=42\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/6bfa7ace] S01-T2-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Simula un entorno “roto”: con `.venv` ya creado, borra la carpeta del entorno (o renómbrala) y recrea un `.venv` limpio sin tocar tu código». Demo S01-T2-A-DEMO. Línea: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Pista «El código (.py, README) vive fuera de .venv. Borrar .venv no borra tus scripts si están en»."
+    },
+    {
+      "exercise_id": "S01-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T2-A-E3: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n\n# F2-note:d58938a86b packet-grounded (skeptic); instr_tokens=63\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/85529566] Solo acepto S01-T2-A-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Un colega propone instalar pandas con `pip install pandas` en el Python global “para no perder tiempo con venv”. Escribe un párrafo (5–8 or». Verifiqué pista «Usa el escenario: Proyecto A necesita pandas 1.x; Proyecto B necesita 2.x. Un solo site-pa» y demo S01-T2-A-DEMO. Código justificado: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. No invento APIs. Teoría: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T2-B-E1: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n\n# F2-note:fc675db4b8 packet-grounded (skeptic); instr_tokens=30\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/82757246] S01-T2-B-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Con `.venv` activado, instala un paquete de terceros pinneado (ej. `requests==2.32.3`), genera `requirements.txt` con freeze y verifica que el arc». Demo S01-T2-B-DEMO. Línea: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Pista «Siempre: python -m pip install ... y python -m pip freeze > requirements.txt»."
+    },
+    {
+      "exercise_id": "S01-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T2-B-E2: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n\n# F2-note:07ccb5e853 packet-grounded (skeptic); instr_tokens=46\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/90c39b72] Dudé del atajo en S01-T2-B-E2; me ceñí al weDo. «E2 (independiente) — Dado un `requirements.txt` de plantilla (puede ser el de E1), crea un **segundo** entorno limpio (`.venv_replica` o borra y recrea `.venv`)». Hint «No copies site-packages a mano. El contrato es el archivo -r.». Ancla: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. S01-T2-B-DEMO. El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T2-B-E3: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n\n# F2-note:3cfffdc1db packet-grounded (skeptic); instr_tokens=55\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/1293e257] Solo acepto S01-T2-B-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Forense ModuleNotFoundError: el usuario corre `python -c \"import requests\"` y falla. En un caso, nunca instaló el paquete; en otro, lo inst». Verifiqué pista «Primero identifica el intérprete; luego pregunta si el módulo es stdlib; luego instala con» y demo S01-T2-B-DEMO. Código justificado: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. No invento APIs. Teoría: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T3-A-E1: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n\n# F2-note:bba7d4550e packet-grounded (skeptic); instr_tokens=34\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/ae6d7bcd] S01-T3-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — En una carpeta de práctica: `git init`, crea un archivo, haz un commit con mensaje Conventional Commits (`docs:` o `feat:`). Verifica con `git log». Demo S01-T3-A-DEMO. Línea: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Pista «git add <archivo> && git commit -m \"docs: ...\" — el prefijo va en minúsculas seguido de do»."
+    },
+    {
+      "exercise_id": "S01-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T3-A-E2: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n\n# F2-note:aebbda4a2e packet-grounded (skeptic); instr_tokens=43\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/928ded8c] S01-T3-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Modifica un README ya commiteado (agrega una línea), haz commit, y responde en un markdown corto: (1) qué muestra `git show HEAD` en líneas». Demo S01-T3-A-DEMO. Línea: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Pista «Tras el segundo commit, git show HEAD sin pager: GIT_PAGER=cat git show HEAD»."
+    },
+    {
+      "exercise_id": "S01-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T3-A-E3: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n\n# F2-note:e8d44ccd5d packet-grounded (skeptic); instr_tokens=53\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/eb5b8373] S01-T3-A-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Te entregan tres mensajes candidatos para el mismo cambio (añadir `scripts/hello_env.py` que imprime la versión de Python): (A) `wip`, (B) ». Demo S01-T3-A-DEMO. Línea: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Pista «El mejor es claro, con prefijo de tipo y descripción imperativa del *porqué/qué* observabl»."
+    },
+    {
+      "exercise_id": "S01-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T3-B-E1: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n\n# F2-note:ff714cdddd packet-grounded (skeptic); instr_tokens=39\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/b1fbe539] S01-T3-B-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Desde un repo con al menos un commit en `main`, crea la rama `feat/practica-s01`, añade un archivo pequeño, commit con `feat:` y lista las ramas. ». Demo S01-T3-B-DEMO. Línea: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Pista «git switch -c feat/practica-s01  (equivalente moderno a checkout -b)»."
+    },
+    {
+      "exercise_id": "S01-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T3-B-E2: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n\n# F2-note:dfd36c24e4 packet-grounded (skeptic); instr_tokens=51\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/dc6563df] S01-T3-B-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Redacta la descripción de un Pull Request (markdown) para una rama que agrega `scripts/hello_env.py` y actualiza el README de instalación. ». Demo S01-T3-B-DEMO. Línea: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Pista «Título al estilo Conventional Commits; cuerpo orientado al revisor, no a ti.»."
+    },
+    {
+      "exercise_id": "S01-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T3-B-E3: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n\n# F2-note:0229263202 packet-grounded (skeptic); instr_tokens=52\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/228059d0] S01-T3-B-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Escenario: editaste `README.md` sin commit y el cambio está mal. Un colega te dice “usa `reset --hard`” y otro “`push --force` a main”. Esc». Demo S01-T3-B-DEMO. Línea: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Pista «restore descarta cambios no deseados en working tree; stash guarda para después. Ninguno r»."
+    },
+    {
+      "exercise_id": "S01-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T4-A-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\n[tool.ruff]\nline-length = 88\ntarget-version = \"py312\"\n\n[tool.ruff.lint]\nselect = [\"E\", \"F\", \"I\"]\n\n# F2-note:ee7cc0cfef packet-grounded (skeptic); instr_tokens=28\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/8b60bdd9] Dudé del atajo en S01-T4-A-E1; me ceñí al weDo. «E1 (guiado) — Completa un `pyproject.toml` mínimo con `[tool.ruff]` (line-length 88, target-version) y `[tool.ruff.lint] select = [\"E\", \"F\", \"I\"]`. No hace falt». Hint «TOML usa secciones entre corchetes y listas con corchetes para select.». Ancla: `[tool.ruff]`. S01-T4-A-DEMO. El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T4-A-E2: packet-only solve (no prior lives)\nimport sys\nimport os\nfrom datetime import datetime\n\ndef main() -> None:\n    print(\"hola\")\n    print(datetime.now().date())\n\nif __name__ == \"__main__\":\n    main()\n\n# Tarea del estudiante: ruff check → quitar imports sin usar (sys, os)\n\n# F2-note:ac819b97f7 packet-grounded (skeptic); instr_tokens=32\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "sys",
+        "datetime"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/f3c27475] S01-T4-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Dado un script con imports sin usar, instala `ruff` en el venv, corre `python -m ruff check` y corrige hasta exit 0. Entrega el script limp». Demo S01-T4-A-DEMO. Línea: `import sys`. Pista «F401 = imported but unused. La corrección habitual es borrar el import.»."
+    },
+    {
+      "exercise_id": "S01-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T4-A-E3: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n\n# F2-note:c8f2d2f8b1 packet-grounded (skeptic); instr_tokens=46\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/4085d5b7] S01-T4-A-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Un lead propone `select = [\"ALL\"]` el día 1 en un repo de analytics con notebooks. Justifica por escrito un `select` mínimo (E/F/I u otro s». Demo S01-T4-A-DEMO. Línea: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. Pista «ALL genera cientos de hallazgos; el equipo deja de mirar el linter. Empieza por errores re»."
+    },
+    {
+      "exercise_id": "S01-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T4-B-E1: packet-only solve (no prior lives)\n# Fixture del paquete (conserva datos; no reescribas asserts)\n# Entornos\n.venv/\nvenv/\n\n# Bytecode\n__pycache__/\n*.pyc\n\n# Secretos\n.env\n\n# Jupyter\n.ipynb_checkpoints/\n\n# F2-note:feaea91f75 packet-grounded (skeptic); instr_tokens=30\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Fixture",
+        "del"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/ffbe92fa] S01-T4-B-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Completa un `.gitignore` mínimo de Python/data que incluya `.venv/`, `venv/`, `__pycache__/`, `*.pyc`, `.env` e ipynb checkpoints. Verifica con `g». Demo S01-T4-B-DEMO. Línea: `.venv/`. Pista «Una entrada por línea. Las barras finales marcan directorios.»."
+    },
+    {
+      "exercise_id": "S01-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T4-B-E2: packet-only solve (no prior lives)\n# Copia a .env y completa valores locales (nunca commitees .env)\nAPI_URL=\nDB_HOST=\nLOG_LEVEL=\n\n# F2-note:0c7885bad0 packet-grounded (skeptic); instr_tokens=37\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Copia",
+        "env"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/f8458ed4] Dudé del atajo en S01-T4-B-E2; me ceñí al weDo. «E2 (independiente) — Crea `.env.example` con al menos 3 claves de un proyecto de intake (ej. `API_URL`, `DB_HOST`, `LOG_LEVEL`) con valores vacíos o ficticios n». Hint «Clave=valor; el valor en example es placeholder. El .env local puede tener secretos pero q». Ancla: `API_URL=`. S01-T4-B-DEMO. El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    },
+    {
+      "exercise_id": "S01-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-skeptic/S01-T4-B-E3: packet-only solve (no prior lives)\n# Transcript terminal (packet)\npython3 -c \"import sys; print('ok'); sys.exit(0)\"\necho \"codigo_ok=$?\"\npython3 -c \"import sys; print('fail'); sys.exit(1)\"\necho \"codigo_fail=$?\"\n# SHELL_USADA=zsh\n\n# F2-note:2f4c113000 packet-grounded (skeptic); instr_tokens=41\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "skeptic",
+        "S01",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Transcript",
+        "terminal"
+      ],
+      "justification_from_packet": "[agentic_F2/Skeptic/7431a1cb] Solo acepto S01-T4-B-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Checklist de “máquina limpia” para el esqueleto CP-N1-A: escribe 5 ítems verificables (clon → venv → install -r → smoke → ignore de .env) q». Verifiqué pista «Cada ítem debe ser observable (comando + resultado esperado), no “que se vea bonito”.» y demo S01-T4-B-DEMO. Código justificado: `python3 -c \"import sys; print('ok'); sys.exit(0)\"`. No invento APIs. Teoría: El intérprete Python y el REPL · El intérprete en la terminal (comandos de verif."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "Para aislar las dependencias (paquetes) por proyecto y evitar conflictos de versiones",
+      "justification_from_packet": "[agentic_F2/Skeptic] S01 q0: desconfío de «acelera» o «compila». El outcome habla de `.venv` aislada del Python global; la función del venv es contención de dependencias, no performance.",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": ".venv/ (o venv/)",
+      "justification_from_packet": "[agentic_F2/Skeptic] S01 q1: requirements.txt y README deben versionarse (reproducibilidad). Solo el árbol del venv pertenece al ignore; ignorar el README rompería el esqueleto del curso.",
+      "blocked_on": [],
+      "confidence": 0.86
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "\"feat: agregar cálculo de churn por segmento\"",
+      "justification_from_packet": "[agentic_F2/Skeptic] S01 q2: el demo de commits usa `feat:`/`docs:`; rechazo wip/cambios por no ser auditables en el historial del PR.",
+      "blocked_on": [],
+      "confidence": 0.83
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "pip install -r requirements.txt",
+      "justification_from_packet": "[agentic_F2/Skeptic] S01 q3: `pip install pandas` no congela versiones; `git clone` no instala deps. El snapshot freeze + `-r` es la vía del heading pip/requirements.",
+      "blocked_on": [],
+      "confidence": 0.87
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 0,
+      "chosen_text": "Porque suele contener credenciales (API keys, passwords, tokens) que son secretos",
+      "justification_from_packet": "[agentic_F2/Skeptic] S01 q4: la política de secretos del paquete es no filtrar API keys/tokens. Las otras opciones son distracciones de peso/extensión.",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:32.949821+00:00"
+}

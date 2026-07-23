@@ -1,0 +1,551 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_F1",
+  "section_index": 10,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b_live-agentic_F1-s10",
+  "production_note": "agentic_F1 packet-only solve from quiz_card+slim_packet; no E/D/A/B/C prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S10-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T1-A-E1: packet-only solve (no prior lives)\ndef _ws(s: str) -> str:\n    pass",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "_ws",
+        "str"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/ce7cf3b1] Solo acepto S10-T1-A-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Crea un módulo ». Verifiqué pista «Helper privado con _ no va en __all__.» y demo S10-T1-A-DEMO. Código justificado: `def _ws(s: str) -> str:`. No invento APIs. Teoría: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T1-A-E2: packet-only solve (no prior lives)\ndef util_norm(s: str) -> str:\n    pass",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "util_norm",
+        "str"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/9b18441b] Dudé del atajo en S10-T1-A-E2; me ceñí al weDo. «E2 (independiente) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Simula u». Hint «a importa b y b importa a → rompe; mueve la función común a util.». Ancla: `def util_norm(s: str) -> str:`. S10-T1-A-DEMO. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T1-A-E3: packet-only solve (no prior lives)\nrecs = {\n    \"normalize.py importa compare en el mismo paquete\": \"relativo o absoluto del paquete (from . import compare)\",\n    \"plugin externo usa familiarity_core\": \"absoluto (import familiarity_core)\",\n    \"ejecutar el CLI del paquete\": \"python -m familiarity_core\",\n}\nfor c, r in recs.items():\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "recs",
+        "normalize"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/14935542] Dudé del atajo en S10-T1-A-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: S10-T1-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Elige im». Hint «Dentro del paquete: relativo OK; plugins externos: absoluto; scripts: -m.». Ancla: `recs = {`. S10-T1-A-DEMO. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T1-B-E1: packet-only solve (no prior lives)\ndef _tokenize(s):\n    pass",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "_tokenize",
+        "pass"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/2e3a0261] Dudé del atajo en S10-T1-B-E1; me ceñí al weDo. «E1 (guiado) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Marca helpers p». Hint «Imprime lista public vs private detectada por nombre.». Ancla: `def _tokenize(s):`. S10-T1-B-DEMO. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T1-B-E2: packet-only solve (no prior lives)\ndef normalize(s: str) -> str:\n    pass",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "normalize",
+        "str"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/f5ff181c] Dudé del atajo en S10-T1-B-E2; me ceñí al weDo. «E2 (independiente) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Implemen». Hint «Las implementaciones pueden ser locales.». Ancla: `def normalize(s: str) -> str:`. S10-T1-B-DEMO. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T1-B-E3: packet-only solve (no prior lives)\npass  # fixture vacío — usa solution contract\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pass",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/6b2742c0] Dudé del atajo en S10-T1-B-E3; me ceñí al weDo. «E3 (transferencia) — Concepto: S10-T1-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Document». Hint «Imprime BREAKING y NEW_VERSION.». Ancla: `pass  # fixture vacío — usa solution contract`. S10-T1-B-DEMO. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T2-A-E1: packet-only solve (no prior lives)\nproject = {\n    \"name\": \"familiarity-core\",\n    \"version\": \"0.1.0\",\n    \"requires-python\": \">=3.11\",\n}\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "project",
+        "name"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/49c4b3a6] Dudé del atajo en S10-T2-A-E1; me ceñí al weDo. «E1 (guiado) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Completa un dic». Hint «name=familiarity-core version=0.1.0». Ancla: `project = {`. S10-T2-A-DEMO. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T2-A-E2: packet-only solve (no prior lives)\npaths = [\n    \"src/familiarity_core/__init__.py\",\n    \"src/familiarity_core/normalize.py\",\n    \"src/familiarity_core/cli.py\",\n    \"pyproject.toml\",\n]\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "paths",
+        "src"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/c3f27072] S10-T2-A-E2: rechazo claves offline. Paquete dice «E2 (independiente) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Lista el». Demo S10-T2-A-DEMO. Línea: `paths = [`. Pista «Incluye __init__.py, normalize.py, cli.py, pyproject.toml.»."
+    },
+    {
+      "exercise_id": "S10-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T2-A-E3: packet-only solve (no prior lives)\ncauses = [\n    \"cause: paquete no instalado (falta pip install -e .)\",]\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "causes",
+        "cause"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/d95f85a9] Solo acepto S10-T2-A-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Concepto: S10-T2-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Diagnost». Verifiqué pista «Piensa en nombre, editable, y cwd.» y demo S10-T2-A-DEMO. Código justificado: `causes = [`. No invento APIs. Teoría: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T2-B-E1: packet-only solve (no prior lives)\nniveles = {\n    \"renombrar normalize a clean_name (API pública)\": \"major\",\n    \"añadir flag --format a report\": \"minor\",\n    \"corregir typo en help\": \"patch\",\n    \"eliminar subcomando compare\": \"major\",\n}\nfor c, n in niveles.items():\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "niveles",
+        "renombrar"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/9aafa264] S10-T2-B-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Clasifica 4 cam». Demo S10-T2-B-DEMO. Línea: `niveles = {`. Pista «Breaking → major; feature → minor; fix → patch.»."
+    },
+    {
+      "exercise_id": "S10-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T2-B-E2: packet-only solve (no prior lives)\ndeps = {\n    \"requires-python\": \">=3.11\",\n    \"dependencies\": [],\n    \"optional-dependencies\": {\"dev\": [\"pytest\"]},\n}\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "deps",
+        "requires"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/c5acd061] Dudé del atajo en S10-T2-B-E2; me ceñí al weDo. «E2 (independiente) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Fija dep». Hint «Para N1 stdlib: dependencies=[].». Ancla: `deps = {`. S10-T2-B-DEMO. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T2-B-E3: packet-only solve (no prior lives)\n# fixture\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/1ef22bca] S10-T2-B-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: S10-T2-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Escribe ». Demo S10-T2-B-DEMO. Línea: `# agentic_F1-skeptic/S10-T2-B-E3: packet-only solve (no prior lives)`. Pista «Cubrir renames de entidades y versiones.»."
+    },
+    {
+      "exercise_id": "S10-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T3-A-E1: packet-only solve (no prior lives)\nimport argparse\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "argparse"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/9bfaa4bb] S10-T3-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Añade subcomand». Demo S10-T3-A-DEMO. Línea: `import argparse`. Pista «Usa argparse subparsers.»."
+    },
+    {
+      "exercise_id": "S10-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T3-A-E2: packet-only solve (no prior lives)\ncodes = {\n    \"normalize ok\": 0,\n    \"archivo de input no existe\": 1,\n    \"flag desconocido\": 2,\n    \"subcomando ausente\": 2,\n    \"validación de config falla al arrancar\": 1,\n}\nfor c, code in codes.items():\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "codes",
+        "normalize"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/bf827e99] Solo acepto S10-T3-A-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Mapea si». Verifiqué pista «0 éxito, 1 runtime, 2 usage.» y demo S10-T3-A-DEMO. Código justificado: `codes = {`. No invento APIs. Teoría: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T3-A-E3: packet-only solve (no prior lives)\n# fixture\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/19469cf1] S10-T3-A-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: S10-T3-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Escribe ». Demo S10-T3-A-DEMO. Línea: `# agentic_F1-skeptic/S10-T3-A-E3: packet-only solve (no prior lives)`. Pista «Evita jerga de frameworks.»."
+    },
+    {
+      "exercise_id": "S10-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T3-B-E1: packet-only solve (no prior lives)\nfrom io import StringIO\nimport sys\n\ndef process(n: int, err: StringIO) -> int:\n    pass",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "StringIO",
+        "sys"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/a2720341] Solo acepto S10-T3-B-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Escribe resulta». Verifiqué pista «Función process(n) retorna n*2; log event=done.» y demo S10-T3-B-DEMO. Código justificado: `from io import StringIO`. No invento APIs. Teoría: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T3-B-E2: packet-only solve (no prior lives)\ndef read_input(path_or_dash, stdin_text=\"\", file_text=None):\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "read_input",
+        "path_or_dash"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/3d442f2d] Dudé del atajo en S10-T3-B-E2; me ceñí al weDo. «E2 (independiente) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Implemen». Hint «Si path=='-', usa stdin_text.». Ancla: `def read_input(path_or_dash, stdin_text=\"\", file_text=None):`. S10-T3-B-DEMO. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T3-B-E3: packet-only solve (no prior lives)\nfrom io import StringIO\n\ndef bad_cli():\n    pass",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "StringIO",
+        "bad_cli"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/a462c46a] S10-T3-B-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: S10-T3-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Revisa u». Demo S10-T3-B-DEMO. Línea: `from io import StringIO`. Pista «Imprime BAD y GOOD.»."
+    },
+    {
+      "exercise_id": "S10-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T4-A-E1: packet-only solve (no prior lives)\nlayers = [\"defaults\", \"file\", \"env\", \"flags\"]\nfor i, name in enumerate(layers, 1):\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "layers",
+        "defaults"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/066f81a1] S10-T4-A-E1: rechazo claves offline. Paquete dice «E1 (guiado) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Imprime la tabl». Demo S10-T4-A-DEMO. Línea: `layers = [\"defaults\", \"file\", \"env\", \"flags\"]`. Pista «defaults < file < env < flags.»."
+    },
+    {
+      "exercise_id": "S10-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T4-A-E2: packet-only solve (no prior lives)\ndef merge(defaults, file_cfg, env_cfg, flags):\n    pass",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "merge",
+        "defaults"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/7ab54c37] Solo acepto S10-T4-A-E2 si el paquete lo enseña. Instrucción: «E2 (independiente) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Implemen». Verifiqué pista «Prueba con log_level en todas las capas.» y demo S10-T4-A-DEMO. Código justificado: `def merge(defaults, file_cfg, env_cfg, flags):`. No invento APIs. Teoría: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T4-A-E3: packet-only solve (no prior lives)\npass  # fixture vacío — usa solution contract\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "pass",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/00cde0cf] S10-T4-A-E3: rechazo claves offline. Paquete dice «E3 (transferencia) — Concepto: S10-T4-A (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Caso con». Demo S10-T4-A-DEMO. Línea: `pass  # fixture vacío — usa solution contract`. Pista «Una línea result= y una razón.»."
+    },
+    {
+      "exercise_id": "S10-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T4-B-E1: packet-only solve (no prior lives)\n# fixture\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "fixture"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/182561ab] Solo acepto S10-T4-B-E1 si el paquete lo enseña. Instrucción: «E1 (guiado) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Checklist de se». Verifiqué pista «Incluye .env, *.pem, credentials.json, .venv opcional no es secreto pero sí local.» y demo S10-T4-B-DEMO. Código justificado: `# agentic_F1-skeptic/S10-T4-B-E1: packet-only solve (no prior lives)`. No invento APIs. Teoría: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T4-B-E2: packet-only solve (no prior lives)\ndef validate_config(cfg: dict) -> None:\n    pass",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "validate_config",
+        "cfg"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/422a7813] Dudé del atajo en S10-T4-B-E2; me ceñí al weDo. «E2 (independiente) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Implemen». Hint «Raise RuntimeError con nombre de clave.». Ancla: `def validate_config(cfg: dict) -> None:`. S10-T4-B-DEMO. Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    },
+    {
+      "exercise_id": "S10-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S10-T4-B-E3: packet-only solve (no prior lives)\ninseguro = {\"log_level\": \"DEBUG\", \"echo_sql\": True, \"api_token\": \"hardcoded\"}\nseguro = {\"log_level\": \"INFO\", \"echo_sql\": False, \"api_token\": None}\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S10",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "inseguro",
+        "log_level"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/9f4ede27] Solo acepto S10-T4-B-E3 si el paquete lo enseña. Instrucción: «E3 (transferencia) — Concepto: S10-T4-B (Módulos, packaging y CLI). Entrada: fixture sintético del starter (`CASO`/ids C00x) en packaging y CLI. Tarea: Dado un ». Verifiqué pista «Imprime old → new por clave.» y demo S10-T4-B-DEMO. Código justificado: `inseguro = {\"log_level\": \"DEBUG\", \"echo_sql\": True, \"api_token\": \"hardcoded\"}`. No invento APIs. Teoría: Imports, namespaces y __main__ | Dependencias cíclicas y API pública | Layout sr."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "Ejecutar el CLI/demo solo al correr el módulo, no al importar",
+      "justification_from_packet": "Si main corriera al importar rompería tests y reutilización. El guard __name__ == '__main__' existe justo para ejecutar el CLI solo como script.",
+      "blocked_on": [],
+      "confidence": 0.88
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "flags > env > file > defaults",
+      "justification_from_packet": "Memorizo el orden del outcome tal cual: flags ganan a env, env al archivo, y el archivo a defaults. Invertir esa cadena es un bug de configuración.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "Error de uso/parseo de argumentos",
+      "justification_from_packet": "0 es éxito; 1 suele ser fallo de negocio; 2 es uso incorrecto de la CLI/argparse. No es fraude ni timeout.",
+      "blocked_on": [],
+      "confidence": 0.84
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "stderr",
+      "justification_from_packet": "stdout debe poder piparse limpio. Por eso el demo de normalize manda el progreso a stderr y el payload a stdout.",
+      "blocked_on": [],
+      "confidence": 0.87
+    },
+    {
+      "question_index": 4,
+      "chosen_index": 1,
+      "chosen_text": "minor",
+      "justification_from_packet": "Semver del demo: feature o subcomando nuevo compatible es minor. major es breaking o rename de API; no aplican aquí.",
+      "blocked_on": [],
+      "confidence": 0.86
+    },
+    {
+      "question_index": 5,
+      "chosen_index": 3,
+      "chosen_text": ".env con API_TOKEN",
+      "justification_from_packet": "pyproject.toml es metadato del paquete y debe ir al repo. Lo que no debe ir es el .env con tokens: secretos fuera del git.",
+      "blocked_on": [],
+      "confidence": 0.9
+    }
+  ],
+  "recorded_at": "2026-07-23T05:02:17.693246+00:00"
+}

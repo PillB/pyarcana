@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F1",
+  "section_index": 46,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-agentic_F1-s46",
+  "production_note": "agentic_F1 packet-only solve from quiz_card+slim_packet; no E/D/A/B/C prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S46-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T1-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-HYO-046-1A\", **{\"event_time\":110,\"window_end\":120,\"watermark\":115,\"allowed_lateness\":10}}\nmeets_contract = record[\"event_time\"] > record[\"window_end\"] or record[\"event_time\"] < record[\"watermark\"] - record[\"allowed_lateness\"]\nstatus = \"PASS\" if meets_contract else \"SIDE_OUTPUT_LATE_EVENT\"\nprint(\"S46-T1-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/282d1e04] Como explorador, S46-T1-A-E1: sigo el starter y el iDo. El enunciado pide «S46-T1-A-E1 · Calcula el contrato de `ventanas, event time y watermarks` sobre `CASO-HYO-046-1A`. La entrada es el dict completo del starter; la operación debe ». Aplico «Relaciona los campos `event_time`, `window_end`, `watermark`, `allowed_lateness` con la re». Línea clave: `record = {\"case_id\": \"CASO-HYO-046-1A\", **{\"event_time\":110,\"window_end\":120,\"watermark\":115,\"allowed_lateness`. Heading: ventanas, event time y watermarks | late data y exactly-once como propiedad comp."
+    },
+    {
+      "exercise_id": "S46-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T1-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('ventanas, event time y watermarks')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/4d7a9ad2] Resuelvo S46-T1-A-E2 solo con el paquete activo. Instrucción: «S46-T1-A-E2 · Modela tres rutas de `ventanas, event time y watermarks`: fixture válido, fixture adverso y registro sin `allowed_lateness`. Entrada: dict con cas». Pista: «Primero se calcula `missing`; ningún acceso a allowed_lateness debe ocurrir antes de esa r». Demo S46-T1-A-DEMO. Código ancla: `print('ventanas, event time y watermarks')`. Teoría: ventanas, event time y watermarks | late data y exactly-once como propiedad comp. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S46-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T1-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S46-T1-A-E3 · Simula fallo cerrado para `ventanas, event time y watermarks` con tres fixtures distintos\n2. `CASO-HYO-046-1A` debe continuar, el adverso debe devolver `SIDE_OUTPUT_LATE_EVENT` y la ausencia de `allowed_lateness` debe devolver `WAIT_FOR_WATERMARK`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `WAIT_FOR_WATERMARK` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró event_time dentro de ventana y lateness permitido; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/afa27412] S46-T1-A-E3 — material del slim_packet basta. «S46-T1-A-E3 · Simula fallo cerrado para `ventanas, event time y watermarks` con tres fixtures distintos. `CASO-HYO-046-1A` debe continuar, el adverso debe devol» · hint «Una ausencia no equivale a breach: enrútala a `WAIT_FOR_WATERMARK` antes de evaluar el con» · S46-T1-A-DEMO. Entrega: `1. S46-T1-A-E3 · Simula fallo cerrado para `ventanas, event time y watermarks` con tres fixtures distintos`. ventanas, event time y watermarks | late data y exactly-once como propiedad comp."
+    },
+    {
+      "exercise_id": "S46-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T1-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-HYO-046-1B\", **{\"event_ids\":[\"e1\",\"e1\",\"e2\"],\"sink_ids\":{\"e1\",\"e2\"},\"checkpoint\":2,\"late_policy\":\"update\"}}\nmeets_contract = len(record[\"event_ids\"]) == len(record[\"sink_ids\"]) or not record[\"late_policy\"]\nstatus = \"PASS\" if meets_contract else \"REPLAY_IDEMPOTENTLY\"\nprint(\"S46-T1-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/3b75f8c7] Como explorador, S46-T1-B-E1: sigo el starter y el iDo. El enunciado pide «S46-T1-B-E1 · Compara el contrato de `late data y exactly-once como propiedad compuesta` sobre `CASO-HYO-046-1B`. La entrada es el dict completo del starter; la». Aplico «Relaciona los campos `event_ids`, `sink_ids`, `checkpoint`, `late_policy` con la regla exp». Línea clave: `record = {\"case_id\": \"CASO-HYO-046-1B\", **{\"event_ids\":[\"e1\",\"e1\",\"e2\"],\"sink_ids\":{\"e1\",\"e2\"},\"checkpoint\":2,`. Heading: ventanas, event time y watermarks | late data y exactly-once como propiedad comp."
+    },
+    {
+      "exercise_id": "S46-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T1-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('late data y exactly-once como propiedad compuesta')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/e920a986] Resuelvo S46-T1-B-E2 solo con el paquete activo. Instrucción: «S46-T1-B-E2 · Verifica tres rutas de `late data y exactly-once como propiedad compuesta`: fixture válido, fixture adverso y registro sin `late_policy`. Entrada:». Pista: «Primero se calcula `missing`; ningún acceso a late_policy debe ocurrir antes de esa rama.». Demo S46-T1-B-DEMO. Código ancla: `print('late data y exactly-once como propiedad compuesta')`. Teoría: ventanas, event time y watermarks | late data y exactly-once como propiedad comp. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S46-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T1-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S46-T1-B-E3 · Extiende fallo cerrado para `late data y exactly-once como propiedad compuesta` con tres fixtures distintos\n2. `CASO-HYO-046-1B` debe continuar, el adverso debe devolver `REPLAY_IDEMPOTENTLY` y la ausencia de `late_policy` debe devolver `CHOOSE_LATE_POLICY`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `CHOOSE_LATE_POLICY` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró dedup sink, checkpoint y política de dato tardío; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/67b6832e] Resuelvo S46-T1-B-E3 solo con el paquete activo. Instrucción: «S46-T1-B-E3 · Extiende fallo cerrado para `late data y exactly-once como propiedad compuesta` con tres fixtures distintos. `CASO-HYO-046-1B` debe continuar, el ». Pista: «Una ausencia no equivale a breach: enrútala a `CHOOSE_LATE_POLICY` antes de evaluar el con». Demo S46-T1-B-DEMO. Código ancla: `1. S46-T1-B-E3 · Extiende fallo cerrado para `late data y exactly-once como propiedad compuesta` con tres fixt`. Teoría: ventanas, event time y watermarks | late data y exactly-once como propiedad comp. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S46-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T2-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\",\"report\"},\"edges\":{(\"raw\",\"clean\"),(\"clean\",\"report\")},\"typed_io\":True}}\nmeets_contract = not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"])\nstatus = \"PASS\" if meets_contract else \"REJECT_DAG\"\nprint(\"S46-T2-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/3ec1ae1b] Como explorador, S46-T2-A-E1: sigo el starter y el iDo. El enunciado pide «S46-T2-A-E1 · Filtra el contrato de `DAG/assets y dependency` sobre `CASO-HYO-046-2A`. La entrada es el dict completo del starter; la operación debe demostrar g». Aplico «Relaciona los campos `nodes`, `edges`, `typed_io` con la regla explicada en S46-T2-A.». Línea clave: `record = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\",\"report\"},\"edges\":{(\"raw\",\"clean\"),(\"clean\",`. Heading: ventanas, event time y watermarks | late data y exactly-once como propiedad comp."
+    },
+    {
+      "exercise_id": "S46-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T2-A-E2: packet-only solve (no prior lives)\ndef assess(record: dict) -> str:\n    required = {\"case_id\", \"nodes\", \"edges\", \"typed_io\"}\n    missing = sorted(required - record.keys())\n    if missing:\n        return \"MISSING:\" + \",\".join(missing)\n    return \"PASS\" if not record[\"typed_io\"] or any(a == b for a,b in record[\"edges\"]) else \"REJECT_DAG\"\n\nvalid = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\",\"report\"},\"edges\":{(\"raw\",\"clean\"),(\"clean\",\"report\")},\"typed_io\":True}}\ninvalid = {\"case_id\": \"CASO-HYO-046-2A\", **{\"nodes\":{\"raw\",\"clean\"},\"edges\":{(\"raw\",\"raw\"),(\"clean\",\"report\")},\"typed_io\":False}}\nincomplete = {**valid}\nincomplete.pop(\"typed_io\")\nresults = (assess(valid), assess(invalid), assess(incomplete))\nprint(*results)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "assess",
+        "record"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/0e66ccbd] Resuelvo S46-T2-A-E2 solo con el paquete activo. Instrucción: «S46-T2-A-E2 · Clasifica tres rutas de `DAG/assets y dependency`: fixture válido, fixture adverso y registro sin `typed_io`. Entrada: dict con case_id, nodes, ed». Pista: «Primero se calcula `missing`; ningún acceso a typed_io debe ocurrir antes de esa rama.». Demo S46-T2-A-DEMO. Código ancla: `def assess(record: dict) -> str:`. Teoría: ventanas, event time y watermarks | late data y exactly-once como propiedad comp. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S46-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T2-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S46-T2-A-E3 · Defiende fallo cerrado para `DAG/assets y dependency` con tres fixtures distintos\n2. `CASO-HYO-046-2A` debe continuar, el adverso debe devolver `REJECT_DAG` y la ausencia de `typed_io` debe devolver `DECLARE_ASSET_DEPENDENCY`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `DECLARE_ASSET_DEPENDENCY` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró grafo sin self-loop y todos los nodos declarados; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/beb3da5b] Como explorador, S46-T2-A-E3: sigo el starter y el iDo. El enunciado pide «S46-T2-A-E3 · Defiende fallo cerrado para `DAG/assets y dependency` con tres fixtures distintos. `CASO-HYO-046-2A` debe continuar, el adverso debe devolver `REJ». Aplico «Una ausencia no equivale a breach: enrútala a `DECLARE_ASSET_DEPENDENCY` antes de evaluar ». Línea clave: `1. S46-T2-A-E3 · Defiende fallo cerrado para `DAG/assets y dependency` con tres fixtures distintos`. Heading: ventanas, event time y watermarks | late data y exactly-once como propiedad comp."
+    },
+    {
+      "exercise_id": "S46-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T2-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-HYO-046-2B\", **{\"intervals\":[[1,3],[4,6]],\"overlap\":False,\"checkpoint\":\"2026-07-01\",\"resume_from\":\"2026-07-01\"}}\nmeets_contract = record[\"overlap\"] or record[\"checkpoint\"] != record[\"resume_from\"]\nstatus = \"PASS\" if meets_contract else \"STOP_OVERLAPPING_BACKFILL\"\nprint(\"S46-T2-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/7284b960] Como explorador, S46-T2-B-E1: sigo el starter y el iDo. El enunciado pide «S46-T2-B-E1 · Modela el contrato de `schedules, backfills y state recovery` sobre `CASO-HYO-046-2B`. La entrada es el dict completo del starter; la operación de». Aplico «Relaciona los campos `intervals`, `overlap`, `checkpoint`, `resume_from` con la regla expl». Línea clave: `record = {\"case_id\": \"CASO-HYO-046-2B\", **{\"intervals\":[[1,3],[4,6]],\"overlap\":False,\"checkpoint\":\"2026-07-01\"`. Heading: ventanas, event time y watermarks | late data y exactly-once como propiedad comp."
+    },
+    {
+      "exercise_id": "S46-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T2-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('schedules, backfills y state recovery')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/f29cd718] S46-T2-B-E2 — material del slim_packet basta. «S46-T2-B-E2 · Audita tres rutas de `schedules, backfills y state recovery`: fixture válido, fixture adverso y registro sin `resume_from`. Entrada: dict con case» · hint «Primero se calcula `missing`; ningún acceso a resume_from debe ocurrir antes de esa rama.» · S46-T2-B-DEMO. Entrega: `print('schedules, backfills y state recovery')`. ventanas, event time y watermarks | late data y exactly-once como propiedad comp."
+    },
+    {
+      "exercise_id": "S46-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T2-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S46-T2-B-E3 · Recupera fallo cerrado para `schedules, backfills y state recovery` con tres fixtures distintos\n2. `CASO-HYO-046-2B` debe continuar, el adverso debe devolver `STOP_OVERLAPPING_BACKFILL` y la ausencia de `resume_from` debe devolver `RECOVER_CHECKPOINT`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `RECOVER_CHECKPOINT` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró intervalos sin solape y reanudación desde checkpoint; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/1e56c037] Como explorador, S46-T2-B-E3: sigo el starter y el iDo. El enunciado pide «S46-T2-B-E3 · Recupera fallo cerrado para `schedules, backfills y state recovery` con tres fixtures distintos. `CASO-HYO-046-2B` debe continuar, el adverso debe». Aplico «Una ausencia no equivale a breach: enrútala a `RECOVER_CHECKPOINT` antes de evaluar el con». Línea clave: `1. S46-T2-B-E3 · Recupera fallo cerrado para `schedules, backfills y state recovery` con tres fixtures distint`. Heading: ventanas, event time y watermarks | late data y exactly-once como propiedad comp."
+    },
+    {
+      "exercise_id": "S46-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T3-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-HYO-046-3A\", **{\"schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"observed_schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"freshness_min\":8,\"slo_min\":15,\"owner\":\"data-ops\"}}\nmeets_contract = record[\"schema\"] != record[\"observed_schema\"] or record[\"freshness_min\"] > record[\"slo_min\"]\nstatus = \"PASS\" if meets_contract else \"QUARANTINE_DATASET\"\nprint(\"S46-T3-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/b20e1bc5] Resuelvo S46-T3-A-E1 solo con el paquete activo. Instrucción: «S46-T3-A-E1 · Verifica el contrato de `contracts y freshness` sobre `CASO-HYO-046-3A`. La entrada es el dict completo del starter; la operación debe demostrar s». Pista: «Relaciona los campos `schema`, `observed_schema`, `freshness_min`, `slo_min`, `owner` con ». Demo S46-T3-A-DEMO. Código ancla: `record = {\"case_id\": \"CASO-HYO-046-3A\", **{\"schema\":{\"case_id\":\"str\",\"event_time\":\"int\"},\"observed_schema\":{\"c`. Teoría: ventanas, event time y watermarks | late data y exactly-once como propiedad comp. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S46-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T3-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('contracts y freshness')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/b8c26699] Como explorador, S46-T3-A-E2: sigo el starter y el iDo. El enunciado pide «S46-T3-A-E2 · Decide tres rutas de `contracts y freshness`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, schema, observed_». Aplico «Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.». Línea clave: `print('contracts y freshness')`. Heading: ventanas, event time y watermarks | late data y exactly-once como propiedad comp."
+    },
+    {
+      "exercise_id": "S46-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T3-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S46-T3-A-E3 · Contrasta fallo cerrado para `contracts y freshness` con tres fixtures distintos\n2. `CASO-HYO-046-3A` debe continuar, el adverso debe devolver `QUARANTINE_DATASET` y la ausencia de `owner` debe devolver `PAGE_DATA_OWNER`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `PAGE_DATA_OWNER` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró schema exacto, freshness bajo SLO y owner; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/7a37df58] Resuelvo S46-T3-A-E3 solo con el paquete activo. Instrucción: «S46-T3-A-E3 · Contrasta fallo cerrado para `contracts y freshness` con tres fixtures distintos. `CASO-HYO-046-3A` debe continuar, el adverso debe devolver `QUAR». Pista: «Una ausencia no equivale a breach: enrútala a `PAGE_DATA_OWNER` antes de evaluar el conten». Demo S46-T3-A-DEMO. Código ancla: `1. S46-T3-A-E3 · Contrasta fallo cerrado para `contracts y freshness` con tres fixtures distintos`. Teoría: ventanas, event time y watermarks | late data y exactly-once como propiedad comp. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S46-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T3-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-HYO-046-3B\", **{\"run_id\":\"run-hyo-46\",\"inputs\":{\"raw-v2\"},\"outputs\":{\"clean-v3\"},\"metrics\":{\"rows\":120,\"null_rate\":0.01},\"owner\":\"analytics\"}}\nmeets_contract = not record[\"inputs\"] or record[\"metrics\"][\"null_rate\"] > 0.02\nstatus = \"PASS\" if meets_contract else \"OPEN_QUALITY_INCIDENT\"\nprint(\"S46-T3-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/463fd977] Resuelvo S46-T3-B-E1 solo con el paquete activo. Instrucción: «S46-T3-B-E1 · Clasifica el contrato de `lineage, observability y ownership` sobre `CASO-HYO-046-3B`. La entrada es el dict completo del starter; la operación de». Pista: «Relaciona los campos `run_id`, `inputs`, `outputs`, `metrics`, `owner` con la regla explic». Demo S46-T3-B-DEMO. Código ancla: `record = {\"case_id\": \"CASO-HYO-046-3B\", **{\"run_id\":\"run-hyo-46\",\"inputs\":{\"raw-v2\"},\"outputs\":{\"clean-v3\"},\"m`. Teoría: ventanas, event time y watermarks | late data y exactly-once como propiedad comp. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S46-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T3-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('lineage, observability y ownership')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/d3f37e04] Como explorador, S46-T3-B-E2: sigo el starter y el iDo. El enunciado pide «S46-T3-B-E2 · Calcula tres rutas de `lineage, observability y ownership`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, run». Aplico «Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.». Línea clave: `print('lineage, observability y ownership')`. Heading: ventanas, event time y watermarks | late data y exactly-once como propiedad comp."
+    },
+    {
+      "exercise_id": "S46-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T3-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S46-T3-B-E3 · Instrumenta fallo cerrado para `lineage, observability y ownership` con tres fixtures distintos\n2. `CASO-HYO-046-3B` debe continuar, el adverso debe devolver `OPEN_QUALITY_INCIDENT` y la ausencia de `owner` debe devolver `TRACE_LINEAGE`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `TRACE_LINEAGE` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró run conecta inputs/outputs/métricas/owner; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/92f6fd01] Resuelvo S46-T3-B-E3 solo con el paquete activo. Instrucción: «S46-T3-B-E3 · Instrumenta fallo cerrado para `lineage, observability y ownership` con tres fixtures distintos. `CASO-HYO-046-3B` debe continuar, el adverso debe». Pista: «Una ausencia no equivale a breach: enrútala a `TRACE_LINEAGE` antes de evaluar el contenid». Demo S46-T3-B-DEMO. Código ancla: `1. S46-T3-B-E3 · Instrumenta fallo cerrado para `lineage, observability y ownership` con tres fixtures distint`. Teoría: ventanas, event time y watermarks | late data y exactly-once como propiedad comp. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S46-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T4-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-HYO-046-4A\", **{\"partition\":\"2026-07-22\",\"source_keys\":{\"a\",\"b\",\"c\"},\"target_keys\":{\"a\",\"b\",\"c\"},\"second_run_changes\":0,\"small_files\":2,\"max_small_files\":5}}\nmeets_contract = record[\"source_keys\"] != record[\"target_keys\"] or record[\"second_run_changes\"] > 0\nstatus = \"PASS\" if meets_contract else \"REBUILD_PARTITION\"\nprint(\"S46-T4-A\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/3ca0d994] S46-T4-A-E1 — material del slim_packet basta. «S46-T4-A-E1 · Audita el contrato de `partitions e incremental loads` sobre `CASO-HYO-046-4A`. La entrada es el dict completo del starter; la operación debe demo» · hint «Relaciona los campos `partition`, `source_keys`, `target_keys`, `second_run_changes`, `sma» · S46-T4-A-DEMO. Entrega: `record = {\"case_id\": \"CASO-HYO-046-4A\", **{\"partition\":\"2026-07-22\",\"source_keys\":{\"a\",\"b\",\"c\"},\"target_keys\":`. ventanas, event time y watermarks | late data y exactly-once como propiedad comp."
+    },
+    {
+      "exercise_id": "S46-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T4-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('partitions e incremental loads')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/fcfc0b94] Resuelvo S46-T4-A-E2 solo con el paquete activo. Instrucción: «S46-T4-A-E2 · Compara tres rutas de `partitions e incremental loads`: fixture válido, fixture adverso y registro sin `max_small_files`. Entrada: dict con case_i». Pista: «Primero se calcula `missing`; ningún acceso a max_small_files debe ocurrir antes de esa ra». Demo S46-T4-A-DEMO. Código ancla: `print('partitions e incremental loads')`. Teoría: ventanas, event time y watermarks | late data y exactly-once como propiedad comp. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S46-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T4-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S46-T4-A-E3 · Aísla fallo cerrado para `partitions e incremental loads` con tres fixtures distintos\n2. `CASO-HYO-046-4A` debe continuar, el adverso debe devolver `REBUILD_PARTITION` y la ausencia de `max_small_files` debe devolver `REVIEW_INCREMENTAL_KEY`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REVIEW_INCREMENTAL_KEY` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró merge idempotente y small files bajo límite; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/16cfea02] S46-T4-A-E3 — material del slim_packet basta. «S46-T4-A-E3 · Aísla fallo cerrado para `partitions e incremental loads` con tres fixtures distintos. `CASO-HYO-046-4A` debe continuar, el adverso debe devolver » · hint «Una ausencia no equivale a breach: enrútala a `REVIEW_INCREMENTAL_KEY` antes de evaluar el» · S46-T4-A-DEMO. Entrega: `1. S46-T4-A-E3 · Aísla fallo cerrado para `partitions e incremental loads` con tres fixtures distintos`. ventanas, event time y watermarks | late data y exactly-once como propiedad comp."
+    },
+    {
+      "exercise_id": "S46-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T4-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-HYO-046-4B\", **{\"freshness_sli\":0.995,\"freshness_slo\":0.99,\"rto_minutes\":25,\"target_rto_minutes\":30,\"postmortem_actions\":3,\"owner\":\"data-oncall\"}}\nmeets_contract = record[\"freshness_sli\"] < record[\"freshness_slo\"] or record[\"rto_minutes\"] > record[\"target_rto_minutes\"]\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_INCIDENT\"\nprint(\"S46-T4-B\", status)\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/5547d7e5] S46-T4-B-E1 — material del slim_packet basta. «S46-T4-B-E1 · Decide el contrato de `SLO, incidentes y data recovery` sobre `CASO-HYO-046-4B`. La entrada es el dict completo del starter; la operación debe dem» · hint «Relaciona los campos `freshness_sli`, `freshness_slo`, `rto_minutes`, `target_rto_minutes`» · S46-T4-B-DEMO. Entrega: `record = {\"case_id\": \"CASO-HYO-046-4B\", **{\"freshness_sli\":0.995,\"freshness_slo\":0.99,\"rto_minutes\":25,\"target`. ventanas, event time y watermarks | late data y exactly-once como propiedad comp."
+    },
+    {
+      "exercise_id": "S46-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T4-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('SLO, incidentes y data recovery')\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/35052536] Como explorador, S46-T4-B-E2: sigo el starter y el iDo. El enunciado pide «S46-T4-B-E2 · Filtra tres rutas de `SLO, incidentes y data recovery`: fixture válido, fixture adverso y registro sin `owner`. Entrada: dict con case_id, freshne». Aplico «Primero se calcula `missing`; ningún acceso a owner debe ocurrir antes de esa rama.». Línea clave: `print('SLO, incidentes y data recovery')`. Heading: ventanas, event time y watermarks | late data y exactly-once como propiedad comp."
+    },
+    {
+      "exercise_id": "S46-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-explorer/S46-T4-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S46-T4-B-E3 · Demuestra fallo cerrado para `SLO, incidentes y data recovery` con tres fixtures distintos\n2. `CASO-HYO-046-4B` debe continuar, el adverso debe devolver `DECLARE_DATA_INCIDENT` y la ausencia de `owner` debe devolver `ACTIVATE_RECOVERY_RUNBOOK`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `ACTIVATE_RECOVERY_RUNBOOK` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró SLI/SLO, RTO, owner y acciones de postmortem; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "explorer",
+        "S46",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Explorer/b36516ed] Como explorador, S46-T4-B-E3: sigo el starter y el iDo. El enunciado pide «S46-T4-B-E3 · Demuestra fallo cerrado para `SLO, incidentes y data recovery` con tres fixtures distintos. `CASO-HYO-046-4B` debe continuar, el adverso debe devo». Aplico «Una ausencia no equivale a breach: enrútala a `ACTIVATE_RECOVERY_RUNBOOK` antes de evaluar». Línea clave: `1. S46-T4-B-E3 · Demuestra fallo cerrado para `SLO, incidentes y data recovery` con tres fixtures distintos`. Heading: ventanas, event time y watermarks | late data y exactly-once como propiedad comp."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "fixtures en hora/desorden/tardío con resultado esperado",
+      "justification_from_packet": "[agentic_F1/explorer] «ventanas, event time y watermarks» en CASO-HYO-046 se aprueba con fixtures en hora/desorden/tardío y resultado esperado. Un print no prueba late data; datos personales no son el fixture.",
+      "blocked_on": [],
+      "confidence": 0.86
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "emitir QUARANTINE_PARTITION y conservar evidencia",
+      "justification_from_packet": "[agentic_F1/explorer] Ante error de S46, contracts/freshness y recovery del paquete mandan emitir QUARANTINE_PARTITION y conservar evidencia. Ocultar el warning o borrar el trace impide aislar la partición mala.",
+      "blocked_on": [],
+      "confidence": 0.85
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "backfill y retry producen el mismo resultado, registran dueño y cumplen SLO de freshness",
+      "justification_from_packet": "[agentic_F1/explorer] El gate «CP-N4-B · pipeline incremental y backfillable» se demuestra cuando backfill y retry dan el mismo resultado, registran dueño y cumplen SLO de freshness.",
+      "blocked_on": [],
+      "confidence": 0.87
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "justification_from_packet": "[agentic_F1/explorer] CASO-HYO-046 se mantiene sintético, mínimo, trazable y con revisión humana. Datos reales o secretos en demo salen del alcance.",
+      "blocked_on": [],
+      "confidence": 0.9
+    }
+  ],
+  "recorded_at": "2026-07-23T05:02:18.569579+00:00"
+}

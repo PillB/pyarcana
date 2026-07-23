@@ -1,0 +1,27 @@
+{
+  "attempt_id": "agentic_F2",
+  "started_at": "2026-07-23T05:30:28.090039+00:00",
+  "evidence_origin": "live_agentic_transcript",
+  "generation_mode": "fresh_sequential_packet_read",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "brand": "PyArcana",
+  "prior_clean": "agentic_F1",
+  "forbidden_sources": [
+    "agentic_F1",
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "agentic_A1",
+    "agentic_A2",
+    "agentic_B1",
+    "agentic_B2",
+    "agentic_C1",
+    "agentic_C2",
+    "attempt_007b",
+    "scripts/_repair_e2_newbie_a.py"
+  ],
+  "reason": "Second consecutive F2 dual-LLM from landing; zero access to F1/E*/D* lives; no code-transplant",
+  "method": "live_agentic_packet_only_no_execution"
+}

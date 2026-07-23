@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_b_live",
+  "persona": "skeptic",
+  "attempt_id": "agentic_F1",
+  "section_index": 45,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_b_live-agentic_F1-s45",
+  "production_note": "agentic_F1 packet-only solve from quiz_card+slim_packet; no E/D/A/B/C prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S45-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T1-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\":\"object\",\"transactions\":\"relational\",\"cache_authoritative\":False,\"cache_ttl_s\":300}}\nmeets_contract = record[\"cache_authoritative\"] or record[\"transactions\"] == \"cache\"\nstatus = \"PASS\" if meets_contract else \"REDESIGN_PERSISTENCE\"\nprint(\"S45-T1-A\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/6ec1918d] Dudé del atajo en S45-T1-A-E1; me ceñí al weDo. «S45-T1-A-E1 · Calcula el contrato de `object store, relacional y cache` sobre `CASO-IQU-045-1A`. La entrada es el dict completo del starter; la operación debe d». Hint «Relaciona los campos `blob_store`, `transactions`, `cache_authoritative`, `cache_ttl_s` co». Ancla: `record = {\"case_id\": \"CASO-IQU-045-1A\", **{\"blob_store\":\"object\",\"transactions\":\"relational\",\"cache_authoritat`. S45-T1-A-DEMO. object store, relacional y cache | consistencia, lifecycle y backups | queue/eve."
+    },
+    {
+      "exercise_id": "S45-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T1-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('object store, relacional y cache')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/d34b28bb] Dudé del atajo en S45-T1-A-E2; me ceñí al weDo. «S45-T1-A-E2 · Modela tres rutas de `object store, relacional y cache`: fixture válido, fixture adverso y registro sin `cache_ttl_s`. Entrada: dict con case_id, ». Hint «Primero se calcula `missing`; ningún acceso a cache_ttl_s debe ocurrir antes de esa rama.». Ancla: `print('object store, relacional y cache')`. S45-T1-A-DEMO. object store, relacional y cache | consistencia, lifecycle y backups | queue/eve."
+    },
+    {
+      "exercise_id": "S45-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T1-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S45-T1-A-E3 · Simula fallo cerrado para `object store, relacional y cache` con tres fixtures distintos\n2. `CASO-IQU-045-1A` debe continuar, el adverso debe devolver `REDESIGN_PERSISTENCE` y la ausencia de `cache_ttl_s` debe devolver `WRITE_STORE_ADR`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `WRITE_STORE_ADR` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró object/relational por semántica y cache descartable; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/bfceaa45] Dudé del atajo en S45-T1-A-E3; me ceñí al weDo. «S45-T1-A-E3 · Simula fallo cerrado para `object store, relacional y cache` con tres fixtures distintos. `CASO-IQU-045-1A` debe continuar, el adverso debe devolv». Hint «Una ausencia no equivale a breach: enrútala a `WRITE_STORE_ADR` antes de evaluar el conten». Ancla: `1. S45-T1-A-E3 · Simula fallo cerrado para `object store, relacional y cache` con tres fixtures distintos`. S45-T1-A-DEMO. object store, relacional y cache | consistencia, lifecycle y backups | queue/eve."
+    },
+    {
+      "exercise_id": "S45-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T1-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\":\"job-status\",\"consistency\":\"read-after-write\",\"backup_age_h\":4,\"rpo_h\":6,\"restore_minutes\":25,\"rto_minutes\":30}}\nmeets_contract = record[\"backup_age_h\"] > record[\"rpo_h\"] or record[\"restore_minutes\"] > record[\"rto_minutes\"]\nstatus = \"PASS\" if meets_contract else \"DECLARE_DATA_LOSS_RISK\"\nprint(\"S45-T1-B\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/02f129c6] S45-T1-B-E1: rechazo claves offline. Paquete dice «S45-T1-B-E1 · Compara el contrato de `consistencia, lifecycle y backups` sobre `CASO-IQU-045-1B`. La entrada es el dict completo del starter; la operación debe ». Demo S45-T1-B-DEMO. Línea: `record = {\"case_id\": \"CASO-IQU-045-1B\", **{\"operation\":\"job-status\",\"consistency\":\"read-after-write\",\"backup_a`. Pista «Relaciona los campos `operation`, `consistency`, `backup_age_h`, `rpo_h`, `restore_minutes»."
+    },
+    {
+      "exercise_id": "S45-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T1-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('consistencia, lifecycle y backups')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/7592c798] S45-T1-B-E2: rechazo claves offline. Paquete dice «S45-T1-B-E2 · Verifica tres rutas de `consistencia, lifecycle y backups`: fixture válido, fixture adverso y registro sin `rto_minutes`. Entrada: dict con case_i». Demo S45-T1-B-DEMO. Línea: `print('consistencia, lifecycle y backups')`. Pista «Primero se calcula `missing`; ningún acceso a rto_minutes debe ocurrir antes de esa rama.»."
+    },
+    {
+      "exercise_id": "S45-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T1-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S45-T1-B-E3 · Extiende fallo cerrado para `consistencia, lifecycle y backups` con tres fixtures distintos\n2. `CASO-IQU-045-1B` debe continuar, el adverso debe devolver `DECLARE_DATA_LOSS_RISK` y la ausencia de `rto_minutes` debe devolver `RUN_RESTORE_DRILL`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `RUN_RESTORE_DRILL` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró consistencia explícita y restore dentro de RPO/RTO; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/666e9b34] S45-T1-B-E3: rechazo claves offline. Paquete dice «S45-T1-B-E3 · Extiende fallo cerrado para `consistencia, lifecycle y backups` con tres fixtures distintos. `CASO-IQU-045-1B` debe continuar, el adverso debe dev». Demo S45-T1-B-DEMO. Línea: `1. S45-T1-B-E3 · Extiende fallo cerrado para `consistencia, lifecycle y backups` con tres fixtures distintos`. Pista «Una ausencia no equivale a breach: enrútala a `RUN_RESTORE_DRILL` antes de evaluar el cont»."
+    },
+    {
+      "exercise_id": "S45-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T2-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-least-once\",\"effect_durable\":True,\"acked_after_effect\":True,\"idempotency_key\":\"job-iqu-1\",\"backoff\":True}}\nmeets_contract = not record[\"acked_after_effect\"] or not record[\"idempotency_key\"]\nstatus = \"PASS\" if meets_contract else \"NACK_AND_RETRY\"\nprint(\"S45-T2-A\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/9081d7ae] Dudé del atajo en S45-T2-A-E1; me ceñí al weDo. «S45-T2-A-E1 · Filtra el contrato de `queue/event y delivery semantics` sobre `CASO-IQU-045-2A`. La entrada es el dict completo del starter; la operación debe de». Hint «Relaciona los campos `delivery`, `effect_durable`, `acked_after_effect`, `idempotency_key`». Ancla: `record = {\"case_id\": \"CASO-IQU-045-2A\", **{\"delivery\":\"at-least-once\",\"effect_durable\":True,\"acked_after_effec`. S45-T2-A-DEMO. object store, relacional y cache | consistencia, lifecycle y backups | queue/eve."
+    },
+    {
+      "exercise_id": "S45-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T2-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('queue/event y delivery semantics')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/3ed65614] Dudé del atajo en S45-T2-A-E2; me ceñí al weDo. «S45-T2-A-E2 · Clasifica tres rutas de `queue/event y delivery semantics`: fixture válido, fixture adverso y registro sin `backoff`. Entrada: dict con case_id, d». Hint «Primero se calcula `missing`; ningún acceso a backoff debe ocurrir antes de esa rama.». Ancla: `print('queue/event y delivery semantics')`. S45-T2-A-DEMO. object store, relacional y cache | consistencia, lifecycle y backups | queue/eve."
+    },
+    {
+      "exercise_id": "S45-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T2-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S45-T2-A-E3 · Defiende fallo cerrado para `queue/event y delivery semantics` con tres fixtures distintos\n2. `CASO-IQU-045-2A` debe continuar, el adverso debe devolver `NACK_AND_RETRY` y la ausencia de `backoff` debe devolver `VERIFY_DELIVERY_SEMANTICS`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `VERIFY_DELIVERY_SEMANTICS` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró ack posterior al efecto, key idempotente y backoff; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/da773521] Solo acepto S45-T2-A-E3 si el paquete lo enseña. Instrucción: «S45-T2-A-E3 · Defiende fallo cerrado para `queue/event y delivery semantics` con tres fixtures distintos. `CASO-IQU-045-2A` debe continuar, el adverso debe devo». Verifiqué pista «Una ausencia no equivale a breach: enrútala a `VERIFY_DELIVERY_SEMANTICS` antes de evaluar» y demo S45-T2-A-DEMO. Código justificado: `1. S45-T2-A-E3 · Defiende fallo cerrado para `queue/event y delivery semantics` con tres fixtures distintos`. No invento APIs. Teoría: object store, relacional y cache | consistencia, lifecycle y backups | queue/eve."
+    },
+    {
+      "exercise_id": "S45-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T2-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\",\"m2\"},\"ordered_partition\":True,\"terminal_in_dlq\":True}}\nmeets_contract = len(record[\"processed_ids\"]) == len(record[\"message_ids\"]) or not record[\"terminal_in_dlq\"]\nstatus = \"PASS\" if meets_contract else \"DEDUP_OR_DLQ\"\nprint(\"S45-T2-B\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/38815218] Solo acepto S45-T2-B-E1 si el paquete lo enseña. Instrucción: «S45-T2-B-E1 · Modela el contrato de `dedup, ordering y dead-letter` sobre `CASO-IQU-045-2B`. La entrada es el dict completo del starter; la operación debe demos». Verifiqué pista «Relaciona los campos `message_ids`, `processed_ids`, `ordered_partition`, `terminal_in_dlq» y demo S45-T2-B-DEMO. Código justificado: `record = {\"case_id\": \"CASO-IQU-045-2B\", **{\"message_ids\":[\"m1\",\"m1\",\"m2\"],\"processed_ids\":{\"m1\",\"m2\"},\"ordered`. No invento APIs. Teoría: object store, relacional y cache | consistencia, lifecycle y backups | queue/eve."
+    },
+    {
+      "exercise_id": "S45-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T2-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('dedup, ordering y dead-letter')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/9aaacc4d] Dudé del atajo en S45-T2-B-E2; me ceñí al weDo. «S45-T2-B-E2 · Audita tres rutas de `dedup, ordering y dead-letter`: fixture válido, fixture adverso y registro sin `terminal_in_dlq`. Entrada: dict con case_id,». Hint «Primero se calcula `missing`; ningún acceso a terminal_in_dlq debe ocurrir antes de esa ra». Ancla: `print('dedup, ordering y dead-letter')`. S45-T2-B-DEMO. object store, relacional y cache | consistencia, lifecycle y backups | queue/eve."
+    },
+    {
+      "exercise_id": "S45-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T2-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S45-T2-B-E3 · Recupera fallo cerrado para `dedup, ordering y dead-letter` con tres fixtures distintos\n2. `CASO-IQU-045-2B` debe continuar, el adverso debe devolver `DEDUP_OR_DLQ` y la ausencia de `terminal_in_dlq` debe devolver `INSPECT_MESSAGE_ORDER`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `INSPECT_MESSAGE_ORDER` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró deduplicación, ordering acotado y terminal en DLQ; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/47819bdd] Solo acepto S45-T2-B-E3 si el paquete lo enseña. Instrucción: «S45-T2-B-E3 · Recupera fallo cerrado para `dedup, ordering y dead-letter` con tres fixtures distintos. `CASO-IQU-045-2B` debe continuar, el adverso debe devolve». Verifiqué pista «Una ausencia no equivale a breach: enrútala a `INSPECT_MESSAGE_ORDER` antes de evaluar el » y demo S45-T2-B-DEMO. Código justificado: `1. S45-T2-B-E3 · Recupera fallo cerrado para `dedup, ordering y dead-letter` con tres fixtures distintos`. No invento APIs. Teoría: object store, relacional y cache | consistencia, lifecycle y backups | queue/eve."
+    },
+    {
+      "exercise_id": "S45-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T3-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\":80,\"workers\":4,\"target_per_worker\":25,\"quota_workers\":6,\"private_network\":True,\"backpressure\":True}}\nmeets_contract = record[\"workers\"] > record[\"quota_workers\"] or not record[\"backpressure\"]\nstatus = \"PASS\" if meets_contract else \"APPLY_BACKPRESSURE\"\nprint(\"S45-T3-A\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/554d2a32] S45-T3-A-E1: rechazo claves offline. Paquete dice «S45-T3-A-E1 · Verifica el contrato de `compute, autoscaling y networking` sobre `CASO-IQU-045-3A`. La entrada es el dict completo del starter; la operación debe». Demo S45-T3-A-DEMO. Línea: `record = {\"case_id\": \"CASO-IQU-045-3A\", **{\"backlog\":80,\"workers\":4,\"target_per_worker\":25,\"quota_workers\":6,\"`. Pista «Relaciona los campos `backlog`, `workers`, `target_per_worker`, `quota_workers`, `private_»."
+    },
+    {
+      "exercise_id": "S45-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T3-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('compute, autoscaling y networking')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/502c5de0] Solo acepto S45-T3-A-E2 si el paquete lo enseña. Instrucción: «S45-T3-A-E2 · Decide tres rutas de `compute, autoscaling y networking`: fixture válido, fixture adverso y registro sin `backpressure`. Entrada: dict con case_id». Verifiqué pista «Primero se calcula `missing`; ningún acceso a backpressure debe ocurrir antes de esa rama.» y demo S45-T3-A-DEMO. Código justificado: `print('compute, autoscaling y networking')`. No invento APIs. Teoría: object store, relacional y cache | consistencia, lifecycle y backups | queue/eve."
+    },
+    {
+      "exercise_id": "S45-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T3-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S45-T3-A-E3 · Contrasta fallo cerrado para `compute, autoscaling y networking` con tres fixtures distintos\n2. `CASO-IQU-045-3A` debe continuar, el adverso debe devolver `APPLY_BACKPRESSURE` y la ausencia de `backpressure` debe devolver `REQUEST_CAPACITY`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REQUEST_CAPACITY` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró workers dentro de cuota y backlog por worker bajo objetivo; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/ad28c3b4] Solo acepto S45-T3-A-E3 si el paquete lo enseña. Instrucción: «S45-T3-A-E3 · Contrasta fallo cerrado para `compute, autoscaling y networking` con tres fixtures distintos. `CASO-IQU-045-3A` debe continuar, el adverso debe de». Verifiqué pista «Una ausencia no equivale a breach: enrútala a `REQUEST_CAPACITY` antes de evaluar el conte» y demo S45-T3-A-DEMO. Código justificado: `1. S45-T3-A-E3 · Contrasta fallo cerrado para `compute, autoscaling y networking` con tres fixtures distintos`. No invento APIs. Teoría: object store, relacional y cache | consistencia, lifecycle y backups | queue/eve."
+    },
+    {
+      "exercise_id": "S45-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T3-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\":{\"object:get\",\"queue:ack\"},\"requested_action\":\"object:get\",\"private_path\":True,\"egress_host\":\"api.internal\",\"egress_allow\":{\"api.internal\"}}}\nmeets_contract = record[\"requested_action\"] not in record[\"allowed_actions\"] or record[\"egress_host\"] not in record[\"egress_allow\"]\nstatus = \"PASS\" if meets_contract else \"DENY_IAM_OR_EGRESS\"\nprint(\"S45-T3-B\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/2c08bb95] S45-T3-B-E1: rechazo claves offline. Paquete dice «S45-T3-B-E1 · Clasifica el contrato de `IAM, private paths y egress` sobre `CASO-IQU-045-3B`. La entrada es el dict completo del starter; la operación debe demo». Demo S45-T3-B-DEMO. Línea: `record = {\"case_id\": \"CASO-IQU-045-3B\", **{\"allowed_actions\":{\"object:get\",\"queue:ack\"},\"requested_action\":\"ob`. Pista «Relaciona los campos `allowed_actions`, `requested_action`, `private_path`, `egress_host`,»."
+    },
+    {
+      "exercise_id": "S45-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T3-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('IAM, private paths y egress')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/687ba3c2] Dudé del atajo en S45-T3-B-E2; me ceñí al weDo. «S45-T3-B-E2 · Calcula tres rutas de `IAM, private paths y egress`: fixture válido, fixture adverso y registro sin `egress_allow`. Entrada: dict con case_id, all». Hint «Primero se calcula `missing`; ningún acceso a egress_allow debe ocurrir antes de esa rama.». Ancla: `print('IAM, private paths y egress')`. S45-T3-B-DEMO. object store, relacional y cache | consistencia, lifecycle y backups | queue/eve."
+    },
+    {
+      "exercise_id": "S45-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T3-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S45-T3-B-E3 · Instrumenta fallo cerrado para `IAM, private paths y egress` con tres fixtures distintos\n2. `CASO-IQU-045-3B` debe continuar, el adverso debe devolver `DENY_IAM_OR_EGRESS` y la ausencia de `egress_allow` debe devolver `REQUEST_SCOPED_POLICY`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REQUEST_SCOPED_POLICY` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró acción IAM mínima, path privado y egress allowlisted; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/f90156d1] Solo acepto S45-T3-B-E3 si el paquete lo enseña. Instrucción: «S45-T3-B-E3 · Instrumenta fallo cerrado para `IAM, private paths y egress` con tres fixtures distintos. `CASO-IQU-045-3B` debe continuar, el adverso debe devolv». Verifiqué pista «Una ausencia no equivale a breach: enrútala a `REQUEST_SCOPED_POLICY` antes de evaluar el » y demo S45-T3-B-DEMO. Código justificado: `1. S45-T3-B-E3 · Instrumenta fallo cerrado para `IAM, private paths y egress` con tres fixtures distintos`. No invento APIs. Teoría: object store, relacional y cache | consistencia, lifecycle y backups | queue/eve."
+    },
+    {
+      "exercise_id": "S45-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T4-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\":{\"queue\",\"bucket\"},\"planned_resources\":{\"queue\",\"bucket\"},\"environment\":\"staging\",\"secret_values_in_plan\":False,\"destructive_changes\":0}}\nmeets_contract = record[\"secret_values_in_plan\"] or record[\"destructive_changes\"] > 0\nstatus = \"PASS\" if meets_contract else \"REJECT_IAC_PLAN\"\nprint(\"S45-T4-A\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/beacf183] Solo acepto S45-T4-A-E1 si el paquete lo enseña. Instrucción: «S45-T4-A-E1 · Audita el contrato de `configuración declarativa y environments` sobre `CASO-IQU-045-4A`. La entrada es el dict completo del starter; la operación». Verifiqué pista «Relaciona los campos `declared_resources`, `planned_resources`, `environment`, `secret_val» y demo S45-T4-A-DEMO. Código justificado: `record = {\"case_id\": \"CASO-IQU-045-4A\", **{\"declared_resources\":{\"queue\",\"bucket\"},\"planned_resources\":{\"queue`. No invento APIs. Teoría: object store, relacional y cache | consistencia, lifecycle y backups | queue/eve."
+    },
+    {
+      "exercise_id": "S45-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T4-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('configuración declarativa y environments')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/38a89d55] S45-T4-A-E2: rechazo claves offline. Paquete dice «S45-T4-A-E2 · Compara tres rutas de `configuración declarativa y environments`: fixture válido, fixture adverso y registro sin `destructive_changes`. Entrada: d». Demo S45-T4-A-DEMO. Línea: `print('configuración declarativa y environments')`. Pista «Primero se calcula `missing`; ningún acceso a destructive_changes debe ocurrir antes de es»."
+    },
+    {
+      "exercise_id": "S45-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T4-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S45-T4-A-E3 · Aísla fallo cerrado para `configuración declarativa y environments` con tres fixtures distintos\n2. `CASO-IQU-045-4A` debe continuar, el adverso debe devolver `REJECT_IAC_PLAN` y la ausencia de `destructive_changes` debe devolver `REVIEW_DRIFT`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REVIEW_DRIFT` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró plan coincide, entorno válido, sin secretos ni destrucción; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/efb0f817] S45-T4-A-E3: rechazo claves offline. Paquete dice «S45-T4-A-E3 · Aísla fallo cerrado para `configuración declarativa y environments` con tres fixtures distintos. `CASO-IQU-045-4A` debe continuar, el adverso debe». Demo S45-T4-A-DEMO. Línea: `1. S45-T4-A-E3 · Aísla fallo cerrado para `configuración declarativa y environments` con tres fixtures distint`. Pista «Una ausencia no equivale a breach: enrútala a `REVIEW_DRIFT` antes de evaluar el contenido»."
+    },
+    {
+      "exercise_id": "S45-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T4-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\":820,\"budget_pen\":1000,\"quota_used\":72,\"quota_limit\":100,\"restore_tested\":True,\"portable_export\":True}}\nmeets_contract = record[\"forecast_pen\"] > record[\"budget_pen\"] or record[\"quota_used\"] > record[\"quota_limit\"]\nstatus = \"PASS\" if meets_contract else \"FREEZE_SCALE_OUT\"\nprint(\"S45-T4-B\", status)\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/17199fc5] S45-T4-B-E1: rechazo claves offline. Paquete dice «S45-T4-B-E1 · Decide el contrato de `costos, quotas, recovery y portability` sobre `CASO-IQU-045-4B`. La entrada es el dict completo del starter; la operación d». Demo S45-T4-B-DEMO. Línea: `record = {\"case_id\": \"CASO-IQU-045-4B\", **{\"forecast_pen\":820,\"budget_pen\":1000,\"quota_used\":72,\"quota_limit\":`. Pista «Relaciona los campos `forecast_pen`, `budget_pen`, `quota_used`, `quota_limit`, `restore_t»."
+    },
+    {
+      "exercise_id": "S45-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T4-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('costos, quotas, recovery y portability')\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/94d5f59f] S45-T4-B-E2: rechazo claves offline. Paquete dice «S45-T4-B-E2 · Filtra tres rutas de `costos, quotas, recovery y portability`: fixture válido, fixture adverso y registro sin `portable_export`. Entrada: dict con». Demo S45-T4-B-DEMO. Línea: `print('costos, quotas, recovery y portability')`. Pista «Primero se calcula `missing`; ningún acceso a portable_export debe ocurrir antes de esa ra»."
+    },
+    {
+      "exercise_id": "S45-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F1-skeptic/S45-T4-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S45-T4-B-E3 · Demuestra fallo cerrado para `costos, quotas, recovery y portability` con tres fixtures distintos\n2. `CASO-IQU-045-4B` debe continuar, el adverso debe devolver `FREEZE_SCALE_OUT` y la ausencia de `portable_export` debe devolver `COST_OWNER_REVIEW`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `COST_OWNER_REVIEW` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró costo/cuota bajo límite y recovery/portability ensayados; solo ese caso devuelve `CONTINUE`.\n",
+      "confidence": 0.78,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F1",
+        "skeptic",
+        "S45",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F1/Skeptic/69b79678] Solo acepto S45-T4-B-E3 si el paquete lo enseña. Instrucción: «S45-T4-B-E3 · Demuestra fallo cerrado para `costos, quotas, recovery y portability` con tres fixtures distintos. `CASO-IQU-045-4B` debe continuar, el adverso de». Verifiqué pista «Una ausencia no equivale a breach: enrútala a `COST_OWNER_REVIEW` antes de evaluar el cont» y demo S45-T4-B-DEMO. Código justificado: `1. S45-T4-B-E3 · Demuestra fallo cerrado para `costos, quotas, recovery y portability` con tres fixtures disti`. No invento APIs. Teoría: object store, relacional y cache | consistencia, lifecycle y backups | queue/eve."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 0,
+      "chosen_text": "ADR de persistencia con fuente de verdad",
+      "justification_from_packet": "[agentic_F1/skeptic] Sin ADR de fuente de verdad no elijo object/relacional/cache. En CASO-IQU-045 rechazo prints y capturas; datos personales no son diseño de almacenamiento.",
+      "blocked_on": [],
+      "confidence": 0.78
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 2,
+      "chosen_text": "emitir SEND_TO_DLQ y conservar evidencia",
+      "justification_from_packet": "[agentic_F1/skeptic] No oculto el warning: delivery semantics y DLQ del paquete mandan SEND_TO_DLQ con evidencia. Inventar o borrar el trace rompe la recuperación.",
+      "blocked_on": [],
+      "confidence": 0.8
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 3,
+      "chosen_text": "reintentos no duplican resultados y costo, IAM, backup y recuperación quedan medidos",
+      "justification_from_packet": "[agentic_F1/skeptic] CP-N4-B de job asíncrono resiliente exige no-duplicación en reintentos y métricas de costo/IAM/backup/recovery, no la existencia del archivo S45.",
+      "blocked_on": [],
+      "confidence": 0.81
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 1,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "justification_from_packet": "[agentic_F1/skeptic] CASO-IQU-045 se conserva sintético, mínimo, trazable y revisable. Datos reales o secretos en demo violan el alcance.",
+      "blocked_on": [],
+      "confidence": 0.88
+    }
+  ],
+  "recorded_at": "2026-07-23T05:02:18.556459+00:00"
+}

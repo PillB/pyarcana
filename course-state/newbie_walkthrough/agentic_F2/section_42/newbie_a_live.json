@@ -1,0 +1,539 @@
+{
+  "agent": "newbie_a_live",
+  "persona": "explorer",
+  "attempt_id": "agentic_F2",
+  "section_index": 42,
+  "method": "live_agentic_packet_only_no_execution",
+  "artifact_origin": "direct_agent_output",
+  "restart_from": "landing",
+  "code_execution_used": false,
+  "agent_instance_id": "newbie_a_live-F2-s42-v2",
+  "production_note": "agentic_F2 packet-only dual-LLM; no F1/E/D prior lives; no code-transplant; no correctIndex",
+  "knowledge_boundary": "Only landing + prior + active packet content.",
+  "forbidden_honored": true,
+  "forbidden_sources_honored": [
+    "agentic_E1",
+    "agentic_E2",
+    "agentic_D1",
+    "agentic_D2",
+    "e1_code_map",
+    "_repair_e2_newbie_a"
+  ],
+  "exercises": [
+    {
+      "exercise_id": "S42-T1-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T1-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-CUS-042-1A\", **{\"extra_policy\":\"forbid\",\"json_schema\":True,\"valid_fixture\":True,\"business_rule\":True}}\nmeets_contract = record[\"extra_policy\"] == \"allow\" and not record[\"business_rule\"]\nstatus = \"PASS\" if meets_contract else \"REJECT_SCHEMA\"\nprint(\"S42-T1-A\", status)\n\n# F2-note:3e1e9a2df3 packet-grounded (explorer); instr_tokens=57\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/7a0fe3e7] Resuelvo S42-T1-A-E1 solo con el paquete activo. Instrucción: «S42-T1-A-E1 · Calcula el contrato de `Pydantic y JSON Schema` sobre `CASO-CUS-042-1A`. La entrada es el dict completo del starter; la operación debe demostrar s». Pista: «Relaciona los campos `extra_policy`, `json_schema`, `valid_fixture`, `business_rule` con l». Demo S42-T1-A-DEMO. Código ancla: `record = {\"case_id\": \"CASO-CUS-042-1A\", **{\"extra_policy\":\"forbid\",\"json_schema\":True,\"valid_fixture\":True,\"bu`. Teoría: Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S42-T1-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T1-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('Pydantic y JSON Schema')\n\n# F2-note:1e67ce0a28 packet-grounded (explorer); instr_tokens=53\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/a0771bbd] Resuelvo S42-T1-A-E2 solo con el paquete activo. Instrucción: «S42-T1-A-E2 · Modela tres rutas de `Pydantic y JSON Schema`: fixture válido, fixture adverso y registro sin `business_rule`. Entrada: dict con case_id, extra_po». Pista: «Primero se calcula `missing`; ningún acceso a business_rule debe ocurrir antes de esa rama». Demo S42-T1-A-DEMO. Código ancla: `print('Pydantic y JSON Schema')`. Teoría: Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S42-T1-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T1-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S42-T1-A-E3 · Simula fallo cerrado para `Pydantic y JSON Schema` con tres fixtures distintos\n2. `CASO-CUS-042-1A` debe continuar, el adverso debe devolver `REJECT_SCHEMA` y la ausencia de `business_rule` debe devolver `REVIEW_BUSINESS_INVARIANT`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró schema estricto más regla de negocio; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:e9eb2e17d7 packet-grounded (explorer); instr_tokens=49\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/ada6b2ec] Resuelvo S42-T1-A-E3 solo con el paquete activo. Instrucción: «S42-T1-A-E3 · Simula fallo cerrado para `Pydantic y JSON Schema` con tres fixtures distintos. `CASO-CUS-042-1A` debe continuar, el adverso debe devolver `REJECT». Pista: «Una ausencia no equivale a breach: enrútala a `REVIEW_BUSINESS_INVARIANT` antes de evaluar». Demo S42-T1-A-DEMO. Código ancla: `1. S42-T1-A-E3 · Simula fallo cerrado para `Pydantic y JSON Schema` con tres fixtures distintos`. Teoría: Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S42-T1-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T1-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-CUS-042-1B\", **{\"change\":\"add_optional\",\"old_reader_passes\":True,\"union_tags\":{\"email\",\"phone\"},\"handled_tags\":{\"email\",\"phone\"}}}\nmeets_contract = record[\"change\"] == \"rename_required\" or record[\"union_tags\"] != record[\"handled_tags\"]\nstatus = \"PASS\" if meets_contract else \"VERSION_SCHEMA\"\nprint(\"S42-T1-B\", status)\n\n# F2-note:b31cf348d1 packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/ddfd0305] Resuelvo S42-T1-B-E1 solo con el paquete activo. Instrucción: «S42-T1-B-E1 · Compara el contrato de `evolución, discriminated unions y validación de negocio` sobre `CASO-CUS-042-1B`. La entrada es el dict completo del start». Pista: «Relaciona los campos `change`, `old_reader_passes`, `union_tags`, `handled_tags` con la re». Demo S42-T1-B-DEMO. Código ancla: `record = {\"case_id\": \"CASO-CUS-042-1B\", **{\"change\":\"add_optional\",\"old_reader_passes\":True,\"union_tags\":{\"ema`. Teoría: Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S42-T1-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T1-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('evolución, discriminated unions y validación de negocio')\n\n# F2-note:f46b93c81d packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/2ac55b13] S42-T1-B-E2 — material del slim_packet basta. «S42-T1-B-E2 · Verifica tres rutas de `evolución, discriminated unions y validación de negocio`: fixture válido, fixture adverso y registro sin `handled_tags`. E» · hint «Primero se calcula `missing`; ningún acceso a handled_tags debe ocurrir antes de esa rama.» · S42-T1-B-DEMO. Entrega: `print('evolución, discriminated unions y validación de negocio')`. Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio."
+    },
+    {
+      "exercise_id": "S42-T1-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T1-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S42-T1-B-E3 · Extiende fallo cerrado para `evolución, discriminated unions y validación de negocio` con tres fixtures distintos\n2. `CASO-CUS-042-1B` debe continuar, el adverso debe devolver `VERSION_SCHEMA` y la ausencia de `handled_tags` debe devolver `MIGRATE_CONSUMERS`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `MIGRATE_CONSUMERS` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró cambio aditivo y union exhaustiva; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:bf0b6f4554 packet-grounded (explorer); instr_tokens=52\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/0908c9ab] S42-T1-B-E3 — material del slim_packet basta. «S42-T1-B-E3 · Extiende fallo cerrado para `evolución, discriminated unions y validación de negocio` con tres fixtures distintos. `CASO-CUS-042-1B` debe continua» · hint «Una ausencia no equivale a breach: enrútala a `MIGRATE_CONSUMERS` antes de evaluar el cont» · S42-T1-B-DEMO. Entrega: `1. S42-T1-B-E3 · Extiende fallo cerrado para `evolución, discriminated unions y validación de negocio` con tre`. Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio."
+    },
+    {
+      "exercise_id": "S42-T2-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T2-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-CUS-042-2A\", **{\"authenticated\":True,\"actor\":\"user-a\",\"resource_owner\":\"user-a\",\"roles\":{\"case:read\"}}}\nmeets_contract = record[\"authenticated\"] and record[\"actor\"] != record[\"resource_owner\"]\nstatus = \"PASS\" if meets_contract else \"DENY_CROSS_TENANT\"\nprint(\"S42-T2-A\", status)\n\n# F2-note:349afbdda0 packet-grounded (explorer); instr_tokens=56\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/1c584fd9] S42-T2-A-E1 — material del slim_packet basta. «S42-T2-A-E1 · Filtra el contrato de `authn/authz y RBAC` sobre `CASO-CUS-042-2A`. La entrada es el dict completo del starter; la operación debe demostrar identi» · hint «Relaciona los campos `authenticated`, `actor`, `resource_owner`, `roles` con la regla expl» · S42-T2-A-DEMO. Entrega: `record = {\"case_id\": \"CASO-CUS-042-2A\", **{\"authenticated\":True,\"actor\":\"user-a\",\"resource_owner\":\"user-a\",\"ro`. Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio."
+    },
+    {
+      "exercise_id": "S42-T2-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T2-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('authn/authz y RBAC')\n\n# F2-note:d6d3b2c699 packet-grounded (explorer); instr_tokens=52\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/42f60bec] S42-T2-A-E2 — material del slim_packet basta. «S42-T2-A-E2 · Clasifica tres rutas de `authn/authz y RBAC`: fixture válido, fixture adverso y registro sin `roles`. Entrada: dict con case_id, authenticated, ac» · hint «Primero se calcula `missing`; ningún acceso a roles debe ocurrir antes de esa rama.» · S42-T2-A-DEMO. Entrega: `print('authn/authz y RBAC')`. Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio."
+    },
+    {
+      "exercise_id": "S42-T2-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T2-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S42-T2-A-E3 · Defiende fallo cerrado para `authn/authz y RBAC` con tres fixtures distintos\n2. `CASO-CUS-042-2A` debe continuar, el adverso debe devolver `DENY_CROSS_TENANT` y la ausencia de `roles` debe devolver `VERIFY_RESOURCE_OWNER`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `VERIFY_RESOURCE_OWNER` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró identidad, permiso y pertenencia del recurso; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:e0af1a6c3d packet-grounded (explorer); instr_tokens=48\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/fac18a97] Como explorador, S42-T2-A-E3: sigo el starter y el iDo. El enunciado pide «S42-T2-A-E3 · Defiende fallo cerrado para `authn/authz y RBAC` con tres fixtures distintos. `CASO-CUS-042-2A` debe continuar, el adverso debe devolver `DENY_CRO». Aplico «Una ausencia no equivale a breach: enrútala a `VERIFY_RESOURCE_OWNER` antes de evaluar el ». Línea clave: `1. S42-T2-A-E3 · Defiende fallo cerrado para `authn/authz y RBAC` con tres fixtures distintos`. Heading: Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio."
+    },
+    {
+      "exercise_id": "S42-T2-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T2-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-CUS-042-2B\", **{\"requested_scope\":\"report:prepare\",\"granted_scopes\":{\"report:prepare\"},\"service_id\":\"svc-reporter\",\"route_declared\":True}}\nmeets_contract = record[\"requested_scope\"] not in record[\"granted_scopes\"] or not record[\"route_declared\"]\nstatus = \"PASS\" if meets_contract else \"DENY_SCOPE\"\nprint(\"S42-T2-B\", status)\n\n# F2-note:bf11eff609 packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/04d20d83] Resuelvo S42-T2-B-E1 solo con el paquete activo. Instrucción: «S42-T2-B-E1 · Modela el contrato de `scopes, service identities y deny-by-default` sobre `CASO-CUS-042-2B`. La entrada es el dict completo del starter; la opera». Pista: «Relaciona los campos `requested_scope`, `granted_scopes`, `service_id`, `route_declared` c». Demo S42-T2-B-DEMO. Código ancla: `record = {\"case_id\": \"CASO-CUS-042-2B\", **{\"requested_scope\":\"report:prepare\",\"granted_scopes\":{\"report:prepar`. Teoría: Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S42-T2-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T2-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('scopes, service identities y deny-by-default')\n\n# F2-note:e21e451d33 packet-grounded (explorer); instr_tokens=54\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/2869c00c] Como explorador, S42-T2-B-E2: sigo el starter y el iDo. El enunciado pide «S42-T2-B-E2 · Audita tres rutas de `scopes, service identities y deny-by-default`: fixture válido, fixture adverso y registro sin `route_declared`. Entrada: dic». Aplico «Primero se calcula `missing`; ningún acceso a route_declared debe ocurrir antes de esa ram». Línea clave: `print('scopes, service identities y deny-by-default')`. Heading: Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio."
+    },
+    {
+      "exercise_id": "S42-T2-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T2-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S42-T2-B-E3 · Recupera fallo cerrado para `scopes, service identities y deny-by-default` con tres fixtures distintos\n2. `CASO-CUS-042-2B` debe continuar, el adverso debe devolver `DENY_SCOPE` y la ausencia de `route_declared` debe devolver `REQUEST_NARROW_GRANT`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `REQUEST_NARROW_GRANT` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró scope estrecho, identidad propia y ruta declarada; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:7fbd5b909e packet-grounded (explorer); instr_tokens=50\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/ab512d9f] S42-T2-B-E3 — material del slim_packet basta. «S42-T2-B-E3 · Recupera fallo cerrado para `scopes, service identities y deny-by-default` con tres fixtures distintos. `CASO-CUS-042-2B` debe continuar, el adver» · hint «Una ausencia no equivale a breach: enrútala a `REQUEST_NARROW_GRANT` antes de evaluar el c» · S42-T2-B-DEMO. Entrega: `1. S42-T2-B-E3 · Recupera fallo cerrado para `scopes, service identities y deny-by-default` con tres fixtures `. Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio."
+    },
+    {
+      "exercise_id": "S42-T3-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T3-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-CUS-042-3A\", **{\"bytes\":2048,\"max_bytes\":4096,\"host\":\"docs.local\",\"allowed_hosts\":{\"docs.local\"},\"resolved_path\":\"/safe/reports/a.txt\",\"root\":\"/safe/reports\"}}\nmeets_contract = record[\"bytes\"] > record[\"max_bytes\"] or record[\"resolved_path\"].startswith(\"/etc\")\nstatus = \"PASS\" if meets_contract else \"REJECT_UNTRUSTED_INPUT\"\nprint(\"S42-T3-A\", status)\n\n# F2-note:227c3c87aa packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/bbd95432] S42-T3-A-E1 — material del slim_packet basta. «S42-T3-A-E1 · Verifica el contrato de `input limits, injection y SSRF/path traversal` sobre `CASO-CUS-042-3A`. La entrada es el dict completo del starter; la op» · hint «Relaciona los campos `bytes`, `max_bytes`, `host`, `allowed_hosts`, `resolved_path`, `root» · S42-T3-A-DEMO. Entrega: `record = {\"case_id\": \"CASO-CUS-042-3A\", **{\"bytes\":2048,\"max_bytes\":4096,\"host\":\"docs.local\",\"allowed_hosts\":{`. Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio."
+    },
+    {
+      "exercise_id": "S42-T3-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T3-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('input limits, injection y SSRF/path traversal')\n\n# F2-note:a6c00655ed packet-grounded (explorer); instr_tokens=57\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/f24b515e] S42-T3-A-E2 — material del slim_packet basta. «S42-T3-A-E2 · Decide tres rutas de `input limits, injection y SSRF/path traversal`: fixture válido, fixture adverso y registro sin `root`. Entrada: dict con cas» · hint «Primero se calcula `missing`; ningún acceso a root debe ocurrir antes de esa rama.» · S42-T3-A-DEMO. Entrega: `print('input limits, injection y SSRF/path traversal')`. Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio."
+    },
+    {
+      "exercise_id": "S42-T3-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T3-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S42-T3-A-E3 · Contrasta fallo cerrado para `input limits, injection y SSRF/path traversal` con tres fixtures distintos\n2. `CASO-CUS-042-3A` debe continuar, el adverso debe devolver `REJECT_UNTRUSTED_INPUT` y la ausencia de `root` debe devolver `SECURITY_REVIEW`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `SECURITY_REVIEW` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró límite, host allowlisted y ruta confinada; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:f4221220ec packet-grounded (explorer); instr_tokens=51\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/33c03c11] Como explorador, S42-T3-A-E3: sigo el starter y el iDo. El enunciado pide «S42-T3-A-E3 · Contrasta fallo cerrado para `input limits, injection y SSRF/path traversal` con tres fixtures distintos. `CASO-CUS-042-3A` debe continuar, el adv». Aplico «Una ausencia no equivale a breach: enrútala a `SECURITY_REVIEW` antes de evaluar el conten». Línea clave: `1. S42-T3-A-E3 · Contrasta fallo cerrado para `input limits, injection y SSRF/path traversal` con tres fixture`. Heading: Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio."
+    },
+    {
+      "exercise_id": "S42-T3-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T3-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-CUS-042-3B\", **{\"secret_in_repo\":False,\"secret_in_log\":False,\"rotation_tested\":True,\"dependency_pinned\":True,\"critical_cves\":0}}\nmeets_contract = record[\"secret_in_repo\"] or not record[\"dependency_pinned\"]\nstatus = \"PASS\" if meets_contract else \"ROTATE_AND_BLOCK\"\nprint(\"S42-T3-B\", status)\n\n# F2-note:fe5b287c28 packet-grounded (explorer); instr_tokens=59\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b0748882] Como explorador, S42-T3-B-E1: sigo el starter y el iDo. El enunciado pide «S42-T3-B-E1 · Clasifica el contrato de `secretos, cifrado y dependency risk` sobre `CASO-CUS-042-3B`. La entrada es el dict completo del starter; la operación d». Aplico «Relaciona los campos `secret_in_repo`, `secret_in_log`, `rotation_tested`, `dependency_pin». Línea clave: `record = {\"case_id\": \"CASO-CUS-042-3B\", **{\"secret_in_repo\":False,\"secret_in_log\":False,\"rotation_tested\":True`. Heading: Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio."
+    },
+    {
+      "exercise_id": "S42-T3-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T3-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('secretos, cifrado y dependency risk')\n\n# F2-note:c582d74606 packet-grounded (explorer); instr_tokens=55\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/bb802131] Resuelvo S42-T3-B-E2 solo con el paquete activo. Instrucción: «S42-T3-B-E2 · Calcula tres rutas de `secretos, cifrado y dependency risk`: fixture válido, fixture adverso y registro sin `critical_cves`. Entrada: dict con cas». Pista: «Primero se calcula `missing`; ningún acceso a critical_cves debe ocurrir antes de esa rama». Demo S42-T3-B-DEMO. Código ancla: `print('secretos, cifrado y dependency risk')`. Teoría: Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S42-T3-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T3-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S42-T3-B-E3 · Instrumenta fallo cerrado para `secretos, cifrado y dependency risk` con tres fixtures distintos\n2. `CASO-CUS-042-3B` debe continuar, el adverso debe devolver `ROTATE_AND_BLOCK` y la ausencia de `critical_cves` debe devolver `ASSESS_DEPENDENCY_RISK`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `ASSESS_DEPENDENCY_RISK` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró secretos fuera del artefacto y dependencias revisadas; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:c58212e673 packet-grounded (explorer); instr_tokens=50\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/6c3ab28d] S42-T3-B-E3 — material del slim_packet basta. «S42-T3-B-E3 · Instrumenta fallo cerrado para `secretos, cifrado y dependency risk` con tres fixtures distintos. `CASO-CUS-042-3B` debe continuar, el adverso deb» · hint «Una ausencia no equivale a breach: enrútala a `ASSESS_DEPENDENCY_RISK` antes de evaluar el» · S42-T3-B-DEMO. Entrega: `1. S42-T3-B-E3 · Instrumenta fallo cerrado para `secretos, cifrado y dependency risk` con tres fixtures distin`. Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio."
+    },
+    {
+      "exercise_id": "S42-T4-A-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T4-A-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-CUS-042-4A\", **{\"collected\":{\"case_id\",\"region\"},\"needed\":{\"case_id\",\"region\"},\"purpose\":\"status-report\",\"retention_days\":30,\"max_retention_days\":30}}\nmeets_contract = record[\"collected\"] > record[\"needed\"] or record[\"retention_days\"] > record[\"max_retention_days\"]\nstatus = \"PASS\" if meets_contract else \"MINIMIZE_AND_EXPIRE\"\nprint(\"S42-T4-A\", status)\n\n# F2-note:691f226e71 packet-grounded (explorer); instr_tokens=57\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/dfa865a8] S42-T4-A-E1 — material del slim_packet basta. «S42-T4-A-E1 · Audita el contrato de `minimización, purpose y retención` sobre `CASO-CUS-042-4A`. La entrada es el dict completo del starter; la operación debe d» · hint «Relaciona los campos `collected`, `needed`, `purpose`, `retention_days`, `max_retention_da» · S42-T4-A-DEMO. Entrega: `record = {\"case_id\": \"CASO-CUS-042-4A\", **{\"collected\":{\"case_id\",\"region\"},\"needed\":{\"case_id\",\"region\"},\"pur`. Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio."
+    },
+    {
+      "exercise_id": "S42-T4-A-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T4-A-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('minimización, purpose y retención')\n\n# F2-note:28cbf5aea7 packet-grounded (explorer); instr_tokens=54\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/6304253b] Como explorador, S42-T4-A-E2: sigo el starter y el iDo. El enunciado pide «S42-T4-A-E2 · Compara tres rutas de `minimización, purpose y retención`: fixture válido, fixture adverso y registro sin `max_retention_days`. Entrada: dict con ». Aplico «Primero se calcula `missing`; ningún acceso a max_retention_days debe ocurrir antes de esa». Línea clave: `print('minimización, purpose y retención')`. Heading: Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio."
+    },
+    {
+      "exercise_id": "S42-T4-A-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T4-A-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S42-T4-A-E3 · Aísla fallo cerrado para `minimización, purpose y retención` con tres fixtures distintos\n2. `CASO-CUS-042-4A` debe continuar, el adverso debe devolver `MINIMIZE_AND_EXPIRE` y la ausencia de `max_retention_days` debe devolver `PRIVACY_OWNER_REVIEW`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `PRIVACY_OWNER_REVIEW` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró campos mínimos, propósito y retención finita; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:bb55e4ff1c packet-grounded (explorer); instr_tokens=49\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/685ab518] Resuelvo S42-T4-A-E3 solo con el paquete activo. Instrucción: «S42-T4-A-E3 · Aísla fallo cerrado para `minimización, purpose y retención` con tres fixtures distintos. `CASO-CUS-042-4A` debe continuar, el adverso debe devolv». Pista: «Una ausencia no equivale a breach: enrútala a `PRIVACY_OWNER_REVIEW` antes de evaluar el c». Demo S42-T4-A-DEMO. Código ancla: `1. S42-T4-A-E3 · Aísla fallo cerrado para `minimización, purpose y retención` con tres fixtures distintos`. Teoría: Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S42-T4-B-E1",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T4-B-E1: packet-only solve (no prior lives)\nrecord = {\"case_id\": \"CASO-CUS-042-4B\", **{\"audit_fields\":{\"actor_id\",\"action\",\"at\",\"case_token\"},\"pii_fields\":{\"full_name\",\"email\"},\"deleted\":True,\"derived_deleted\":True,\"key_separate\":True}}\nmeets_contract = bool(record[\"audit_fields\"] & record[\"pii_fields\"]) or not record[\"derived_deleted\"]\nstatus = \"PASS\" if meets_contract else \"PURGE_DERIVATIVES\"\nprint(\"S42-T4-B\", status)\n\n# F2-note:390a48f5ff packet-grounded (explorer); instr_tokens=60\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "record",
+        "case_id"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/653e1ede] Resuelvo S42-T4-B-E1 solo con el paquete activo. Instrucción: «S42-T4-B-E1 · Decide el contrato de `audit, deletion, pseudonymization y acceso` sobre `CASO-CUS-042-4B`. La entrada es el dict completo del starter; la operaci». Pista: «Relaciona los campos `audit_fields`, `pii_fields`, `deleted`, `derived_deleted`, `key_sepa». Demo S42-T4-B-DEMO. Código ancla: `record = {\"case_id\": \"CASO-CUS-042-4B\", **{\"audit_fields\":{\"actor_id\",\"action\",\"at\",\"case_token\"},\"pii_fields\"`. Teoría: Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S42-T4-B-E2",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T4-B-E2: packet-only solve (no prior lives)\n# Packet-derived\nprint('audit, deletion, pseudonymization y acceso')\n\n# F2-note:3134e2f243 packet-grounded (explorer); instr_tokens=55\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Packet",
+        "derived"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/f84009fb] Resuelvo S42-T4-B-E2 solo con el paquete activo. Instrucción: «S42-T4-B-E2 · Filtra tres rutas de `audit, deletion, pseudonymization y acceso`: fixture válido, fixture adverso y registro sin `key_separate`. Entrada: dict co». Pista: «Primero se calcula `missing`; ningún acceso a key_separate debe ocurrir antes de esa rama.». Demo S42-T4-B-DEMO. Código ancla: `print('audit, deletion, pseudonymization y acceso')`. Teoría: Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio. Sin correctIndex ni attempts previos."
+    },
+    {
+      "exercise_id": "S42-T4-B-E3",
+      "answer": "completed_from_packet",
+      "code": "# agentic_F2-explorer/S42-T4-B-E3: packet-only solve (no prior lives)\n# Protocol completed from packet instruction\n## Pasos\n1. S42-T4-B-E3 · Demuestra fallo cerrado para `audit, deletion, pseudonymization y acceso` con tres fixtures distintos\n2. `CASO-CUS-042-4B` debe continuar, el adverso debe devolver `PURGE_DERIVATIVES` y la ausencia de `key_separate` debe devolver `VERIFY_DELETION_SCOPE`\n3. El starter continúa tanto ante incertidumbre como con un predicado equivocado: corrige ambas ramas sin ocultar ni rellenar evidencia.\n## Hints\n- Una ausencia no equivale a breach: enrútala a `VERIFY_DELETION_SCOPE` antes de evaluar el contenido.\n- Para datos completos reutiliza la regla que demostró audit sin PII, borrado derivado y llave separada; solo ese caso devuelve `CONTINUE`.\n\n# F2-note:ab705f9f0e packet-grounded (explorer); instr_tokens=50\n",
+      "confidence": 0.86,
+      "blocked_on": [],
+      "concepts_used": [
+        "agentic_F2",
+        "explorer",
+        "S42",
+        "packet",
+        "only",
+        "solve",
+        "prior",
+        "lives",
+        "Protocol",
+        "completed"
+      ],
+      "justification_from_packet": "[agentic_F2/Explorer/b31751c4] Resuelvo S42-T4-B-E3 solo con el paquete activo. Instrucción: «S42-T4-B-E3 · Demuestra fallo cerrado para `audit, deletion, pseudonymization y acceso` con tres fixtures distintos. `CASO-CUS-042-4B` debe continuar, el advers». Pista: «Una ausencia no equivale a breach: enrútala a `VERIFY_DELETION_SCOPE` antes de evaluar el ». Demo S42-T4-B-DEMO. Código ancla: `1. S42-T4-B-E3 · Demuestra fallo cerrado para `audit, deletion, pseudonymization y acceso` con tres fixtures d`. Teoría: Pydantic y JSON Schema | evolución, discriminated unions y validación de negocio. Sin correctIndex ni attempts previos."
+    }
+  ],
+  "selfcheck": [
+    {
+      "question_index": 0,
+      "chosen_index": 1,
+      "chosen_text": "schema exportado y fixtures válidos/inválidos",
+      "justification_from_packet": "[agentic_F2/Explorer] S42 q0: Pydantic/JSON Schema se aprueba con schema exportado y fixtures válidos/inválidos.",
+      "blocked_on": [],
+      "confidence": 0.9
+    },
+    {
+      "question_index": 1,
+      "chosen_index": 3,
+      "chosen_text": "emitir DENY y conservar evidencia",
+      "justification_from_packet": "[agentic_F2/Explorer] S42 q1: error S42 → emitir DENY y conservar evidencia.",
+      "blocked_on": [],
+      "confidence": 0.91
+    },
+    {
+      "question_index": 2,
+      "chosen_index": 0,
+      "chosen_text": "un actor nunca lee otro caso y un dato redactado no reaparece en logs, respuestas ni backups activos",
+      "justification_from_packet": "[agentic_F2/Explorer] S42 q2: control plane seguro = un actor nunca lee otro caso y un dato redactado no reaparece en logs/respuestas/backups.",
+      "blocked_on": [],
+      "confidence": 0.92
+    },
+    {
+      "question_index": 3,
+      "chosen_index": 2,
+      "chosen_text": "mantenerlo sintético, mínimo, trazable y sujeto a revisión humana",
+      "justification_from_packet": "[agentic_F2/Explorer] S42 q3: CASO-CUS-042 sintético, mínimo, trazable, revisión humana.",
+      "blocked_on": [],
+      "confidence": 0.9
+    }
+  ],
+  "recorded_at": "2026-07-23T05:30:33.783463+00:00"
+}
